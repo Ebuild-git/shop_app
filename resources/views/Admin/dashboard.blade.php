@@ -1,4 +1,4 @@
-@extends('admin.fixe')
+@extends('Admin.fixe')
 @section('title', 'Accueil')
 @section('content')
 

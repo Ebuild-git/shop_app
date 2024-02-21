@@ -32,6 +32,7 @@
             @endif
 
             <x-primary-button class="ms-3">
+                <x-loading></x-loading>
                 {{ __('Connexion') }}
             </x-primary-button>
         </div>
