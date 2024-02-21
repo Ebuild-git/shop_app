@@ -46,7 +46,7 @@ class CreatePost extends Component
 
         $post = new posts();
         $post->titre = $this->titre;
-        $post->description = $this->titre;
+        $post->description = $this->description;
         $post->ville = $this->ville;
         $post->gouvernorat = $this->gouvernorat;
         $post->id_categorie = $this->categorie;

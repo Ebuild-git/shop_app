@@ -35,10 +35,12 @@
             @enderror
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn bg-red">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-                Connexion
-            </button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn bg-red">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+                    Connexion
+                </button>
+            </div>
         </div>
 </form>
 </div>

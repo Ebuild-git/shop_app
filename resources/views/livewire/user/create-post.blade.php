@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Titre de la publication</label>
                 <span class="bold text-danger">*</span>
-                <input type="text" class="form-control" wire:model="titre" required>
+                <input type="text" class="form-control shadow-none" wire:model="titre" required>
                 @error('titre')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">description</label>
                 <span class="bold text-danger">*</span>
-                <textarea wire:model="description" required class="form-control" rows="10"></textarea>
+                <textarea wire:model="description" required class="form-control shadow-none" rows="10"></textarea>
                 @error('titre')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Ville </label>
                         <span class="bold text-danger">*</span>
-                        <input type="text" class="form-control" wire:model="ville" required>
+                        <input type="text" class="form-control shadow-none" wire:model="ville" required>
                         @error('ville')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">gouvernorat</label>
                         <span class="bold text-danger">*</span>
-                        <input type="text" class="form-control" wire:model="gouvernorat" required>
+                        <input type="text" class="form-control shadow-none" wire:model="gouvernorat" required>
                         @error('gouvernorat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -57,7 +57,7 @@
                 <label for="exampleInputEmail1">Prix</label>
                 <span class="bold text-danger">*</span>
                 <div class="input-group mb-3">
-                    <input type="number" class="form-control" wire:model="prix">
+                    <input type="number" class="form-control shadow-none" wire:model="prix">
                     <div class="input-group-append">
                         <span class="input-group-text">DT</span>
                     </div>
@@ -69,7 +69,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Catégorie</label>
                 <span class="bold text-danger">*</span>
-                <select class="form-control" wire:model="categorie">
+                <select class="form-control shadow-none" wire:model="categorie">
                     <option selected>Veuilez selectionner une catégorie</option>
                     @foreach ($categories as $categorie)
                         <option value="{{ $categorie->id }}">
@@ -84,7 +84,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Images</label>
                 <span class="bold text-danger">*</span>
-                <input type="file" multiple class="form-control" wire:model="photos" required>
+                <input type="file" multiple class="form-control shadow-none" wire:model="photos" required>
                 @error('photos')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror

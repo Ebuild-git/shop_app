@@ -27,6 +27,12 @@ Route::get('/publication', [ControllersHomeController::class, 'index_post'])->na
 Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
 
+
+Route::get('/inscription', function () {
+    return view('User.inscription');
+})->name('inscription');
+
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {
         return view('Admin.dashboard');

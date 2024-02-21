@@ -16,11 +16,11 @@ class ListMesPosts extends Component
     {
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
 
-        if (strlen($this->date) > 0) {
+        if (!empty($this->date)) {
             $Query->whereDate('Created_at', $this->date);
         }
 
-        if (strlen($this->etat) > 0) {
+        if (!empty($this->etat)) {
             switch ($this->etat) {
                 case 'En modération':
                     $postsQuery = $Query->where('verified_at', null);

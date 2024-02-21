@@ -11,11 +11,9 @@
             <div class="col-sm-6">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        @foreach ($photos as $photo)
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ Storage::url($photo) }}" alt="First slide">
-                            </div>
-                        @endforeach
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="{{ Storage::url($photos[0]) }}" alt="First slide" id="big-view">
+                        </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -26,15 +24,23 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+                <div class="p-2 d-flex justify-content-center">
+                    @foreach ($photos as $photo)
+                        <div>
+                            <img class="m-1 mini-image-details" src="{{ Storage::url($photo) }}"
+                                onclick="view('{{ Storage::url($photo) }}')">
+                        </div>
+                    @endforeach
+                </div>
             </div>
-            <div class="col-sm-6 position-relative">
+            <div class="col-sm-6">
                 <div class="d-flex justify-content-start">
                     <div>
-                        <img src=" {{ Storage::url($post->user_info->avatar) }} " class="rounded-circle">
+                        <img src=" {{ Storage::url($post->user_info->avatar) }} "
+                            style="height: 50px;width: 50px;background-color: #ebeef1" class="rounded-circle">
                     </div>
                     <div>
                         <b>
-                            <i class="bi bi-person-circle"></i>
                             Auteur :
                         </b> {{ $post->user_info->name }}
                         @if ($post->user_info->certifier == 'oui')
@@ -85,13 +91,26 @@
                 <p>
                     {{ $post->description }}
                 </p>
-                <hr>
-                <button class="bg-red btn">
-                    <i class="bi bi-bag"></i>
-                    Commander cet article
-                </button>
+                <br>
+                <div class="d-flex justify-content-between">
+                    @auth
+                        @if ($post->id_user != Auth::user()->id)
+                        
+                            <button class="bg-red btn">
+                                <i class="bi bi-bag"></i>
+                                Commander cet article
+                            </button>
 
-                <div class="fixed-bottom">ssssssssssssssssss</div>
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#ModalSignalement">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                Signaler cette annonce
+                            </button>
+                        @endif
+                    @endauth
+                </div>
+                <div>
+
+                </div>
             </div>
         </div>
 
@@ -136,4 +155,40 @@
         </div>
 
     </div>
+
+
+
+
+
+    <script>
+        function view(url) {
+            const img = document.getElementById('big-view');
+            img.src = url;
+        }
+    </script>
+
+
+    @auth
+        <!-- Modal de signalement -->
+        <div class="modal fade" id="ModalSignalement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header bg-red rounded-0">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Signalement
+                        </h5>
+                        <hr>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @livewire('User.Signalement', ['post' => $post])
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endauth
 @endsection

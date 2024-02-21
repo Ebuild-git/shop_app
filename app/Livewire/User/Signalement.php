@@ -30,7 +30,7 @@ class Signalement extends Component
         $this->validate();
 
         //verifier si cet utilisateur a deja un signalement pour  ce post
-        if (signalements::where('id_user_make', Auth::use()->id)
+        if (signalements::where('id_user_make', Auth::user()->id)
             ->where('id_post', $this->post->id)->exists()
         ) {
             session()->flash('error', 'Vous avez déjà signalé cette publication');

@@ -1,3 +1,44 @@
-<div>
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-</div>
+  <form wire:submit="signaler">
+      @if (session()->has('error'))
+          <div class="alert alert-danger small text-center">
+              {{ session('error') }}
+          </div>
+          <br>
+      @enderror
+      @if (session()->has('info'))
+          <div class="alert alert-info small text-center">
+              {{ session('info') }}
+          </div>
+          <br>
+      @enderror
+      @if (session()->has('success'))
+          <div class="alert alert-success small text-center">
+              {{ session('success') }}
+          </div>
+          <br>
+      @enderror
+
+      <b>Publication :</b> {{ $post->titre }}
+      <hr>
+      <b>Motif</b>
+      <select required wire:model="type" class="form-control shadow-none">
+          <option value="" selected disabled>Choisir un motif</option>
+          <option value="Fraude">Fraude</option>
+          <option value="Spam">Spam</option>
+      </select>
+      @error('type')
+          <small class="form-text text-danger">{{ $message }}</small>
+      @enderror
+      <b>Message</b>
+      <textarea wire:model="message" class="form-control shadow-none" rows="6"></textarea>
+      @error('message')
+          <small class="form-text text-danger">{{ $message }}</small>
+      @enderror
+      <div class="modal-footer">
+          <button type="submit" class="btn bg-red">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  wire:loading></span>
+              Envoyer
+          </button>
+      </div>
+</form>

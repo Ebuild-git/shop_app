@@ -22,6 +22,20 @@
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOAAAADgCAMAAAAt85rTAAAAkFBMVEXuSTr////tNyPuRzjuQTDtPSvuRDTtOSbtOyjuQzPtPiz0lI384+HtNB/uQTHtMRvvUUP97ez3s67729nxal/3raj6zMn+8/L1n5n5xMDxdGrzh3/++PfwXlL60s/3t7P4vrr0k4z2rajyfHP1npjxd2/zjIT71tPuTkD84d/vWUzwZFj1paDwbmTzh4DxaF2VOjqcAAAF9UlEQVR4nO2d61LjOBBGHUu2HCdy4oTcHUwu5IaB93+7dYCZXWAn8MVGrfbo/JyqoXTKiqSWWi3PczgcDofD4XA4HA6Hw+FwOBwOR120pUySdigEdUN+iGCx3a6eNjf9uKe176soiEvjs3AzjGWn9Zss7Q5vZ/mg6Ow282VfqlK5dC6tVVR6x7LN0FmnrQtkkzTtHo/7/WyWr0fFph1StxdFLC/5feaGm2GywwTHEXWLQeIBJnirqFsMEo0bLugfMcEZty7qXxxEGyCoM0zwLqBuMUgP82vlTRccxdQtxhASFNxK6iZjwIKrhLrJGLDgU9MF58zWoiICBZfcAiZ0FPW4CaITfcROEFuqZdzW2p7fhQTTpgt2feoGo/hDSHDP7gsqTJBdtOQpLKJnFy2hWxZrZsGE5wV3kCC3YAIW3DFba8Pbhos2dYNRQMF7ZsFEKTiCBJ+bLtjnttZ+d3r2DdhFS16yggQlP8EFJNijbi9MeO8EeQu2m95Fky0kqKnbCxPkkOCB3SjawzadFtwW2xL7CbbGzPpo6GF+rdZGh0x6qSgJ+hNUsHX3KLSKpZWpbUKEiYwjpXyto8ATywLWe2GyH6we+5FW57y2Ehmfs9uIlUUS+HH/cTcdzG733TTLwC37z2TpOa9tVDIdjYppqRzT7esLdVjNupWdvlKeURmKw+0Pu71BtW0K7u5WICb5hEKZ8iM6AA4fjQnS7LpJbEHNTzCaGRNckex8g2eAVSgoBEX80xPgv5CksomDMT+aidDgIEqT0o3mnVdhSHHELafmBFOKJAU0sb4KE4ouanAabLUSgsUomGdQDYqoV+0NClLsK5oLlogEDa7UaLqoUUGKQcak4IRiLWpSkGSiNyl4pBA0OYqS3L4zOQ+SRBMmVzIk8aDJtShJPqnJaIJE0GQ8SLInAyYzVYJmT2becEHRb7pg25wgTVY+epW8AiQ7254ydPxZsiE5fAGzmaqgSA5Aze38DoguxgTrT8cvk+NwOKwQR2XpcFxyOxweu9108vL3JzlZmkXc629W02JUFEVnt5gvw572z+ky0Q7NBMrGebG7P0W98v+/4vu+1rpXomlO6F8R7UTKWMq3elS//lUq8Cue/IA85wciPEF+Q2bJeCUaivfZ1epAg6kpu9tnXgxl5NEkGVQCu9vTcYLW0XxB6DfIURAaRRkKYqEGR0H3BZkLYvveTtA+sFoPDAWxHSmGa1FMkOMXhOJBmn3PSjReEEtRaLwgw4geK6w2YFcR6C8QhO4cMBTEqjfyExRB0wVjSJDfxi94LYZf4TgwQ4HdYwXoexP8ijeGD5Agv/Kb4M0tfhViwYpA/KpWoYKP3CrHgVW5+IUTyRMmyO5JFPQKekaZSXENYNEqfhVGweKN5UzILM8CFmxtea3WrshYv/nfkEmItpQWziHXpOTP/Q8DzbncULTcbIu5fWMsWMT4lbuTDuTLC4UiTGKlTrv87X0qqnTDP3OVYDnU5J3FzfJ0epiv1rf/TeijuD94kbqvxVhXIxd93O0rrKuRW7egdYmWdd+9s+6V0LpvT1o3yNQtaN0XBF8MYShY8w1m6waZugWtq5Fbt+Cp6YLWPUTsBEForp9doPmC4EPD7ATrXslYJ1h3PLixbZCpu0yCda/egG++fIl100TdlR2tE4TfqeUmWPc8YZ9gvK5V0L53esPnWgWtiybqXqxZt21YcxXuzMIkhVqLOJMUjvuKuMZPaGcuG/hc9CUerJslzoQ3dfltrfyAZUhx5eMvH0ifrT3d1nUcweSRlf3zBaErn8FMPh1sW4XQ1QLfbKttC+U/IHSV32ERM0hWV3P8Ga3Xr7cOA5t752/aV21fTKaSh16JiProL/G40xauPv+MUIf19zvqJF9qZql556W3up99xzHN54pN33yHaEfqYTq+tD5Nx52lH9g7rX9NKCN9mHcG42H6LpZKj+NBZ+7piNUP7w+I8PxWoa+1PPRfCNW5Gtv5bUXqptWM+AV1QxwOh8PhcDgcDofD4XA4HA7H3wW3GhkwecMN/wHVXm8jIhY7XgAAAABJRU5ErkJggg=="
                 width="30" height="30" alt="">
         </a>
+        @auth
+            <div class="div-head-user dropdown">
+                <div class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true">
+                    <img src="{{ Storage::url(Auth::user()->avatar) }}" class="rounded-circle avatar-user-head">
+                    <b>{{ Auth::user()->name }}</b>
+                </div>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Déconnexion</a>
+                </div>
+            </div>
+        @endauth
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">
@@ -38,11 +52,11 @@
                     <a class="nav-link" href="#">Accueil<span class="sr-only">(current)</span></a>
                 </li>
                 @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="/mes-publication">
-                        Mes publications
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/mes-publication">
+                            Mes publications
+                        </a>
+                    </li>
                 @endauth
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contactez l'équipe</a>
@@ -61,17 +75,28 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a href="/publication">
-                <button type="button" class="btn btn-outline-danger my-2 my-sm-0">
-                    <i class="bi bi-pencil-square"></i>
-                    Créer une publication
-                </button>
-                </a>
-                &nbsp;
-                <button class="btn btn-danger bg-red my-2 my-sm-0" type="button" data-toggle="modal"
-                    data-target="#loginmodal">
-                    Connexion
-                </button>
+                @auth
+                    <a href="/publication">
+                        <button type="button" class="btn btn-outline-danger my-2 my-sm-0">
+                            <i class="bi bi-pencil-square"></i>
+                            Créer une publication
+                        </button>
+                    </a>
+                @else
+                    <a href="/inscription">
+                        <button type="button" class="btn btn-outline-danger my-2 my-sm-0">
+                            <i class="bi bi-person-circle"></i>
+                            Créer un compte
+                        </button>
+                    </a>
+                @endauth
+                @guest
+                    &nbsp;
+                    <button class="btn btn-danger bg-red my-2 my-sm-0" type="button" data-toggle="modal"
+                        data-target="#loginmodal">
+                        Connexion
+                    </button>
+                @endguest
             </form>
         </div>
     </nav>

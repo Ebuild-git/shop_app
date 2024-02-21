@@ -66,8 +66,10 @@
                                                     @endphp
                                                     <div class="col-md-2 mb-3">
                                                         <div class="card">
-                                                            <img class="img-fluid" alt="100%x280"
-                                                                src="{{ Storage::url($photo[0]) }}">
+                                                            <div class="home-post-cart">
+                                                                <img class="" alt="100%x280"
+                                                                    src="{{ Storage::url($photo[0]) }}">
+                                                            </div>
                                                             <div class="card-body">
                                                                 <span class="text-red">
                                                                     <strong>{{ $item->prix }}</strong> Dt
