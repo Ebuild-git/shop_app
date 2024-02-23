@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\categories;
 use App\Models\posts;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,8 +16,9 @@ class HomeController extends Controller
         return view("User.index", compact( "categories","posts"));
     }
 
-    public function index_post(){
-        return view('User.post');
+    public function index_post(Request $request){
+        $id = $request->id ?? "";
+        return view('User.post', compact("id"));
     }
 
     public function index_mes_post(){
@@ -27,5 +30,21 @@ class HomeController extends Controller
         $other_product =  posts::where('id_categorie' ,$post->id_categorie)->inRandomOrder()->take(16)->get();
         return view('User.details', compact( 'post','other_product'));
 
+    }
+
+    public function user_profile($id){
+        $user = User::find($id);
+        return view('User.profile')->with("user",$user);
+    }
+
+
+    public function list_proposition($id_post)
+    {
+        $post = posts::where('id',$id_post)->where("id_user",Auth::id())->first();
+        if($post){
+            return view("User.propositions", compact("post"));
+        }else{
+            echo "erro";
+        }
     }
 }

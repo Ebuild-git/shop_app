@@ -1,14 +1,20 @@
 <form wire:submit="submit">
-    <div class="row">
-        <div class="d-flex justify-content-between col-12">
+
+    <div class="row border border-1 p-3 rounded">
+        <div class="d-flex justify-content-between col-12 bg-red p-3 rounded mb-2">
             <div>
                 <h5>Nouvelle publication</h5>
             </div>
             <div>
                 <button class="btn bg-red" type="submit">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-                    <i class="bi bi-pencil-square"></i>
-                    Publier
+                    @if ($post)
+                        <i class="bi bi-pencil-square"></i>
+                        Enregistrer les modifications
+                    @else
+                        <i class="bi bi-pencil-square"></i>
+                        Publier
+                    @endif
                 </button>
             </div>
         </div>
@@ -44,7 +50,11 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">gouvernorat</label>
                         <span class="bold text-danger">*</span>
-                        <input type="text" class="form-control shadow-none" wire:model="gouvernorat" required>
+                        <select class="form-control shadow-none" wire:model="gouvernorat" required>
+                            @foreach ($list_gouvernorat as $item)
+                                <option value="{{ $item }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
                         @error('gouvernorat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -84,11 +94,26 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Images</label>
                 <span class="bold text-danger">*</span>
-                <input type="file" multiple class="form-control shadow-none" wire:model="photos" required>
+                <input type="file" multiple class="form-control shadow-none" wire:model="photos" @required(!$post)>
                 @error('photos')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
+            @if ($old_photos)
+                <div class="row">
+                    @foreach ($old_photos as $item)
+                        <div class="col-6 ">
+                            <div class="card-iamge-post-create">
+                                <img src="{{ Storage::url($item) }}">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    wire:click="removeOldPhoto('{{ $item }}',{{ $post->id }})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="small text-danger">
                 -Tous les champs contenant (*) sont obligatoires
@@ -116,4 +141,30 @@
 </div>
 </div>
 </div>
+
+
+
+{{-- <script>
+    // Vérifier si le navigateur prend en charge la géolocalisation
+    if ("geolocation" in navigator) {
+        // Demander la permission à l'utilisateur pour accéder à sa position
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // Récupérer les coordonnées de la position actuelle
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Utiliser les coordonnées pour effectuer des opérations
+            console.log("Latitude : ", latitude);
+            console.log("Longitude : ", longitude);
+
+            // Ici, vous pouvez faire d'autres opérations, par exemple, afficher la position sur une carte, etc.
+        }, function(error) {
+            // En cas d'erreur lors de la récupération de la position
+            console.error("Erreur de géolocalisation : ", error);
+        });
+    } else {
+        // Si la géolocalisation n'est pas prise en charge par le navigateur
+        console.log("La géolocalisation n'est pas prise en charge par ce navigateur.");
+    }
+</script> --}}
 </form>

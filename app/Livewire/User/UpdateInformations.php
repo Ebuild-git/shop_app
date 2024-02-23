@@ -4,24 +4,38 @@ namespace App\Livewire\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use App\Traits\ListGouvernorat;
+
 
 class UpdateInformations extends Component
 {
-    public $name, $email, $telephone, $ville, $gouvernorat, $avatar, $adresse;
+    use WithFileUploads;
+    use ListGouvernorat;
+    public $name, $email, $telephone, $ville, $gouvernorat, $avatar, $adress;
 
     public function render()
     {
-        return view('livewire.user.update-informations');
+        $user = User::find(Auth::id());
+        $this->email = $user->email;
+        $this->name = $user->name;
+        $this->ville = $user->ville;
+        $this->gouvernorat = $user->gouvernorat;
+        $this->adress = $user->adress;
+        $this->telephone = $user->phone_number;
+        return view('livewire.user.update-informations')
+            ->with("list_gouvernorat", $this->get_list_gouvernorat());
     }
 
     protected $rules = [
         'name' => 'required|min:6',
         'email' => 'required|email',
-        'telephone' => ['nullable', 'regex:/^([0-9]{10})$/'],
+        'telephone' => ['nullable', 'numeric'],
         'ville' => 'required|string|max:255',
         'gouvernorat' => 'required|string|max:255',
-        'adresse' => 'string|nullable|max:255',
+        'adress' => 'string|nullable|max:255',
         'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
     ];
 
@@ -42,16 +56,20 @@ class UpdateInformations extends Component
             }
         }
         if ($this->avatar) {
-            $newName = $this->photo->store('uploads/avatars', 'public');
+            //delete old image
+            Storage::disk('public')->delete($user->avatar);
+
+            $newName = $this->avatar->store('uploads/avatars', 'public');
             $user->avatar = $newName;
         }
         $user->name = $this->name;
         $user->phone_number = $this->telephone;
         $user->ville = $this->ville;
         $user->gouvernorat = $this->gouvernorat;
-        $user->adress = $this->adresse;
+        $user->adress = $this->adress;
         $user->save();
 
         session()->flash('info', 'Informations mises à jour avec succès !');
+        $this->dispatch('refreshAlluser-information');
     }
 }

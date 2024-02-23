@@ -6,6 +6,8 @@ use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Security;
+use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use App\Models\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -24,25 +26,39 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
 Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
+Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
+Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
 Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
-
+Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
+Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
 
 Route::get('/inscription', function () {
-    return view('User.inscription');
+    return view('User.Auth-user.inscription');
 })->name('inscription');
+Route::get('/shop', function () {
+    return view('User.shop');
+})->name('shop');
+Route::get('/connexion', function () {
+    return view('User.Auth-user.connexion');
+})->name('connexion');
 
+Route::get('/forget', function () {
+    return view('User.Auth-user.forget');
+})->name('forget');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {
         return view('Admin.dashboard');
     })->name('dashboard');
-   
+
     Route::get('/admin/categorie', function () {
         return view('Admin.categories.index');
     })->name('gestion_categorie');
 
-
+    Route::get('/informations', function () {
+        return view('User.infromations');
+    })->name('mes_informations');
 
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');

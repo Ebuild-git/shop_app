@@ -63,7 +63,7 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                 <img src="/assets-admin/img/avatars/3.png" alt="{{ $post->titre }}"
+                                 <img src="{{ Storage::url($post->user_info->avatar)}}" alt="{{ $post->titre }}"
                                      class="rounded-circle">
                              </div>
                          </td>

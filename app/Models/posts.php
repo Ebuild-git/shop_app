@@ -21,4 +21,9 @@ class posts extends Model
     {
         return $this->hasOne(User::class, 'id', "id_user");
     }
+
+    // recuperation les propositions
+    public  function propositions(){
+        return $this->hasMany(propositions::class,'id_post','id');
+    }
 }

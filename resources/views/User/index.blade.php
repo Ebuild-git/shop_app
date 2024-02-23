@@ -3,20 +3,7 @@
 @section('content')
 @section('body')
 
-    <div class="container">
-        <div class="d-flex justify-content-center pt-3">
-            <div class="input-group mb-3 p-2 seach-zone">
-                <input type="text" class="form-control seach-zone-input shadow-none" placeholder="Rechercher sur tayara">
-                <div class="input-group-append">
-                    <button class="btn bg-red" type="button">
-                        <i class="bi bi-search"></i>
-                        recherche
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
+<br><br><br>
     <div class="container-fluid">
         {{-- <section>
             <div class="row">
@@ -61,37 +48,7 @@
                                             <div class="row">
                                                 {{-- max 6 --}}
                                                 @foreach ($chunck as $item)
-                                                    @php
-                                                        $photo = json_decode($item->photos, true);
-                                                    @endphp
-                                                    <div class="col-md-2 mb-3">
-                                                        <div class="card">
-                                                            <div class="home-post-cart">
-                                                                <img class="" alt="100%x280"
-                                                                    src="{{ Storage::url($photo[0]) }}">
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <span class="text-red">
-                                                                    <strong>{{ $item->prix }}</strong> Dt
-                                                                </span>
-                                                                <h6 class="card-title"
-                                                                    onclick="document.location.href='post/{{ $item->id }}'">
-                                                                    {{ $item->titre }}
-                                                                </h6>
-                                                                <p class="card-text small text-muted">
-                                                                    <b>
-                                                                        <i class="bi bi-geo-alt"></i>
-                                                                    </b> : {{ $item->ville }}<br>
-                                                                    <b>
-                                                                        <i class="bi bi-grid-1x2"></i>
-                                                                    </b> : {{ $item->categorie_info->titre }},
-                                                                    {{ $item->created_at }}
-                                                                </p>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
+                                                <x-CardPost :post="$item" :col=2></x-CardPost>
                                                 @endforeach
 
                                             </div>
