@@ -1,6 +1,6 @@
 <form wire:submit="submit">
 
-    <div class="row border border-1 p-3 rounded">
+    <div class="row  p-3">
         <div class="d-flex justify-content-between col-12 bg-red p-3 rounded mb-2">
             <div>
                 <h5>Nouvelle publication</h5>
@@ -79,7 +79,7 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Catégorie</label>
                 <span class="bold text-danger">*</span>
-                <select class="form-control shadow-none" wire:model="categorie">
+                <select class="form-control shadow-none" wire:model="categorie" id="categorie">
                     <option selected>Veuilez selectionner une catégorie</option>
                     @foreach ($categories as $categorie)
                         <option value="{{ $categorie->id }}">
@@ -88,6 +88,21 @@
                     @endforeach
                 </select>
                 @error('categorie')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Sous-catégorie</label>
+                <span class="bold text-danger">*</span>
+                <select class="form-control shadow-none" wire:model="id_sous_categorie">
+                    <option selected>Veuilez selectionner une sous-catégorie</option>
+                    @foreach ($sous_categories as $sous)
+                        <option value="{{ $sous->id }}" class="sous-cat sous-cat-{{ $sous->id_categorie }}">
+                            {{ $sous->titre }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('id_sous_categorie')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -142,29 +157,12 @@
 </div>
 </div>
 
+<script>
+    document.getElementById('categorie').onchange = function() {
+        var selectedCategoryId = this.value;
+        $(".sous-cat").hide();
+        $(".sous-cat-" + selectedCategoryId).show();
+    };
+</script>
 
-
-{{-- <script>
-    // Vérifier si le navigateur prend en charge la géolocalisation
-    if ("geolocation" in navigator) {
-        // Demander la permission à l'utilisateur pour accéder à sa position
-        navigator.geolocation.getCurrentPosition(function(position) {
-            // Récupérer les coordonnées de la position actuelle
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            // Utiliser les coordonnées pour effectuer des opérations
-            console.log("Latitude : ", latitude);
-            console.log("Longitude : ", longitude);
-
-            // Ici, vous pouvez faire d'autres opérations, par exemple, afficher la position sur une carte, etc.
-        }, function(error) {
-            // En cas d'erreur lors de la récupération de la position
-            console.error("Erreur de géolocalisation : ", error);
-        });
-    } else {
-        // Si la géolocalisation n'est pas prise en charge par le navigateur
-        console.log("La géolocalisation n'est pas prise en charge par ce navigateur.");
-    }
-</script> --}}
 </form>

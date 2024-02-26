@@ -48,7 +48,7 @@
                                             <div class="row">
                                                 {{-- max 6 --}}
                                                 @foreach ($chunck as $item)
-                                                <x-CardPost :post="$item" :col=2></x-CardPost>
+                                                <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-8'"></x-CardPost>
                                                 @endforeach
 
                                             </div>

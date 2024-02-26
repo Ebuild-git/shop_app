@@ -29,7 +29,8 @@ class ListeCategorieAdmin extends Component
             $categorie->delete();
         }
         
-       // session()->flash("message", "La catégorie a été supprimée avec succès");
+        session()->flash("success", "La catégorie a été supprimée avec succès");
+       $this->dispatch('categorieCreated');
     }
     
 }

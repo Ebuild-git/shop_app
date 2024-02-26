@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        
+    <link rel="shortcut icon" href="/icons/icone-orange.png" type="image/x-icon">
     <link rel="stylesheet" href="/assets-user/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <title>SHOP - @yield('titre')</title>
+    <title>Shopin - @yield('titre')</title>
     @yield('head')
 </head>
 
-<body class="font-weight-light">
-
+<body style="background-color: #f3f2ef !important">
+@include('User.composants.sidebar')
 
     <!-- Just an image -->
     <nav class="navbar header-1">
@@ -31,7 +31,6 @@
                     @livewire('User.MenuInformations')
                 </div>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="/informations">Mes informations</a>
                     <a class="dropdown-item" href="/logout">Déconnexion</a>
                 </div>
@@ -39,7 +38,7 @@
         @endauth
     </nav>
     <nav class="navbar navbar-expand-lg nav-header-2">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="#" onclick="openNav()">
             <i class="bi bi-list"></i> Toutes   
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -50,7 +49,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Accueil<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Accueil<span class="sr-only">(current)</span></a>
                 </li>
                 @auth
                     <li class="nav-item">
@@ -62,6 +61,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('shop') }}"><b>Market place</b></a>
                 </li>
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('user-notifications') }}">Notifications</a>
+                </li>
+                @endauth
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -108,41 +112,12 @@
 
 
     <section class="pb-3">
+        
         <!-- Footer -->
         <footer class="text-center text-lg-start bg-body-tertiary text-muted bg-dark ">
-            <!-- Section: Social media -->
-            <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-                <!-- Left -->
-                <button  class="btn-retour-haut">
-                    Retour en haut
-                </button>
-                <!-- Left -->
-
-                <!-- Right -->
-                <div>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="" class="me-4 text-reset">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </div>
-                <!-- Right -->
-            </section>
-            <!-- Section: Social media -->
-
+            <button  class="btn-retour-haut">
+                Retour en haut
+            </button>
             <!-- Section: Links  -->
             <section class="">
                 <div class="container text-center text-md-start mt-5">

@@ -47,26 +47,6 @@
                     <option value="Desc">Des plus récents</option>
                 </select>
             </div>
-            <div class="row">
-                <div class="col">
-                    Ville
-                    <select wire:model="gouvernorat" class="form-control">
-                        <option value=""></option>
-                        @foreach ($liste_gouvernorat as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col">
-                    Gouvernorat
-                    <select wire:model="gouvernorat" class="form-control">
-                        <option value=""></option>
-                        @foreach ($liste_gouvernorat as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
             <br>
             <button type="submit" class="btn bg-red w-100">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
@@ -81,14 +61,13 @@
         <div class="row">
 
             @forelse ($posts as $item)
-                <x-CardPost :post="$item" :col=3></x-CardPost>
+                <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-2'"></x-CardPost>
             @empty
                 <div class="alert alert-danger col-lg-12" role="alert">
                     Aucun article trouvé !
                 </div>
             @endforelse
         </div>
-        <hr>
         <!-- Pagination -->
         <nav aria-label="...">
             <ul class="pagination justify-content-center">

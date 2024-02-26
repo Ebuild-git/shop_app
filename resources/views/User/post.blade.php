@@ -5,7 +5,9 @@
 
 <div class="container pt-5 pb-5">
     
-    @livewire('User.CreatePost', ['id' => $id ?? ""])
+    <div class="card">
+        @livewire('User.CreatePost', ['id' => $id ?? ""])
+    </div>
     
 </div>
 @endsection

@@ -59,6 +59,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/informations', function () {
         return view('User.infromations');
     })->name('mes_informations');
+    Route::get('/user-notifications', function () {
+        return view('User.notifications');
+    })->name('user-notifications');
 
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');

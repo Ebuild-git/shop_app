@@ -1,19 +1,13 @@
 <tbody class="table-border-bottom-0">
-    @forelse ($liste as $item)
+    @forelse ($lists as $item)
     <tr>
-      <td>
-        <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}" style="height: 30px !important">
-      </td>
         <td >
           <span class="fw-medium">
             {{ $item->titre }}
           </span>
         </td>
-        <td >
-            {{ $item->getSousCategories->count() }}
-        </td>
         <td>
-            {{ $item->getPost->count() }}
+            
         </td>
         <td><span class="badge bg-label-primary me-1">
         {{ $item->created_at}}    
@@ -34,7 +28,6 @@
           </div>
         </td>
       </tr>
-      @include('Admin.categories.modal-update', ['item'=>$item] )
     @empty
     <tr>
         <td colspan="6">

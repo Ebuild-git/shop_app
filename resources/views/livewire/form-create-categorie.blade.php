@@ -1,4 +1,5 @@
 <form wire:submit="creer">
+    <h5>Créer une catégorie</h5>
     @csrf
     @if (session()->has('error'))
         <span class="text-danger small">
@@ -10,7 +11,6 @@
             {{ session('success') }}
         </span>
     @enderror
-<br>
     <label for="">Titre de la catégorie</label>
     <input type="text" wire:model ="titre" class="form-control" required>
     @error('titre')

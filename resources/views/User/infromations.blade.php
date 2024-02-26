@@ -30,7 +30,7 @@
                     Sécurité
                 </button>
             </div>
-            <div class="border border-1 p-3 rounded">
+            <div class="border border-1 p-3 rounded card">
                 <div id="div-perso">
                     <h4 class="text-muted">Mes informations</h4>
                     <hr>

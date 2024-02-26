@@ -71,7 +71,7 @@ a {
 
 .home-post-cart {
     width: 100%;
-    height: 300px !important;
+    height: 200px !important;
     overflow: hidden;
 }
 
@@ -181,5 +181,35 @@ a {
     font-weight: 400;
     background-color: #485769;
     color: white;
-    padding: 5px;
+    padding: 15px 5px 15px 5px;
+}
+.card-notification-1{
+    background: url("https://c8.alamy.com/comp/2N74EJA/abstract-perspective-dotted-background-with-greyish-teal-squares-minimal-vector-graphic-pattern-2N74EJA.jpg")no-repeat;
+    background-size: cover;
+    padding-bottom: 60px;
+    padding-top: 20px;
+}
+.carouselExampleControls{
+    max-height: 500px !important;
+    text-align: center;
+    background-color: #373737;
+}
+.carouselExampleControls img{
+    max-height: 500px !important;
+}
+.color-orange{
+    color: #e85d04;
+}
+.carouselpropositions img{
+    width: 100%;
+}
+.carouselpropositions{
+    height: 300px;
+    overflow: hidden;
+}
+.dropdown-menu a{
+    color: black !important;
+}
+.dropdown-menu{
+    border-radius: 0px !important;
 }

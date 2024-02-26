@@ -1,12 +1,12 @@
 @php
     $photo = json_decode($post->photos, true);
 @endphp
-<div class="col-sm-{{$col}} col-12 col-md-3 col-lg-4 col-xl-3 mb-3 ">
-    <div class="card card-shadow border-color">
+<div class="{{ $class }}">
+    <div class="card   p-2">
         <div class="home-post-cart">
             <img class="" alt="{{ $post->titre }}" src="{{ Storage::url($photo[1] ?? "") }}">
         </div>
-        <div class="card-body">
+        <div class="p-1">
             <span class="text-red">
                 <strong>{{ $post->prix }}</strong> Dt
             </span>

@@ -8,12 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class posts extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'sell_at',
+        'id_user_buy'
+    ];
 
 
 
     public function categorie_info()
     {
         return $this->hasOne(categories::class, 'id', 'id_categorie');
+    }
+
+    public function sous_categorie_info()
+    {
+        return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
 
     //recuperer les informations su l'uilisateur
@@ -25,5 +34,9 @@ class posts extends Model
     // recuperation les propositions
     public  function propositions(){
         return $this->hasMany(propositions::class,'id_post','id');
+    }
+
+    public function acheteur(){
+        return $this->belongsTo(User::class,"id_user_buy","id");
     }
 }

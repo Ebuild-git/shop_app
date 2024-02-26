@@ -11,11 +11,11 @@ class CardPost extends Component
     /**
      * Create a new component instance.
      */
-    public $post,$col;
-    public function __construct($post,$col)
+    public $post,$class;
+    public function __construct($post,$class)
     {
         $this->post=$post;
-        $this->col=$col;
+        $this->class=$class;
     }
 
     /**

@@ -8,14 +8,9 @@
     @endphp
     <div class="container-fluid pt-5 pb-5">
         <div class="row">
-            <div class="col-sm-4">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{ Storage::url($photos[1] ?? '') }}" alt="First slide"
-                                id="big-view">
-                        </div>
-                    </div>
+            <div class="col-sm-5">
+                <div class="carouselExampleControls">
+                    <img src="{{ Storage::url($photos[1] ?? '') }}" id="big-view">
                 </div>
                 <div class="p-2 d-flex justify-content-center">
                     @foreach ($photos as $photo)
@@ -26,93 +21,116 @@
                     @endforeach
                 </div>
             </div>
-            <div class="col-sm-5">
-
-                <h5 class="text-success">
+            <div class="col-sm-4">
+                <h5 class="color-orange">
                     <b>
                         {{ $post->prix }}
                     </b>
                     DT
                 </h5>
-                <h5>
+                <div class="h3">
                     {{ $post->titre }}
-                </h5>
-                <b>
-                   <i> Nombre de proposition : {{ $post->propositions->count() }}</i>
+                </div>
+                <b class="small">
+                    <i>
+                        Nombre de proposition : {{ $post->propositions->count() }}
+                        , publier le
+                        {{ date('d/m/Y', strtotime($post->created_at)) }}
+                    </i>
                 </b>
                 <hr>
-                <div class="row">
-                    <div class="col-sm-6 ">
-                        <b>
-                            <i class="bi bi-geo-alt"></i>
-                            Ville :
-                        </b> {{ $post->ville }} <br>
-                        <b>
-                            <i class="bi bi-grid-1x2"></i>
-                            Catégorie :
-                        </b> {{ $post->categorie_info->titre }} <br>
-                    </div>
-                    <div class="col-sm-6">
-                        <b>
-                            <i class="bi bi-geo-alt"></i>
-                            Gouvernorat :
-                        </b> {{ $post->gouvernorat }} <br>
-                        <b>
-                            <i class="bi bi-calendar3"></i>
-                            Date de publication :
-                        </b> {{ date('d/m/Y', strtotime($post->created_at)) }}
-                    </div>
-                </div>
-                <br>
                 <p>
                     {{ $post->description }}
                 </p>
-                <br>
-                <div class="d-flex justify-content-between">
-                    @auth
-                        @if ($post->id_user != Auth::user()->id)
-                            <button class="bg-red btn" data-toggle="modal" data-target="#Modalcommander">
-                                <i class="bi bi-bag"></i>
-                                Commander cet article
-                            </button>
-
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#ModalSignalement">
-                                <i class="bi bi-exclamation-triangle"></i>
-                                Signaler cette annonce
-                            </button>
-                        @endif
-                    @endauth
-                </div>
-                <div>
-
-                </div>
             </div>
             <div class="col-sm-3">
-                <div class="d-flex justify-content-start my-auto border p-3 rounded">
-                    <img src=" {{ Storage::url($post->user_info->avatar) }} "
-                        style="height: 40px;width: 40px;background-color: #ebeef1" class="rounded-circle mr-3">
-
-                    <div>
+                <div class="card p-2 mb-2 pt-4">
+                    <h5 class="color-orange">
                         <b>
-                            Auteur :
-                        </b> {{ $post->user_info->name }}
-                        @if ($post->user_info->certifier == 'oui')
-                            <img width="15" height="15"
-                                src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png" alt="approval"
-                                title="Certifié" />
-                        @endif
-                        <br>
-                        <b class="small">
-                            Membre depuis : {{ $post->user_info->created_at->format('d/m/Y') }}
+                            {{ $post->prix }}
                         </b>
+                        <sup class="small">DT</sup>
+                    </h5>
+                    <div class="small">
+                        Livraison gratuite. <br>
+                        <div class="mt-2">
+                            <i class="bi bi-geo-alt"></i> votre adresse de livraison est :
+                            <a href="/informations">
+                                <span class="color-orange"> {{ Auth::user()->adress }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                    @auth
+                        @if ($post->id_user != Auth::user()->id)
+                            @if ($post->sell_at == null)
+                                <button class="bg-red btn " data-toggle="modal" data-target="#Modalcommander">
+                                    <i class="bi bi-bag"></i>
+                                    Commander cet article
+                                </button>
+                            @else
+                                <span class="text-success">
+                                    <b>
+                                        Vendu le {{ date('d/m/Y  h:m', strtotime($post->sell_at)) }}
+                                        <i class="bi bi-check2-square"></i> .
+                                    </b>
+                                </span>
+                            @endif
+                        @endif
+                    @endauth
+                    <div class="small mb-2 mt-2">
+                        Expédié par : shopin<br>
+                        Vendu par : {{ $post->user_info->name }} <br>
+                        Paiement a la livraison
+                    </div>
+                    @auth
+                        <div class="text-danger" data-toggle="modal" data-target="#ModalSignalement">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Signaler cette annonce
+                        </div>
+                    @endauth
+                </div>
+                <div class="card p-2">
+                    <div class="pb-3">
+                        <span class="h6">Vendeur</span>
+                    </div>
+                    <div class="d-flex justify-content-start my-auto ">
+                        <img src=" {{ Storage::url($post->user_info->avatar) }} "
+                            style="height: 40px;width: 40px;background-color: #ebeef1" class="rounded-circle mr-3">
+
+                        <div>
+                            <span class="h6">
+                                Auteur :
+                            </span> {{ $post->user_info->name }}
+                            @if ($post->user_info->certifier == 'oui')
+                                <img width="15" height="15"
+                                    src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png" alt="approval"
+                                    title="Certifié" />
+                            @endif
+                            <a href="/user/{{ $post->user_info->id }}">
+                                <span class="color-orange small">
+                                    Voir le profil
+                                </span>
+                            </a>
+                            <br>
+                            <b class="small">
+                                Membre depuis : {{ $post->user_info->created_at->format('d/m/Y') }}
+                            </b>
+                        </div>
+                    </div>
+                    <hr>
+                    <span class="h6">Localisation du produit</span>
+                    <div class="small">
+                        <i class="bi bi-geo-alt"></i>
+                        Ville : {{ $post->ville }} <br>
+                        <i class="bi bi-grid-1x2"></i>
+                        Catégorie : {{ $post->categorie_info->titre }} <br>
+                        <i class="bi bi-grid-1x2"></i>
+                        Sous-Catégorie : {{ $post->sous_categorie_info->titre }} <br>
+                        <i class="bi bi-geo-alt"></i>
+                        Gouvernorat :{{ $post->gouvernorat }}
                     </div>
                 </div>
-                <a href="/user/{{ $post->user_info->id }}" class="d-grid gap-2">
-                    <button class="back-btn-red btn shadow-none d-block">
-                        <i class="bi bi-eye"></i>
-                        Voir le profil
-                    </button>
-                </a>
             </div>
         </div>
 
@@ -123,7 +141,7 @@
             <br>
             <div class="row">
                 @foreach ($other_product as $item)
-                    <x-CardPost :post="$item" :col=2></x-CardPost>
+                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-2'"></x-CardPost>
                 @endforeach
             </div>
         </div>
@@ -172,7 +190,7 @@
                 <div class="modal-content rounded-0">
                     <div class="modal-header bg-red rounded-0">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            <i class="bi bi-bag-heart"></i> 
+                            <i class="bi bi-bag-heart"></i>
                             commander cet article
                         </h5>
                         <hr>
