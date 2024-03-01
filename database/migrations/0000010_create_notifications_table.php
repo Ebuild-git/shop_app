@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("titre");
             $table->string("message");
             $table->string("url")->nullable()->default(null);
-            $table->unsignedBigInteger("id_user_destination ")->nullable()->default(null);
+            $table->unsignedBigInteger("id_user_destination")->nullable()->default(null);
             $table->unsignedBigInteger("id_user")->nullable()->default(null);
             $table->unsignedBigInteger("id_commande")->nullable()->default(null);
             $table->unsignedBigInteger("id_signalement")->nullable()->default(null);
@@ -26,7 +26,7 @@ return new class extends Migration
 
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('id_user_destination ')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_user_destination')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_commande')->references('id')->on('commandes')->onDelete('cascade');
             $table->foreign('id_signalement')->references('id')->on('signalements')->onDelete('cascade');
         });
