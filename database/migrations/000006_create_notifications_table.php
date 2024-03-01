@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("type");
             $table->string("titre");
             $table->string("message");
+            $table->string("url")->nullable()->default(null);
             $table->unsignedBigInteger("id_user_destination ")->nullable()->default(null);
             $table->unsignedBigInteger("id_user")->nullable()->default(null);
             $table->unsignedBigInteger("id_commande")->nullable()->default(null);

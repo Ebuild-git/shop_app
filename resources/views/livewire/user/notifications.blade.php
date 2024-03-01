@@ -17,11 +17,18 @@
                 @forelse ($notifications as $item)
                     <tr class="border-bottom">
                         <td>
-                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/notification-bell-5469639-4573720.png" height="40" width="40" alt="">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/notification-bell-5469639-4573720.png"
+                                height="40" width="40" alt="">
                         </td>
                         <td>
                             <h6>
+                                @if ($item->url != null)
+                                    <a href="{{ $item->url }}" class="link">
+                                    @else
+                                    <a href="#" class="link">
+                                @endif
                                 {{ $item->titre }}
+                                </a>
                             </h6>
                             <i>{{ $item->message }}</i>
                             <div style="text-align: right">
@@ -38,10 +45,11 @@
                     </tr>
                 @empty
                     <div class="pb-5 pt-5 text-center">
-                        <img src="https://static.vecteezy.com/system/resources/thumbnails/023/570/826/small/still-empty-no-notification-yet-concept-illustration-line-icon-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-vector.jpg" alt="">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/023/570/826/small/still-empty-no-notification-yet-concept-illustration-line-icon-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-vector.jpg"
+                            alt="">
                         <h6 class="text-center">No Notifications</h6>
                         <span class="text-muted">
-                           <i> vous n'avez pas de notification actuellement.</i>
+                            <i> vous n'avez pas de notification actuellement.</i>
                         </span>
                     </div>
                 @endforelse

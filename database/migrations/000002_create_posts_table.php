@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_sous_categorie");
             $table->string("ville");
             $table->string("gouvernorat");
+            $table->enum('etat',['neuf','occasion'])->default('neuf');
             $table->decimal("prix", 13, 3);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);

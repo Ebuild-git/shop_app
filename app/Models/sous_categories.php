@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class sous_categories extends Model
 {
     use HasFactory;
+
+
+    public function getPost() {
+        return $this->hasMany(posts::class, 'id_sous_categorie','id');
+    }
 }

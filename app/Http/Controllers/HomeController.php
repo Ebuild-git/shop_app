@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\categories;
+use App\Models\configurations;
 use App\Models\posts;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class HomeController extends Controller
 {
     public function index(){
         $categories = categories::all();
+        $configuration= configurations::first();
         $posts = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> paginate(50);
-        return view("User.index", compact( "categories","posts"));
+        return view("User.index", compact( "categories","posts","configuration"));
     }
 
     public function index_post(Request $request){
@@ -46,5 +48,12 @@ class HomeController extends Controller
         }else{
             echo "erro";
         }
+    }
+
+
+    public function shop(Request $request){
+        $categorie =  $request->get('categorie') ?? '';  
+        $sous_categorie =  $request->get('sous_categorie') ?? '';
+        return view('User.shop', compact("categorie","sous_categorie"));
     }
 }

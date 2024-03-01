@@ -1,5 +1,6 @@
 body {
     background-color: #ffffff;
+    font-family: Lato, Almarai, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
 .header-1 {
@@ -73,14 +74,27 @@ a {
     width: 100%;
     height: 200px !important;
     overflow: hidden;
+    border-radius: 10px;
 }
 
 .home-post-cart img {
     height: 100% !important;
+
     width: 100%;
     object-fit: cover;
     height: auto;
 }
+
+.home-post-cart img {
+    transition: transform 0.3s ease;
+    /* Ajoute une transition pour rendre l'effet progressif */
+}
+
+.home-post-cart img:hover {
+    transform: scale(1.3);
+    /* Augmente la taille de l'image au survol */
+}
+
 
 .avatar-inscription {
     display: inline-block;
@@ -175,41 +189,97 @@ a {
     left: 10px;
     top: 10px;
 }
-.btn-retour-haut{
+
+.btn-retour-haut {
     width: 100%;
-    border:none;
+    border: none;
     font-weight: 400;
     background-color: #485769;
     color: white;
     padding: 15px 5px 15px 5px;
 }
-.card-notification-1{
+
+.card-notification-1 {
     background: url("https://c8.alamy.com/comp/2N74EJA/abstract-perspective-dotted-background-with-greyish-teal-squares-minimal-vector-graphic-pattern-2N74EJA.jpg")no-repeat;
     background-size: cover;
     padding-bottom: 60px;
     padding-top: 20px;
 }
-.carouselExampleControls{
+
+.carouselExampleControls {
     max-height: 500px !important;
     text-align: center;
     background-color: #373737;
 }
-.carouselExampleControls img{
+
+.carouselExampleControls img {
     max-height: 500px !important;
 }
-.color-orange{
+
+.color-orange {
     color: #e85d04;
 }
-.carouselpropositions img{
+
+.carouselpropositions img {
     width: 100%;
 }
-.carouselpropositions{
+
+.carouselpropositions {
     height: 300px;
     overflow: hidden;
 }
-.dropdown-menu a{
+
+.dropdown-menu a {
     color: black !important;
 }
-.dropdown-menu{
+
+.dropdown-menu {
     border-radius: 0px !important;
+}
+
+.dropdown-menu-right {
+    border: none !important;
+    border-radius: 5px !important;
+    -webkit-box-shadow: 3px 3px 43px -12px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 3px 3px 43px -12px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 3px 43px -12px rgba(0, 0, 0, 0.75);
+}
+
+.dropdown-menu-right .dropdown-item .bi {
+    color: #e85d04;
+    size: 875rem;
+    margin-right: 10px;
+}
+
+.dropdown-menu-right .dropdown-item {
+    size: 10px !important;
+}
+
+.input-group-text {
+    background-color: #ffffff !important;
+    border-right: none !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.border-left-none {
+    border-left: none !important;
+}
+
+.div-cat-shop-item img {
+    width: 50%;
+}
+
+.div-cat-shop-item {
+    margin: 5px;
+    text-align: center;
+    /* From https://css.glass */
+    background: rgba(232, 93, 4, 0.11);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.2px);
+    -webkit-backdrop-filter: blur(4.2px);
+    border: 1px solid rgba(232, 93, 4, 0.28);
 }

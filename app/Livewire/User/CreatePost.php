@@ -50,7 +50,7 @@ class CreatePost extends Component
     //validation with multi upload image
     protected $rules = [
         'titre' => 'required|min:6',
-        'description' => 'required|min:10',
+        'description' => 'required',
         'photos.*' => 'image|max:2048|min:1',
         'ville' => 'required',
         'categorie' => 'required|integer|exists:categories,id',

@@ -45,7 +45,7 @@
                      <tr>
                         <td class="avatar">
                             <div class="avatar me-3">
-                                <img src="/assets-admin/img/avatars/3.png" alt="{{ $user->name }}" class="rounded-circle">
+                                <img src="{{ Storage::url($user->avatar )}}"  class="rounded-circle">
                               </div>
                         </td>
                          <td> {{ $user->name }} </td>

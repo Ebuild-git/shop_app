@@ -4,7 +4,7 @@
 @section('body')
 
     <div class="container pt-5 pb-5">
-        <div class="col-sm-6 mx-auto  border border-1 p-3 rounded">
+        <div class="col-sm-6 mx-auto card border border-1 p-3 rounded">
             <div class="bg-red p-3 rounded">
                 <div class="d-flex justify-content-between">
                     <div>

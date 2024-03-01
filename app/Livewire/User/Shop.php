@@ -12,11 +12,12 @@ class Shop extends Component
     use ListGouvernorat; 
     use WithPagination;
 
-    public $liste_gouvernorat,$liste_categories,$key,$categorie,$ville,$ordre,$prix_minimun,$prix_maximun;
+    public $liste_gouvernorat,$liste_categories,$key,$categorie,$ville,$ordre,$prix_minimun,$prix_maximun,$sous_categorie,$total;
     public function render()
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
-        $this->liste_categories = categories::all(["titre","id"]);
+        $this->total = posts::count();
+        $this->liste_categories = categories::all(["titre","id","icon"]);
         $Query = posts::where("verified_at",'!=',null);
         if (!empty($this->ordre)) {
             if($this->ordre == "Desc"){
@@ -43,6 +44,9 @@ class Shop extends Component
         if (!empty($this->prix_maximun)) {
             $Query->where('prix','<=',$this->prix_maximun);
         }
+        if (!empty($this->sous_categorie)) {
+            $Query->where('id_sous_categorie',$this->sous_categorie);
+        }
 
         //recherche en fonction du mot cle
         if (!empty($this->key)) {
@@ -59,6 +63,16 @@ class Shop extends Component
     
     public function filtrer()
     {
+        $this->resetPage();
+    }
+
+    public function reset_form(){
+        $this->ville=null;
+        $this->categorie=null;
+        $this->sous_categorie=null;
+        $this->prix_minimun=null;
+        $this->prix_maximun=null;
+        $this->key="";
         $this->resetPage();
     }
 }

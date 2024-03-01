@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\categories;
+use App\Models\notifications;
 use App\Models\posts;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -67,6 +68,17 @@ class ListePublications extends Component
             //update verified_at date
             $post->verified_at = now();
             $post->save();
+
+             //make notification
+             $notification = new notifications();
+             $notification->titre = "Une vente a été retouner ";
+             $notification->id_user_destination  =  $post->id_user;
+             $notification->type = "alerte";
+             $notification->url = "/post/".$post->id;
+             $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
+             $notification->save();
+
+             
             session()->flash("success", "Le publication a été validée");
         } else {
             session()->flash("error", "Une erreur est survenue lors de la validation de la publication, veuillez réessayer plus tard.");

@@ -10,9 +10,17 @@ use App\Traits\ListGouvernorat;
 
 class PostsController extends Controller
 {
-
     use ListGouvernorat;
 
+    /**
+     * @SWG\Get(
+     *     path="/api/posts",
+     *     summary="Get a list of posts",
+     *     tags={"Posts"},
+     *     @SWG\Response(response=200, description="Successful operation"),
+     *     @SWG\Response(response=400, description="Invalid request")
+     * )
+     */
     public function list_post()
     {
         $post = posts::with('categorie_info')->get();
@@ -23,33 +31,36 @@ class PostsController extends Controller
             ]
         );
     }
-    
 
-    public function liste_publications(Request $request){
+
+    public function liste_publications(Request $request)
+    {
         $type = $request->type ?? "";
-        $type_post =["attente", "publiés","signalés","vendu"];
+        $type_post = ["attente", "publiés", "signalés", "vendu"];
         //verifier si le type est parmis les types de posts
-        if(!in_array($type,$type_post)){
-            $type = "publiés";//par default on affiche que les publications publies
+        if (!in_array($type, $type_post)) {
+            $type = "publiés"; //par default on affiche que les publications publies
         }
         return view("Admin.publications.index")
-        ->with("gouvernorats",$this->get_list_gouvernorat())
-        ->with("type",$type);
+            ->with("gouvernorats", $this->get_list_gouvernorat())
+            ->with("type", $type);
     }
 
-    public function details_publication(Request $request){
+    public function details_publication(Request $request)
+    {
         $id = $request->id;
         $post = posts::find($id);
-        if(!$post){
+        if (!$post) {
             return redirect("/admin/publications");
         }
-        return view("Admin.publications.details")->with("post",$post);
+        return view("Admin.publications.details")->with("post", $post);
     }
 
 
 
 
-    public function details_post($id){
+    public function details_post($id)
+    {
         try {
             $post = posts::findOrFail($id);
             return response()->json(
@@ -91,7 +102,7 @@ class PostsController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Veuillez verifier les champs !', 
+                'message' => 'Veuillez verifier les champs !',
                 "errors" => $validator->errors()
             ]);
         }
@@ -111,7 +122,7 @@ class PostsController extends Controller
         $post->ville     = $request->input("ville");
         $post->prix       = $request->input("prix");
         $post->id_user     = Auth::User()->id;
-        $post->photos = json_encode( $images);
+        $post->photos = json_encode($images);
         $post->gouvernorat = $request->input("gouvernorat");
         $post->id_categorie  = $request->input("categorie");
         $post->save();
@@ -205,8 +216,4 @@ class PostsController extends Controller
             );
         }
     }
-
-
-
-
 }

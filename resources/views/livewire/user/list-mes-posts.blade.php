@@ -1,4 +1,4 @@
-<div class="border border-1 p-3 rounded">
+<div class="border border-1 p-3 card rounded">
     <div>
         <div class="d-flex justify-content-between">
             <div>
@@ -46,7 +46,7 @@
                 <tr>
                     <th scope="row">
                         <div class="avatar-small-product">
-                            <img src="{{ Storage::url($photo[1] ?? "" ) }}" alt="avtar">
+                            <img src="{{ Storage::url($photo[0] ?? "" ) }}" alt="avtar">
                         </div>
                     </th>
                     <td>

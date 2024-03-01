@@ -32,13 +32,12 @@ Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_pos
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
 Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
+Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
+
 
 Route::get('/inscription', function () {
     return view('User.Auth-user.inscription');
 })->name('inscription');
-Route::get('/shop', function () {
-    return view('User.shop');
-})->name('shop');
 Route::get('/connexion', function () {
     return view('User.Auth-user.connexion');
 })->name('connexion');

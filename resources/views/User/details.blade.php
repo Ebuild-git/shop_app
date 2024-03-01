@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <div class="carouselExampleControls">
-                    <img src="{{ Storage::url($photos[1] ?? '') }}" id="big-view">
+                    <img src="{{ Storage::url($photos[0] ?? '') }}" id="big-view" style="max-width: 100%">
                 </div>
                 <div class="p-2 d-flex justify-content-center">
                     @foreach ($photos as $photo)
@@ -31,15 +31,30 @@
                 <div class="h3">
                     {{ $post->titre }}
                 </div>
-                <b class="small">
-                    <i>
+                <div class="d-flex justify-content-between small">
+                    <div>
                         Nombre de proposition : {{ $post->propositions->count() }}
-                        , publier le
-                        {{ date('d/m/Y', strtotime($post->created_at)) }}
-                    </i>
-                </b>
+                    </div>
+                    <div>
+                        publier le {{ date('d/m/Y', strtotime($post->created_at)) }}
+                    </div>
+                </div>
+                <hr>
+                <span class="h6">Localisation du produit</span>
+                <div class="small">
+                    <i class="bi bi-geo-alt"></i>
+                    Ville : {{ $post->ville }} <br>
+                    <i class="bi bi-grid-1x2"></i>
+                    Catégorie : {{ $post->categorie_info->titre }} <br>
+                    <i class="bi bi-grid-1x2"></i>
+                    Sous-Catégorie : {{ $post->sous_categorie_info->titre }} <br>
+                    <i class="bi bi-geo-alt"></i>
+                    Gouvernorat :{{ $post->gouvernorat }}
+                </div>
                 <hr>
                 <p>
+                    <span class="h6">Description</span>
+                    <br>
                     {{ $post->description }}
                 </p>
             </div>
@@ -55,9 +70,19 @@
                         Livraison gratuite. <br>
                         <div class="mt-2">
                             <i class="bi bi-geo-alt"></i> votre adresse de livraison est :
-                            <a href="/informations">
-                                <span class="color-orange"> {{ Auth::user()->adress }}</span>
-                            </a>
+                            @auth
+                                <a href="/informations">
+                                    <span class="color-orange"> {{ Auth::user()->adress }}</span>
+                                </a>
+                            @else
+                                <a href="/connexion">
+                                    <span class="color-orange">
+                                        <i class="bi bi-person-circle"></i>
+                                        Veuillez vous connecter
+                                    </span>
+                                </a>
+                            @endauth
+
                         </div>
                     </div>
                     <br>
@@ -117,18 +142,6 @@
                                 Membre depuis : {{ $post->user_info->created_at->format('d/m/Y') }}
                             </b>
                         </div>
-                    </div>
-                    <hr>
-                    <span class="h6">Localisation du produit</span>
-                    <div class="small">
-                        <i class="bi bi-geo-alt"></i>
-                        Ville : {{ $post->ville }} <br>
-                        <i class="bi bi-grid-1x2"></i>
-                        Catégorie : {{ $post->categorie_info->titre }} <br>
-                        <i class="bi bi-grid-1x2"></i>
-                        Sous-Catégorie : {{ $post->sous_categorie_info->titre }} <br>
-                        <i class="bi bi-geo-alt"></i>
-                        Gouvernorat :{{ $post->gouvernorat }}
                     </div>
                 </div>
             </div>

@@ -3,20 +3,21 @@
 @section('content')
 @section('body')
 
-<br><br><br>
+    <br><br>
     <div class="container-fluid">
-        {{-- <section>
-            <div class="row">
-                @foreach ($categories as $categorie)
-                    <div class="col-2">
-                        <div class="categorie-div-img" style="overflow-x: auto;">
-                            <img src="{{ Storage::url($categorie->icon) }}" alt="" style="max-width: 100px; max-height: 100px;">
-                        </div>
-                        {{ $categorie->titre }}
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 mx-auto">
+                        {{-- <i class="text-muted small">
+                            <i class="bi bi-x-circle"></i> Fermer
+                        </i> --}}
+                        <img src="{{ Storage::url($configuration->logo) }}" class="w-100" alt="banner"
+                            style="border-radius: 10px;">
                     </div>
-                @endforeach
+                </div>
             </div>
-        </section> --}}
+        </section>
 
         <section>
             <div class="d-flex justify-content-between p-2">
@@ -48,7 +49,7 @@
                                             <div class="row">
                                                 {{-- max 6 --}}
                                                 @foreach ($chunck as $item)
-                                                <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-8'"></x-CardPost>
+                                                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-2'"></x-CardPost>
                                                 @endforeach
 
                                             </div>

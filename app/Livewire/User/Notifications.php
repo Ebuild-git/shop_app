@@ -10,7 +10,7 @@ class Notifications extends Component
 {
     public function render()
     {
-        $notifications = ModelsNotifications::where("id_user_destination", Auth::id())->get();
+        $notifications = ModelsNotifications::where("id_user_destination", Auth::id())->Orderby("id","Desc")->get();
         return view('livewire.user.notifications')
             ->with("notifications", $notifications);
     }

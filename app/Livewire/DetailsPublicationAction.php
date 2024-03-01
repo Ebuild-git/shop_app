@@ -74,6 +74,7 @@ class DetailsPublicationAction extends Component
             $notification->titre = "Une vente a été retouner ";
             $notification->id_user_destination  =  $post->id_user;
             $notification->type = "alerte";
+            $notification->url = "/post/".$post->id;
             $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
             $notification->save();
 

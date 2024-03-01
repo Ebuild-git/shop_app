@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 //posts
-Route::get('/posts/list', [PostsController::class, 'list_post'])->name('list_post');
+Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
 Route::get('/posts/details/{id}', [PostsController::class, 'details_post'])->name('details_post');
 Route::post('/posts/create', [PostsController::class, 'create_post'])->name('create_post');
 Route::post('/posts/update', [PostsController::class, 'update_post'])->name('update_post');

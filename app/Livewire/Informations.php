@@ -11,9 +11,9 @@ class Informations extends Component
 {
     use WithFileUploads;
 
-    public $email, $telephone, $tiktok, $instagram, $facebook, $linkedin, $logo, $logo2;
+    public $email, $telephone, $tiktok, $instagram, $facebook, $linkedin, $logo,$logo2;
 
-   
+
     public function render()
     {
         $configuration = configurations::first();
@@ -23,9 +23,7 @@ class Informations extends Component
         $this->instagram = $configuration->instagram;
         $this->linkedin = $configuration->linkedin;
         $this->telephone = $configuration->telephone;
-        $this->logo = $configuration->logo;
         $this->logo2 = $configuration->logo;
-
         return view('livewire.informations');
     }
 
@@ -41,9 +39,9 @@ class Informations extends Component
             'facebook' => ['nullable', 'url'],
             'instagram' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
-           /// 'logo'  => 'nullable','image','mimes:jpeg,png,jpg,gif,svg','max:1000',
+            'logo'  => 'required|image|mimes:jpg,png,jpeg,webp|max:4048'
         ]);
-    
+
 
         //verifier si une configuration est deja presente si c'est pas le cas creer une nouvelle
         $old_configuraion = configurations::first();
@@ -53,13 +51,13 @@ class Informations extends Component
 
         $config = $old_configuraion::find($old_configuraion->id);
         //check if image is selected
-       /*  if ($this->logo) {
+        if ($this->logo) {
             if ($old_configuraion->logo) {
                 Storage::disk('public')->delete($old_configuraion->logo);
             }
             $newName = $this->logo->store('uploads/configuration', 'public');
             $config->logo = $newName;
-        } */
+        }
 
         $config->facebook = $this->facebook;
         $config->instagram = $this->instagram;
