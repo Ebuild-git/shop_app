@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->enum('certifier', ['oui', 'non'])->default("nom");
+            $table->enum('certifier', ['oui', 'non'])->default("non");
             $table->string('phone_number')->nullable()->default(null);
             $table->string("ip_adress")->nullable()->default(null);
             $table->string("avatar")->nullable()->default("avatar.png");
