@@ -52,8 +52,9 @@ class HomeController extends Controller
 
 
     public function shop(Request $request){
-        $categorie =  $request->get('categorie') ?? '';  
+        $categorie =  $request->get('categorie') ?? '';
+        $etat = $request->get("etat") ?? '';
         $sous_categorie =  $request->get('sous_categorie') ?? '';
-        return view('User.shop', compact("categorie","sous_categorie"));
+        return view('User.shop', compact("categorie","sous_categorie","etat"));
     }
 }

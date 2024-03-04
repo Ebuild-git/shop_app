@@ -65,6 +65,7 @@
                     <b>Catégorie :</b> {{ $post->categorie_info->titre }} <br>
                     <b>Ville : </b> {{ $post->ville }} <br>
                     <b>Gouvernorat : </b> {{ $post->gouvernorat }} <br>
+                    <b>Etat :</b> {{ $post->etat }}
                     <div class="p-2">
                         <hr>
                         <ul class="list-unstyled mb-0">

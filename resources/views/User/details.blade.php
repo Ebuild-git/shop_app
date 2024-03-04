@@ -22,12 +22,22 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <h5 class="color-orange">
-                    <b>
-                        {{ $post->prix }}
-                    </b>
-                    DT
-                </h5>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="color-orange">
+                            <b>
+                                {{ $post->prix }}
+                            </b>
+                            DH
+                        </h5>
+                    </div>
+                    <div>
+                        <span class="text-muted ">
+                            <i>{{ $post->etat }}</i>
+                            <i class="bi bi-info-circle"></i>
+                        </span>
+                    </div>
+                </div>
                 <div class="h3">
                     {{ $post->titre }}
                 </div>

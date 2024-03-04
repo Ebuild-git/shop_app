@@ -7,9 +7,20 @@
             <img class="" alt="{{ $post->titre }}" src="{{ Storage::url($photo[0] ?? "") }}">
         </div>
         <div class="p-1">
-            <span class="text-red">
-                <strong>{{ $post->prix }}</strong>  DH
-            </span>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="text-red small">
+                        <strong>{{ $post->prix }}</strong>  DH
+                    </span>
+                </div>
+                <div>
+                    <span class="text-muted small">
+                        <i>{{ $post->etat }}</i>
+                        <i class="bi bi-info-circle"></i>
+                    </span>
+                </div>
+            </div>
+            
             <h6 class="card-title" >
                 {{ $post->titre }}
             </h6>

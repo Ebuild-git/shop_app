@@ -5,19 +5,21 @@
 
     <br><br>
     <div class="container-fluid">
-        <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 mx-auto">
-                        {{-- <i class="text-muted small">
+        @if ($configuration->logo)
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 mx-auto">
+                            {{-- <i class="text-muted small">
                             <i class="bi bi-x-circle"></i> Fermer
                         </i> --}}
-                        <img src="{{ Storage::url($configuration->logo) }}" class="w-100" alt="banner"
-                            style="border-radius: 10px;">
+                            <img src="{{ Storage::url($configuration->logo) }}" class="w-100" alt="banner"
+                                style="border-radius: 10px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         <section>
             <div class="d-flex justify-content-between p-2">

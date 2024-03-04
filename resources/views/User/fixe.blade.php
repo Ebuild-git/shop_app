@@ -92,10 +92,10 @@
                     <a class="nav-link" href="{{ route('shop') }}"><b>Market place</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Produits neufs</a>
+                    <a class="nav-link" href="/shop?etat=neuf">Produits neufs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Produits d'occasions</a>
+                    <a class="nav-link" href="/shop?etat=occasion">Produits d'occasions</a>
                 </li>
                 
             </ul>

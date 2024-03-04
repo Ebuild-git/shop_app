@@ -16,7 +16,7 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $photos, $ville, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie;
+    public $titre, $description, $photos, $ville, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
 
 
     public function mount($id)
@@ -56,6 +56,7 @@ class CreatePost extends Component
         'categorie' => 'required|integer|exists:categories,id',
         'gouvernorat' => 'required',
         'prix' => 'required|numeric|min:1',
+        'etat' => ['required','in:neuf,occasion'],
         'id_sous_categorie' => 'required|integer|exists:sous_categories,id'
     ];
 
@@ -104,6 +105,7 @@ class CreatePost extends Component
         $post->ville = $this->ville;
         $post->gouvernorat = $this->gouvernorat;
         $post->id_categorie = $this->categorie;
+        $post->etat = $this->etat;
         $post->id_sous_categorie = $this->id_sous_categorie;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
@@ -113,7 +115,7 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'ville', 'gouvernorat', 'categorie', 'prix']);
+        $this->reset(['titre', 'description', 'ville', 'gouvernorat', 'categorie', 'prix', 'etat']);
     }
 
 

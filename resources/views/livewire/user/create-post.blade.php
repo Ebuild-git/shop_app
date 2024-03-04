@@ -6,26 +6,40 @@
                 <h5>Nouvelle publication</h5>
             </div>
             <div>
-                <button class="btn bg-red" type="submit">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-                    @if ($post)
-                        <i class="bi bi-pencil-square"></i>
-                        Enregistrer les modifications
-                    @else
-                        <i class="bi bi-pencil-square"></i>
-                        Publier
-                    @endif
-                </button>
+
             </div>
         </div>
         <div class="col-sm-8">
+            <div class="row">
+                <div class="col">
+                    <label for="exampleInputEmail1">Titre de la publication</label>
+                    <span class="bold text-danger">*</span>
+                    <input type="text" class="form-control shadow-none" wire:model="titre" required>
+                    @error('titre')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Prix</label>
+                        <span class="bold text-danger">*</span>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control shadow-none" required wire:model="prix">
+                            <div class="input-group-append">
+                                <span class="input-group-text">DH</span>
+                            </div>
+                        </div>
+                        @error('prix')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Titre de la publication</label>
-                <span class="bold text-danger">*</span>
-                <input type="text" class="form-control shadow-none" wire:model="titre" required>
-                @error('titre')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
+                <label for="exampleInputEmail1">Etat de votre article</label>
+                <span class="bold text-danger">*</span> :
+                <input type="radio" wire:model="etat" required value="neuf" id=""> Neuf
+                <input type="radio" wire:model="etat" required value="occasion" id=""> Occasion
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">description</label>
@@ -40,7 +54,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Ville </label>
                         <span class="bold text-danger">*</span>
-                        <input type="text" class="form-control shadow-none" wire:model="ville" required>
+                        <input type="text" class="form-control shadow-none" placeholder="veuillez renseigner la ville" wire:model="ville" required>
                         @error('ville')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -48,9 +62,10 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">gouvernorat</label>
+                        <label for="exampleInputEmail1">Gouvernorat</label>
                         <span class="bold text-danger">*</span>
                         <select class="form-control shadow-none" wire:model="gouvernorat" required>
+                            <option value="">Veuillez selectionner le gouvernorat</option>
                             @foreach ($list_gouvernorat as $item)
                                 <option value="{{ $item }}">{{ $item }}</option>
                             @endforeach
@@ -63,19 +78,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Prix</label>
-                <span class="bold text-danger">*</span>
-                <div class="input-group mb-3">
-                    <input type="number" class="form-control shadow-none" wire:model="prix">
-                    <div class="input-group-append">
-                        <span class="input-group-text">DT</span>
-                    </div>
-                </div>
-                @error('prix')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+
             <div class="form-group">
                 <label for="exampleInputEmail1">Catégorie</label>
                 <span class="bold text-danger">*</span>
@@ -153,6 +156,17 @@
                     </div>
                     <br>
                 @enderror
+                <hr>
+                <button class="btn bg-red" type="submit">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+                    @if ($post)
+                        <i class="bi bi-pencil-square"></i>
+                        Enregistrer les modifications
+                    @else
+                        <i class="bi bi-pencil-square"></i>
+                        Publier mon article
+                    @endif
+                </button>
 </div>
 </div>
 </div>
