@@ -22,7 +22,7 @@ class UserController extends Controller
          $id = $request->id;
          try {
             $user = User::findOrFail($id);
-            return view("admin.clients.profile")->with("user",$user);
+            return view("Admin.clients.profile")->with("user",$user);
          } catch (\Throwable $th) {
             //throw $th;
             // 404
