@@ -4,6 +4,6 @@
 @section('body')
 
     <div class="container-fluid pb-5 pt-5">
-        @livewire('User.Shop', ["categorie"=>$categorie,"sous_categorie"=>$sous_categorie,"etat"=>$etat])
+        @livewire('User.Shop', ["categorie"=>$categorie,"sous_categorie"=>$sous_categorie,"etat"=>$etat,"key"=>$key])
     </div>
 @endsection

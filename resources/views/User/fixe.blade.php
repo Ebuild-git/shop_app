@@ -15,7 +15,7 @@
     @yield('head')
 </head>
 
-<body>
+<body style="background-color: #f2f2f2;">
     @include('User.composants.sidebar')
 
     <!-- Just an image -->

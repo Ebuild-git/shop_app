@@ -6,7 +6,7 @@
     @php
         $photos = json_decode($post->photos, true);
     @endphp
-    <div class="container-fluid pt-5 pb-5">
+    <div class="container card pt-2 mt-4">
         <div class="row">
             <div class="col-sm-5">
                 <div class="carouselExampleControls">
@@ -100,8 +100,7 @@
                         @if ($post->id_user != Auth::user()->id)
                             @if ($post->sell_at == null)
                                 <button class="bg-red btn " data-toggle="modal" data-target="#Modalcommander">
-                                    <i class="bi bi-bag"></i>
-                                    Commander cet article
+                                    Acheter
                                 </button>
                             @else
                                 <span class="text-success">

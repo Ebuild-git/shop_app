@@ -68,7 +68,7 @@ box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
     function redirectToSearch() {
         let input = document.getElementById("searchInput");
         if (input.value != "") {
-            window.location.href = "/shop?q=" + encodeURIComponent(input.value);
+            window.location.href = "/shop?key=" + encodeURIComponent(input.value);
         } else {
             //set boostrap invalid filed input
             $(input).addClass('is-invalid');
