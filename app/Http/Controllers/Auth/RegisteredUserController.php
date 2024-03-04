@@ -39,8 +39,8 @@ class RegisteredUserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role= "admin"; // Default role for new users is "User" (ID=3)
-        $user->password = Hash::hash($request->password);
+        $user->role= "admin"; 
+        $user->password = bcrypt($request->password);
 
         event(new Registered($user));
 
