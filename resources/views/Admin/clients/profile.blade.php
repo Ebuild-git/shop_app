@@ -1,4 +1,4 @@
-@extends('admin.fixe')
+@extends('Admin.fixe')
 @section('title', 'Profil ' . $user->name)
 @section('content')
 
