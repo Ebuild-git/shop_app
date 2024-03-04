@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User();
+        $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role= "admin"; // Default role for new users is "User" (ID=3)
