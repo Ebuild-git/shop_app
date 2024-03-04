@@ -283,23 +283,27 @@ a {
     -webkit-backdrop-filter: blur(4.2px);
     border: 1px solid rgba(232, 93, 4, 0.28);
 }
-.card-image-inscription img{
+
+.card-image-inscription img {
     width: 130%;
 }
-.card-image-inscription{
+
+.card-image-inscription {
     overflow: hidden;
 }
-.fil-import-registrer{
+
+.fil-import-registrer {
     text-align: center !important;
     background-color: #fdc6a2;
-    border:solid 2px #e85d04 ;
+    border: solid 2px #e85d04;
     border-radius: 10px;
     border-style: dashed;
     padding: 10px;
     color: #e85d04;
 }
-.fil-import-registrer:hover{
-    -webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.75);
-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.75);
+
+.fil-import-registrer:hover {
+    -webkit-box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.75);
 }
