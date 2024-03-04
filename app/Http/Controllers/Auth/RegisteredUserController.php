@@ -41,14 +41,13 @@ class RegisteredUserController extends Controller
         $user->email = $request->email;
         $user->role= "admin"; 
         $user->password = bcrypt($request->password);
-
-        event(new Registered($user));
+        $user->save();
 
         //asign role admin
         $user->assignRole("admin");
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect('/dashboard');
     }
 }
