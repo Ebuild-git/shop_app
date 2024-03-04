@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_post");
             $table->unsignedBigInteger("id_acheteur");
             $table->unsignedBigInteger("id_vendeur");
-            $table->enum( "etat", ['traitement','refusé','accepté'] )->default("non");
+            $table->enum( "etat", ['traitement','refusé','accepté'] )->default("traitement");
             $table->timestamps();
 
             $table->foreign('id_post')->references('id')->on('posts')->onDelete('cascade');
