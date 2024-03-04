@@ -50,6 +50,10 @@ class HomeController extends Controller
         }
     }
 
+    
+    public function index_mes_achats(){
+        return view("User.mes-achats");
+    }
 
     public function shop(Request $request){
         $categorie =  $request->get('categorie') ?? '';

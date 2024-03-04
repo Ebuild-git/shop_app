@@ -29,6 +29,7 @@ Route::get('/publication', [ControllersHomeController::class, 'index_post'])->na
 Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
 Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
 Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
+Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
 Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);

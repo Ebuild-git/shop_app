@@ -5,7 +5,7 @@
 
     <br><br>
     <x-RechercheHeaderNav></x-RechercheHeaderNav>
-    <div class="container-fluid">
+    <div class="container">
         @if ($configuration->logo)
             <section>
                 <div class="container">
@@ -54,7 +54,7 @@
                                             <div class="row">
                                                 {{-- max 6 --}}
                                                 @foreach ($chunck as $item)
-                                                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-2'"></x-CardPost>
+                                                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-3'"></x-CardPost>
                                                 @endforeach
 
                                             </div>
@@ -70,10 +70,36 @@
                 </div>
             </section>
         </section>
+        <br>
+        <hr>
+        <section>
+            <div class="h5">
+                Rechercher par marque
+            </div>
+            <br>
+            <div class="row">
+                @foreach ($categories as $item)
+                    <div class="col-sm-2 text-center">
+
+                        <div class="border p-2">
+                            <span class="position-absolute h4 card">
+                                +{{ $item->getPost->count() }}
+                            </span>
+                            <div>
+                                <img src="{{ Storage::url($item->icon) }}" alt="" style="width: 80%">
+                            </div>
+                            <span>
+                                {{ $item->titre }}
+                            </span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
 
     </div>
 
-<br><br>
+    <br><br>
     <script>
         $('#recipeCarousel').carousel({
             interval: 10000

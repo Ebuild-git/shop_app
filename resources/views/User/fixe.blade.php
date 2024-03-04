@@ -44,11 +44,11 @@
                                 </span>
                             </div>
                         </a>
-                        <a class="dropdown-item" href="/informations">
+                        <a class="dropdown-item" href="/mes-publication">
                             <i class="bi bi-sticky"></i>
                             Mes annonces
                         </a>
-                        <a class="dropdown-item" href="/informations">
+                        <a class="dropdown-item" href="/mes-achats">
                             <i class="bi bi-bag"></i>
                             Mes achats
                         </a>
@@ -104,7 +104,7 @@
                     <a href="/publication">
                         <button type="button" class="btn btn-light btn-sm my-2 my-sm-0">
                             <i class="bi bi-plus-circle-fill"></i>
-                            Publier une annonce
+                            Vends ton article
                         </button>
                     </a>
                 @else

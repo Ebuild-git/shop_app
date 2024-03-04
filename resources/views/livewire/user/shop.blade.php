@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-3">
-        <div class="p-3">
+        <div class="p-3 card">
             <form wire:submit="filtrer" class="">
                 <h5 class="text-muted">
                     <i class="bi bi-filter-left"></i> Filtres Avancés
@@ -129,7 +129,7 @@
         </div>
     </div>
     <div class="col-sm-9">
-        <div class="">
+        <div class="card p-2">
             <div>
                 <span class="h5">
                     Vous avez a votre disposition plus de <span class="color-orange">{{ $total }}</span>

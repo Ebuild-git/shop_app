@@ -6,7 +6,7 @@
     @php
         $photos = json_decode($post->photos, true);
     @endphp
-    <div class="container card pt-2 mt-4">
+    <div class="container-fluid  pt-2 mt-4">
         <div class="row">
             <div class="col-sm-5">
                 <div class="carouselExampleControls">
@@ -43,9 +43,6 @@
                 </div>
                 <div class="d-flex justify-content-between small">
                     <div>
-                        Nombre de proposition : {{ $post->propositions->count() }}
-                    </div>
-                    <div>
                         publier le {{ date('d/m/Y', strtotime($post->created_at)) }}
                     </div>
                 </div>
@@ -77,7 +74,6 @@
                         <sup class="small">DT</sup>
                     </h5>
                     <div class="small">
-                        Livraison gratuite. <br>
                         <div class="mt-2">
                             <i class="bi bi-geo-alt"></i> votre adresse de livraison est :
                             @auth
@@ -96,7 +92,30 @@
                         </div>
                     </div>
                     <br>
+                    <table class="w-100 small">
+                        <tr>
+                            <td>Envoi</td>
+                            <td class="value-td-detail"></td>
+                        </tr>
+                        <tr>
+                            <td>Expédié par :</td>
+                            <td class="value-td-detail">Shopin</td>
+                        </tr>
+                        <tr>
+                            <td>Vendu par</td>
+                            <td class="value-td-detail">{{ $post->user_info->name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Paiement a la livraison</td>
+                            <td class="value-td-detail"> Oui</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre de proposition :</td>
+                            <td class="value-td-detail">{{ $post->propositions->count() }}</td>
+                        </tr>
+                    </table>
                     @auth
+                        <br>
                         @if ($post->id_user != Auth::user()->id)
                             @if ($post->sell_at == null)
                                 <button class="bg-red btn " data-toggle="modal" data-target="#Modalcommander">
@@ -112,22 +131,14 @@
                             @endif
                         @endif
                     @endauth
-                    <div class="small mb-2 mt-2">
-                        Expédié par : shopin<br>
-                        Vendu par : {{ $post->user_info->name }} <br>
-                        Paiement a la livraison
-                    </div>
                     @auth
-                        <div class="text-danger" data-toggle="modal" data-target="#ModalSignalement">
+                        <button class="btn btn-outline-danger mt-1" data-toggle="modal" data-target="#ModalSignalement">
                             <i class="bi bi-exclamation-triangle"></i>
                             Signaler cette annonce
-                        </div>
+                        </button>
                     @endauth
                 </div>
                 <div class="card p-2">
-                    <div class="pb-3">
-                        <span class="h6">Vendeur</span>
-                    </div>
                     <div class="d-flex justify-content-start my-auto ">
                         <img src=" {{ Storage::url($post->user_info->avatar) }} "
                             style="height: 40px;width: 40px;background-color: #ebeef1" class="rounded-circle mr-3">
