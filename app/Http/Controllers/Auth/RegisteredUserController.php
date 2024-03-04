@@ -36,12 +36,11 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'pssworad' => Hash::make($request->password),
-            'role' => "admin",
-         ]);
+        $user = User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role= "admin"; // Default role for new users is "User" (ID=3)
+        $user->password = Hash::hash($request->password);
 
         event(new Registered($user));
 
