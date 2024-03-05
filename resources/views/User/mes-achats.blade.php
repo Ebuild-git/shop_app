@@ -3,11 +3,6 @@
 @section('content')
 @section('body')
 
-<div class="container pt-5 pb-5">
-    
-    <div class="card">
-        @livewire('User.CreatePost', ['id' => $id ?? ""])
-    </div>
-    
-</div>
+@livewire('User.ListeAchat')
+
 @endsection

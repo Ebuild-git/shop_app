@@ -52,6 +52,7 @@ class HomeController extends Controller
 
     
     public function index_mes_achats(){
+      
         return view("User.mes-achats");
     }
 

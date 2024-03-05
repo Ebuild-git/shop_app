@@ -61,13 +61,7 @@
     <div class="form-group">
         <label>Photo de profil</label>
         <div class="fil-import-registrer">
-
-            <input type="file" class="d-none" class="form-control shadow-none"
-                @error('photo') is-invalid @enderror wire:model="photo" id="photo" required>
-            @error('photo')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-
+            <input type="file" class="d-none" wire:model="photo" id="photo" required>
             <span id="select-image">
                 @if ($photo)
                     <img src="{{ $photo->temporaryUrl() }}" alt="" class="avatar-inscription">
@@ -77,9 +71,12 @@
 
                 @endif
                 <br>
-                <i>Veuillez selectionner une image de profil</i>
+                <i>Veuillez selectionner une image </i>
             </span>
         </div>
+        @error('photo')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
 
     </div>
     <div class="modal-footer">

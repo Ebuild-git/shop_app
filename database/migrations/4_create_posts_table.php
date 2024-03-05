@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string("titre");
-            $table->string("description");
+            $table->text("description");
             $table->json("photos");
             $table->unsignedBigInteger("id_user");
             $table->unsignedBigInteger("id_user_buy")->nullable()->default(null);
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal("prix", 13, 3);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
+            $table->timestamps();
 
 
 

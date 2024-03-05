@@ -6,6 +6,7 @@
     @php
         $photos = json_decode($post->photos, true);
     @endphp
+    <x-RechercheHeaderNav></x-RechercheHeaderNav>
     <div class="container-fluid  pt-2 mt-4">
         <div class="row">
             <div class="col-sm-5">

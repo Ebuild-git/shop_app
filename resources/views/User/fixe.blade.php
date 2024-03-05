@@ -19,11 +19,11 @@
     @include('User.composants.sidebar')
 
     <!-- Just an image -->
-    <nav class="navbar header-1">
+    <nav class="navbar header-1" id="navbar">
         <a class="navbar-brand" href="/">
             <img src="/icons/logo-version-blanc.png" height="30" alt="">
         </a>
-        
+
         @auth
             <div class="d-flex justify-content-end">
                 <div class="mr-3">
@@ -52,7 +52,7 @@
                             <i class="bi bi-bag"></i>
                             Mes achats
                         </a>
-                        <a class="dropdown-item" href="/informations">
+                        <a class="dropdown-item" href="/user-notifications">
                             <i class="bi bi-bell"></i>
                             Notifications
                         </a>
@@ -66,7 +66,7 @@
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">
-                            <i class="bi bi-box-arrow-right"></i> 
+                            <i class="bi bi-box-arrow-right"></i>
                             Déconnexion
                         </a>
                     </div>
@@ -89,7 +89,7 @@
                     <a class="nav-link" href="/">Accueil<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('shop') }}"><b>Market place</b></a>
+                    <a class="nav-link" href="{{ route('shop') }}"><b>Marketplace</b></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/shop?etat=neuf">Produits neufs</a>
@@ -97,12 +97,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/shop?etat=occasion">Produits d'occasions</a>
                 </li>
-                
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 @auth
                     <a href="/publication">
-                        <button type="button" class="btn btn-light btn-sm my-2 my-sm-0">
+                        <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
                             <i class="bi bi-plus-circle-fill"></i>
                             Vends ton article
                         </button>
@@ -136,11 +136,13 @@
 
         <!-- Footer -->
 
-        <button class="btn-retour-haut" type="button">
-            <i class="bi bi-arrow-up-circle"></i> Retour en haut
-        </button>
+        <a href="#navbar">
+            <button class="btn-retour-haut" type="button">
+                <i class="bi bi-arrow-up-circle"></i> Retour en haut
+            </button>
+        </a>
         <section style="background-color: rgba(0, 0, 0, 0.05);" class="pt-2">
-            <div class="container" >
+            <div class="container">
                 <div class="row">
                     <div class="col-sm-3 text-muted">
                         <a class="navbar-brand" href="/">
@@ -165,12 +167,13 @@
                         <span class="h6">
                             Contactez-nous
                         </span>
-                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" class="w-100" alt="" srcset="">
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                            class="w-100" alt="" srcset="">
                     </div>
                 </div>
             </div>
         </section>
-        <footer >
+        <footer>
             <!-- Section: Links  -->
             <section class=" ">
                 <div class="container text-center text-md-start">

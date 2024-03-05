@@ -93,9 +93,9 @@
                         ->select('titre', 'id')
                         ->get();
                 @endphp
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between" onclick="toggleSubCategories({{ $item->id }})">
                     <div id="cat-{{ $item->id}}">
-                        <a href="#" class="side-link" onclick="toggleSubCategories({{ $item->id }})">
+                        <a href="#" class="side-link" >
                             <i class="bi bi-arrow-right arrow-icon-side"></i>
                             {{ $item->titre }}
                         </a>
