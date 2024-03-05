@@ -7,7 +7,7 @@
           </span>
         </td>
         <td>
-            
+            {{ $item->getPost->count() }}
         </td>
         <td><span class="badge bg-label-primary me-1">
         {{ $item->created_at}}    

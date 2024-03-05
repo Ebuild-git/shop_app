@@ -37,6 +37,9 @@
                     <span class="bold text-danger">*</span> :
                     <input type="radio" wire:model="etat" required value="neuf" id=""> Neuf
                     <input type="radio" wire:model="etat" required value="occasion" id=""> Occasion
+                    @error('etat')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Description</label>
