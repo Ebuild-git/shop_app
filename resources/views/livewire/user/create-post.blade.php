@@ -1,4 +1,4 @@
-<form wire:submit="submit"  id="my-form">
+<form wire:submit="submit" id="my-form">
     <div>
         <h5>Vends ton article</h5>
     </div>
@@ -106,10 +106,6 @@
                     </div>
                 @endif
 
-                <div class="small text-danger">
-                    -Tous les champs contenant (*) sont obligatoires
-                </div>
-                <br><br>
                 <div>
                     @if (session()->has('error'))
                         <div class="alert alert-danger small text-center">
@@ -130,26 +126,47 @@
                         <br>
                     @enderror
     </div>
+
+    <div class="small text-danger">
+        -Tous les champs contenant (*) sont obligatoires
+    </div>
+
 </div>
 <div class="col-sm-12">
-    <div class="multiple-uploader" id="multiple-uploader">
-        <div class="mup-msg">
-            <span class="mup-main-msg">cliquez pour télécharger des images.</span>
-            <span class="mup-msg" id="max-upload-number">Téléchargez jusqu'à 10 images</span>
-            <span class="mup-msg">Seules les images sont autorisées .</span>
+    <!-- Affichage des images prévisualisées -->
+    <div class="p-3">
+        <div class="row">
+            @if ($photos)
+                @foreach ($photos as $index => $image)
+                    <div class="col-sm-2 col-4"  wire:key="{{$loop->index}}">
+                        <div class="car-image-upload">
+                            <button class="btn btn-danger btn-sm position-absolute" type="button" wire:click="RemoveMe({{$loop->index}})">
+                                <i class="bi bi-x-octagon-fill"></i>
+                            </button>
+                            <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}"
+                                class="w-100">
+                        </div>
+                    </div>
+                @endforeach    
+            @endif
+            <div class="col-sm-2 col-4">
+                <div class="no-picture" id="select-pic">
+                    <img src="https://cdn-icons-png.flaticon.com/256/6066/6066857.png" class="w-100"
+                        alt="" srcset="">
+                </div>
+            </div>
         </div>
+        <input type="file" wire:model="photos" required id="btn-photos" class="d-none" multiple>
+        @error('photos')
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
     </div>
-    @error('photos')
-        <small class="form-text text-danger">{{ $message }}</small>
-    @enderror
-</div>
-
 </div>
 </div>
 </div>
 <br>
 <div class="text-muted text-center small">
-VEuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
+Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
 possibilité de modifer !
 </div>
 <br>
@@ -157,7 +174,7 @@ possibilité de modifer !
 <button type="reset" class="btn btn-secondary disabled">
 Effacer
 </button>
-<button class="btn bg-red" type="submit" id="submit-form">
+<button class="btn bg-red" type="submitbutton" id="submit-form">
 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
 @if ($post)
     <i class="bi bi-pencil-square"></i>
@@ -167,10 +184,8 @@ Effacer
     Publier mon article
 @endif
 </button>
-<input type="submit" id="submit" class="d-none"  >
 </div>
-<link href="/assets-user/picker-image/src/css/main.css" rel="stylesheet" type="text/css">
-<script src="/assets-user/picker-image/src/js/multiple-uploader.js"></script>
+
 <script>
     document.getElementById('categorie').onchange = function() {
         var selectedCategoryId = this.value;
@@ -178,27 +193,10 @@ Effacer
         $(".sous-cat-" + selectedCategoryId).show();
     };
 
-
-    let multipleUploader = new MultipleUploader('#multiple-uploader').init({
-        maxUpload: 20, // maximum number of uploaded images
-        maxSize: 2, // in size in mb
-        filesInpName: 'photos', // input name sent to backend
-        formSelector: '#my-form', // form selector
+    // click btn-photos when i click in select-pic
+    $("#select-pic").click(function() {
+        $('#btn-photos').trigger("click");
     });
-
-
-    //add attribute on input which name photos when submit-form is clicked before submit form my-form
-    $('#submit-form').click(function () {
-        //prevent submit form ant set atribute before
-        //get name photos[] input 
-        var inputPhotos = document.getElementById("photos");
-        inputPhotos.setAttribute('wire:model', 'photos');
-        //make click
-        $("#submit").trigger('click');
-        
-    });
-
-
 </script>
 
 

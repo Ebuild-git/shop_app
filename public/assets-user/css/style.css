@@ -300,9 +300,50 @@ a {
     padding: 10px;
     color: #e85d04;
 }
-.btn-vend{
+
+.btn-vend {
     color: #e85d04;
     font-weight: 500;
-    border:solid 1px #e85d04;
+    border: solid 1px #e85d04;
     padding: 5px;
+}
+
+.btn-select-file {
+    background-color: #fdac77;
+    text-align: center;
+    height: 100px !;
+    width: 100px !important;
+}
+
+.btn-select-file img {
+    width: 70%;
+    height: 100px;
+    width: 100px;
+}
+
+.no-picture {
+    height: 100px;
+    width: 100px;
+    border: solid 1px #e85d04;
+    border-style: dashed;
+    border-radius: 10px;
+    background-color: #fee2cf;
+}
+
+.car-image-upload {
+    height: 100px;
+    width: 100px;
+    border: solid 1px #e85d04;
+    border-style: dashed;
+    border-radius: 10px;
+}
+
+.car-image-upload img {
+    height: 100% !important;
+    overflow: hidden;
+    border-radius: 10px;
+
+}
+.car-image-upload button{
+    border-radius: 50px;
 }

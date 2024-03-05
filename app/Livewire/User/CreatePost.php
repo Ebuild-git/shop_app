@@ -16,8 +16,8 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $photos, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
-
+    public $titre, $description, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
+    public $photos = [];
 
     public function mount($id)
     {
@@ -112,11 +112,14 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat']);
+        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat','photos']);
     }
 
 
-
+    public function RemoveMe($index)
+    {
+        array_splice($this->photos, $index, 1);
+    }
 
 
     public function update()
