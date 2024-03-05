@@ -32,6 +32,7 @@ class MultipleUploader {
         this.#$imagesUploadInput.name       = `${filesInpName}[]`;
         this.#$imagesUploadInput.multiple   = true;
         this.#$imagesUploadInput.setAttribute("id","photos");
+        this.#$imagesUploadInput.required = true;
         this.#$imagesUploadInput.accept     = "image/*";
         this.#$imagesUploadInput.style.setProperty('display','none','important');
         ;
