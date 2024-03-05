@@ -13,7 +13,7 @@ class Shop extends Component
     use ListGouvernorat;
     use WithPagination;
 
-    public $liste_gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
+    public $liste_gouvernorat,$gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
     public function render()
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();

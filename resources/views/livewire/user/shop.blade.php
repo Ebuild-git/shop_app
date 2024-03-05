@@ -23,7 +23,7 @@
                                     <i class="bi bi-funnel"></i>
                                 </span>
                             </div>
-                            <select wire:model="gouvernorat" class="form-control shadow-none border-left-none">
+                            <select wire:model="gouvernorat"  wire:model="gouvernorat" class="form-control shadow-none border-left-none">
                                 <option value="">Gouvernorat</option>
                                 @foreach ($liste_gouvernorat as $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
@@ -60,7 +60,7 @@
                             <i class="bi bi-funnel"></i>
                         </span>
                     </div>
-                    <select wire:model="categorie" class="form-control shadow-none border-left-none">
+                    <select wire:model="categorie" wire:model="categorie" class="form-control shadow-none border-left-none">
                         <option value="">Catégories</option>
                         @foreach ($liste_categories as $item)
                             <option value="{{ $item->id }}">{{ $item->titre }}</option>

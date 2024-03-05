@@ -27,7 +27,7 @@
         <section>
             <div class="d-flex justify-content-between p-2">
                 <div>
-                    <span class="h5">
+                    <span class="h4">
                         Récente publications
                     </span>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <section>
-                <div class="container-fluid">
+                <div class="container-fluid card pt-4 pb-4">
                     <div class="row">
                         <div class="col-12">
                             <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
