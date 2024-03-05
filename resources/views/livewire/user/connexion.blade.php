@@ -22,7 +22,7 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">Adresse E-mail</label>
-            <input type="email" class="form-control shadow-none" wire:model="email" @error('email') is-invalid @enderror
+            <input type="email" class="form-control form-control-ps shadow-none" wire:model="email" @error('email') is-invalid @enderror
                 required placeholder="Enter email">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Mot de passe</label>
-            <input type="password" class="form-control shadow-none" @error('password') is-invalid @enderror required
+            <input type="password" class="form-control form-control-ps shadow-none" @error('password') is-invalid @enderror required
                 wire:model="password" placeholder="*****">
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>

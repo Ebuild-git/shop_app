@@ -25,12 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
-Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
-Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
-Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
-Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
-Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
-Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
 Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
 Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
@@ -73,6 +67,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
+    Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
+    Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
+    Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
+    Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
+    Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
+
+    
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

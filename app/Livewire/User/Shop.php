@@ -13,7 +13,7 @@ class Shop extends Component
     use ListGouvernorat;
     use WithPagination;
 
-    public $liste_gouvernorat, $liste_categories, $key, $categorie, $ville, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
+    public $liste_gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
     public function render()
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
@@ -26,10 +26,6 @@ class Shop extends Component
             } else {
                 $Query = $Query->orderBy('created_at');
             }
-        }
-
-        if (!empty($this->ville)) {
-            $Query->where('ville', $this->ville);
         }
 
         if (!empty($this->gouvernorat)) {
@@ -72,7 +68,6 @@ class Shop extends Component
 
     public function reset_form()
     {
-        $this->ville = null;
         $this->categorie = null;
         $this->sous_categorie = null;
         $this->prix_minimun = null;

@@ -22,6 +22,8 @@
             </section>
         @endif
 
+    </div>
+    <div class="container-fluid">
         <section>
             <div class="d-flex justify-content-between p-2">
                 <div>
@@ -54,7 +56,7 @@
                                             <div class="row">
                                                 {{-- max 6 --}}
                                                 @foreach ($chunck as $item)
-                                                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-3'"></x-CardPost>
+                                                    <x-CardPost :post="$item" :class="'col-12 col-md-2 col-lg-4 col-xl-2'"></x-CardPost>
                                                 @endforeach
 
                                             </div>
@@ -72,16 +74,18 @@
         </section>
         <br>
         <hr>
+    </div>
+    <div class="container">
         <section>
             <div class="h5">
-                Rechercher par marque
+                Rechercher par Catégories
             </div>
             <br>
             <div class="row">
                 @foreach ($categories as $item)
                     <div class="col-sm-2 text-center">
 
-                        <div class="border p-2">
+                        <div class="div-cat-shop-item">
                             <span class="position-absolute h4 card">
                                 +{{ $item->getPost->count() }}
                             </span>

@@ -5,11 +5,9 @@
 
     <div class="container pt-5 pb-5">
         <div class="row">
-            <div class="col-sm-4 card-image-inscription">
-                <img src="icons/attracting-customers-on-black-friday-2023-11-27-04-54-12-utc.jpg"  alt="">
-            </div>
-            <div class="col-sm-6 ">
-                <div class="bg-red p-3 rounded">
+            <div class="col-sm-6 mx-auto ">
+               <div class="card p-3 ">
+                <div class="bg-red p-3  rounded">
                     <div class="d-flex justify-content-between">
                         <div>
                             <a href="/connexion">
@@ -32,6 +30,7 @@
                 </div>
                 <br>
                 @livewire('User.Inscription')
+               </div>
             </div>
         </div>
     </div>

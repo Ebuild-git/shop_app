@@ -16,22 +16,7 @@
                         placeholder="Mot clé">
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 col-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-group-text-ps" >
-                                    <i class="bi bi-funnel"></i>
-                                </span>
-                            </div>
-                            <select wire:model="gouvernorat" class="form-control shadow-none border-left-none">
-                                <option value="">Ville</option>
-                                @foreach ($liste_gouvernorat as $item)
-                                    <option value="{{ $item }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-6">
+                    <div class="col-sm-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text input-group-text-ps" >

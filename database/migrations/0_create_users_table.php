@@ -24,7 +24,9 @@ return new class extends Migration
             $table->string("role");
             $table->string("ville")->nullable()->default(null);
             $table->enum('type', ['user', 'shop']);
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->default(null);
+            $table->timestamp('validate_at')->nullable()->default(null);
+            $table->string('matricule')->nullable()->default(null);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
