@@ -33,7 +33,7 @@
             <p class="card-text small text-muted">
                 <b>
                     <i class="bi bi-geo-alt"></i>
-                </b> : {{ $post->ville }}<br>
+                </b> : {{ $post->gouvernorat }}<br>
                 <b>
                     <i class="bi bi-grid-1x2"></i>
                 </b> : {{ $post->sous_categorie_info->titre }} <br>

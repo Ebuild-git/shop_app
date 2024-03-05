@@ -14,30 +14,18 @@ trait ListGouvernorat
     public function get_list_gouvernorat()
     {
         $gouvernorats = [
-            "Ariana",
-            "Béja",
-            "Ben Arous",
-            "Bizerte",
-            "Gabès",
-            "Gafsa",
-            "Jendouba",
-            "Kairouan",
-            "Kasserine",
-            "Kébili",
-            "Le Kef",
-            "Mahdia",
-            "La Manouba",
-            "Médenine",
-            "Monastir",
-            "Nabeul",
-            "Sfax",
-            "Sidi Bouzid",
-            "Siliana",
-            "Sousse",
-            "Tataouine",
-            "Tozeur",
-            "Tunis",
-            "Zaghouan"
+            "Tanger-Tétouan-Al Hoceïma",
+            "L'Oriental",
+            "Fès-Meknès",
+            "Rabat-Salé-Kénitra",
+            "Béni Mellal-Khénifra",
+            "Casablanca-Settat",
+            "Marrakech-Safi",
+            "Drâa-Tafilalet",
+            "Souss-Massa",
+            "Guelmim-Oued Noun",
+            "Laâyoune-Sakia El Hamra",
+            "Dakhla-Oued Ed-Dahab"
         ];
         return $gouvernorats;
     }

@@ -1,34 +1,31 @@
 <nav class="row p-3">
     <div class="col-sm-8 mx-auto">
         <div class="div-big-recherche p-2">
-            <table class="w-100" >
-                <tr>
-                    <td>
-                        <input type="text" wire:model="key" class=" perso-s-input w-100 shadow-none" id="searchInput"
-                            placeholder="Rechercher d'un article">
-                       
-                    </td>
-                    <td style="text-align: right;" rowspan="2">
-                        <button class="btn-recherche-shopp" onclick="redirectToSearch()">
-                            Rechercher
-                            <i class="bi bi-filter"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="">
-                        <div class="small text-muted div-avec-troncature">
-                            @forelse ($topSubcategories as $item)
-                                <i class="bi bi-search"></i>
-                                <span class="color-orange cursor-pointer" onclick="set_value('{{ $item->titre }}')">
-                                    {{ $item->titre }} ,
-                                </span>
-                            @empty
-                            @endforelse
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <form id="recherche-form">
+                <table class="w-100">
+                    <tr>
+                        <td>
+                            <input type="text" wire:model="key" class=" perso-s-input w-100 shadow-none" id="searchInput"
+                                placeholder="Rechercher d'un article">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="">
+                            <div class="small text-muted div-avec-troncature">
+                                @forelse ($topSubcategories as $item)
+                                    <i class="bi bi-search"></i>
+                                    <span class="color-orange cursor-pointer"
+                                        onclick="set_value('{{ $item->titre }}')">
+                                        {{ $item->titre }} ,
+                                    </span>
+                                @empty
+                                @endforelse
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
 </nav>
@@ -38,9 +35,9 @@
         border-radius: 10px;
         border: solid 1px #e85b0463;
         padding-left: 20px;
-        -webkit-box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
--moz-box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
-box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
+        -webkit-box-shadow: inset 0px 0px 7px 1px rgba(0, 0, 0, 0.41);
+        -moz-box-shadow: inset 0px 0px 7px 1px rgba(0, 0, 0, 0.41);
+        box-shadow: inset 0px 0px 7px 1px rgba(0, 0, 0, 0.41);
     }
 
     .perso-s-input {
@@ -62,7 +59,6 @@ box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
         outline-color: unset;
         outline-style: none;
     }
-
 </style>
 <script>
     function redirectToSearch() {
@@ -75,7 +71,16 @@ box-shadow: inset 0px 0px 7px 1px rgba(0,0,0,0.41);
         }
     }
 
-    function set_value(value){
-        $("#searchInput").val(value);
+    function set_value(titre) {
+        var x = document.getElementById("searchInput");
+        x.value = titre;
     }
+
+    // get SearchInput value when a tap enter in recherche-form
+    $('#recherche-form').on('keyup', function(event) {
+        event.preventDefault();
+        if (event.keyCode == '13') {
+            redirectToSearch();
+        }
+    });
 </script>

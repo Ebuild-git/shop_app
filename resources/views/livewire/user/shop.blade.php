@@ -8,7 +8,7 @@
                 <hr>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">
+                        <span class="input-group-text input-group-text-ps" >
                             <i class="bi bi-search"></i>
                         </span>
                     </div>
@@ -19,7 +19,7 @@
                     <div class="col-sm-6 col-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+                                <span class="input-group-text input-group-text-ps" >
                                     <i class="bi bi-funnel"></i>
                                 </span>
                             </div>
@@ -34,7 +34,7 @@
                     <div class="col-sm-6 col-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+                                <span class="input-group-text input-group-text-ps" >
                                     <i class="bi bi-funnel"></i>
                                 </span>
                             </div>
@@ -49,7 +49,7 @@
                     <div class="col-sm-6 col-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+                                <span class="input-group-text input-group-text-ps" >
                                     <i class="bi bi-funnel"></i>
                                 </span>
                             </div>
@@ -60,7 +60,7 @@
                     <div class="col-sm-6 col-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+                                <span class="input-group-text input-group-text-ps" >
                                     <i class="bi bi-funnel"></i>
                                 </span>
                             </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">
+                        <span class="input-group-text input-group-text-ps" >
                             <i class="bi bi-funnel"></i>
                         </span>
                     </div>
@@ -85,7 +85,7 @@
                 <div class="mb-3">
                     <div class="input-group mb-3 ">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">
+                            <span class="input-group-text input-group-text-ps" >
                                 <i class="bi bi-sort-alpha-down"></i>
                             </span>
                         </div>

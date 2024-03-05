@@ -16,7 +16,7 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $photos, $ville, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
+    public $titre, $description, $photos, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
 
 
     public function mount($id)
@@ -31,7 +31,6 @@ class CreatePost extends Component
         if ($post) {
             $this->titre = $post->titre;
             $this->description = $post->description;
-            $this->ville = $post->ville;
             $this->gouvernorat = $post->gouvernorat;
             $this->categorie = $post->id_categorie;
             $this->prix = $post->prix;
@@ -49,10 +48,9 @@ class CreatePost extends Component
 
     //validation with multi upload image
     protected $rules = [
-        'titre' => 'required|min:6',
+        'titre' => 'required|min:2',
         'description' => 'required',
         'photos.*' => 'image|max:2048|min:1',
-        'ville' => 'required',
         'categorie' => 'required|integer|exists:categories,id',
         'gouvernorat' => 'required',
         'prix' => 'required|numeric|min:1',
@@ -102,7 +100,6 @@ class CreatePost extends Component
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
         $post->description = $this->description;
-        $post->ville = $this->ville;
         $post->gouvernorat = $this->gouvernorat;
         $post->id_categorie = $this->categorie;
         $post->etat = $this->etat;
@@ -115,7 +112,7 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'ville', 'gouvernorat', 'categorie', 'prix', 'etat']);
+        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat']);
     }
 
 

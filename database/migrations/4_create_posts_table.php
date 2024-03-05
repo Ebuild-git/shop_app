@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger("id_user_buy")->nullable()->default(null);
             $table->unsignedBigInteger("id_categorie");
             $table->unsignedBigInteger("id_sous_categorie");
-            $table->string("ville");
             $table->string("gouvernorat");
             $table->enum('etat',['neuf','occasion'])->default('neuf');
             $table->decimal("prix", 13, 3);

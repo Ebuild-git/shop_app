@@ -50,8 +50,6 @@
                 <hr>
                 <span class="h6">Localisation du produit</span>
                 <div class="small">
-                    <i class="bi bi-geo-alt"></i>
-                    Ville : {{ $post->ville }} <br>
                     <i class="bi bi-grid-1x2"></i>
                     Catégorie : {{ $post->categorie_info->titre }} <br>
                     <i class="bi bi-grid-1x2"></i>

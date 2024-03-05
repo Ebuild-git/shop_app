@@ -1,3 +1,6 @@
+@php
+    $configurations = DB::table('configurations')->first();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,7 +107,7 @@
                     <a href="/publication">
                         <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
                             <i class="bi bi-plus-circle-fill"></i>
-                            Vends ton article
+                            Publier un article
                         </button>
                     </a>
                 @else
@@ -164,9 +167,6 @@
                         </span>
                     </div>
                     <div class="col-sm-3">
-                        <span class="h6">
-                            Contactez-nous
-                        </span>
                         <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
                             class="w-100" alt="" srcset="">
                     </div>
@@ -238,13 +238,9 @@
                         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                             <!-- Links -->
                             <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                            <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
-                            <p>
-                                <i class="fas fa-envelope me-3"></i>
-                                info@example.com
-                            </p>
-                            <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-                            <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+                            <p><i class="bi bi-geo"></i> {{ $configurations->adresse ?? ''}} </p> 
+                            <p><i class="bi bi-telephone-forward"></i>  {{ $configurations->phone_number ?? ''}}</p>
+                            <p><i class="bi bi-envelope-open"></i>  {{ $configurations->email ?? ''}}</p>
                         </div>
                         <!-- Grid column -->
                     </div>
