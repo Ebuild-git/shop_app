@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('configurations', function (Blueprint $table) {
             $table->id();
             $table->string("phone_number")->nullable()->default(null);
-            $table->decimal("frais_livraison", 13, 3)->nullable()->default(null);
-            $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
             $table->string("email")->nullable()->default(null);
             $table->string("adresse")->nullable()->default(null);
             $table->string("logo")->nullable()->default(null);

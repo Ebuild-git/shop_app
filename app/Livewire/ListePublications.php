@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\UserEvent;
 use App\Models\categories;
 use App\Models\notifications;
 use App\Models\posts;
@@ -77,6 +78,7 @@ class ListePublications extends Component
              $notification->url = "/post/".$post->id;
              $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
              $notification->save();
+             event(new UserEvent($post->id_user));
 
              
             session()->flash("success", "Le publication a été validée");

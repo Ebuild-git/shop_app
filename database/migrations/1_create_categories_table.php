@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("titre");
             $table->string("description")->nullable()->default(null);
+            $table->decimal("frais_livraison", 13, 3)->nullable()->default(null);
+            $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
             $table->string("icon");
             $table->timestamps();
         });

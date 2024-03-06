@@ -10,7 +10,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $description,$photo,$id;
+    public $categorie, $titre, $description,$photo,$id,$frais_livraison,$pourcentage_gain;
 
     public function mount($id)
     {
@@ -22,6 +22,8 @@ class FormUpdateCategorie extends Component
     {
         $this->categorie = categories::find($this->id);
         $this->titre = $this->categorie->titre;
+        $this->pourcentage_gain = $this->categorie-> pourcentage_gain ?? 0;
+        $this->frais_livraison =$this->categorie->frais_livraison ?? 0;
         $this->description = $this->categorie->description;
         return view('livewire.form-update-categorie');
     }
@@ -37,8 +39,11 @@ class FormUpdateCategorie extends Component
             }
             $categorie->titre = $this->titre;
             $categorie->description = $this->description;
+            $categorie->frais_livraison= $this->frais_livraison;
+            $categorie->pourcentage_gain=$this->pourcentage_gain ;
             $categorie->save();
             session()->flash('success-modal', "La catégorie a été modifiée avec succès");
+            
         } catch (\Exception $e) {
             session()->flash('error-modal', 'Une erreur est survenue lors de la modification de la catégorie');
         }

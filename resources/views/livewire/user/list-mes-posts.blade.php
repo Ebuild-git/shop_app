@@ -34,7 +34,6 @@
                 <th scope="col" style="width: 51px;">#</th>
                 <th scope="col">titre</th>
                 <th scope="col">Prix</th>
-                <th scope="col">Propositions</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -46,44 +45,41 @@
                 <tr>
                     <th scope="row">
                         <div class="avatar-small-product">
-                            <img src="{{ Storage::url($photo[0] ?? "" ) }}" alt="avtar">
+                            <img src="{{ Storage::url($photo[0] ?? '') }}" alt="avtar">
                         </div>
                     </th>
                     <td>
                         <b>
-                        <a href="/post/{{ $item->id}}" class="link">{{ $item->titre }}</a>    
+                            <a href="/post/{{ $item->id }}" class="link">{{ $item->titre }}</a>
                         </b> <br>
                         <span class="small">
                             <i>Publié le {{ $item->created_at }}</i>
                         </span>
                     </td>
                     <td>{{ $item->prix }} Dt</td>
-                    <td>
-                        <i class="bi bi-bag"></i>
-                        {{ $item->propositions->count() }}
-                    </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
-                        <a href="/publication/{{ $item->id }}/propositions">
-                            <button class="btn btn-sm btn-dark">
-                                <i class="bi bi-pencil-square"></i>
-                                Voir les propositions
-                            </button>
-                        </a>
+                            <a href="/publication/{{ $item->id }}/propositions">
+                                <button class="btn btn-sm btn-dark">
+                                    <i class="bi bi-plug-fill"></i>
+                                    Propositions ( {{ $item->propositions->count() }} )
+                                </button>
+                            </a>
                         @endif
-                        <a href="/publication/{{ $item->id }}/update">
-                            <button class="btn btn-sm btn-info">
-                                <i class="bi bi-pencil-square"></i>
-                                Modifer
-                            </button>
-                        </a>
-                        @if ($item->sell_at == null)
+                        @if ($item->sell_at == null && $item->verified_at == null)
+                            <a href="/publication/{{ $item->id }}/update">
+                                <button class="btn btn-sm btn-info">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Modifer
+                                </button>
+                            </a>
+                            @endif
+                            @if ($item->sell_at == null)
                             <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"
                                 wire:confirm="Voulez-vous supprimer cette publication ?">
                                 <i class="bi bi-trash"></i>
-                                Supprimer
                             </button>
-                        @endif
+                            @endif
                     </td>
                 </tr>
             @empty

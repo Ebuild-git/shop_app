@@ -19,13 +19,16 @@ return new class extends Migration
             $table->string("url")->nullable()->default(null);
             $table->unsignedBigInteger("id_user_destination")->nullable()->default(null);
             $table->unsignedBigInteger("id_user")->nullable()->default(null);
+            $table->unsignedBigInteger("id_post")->nullable()->default(null);
             $table->unsignedBigInteger("id_commande")->nullable()->default(null);
             $table->unsignedBigInteger("id_signalement")->nullable()->default(null);
             $table->enum('statut', ['read','unread'])->default('unread');
+            $table->enum('destination', ['user','admin'])->default('user');
             $table->timestamps();
 
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_post')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('id_user_destination')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_commande')->references('id')->on('commandes')->onDelete('cascade');
             $table->foreign('id_signalement')->references('id')->on('signalements')->onDelete('cascade');

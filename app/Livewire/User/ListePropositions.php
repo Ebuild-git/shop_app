@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Models\propositions;
 use Illuminate\Support\Facades\Auth;
@@ -57,9 +58,11 @@ class ListePropositions extends Component
                 $notification = new notifications();
                 $notification->titre = "Félicitation pour votre commande !";
                 $notification->id_user_destination  =  $id_acheteur;
-                $notification->type = "alerte";
+                $notification->type = "user";
+                $notification->url ="/post/".$this->post->id;
                 $notification->message = "Nous vous informons que votre commande chez  " . $this->post->user_info->name . " a été acceptée !";
                 $notification->save();
+                event(new UserEvent($this->post->id_user));
 
                 //show success message
                 session()->flash('success', 'La proposition a été acceptée avec succès!');

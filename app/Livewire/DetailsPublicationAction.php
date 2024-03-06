@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\propositions;
@@ -28,15 +29,24 @@ class DetailsPublicationAction extends Component
             //update verified_at date
             $post->verified_at = now();
             $post->save();
-            session()->flash("success", "Le publication a été validée");
-
+           
+            event(new UserEvent($post->id_user));
             //make notification
             $notification = new notifications();
             $notification->titre = "Votre publication a été validé !";
             $notification->id_user_destination  = $post->id_user;
             $notification->type = "alerte";
+            $notification->url = "/post/".$post->id;
+            $notification->id_post = $post->id;
+            $notification->destination = "user";
+            $notification->id_user = $post->id_user;
             $notification->message = "Nous vous informons que votre publication  $post->titre a été validé par les administrateurs";
             $notification->save();
+
+
+            // Message de succès
+            session()->flash("success", "Le publication a été validée");
+
         } else {
             session()->flash("error", "Une erreur est survenue lors de la validation de la publication, veuillez réessayer plus tard.");
         }
@@ -70,6 +80,8 @@ class DetailsPublicationAction extends Component
 
             //envoie de la notification a celui qui a poster pour l'informer
             //make notification
+            event(new UserEvent($post->id_user));
+            
             $notification = new notifications();
             $notification->titre = "Une vente a été retouner ";
             $notification->id_user_destination  =  $post->id_user;

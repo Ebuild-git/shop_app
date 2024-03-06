@@ -19,7 +19,7 @@ class Shop extends Component
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
         $this->total = posts::count();
         $this->liste_categories = categories::all(["titre", "id", "icon"]);
-        $Query = posts::where("verified_at", '!=', null);
+        $Query = posts::where("verified_at", '!=', null)->where("sell_at",null);
         if (!empty($this->ordre)) {
             if ($this->ordre == "Desc") {
                 $Query = $Query->orderBy('created_at', 'DESC');

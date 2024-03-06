@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MyEvent;
 use App\Models\categories;
 use App\Models\configurations;
 use App\Models\posts;
@@ -57,6 +58,7 @@ class HomeController extends Controller
     }
 
     public function shop(Request $request){
+        
         $categorie =  $request->get('categorie') ?? '';
         $etat = $request->get("etat") ?? '';
         $key = $request->get("key") ?? '';

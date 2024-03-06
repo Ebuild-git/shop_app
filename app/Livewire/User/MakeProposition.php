@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Models\propositions;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,7 @@ class MakeProposition extends Component
         $notification->type = "alerte";
         $notification->message = "Nous vous informons que votre publication  " . $this->post->titre . " vient de recevoir une nouvelle demande de commande";
         $notification->save();
+        event(new UserEvent($this->post->id_user));
 
         //afficher le message de filicitation
         session()->flash("success", "Votre proposition a bien été envoyée au vendeur!");

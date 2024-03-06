@@ -14,6 +14,7 @@
     <link rel="shortcut icon" href="/icons/icone-orange.png" type="image/x-icon">
     <link rel="stylesheet" href="/assets-user/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <title>Shopin - @yield('titre')</title>
     @yield('head')
 </head>
@@ -30,9 +31,7 @@
         @auth
             <div class="d-flex justify-content-end">
                 <div class="mr-3">
-                    <a href="{{ route('user-notifications') }}" class="notification-header-icon">
-                        <i class="bi bi-bell"></i>
-                    </a>
+                    @livewire('User.NotificationsUser')
                 </div>
                 <div class=" dropdown">
                     <div class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"

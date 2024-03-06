@@ -29,7 +29,7 @@
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
                                     aria-selected="true">
-                                    <i class="bi bi-grid-3x3 tf-icons"></i> &nbsp;  Catégories
+                                    <i class="bi bi-grid-3x3 tf-icons"></i> &nbsp; Catégories
                                 </button>
                             </li>
                             <li class="nav-item">
@@ -42,24 +42,11 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
-                                <div class="table-responsive text-nowrap ">
-                                    <table class="table">
-                                        <thead class="table-dark">
-                                            <tr>
-                                                <td></td>
-                                                <th>Titre</th>
-                                                <th>sous-catégories</th>
-                                                <th>Publications</th>
-                                                <th>Création</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        @livewire('ListeCategorieAdmin')
-                                    </table>
-                                </div>
+                                @livewire('ListeCategorieAdmin')
                             </div>
-                            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                              <div class="table-responsive text-nowrap ">
+                        </div>
+                        <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                            <div class="table-responsive text-nowrap ">
                                 <table class="table">
                                     <thead class="table-dark">
                                         <tr>
@@ -72,23 +59,22 @@
                                     @livewire('ListeSousCategories')
                                 </table>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="col-sm-12">
-                        <div class="card p-3">
-                            @livewire('FormCreateCategorie')
-                        </div>
+            <div class="col-sm-4">
+                <div class="col-sm-12">
+                    <div class="card p-3">
+                        @livewire('FormCreateCategorie')
                     </div>
                 </div>
             </div>
-            <br><br>
         </div>
-        <!--/ Bootstrap Table with Header Dark -->
+        <br><br>
+    </div>
+    <!--/ Bootstrap Table with Header Dark -->
 
-        <hr class="my-5" />
+    <hr class="my-5" />
 
 
     </div>

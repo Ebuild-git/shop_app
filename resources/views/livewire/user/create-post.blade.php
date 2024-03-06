@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="text" class="form-control shadow-none" placeholder="Titre de la publication*"
+                            <input type="text"  class="form-control shadow-none" placeholder="Titre de la publication*"
                                 wire:model="titre" required>
                             @error('titre')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -165,7 +165,9 @@
         @enderror
     </div>
 </div>
+
 </div>
+
 </div>
 <br>
 <div class="text-muted text-center small">

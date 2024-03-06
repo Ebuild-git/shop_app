@@ -2,7 +2,9 @@
 
 namespace App\Livewire\User;
 
+use App\Events\AdminEvent;
 use App\Models\categories;
+use App\Models\notifications;
 use Livewire\WithFileUploads;
 use App\Models\posts;
 use App\Models\sous_categories;
@@ -16,7 +18,7 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $gouvernorat, $categorie, $prix, $id, $post, $old_photos,$id_sous_categorie, $etat;
+    public $titre, $description, $gouvernorat, $categorie, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat;
     public $photos = [];
 
     public function mount($id)
@@ -54,10 +56,15 @@ class CreatePost extends Component
         'categorie' => 'required|integer|exists:categories,id',
         'gouvernorat' => 'required',
         'prix' => 'required|numeric|min:1',
-        'etat' => ['required','in:neuf,occasion'],
+        'etat' => ['required', 'in:neuf,occasion'],
         'id_sous_categorie' => 'required|integer|exists:sous_categories,id'
     ];
 
+
+    public function inputChanged($value)
+    {
+        $this->prix = $value;
+    }
 
 
     public function submit()
@@ -66,11 +73,11 @@ class CreatePost extends Component
 
         //verifions que la sous categorie appartient bien a la categorie mere
         $sous_cat = sous_categories::find($this->id_sous_categorie);
-        if(!$sous_cat){
+        if (!$sous_cat) {
             session()->flash('error', __('Sous catégorie inexistante'));
             return;
         }
-        if($sous_cat->id_categorie != $this->categorie){
+        if ($sous_cat->id_categorie != $this->categorie) {
             session()->flash('error', __('La sous catégorie ne correspond pas à la catégorie choisie'));
             return;
         }
@@ -97,6 +104,7 @@ class CreatePost extends Component
             $post->photos = json_encode($data);
         }
 
+        $categorie = categories::find($this->categorie);
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
         $post->description = $this->description;
@@ -104,15 +112,27 @@ class CreatePost extends Component
         $post->id_categorie = $this->categorie;
         $post->etat = $this->etat;
         $post->id_sous_categorie = $this->id_sous_categorie;
-        $post->prix = $this->prix;
+        $post->prix = $this->prix + ($this->prix*($categorie->pourcentage_gain)/100);
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
         $post->save(); // Sauvegarder le post
 
         // Message de succès
+        event(new AdminEvent('Un post a été créé avec succès.'));
+        //enregistrer la notification
+        $notification = new notifications();
+        $notification->type = "new_post";
+        $notification->titre = Auth::user()->name . " vient de publier un article ";
+        $notification->url = "/admin/publication/" . $post->id . "/view";
+        $notification->message = $post->titre;
+        $notification->id_post = $post->id;
+        $notification->id_user = Auth::user()->id;
+        $notification->destination = "admin";
+        $notification->save();
+
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat','photos']);
+        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat', 'photos']);
     }
 
 

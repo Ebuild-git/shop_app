@@ -66,12 +66,20 @@
             </div>
             <div class="col-sm-3">
                 <div class="card p-2 mb-2 pt-4">
-                    <h5 class="color-orange">
+                    <span class="small color-orange">
+                            {{ $post->prix }} DH
+                    </span>
+                    <span class="h2 color-orange">
                         <b>
-                            {{ $post->prix }}
+                            {{ $post->prix + $post->categorie_info->frais_livraison }}
                         </b>
                         <sup class="small">DT</sup>
-                    </h5>
+                    </span>
+                    <div class="small">
+                        <i class="bi bi-truck"></i>
+                        Frais de livraison : 
+                        <span class="color-orange">{{ $post->categorie_info->frais_livraison }} DH</span>
+                    </div>
                     <div class="small">
                         <div class="mt-2">
                             <i class="bi bi-geo-alt"></i> votre adresse de livraison est :

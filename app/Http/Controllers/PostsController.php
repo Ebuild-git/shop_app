@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\notifications;
 use App\Models\posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,10 +49,18 @@ class PostsController extends Controller
 
     public function details_publication(Request $request)
     {
+        $statut = $request->get("statut") ?? "";
         $id = $request->id;
         $post = posts::find($id);
         if (!$post) {
             return redirect("/admin/publications");
+        }
+        if ($statut == "unread") {
+            notifications::where("id_post", $id)->where("destination", "admin")->update(
+                [
+                    "statut" => "read"
+                ]
+            );
         }
         return view("Admin.publications.details")->with("post", $post);
     }

@@ -9,7 +9,7 @@ use Livewire\Component;
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo;
+    public $titre, $description, $photo, $frais_livraison ,$pourcentage_gain;
 
     public function render()
     {
@@ -21,7 +21,9 @@ class FormCreateCategorie extends Component
         $this->validate([
             'titre' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048'
+            'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048',
+            'frais_livraison' => 'numeric|nullable|min:0',
+            'pourcentage_gain' => 'numeric|nullable|min:0',
         ]);
 
         if ($this->photo) {
@@ -30,12 +32,13 @@ class FormCreateCategorie extends Component
             $categorie = new categories(); // Assurez-vous que le nom de la classe modèle est correct
             $categorie->titre = $this->titre;
             $categorie->description = $this->description;
-            $categorie->icon = $newName; // Assurez-vous que le champ de la base de données est correctement nommé
+            $categorie->icon = $newName; 
+            $categorie->frais_livraison = $this->frais_livraison ?? 0;
+            $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
             $categorie->save();
-
-            session()->flash("success", "La catégorie a été ajoutée avec succès");
             $this->reset(['titre', 'description', 'photo']);
-            $this->dispatch('categorieCreated'); // Utilisez emit() au lieu de dispatch() pour les événements Livewire
+            session()->flash("success", "La catégorie a été ajoutée avec succès");
+            $this->dispatch('categorieCreated'); 
         } else {
             session()->flash("error", "Une erreur est survenue lors de l'importation de l'image !");
         }

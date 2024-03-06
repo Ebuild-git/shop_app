@@ -18,6 +18,20 @@
             {{ $message }}
         </div>
     @enderror
+    <label for="">Marge de gain ( % ) </label>
+     <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1" class="form-control" required>
+    @error('pourcentage_gain')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+    @enderror
+    <label for="">Frais de livraison </label>
+     <input type="text" wire:model ="frais_livraison" min="0" step="0.1" class="form-control" required>
+    @error('frais_livraison')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+    @enderror
 
     <label for="">description </label>
     <textarea class="form-control" wire:model="description" rows="4" required></textarea>
