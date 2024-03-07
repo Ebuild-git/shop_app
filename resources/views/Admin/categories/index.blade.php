@@ -12,71 +12,29 @@
         <!-- Bootstrap Table with Header - Dark -->
         <div class=" container">
             <div class="row">
-                <div class="col-sm-8 card">
+                <div class="col-sm-12 card">
                     <div class="d-flex justify-content-between">
                         <div>
                             <h5 class="card-header">Liste des catégories</h5>
                         </div>
                         <div class="my-auto">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsouscategorie">
-                                <i class="bi bi-plus"></i> Sous Catégorie
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addcategorie">
+                                <i class="bi bi-plus"></i> Catégorie
                             </button>
                         </div>
                     </div>
                     <div class="nav-align-top mb-4">
-                        <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-                            <li class="nav-item">
-                                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-pills-justified-home" aria-controls="navs-pills-justified-home"
-                                    aria-selected="true">
-                                    <i class="bi bi-grid-3x3 tf-icons"></i> &nbsp; Catégories
-                                </button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-pills-justified-profile"
-                                    aria-controls="navs-pills-justified-profile" aria-selected="false">
-                                    <i class="bi bi-ui-checks-grid"></i> &nbsp; Sous-catégories
-                                </button>
-                            </li>
-                        </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
                                 @livewire('ListeCategorieAdmin')
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                            <div class="table-responsive text-nowrap ">
-                                <table class="table">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Titre</th>
-                                            <th>Publications</th>
-                                            <th>Création</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    @livewire('ListeSousCategories')
-                                </table>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            <div class="col-sm-4">
-                <div class="col-sm-12">
-                    <div class="card p-3">
-                        @livewire('FormCreateCategorie')
-                    </div>
-                </div>
-            </div>
         </div>
         <br><br>
     </div>
     <!--/ Bootstrap Table with Header Dark -->
-
-    <hr class="my-5" />
-
-
     </div>
     <!--/ Content -->
 
@@ -100,7 +58,26 @@
     </div>
     <!--/ Add New Credit Card Modal -->
 
+
+     <!-- Add New Credit Card Modal -->
+     <div class="modal fade" id="addcategorie" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+            <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-4">
+                        <h3 class="mb-2">Catégorie</h3>
+                        <p class="text-muted">Création d'une nouvelle catégorie</p>
+                    </div>
+                    @livewire('FormCreateCategorie')
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Add New Credit Card Modal -->
+
 @endsection
+
 @section('script')
     <script src="/assets-admin/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets-admin/vendor/libs/popper/popper.js"></script>

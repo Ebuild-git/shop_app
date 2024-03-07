@@ -26,17 +26,17 @@ class ResetPassword extends Component
         
         $user = User::where("email",$this->email)->first();
         if($user){
-            // Generate a new password for the user and save it to the database
-            $new_password = Str::random(8);
+            //generer un token pour la verification de mail
+            $token = md5(time());
+            $user->remember_token = $token;
+            $user->update_at = now();
+            $user->save();
             
             // Send an email with the new generated password to the user
-            Mail::to($this->email)->send(new NewPassword($new_password,$user));
+            Mail::to($this->email)->send(new NewPassword($token,$user));
                 
             // Update the users password in the database
-            $user->update([
-                "password" => bcrypt($new_password),
-            ]);
-            session()->flash("success","Un nouveau mot de passe a été envoyé à votre adresse e-mail enregistrée.");
+            session()->flash("success","le lien de reinitialisation a été envoyé à votre adresse e-mail.");
 
             //reset form
             $this->reset(['email']);

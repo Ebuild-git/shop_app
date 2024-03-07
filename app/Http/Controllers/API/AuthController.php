@@ -32,7 +32,6 @@ class AuthController extends Controller
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(
                 [
-                    'status' => false,
                     'message' => 'Unauthorized'
                 ],
                 401
@@ -47,12 +46,11 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'status' => true,
             'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
             ]
-        ]);
+        ], 200);
     }
 
 
@@ -63,7 +61,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'string'],
-            'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048',
+            'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
@@ -75,66 +73,48 @@ class AuthController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $validator->errors()->all()
-            ], 422); // 422 Unprocessable Entity
+            ], 400); // 422 Unprocessable Entity
         }
-        try {
-            // Création d'un nouvel utilisateur
 
+        //generer un token pour la verification de mail
+        $token = md5(time());
 
-            if ($request->photo) {
-                $newName = $request->photo->store('uploads/avatars', 'public');
-
-                //generer un token pour la verification de mail
-                $token = md5(time());
-
-                $user = new User();
-                $user->name = $request->nom;
-                $user->email = $request->email;
-                $user->password =  Hash::make($request->password);
-                $user->phone_number = $request->telephone;
-                $user->role = "user";
-                $user->type = "user";
-                $user->avatar = $newName;
-                $user->ip_adress = request()->ip();
-                $user->remember_token =  $token;
-                $user->username = $request->username;
-
-                if ($request->matricule) {
-                    $matricule = $request->matricule->store('uploads/documents', 'public');
-                    $user->type = "shop";
-                    $user->matricule = $matricule;
-                } else {
-                    $user->validate_at = now();
-                }
-                $user->save();
-
-                //donner le role user
-                $user->assignRole('user');
-
-                //envoi du mail avec le lien de validation
-                Mail::to($user->email)->send(new VerifyMail($user, $token));
-                return response()->json(
-                    [
-                        'status' => true,
-                        'message' => 'Votre compte a bien été créé. Nous vous avons envoyé un email pour valider votre adresse e-mail.'
-                    ]
-                );
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'errors' => 'Vous n\'avez pas envoyé d\'image',
-                ]);
-            }
-        } catch (Exception $e) {
-            return response()->json(
-                [
-                    'status' => false,
-                    'message' => $e
-                ]
-            );
+        $user = new User();
+        if ($request->photo) {
+            $newName = $request->photo->store('uploads/avatars', 'public');
+            $user->avatar = $newName;
         }
+        $user->name = $request->nom;
+        $user->email = $request->email;
+        $user->password =  Hash::make($request->password);
+        $user->phone_number = $request->telephone;
+        $user->role = "user";
+        $user->type = "user";
+        $user->ip_adress = request()->ip();
+        $user->remember_token =  $token;
+        $user->username = $request->username;
+
+        if ($request->matricule) {
+            $matricule = $request->matricule->store('uploads/documents', 'public');
+            $user->type = "shop";
+            $user->matricule = $matricule;
+        } else {
+            $user->validate_at = now();
+        }
+        $user->save();
+
+        //donner le role user
+        $user->assignRole('user');
+
+        //envoi du mail avec le lien de validation
+        Mail::to($user->email)->send(new VerifyMail($user, $token));
+        return response()->json(
+            [
+                'message' => 'Votre compte a bien été créé. Nous vous avons envoyé un email pour valider votre adresse e-mail.'
+            ],
+            201
+        );
     }
-
 
 
 
@@ -148,6 +128,7 @@ class AuthController extends Controller
         ]);
     }
 
+
     public function refresh()
     {
         return response()->json([
@@ -158,4 +139,5 @@ class AuthController extends Controller
             ]
         ]);
     }
+    
 }

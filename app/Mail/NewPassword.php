@@ -16,13 +16,13 @@ class NewPassword extends Mailable
     /**
      * Create a new message instance.
      */
-    public $new_password,$user;
-    public function __construct($new_password,$user)
+    public $token,$user;
+    public function __construct($token,$user)
     {
         $this->user = $user;
-        $this->new_password=$new_password;
+        $this->token=$token;
         $this->from('no-reply@apa.tn', 'SHOP');
-        $this->subject('NOUVEAU MOT DE PASSE !');
+        $this->subject('REINITIALISATION DE MOT DE PASSE !');
     }
 
 

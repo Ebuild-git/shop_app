@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("id_post");
             $table->unsignedBigInteger("id_acheteur");
-            $table->unsignedBigInteger("id_vendeur");
             $table->enum( "etat", ['traitement','refusé','accepté'] )->default("traitement");
             $table->timestamps();
 
             $table->foreign('id_post')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('id_acheteur')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('id_vendeur')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

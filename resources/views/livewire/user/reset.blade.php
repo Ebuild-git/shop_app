@@ -20,18 +20,25 @@
 
 
     <p class="text-center">
-        Veuillez entrer votre adresse mail lier a votre compte pour recevoir votre mot de passe temporaire
-        de
-        connexion.
+       Veuillez entrer votre nouveau mot de passe
     </p>
     <!-- Champ pour entrer l'email -->
     <form wire:submit="reset_password">
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" required
-                class="form-control shadow-none @error('email') is-invalid @enderror" wire:model="email"
-                placeholder="Entrez votre email">
-            @error('email')
+            <label for="email">Nouveau mot de passe</label>
+            <input type="text" required
+                class="form-control form-control-ps shadow-none @error('password') is-invalid @enderror" wire:model="password"
+                placeholder="Entrez votre Mot de passe">
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="email">Confirmation du mot de passe</label>
+            <input type="text" required
+                class="form-control form-control-ps shadow-none @error('password_confirmation') is-invalid @enderror" wire:model="password_confirmation"
+                placeholder="Confirmation du mot de passe">
+            @error('password_confirmation')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>

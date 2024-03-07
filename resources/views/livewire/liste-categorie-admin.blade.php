@@ -3,6 +3,7 @@
         <thead class="table-dark">
             <tr>
                 <td></td>
+                <td></td>
                 <th>Titre</th>
                 <th>sous-catégories</th>
                 <th>Publications</th>
@@ -14,6 +15,7 @@
         <tbody class="table-border-bottom-0">
             @forelse ($liste as $item)
                 <tr>
+                    <td></td>
                     <td>
                         <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}"
                             style="height: 30px !important">
@@ -43,6 +45,10 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#modalToggleajouter-{{ $item->id }}" href="javascript:void(0);"><i
+                                    class="ti ti-pencil me-1"></i>Ajouter une sous-catégorie</a>
+
+                                <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);"><i
                                         class="ti ti-pencil me-1"></i> Modifier</a>
                                 <a class="dropdown-item" href="javascript:void(0)"
@@ -52,10 +58,21 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="7">
+                        <table class="">
+                            @foreach ($item->getSousCategories as $sous)
+                            <tr>
+                                <td>{{ $sous->titre }}</td>
+                            </tr>
+                        @endforeach
+                        </table>
+                    </td>
+                </tr>
                 @include('Admin.categories.modal-update', ['item' => $item])
             @empty
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         No Data Found!
                     </td>
                 </tr>

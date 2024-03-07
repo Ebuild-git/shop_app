@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger("id_user");
             $table->unsignedBigInteger("id_user_buy")->nullable()->default(null);
             $table->unsignedBigInteger("id_categorie");
-            $table->unsignedBigInteger("id_sous_categorie");
             $table->string("gouvernorat");
             $table->enum('etat',['neuf','occasion'])->default('neuf');
             $table->decimal("prix", 13, 3);
@@ -31,8 +30,7 @@ return new class extends Migration
 
             $table->foreign('id_user_buy')->references('id')->on('users');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('id_categorie')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('id_sous_categorie')->references('id')->on('sous_categories')->onDelete('cascade');
+            $table->foreign('id_categorie')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

@@ -27,8 +27,7 @@
                                 @foreach ($imagesArray as $key => $image)
                                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}"
                                         style="text-align: center !important">
-                                        <img class="" src="{{ Storage::url($image) }}"
-                                            style="max-height: 400px;">
+                                        <img class="" src="{{ Storage::url($image) }}" style="max-height: 400px;">
                                     </div>
                                 @endforeach
                             </div>
@@ -43,6 +42,13 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
+                    </div>
+                    <div class="d-flex flex-row bd-highlight ">
+                        @foreach ($imagesArray as $key => $image)
+                                <div class="card-image-details-post">
+                                    <img src="{{ Storage::url($image) }}" alt="" srcset="">
+                                </div>
+                        @endforeach
                     </div>
                     <br>
                     <p>
@@ -73,7 +79,7 @@
                                 <div class="d-flex align-items-start">
                                     <div class="d-flex align-items-start">
                                         <div class="avatar me-2">
-                                            <img src="{{ Storage::url($post->user_info->avatar )}}" alt="Avatar"
+                                            <img src="{{ Storage::url($post->user_info->avatar) }}" alt="Avatar"
                                                 class="rounded-circle">
                                         </div>
                                         <div class="me-2 ms-1">
@@ -140,4 +146,20 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .card-image-details-post{
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 5px;
+        }
+        .card-image-details-post img{
+            width: 100%;
+            border-radius: 10px;
+        }
+        .card-image-details-post img:hover{
+            scale: 1.5;
+        }
+    </style>
 @endsection

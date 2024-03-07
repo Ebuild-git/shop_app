@@ -22,8 +22,30 @@ class Security extends Controller
                 $user->save();
                 return view('User.verifiy')->with("success", "ok");
             }
-        }catch(ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return view('User.verifiy')->with("error", "Utilisateur introuvable");
+        }
+    }
+
+
+    public function reset_password($token)
+    {
+        try {
+            $user = User::where("remember_token", $token)->first();
+            // Vérification du token
+
+            //check token time generation
+            if (now()->diffInMinutes($user->created_at) > 20) {
+                return view('User.Auth-user.reset_password')
+                    ->with("message", "token expirer");
+            } else {
+                return view('User.Auth-user.reset_password')
+                    ->with(["user" => $user])
+                    ->with("success", "ok");
+            }
+        } catch (ModelNotFoundException $e) {
+            return view('User.Auth-user.reset_password')
+                ->with("message", "Utilisateur introuvable ou token invalide");
         }
     }
 }

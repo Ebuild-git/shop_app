@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class propositions extends Model
 {
     use HasFactory;
-     protected $fillable = [
+    protected $fillable = [
         'etat',
-     ];
+    ];
 
 
     public  function acheteur()

@@ -1,2 +1,5 @@
-Nouveau mot de passe : {{ $new_password }} <br>
-Nom : {{ $user->name }}
+
+Nom : {{ $user->name }} <br>
+Lien  de réinitialisation : <a href="/reset/{{$token}}">Cliquez Ici</a><br/><br/>
+
+Vous avez demandé une réinitialisation du mot de passe pour votre compte.

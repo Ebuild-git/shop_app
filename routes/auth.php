@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
-                ->name('login');
+
 
 
 
@@ -37,6 +36,10 @@ use Illuminate\Support\Facades\Route;
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
 }); */
+
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+->name('login');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)

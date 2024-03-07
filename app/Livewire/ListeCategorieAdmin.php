@@ -13,11 +13,11 @@ class ListeCategorieAdmin extends Component
 
     public function render()
     {
-        $this->liste = $this->get_all_catgorie();
+        $this->liste = $this->get_all_categorie();
         return view('livewire.liste-categorie-admin');
     }
 
-    public function get_all_catgorie(){
+    public function get_all_categorie(){
         $data = categories::Orderby("id","Desc")->get();
         return $data;
     }
