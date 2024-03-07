@@ -29,7 +29,7 @@ class ResetPassword extends Component
             //generer un token pour la verification de mail
             $token = md5(time());
             $user->remember_token = $token;
-            $user->update_at = now();
+            $user->updated_at = now();
             $user->save();
             
             // Send an email with the new generated password to the user
