@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewPassword;
 use App\Mail\VerifyMail;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +19,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','reset_password']]);
     }
 
     public function login(Request $request)
@@ -117,8 +119,6 @@ class AuthController extends Controller
     }
 
 
-
-
     public function logout()
     {
         Auth::logout();
@@ -139,5 +139,43 @@ class AuthController extends Controller
             ]
         ]);
     }
-    
+
+
+    public function reset_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        // Si la validation échoue, retourner les erreurs sous forme de réponse JSON
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->all()
+            ], 400); 
+        }
+
+        $user = User::where("email", $request->email)->first();
+        if ($user) {
+            //generer un token pour la verification de mail
+            $token = md5(time());
+            $user->remember_token = $token;
+            $user->updated_at = now();
+            $user->save();
+
+            // Send an email with the new generated password to the user
+            Mail::to($request->email)->send(new NewPassword($token, $user));
+            return response()->json(
+                ['message' => "Un lien de réinitialisation a été envoyé à votre adresse e-mail."],
+                200
+
+            );
+        } else {
+            return response()->json(
+                [
+                    'message' => 'Cette adresse n\'est pas associée à un compte.'
+                ],
+                401
+            );
+        }
+    }
 }

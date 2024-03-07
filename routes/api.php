@@ -49,3 +49,4 @@ Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delet
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/reset_password', [AuthController::class, 'reset_password']);
