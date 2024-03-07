@@ -35,7 +35,7 @@ class Security extends Controller
             // Vérification du token
 
             //check token time generation
-            if (now()->diffInMinutes($user->created_at) > 20) {
+            if (now()->diffInMinutes($user->updated_at) > 20) {
                 return view('User.Auth-user.reset_password')
                     ->with("message", "token expirer");
             } else {
