@@ -40,7 +40,8 @@ class MigrationOrder extends Command
             '27_create_personal_access_tokens_table.php',
             '28_create_failed_jobs_table.php',
             '29_create_password_reset_tokens_table.php',
-            '30_create_contacts_table.php'
+            '30_create_contacts_table.php',
+            "2024_03_11_083340_create_proprietes_table.php",
 
         ];
 

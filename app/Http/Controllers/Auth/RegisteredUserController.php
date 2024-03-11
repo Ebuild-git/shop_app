@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->username = "admin";
         $user->role= "admin"; 
         $user->password = bcrypt($request->password);
         $user->save();

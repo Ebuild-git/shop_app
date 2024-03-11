@@ -1,19 +1,9 @@
+@include('components.alert-livewire')
 <form wire:submit = "save">
-    @if (session()->has('error'))
-        <span class="text-danger small">
-            {{ session('error') }}
-        </span>
-    @enderror
-    @if (session()->has('success'))
-        <span class="text-success small">
-            {{ session('success') }}
-        </span>
-    @enderror
-
     <div class="col-12">
-        <label class="form-label w-100" for="modalAddCard">Catégorie</label>
-        <div class="input-group input-group-merge">
-            <select wire:model='categorie' class="form-control" required>
+        <label class="form-label w-100" for="modalAddCard" >Catégorie</label>
+        <div class="input-group input-group-merge" >
+            <select  id="id_cat2" disabled class="form-control" required>
                 <option value=""> </option>
                 @foreach ($categories as $item)
                     <option value="{{ $item->id }}">
@@ -22,6 +12,7 @@
                 @endforeach
             </select>
         </div>
+        <input type="hiddenn" id="id_cat" wire:model='categorie'>
         @error('categorie')
             <div class="text-danger">
                 {{ $message }}

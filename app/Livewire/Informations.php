@@ -16,7 +16,7 @@ class Informations extends Component
 
     public function render()
     {
-        $configuration = configurations::first();
+        $configuration = configurations::firstorCreate();
         $this->facebook = $configuration->facebook;
         $this->email = $configuration->email;
         $this->tiktok = $configuration->tiktok;

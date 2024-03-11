@@ -431,10 +431,9 @@
                                             </a>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="javascript:void(0);" class="menu-link " data-bs-toggle="modal"
-                                                data-bs-target="#Modalfrais">
-                                                <i class="menu-icon tf-icons bi bi-currency-dollar"></i>
-                                                <div data-i18n="Frais de livraison">Frais de livraison</div>
+                                            <a href="{{ route('gestion_proprietes') }}" class="menu-link ">
+                                                <i class="menu-icon tf-icons ti ti-files"></i>
+                                                <div data-i18n="Propriété des annonces">Propriété des annonces</div>
                                             </a>
                                         </li>
                                         <li class="menu-item">
@@ -455,17 +454,7 @@
 
                     @yield('body')
 
-                    <!-- Add New Credit Card Modal -->
-                    <div class="modal fade" id="Modalfrais" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
-                            <div class="modal-content p-3 p-md-5">
-                                <div class="modal-body">
-                                    @livewire('ModalFrais')
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+      
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl">

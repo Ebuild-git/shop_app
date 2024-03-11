@@ -15,10 +15,6 @@ class categories extends Model
     ];
 
 
-    //get list post
-    public function getPost() {
-        return $this->hasMany(posts::class, 'id_categorie','id');
-    }
 
     //get all sous categorie
     public function getSousCategories(){

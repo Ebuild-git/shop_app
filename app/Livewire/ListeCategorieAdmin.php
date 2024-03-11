@@ -3,25 +3,39 @@
 namespace App\Livewire;
 
 use App\Models\categories;
+use App\Models\proprietes;
+use App\Models\sous_categories;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ListeCategorieAdmin extends Component
 {
+    use WithFileUploads;
+    public  $proprietes,$categories;
+    public $proprios = [];
     public $liste;
     protected $listeners = ['categorieCreated' => '$refresh'];
 
+
+
     public function render()
     {
+        $this->proprietes = proprietes::all();
+        $this->categories = categories::all();
         $this->liste = $this->get_all_categorie();
         return view('livewire.liste-categorie-admin');
     }
+
+
 
     public function get_all_categorie(){
         $data = categories::Orderby("id","Desc")->get();
         return $data;
     }
 
+
+    
     public function delete($id){
         $categorie = categories::findOrFail($id);
         if($categorie){
@@ -32,5 +46,10 @@ class ListeCategorieAdmin extends Component
         session()->flash("success", "La catégorie a été supprimée avec succès");
        $this->dispatch('categorieCreated');
     }
+
+
+public function delete_sous_cat($id){
+    sous_categories::find( $id )->delete();
+}
     
 }

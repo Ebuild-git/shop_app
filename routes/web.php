@@ -51,9 +51,14 @@ Route::group(['middleware' => 'auth'], function () {
         return view('Admin.categories.index');
     })->name('gestion_categorie');
 
+    Route::get('/admin/proprietes', function () {
+        return view('Admin.categories.index_proprietes');
+    })->name('gestion_proprietes');
+
     Route::get('/informations', function () {
         return view('User.infromations');
     })->name('mes_informations');
+
     Route::get('/user-notifications', function () {
         return view('User.notifications');
     })->name('user-notifications');

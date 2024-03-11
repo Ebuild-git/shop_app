@@ -1,14 +1,14 @@
 <form wire:submit="submit" id="my-form">
     <div>
-        <h5>Vends ton article</h5>
+        <h3>Publier un article</h3>
     </div>
-    <div class="card">
+    <div class="">
         <div class="row  p-3">
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="text"  class="form-control shadow-none" placeholder="Titre de la publication*"
+                            <input type="text" class="form-control " placeholder="Titre de la publication*"
                                 wire:model="titre" required>
                             @error('titre')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -17,15 +17,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="number" class="form-control shadow-none"
-                                    placeholder="Prix de votre article" required wire:model="prix">
-                                <div class="input-group-append">
-                                    <span class="input-group-text link">
-                                        <b>DH</b>
-                                    </span>
-                                </div>
-                            </div>
+                            <input type="number" class="form-control " placeholder="Prix de votre article" required
+                                wire:model="prix">
                             @error('prix')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -35,8 +28,11 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Etat de votre article</label>
                     <span class="bold text-danger">*</span> :
-                    <input type="radio" wire:model="etat" required value="neuf" id=""> Neuf
-                    <input type="radio" wire:model="etat" required value="occasion" id=""> Occasion
+                    <br>
+                    <div class="form-control">
+                        <input type="radio" class="radio-custom" checked wire:model="etat" required value="neuf"> Neuf
+                        <input type="radio" class="radio-custom" wire:model="etat" required value="occasion"> Occasion
+                    </div>
                     @error('etat')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -44,7 +40,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Description</label>
                     <span class="bold text-danger">*</span>
-                    <textarea wire:model="description" required class="form-control shadow-none" rows="7"></textarea>
+                    <textarea wire:model="description" required class="form-control " rows="7"></textarea>
                     @error('description')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -53,7 +49,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <select class="form-control shadow-none" wire:model="gouvernorat" required>
+                    <select class="form-control " wire:model="gouvernorat" required>
                         <option value="">Veuillez selectionner le gouvernorat</option>
                         @foreach ($list_gouvernorat as $item)
                             <option value="{{ $item }}">{{ $item }}</option>
@@ -66,7 +62,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Catégorie</label>
                     <span class="bold text-danger">*</span>
-                    <select class="form-control shadow-none" wire:model="categorie" id="categorie">
+                    <select class="form-control " wire:model="categorie" id="categorie">
                         <option selected>Veuilez selectionner une catégorie</option>
                         @foreach ($categories as $categorie)
                             <option value="{{ $categorie->id }}">
@@ -81,7 +77,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Sous-catégorie</label>
                     <span class="bold text-danger">*</span>
-                    <select class="form-control shadow-none" wire:model="id_sous_categorie">
+                    <select class="form-control " wire:model="id_sous_categorie">
                         <option selected>Veuilez selectionner une sous-catégorie</option>
                         @foreach ($sous_categories as $sous)
                             <option value="{{ $sous->id }}" class="sous-cat sous-cat-{{ $sous->id_categorie }}">
@@ -110,99 +106,92 @@
                 @endif
 
                 <div>
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger small text-center">
-                            {{ session('error') }}
-                        </div>
-                        <br>
-                    @enderror
-                    @if (session()->has('info'))
-                        <div class="alert alert-info small text-center">
-                            {{ session('info') }}
-                        </div>
-                        <br>
-                    @enderror
-                    @if (session()->has('success'))
-                        <div class="alert alert-success small text-center">
-                            {{ session('success') }}
-                        </div>
-                        <br>
-                    @enderror
-    </div>
+                    @include('components.alert-livewire')
+                </div>
 
-    <div class="small text-danger">
-        -Tous les champs contenant (*) sont obligatoires
-    </div>
+                <div class=" text-danger">
+                    -Tous les champs contenant (*) sont obligatoires
+                </div>
 
-</div>
-<div class="col-sm-12">
-    <!-- Affichage des images prévisualisées -->
-    <div class="p-3">
-        <div class="row">
-            @if ($photos)
-                @foreach ($photos as $index => $image)
-                    <div class="col-sm-2 col-4"  wire:key="{{$loop->index}}">
-                        <div class="car-image-upload">
-                            <button class="btn btn-danger btn-sm position-absolute" type="button" wire:click="RemoveMe({{$loop->index}})">
-                                <i class="bi bi-x-octagon-fill"></i>
-                            </button>
-                            <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}"
-                                class="w-100">
+            </div>
+            <div class="col-sm-12">
+                <!-- Affichage des images prévisualisées -->
+                <div class="p-3">
+                    <div class="row">
+                        @if ($photos)
+                            @foreach ($photos as $index => $image)
+                                <div class="col-sm-2 col-4" wire:key="{{ $loop->index }}">
+                                    <div class="car-image-upload">
+                                        <button class="btn btn-danger btn-sm position-absolute" type="button"
+                                            wire:click="RemoveMe({{ $loop->index }})">
+                                            <i class="lni lni-cross-circle"></i>
+                                        </button>
+                                        <img src="{{ $image->temporaryUrl() }}"
+                                            alt="Preview Image {{ $index }}" class="w-100">
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        <div class="col-sm-2 col-4">
+                            <div class="no-picture" id="select-pic">
+                                <img src="https://cdn-icons-png.flaticon.com/256/6066/6066857.png" class="w-100"
+                                    alt="" srcset="">
+                            </div>
                         </div>
                     </div>
-                @endforeach    
-            @endif
-            <div class="col-sm-2 col-4">
-                <div class="no-picture" id="select-pic">
-                    <img src="https://cdn-icons-png.flaticon.com/256/6066/6066857.png" class="w-100"
-                        alt="" srcset="">
+                    <input type="file" wire:model="photos" required id="btn-photos" class="d-none" multiple>
+                    @error('photos')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
             </div>
+
         </div>
-        <input type="file" wire:model="photos" required id="btn-photos" class="d-none" multiple>
-        @error('photos')
-            <small class="form-text text-danger">{{ $message }}</small>
-        @enderror
+
     </div>
-</div>
+    <br>
+    <div class="text-muted text-center">
+        Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
+        possibilité de modifer !
+    </div>
+    <br>
+    <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary disabled">
+            Effacer
+        </button>
+        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+            @if ($post)
+                <i class="bi bi-pencil-square"></i>
+                Enregistrer les modifications
+            @else
+                <i class="bi bi-pencil-square"></i>
+                Publier mon article
+            @endif
+        </button>
+    </div>
 
-</div>
+    <script>
+        document.getElementById('categorie').onchange = function() {
+            var selectedCategoryId = this.value;
+            var sousCatElements = document.querySelectorAll('.sous-cat');
 
-</div>
-<br>
-<div class="text-muted text-center small">
-Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
-possibilité de modifer !
-</div>
-<br>
-<div class="modal-footer">
-<button type="reset" class="btn btn-secondary disabled">
-Effacer
-</button>
-<button class="btn bg-red" type="submitbutton" id="submit-form">
-<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-@if ($post)
-    <i class="bi bi-pencil-square"></i>
-    Enregistrer les modifications
-@else
-    <i class="bi bi-pencil-square"></i>
-    Publier mon article
-@endif
-</button>
-</div>
+            sousCatElements.forEach(function(element) {
+                element.style.display = 'none';
+            });
 
-<script>
-    document.getElementById('categorie').onchange = function() {
-        var selectedCategoryId = this.value;
-        $(".sous-cat").hide();
-        $(".sous-cat-" + selectedCategoryId).show();
-    };
+            var selectedSousCatElements = document.querySelectorAll('.sous-cat-' + selectedCategoryId);
+            selectedSousCatElements.forEach(function(element) {
+                element.style.display = 'block';
+            });
+        };
 
-    // click btn-photos when i click in select-pic
-    $("#select-pic").click(function() {
-        $('#btn-photos').trigger("click");
-    });
-</script>
+
+        // click btn-photos when i click in select-pic
+        document.getElementById("select-pic").addEventListener("click", function() {
+            document.getElementById("btn-photos").click();
+        });
+    </script>
 
 
 </form>

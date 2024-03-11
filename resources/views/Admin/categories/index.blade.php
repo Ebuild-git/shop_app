@@ -61,7 +61,7 @@
 
      <!-- Add New Credit Card Modal -->
      <div class="modal fade" id="addcategorie" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+        <div class="modal-dialog modal-lg modal-dialog-centered1 modal-simple modal-add-new-cc">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

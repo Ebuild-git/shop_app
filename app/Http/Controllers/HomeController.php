@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index(){
         $categories = categories::all();
-        $configuration= configurations::first();
+        $configuration= configurations::firstorCreate();
         $posts = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> paginate(50);
         return view("User.index", compact( "categories","posts","configuration"));
     }
@@ -63,6 +63,7 @@ class HomeController extends Controller
         $etat = $request->get("etat") ?? '';
         $key = $request->get("key") ?? '';
         $sous_categorie =  $request->get('sous_categorie') ?? '';
-        return view('User.shop', compact("categorie","sous_categorie","etat","key"));
+        $categories = categories::all("titre","id");
+        return view('User.shop', compact("categorie","sous_categorie","etat","key","categories"));
     }
 }

@@ -1,23 +1,5 @@
 <div>
-    @if (session()->has('error'))
-        <div class="alert alert-danger small text-center">
-            {{ session('error') }}
-        </div>
-        <br>
-    @enderror
-    @if (session()->has('info'))
-        <div class="alert alert-info small text-center">
-            {{ session('info') }}
-        </div>
-        <br>
-    @enderror
-    @if (session()->has('success'))
-        <div class="alert alert-success small text-center">
-            {{ session('success') }}
-        </div>
-        <br>
-    @enderror
-
+    @include('components.alert-livewire')
 
     <p class="text-center">
         Veuillez entrer votre adresse mail lier a votre compte pour recevoir votre mot de passe temporaire
@@ -39,7 +21,7 @@
         <br>
         <div class="d-flex justify-content-between">
             <div>
-                <a href="{{ route('connexion') }}" id="openModal2" class="link">Connexion</a>
+                <a href="#" data-toggle="modal" data-target="#login" class="link">Connexion</a>
             </div>
             <div>
                 <button type="submit" class="btn bg-red shadow-none" id="btn-submit">

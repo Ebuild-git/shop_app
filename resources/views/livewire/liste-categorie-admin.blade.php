@@ -6,7 +6,7 @@
                 <td></td>
                 <th>Titre</th>
                 <th>sous-catégories</th>
-                <th>Publications</th>
+                <th>Propriétés</th>
                 <th>Frais</th>
                 <th></th>
             </tr>
@@ -21,7 +21,7 @@
                             style="height: 30px !important">
                     </td>
                     <td>
-                        <span class="fw-medium">
+                        <span class="fw-medium text-capitalize">
                             {{ $item->titre }} <br>
                             <span class="small text-muted">
                                 <i>Créer le {{ $item->created_at }} </i>
@@ -32,11 +32,23 @@
                         {{ $item->getSousCategories->count() }}
                     </td>
                     <td>
-                        {{ $item->getPost->count() }}
+                        @php
+                            $proprietes = json_decode($item->proprietes, true);
+                        @endphp
+                        @foreach ($proprietes as $pro)
+                            @php
+                                $pro = DB::table('proprietes')->find($pro);
+                            @endphp
+                            @if ($pro)
+                               <span class="alert alert-warning p-1 text-capitalize " style="margin: 2px">
+                                {{ $pro->nom }}
+                               </span>
+                            @endif
+                        @endforeach
                     </td>
                     <td>
-                      Livraison : {{ $item->frais_livraison }} DH <br>
-                      Gain : {{ $item->pourcentage_gain }}
+                        Livraison : {{ $item->frais_livraison }} DH <br>
+                        Gain : {{ $item->pourcentage_gain }}
                     </td>
                     <td>
                         <div class="dropdown">
@@ -45,30 +57,41 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#modalToggleajouter-{{ $item->id }}" href="javascript:void(0);"><i
-                                    class="ti ti-pencil me-1"></i>Ajouter une sous-catégorie</a>
+                                    onclick="create_sous_cat({{ $item->id }})" href="javascript:void(0);"><i
+                                        class="ti ti-plus me-1"></i>Ajouter une sous-catégorie</a>
 
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);"><i
                                         class="ti ti-pencil me-1"></i> Modifier</a>
                                 <a class="dropdown-item" href="javascript:void(0)"
+                                wire:confirm="Voullez vous supprimer ?"
                                     wire:click="delete( {{ $item->id }})">
                                     <i class="ti ti-trash me-1"></i> Supprimer </a>
                             </div>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="7">
-                        <table class="">
-                            @foreach ($item->getSousCategories as $sous)
-                            <tr>
-                                <td>{{ $sous->titre }}</td>
-                            </tr>
-                        @endforeach
-                        </table>
-                    </td>
-                </tr>
+                @if ($item->getSousCategories->count() >0)
+                    <tr>
+                        <td colspan="7">
+                            <table class="">
+                                @foreach ($item->getSousCategories as $sous)
+                                    <tr>
+                                        <td class="text-capitalize">
+                                            <button class="btn btn-danger btn-sm" 
+                                            style="padding: 2px !important;"
+                                            wire:confirm="Voullez vous supprimer ?"
+                                            wire:click="delete_sous_cat({{$sous->id}})">
+                                                x
+                                            </button>
+                                            {{ $sous->titre }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </td>
+                    </tr>
+                @endif
                 @include('Admin.categories.modal-update', ['item' => $item])
             @empty
                 <tr>
@@ -79,4 +102,22 @@
             @endforelse
         </tbody>
     </table>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function create_sous_cat(id_cat) {
+            //select option in select where value is id_cat
+            document.getElementById("id_cat").value = id_cat;
+            document.getElementById("id_cat2").value = id_cat;
+            $("#addsouscategorie").modal("show");
+        }
+    </script>
 </div>

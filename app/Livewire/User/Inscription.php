@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule;
+    public $nom, $email, $telephone, $password, $photo, $matricule,$username;
 
     public function render()
     {
@@ -29,7 +29,8 @@ class Inscription extends Component
         'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048',
         'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
         'nom' => ['required', 'string'],
-        'telephone' => ['required', 'numeric']
+        'telephone' => ['required', 'numeric'],
+        'username' => "string|unique:users,username",
     ];
 
 
@@ -52,6 +53,7 @@ class Inscription extends Component
             $user->phone_number = $this->telephone;
             $user->role = "user";
             $user->type = "user";
+            $user->username= $this->username;
             $user->avatar = $newName;
             $user->ip_adress = request()->ip();
             $user->remember_token =  $token;

@@ -1,16 +1,8 @@
 <form wire:submit="creer">
+    
+    
     <h5>Créer une catégorie</h5>
-    @csrf
-    @if (session()->has('error'))
-        <span class="text-danger small">
-            {{ session('error') }}
-        </span>
-    @enderror
-    @if (session()->has('success'))
-        <span class="text-success small">
-            {{ session('success') }}
-        </span>
-    @enderror
+    @include('components.alert-livewire')
     <label for="">Titre de la catégorie</label>
     <input type="text" wire:model ="titre" class="form-control" required>
     @error('titre')
@@ -18,23 +10,31 @@
             {{ $message }}
         </div>
     @enderror
-    <label for="">Marge de gain ( % ) </label>
-     <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1" class="form-control" required>
-    @error('pourcentage_gain')
-        <div class="text-danger">
-            {{ $message }}
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="">Marge de gain ( % ) </label>
+            <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1"
+                class="form-control" required>
+            @error('pourcentage_gain')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
-    @enderror
-    <label for="">Frais de livraison </label>
-     <input type="text" wire:model ="frais_livraison" min="0" step="0.1" class="form-control" required>
-    @error('frais_livraison')
-        <div class="text-danger">
-            {{ $message }}
+        <div class="col-sm-6">
+            <label for="">Frais de livraison </label>
+            <input type="text" wire:model ="frais_livraison" min="0" step="0.1"
+                class="form-control" required>
+            @error('frais_livraison')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
-    @enderror
+    </div>
 
     <label for="">description </label>
-    <textarea class="form-control" wire:model="description" rows="4" required></textarea>
+    <textarea class="form-control" wire:model="description" rows="3" required></textarea>
     @error('description')
         <div class="text-danger">
             {{ $message }}
@@ -48,6 +48,26 @@
             {{ $message }}
         </div>
     @enderror
+    <br>
+    <div class="card p-2">
+        <label for="">Propriétés des annonce de cette catégorie </label>
+        <br>
+        <div class="row">
+            @forelse ($proprietes as $propriete)
+        <div class="col-sm-4">
+            <input type="checkbox" class="form-check-input" wire:model="proprios.{{ $propriete->id }}" value="{{ $propriete->id }}">
+            {{ $propriete->nom }}
+        </div>
+    @empty
+        <p>Aucune propriété trouvée.</p>
+    @endforelse
+        </div>
+        @error('proprios')
+            <div class="text-danger">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
     <br>
     <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
         <x-loading></x-loading>

@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string("description")->nullable()->default(null);
             $table->decimal("frais_livraison", 13, 3)->nullable()->default(null);
             $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
-            $table->unsignedBigInteger("id_categorie")->nullable()->default(null);
             $table->string("icon");
+            $table->json("proprietes")->nullable(true);
             $table->timestamps();
-
-            $table->foreign('id_categorie')->references('id')->on('categories')->onDelete('set null');
             
         });
     }
