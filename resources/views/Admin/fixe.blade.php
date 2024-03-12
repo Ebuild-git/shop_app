@@ -10,7 +10,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/icons/logo-version-orange.png" />
+    <link rel="icon" type="image/x-icon" href="/icons/logo.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,7 +66,7 @@
                 <div class="container-xxl">
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
                         <a href="/dashboard" class="app-brand-link gap-2">
-                            <img src="/icons/logo-version-orange.png" alt="" srcset=""
+                            <img src="/icons/logo.png" alt="" srcset=""
                                 style="height: 25px;">
                         </a>
 
