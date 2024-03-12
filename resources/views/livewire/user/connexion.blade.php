@@ -5,7 +5,7 @@
 
         <div class="form-group">
             <label>Adresse E-mail</label>
-            <input type="email" name="password" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
+            <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
                  placeholder="Enter email">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
