@@ -17,12 +17,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+
 </head>
 
 <body>
@@ -265,7 +260,7 @@
                                 <a href="#">Comment ça marche?</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     <li>
-                                        <a href="#">
+                                        <a href="/faqs">
                                             Comment Vendre ou acheter?
                                         </a>
                                     </li>
@@ -309,20 +304,26 @@
                                 <div class="address mt-3">
                                     {{ $configurations->phone_number ?? ""}}<br>{{ $configurations->email ?? ""}}
                                 </div>
-                                {{-- <div class="address mt-3">
+                                <div class="address mt-3">
                                     <ul class="list-inline">
-                                        <li class="list-inline-item"><a href="#"><i
-                                                    class="lni lni-facebook-filled"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i
-                                                    class="lni lni-twitter-filled"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i
-                                                    class="lni lni-youtube"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i
-                                                    class="lni lni-instagram-filled"></i></a></li>
-                                        <li class="list-inline-item"><a href="#"><i
-                                                    class="lni lni-linkedin-original"></i></a></li>
+                                        @if ($configurations->facebook)
+                                        <li class="list-inline-item"><a href="{{ $configurations->facebook }}"><i
+                                            class="lni lni-facebook-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->tiktok)
+                                        <li class="list-inline-item"><a href="{{ $configurations->tiktok }}"><i
+                                            class="lni lni-tiktok-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->instagram)
+                                        <li class="list-inline-item"><a href="{{ $configurations->instagram }}"><i
+                                            class="lni lni-instagram-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->linkedin)
+                                        <li class="list-inline-item"><a href="{{ $configurations->linkedin}}"><i
+                                            class="lni lni-linkedin-original"></i></a></li>
+                                        @endif
                                     </ul>
-                                </div> --}}
+                                </div> 
                             </div>
                         </div>
 

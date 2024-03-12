@@ -33,6 +33,9 @@ Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
 Route::get('/conditions', function () {
     return view('User.conditions');
 })->name('conditions');
+Route::get('/faqs', function () {
+    return view('User.faq');
+})->name('faqs');
 Route::get('/inscription', function () {
     return view('User.Auth-user.inscription');
 })->name('inscription');

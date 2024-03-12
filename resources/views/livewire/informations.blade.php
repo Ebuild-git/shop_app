@@ -14,19 +14,34 @@
              <div class="col-sm-8">
                  <h5>Contacts direct</h5>
                  <hr>
-                 <div class="form-group">
-                     <label for="">Numéro de téléphone</label>
-                     <input type="tel" wire:model="telephone" class="form-control">
-                     @error('telephone')
-                         <div class="text-danger">
-                             {{ $message }}
+                 <div class="row">
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Numéro de téléphone</label>
+                             <input type="tel" wire:model="telephone" class="form-control">
+                             @error('telephone')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
                          </div>
-                     @enderror
+                     </div>
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Adresse E-mail</label>
+                             <input type="email" wire:model="email" class="form-control">
+                             @error('email')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
+                         </div>
+                     </div>
                  </div>
                  <div class="form-group">
-                     <label for="">Adresse E-mail</label>
-                     <input type="email" wire:model="email" class="form-control">
-                     @error('email')
+                     <label for="">Adresse de localisation</label>
+                     <input type="text" wire:model="adresse" class="form-control">
+                     @error('adresse')
                          <div class="text-danger">
                              {{ $message }}
                          </div>
@@ -34,42 +49,55 @@
                  </div>
                  <h5>Réseau sociaux</h5>
                  <hr>
-                 <div class="form-group">
-                     <label for="">Url facebook</label>
-                     <input type="url" wire:model="facebook" class="form-control">
-                     @error('facebook')
-                         <div class="text-danger">
-                             {{ $message }}
+                 <div class="row">
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Url facebook</label>
+                             <input type="url" wire:model="facebook" class="form-control">
+                             @error('facebook')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
                          </div>
-                     @enderror
-                 </div>
-                 <div class="form-group">
-                     <label for="">Url tiktok</label>
-                     <input type="url" wire:model="tiktok" class="form-control">
-                     @error('tiktok')
-                         <div class="text-danger">
-                             {{ $message }}
+                     </div>
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Url tiktok</label>
+                             <input type="url" wire:model="tiktok" class="form-control">
+                             @error('tiktok')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
                          </div>
-                     @enderror
-                 </div>
-                 <div class="form-group">
-                     <label for="">Url instagram</label>
-                     <input type="url" wire:model="instagram" class="form-control">
-                     @error('instagram')
-                         <div class="text-danger">
-                             {{ $message }}
+                     </div>
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Url instagram</label>
+                             <input type="url" wire:model="instagram" class="form-control">
+                             @error('instagram')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
                          </div>
-                     @enderror
-                 </div>
-                 <div class="form-group">
-                     <label for="">Url linkedin</label>
-                     <input type="url" wire:model="linkedin" class="form-control">
-                     @error('linkedin')
-                         <div class="text-danger">
-                             {{ $message }}
+                     </div>
+                     <div class="col-sm-6">
+                         <div class="form-group">
+                             <label for="">Url linkedin</label>
+                             <input type="url" wire:model="linkedin" class="form-control">
+                             @error('linkedin')
+                                 <div class="text-danger">
+                                     {{ $message }}
+                                 </div>
+                             @enderror
                          </div>
-                     @enderror
+                     </div>
                  </div>
+
+
+
              </div>
              <div class="col-sm-4">
                  <h5>Banniere publicitaire</h5>
@@ -95,21 +123,21 @@
          </div>
 
 
- <div class="modal-footer">
-     @if (session()->has('error'))
-         <span class="text-danger small">
-             {{ session('error') }}
-         </span><br>
-     @enderror
-     @if (session()->has('success'))
-         <span class="text-success small">
-             {{ session('success') }}
-         </span><br>
-     @enderror
-     <button type="submit" class="btn btn-primary">
-         <x-loading></x-loading>
-         Enregistrer les modifications
-     </button>
-</div>
+         <div class="modal-footer">
+             @if (session()->has('error'))
+                 <span class="text-danger small">
+                     {{ session('error') }}
+                 </span><br>
+             @enderror
+             @if (session()->has('success'))
+                 <span class="text-success small">
+                     {{ session('success') }}
+                 </span><br>
+             @enderror
+             <button type="submit" class="btn btn-primary">
+                 <x-loading></x-loading>
+                 Enregistrer les modifications
+             </button>
+ </div>
 </form>
 </div>
