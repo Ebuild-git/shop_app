@@ -4,22 +4,22 @@ body {
 }
 
 .header-1 {
-    background-color: #e85d04;
+    background-color: #018d8d;
     color: white;
 }
 
 .link {
     text-decoration: none !important;
-    color: #e85d04 !important;
+    color: #018d8d !important;
 }
 
 .text-red {
-    color: #e85d04;
+    color: #018d8d;
 }
 
 .btn-outline-red {
-    border: 1px solid #e85d04;
-    color: #e85d04;
+    border: 1px solid #018d8d;
+    color: #018d8d;
     background-color: unset;
 }
 
@@ -31,7 +31,7 @@ body {
 
 
 .bg-red {
-    background-color: #e85d04 !important;
+    background-color: #018d8d !important;
     color: white !important;
 }
 
@@ -143,7 +143,7 @@ body {
 }
 
 .border-color {
-    border: 2px solid #e85d04 !important;
+    border: 2px solid #018d8d !important;
 }
 
 .avatar-small-product {
@@ -236,7 +236,7 @@ body {
 }
 
 .dropdown-menu-right .dropdown-item .bi {
-    color: #e85d04;
+    color: #018d8d;
     size: 875rem;
     margin-right: 10px;
 }
@@ -284,16 +284,16 @@ body {
 
 .fil-import-registrer {
     text-align: center !important;
-    border: solid 2px #e85d04;
+    border: solid 2px #018d8d;
     border-style: dashed;
     padding: 10px;
     color: #000000;
 }
 
 .btn-vend {
-    color: #e85d04;
+    color: #018d8d;
     font-weight: 500;
-    border: solid 1px #e85d04;
+    border: solid 1px #018d8d;
     padding: 5px;
 }
 

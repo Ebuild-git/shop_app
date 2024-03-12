@@ -11,7 +11,15 @@
     <!-- Custom CSS -->
     <link href="assets/css/styles.css" rel="stylesheet">
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
 </head>
 
 <body>
@@ -78,7 +86,40 @@
 
 
                         <div class="currency-selector dropdown js-dropdown float-right mr-3">
-                            <a href="javascript:void(0);" class="text-light medium">My Account</a>
+                            <a href="javascript:void(0);" class="text-light medium text-capitalize"
+                                data-toggle="dropdown" title="Language" aria-label="Language dropdown">
+                                @auth
+                                    {{ Auth::user()->name }}
+                                    <i class="fa fa-angle-down medium text-light"></i>
+                                    <ul class="dropdown-menu popup-content link">
+                                        <li>
+                                            <a href="/user-notifications" class="dropdown-item medium text-medium">
+                                                Notifications
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/mes-publication" class="dropdown-item medium text-medium">
+                                                Mes annonces
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/mes-achats" class="dropdown-item medium text-medium">
+                                                Mes achats
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/informations" class="dropdown-item medium text-medium">
+                                                Sécurité
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout" class="dropdown-item medium text-medium text-danger">
+                                                Déconnexion
+                                            </a>
+                                        </li>
+                                    </ul>
+                                @endauth
+                            </a>
                         </div>
 
                     </div>
@@ -98,12 +139,16 @@
                     <div class="col-8">
                         <input type="text" class="form-control sm" placeholder="recherche un produit">
                     </div>
-                    <div class="col">
-                        <button class="btn btn-sm full-width bg-dark text-light p-2" type="button">
-                            <i class="lni lni-circle-plus"></i>
-                            Publier
-                        </button>
-                    </div>
+                    @auth
+                        <div class="col">
+                            <a href="/publication">
+                                <button class="btn btn-sm full-width bg-dark text-light p-2" type="button">
+                                    <i class="lni lni-circle-plus"></i>
+                                    Publier
+                                </button>
+                            </a>
+                        </div>
+                    @endauth
                 </div>
                 <div class="col-sm-2 mx-auto my-auto">
                     <ul class="nav-menu nav-menu-social align-to-right text-uppercase">
@@ -164,7 +209,7 @@
                                 <i class="lni lni-popup"></i><span class="dn-counter bg-success">3</span>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -216,10 +261,10 @@
                                     <li>
                                         <a href="#">
                                             Comment Vendre ou acheter?
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="/conditions">
                                             Conditions générales
                                         </a>
                                     </li>
@@ -881,6 +926,70 @@
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
+
+
+
+    <!-- Log In Modal -->
+    <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
+        aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content" id="conditions">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
+                    @include('User.composants.text-conditions')
+                </div>
+                <div class="p-2">
+                    <div class="modal-footer">
+                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition">
+                            J'accepte les conditions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+    <script>
+        $(document).ready(function() {
+            // Vérifier si l'utilisateur a déjà accepté les conditions
+            var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+            // Si les conditions n'ont pas été acceptées
+            if (!conditionsAccepted) {
+                // Afficher la modal des conditions
+                $('#conditions').modal('show');
+                $("#agree_condition").click(function() {
+                    localStorage.setItem('conditionsAccepted', true);
+                    $('#conditions').modal('hide');
+                });
+            }
+        });
+
+        document.getElementById('conditiondiv').addEventListener('scroll', function() {
+            var div = this;
+            // Vérifier si l'utilisateur a atteint la fin de la div
+            if (div.scrollHeight - div.scrollTop === div.clientHeight) {
+                // Activer le bouton
+                document.getElementById('agree_condition').disabled = false;
+            } else {
+                // Désactiver le bouton
+                document.getElementById('agree_condition').disabled = true;
+            }
+        });
+        </script>
+    <style>
+        .modal-dialog-scrollable {
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 500px;
+        }
+    </style>
+
+
 
     <!-- ============================================================== -->
     <!-- All Jquery -->

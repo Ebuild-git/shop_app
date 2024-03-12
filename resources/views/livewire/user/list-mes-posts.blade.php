@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h5>
-                    Mes publicaions
+                    Mes publications
                 </h5>
             </div>
             <div>

@@ -7,84 +7,39 @@
     <!-- ============================ Hero Banner  Start================================== -->
     <div class="home-slider margin-bottom-0">
 
-        <!-- Slide -->
-        <div data-background-image="https://via.placeholder.com/1920x900" class="item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="home-slider-container">
 
-                            <!-- Slide Title -->
-                            <div class="home-slider-desc">
-                                <div class="home-slider-title mb-4">
-                                    <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                    <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
-                                    <span class="trending">There's nothing like trend</span>
+        @forelse ($categories as $cat)
+            <!-- Slide -->
+            <div data-background-image="{{ Storage::url($cat->icon) }}" class="item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="home-slider-container">
+
+                                <!-- Slide Title -->
+                                <div class="home-slider-desc text-center p-2"  style="background-color: #018d8d6b;">
+                                    <div class="home-slider-title mb-4">
+                                        {{-- <h5 class="theme-cl fs-sm ft-ragular mb-0">
+                                            {{ $cat->titre }}
+                                        </h5> --}}
+                                        <h1 class="mb-1 ft-bold lg-heading" style="color: white;">
+                                            {{ $cat->titre }}
+                                        </h1>
+                                    </div>
+                                    <a href="/shop" class="btn btn-md  bg-dark text-light fs-md ft-medium style="color: white;">
+                                        {{ $cat->titre }}
+                                        <i class="lni lni-arrow-right ml-2"></i>
+                                    </a>
                                 </div>
+                                <!-- Slide Title / End -->
 
-                                <a href="#" class="btn stretched-link borders">Shop Now<i
-                                        class="lni lni-arrow-right ml-2"></i></a>
                             </div>
-                            <!-- Slide Title / End -->
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Slide -->
-        <div data-background-image="https://via.placeholder.com/1920x900" class="item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="home-slider-container">
-
-                            <!-- Slide Title -->
-                            <div class="home-slider-desc">
-                                <div class="home-slider-title mb-4">
-                                    <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                    <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
-                                    <span class="trending">There's nothing like trend</span>
-                                </div>
-
-                                <a href="#" class="btn stretched-link borders">Shop Now<i
-                                        class="lni lni-arrow-right ml-2"></i></a>
-                            </div>
-                            <!-- Slide Title / End -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide -->
-        <div data-background-image="https://via.placeholder.com/1920x900" class="item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="home-slider-container">
-
-                            <!-- Slide Title -->
-                            <div class="home-slider-desc">
-                                <div class="home-slider-title mb-4">
-                                    <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                    <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
-                                    <span class="trending">There's nothing like trend</span>
-                                </div>
-
-                                <a href="#" class="btn stretched-link borders">Shop Now<i
-                                        class="lni lni-arrow-right ml-2"></i></a>
-                            </div>
-                            <!-- Slide Title / End -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        @empty
+        @endforelse
     </div>
     <!-- ============================ Hero Banner End ================================== -->
 
@@ -165,10 +120,8 @@
                         <div class="card-body p-0">
                             <div class="shop_thumb position-relative">
                                 <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img
-                                        class="card-img-top" src="https://via.placeholder.com/625x800"
-                                        alt="..."></a>
-                                <div
-                                    class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                        class="card-img-top" src="https://via.placeholder.com/625x800" alt="..."></a>
+                                <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                     <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview"
                                             class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick
                                             View</a></div>

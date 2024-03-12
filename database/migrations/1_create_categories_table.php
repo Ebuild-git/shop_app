@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string("titre");
-            $table->string("description")->nullable()->default(null);
+            $table->text("description")->nullable()->default(null);
             $table->decimal("frais_livraison", 13, 3)->nullable()->default(null);
             $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
             $table->string("icon");
