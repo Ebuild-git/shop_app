@@ -929,7 +929,7 @@
 
 
 
-    <!-- Log In Modal -->
+    <!-- Condition Modal -->
     <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
         aria-hidden="true">
         <div class="modal-dialog " role="document">
@@ -945,7 +945,7 @@
                 </div>
                 <div class="p-2">
                     <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition">
+                        <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
                             J'accepte les conditions
                         </button>
                     </div>
@@ -980,7 +980,7 @@
                 document.getElementById('agree_condition').disabled = true;
             }
         });
-        </script>
+    </script>
     <style>
         .modal-dialog-scrollable {
             overflow-y: auto;
@@ -988,6 +988,7 @@
             height: 500px;
         }
     </style>
+    <!-- end Condition Modal -->
 
 
 
