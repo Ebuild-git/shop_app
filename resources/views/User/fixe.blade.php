@@ -1,5 +1,5 @@
 @php
-    $configurations =DB::table("configurations")->first();
+    $configurations = DB::table('configurations')->first();
 @endphp
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,8 +40,8 @@
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
                         <div class="top_first">
-                            <a href="callto:{{ $configurations->phone_number ?? ""}}" class="medium text-light">
-                                {{ $configurations->phone_number ?? ""}}
+                            <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
+                                {{ $configurations->phone_number ?? '' }}
                             </a>
                         </div>
                     </div>
@@ -145,7 +145,9 @@
                             <a href="/publication">
                                 <button class="btn btn-sm full-width bg-dark text-light p-2" type="button">
                                     <i class="lni lni-circle-plus"></i>
-                                    Publier
+                                    <span class="hide-mobile-version">
+                                        Publier
+                                    </span>
                                 </button>
                             </a>
                         </div>
@@ -156,7 +158,7 @@
                         <li>
                             @auth
                                 <a href="#">
-                                    <img src="{{ Storage::url(Auth::user()->avatar) }}" class="avatar-user-head">
+                                    @livewire('User.MenuInformations')
                                 </a>
                             @else
                                 <a href="#" data-toggle="modal" data-target="#login">
@@ -206,8 +208,9 @@
                             <a href="#" onclick="openCart()">
                                 <i class="lni lni-shopping-basket"></i><span class="dn-counter bg-success">3</span>
                             </a>
-                            <a href="#" onclick="openCart()">
-                                <i class="lni lni-popup"></i><span class="dn-counter bg-success">3</span>
+                            <a href="/user-notifications" >
+                                <img width="17" height="17" src="https://img.icons8.com/ios/50/1A1A1A/appointment-reminders--v1.png" alt="appointment-reminders--v1"/>
+                                <span class="dn-counter bg-success">3</span>
                             </a>
                         </li>
 
@@ -290,6 +293,79 @@
         @yield('script')
         <!-- ============================ Footer Start ================================== -->
         <footer class="light-footer">
+            <br>
+            <div class="p-2 text-center">
+                <h3>
+                    Pourquoi choisir SHOP<span class="color">IN</span> ?
+                </h3>
+            </div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card-footer-option p-3 no-border">
+                            <div class="d-flex bd-highlight ">
+                                <div class="flex-fill pr-2">
+                                    <img width="40" height="40"
+                                        src="https://img.icons8.com/ios-filled/50/1A1A1A/security-shield-green.png"
+                                        alt="security-shield-green" />
+                                </div>
+                                <div class="flex-fill">
+                                    <h4 class="color">Protection et Sécurité</h4>
+                                    <p>
+                                        En cas de non-conformité de
+                                        l'article, soyez assuré que nous
+                                        garantissons le remboursement
+                                        total, avec une prise en charge
+                                        complète des frais de retour !
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card-footer-option p-3 no-border">
+                            <div class="d-flex bd-highlight ">
+                                <div class="flex-fill pr-2">
+                                    <img width="40" height="40"
+                                        src="https://img.icons8.com/ios/50/1A1A1A/lol--v1.png" alt="lol--v1" />
+                                </div>
+                                <div class="flex-fill">
+                                    <h4 class="color">Expérience agréable!</h4>
+                                    <p>
+                                        Acheter ou vendre, votre
+                                        expérience sur SHOPIN sera
+                                        toujours marquée par un
+                                        service exceptionnel, une
+                                        simplicité inégalée et une
+                                        satisfaction garantie.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card-footer-option p-3 no-border">
+                            <div class="d-flex bd-highlight ">
+                                <div class="flex-fill pr-2">
+                                    <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/1A1A1A/delivery--v1.png" alt="delivery--v1"/>
+                                </div>
+                                <div class="flex-fill">
+                                    <h4 class="color">Livraison porte à porteProtection et Sécurité</h4>
+                                    <p>
+                                        Un livreur se rendra
+                                        directement à votre porte
+                                        pour récupérer ou livrer vos
+                                        articles. Fini le casse-tête de
+                                        la vente à distance!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
             <div class="footer-middle">
                 <div class="container">
                     <div class="row">
@@ -299,31 +375,32 @@
                                 <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
 
                                 <div class="address mt-3">
-                                    {{ $configurations->adresse ?? ""}}
+                                    {{ $configurations->adresse ?? '' }}
                                 </div>
                                 <div class="address mt-3">
-                                    {{ $configurations->phone_number ?? ""}}<br>{{ $configurations->email ?? ""}}
+                                    {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
                                 </div>
                                 <div class="address mt-3">
                                     <ul class="list-inline">
                                         @if ($configurations->facebook)
-                                        <li class="list-inline-item"><a href="{{ $configurations->facebook }}"><i
-                                            class="lni lni-facebook-filled"></i></a></li>
+                                            <li class="list-inline-item"><a href="{{ $configurations->facebook }}"><i
+                                                        class="lni lni-facebook-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->tiktok)
-                                        <li class="list-inline-item"><a href="{{ $configurations->tiktok }}"><i
-                                            class="lni lni-tiktok-filled"></i></a></li>
+                                            <li class="list-inline-item"><a href="{{ $configurations->tiktok }}"><i
+                                                        class="lni lni-tiktok-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->instagram)
-                                        <li class="list-inline-item"><a href="{{ $configurations->instagram }}"><i
-                                            class="lni lni-instagram-filled"></i></a></li>
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->instagram }}"><i
+                                                        class="lni lni-instagram-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->linkedin)
-                                        <li class="list-inline-item"><a href="{{ $configurations->linkedin}}"><i
-                                            class="lni lni-linkedin-original"></i></a></li>
+                                            <li class="list-inline-item"><a href="{{ $configurations->linkedin }}"><i
+                                                        class="lni lni-linkedin-original"></i></a></li>
                                         @endif
                                     </ul>
-                                </div> 
+                                </div>
                             </div>
                         </div>
 
@@ -395,7 +472,8 @@
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-12 col-md-12 text-center">
-                            <p class="mb-0">© {{ date("Y") }}. Designd By <a href="https://e-build.tn" style="color: #c71f17;">E-build</a>.</p>
+                            <p class="mb-0">© {{ date('Y') }}. Designd By <a href="https://e-build.tn"
+                                    style="color: #c71f17;">E-build</a>.</p>
                         </div>
                     </div>
                 </div>

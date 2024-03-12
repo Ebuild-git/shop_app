@@ -1,17 +1,5 @@
 <div class="row">
-    <div class="col-sm-3">
-        <div class="card p2 card-notification-1">
-            <div class="text-center">
-                <h5>
-                    <i class="bi bi-bell"></i>
-                    Notifications
-                </h5>
-                <br>
-                ({{ $notifications->count() }})
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-8 ">
+    <div class="col-sm-12">
         <div class="card p-2">
             <table>
                 @forelse ($notifications as $item)

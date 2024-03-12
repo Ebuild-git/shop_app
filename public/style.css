@@ -98,6 +98,7 @@ body {
 .avatar-user-head {
     height: 25px;
     width: 25px;
+    border: solid 2px #018d8d;
 }
 
 .div-head-user {
@@ -339,4 +340,23 @@ body {
 }
 .color{
     color: #148989;
+}
+.card-footer-option{
+    background-color: white;
+    border-left: solid 3px #3b3838;
+}
+
+.header-btn-position{
+    bottom: -300px;
+     width: 100%;
+}
+/* hide mobile version */
+@media (max-width: 768px) {
+    .hide-mobile-version{
+        display: none;
+    }
+    .header-btn-position{
+        bottom: -100px;
+         width: 100%;
+    }
 }

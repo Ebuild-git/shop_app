@@ -10,23 +10,23 @@
 
         @forelse ($categories as $cat)
             <!-- Slide -->
-            <div data-background-image="{{ Storage::url($cat->icon) }}" class="item">
+            <div data-background-image="{{ Storage::url($cat->icon) }}" class="item ">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="home-slider-container">
+                            <div class="home-slider-container ">
 
                                 <!-- Slide Title -->
-                                <div class="home-slider-desc text-center p-2"  style="background-color: #018d8d6b;">
+                                <div class="home-slider-desc text-center p-2 position-absolute header-btn-position" >
                                     <div class="home-slider-title mb-4">
                                         {{-- <h5 class="theme-cl fs-sm ft-ragular mb-0">
                                             {{ $cat->titre }}
                                         </h5> --}}
-                                        <h1 class="mb-1 ft-bold lg-heading" style="color: white;">
+                                       {{--  <h1 class="mb-1 ft-bold lg-heading" style="color: white;">
                                             {{ $cat->titre }}
-                                        </h1>
+                                        </h1> --}}
                                     </div>
-                                    <a href="/shop" class="btn btn-md  bg-dark text-light fs-md ft-medium style="color: white;">
+                                    <a href="/shop" class="btn btn-md  bg-dark text-light fs-md ft-medium " >
                                         {{ $cat->titre }}
                                         <i class="lni lni-arrow-right ml-2"></i>
                                     </a>
@@ -41,6 +41,15 @@
         @empty
         @endforelse
     </div>
+
+    <script>
+        //auto click every 5 seconde on slick-next button class
+        $(document).ready(function() {
+            setInterval(function() {
+                $('.slick-next').click();
+            }, 3000);
+        });
+    </script>
     <!-- ============================ Hero Banner End ================================== -->
 
     <!-- ======================= Product List ======================== -->
@@ -687,92 +696,7 @@
     </section>
     <!-- ======================= Blog Start ============================ -->
 
-    <!-- ======================= Instagram Start ============================ -->
-    <section class="p-0">
-        <div class="container-fluid p-0">
 
-            <div class="row no-gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Instagram Gallery</h2>
-                        <span class="fs-lg ft-bold theme-cl pt-3">@mahak_71</span>
-                        <h3 class="ft-bold lh-1">From Instagram</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row no-gutters">
-
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="_insta_wrap">
-                        <div class="_insta_thumb">
-                            <a href="javascript:void(0);" class="d-block"><img src="https://via.placeholder.com/500x480"
-                                    class="img-fluid" alt="" /></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-    <!-- ======================= Instagram Start ============================ -->
 
 
 
