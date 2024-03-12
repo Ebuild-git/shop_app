@@ -12,7 +12,7 @@
     <title>@yield('titre') | Shopin</title>
     <link rel="stylesheet" href="./style.css">
     <!-- Custom CSS -->
-    <link href="assets/css/styles.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -206,12 +206,16 @@
                         </li>
                         <li>
                             <a href="#" onclick="openCart()">
-                                <i class="lni lni-shopping-basket"></i><span class="dn-counter bg-success">3</span>
+                                <i class="lni lni-shopping-basket"></i><span class="dn-counter bg-success-ps">3</span>
                             </a>
-                            <a href="/user-notifications" >
-                                <img width="17" height="17" src="https://img.icons8.com/ios/50/1A1A1A/appointment-reminders--v1.png" alt="appointment-reminders--v1"/>
-                                <span class="dn-counter bg-success">3</span>
-                            </a>
+                            @auth
+                                <a href="/user-notifications">
+                                    <img width="17" height="17"
+                                        src="https://img.icons8.com/ios/50/1A1A1A/appointment-reminders--v1.png"
+                                        alt="appointment-reminders--v1" />
+                                    <span class="dn-counter bg-success-ps">3</span>
+                                </a>
+                            @endauth
                         </li>
 
                     </ul>
@@ -348,7 +352,9 @@
                         <div class="card-footer-option p-3 no-border">
                             <div class="d-flex bd-highlight ">
                                 <div class="flex-fill pr-2">
-                                    <img width="40" height="40" src="https://img.icons8.com/ios-filled/50/1A1A1A/delivery--v1.png" alt="delivery--v1"/>
+                                    <img width="40" height="40"
+                                        src="https://img.icons8.com/ios-filled/50/1A1A1A/delivery--v1.png"
+                                        alt="delivery--v1" />
                                 </div>
                                 <div class="flex-fill">
                                     <h4 class="color">Livraison porte à porteProtection et Sécurité</h4>
@@ -391,8 +397,7 @@
                                                         class="lni lni-tiktok-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->instagram)
-                                            <li class="list-inline-item"><a
-                                                    href="{{ $configurations->instagram }}"><i
+                                            <li class="list-inline-item"><a href="{{ $configurations->instagram }}"><i
                                                         class="lni lni-instagram-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->linkedin)
@@ -446,16 +451,6 @@
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="footer_widget">
                                 <h4 class="widget_title">Subscribe</h4>
-                                <p>Receive updates, hot deals, discounts sent straignt in your inbox daily</p>
-                                <div class="foot-news-last">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Email Address">
-                                        <div class="input-group-append">
-                                            <button type="button" class="input-group-text bg-dark b-0 text-light"><i
-                                                    class="lni lni-arrow-right"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="address mt-3">
                                     <h5 class="fs-sm">Secure Payments</h5>
                                     <div class="scr_payment"><img src="assets/img/card.png" class="img-fluid"

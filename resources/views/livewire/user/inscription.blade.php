@@ -15,8 +15,8 @@
     <div class="div-1">
         <div class="form-group">
             <span for="small text-muted">Nom et prénom</span>
-            <input type="text" placeholder="Nom et prénom" class="form-control @error('nom') is-invalid @enderror shadow-none"
-                 wire:model="nom" required>
+            <input type="text" placeholder="Nom et prénom"
+                class="form-control @error('nom') is-invalid @enderror shadow-none" wire:model="nom" required>
             @error('nom')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
@@ -25,9 +25,9 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <span for="small">Username</span>
-                    <input type="tel" class="form-control @error('username') is-invalid @enderror shadow-none"id="username"
-                        placeholder="username23"  
-                        wire:model="username" required>
+                    <input type="tel"
+                        class="form-control @error('username') is-invalid @enderror shadow-none"id="username"
+                        placeholder="username23" wire:model="username" required>
                     @error('username')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -36,9 +36,9 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <span for="small">Numéro de téléphone</span>
-                    <input type="tel" class="form-control @error('telephone') is-invalid @enderror shadow-none" id="telephone"
-                        placeholder="Numéro de téléphone*" value="+212" 
-                        wire:model="telephone" required>
+                    <input type="tel" class="form-control @error('telephone') is-invalid @enderror shadow-none"
+                        id="telephone" placeholder="Numéro de téléphone*" value="+212" wire:model="telephone"
+                        required>
                     @error('telephone')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -48,8 +48,8 @@
 
         <div class="form-group">
             <span for="small">Adresse email</span>
-            <input type="email" class="form-control @error('email') is-invalid @enderror shadow-none" id="email" placeholder="Adresse email*"
-                 wire:model="email" required>
+            <input type="email" class="form-control @error('email') is-invalid @enderror shadow-none" id="email"
+                placeholder="Adresse email*" wire:model="email" required>
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
@@ -57,8 +57,8 @@
         <div class="form-group">
             <span for="small">Mot de passe</span>
             <div class="input-group mb-3">
-                <input type="password" placeholder="Mot de passe" class="form-control  shadow-none"
-                    id="password" wire:model="password" required>
+                <input type="password" placeholder="Mot de passe" class="form-control  shadow-none" id="password"
+                    wire:model="password" required>
                 <div class="input-group-prepend text-red">
                     <span class="input-group-text" id="showPassword">
                         <i class="bi bi-eye"></i>
@@ -88,30 +88,44 @@
             @enderror
 
         </div>
-       <div class="p-1">
-        <input type="checkbox" id="shop"> je suis une boutique
-       </div>
-       <div class="div-2 d-none">
+        <div class="p-1">
+            <input type="checkbox" id="shop"> je suis une boutique
+        </div>
+
+        @error('matricule')
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
+        @if ($matricule)
+            <div class="div-2">
+            @else
+                <div class="div-2 d-none">
+        @endif
+
         <div class="form-group">
             <label for="">Matricule fiscal </label>
-            <input type="file" class="form-control shadow-none" @error('matricule') is-invalid @enderror
-                wire:model="matricule">
-            @error('matricule')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-            <span class="text-danger small">
-                *
-                Veuillez télécharger votre matricule fiscale si et seulement si vous etes une boutique.
-            </span>
+            <div class="fil-import-registrer">
+                <input type="file" class="d-none" id="matricule" wire:model="matricule" required>
+                <span id="select-matricule">
+                    @if ($matricule)
+                        <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png"
+                            alt="ok--v1" class="avatar-inscription" />
+                    @else
+                        <img width="50" height="50" src="https://img.icons8.com/ios/50/1A1A1A/document--v1.png"
+                            alt="document--v1" class="avatar-inscription" />
+                    @endif
+                    <br>
+                    <i>Veuillez selectionner votre matricule </i>
+                </span>
+            </div>
         </div>
     </div>
-       <br>
+    <br>
 
     </div>
 
 
 
-    
+
 
 
     <div class="d-flex justify-content-end">
@@ -139,17 +153,24 @@
 
     // when user click in select-image simulate click in photo
     document.querySelector("#select-image").addEventListener('click', (event) => {
-    event.preventDefault();
-    document.querySelector('#photo').click();
+        event.preventDefault();
+        document.querySelector('#photo').click();
+    });
+
+
+    // when user click in select-image simulate click in photo
+    document.querySelector("#select-matricule").addEventListener('click', (event) => {
+        event.preventDefault();
+        document.querySelector('#matricule').click();
     });
 
     //show romove d-none class on div-2 if shop is checked
     let checkboxShop = document.getElementById('shop');
-    checkboxShop.addEventListener('change', ()=>{
-       if(checkboxShop.checked){
-           document.querySelector('.div-2').classList.remove('d-none')   ;
-       }else{
-        document.querySelector('.div-2').classList.add('d-none')   ;
-       }
+    checkboxShop.addEventListener('change', () => {
+        if (checkboxShop.checked) {
+            document.querySelector('.div-2').classList.remove('d-none');
+        } else {
+            document.querySelector('.div-2').classList.add('d-none');
+        }
     });
 </script>

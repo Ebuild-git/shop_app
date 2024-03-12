@@ -350,6 +350,27 @@ body {
     bottom: -300px;
      width: 100%;
 }
+
+.bg-success-ps{
+    background-color: #018d8d !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* hide mobile version */
 @media (max-width: 768px) {
     .hide-mobile-version{

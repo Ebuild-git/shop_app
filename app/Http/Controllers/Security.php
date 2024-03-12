@@ -20,7 +20,7 @@ class Security extends Controller
             } else {
                 $user->email_verified_at = Now();
                 $user->save();
-                return view('User.verifiy')->with("success", "ok");
+                return redirect('/connexion')->with("success", "Votre compte a été verifié , vous pouvez desormais vous connecter !");
             }
         } catch (ModelNotFoundException $e) {
             return view('User.verifiy')->with("error", "Utilisateur introuvable");

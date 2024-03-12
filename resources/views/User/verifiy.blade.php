@@ -1,26 +1,18 @@
 @extends('User.fixe')
 @section('titre', 'Vérification du compte')
-@section('content')
 @section('body')
+
+
+
+
     <div class="container pt-5 pb-5">
         <div class="col-sm-6 mx-auto">
-            <div class="bg-red p-3 rounded">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <a href="/">
-                            <button class="back-btn shadow-none">
-                                <i class="bi bi-arrow-left-circle"></i>
-                            </button>
-                        </a>
-                    </div>
-                    <div>
-                        <h4 class="text-center">
-                            Vérification du compte
-                        </h4>
-                    </div>
-                    <div></div>
-                </div>
+            <div>
+                <h4 class="text-center">
+                    Vérification du compte
+                </h4>
             </div>
+
             <br>
             <div>
                 @isset($error)
