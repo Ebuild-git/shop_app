@@ -1,5 +1,8 @@
+@php
+    $configurations =DB::table("configurations")->first();
+@endphp
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8" />
@@ -41,8 +44,11 @@
                 <div class="row">
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-                        <div class="top_first"><a href="callto:(+84)0123456789" class="medium text-light">(+84) 0123 456
-                                789</a></div>
+                        <div class="top_first">
+                            <a href="callto:{{ $configurations->phone_number ?? ""}}" class="medium text-light">
+                                {{ $configurations->phone_number ?? ""}}
+                            </a>
+                        </div>
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
@@ -298,12 +304,12 @@
                                 <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
 
                                 <div class="address mt-3">
-                                    3298 Grant Street Longview, TX<br>United Kingdom 75601
+                                    {{ $configurations->adresse ?? ""}}
                                 </div>
                                 <div class="address mt-3">
-                                    1-202-555-0106<br>help@shopper.com
+                                    {{ $configurations->phone_number ?? ""}}<br>{{ $configurations->email ?? ""}}
                                 </div>
-                                <div class="address mt-3">
+                                {{-- <div class="address mt-3">
                                     <ul class="list-inline">
                                         <li class="list-inline-item"><a href="#"><i
                                                     class="lni lni-facebook-filled"></i></a></li>
@@ -316,7 +322,7 @@
                                         <li class="list-inline-item"><a href="#"><i
                                                     class="lni lni-linkedin-original"></i></a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -388,7 +394,7 @@
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-12 col-md-12 text-center">
-                            <p class="mb-0">© 2021 Kumo. Designd By <a href="#">E-build</a>.</p>
+                            <p class="mb-0">© {{ date("Y") }}. Designd By <a href="https://e-build.tn" style="color: #c71f17;">E-build</a>.</p>
                         </div>
                     </div>
                 </div>
