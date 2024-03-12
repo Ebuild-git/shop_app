@@ -4,16 +4,16 @@
         @include('components.alert-livewire')
 
         <div class="form-group">
-            <label for="exampleInputEmail1">Adresse E-mail</label>
-            <input type="email" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
-                required placeholder="Enter email">
+            <label>Adresse E-mail</label>
+            <input type="email" name="password" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
+                 placeholder="Enter email">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Mot de passe</label>
-            <input type="password" class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none" required
+            <label>Mot de passe</label>
+            <input type="password" name="password" class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none" 
                 wire:model="password" placeholder="*****">
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>
