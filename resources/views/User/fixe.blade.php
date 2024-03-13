@@ -229,7 +229,7 @@
                                     </a>
                                 @endauth
                                 <a href="#" onclick="openCart()">
-                                    <i class="lni lni-shopping-basket"></i><span
+                                    <i class="bi lni bi-bag"></i><span
                                         class="dn-counter bg-success-ps">3</span>
                                     <span class="hide-desktop">Panier</span>
                                 </a>
