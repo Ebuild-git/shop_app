@@ -219,42 +219,31 @@
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">Shipment statistics</h5>
-                            <small class="text-muted">Total number of deliveries 23.8k</small>
+                            <h5 class="m-0 me-2">Statistiques du trafic</h5>
+                            <small class="text-muted">
+                                
+                            </small>
                         </div>
                         <div class="dropdown">
                             <button type="button" class="btn btn-label-primary dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                January
+                                {{ $date }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void(0);">January</a>
+                                @for ($i =  date("Y") ; $i <  date("Y")+10 ; $i++)
+                                <li>
+                                    <a class="dropdown-item" href="/dashboard?das_date={{ $i }}">
+                                        {{ $i }}
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">February</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">March</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">April</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">June</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">July</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">August</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">October</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">November</a>
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">December</a>
-                                </li>
+                                @endfor
+                               
                             </ul>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="shipmentStatisticsChart"></div>
+                        <div id="shipmentStatisticsChart" data-inscription='@json($stats_inscription_publication['inscription'])' data-publication='@json($stats_inscription_publication['publication'])'>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -655,7 +644,10 @@
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">On route vehicles</h5>
+                            <h5 class="m-0 me-2">
+                                <i class="fa-solid fa-car-side"></i>
+                                Commandes en cour...
+                            </h5>
                         </div>
                         <div class="dropdown">
                             <button class="btn p-0" type="button" id="routeVehicles" data-bs-toggle="dropdown"
@@ -670,18 +662,40 @@
                         </div>
                     </div>
                     <div class="card-datatable table-responsive">
-                        <table class="dt-route-vehicles table">
+                        <table class=" table">
                             <thead class="border-top">
                                 <tr>
                                     <th></th>
-                                    <th></th>
-                                    <th>location</th>
-                                    <th>starting route</th>
-                                    <th>ending route</th>
-                                    <th>warnings</th>
+                                    <th>Article</th>
+                                    <th>localisation</th>
+                                    <th>Date de vente</th>
+                                    <th>Gouvernorat</th>
+                                    <th>Statut</th>
                                     <th class="w-20">progress</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @forelse ($commandes_en_cour as $item)
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="alert alert-warning text-center">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                            Aucune commande en cours
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
                         </table>
                     </div>
                 </div>

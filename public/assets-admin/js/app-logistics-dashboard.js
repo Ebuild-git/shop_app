@@ -32,18 +32,22 @@
 
   // Shipment statistics Chart
   // --------------------------------------------------------------------
-  const shipmentEl = document.querySelector('#shipmentStatisticsChart'),
-    shipmentConfig = {
+
+ 
+  const shipmentEl = document.querySelector('#shipmentStatisticsChart');
+  const inscription = JSON.parse(shipmentEl.getAttribute('data-inscription'));
+  const publication = JSON.parse(shipmentEl.getAttribute('data-publication'));
+   const shipmentConfig = {
       series: [
         {
-          name: 'Shipment',
+          name: 'Publications',
           type: 'column',
-          data: [38, 45, 33, 38, 32, 50, 48, 40, 42, 37]
+          data: publication
         },
         {
-          name: 'Delivery',
+          name: 'Inscriptions',
           type: 'line',
-          data: [23, 28, 23, 32, 28, 44, 32, 38, 26, 34]
+          data: inscription
         }
       ],
       chart: {
@@ -115,7 +119,7 @@
       },
       xaxis: {
         tickAmount: 10,
-        categories: ['1 Jan', '2 Jan', '3 Jan', '4 Jan', '5 Jan', '6 Jan', '7 Jan', '8 Jan', '9 Jan', '10 Jan'],
+        categories: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct','Nov', 'Dec'],
         labels: {
           style: {
             colors: labelColor,
