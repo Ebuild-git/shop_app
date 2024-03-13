@@ -35,10 +35,12 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
+                    <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
+                        style="bottom:30px;left: 30px;border-radius: 100%;">
                     <span for="small">Numéro de téléphone</span>
-                    <input type="tel" class="form-control @error('telephone') is-invalid @enderror shadow-none"
-                        id="telephone" placeholder="Numéro de téléphone*" value="+212" wire:model="telephone"
-                        required>
+                    <input type="tel" style="padding-left: 50px;"
+                        class="form-control @error('telephone') is-invalid @enderror shadow-none" id="telephone"
+                        placeholder="Numéro de téléphone*" value="+212" wire:model="telephone" required>
                     @error('telephone')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -124,7 +126,14 @@
     </div>
 
 
-
+    <div class="p-1">
+        <input type="checkbox" id="accept"> j'ai lu
+        <b>
+            <i class="bi bi-link-45deg"></i>
+            <a href="/conditions" target="__blank">Les Conditions générales</a>
+        </b>
+        et j'accepte !
+    </div>
 
 
 
@@ -132,7 +141,7 @@
 
 
         <div>
-            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
+            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
                 Terminer l'inscription
                 <i class="bi bi-arrow-right-circle-fill"></i>
@@ -172,5 +181,11 @@
         } else {
             document.querySelector('.div-2').classList.add('d-none');
         }
+    });
+
+    //enaeble submit button if accept is checked
+    let checkboxAccept = document.getElementById('accept');
+    checkboxAccept.addEventListener('change', () => {
+        document.getElementById('submit').disabled = !checkboxAccept.checked;
     });
 </script>

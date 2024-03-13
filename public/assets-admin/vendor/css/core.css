@@ -7,8 +7,8 @@
 :root,
 [data-bs-theme=light] {
   --bs-blue: #007bff;
-  --bs-indigo: #6610f2;
-  --bs-purple: #7367f0;
+  --bs-indigo: #008080;
+  --bs-purple: #008080;
   --bs-pink: #e83e8c;
   --bs-red: #ea5455;
   --bs-orange: #fd7e14;
@@ -22,7 +22,7 @@
   --bs-gray-dark: rgba(75, 70, 92, 0.8);
   --bs-gray-25: rgba(75, 70, 92, 0.015);
   --bs-gray-50: rgba(75, 70, 92, 0.03);
-  --bs-primary: #7367f0;
+  --bs-primary: #008080;
   --bs-secondary: #a8aaae;
   --bs-success: #28c76f;
   --bs-info: #00cfe8;

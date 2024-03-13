@@ -30,7 +30,8 @@
                     <span class="bold text-danger">*</span> :
                     <br>
                     <div class="form-control">
-                        <input type="radio" class="radio-custom" checked wire:model="etat" required value="neuf"> Neuf
+                        <input type="radio" class="radio-custom" checked wire:model="etat" required value="neuf">
+                        Neuf
                         <input type="radio" class="radio-custom" wire:model="etat" required value="occasion"> Occasion
                     </div>
                     @error('etat')
@@ -62,9 +63,9 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Catégorie</label>
                     <span class="bold text-danger">*</span>
-                    <select class="form-control " wire:model="categorie" id="categorie">
+                    <select class="form-control " wire:model.live="selectedCategory">
                         <option selected>Veuilez selectionner une catégorie</option>
-                        @foreach ($categories as $categorie)
+                        @foreach ($categories as $category => $categorie)
                             <option value="{{ $categorie->id }}">
                                 {{ $categorie->titre }}
                             </option>
@@ -74,6 +75,7 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                @if ($selectedCategory)
                 <div class="form-group">
                     <label for="exampleInputEmail1">Sous-catégorie</label>
                     <span class="bold text-danger">*</span>
@@ -88,7 +90,8 @@
                     @error('id_sous_categorie')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
-                </div>
+                </div> 
+                @endif
                 @if ($old_photos)
                     <div class="row">
                         @foreach ($old_photos as $item)

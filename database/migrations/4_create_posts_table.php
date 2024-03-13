@@ -24,6 +24,8 @@ return new class extends Migration
             $table->decimal("prix", 13, 3);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
+            $table->timestamp("delivered_at")->nullable()->default(null);
+            $table->enum("statut",["validation","vente","vendu","livraison","livré"])->default("validation");
             $table->timestamps();
 
 

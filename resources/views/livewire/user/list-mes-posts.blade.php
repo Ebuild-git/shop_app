@@ -1,4 +1,4 @@
-<div class="border border-1 p-3 card rounded">
+<div class=" p-3">
     <div>
         <div class="d-flex justify-content-between">
             <div>
@@ -8,15 +8,15 @@
             </div>
             <div>
                 <form wire:submit="filtrer">
-                    <div class="input-group mb-3">
-                        <select class="form-control shadow-none" wire:model="etat">
+                    <div class="d-flex justify-content-start mb-3">
+                        <select class="form-control sm" wire:model="etat">
                             <option value=""></option>
                             <option value="En modération">En modération</option>
                             <option value="Active">Active</option>
                         </select>
-                        <input type="date" class="form-control shadow-none" wire:model="date">
+                        <input type="date" class="form-control sm" wire:model="date">
                         <div class="input-group-append">
-                            <button class="btn bg-red shadow-none" type="submit">
+                            <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                     wire:loading></span>
                                 <i class="bi bi-binoculars"></i>

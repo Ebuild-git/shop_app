@@ -18,13 +18,20 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $gouvernorat, $categorie, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat;
+    public $titre, $description, $gouvernorat, $categorie,$sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
     public $photos = [];
+    public $proprietes;
 
     public function mount($id)
     {
         $this->id = $id;
     }
+
+    public function updatedSelectedCategory($value)
+    {
+        $this->sous_categories = sous_categories::where("id_categorie",$value)->get();
+    }
+
 
 
     public function render()
@@ -41,10 +48,8 @@ class CreatePost extends Component
         }
 
         $categories = categories::all(['id', 'titre']);
-        $sous_categories = sous_categories::all(["id", "titre", "id_categorie"]);
         return view('livewire.user.create-post')
             ->with("categories", $categories)
-            ->with("sous_categories", $sous_categories)
             ->with("list_gouvernorat", $this->get_list_gouvernorat());
     }
 
@@ -112,7 +117,7 @@ class CreatePost extends Component
         $post->id_categorie = $this->categorie;
         $post->etat = $this->etat;
         $post->id_sous_categorie = $this->id_sous_categorie;
-        $post->prix = $this->prix + ($this->prix*($categorie->pourcentage_gain)/100);
+        $post->prix = $this->prix + ($this->prix * ($categorie->pourcentage_gain) / 100);
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
         $post->save(); // Sauvegarder le post
 

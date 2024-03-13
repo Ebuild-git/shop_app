@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\InformationsController;
@@ -48,9 +49,8 @@ Route::get('/forget', function () {
 })->name('forget');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', function () {
-        return view('Admin.dashboard');
-    })->name('dashboard');
+
+    Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
 
     Route::get('/admin/categorie', function () {
         return view('Admin.categories.index');
@@ -77,8 +77,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+
 Route::middleware('auth')->group(function () {
 
+    Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
     Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);

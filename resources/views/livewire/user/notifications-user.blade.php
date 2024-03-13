@@ -1,10 +1,9 @@
-<a href="{{ route('user-notifications') }}" class="notification-header-icon">
-    <i class="bi bi-bell"></i>
-    <span class="small position-absolute">
-        {{ $notifications->count() }}
-    </span>
-</a>
 
+<a href="{{ route('user-notifications') }}">
+    <i class="lni bi bi-bell"></i>
+    <span class="dn-counter bg-success-ps"> {{ $notifications->count() }}</span>
+    <span class="hide-desktop">Notifications</span>
+</a>
 <script>
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
@@ -18,3 +17,4 @@
         window.Livewire.dispatch('notificationReceived');
     });
 </script>
+

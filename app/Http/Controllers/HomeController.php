@@ -41,6 +41,10 @@ class HomeController extends Controller
     }
 
 
+    public function historiques(){
+        return view('User.historiques');
+    }
+
     public function list_proposition($id_post)
     {
         $post = posts::where('id',$id_post)->where("id_user",Auth::id())->first();

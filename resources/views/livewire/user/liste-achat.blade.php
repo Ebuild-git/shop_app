@@ -28,8 +28,8 @@
                         <div>
                             <form wire:submit="filtrer">
                                 <div class="input-group mb-3">
-                                    <input type="date" wire:model="date" class="form-control btn-sm">
-                                    <button type="submit" class="btn btn-sm bg-red ">
+                                    <input type="date" wire:model="date" class="form-control sm">
+                                    <button type="submit" class="btn p-2 bg-red  ">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                             wire:loading></span>
                                         Filtrer par date

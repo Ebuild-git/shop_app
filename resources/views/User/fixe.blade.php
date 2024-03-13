@@ -9,7 +9,7 @@
     <meta name="author" content="Themezhub" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('titre') | Shopin</title>
+    <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
     <link rel="stylesheet" href="./style.css">
     <!-- Custom CSS -->
     <link href="/assets/css/styles.css" rel="stylesheet">
@@ -17,6 +17,10 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    @livewireStyles
 
 </head>
 
@@ -38,55 +42,45 @@
             <div class="container">
                 <div class="row">
 
+                    <!-- Right Menu -->
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 ">
+                        <!-- Choose Language -->
+
+                        <div class="language-selector-wrapper dropdown js-dropdown  mr-3">
+                            <a class="popup-title" href="javascript:void(0)" data-toggle="dropdown" title="Language"
+                                aria-label="Language dropdown">
+                                <span class="hidden-xl-down medium text-light">Language:</span>
+                                <span class="iso_code medium text-light">Français</span>
+                                <i class="fa fa-angle-down medium text-light"></i>
+                            </a>
+                            <ul class="dropdown-menu popup-content link">
+                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
+                                            src="assets/img/2.jpg" alt="fr" width="16"
+                                            height="11" /><span>Français</span></a></li>
+                                <li class="current"><a href="javascript:void(0);"
+                                        class="dropdown-item medium text-medium"><img src="assets/img/1.jpg"
+                                            alt="en" width="16" height="11" /><span>English</span></a></li>
+                        </div>
+
+
+
+                    </div>
+
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-                        <div class="top_first">
+
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
+                        <div class="top_first hide-ipad">
+                            Appelez le:
                             <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
                                 {{ $configurations->phone_number ?? '' }}
                             </a>
                         </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-
-                    </div>
-
-                    <!-- Right Menu -->
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12">
-
-
-                        <!-- Choose Language -->
-
-                        <div class="language-selector-wrapper dropdown js-dropdown float-right mr-3">
-                            <a class="popup-title" href="javascript:void(0)" data-toggle="dropdown" title="Language"
-                                aria-label="Language dropdown">
-                                <span class="hidden-xl-down medium text-light">Language:</span>
-                                <span class="iso_code medium text-light">English</span>
-                                <i class="fa fa-angle-down medium text-light"></i>
-                            </a>
-                            <ul class="dropdown-menu popup-content link">
-                                <li class="current"><a href="javascript:void(0);"
-                                        class="dropdown-item medium text-medium"><img src="assets/img/1.jpg"
-                                            alt="en" width="16" height="11" /><span>English</span></a></li>
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/2.jpg" alt="fr" width="16"
-                                            height="11" /><span>Français</span></a></li>
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/3.jpg" alt="de" width="16"
-                                            height="11" /><span>Deutsch</span></a></li>
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/4.jpg" alt="it" width="16"
-                                            height="11" /><span>Italiano</span></a></li>
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/5.jpg" alt="es" width="16"
-                                            height="11" /><span>Español</span></a></li>
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/6.jpg" alt="ar" width="16"
-                                            height="11" /><span>اللغة العربية</span></a></li>
-                            </ul>
-                        </div>
-
-
-                        <div class="currency-selector dropdown js-dropdown float-right mr-3">
+                        <div class="currency-selector dropdown js-dropdown ml-3">
+                            @auth
+                                @livewire('User.MenuInformations')
+                            @endauth
                             <a href="javascript:void(0);" class="text-light medium text-capitalize"
                                 data-toggle="dropdown" title="Language" aria-label="Language dropdown">
                                 @auth
@@ -122,8 +116,8 @@
                                 @endauth
                             </a>
                         </div>
-
                     </div>
+
 
                 </div>
             </div>
@@ -131,98 +125,56 @@
 
         <div class="container pt-2 pb-2">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-2 col-4">
                     <a class="nav-brand" href="/">
                         <img src="/icons/logo.png" class="logo" alt="" />
                     </a>
                 </div>
-                <div class="col-sm-8 row">
-                    <div class="col-8">
-                        <input type="text" class="form-control sm" placeholder="recherche un produit">
-                    </div>
-                    @auth
-                        <div class="col">
-                            <a href="/publication">
-                                <button class="btn btn-sm full-width bg-dark text-light p-2" type="button">
-                                    <i class="lni lni-circle-plus"></i>
-                                    <span class="hide-mobile-version">
-                                        Publier
-                                    </span>
-                                </button>
-                            </a>
+                <div class="col-sm-7 col-8">
+                    <div class="row">
+                        <div class="col-10 recherche-div">
+                            <input type="text" class="form-control sm text-capitalize input"
+                                placeholder="recherche un produit">
+                            <span class="span-icon-recherche">
+                                <i class="bi bi-search"></i>
+                            </span>
                         </div>
-                    @endauth
+
+                        <div class="col-2" style="text-align: left !important;">
+                            @auth
+                                <a href="/publication">
+                                @else
+                                    <a href="#" data-toggle="modal" data-target="#login">
+                                    @endauth
+                                    <button class="btn btn-sm  bg-dark text-light p-2" type="button">
+                                        <i class="lni lni-circle-plus"></i>
+                                        <span class="hide-mobile-version">
+                                            Publier
+                                        </span>
+                                    </button>
+                                </a>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-sm-2 mx-auto my-auto">
-                    <ul class="nav-menu nav-menu-social align-to-right text-uppercase">
-                        <li>
-                            @auth
-                                <a href="#">
-                                    @livewire('User.MenuInformations')
-                                </a>
-                            @else
-                                <a href="#" data-toggle="modal" data-target="#login">
-                                    <i class="lni lni-user"></i>
-                                </a>
-                            @endauth
-                            <ul class="nav-dropdown nav-submenu">
-                                <li>
-                                    <a href="/mes-publication">
-                                        <i class="lni lni-upload"></i>
-                                        Mes annonces
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/mes-achats">
-                                        <i class="lni lni-cart-full"></i>
-                                        Mes achats
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/user-notifications">
-                                        <i class="lni lni-popup"></i>
-                                        Notifications
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/informations">
-                                        <i class="lni lni-user"></i>
-                                        Mes informations
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/informations">
-                                        <i class="lni lni-lock-alt"></i>
-                                        Sécurité
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/logout" class="text-danger">
-                                        <i class="lni lni-plug"></i>
-                                        Déconnexion
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" onclick="openCart()">
-                                <i class="lni lni-shopping-basket"></i><span class="dn-counter bg-success-ps">3</span>
-                            </a>
-                            @auth
-                                <a href="/user-notifications">
-                                    <img width="17" height="17"
-                                        src="https://img.icons8.com/ios/50/1A1A1A/appointment-reminders--v1.png"
-                                        alt="appointment-reminders--v1" />
-                                    <span class="dn-counter bg-success-ps">3</span>
-                                </a>
-                            @endauth
-                        </li>
 
-                    </ul>
                 </div>
             </div>
         </div>
 
+        <script>
+            window.addEventListener('scroll', function() {
+                var elementToHide = document.getElementById('elementToHideBeforeScroll');
+                var scrollPosition = window.scrollY;
+
+                if (scrollPosition === 0) {
+                    elementToHide.classList.add('d-none');
+                } else {
+                    elementToHide.classList.remove('d-none');
+                }
+            });
+        </script>
         <!-- Start Navigation -->
         <div class="header header-light dark-text">
             <div class="container">
@@ -235,19 +187,25 @@
                     <div class="nav-menus-wrapper" style="transition-property: none;">
                         <ul class="nav-menu text-uppercase">
 
+                            <li id="elementToHideBeforeScroll" class="d-none">
+                                <a href="/">
+                                    <img src="/icons/logo.png" class="logo" alt="" height="20" />
+                                </a>
+                            </li>
                             <li>
                                 <a href="/">Accueil</a>
                             </li>
 
+
                             <li>
-                                <a href="/about">A propos</a>
+                                <a href="/about">À PROPOS</a>
                             </li>
 
                             <li>
                                 @php
                                     $categories = DB::table('categories')->get(['id', 'titre']);
                                 @endphp
-                                <a href="/shop">Catégorie</a>
+                                <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     @forelse ($categories as $item)
                                         <li>
@@ -263,7 +221,29 @@
                             <li>
                                 <a href="#">Contact</a>
                             </li>
-                            <li class="position-absolute " style="right: 0px;">
+                            <li class="option-icon-header">
+                                @auth
+                                    <a href="{{ route('historique') }}">
+                                        <i class="bi bi-clock-history"></i>
+                                        <span class="hide-desktop">Historique</span>
+                                    </a>
+                                @endauth
+                                <a href="#" onclick="openCart()">
+                                    <i class="lni lni-shopping-basket"></i><span
+                                        class="dn-counter bg-success-ps">3</span>
+                                    <span class="hide-desktop">Panier</span>
+                                </a>
+                               @guest
+                               <a href="#" data-toggle="modal" data-target="#login">
+                                <i class="bi lni  bi-person-circle"></i>
+                                <span class="hide-desktop">Connexion</span>
+                            </a>
+                               @endguest
+                                @auth
+                                    @livewire('User.NotificationsUser')
+                                @endauth
+                            </li>
+                            <li class="text-capitalize comment-position-top" id="comment_position">
                                 <a href="#">Comment ça marche?</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     <li>
@@ -278,6 +258,7 @@
                                     </li>
                                 </ul>
                             </li>
+
                         </ul>
 
 
@@ -357,13 +338,13 @@
                                         alt="delivery--v1" />
                                 </div>
                                 <div class="flex-fill">
-                                    <h4 class="color">Livraison porte à porteProtection et Sécurité</h4>
+                                    <h4 class="color">Livraison porte à porte</h4>
                                     <p>
                                         Un livreur se rendra
                                         directement à votre porte
                                         pour récupérer ou livrer vos
                                         articles. Fini le casse-tête de
-                                        la vente à distance!
+                                        la vente à distance! <br><br>
                                     </p>
                                 </div>
                             </div>
@@ -397,7 +378,8 @@
                                                         class="lni lni-tiktok-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->instagram)
-                                            <li class="list-inline-item"><a href="{{ $configurations->instagram }}"><i
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->instagram }}"><i
                                                         class="lni lni-instagram-filled"></i></a></li>
                                         @endif
                                         @if ($configurations->linkedin)
@@ -1085,6 +1067,7 @@
     <script src="assets/js/smoothproducts.js"></script>
     <script src="assets/js/snackbar.min.js"></script>
     <script src="assets/js/jQuery.style.switcher.js"></script>
+    @livewireScripts
     <script src="assets/js/custom.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->

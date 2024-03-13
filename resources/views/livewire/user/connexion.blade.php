@@ -18,9 +18,12 @@
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
+            <div style="text-align: right;">
+                <a href="/forget"  class="link">Mot de passe oublié ?</a>
+            </div>
         </div>
         <br>
-        <a href="/forget"  class="link">Mot de passe oublié ?</a>
+        
         <br><br>
         <div class="d-flex justify-content-between">
             <div>

@@ -6,8 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SHOPIN | @yield('title')</title>.
-    <meta name="description" content="" />
+    <title>SHOPIN | {{ config('app.name', 'Shopin') }}</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/icons/logo.png" />
