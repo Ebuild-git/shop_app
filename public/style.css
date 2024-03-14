@@ -384,6 +384,16 @@ body {
 .hide {
     display: none;
 }
+.slick-dots{
+    display: none !important;
+}
+
+
+
+
+
+
+
 
 
 

@@ -166,11 +166,26 @@
         <script>
             window.addEventListener('scroll', function() {
                 var elementToHide = document.getElementById('elementToHideBeforeScroll');
+                var icons_position = document.getElementById('icons_position');
+                var comment_position = document.getElementById('comment_position');
                 var scrollPosition = window.scrollY;
 
                 if (scrollPosition === 0) {
                     elementToHide.classList.add('d-none');
+                    comment_position.classList.add("comment-position");
+                    comment_position.classList.remove("comment-position-top");
+
+                    icons_position.classList.remove("comment-position");
+                    icons_position.classList.add("comment-position-top");
+
                 } else {
+
+
+                    icons_position.classList.add("comment-position");
+                    icons_position.classList.remove("comment-position-top");
+
+                    comment_position.classList.remove("comment-position");
+                    comment_position.classList.add("comment-position-top");
                     elementToHide.classList.remove('d-none');
                 }
             });
@@ -221,7 +236,7 @@
                             <li>
                                 <a href="#">Contact</a>
                             </li>
-                            <li class="option-icon-header">
+                            <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
                                     <a href="{{ route('historique') }}">
                                         <i class="bi bi-clock-history"></i>
@@ -229,21 +244,20 @@
                                     </a>
                                 @endauth
                                 <a href="#" onclick="openCart()">
-                                    <i class="bi lni bi-bag"></i><span
-                                        class="dn-counter bg-success-ps">3</span>
+                                    <i class="bi lni bi-bag"></i><span class="dn-counter bg-success-ps">3</span>
                                     <span class="hide-desktop">Panier</span>
                                 </a>
-                               @guest
-                               <a href="#" data-toggle="modal" data-target="#login">
-                                <i class="bi lni  bi-person-circle"></i>
-                                <span class="hide-desktop">Connexion</span>
-                            </a>
-                               @endguest
+                                @guest
+                                    <a href="#" data-toggle="modal" data-target="#login">
+                                        <i class="bi lni  bi-person-circle"></i>
+                                        <span class="hide-desktop">Connexion</span>
+                                    </a>
+                                @endguest
                                 @auth
                                     @livewire('User.NotificationsUser')
                                 @endauth
                             </li>
-                            <li class="text-capitalize comment-position-top" id="comment_position">
+                            <li class="text-capitalize comment-position" id="comment_position">
                                 <a href="#">Comment ça marche?</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     <li>
