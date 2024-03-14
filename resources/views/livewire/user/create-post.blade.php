@@ -17,26 +17,39 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="number" class="form-control " placeholder="Prix de votre article" required
-                                wire:model="prix">
+                            <input type="number" class="form-control " placeholder="Prix de votre article" required wire:model="prix">
                             @error('prix')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Etat de votre article</label>
-                    <span class="bold text-danger">*</span> :
-                    <br>
-                    <div class="form-control">
-                        <input type="radio" class="radio-custom" checked wire:model="etat" required value="neuf">
-                        Neuf
-                        <input type="radio" class="radio-custom" wire:model="etat" required value="occasion"> Occasion
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <select name="etat" wire:model="etat" class="form-control ">
+                                <option value="">Veuillez selectionner l'état</option>
+                                <option value="neuf">Neuf</option>
+                                <option value="occasion">Occasion</option>
+                            </select>
+                            @error('etat')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
-                    @error('etat')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <select class="form-control " wire:model="gouvernorat" required>
+                                <option value="">Veuillez selectionner le gouvernorat</option>
+                                @foreach ($list_gouvernorat as $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                            @error('gouvernorat')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Description</label>
@@ -49,17 +62,7 @@
 
             </div>
             <div class="col-sm-4">
-                <div class="form-group">
-                    <select class="form-control " wire:model="gouvernorat" required>
-                        <option value="">Veuillez selectionner le gouvernorat</option>
-                        @foreach ($list_gouvernorat as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                    @error('gouvernorat')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+
                 <div class="form-group">
                     <label for="exampleInputEmail1">Catégorie</label>
                     <span class="bold text-danger">*</span>
@@ -76,21 +79,43 @@
                     @enderror
                 </div>
                 @if ($selectedCategory)
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Sous-catégorie</label>
-                    <span class="bold text-danger">*</span>
-                    <select class="form-control " wire:model="id_sous_categorie">
-                        <option selected>Veuilez selectionner une sous-catégorie</option>
-                        @foreach ($sous_categories as $sous)
-                            <option value="{{ $sous->id }}" class="sous-cat sous-cat-{{ $sous->id_categorie }}">
-                                {{ $sous->titre }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('id_sous_categorie')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div> 
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sous-catégorie</label>
+                        <span class="bold text-danger">*</span>
+                        <select class="form-control" wire:model="id_sous_categorie">
+                            <option selected>Veuilez selectionner une sous-catégorie</option>
+                            @foreach ($sous_categories as $sous)
+                                <option value="{{ $sous->id }}"
+                                    class="sous-cat sous-cat-{{ $sous->id_categorie }}">
+                                    {{ $sous->titre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('id_sous_categorie')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="row">
+                        @forelse ($proprietes as $propriete)
+                            @php
+                                $propriete_info = DB::table('proprietes')->find($propriete);
+                            @endphp
+                            @if ($propriete_info)
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="text-capitalize">
+                                            <i class="bi bi-info-circle"></i>
+                                            {{ $propriete_info->nom }}
+                                        </label>
+                                        <input type="{{ $propriete_info->type }}" wire:model="article_propriete['{{ $propriete_info->nom }}']"
+                                            placeholder="{{ $propriete_info->nom }} de l'article" class="form-control">
+                                    </div>
+                                </div>
+                            @endif
+                        @empty
+                        @endforelse
+                    </div>
+                    <br>
                 @endif
                 @if ($old_photos)
                     <div class="row">
@@ -175,19 +200,7 @@
     </div>
 
     <script>
-        document.getElementById('categorie').onchange = function() {
-            var selectedCategoryId = this.value;
-            var sousCatElements = document.querySelectorAll('.sous-cat');
-
-            sousCatElements.forEach(function(element) {
-                element.style.display = 'none';
-            });
-
-            var selectedSousCatElements = document.querySelectorAll('.sous-cat-' + selectedCategoryId);
-            selectedSousCatElements.forEach(function(element) {
-                element.style.display = 'block';
-            });
-        };
+       
 
 
         // click btn-photos when i click in select-pic

@@ -1,6 +1,4 @@
-@php
-    $photo = json_decode($post->photos, true);
-@endphp
+
 <div class="{{ $class }} cursor-pointer" onclick="document.location.href='/post/{{ $post->id }}'">
     <div class=" card ">
         <div class="pb-1 p-1">

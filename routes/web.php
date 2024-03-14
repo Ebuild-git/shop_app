@@ -48,6 +48,11 @@ Route::get('/forget', function () {
     return view('User.Auth-user.forget');
 })->name('forget');
 
+
+Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
+
+
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
@@ -84,7 +89,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
-    Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
     Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
     Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');

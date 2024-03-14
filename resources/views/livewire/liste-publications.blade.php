@@ -52,7 +52,6 @@
                      <th>Prix</th>
                      <th>Ville</th>
                      <th>Gouvernorat</th>
-                     <th>Catégorie</th>
                      <th>Actions</th>
                      <td></td>
                  </tr>
@@ -93,7 +92,6 @@
                          <td> {{ $post->prix ?? '0' }} DT</td>
                          <td> {{ $post->ville }} </td>
                          <td> {{ $post->gouvernorat }} </td>
-                         <td> {{ $post->categorie_info->titre }} </td>
                          <td>
                              <button class="btn btn-sm btn-secondary"
                                  onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">

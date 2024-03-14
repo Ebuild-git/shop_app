@@ -68,7 +68,7 @@
                     </div>
                     <b>Titre : </b> {{ $post->titre }} <br>
                     <b>Prix : </b> {{ $post->prix }} DT <br>
-                    <b>Catégorie :</b> {{ $post->categorie_info->titre }} <br>
+                    <b>Catégorie :</b>  <br>
                     <b>Ville : </b> {{ $post->ville }} <br>
                     <b>Gouvernorat : </b> {{ $post->gouvernorat }} <br>
                     <b>Etat :</b> {{ $post->etat }}

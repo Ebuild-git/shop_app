@@ -28,6 +28,7 @@ class DetailsPublicationAction extends Component
         if ($post) {
             //update verified_at date
             $post->verified_at = now();
+            $post->statut = 'vente';
             $post->save();
            
             event(new UserEvent($post->id_user));

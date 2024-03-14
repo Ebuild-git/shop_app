@@ -7,10 +7,12 @@ use App\Models\categories;
 use App\Models\notifications;
 use Livewire\WithFileUploads;
 use App\Models\posts;
+use App\Models\proprietes;
 use App\Models\sous_categories;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Traits\ListGouvernorat;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CreatePost extends Component
@@ -18,9 +20,10 @@ class CreatePost extends Component
     use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $gouvernorat, $categorie,$sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
+    public $titre, $description, $gouvernorat, $categorie, $sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
     public $photos = [];
-    public $proprietes;
+    public $article_propriete = [];
+    public $proprietes,$quantite;
 
     public function mount($id)
     {
@@ -29,7 +32,9 @@ class CreatePost extends Component
 
     public function updatedSelectedCategory($value)
     {
-        $this->sous_categories = sous_categories::where("id_categorie",$value)->get();
+        $this->sous_categories = sous_categories::where("id_categorie", $value)->get();
+        $cat = categories::find($value);
+        $this->proprietes = json_decode($cat->proprietes, true);;
     }
 
 
@@ -58,7 +63,6 @@ class CreatePost extends Component
         'titre' => 'required|min:2',
         'description' => 'required',
         'photos.*' => 'image|max:2048|min:1',
-        'categorie' => 'required|integer|exists:categories,id',
         'gouvernorat' => 'required',
         'prix' => 'required|numeric|min:1',
         'etat' => ['required', 'in:neuf,occasion'],
@@ -74,24 +78,18 @@ class CreatePost extends Component
 
     public function submit()
     {
-        $this->validate(); // Vous validez les données soumises
+        //$this->validate(); // Vous validez les données soumises
 
-        //verifions que la sous categorie appartient bien a la categorie mere
-        $sous_cat = sous_categories::find($this->id_sous_categorie);
-        if (!$sous_cat) {
-            session()->flash('error', __('Sous catégorie inexistante'));
-            return;
-        }
-        if ($sous_cat->id_categorie != $this->categorie) {
-            session()->flash('error', __('La sous catégorie ne correspond pas à la catégorie choisie'));
-            return;
-        }
+        $proprieteValeurs = [];
 
+        foreach ($this->article_propriete as $nomPropriete => $valeur) {
+            $proprieteValeurs[$nomPropriete] = $valeur;
+        }
+     
         $post = posts::find($this->post->id ?? "d"); // Vous cherchez le post existant par son ID
         if (!$post) {
             $post = new posts(); // Si le post n'existe pas, vous en créez un nouveau
         }
-
         // Traitement des photos
         if ($this->photos) {
             $data = [];
@@ -109,15 +107,13 @@ class CreatePost extends Component
             $post->photos = json_encode($data);
         }
 
-        $categorie = categories::find($this->categorie);
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
         $post->description = $this->description;
         $post->gouvernorat = $this->gouvernorat;
-        $post->id_categorie = $this->categorie;
         $post->etat = $this->etat;
         $post->id_sous_categorie = $this->id_sous_categorie;
-        $post->prix = $this->prix + ($this->prix * ($categorie->pourcentage_gain) / 100);
+        $post->prix = $this->prix;
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
         $post->save(); // Sauvegarder le post
 
@@ -137,7 +133,7 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat', 'photos']);
+        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat', 'photos']); 
     }
 
 

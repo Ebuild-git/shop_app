@@ -27,7 +27,7 @@
         par
         l’acheteur/l’acheteuse, SHOP<span class="color">IN</span> versera au vendeur le prix de l’article diminué de la commission dans un délai de 3 jours.
         Pour
-        recevoir son argent le vendeur/la vendeuse doit fournir des justificatifs de son identité et de ses données
+        recevoir son argent le vendeur / la vendeuse doit fournir des justificatifs de son identité et de ses données
         bancaires accompagnés de leur photo pour faire les verifications nécessaires (CIN et RIB)
     </p>
     <br>
@@ -50,7 +50,7 @@
         Le vendeur / La vendeuse s’engage à ce que tout article exposé à la vente ne comporte pas de défauts (tâche, trou ou
         déchirure…).
         L’acheteur / L’acheteuse ayant reçu un article dans cet état, dispose d’un droit de retour de ce dernier. Il est intérdit de
-        revendre des articles de contrefaçon ou interdits à la vente par la loi. Le vendeur s’engage à fournir
+        revendre des articles de contrefaçon ou interdits à la vente par la loi. Le vendeur / la vendeuse s’engage à fournir
         des photos réelles de son article mis en vente. La description de cet article doit correspondre à ses
         caractérisitiques effectives. SHOP<span class="color">IN</span> a le plein droit de demander au vendeur / à la vendeuse de changer ou supprimer son
         Annonce/ ou
@@ -60,7 +60,7 @@
     <h4>6. Retour:</h4>
 
     <p>
-        En cas d’échec de livraison le vendeur doit se montrer disponible pour réceptionner son article retourné.
+        En cas d’échec de livraison le vendeur / la vendeuse doit se montrer disponible pour réceptionner son article retourné.
     </p>
     <br>
 

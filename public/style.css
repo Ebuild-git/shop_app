@@ -387,10 +387,9 @@ body {
 .slick-dots{
     display: none !important;
 }
-
-
-
-
+.comment-position-top a{
+    padding-left: 0px !important
+}
 
 
 
@@ -429,7 +428,7 @@ body {
     .comment-position-top {
         position: absolute;
         right: 0px;
-        top: -53px;
+        top: -63px;
     }
     .comment-position {
         position: absolute;

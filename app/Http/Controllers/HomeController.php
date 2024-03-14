@@ -16,7 +16,8 @@ class HomeController extends Controller
         $categories = categories::all();
         $configuration= configurations::firstorCreate();
         $posts = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> paginate(50);
-        return view("User.index", compact( "categories","posts","configuration"));
+        $last_post = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> get();
+        return view("User.index", compact( "categories","posts","configuration","last_post"));
     }
 
     public function index_post(Request $request){
@@ -30,7 +31,7 @@ class HomeController extends Controller
 
     public function details_post($id){
         $post = posts::find($id);
-        $other_product =  posts::where('id_categorie' ,$post->id_categorie)->inRandomOrder()->take(16)->get();
+        $other_product =  posts::where('id_sous_categorie' ,$post->id_sous_categorie)->inRandomOrder()->take(16)->get();
         return view('User.details', compact( 'post','other_product'));
 
     }
