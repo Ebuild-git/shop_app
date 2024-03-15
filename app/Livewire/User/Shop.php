@@ -18,7 +18,7 @@ class Shop extends Component
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
         $this->total = posts::count();
-        $this->liste_categories = categories::all(["titre", "id", "icon"]);
+        $this->liste_categories = categories::all(["titre", "id"]);
         $Query = posts::where("verified_at", '!=', null)->where("sell_at",null);
         if (!empty($this->ordre)) {
             if ($this->ordre == "Desc") {

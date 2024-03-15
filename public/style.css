@@ -403,7 +403,11 @@ body {
     background-color: #d32a2a !important;
     color: white !important;
 }
-
+.badge-like-post-count{
+    background-color: #cccccc65;
+    border:solid 1px #008080;
+    color: white !important;
+}
 
 
 
