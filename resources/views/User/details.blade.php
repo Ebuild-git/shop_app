@@ -71,7 +71,7 @@
                             <div class="text-left">
                                 <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                     <i class="bi bi-calendar3"></i>
-                                    Publier le 
+                                    Publier le
                                     {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
                                     {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
                                     par &nbsp;
@@ -144,11 +144,10 @@
                                 </div>
                                 <div class="col-12 col-lg-auto">
                                     <!-- Wishlist -->
-                                    <button class="btn custom-height btn-default btn-block mb-2 text-dark"
-                                        data-toggle="button">
-                                        <i class="lni lni-heart mr-2"></i>
-                                        J'aime
-                                    </button>
+                                    @auth
+                                        @livewire('User.ButtonAddLike', ['id_post' => $post->id])
+                                    @endauth
+
                                 </div>
                             </div>
                         </div>
@@ -375,48 +374,49 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="slide_items">
                         @forelse ($other_products as $other)
-                        @php
-                            $photo = json_decode($other->photos, true);
-                        @endphp
-                        <!-- single Item -->
-                        <div class="single_itesm">
-                            <div class="product_grid card b-0 mb-0">
-                                <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
-                                    {{ $other->statut }}
-                                </div>
-                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i
-                                        class="far fa-heart"></i></button>
-                                <div class="card-body p-0">
-                                    <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden" href="/post/{{ $other->id }}"><img
-                                                class="card-img-top" src="{{ Storage::url($photo[0] ?? "") }}"
-                                                alt="..."></a>
-                                        <div
-                                            class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                            <div class="edlio"><a href="#" data-toggle="modal"
-                                                    data-target="#quickview" class="text-white fs-sm ft-medium"><i
-                                                        class="fas fa-eye mr-1"></i>Quick View</a></div>
+                            @php
+                                $photo = json_decode($other->photos, true);
+                            @endphp
+                            <!-- single Item -->
+                            <div class="single_itesm">
+                                <div class="product_grid card b-0 mb-0">
+                                    <div
+                                        class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
+                                        {{ $other->statut }}
+                                    </div>
+                                    <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i
+                                            class="far fa-heart"></i></button>
+                                    <div class="card-body p-0">
+                                        <div class="shop_thumb position-relative">
+                                            <a class="card-img-top d-block overflow-hidden"
+                                                href="/post/{{ $other->id }}"><img class="card-img-top"
+                                                    src="{{ Storage::url($photo[0] ?? '') }}" alt="..."></a>
+                                            <div
+                                                class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                                <div class="edlio"><a href="#" data-toggle="modal"
+                                                        data-target="#quickview" class="text-white fs-sm ft-medium"><i
+                                                            class="fas fa-eye mr-1"></i>Quick View</a></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                    <div class="text-left">
-                                        <div class="text-center">
-                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                                <a href="/post/{{ $other->id }}">
-                                                    {{ $other->titre }}
-                                                </a>
+                                    <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
+                                        <div class="text-left">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
+                                                    <a href="/post/{{ $other->id }}">
+                                                        {{ $other->titre }}
+                                                    </a>
                                                 </h5>
-                                            <div class="elis_rty">
-                                                <span class="ft-bold fs-md color">
-                                                {{ $other->prix }} DH
-                                            </span>
+                                                <div class="elis_rty">
+                                                    <span class="ft-bold fs-md color">
+                                                        {{ $other->prix }} DH
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @empty
                         @endforelse
                     </div>

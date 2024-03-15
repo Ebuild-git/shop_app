@@ -1,4 +1,4 @@
-<button type="submit" class="btn btn-block custom-height bg-dark mb-2" wire:click="add()">
+<button type="submit" class="btn btn-block custom-height bg-dark mb-2 " wire:click="add()">
     <i class="lni lni-shopping-basket mr-2"></i>
     <span wire:loading>
         Ajout...
