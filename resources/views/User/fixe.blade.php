@@ -243,10 +243,9 @@
                                         <span class="hide-desktop">Historique</span>
                                     </a>
                                 @endauth
-                                <a href="#" onclick="openCart()">
-                                    <i class="bi lni bi-bag"></i><span class="dn-counter bg-success-ps">0</span>
-                                    <span class="hide-desktop">Panier</span>
-                                </a>
+
+                                @livewire('User.CountPanier')
+
                                 @guest
                                     <a href="#" data-toggle="modal" data-target="#login">
                                         <i class="bi lni  bi-person-circle"></i>
@@ -689,193 +688,170 @@
     <div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Cart">
         <div class="rightMenu-scroll">
             <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
-                <h4 class="cart_heading fs-md ft-medium mb-0">Products List</h4>
+                <h4 class="cart_heading fs-md ft-medium mb-0">
+                    Contenu du panier
+                </h4>
                 <button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
             </div>
             <div class="right-ch-sideBar">
-
                 <div class="cart_select_items py-2">
-                    <!-- Single Item -->
-                    <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-                        <div class="cart_single d-flex align-items-center">
-                            <div class="cart_selected_single_thumb">
-                                <a href="#"><img src="https://via.placeholder.com/625x800" width="60"
-                                        class="img-fluid" alt="" /></a>
-                            </div>
-                            <div class="cart_single_caption pl-2">
-                                <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Women Striped Shirt Dress
-                                </h4>
-                                <p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span
-                                        class="text-dark small">Red</span></p>
-                                <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
-                            </div>
+                    @livewire('User.Panier')
+                    <div class="cart_action px-3 py-3">
+                        <div class="form-group">
+                            <button type="button" class="btn d-block full-width btn-dark">Checkout Now</button>
                         </div>
-                        <div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button>
+                        <div class="form-group">
+                            <button type="button" class="btn d-block full-width btn-dark-light">Edit or
+                                View</button>
                         </div>
                     </div>
-
-
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
-                    <h6 class="mb-0">Subtotal</h6>
-                    <h3 class="mb-0 ft-medium">$1023</h3>
-                </div>
-
-                <div class="cart_action px-3 py-3">
-                    <div class="form-group">
-                        <button type="button" class="btn d-block full-width btn-dark">Checkout Now</button>
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn d-block full-width btn-dark-light">Edit or
-                            View</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
-
-
-
-
-    <!-- Log In Modal -->
-    <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="loginmodal">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-
-                <div class="modal-body p-5">
-                    <div class="text-center mb-4">
-                        <h2 class="m-0 ft-regular">Connexion</h2>
-                    </div>
-                    @livewire('User.Connexion')
 
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Modal -->
 
 
-    <!-- Condition Modal -->
-    <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
-        aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content" id="conditions">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
 
-                <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
-                    @include('User.composants.text-conditions')
-                </div>
-                <div class="p-2">
-                    <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
-                            J'accepte les conditions
+        <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+
+
+
+
+        <!-- Log In Modal -->
+        <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="loginmodal">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
                         </button>
                     </div>
+
+                    <div class="modal-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="m-0 ft-regular">Connexion</h2>
+                        </div>
+                        @livewire('User.Connexion')
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Modal -->
-    <script>
-        $(document).ready(function() {
-            // Vérifier si l'utilisateur a déjà accepté les conditions
-            var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-            // Si les conditions n'ont pas été acceptées
-            if (!conditionsAccepted) {
-                // Afficher la modal des conditions
-                $('#conditions').modal('show');
-                $("#agree_condition").click(function() {
-                    localStorage.setItem('conditionsAccepted', true);
-                    $('#conditions').modal('hide');
-                });
+        <!-- End Modal -->
+
+
+        <!-- Condition Modal -->
+        <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content" id="conditions">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
+                        @include('User.composants.text-conditions')
+                    </div>
+                    <div class="p-2">
+                        <div class="modal-footer">
+                            <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
+                                J'accepte les conditions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+        <script>
+            $(document).ready(function() {
+                // Vérifier si l'utilisateur a déjà accepté les conditions
+                var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+                // Si les conditions n'ont pas été acceptées
+                if (!conditionsAccepted) {
+                    // Afficher la modal des conditions
+                    $('#conditions').modal('show');
+                    $("#agree_condition").click(function() {
+                        localStorage.setItem('conditionsAccepted', true);
+                        $('#conditions').modal('hide');
+                    });
+                }
+            });
+
+            document.getElementById('conditiondiv').addEventListener('scroll', function() {
+                var div = this;
+                // Vérifier si l'utilisateur a atteint la fin de la div
+                if (div.scrollHeight - div.scrollTop === div.clientHeight) {
+                    // Activer le bouton
+                    document.getElementById('agree_condition').disabled = false;
+                } else {
+                    // Désactiver le bouton
+                    document.getElementById('agree_condition').disabled = true;
+                }
+            });
+        </script>
+        <style>
+            .modal-dialog-scrollable {
+                overflow-y: auto;
+                overflow-x: hidden;
+                height: 500px;
             }
-        });
+        </style>
+        <!-- end Condition Modal -->
 
-        document.getElementById('conditiondiv').addEventListener('scroll', function() {
-            var div = this;
-            // Vérifier si l'utilisateur a atteint la fin de la div
-            if (div.scrollHeight - div.scrollTop === div.clientHeight) {
-                // Activer le bouton
-                document.getElementById('agree_condition').disabled = false;
-            } else {
-                // Désactiver le bouton
-                document.getElementById('agree_condition').disabled = true;
+
+
+        <!-- ============================================================== -->
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/ion.rangeSlider.min.js"></script>
+        <script src="/assets/js/slick.js"></script>
+        <script src="/assets/js/slider-bg.js"></script>
+        <script src="/assets/js/lightbox.js"></script>
+        <script src="/assets/js/smoothproducts.js"></script>
+        <script src="/assets/js/snackbar.min.js"></script>
+        <script src="/assets/js/jQuery.style.switcher.js"></script>
+        @livewireScripts
+        <script src="/assets/js/custom.js"></script>
+        <!-- ============================================================== -->
+        <!-- This page plugins -->
+        <!-- ============================================================== -->
+
+        <script>
+            function openWishlist() {
+                document.getElementById("Wishlist").style.display = "block";
             }
-        });
-    </script>
-    <style>
-        .modal-dialog-scrollable {
-            overflow-y: auto;
-            overflow-x: hidden;
-            height: 500px;
-        }
-    </style>
-    <!-- end Condition Modal -->
 
+            function closeWishlist() {
+                document.getElementById("Wishlist").style.display = "none";
+            }
+        </script>
 
+        <script>
+            function openCart() {
+                document.getElementById("Cart").style.display = "block";
+            }
 
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/ion.rangeSlider.min.js"></script>
-    <script src="/assets/js/slick.js"></script>
-    <script src="/assets/js/slider-bg.js"></script>
-    <script src="/assets/js/lightbox.js"></script>
-    <script src="/assets/js/smoothproducts.js"></script>
-    <script src="/assets/js/snackbar.min.js"></script>
-    <script src="/assets/js/jQuery.style.switcher.js"></script>
-    @livewireScripts
-    <script src="/assets/js/custom.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
+            function closeCart() {
+                document.getElementById("Cart").style.display = "none";
+            }
+        </script>
 
-    <script>
-        function openWishlist() {
-            document.getElementById("Wishlist").style.display = "block";
-        }
+        <script>
+            function openSearch() {
+                document.getElementById("Search").style.display = "block";
+            }
 
-        function closeWishlist() {
-            document.getElementById("Wishlist").style.display = "none";
-        }
-    </script>
-
-    <script>
-        function openCart() {
-            document.getElementById("Cart").style.display = "block";
-        }
-
-        function closeCart() {
-            document.getElementById("Cart").style.display = "none";
-        }
-    </script>
-
-    <script>
-        function openSearch() {
-            document.getElementById("Search").style.display = "block";
-        }
-
-        function closeSearch() {
-            document.getElementById("Search").style.display = "none";
-        }
-    </script>
+            function closeSearch() {
+                document.getElementById("Search").style.display = "none";
+            }
+        </script>
 
 </body>
 

@@ -140,10 +140,7 @@
                             <div class="form-row mb-7">
                                 <div class="col-12 col-lg">
                                     <!-- Submit -->
-                                    <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
-                                        <i class="lni lni-shopping-basket mr-2"></i>
-                                        Ajouter au panier
-                                    </button>
+                                    @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
                                 </div>
                                 <div class="col-12 col-lg-auto">
                                     <!-- Wishlist -->
