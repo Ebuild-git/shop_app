@@ -182,7 +182,7 @@
                             <div class="card-footer b-0 p-0 pt-2 bg-white">
                                 <div class="">
                                     <div class="text-left">
-                                        Sous-catégories
+                                        {{ $last->sous_categorie_info->titre }}
                                     </div>
                                     <div class="text-left">
                                         Marque if available

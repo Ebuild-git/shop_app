@@ -17,7 +17,10 @@ class HomeController extends Controller
         $categories = categories::all();
         $configuration = configurations::firstorCreate();
         $posts = posts::where('verified_at', '!=', null)->orderByDesc('created_at')->paginate(50);
-        $last_post = posts::where('verified_at', '!=', null)->select("id","titre","photos","prix","id_sous_categorie")->orderByDesc('created_at')->get();
+        $last_post = posts::where('verified_at', '!=', null)
+        ->select("id","titre","photos","prix","id_sous_categorie")
+        ->orderByDesc('created_at')
+        ->get();
         
         return view("User.index", compact("categories", "posts", "configuration", "last_post"));
     }

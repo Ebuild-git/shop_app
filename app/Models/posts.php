@@ -22,6 +22,8 @@ class posts extends Model
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
 
+
+
     //recuperer les informations su l'uilisateur
     public function user_info()
     {

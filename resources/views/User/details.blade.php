@@ -19,6 +19,11 @@
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">
+                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">
                                     {{ $post->sous_categorie_info->titre }}
                                 </a>
                             </li>
@@ -65,12 +70,17 @@
                             </h2>
                             <div class="text-left">
                                 <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span class="small">(412 Reviews)</span>
+                                    <i class="bi bi-calendar3"></i>
+                                    Publier le 
+                                    {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
+                                    {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
+                                    par &nbsp;
+                                    <a href="#" class="color">
+                                        <b>
+                                            <i class="bi bi-person-circle"></i>
+                                            {{ $post->user_info->username }}
+                                        </b>
+                                    </a>
                                 </div>
                                 <div class="elis_rty">
                                     <span class="ft-bold color fs-lg">
@@ -86,38 +96,45 @@
                             </p>
                         </div>
 
-                        <div class="prt_04 mb-4">
-                            <p class="d-flex align-items-center mb-1 text-capitalize">
+                        <div class="row">
+                            <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
                                 Catégorie :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->sous_categorie_info->titre ?? '' }}
                                 </strong>
-                            </p>
-                            <p class="d-flex align-items-center mb-1 text-capitalize">
+                            </div>
+                            <div class="col-6 mb-1 text-capitalize">
+                                <i class="bi bi-chevron-double-right"></i>
+                                Sous catégorie :<strong class="fs-sm text-dark ft-medium ml-1">
+                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                </strong>
+                            </div>
+                            <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
                                 Etat :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->etat }}
                                 </strong>
-                            </p>
-                            <p class="d-flex align-items-center mb-1 text-capitalize">
+                            </div>
+                            <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
                                 Prix :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->prix }} DH
                                 </strong>
-                            </p>
-                            <p class="d-flex align-items-center mb-1 text-capitalize">
+                            </div>
+                            <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
                                 Gouvernorat :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->gouvernorat }}
                                 </strong>
-                            </p>
-                            <p class="d-flex align-items-center mb-1 text-capitalize">
+                            </div>
+                            <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
                                 Statut :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->statut }}
                                 </strong>
-                            </p>
+                            </div>
                         </div>
+                        <br>
 
                         <div class="prt_05 mb-4">
                             <div class="form-row mb-7">
@@ -132,7 +149,8 @@
                                     <!-- Wishlist -->
                                     <button class="btn custom-height btn-default btn-block mb-2 text-dark"
                                         data-toggle="button">
-                                        <i class="lni lni-heart mr-2"></i>Wishlist
+                                        <i class="lni lni-heart mr-2"></i>
+                                        J'aime
                                     </button>
                                 </div>
                             </div>
