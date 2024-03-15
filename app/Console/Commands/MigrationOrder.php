@@ -42,6 +42,7 @@ class MigrationOrder extends Command
             '29_create_password_reset_tokens_table.php',
             '30_create_contacts_table.php',
             "2024_03_11_083340_create_proprietes_table.php",
+            '2024_03_15_144434_create_likes_table.php',
 
         ];
 

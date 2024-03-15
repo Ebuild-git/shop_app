@@ -1,6 +1,5 @@
 @extends('User.fixe')
 @section('titre', 'Accueil')
-@section('content')
 @section('body')
 
 
@@ -153,7 +152,8 @@
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale
+                            <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
+                                {{ $last->statut }}
                             </div>
                             <div class="badge color position-absolute ab-right text-upper">
                                 <button class="btn p-1 btn_love ">
@@ -190,7 +190,7 @@
                                 </div>
                                 <div class="text-left">
                                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                        <a href="shop-single-v1.html">
+                                        <a href="/post/{{ $last->id }}">
                                             {{ $last->titre }}
                                         </a>
                                     </h5>

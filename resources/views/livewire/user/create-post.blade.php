@@ -28,7 +28,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <select name="etat" wire:model="etat" class="form-control ">
-                                <option value="">Veuillez selectionner l'état</option>
+                                <option value="">Veuillez selectionner l'état*</option>
                                 <option value="neuf">Neuf</option>
                                 <option value="occasion">Occasion</option>
                             </select>
@@ -40,7 +40,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <select class="form-control " wire:model="gouvernorat" required>
-                                <option value="">Veuillez selectionner le gouvernorat</option>
+                                <option value="">Veuillez selectionner le gouvernorat*</option>
                                 @foreach ($list_gouvernorat as $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
@@ -64,10 +64,8 @@
             <div class="col-sm-4">
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Catégorie</label>
-                    <span class="bold text-danger">*</span>
                     <select class="form-control " wire:model.live="selectedCategory">
-                        <option selected>Veuilez selectionner une catégorie</option>
+                        <option selected>Veuilez selectionner une catégorie*</option>
                         @foreach ($categories as $category => $categorie)
                             <option value="{{ $categorie->id }}">
                                 {{ $categorie->titre }}

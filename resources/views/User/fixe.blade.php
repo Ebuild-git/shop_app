@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/style.css">
     <!-- Custom CSS -->
     <link href="/assets/css/styles.css" rel="stylesheet">
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
@@ -21,7 +21,7 @@
         integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     @livewireStyles
-
+    @yield('head')
 </head>
 
 <body>
@@ -55,10 +55,10 @@
                             </a>
                             <ul class="dropdown-menu popup-content link">
                                 <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
-                                            src="assets/img/2.jpg" alt="fr" width="16"
+                                            src="/assets/img/2.jpg" alt="fr" width="16"
                                             height="11" /><span>Français</span></a></li>
                                 <li class="current"><a href="javascript:void(0);"
-                                        class="dropdown-item medium text-medium"><img src="assets/img/1.jpg"
+                                        class="dropdown-item medium text-medium"><img src="/assets/img/1.jpg"
                                             alt="en" width="16" height="11" /><span>English</span></a></li>
                         </div>
 
@@ -365,8 +365,12 @@
                         </div>
                     </div>
                 </div>
+                <br><br>
             </div>
-            <br><br>
+            
+        </footer>
+        <footer class="light-footer" style="background-">
+            <footer class="light-footer" style="background-color: #edeff1 !important;">
             <div class="footer-middle">
                 <div class="container">
                     <div class="row">
@@ -449,7 +453,7 @@
                                 <h4 class="widget_title">Subscribe</h4>
                                 <div class="address mt-3">
                                     <h5 class="fs-sm">Secure Payments</h5>
-                                    <div class="scr_payment"><img src="assets/img/card.png" class="img-fluid"
+                                    <div class="scr_payment"><img src="/assets/img/card.png" class="img-fluid"
                                             alt="" /></div>
                                 </div>
                             </div>
@@ -459,12 +463,15 @@
                 </div>
             </div>
 
-            <div class="footer-bottom">
+            <div class="footer-bottom" style="background-color: #008080 !important;color: black;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-12 col-md-12 text-center">
-                            <p class="mb-0">© {{ date('Y') }}. Designd By <a href="https://e-build.tn"
-                                    style="color: #c71f17;">E-build</a>.</p>
+                            <p class="mb-0">© {{ date('Y') }}. 
+                                Designd By <a href="https://e-build.tn" style="color: #c71f17;">
+                                <b>E-build</b>
+                                </a>.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -734,7 +741,7 @@
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                         <a href="javascript:void(0);" class="d-block"><img
-                                                src="assets/img/tshirt.png" class="img-fluid" width="40"
+                                                src="/assets/img/tshirt.png" class="img-fluid" width="40"
                                                 alt="" /></a>
                                     </div>
                                 </div>
@@ -748,7 +755,7 @@
                                 <div class="sl_cat_01">
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
-                                        <a href="javascript:void(0);" class="d-block"><img src="assets/img/pant.png"
+                                        <a href="javascript:void(0);" class="d-block"><img src="/assets/img/pant.png"
                                                 class="img-fluid" width="40" alt="" /></a>
                                     </div>
                                 </div>
@@ -763,7 +770,7 @@
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                         <a href="javascript:void(0);" class="d-block"><img
-                                                src="assets/img/fashion.png" class="img-fluid" width="40"
+                                                src="/assets/img/fashion.png" class="img-fluid" width="40"
                                                 alt="" /></a>
                                     </div>
                                 </div>
@@ -778,7 +785,7 @@
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                         <a href="javascript:void(0);" class="d-block"><img
-                                                src="assets/img/sneakers.png" class="img-fluid" width="40"
+                                                src="/assets/img/sneakers.png" class="img-fluid" width="40"
                                                 alt="" /></a>
                                     </div>
                                 </div>
@@ -793,7 +800,7 @@
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                         <a href="javascript:void(0);" class="d-block"><img
-                                                src="assets/img/television.png" class="img-fluid" width="40"
+                                                src="/assets/img/television.png" class="img-fluid" width="40"
                                                 alt="" /></a>
                                     </div>
                                 </div>
@@ -808,7 +815,7 @@
                                     <div
                                         class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                         <a href="javascript:void(0);" class="d-block"><img
-                                                src="assets/img/accessories.png" class="img-fluid" width="40"
+                                                src="/assets/img/accessories.png" class="img-fluid" width="40"
                                                 alt="" /></a>
                                     </div>
                                 </div>
@@ -938,42 +945,6 @@
                             </div>
                         </div>
 
-                        <!-- Single Item -->
-                        <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-                            <div class="cart_single d-flex align-items-center">
-                                <div class="cart_selected_single_thumb">
-                                    <a href="#"><img src="https://via.placeholder.com/625x800" width="60"
-                                            class="img-fluid" alt="" /></a>
-                                </div>
-                                <div class="cart_single_caption pl-2">
-                                    <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Floral Print Jumpsuit
-                                    </h4>
-                                    <p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span
-                                            class="text-dark small">Red</span></p>
-                                    <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
-                                </div>
-                            </div>
-                            <div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button>
-                            </div>
-                        </div>
-
-                        <!-- Single Item -->
-                        <div class="d-flex align-items-center justify-content-between px-3 py-3">
-                            <div class="cart_single d-flex align-items-center">
-                                <div class="cart_selected_single_thumb">
-                                    <a href="#"><img src="https://via.placeholder.com/625x800" width="60"
-                                            class="img-fluid" alt="" /></a>
-                                </div>
-                                <div class="cart_single_caption pl-2">
-                                    <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Solid A-Line Dress</h4>
-                                    <p class="mb-2"><span class="text-dark ft-medium small">30</span>, <span
-                                            class="text-dark small">Blue</span></p>
-                                    <h4 class="fs-md ft-medium mb-0 lh-1">$100</h4>
-                                </div>
-                            </div>
-                            <div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button>
-                            </div>
-                        </div>
 
                     </div>
 
@@ -1071,18 +1042,18 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/ion.rangeSlider.min.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/slider-bg.js"></script>
-    <script src="assets/js/lightbox.js"></script>
-    <script src="assets/js/smoothproducts.js"></script>
-    <script src="assets/js/snackbar.min.js"></script>
-    <script src="assets/js/jQuery.style.switcher.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/ion.rangeSlider.min.js"></script>
+    <script src="/assets/js/slick.js"></script>
+    <script src="/assets/js/slider-bg.js"></script>
+    <script src="/assets/js/lightbox.js"></script>
+    <script src="/assets/js/smoothproducts.js"></script>
+    <script src="/assets/js/snackbar.min.js"></script>
+    <script src="/assets/js/jQuery.style.switcher.js"></script>
     @livewireScripts
-    <script src="assets/js/custom.js"></script>
+    <script src="/assets/js/custom.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->

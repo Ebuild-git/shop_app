@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sous_categories', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string("titre");
-            $table->unsignedBigInteger("id_categorie");
-            $table->text("description")->nullable()->default(null);
+            $table->unsignedBigInteger('id_post');
+            $table->unsignedBigInteger('id_user');
             $table->timestamps();
 
-            $table->foreign('id_categorie')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('id_post')->references('id')->on('posts')->onDelete("cascade");
+            $table->foreign("id_user")->references("id")->on('users')->onDelete("cascade");
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sous_categories');
+        Schema::dropIfExists('likes');
     }
 };

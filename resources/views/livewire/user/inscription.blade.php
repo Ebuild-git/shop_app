@@ -27,7 +27,7 @@
                     <span for="small">Username</span>
                     <input type="tel"
                         class="form-control @error('username') is-invalid @enderror shadow-none"id="username"
-                        placeholder="username23" wire:model="username" required>
+                        placeholder="username23" wire:model.live="username" required>
                     @error('username')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -56,69 +56,67 @@
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
-        <div class="form-group">
+        <div class="form-group" style="position: relative;">
             <span for="small">Mot de passe</span>
-            <div class="input-group mb-3">
-                <input type="password" placeholder="Mot de passe" class="form-control  shadow-none" id="password"
-                    wire:model="password" required>
-                <div class="input-group-prepend text-red">
-                    <span class="input-group-text" id="showPassword">
-                        <i class="bi bi-eye"></i>
-                    </span>
-                </div>
-            </div>
-            @error('password')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-        <div class="form-group">
-            <div class="fil-import-registrer">
-                <input type="file" class="d-none" id="photo" wire:model="photo" required>
-                <span id="select-image">
-                    @if ($photo)
-                        <img src="{{ $photo->temporaryUrl() }}" alt="" class="avatar-inscription">
-                    @else
-                        <img src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/1A1A1A/external-Upload-business-office-supplies-vectorslab-glyph-vectorslab.png"
-                            alt="" class="avatar-inscription">
-                    @endif
-                    <br>
-                    <i>Veuillez selectionner une image de profil </i>
+            <input type="password" placeholder="Mot de passe" class="form-control  shadow-none" id="password"
+                wire:model="password" required>
+            <button class="password_show" type="button">
+                <span class="input-group-text" id="showPassword">
+                    <i class="bi bi-eye"></i>
                 </span>
-            </div>
-            @error('photo')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-
+            </button>
         </div>
-        <div class="p-1">
-            <input type="checkbox" id="shop"> je suis une boutique
-        </div>
-
-        @error('matricule')
+        @error('password')
             <small class="form-text text-danger">{{ $message }}</small>
         @enderror
-        @if ($matricule)
-            <div class="div-2">
-            @else
-                <div class="div-2 d-none">
-        @endif
+    </div>
+    <div class="form-group">
+        <div class="fil-import-registrer">
+            <input type="file" class="d-none" id="photo" wire:model="photo" required>
+            <span id="select-image">
+                @if ($photo)
+                    <img src="{{ $photo->temporaryUrl() }}" alt="" class="avatar-inscription">
+                @else
+                    <img src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/1A1A1A/external-Upload-business-office-supplies-vectorslab-glyph-vectorslab.png"
+                        alt="" class="avatar-inscription">
+                @endif
+                <br>
+                <i>Veuillez selectionner une image de profil </i>
+            </span>
+        </div>
+        @error('photo')
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
 
-        <div class="form-group">
-            <label for="">Matricule fiscal </label>
-            <div class="fil-import-registrer">
-                <input type="file" class="d-none" id="matricule" wire:model="matricule" required>
-                <span id="select-matricule">
-                    @if ($matricule)
-                        <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png"
-                            alt="ok--v1" class="avatar-inscription" />
-                    @else
-                        <img width="50" height="50" src="https://img.icons8.com/ios/50/1A1A1A/document--v1.png"
-                            alt="document--v1" class="avatar-inscription" />
-                    @endif
-                    <br>
-                    <i>Veuillez selectionner votre matricule </i>
-                </span>
-            </div>
+    </div>
+    <div class="p-1">
+        <input type="checkbox" id="shop"> je suis une boutique
+    </div>
+
+    @error('matricule')
+        <small class="form-text text-danger">{{ $message }}</small>
+    @enderror
+    @if ($matricule)
+        <div class="div-2">
+        @else
+            <div class="div-2 d-none">
+    @endif
+
+    <div class="form-group">
+        <label for="">Matricule fiscal </label>
+        <div class="fil-import-registrer">
+            <input type="file" class="d-none" name="matricule" id="matricule" wire:model="matricule" >
+            <span id="select-matricule">
+                @if ($matricule)
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png" alt="ok--v1"
+                        class="avatar-inscription" />
+                @else
+                    <img width="50" height="50" src="https://img.icons8.com/ios/50/1A1A1A/document--v1.png"
+                        alt="document--v1" class="avatar-inscription" />
+                @endif
+                <br>
+                <i>Veuillez selectionner votre matricule </i>
+            </span>
         </div>
     </div>
     <br>
@@ -141,7 +139,8 @@
 
 
         <div>
-            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit" disabled>
+            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit"
+                disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
                 Terminer l'inscription
                 <i class="bi bi-arrow-right-circle-fill"></i>
