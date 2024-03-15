@@ -22,28 +22,28 @@
                                             <!-- Single Filter Card -->
                                             <div class="single_filter_card">
                                                 <h5>
-                                                    <a href="#cat-{{ $categorie->id }}" data-toggle="collapse" class="collapsed"
-                                                        aria-expanded="false" role="button">
+                                                    <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
+                                                        class="collapsed" aria-expanded="false" role="button">
                                                         {{ $categorie->titre }}
                                                         <i class="accordion-indicator ti-angle-down"></i>
                                                     </a>
                                                 </h5>
 
-                                                <div class="collapse" id="cat-{{ $categorie->id }}" data-parent="#shop-categories">
+                                                <div class="collapse" id="cat-{{ $categorie->id }}"
+                                                    data-parent="#shop-categories">
                                                     <div class="card-body">
                                                         <div class="inner_widget_link">
                                                             <ul>
                                                                 @forelse ($categorie->getSousCategories as $SousCategorie)
-                                                                <li>
-                                                                    <a href="#">
-                                                                         {{ $SousCategorie->titre }}
-                                                                        <span>
-                                                                             {{ $SousCategorie->getPost->count() }}
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            {{ $SousCategorie->titre }}
+                                                                            <span>
+                                                                                {{ $SousCategorie->getPost->count() }}
+                                                                            </span>
+                                                                        </a>
+                                                                    </li>
                                                                 @empty
-                                                                    
                                                                 @endforelse
                                                             </ul>
                                                         </div>
@@ -129,8 +129,10 @@
                         </div>
 
                         <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                wire:loading></span>
+                            <span wire:loading>
+                                <x-Loading></x-Loading>
+                            </span>
+
                             Filtrer
                             <i class="bi bi-arrow-right-circle-fill"></i>
                         </button>
@@ -147,7 +149,7 @@
                             <div class="row align-items-center py-2 m-0">
                                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
                                     <h6 class="mb-0">
-                                        {{ $total}} éléments trouvés
+                                        {{ $total }} éléments trouvés
                                     </h6>
                                 </div>
 
@@ -221,6 +223,16 @@
                             </div>
                         </div>
                     @empty
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1 color">
+                                        <i class="bi bi-info-circle"></i>
+                                        Aucun résultat trouvé
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
                     @endforelse
 
 

@@ -133,11 +133,14 @@
                 <div class="col-sm-7 col-8">
                     <div class="row">
                         <div class="col-10 recherche-div">
-                            <input type="text" class="form-control sm text-capitalize input"
-                                placeholder="recherche un produit">
-                            <span class="span-icon-recherche">
-                                <i class="bi bi-search"></i>
-                            </span>
+                            <form action="/shop" method="get">
+                                @csrf
+                                <input type="text" class="form-control sm text-capitalize input" name="key"
+                                    placeholder="recherche un produit">
+                                <button type="submit" class="span-icon-recherche">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
                         </div>
 
                         <div class="col-2" style="text-align: left !important;">
@@ -224,7 +227,9 @@
                                 <ul class="nav-dropdown nav-submenu">
                                     @forelse ($categories as $item)
                                         <li>
-                                            <a href="#">{{ $item->titre }}</a>
+                                            <a href="/shop?categorie={{ $item->id }}">
+                                                {{ $item->titre }}
+                                            </a>
                                         </li>
                                     @empty
                                     @endforelse
@@ -713,146 +718,146 @@
 
 
 
-        <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+    <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
 
 
 
 
-        <!-- Log In Modal -->
-        <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl login-pop-form" role="document">
-                <div class="modal-content" id="loginmodal">
-                    <div class="modal-headers">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
+    <!-- Log In Modal -->
+    <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="loginmodal">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="m-0 ft-regular">Connexion</h2>
                     </div>
+                    @livewire('User.Connexion')
 
-                    <div class="modal-body p-5">
-                        <div class="text-center mb-4">
-                            <h2 class="m-0 ft-regular">Connexion</h2>
-                        </div>
-                        @livewire('User.Connexion')
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 
+
+    <!-- Condition Modal -->
+    <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
+        aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content" id="conditions">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
+                    @include('User.composants.text-conditions')
+                </div>
+                <div class="p-2">
+                    <div class="modal-footer">
+                        <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
+                            J'accepte les conditions
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Modal -->
-
-
-        <!-- Condition Modal -->
-        <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
-            aria-hidden="true">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content" id="conditions">
-                    <div class="modal-headers">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
-                        @include('User.composants.text-conditions')
-                    </div>
-                    <div class="p-2">
-                        <div class="modal-footer">
-                            <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
-                                J'accepte les conditions
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal -->
-        <script>
-            $(document).ready(function() {
-                // Vérifier si l'utilisateur a déjà accepté les conditions
-                var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-                // Si les conditions n'ont pas été acceptées
-                if (!conditionsAccepted) {
-                    // Afficher la modal des conditions
-                    $('#conditions').modal('show');
-                    $("#agree_condition").click(function() {
-                        localStorage.setItem('conditionsAccepted', true);
-                        $('#conditions').modal('hide');
-                    });
-                }
-            });
-
-            document.getElementById('conditiondiv').addEventListener('scroll', function() {
-                var div = this;
-                // Vérifier si l'utilisateur a atteint la fin de la div
-                if (div.scrollHeight - div.scrollTop === div.clientHeight) {
-                    // Activer le bouton
-                    document.getElementById('agree_condition').disabled = false;
-                } else {
-                    // Désactiver le bouton
-                    document.getElementById('agree_condition').disabled = true;
-                }
-            });
-        </script>
-        <style>
-            .modal-dialog-scrollable {
-                overflow-y: auto;
-                overflow-x: hidden;
-                height: 500px;
+    </div>
+    <!-- End Modal -->
+    <script>
+        $(document).ready(function() {
+            // Vérifier si l'utilisateur a déjà accepté les conditions
+            var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+            // Si les conditions n'ont pas été acceptées
+            if (!conditionsAccepted) {
+                // Afficher la modal des conditions
+                $('#conditions').modal('show');
+                $("#agree_condition").click(function() {
+                    localStorage.setItem('conditionsAccepted', true);
+                    $('#conditions').modal('hide');
+                });
             }
-        </style>
-        <!-- end Condition Modal -->
+        });
 
-
-
-        <!-- ============================================================== -->
-        <!-- All Jquery -->
-        <!-- ============================================================== -->
-        <script src="/assets/js/jquery.min.js"></script>
-        <script src="/assets/js/popper.min.js"></script>
-        <script src="/assets/js/bootstrap.min.js"></script>
-        <script src="/assets/js/ion.rangeSlider.min.js"></script>
-        <script src="/assets/js/slick.js"></script>
-        <script src="/assets/js/slider-bg.js"></script>
-        <script src="/assets/js/lightbox.js"></script>
-        <script src="/assets/js/smoothproducts.js"></script>
-        <script src="/assets/js/snackbar.min.js"></script>
-        <script src="/assets/js/jQuery.style.switcher.js"></script>
-        @livewireScripts
-        <script src="/assets/js/custom.js"></script>
-        <!-- ============================================================== -->
-        <!-- This page plugins -->
-        <!-- ============================================================== -->
-
-        <script>
-            function openWishlist() {
-                document.getElementById("Wishlist").style.display = "block";
+        document.getElementById('conditiondiv').addEventListener('scroll', function() {
+            var div = this;
+            // Vérifier si l'utilisateur a atteint la fin de la div
+            if (div.scrollHeight - div.scrollTop === div.clientHeight) {
+                // Activer le bouton
+                document.getElementById('agree_condition').disabled = false;
+            } else {
+                // Désactiver le bouton
+                document.getElementById('agree_condition').disabled = true;
             }
+        });
+    </script>
+    <style>
+        .modal-dialog-scrollable {
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 500px;
+        }
+    </style>
+    <!-- end Condition Modal -->
 
-            function closeWishlist() {
-                document.getElementById("Wishlist").style.display = "none";
-            }
-        </script>
 
-        <script>
-            function openCart() {
-                document.getElementById("Cart").style.display = "block";
-            }
 
-            function closeCart() {
-                document.getElementById("Cart").style.display = "none";
-            }
-        </script>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/ion.rangeSlider.min.js"></script>
+    <script src="/assets/js/slick.js"></script>
+    <script src="/assets/js/slider-bg.js"></script>
+    <script src="/assets/js/lightbox.js"></script>
+    <script src="/assets/js/smoothproducts.js"></script>
+    <script src="/assets/js/snackbar.min.js"></script>
+    <script src="/assets/js/jQuery.style.switcher.js"></script>
+    @livewireScripts
+    <script src="/assets/js/custom.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
 
-        <script>
-            function openSearch() {
-                document.getElementById("Search").style.display = "block";
-            }
+    <script>
+        function openWishlist() {
+            document.getElementById("Wishlist").style.display = "block";
+        }
 
-            function closeSearch() {
-                document.getElementById("Search").style.display = "none";
-            }
-        </script>
+        function closeWishlist() {
+            document.getElementById("Wishlist").style.display = "none";
+        }
+    </script>
+
+    <script>
+        function openCart() {
+            document.getElementById("Cart").style.display = "block";
+        }
+
+        function closeCart() {
+            document.getElementById("Cart").style.display = "none";
+        }
+    </script>
+
+    <script>
+        function openSearch() {
+            document.getElementById("Search").style.display = "block";
+        }
+
+        function closeSearch() {
+            document.getElementById("Search").style.display = "none";
+        }
+    </script>
 
 </body>
 

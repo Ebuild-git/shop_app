@@ -186,7 +186,9 @@
             Effacer
         </button>
         <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+            <span wire:loading>
+                <x-Loading></x-Loading>
+            </span>
             @if ($post)
                 <i class="bi bi-pencil-square"></i>
                 Enregistrer les modifications

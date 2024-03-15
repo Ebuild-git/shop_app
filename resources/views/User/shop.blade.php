@@ -46,7 +46,7 @@
 
 
     <!-- ======================= All Product List ======================== -->
-   @livewire('User.shop')
+   @livewire('User.shop', ["categorie"=>$categorie, "key" => $key])
     <!-- ======================= All Product List ======================== -->
 
 

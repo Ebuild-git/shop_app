@@ -367,6 +367,7 @@ body {
     top: 2px;
     right: 17px;
     border-radius: 1px;
+    border: none;
 }
 
 .option-icon-header {
