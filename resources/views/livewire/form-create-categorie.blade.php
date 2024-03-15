@@ -49,7 +49,7 @@
         </div>
     @enderror
     <br>
-    <div class="card p-2">
+    <div class=" p-2">
         <label for="">Propriétés des annonce de cette catégorie </label>
         <br>
         <div class="row">
@@ -70,7 +70,9 @@
     </div>
     <br>
     <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
-        <x-loading></x-loading>
+        <span wire:loading>
+            <x-loading></x-loading>
+        </span>
         Enregistrer
     </button>
 </form>
