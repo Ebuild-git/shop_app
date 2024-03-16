@@ -409,7 +409,13 @@ body {
     border:solid 1px #008080;
     color: white !important;
 }
-
+.card-img-top img{
+    width: 100%;
+}
+.card-img-top{
+    height: 400px !important;
+    overflow: hidden;
+}
 
 
 
