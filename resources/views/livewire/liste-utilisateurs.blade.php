@@ -9,14 +9,16 @@
          <div class="col-sm-8 my-auto">
              <form wire:submit="filtre">
                  <div class="input-group mb-3">
-                     <input type="text" class="form-control" wire:model="key" placeholder="Nom,Email,Téléphone">
-                     <select  wire:model ="statut" class="form-control">
-                         <option value="" selected >Tous les statuts</option>
+                     <input type="text" class="form-control" wire:model.live="key" placeholder="Nom,Email,Téléphone">
+                     <select wire:model ="statut" class="form-control">
+                         <option value="" selected>Tous les statuts</option>
                          <option value="1">Verifié</option>
                          <option value="0">Non verifié</option>
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
-                        <x-loading></x-loading>
+                         <span wire:loading>
+                             <x-loading></x-loading>
+                         </span>
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
@@ -28,12 +30,13 @@
          <table class="datatables-ajax table">
              <thead class="table-dark">
                  <tr>
-                    <th></th>
+                     <th></th>
                      <th>Full name</th>
                      <th>Email</th>
                      <th>Téléphone</th>
                      <th>Publications</th>
                      <th>Verifié</th>
+                     <th>Photo</th>
                      <th>Ville</th>
                      <th>Action</th>
                      <td></td>
@@ -43,11 +46,11 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td class="avatar">
-                            <div class="avatar me-3">
-                                <img src="{{ Storage::url($user->avatar )}}"  class="rounded-circle">
-                              </div>
-                        </td>
+                         <td class="avatar">
+                             <div class="avatar me-3">
+                                 <img src="{{ Storage::url($user->avatar) }}" class="rounded-circle">
+                             </div>
+                         </td>
                          <td> {{ $user->name }} </td>
                          <td> {{ $user->email }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
@@ -63,11 +66,26 @@
                                  </span>
                              @endif
                          </td>
+                         <td>
+                             @if (is_null($user->photo_verified_at))
+                                 <a href='/admin/client/{{ $user->id }}/view'>
+                                     <span class="badge bg-label-danger">
+                                         <i class="ti ti-camera me-1"></i>
+                                         Validation
+                                     </span>
+                                 </a>
+                                 @else
+                                 <span class="badge bg-label-success">
+                                    Validé
+                                </span>
+                             @endif
+                         </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
-                            <button class="btn btn-sm" onclick="document.location.href='/admin/client/{{$user->id}}/view'">
-                                <i class="ti ti-eye me-1"></i>Voir plus</a>
-                            </button>
+                             <button class="btn btn-sm"
+                                 onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
+                                 <i class="ti ti-eye me-1"></i>Voir plus</a>
+                             </button>
                          </td>
                          <td>
                              <div class="dropdown">
@@ -86,19 +104,17 @@
 
                      </tr>
                  @empty
-                 <tr>
-                    <td colspan="8">
-                        <div class="p-3">
-                            Aucun utilisateur trouvé!
-                        </div>
-                    </td>
-                 </tr>
+                     <tr>
+                         <td colspan="9">
+                             <div class="p-3">
+                                 Aucun utilisateur trouvé!
+                             </div>
+                         </td>
+                     </tr>
                  @endforelse
              </tbody>
          </table>
-         <div class="p-3"
-            {{ $users->links('pagination::bootstrap-4') }}
+         <div class="p-3" {{ $users->links('pagination::bootstrap-4') }} </div>
          </div>
      </div>
- </div>
- <!--/ Ajax Sourced Server-side -->
+     <!--/ Ajax Sourced Server-side -->

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\User;
 
+use App\Events\AdminEvent;
+use App\Models\notifications;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -61,7 +63,24 @@ class UpdateInformations extends Component
 
             $newName = $this->avatar->store('uploads/avatars', 'public');
             $user->avatar = $newName;
+
+            if (!is_null($user->photo_verified_at)) {
+                // Message de succès
+                event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
+                //enregistrer la notification
+                $notification = new notifications();
+                $notification->type = "photo";
+                $notification->titre = $user->name . " vient de changé sa photo de profil";
+                $notification->url = "/admin/client/". $user->id ."/view";
+                $notification->message = "Le client a modifié sa photo de profile";
+                $notification->id_user = Auth::user()->id;
+                $notification->destination = "admin";
+                $notification->save();
+            }
+
+            $user->photo_verified_at = null;
         }
+
         $user->name = $this->name;
         $user->phone_number = $this->telephone;
         $user->ville = $this->ville;

@@ -21,6 +21,11 @@ class ListeUtilisateurs extends Component
         }
     }
 
+    public function updatedKey($value){
+        $this->key = $value;
+        $this->resetPage();
+    }
+
     public function render()
     {
         $users = User::orderBy("id", "desc")->where("type", $this->type)->where("role", "!=", "admin");
