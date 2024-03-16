@@ -50,17 +50,21 @@ class ListeCategorieAdmin extends Component
     }
 
     public function add_luxury($id)
-    {
-        $cat = categories::find($id);
-        if ($cat) {
-            if ($cat->luxury == 1) {
-                $cat->luxury = 0;
-            } else {
-                $cat->luxury = 1;
-            }
+{
+    // Trouver la catégorie correspondante
+    $cat = categories::find($id);
+
+    if ($cat) {
+        if ($cat->luxury) {
+            $cat->luxury = false;
+            $cat->save();
+        } else {
+            categories::where('id', '!=', $id)->update(['luxury' => false]);
+            $cat->luxury = true;
             $cat->save();
         }
     }
+}
 
 
     public function delete_sous_cat($id)

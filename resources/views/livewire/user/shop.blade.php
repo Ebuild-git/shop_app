@@ -200,9 +200,20 @@
                                 </div>
                                 <div class="card-footer b-0 p-0 pt-2 bg-white">
                                     <div class="">
-                                        <div class="text-left">
-                                            {{ $post->sous_categorie_info->titre }}
+                                        <div class="d-flex justify-content-between">
+                                            <div class="text-left">
+                                                {{ $post->sous_categorie_info->titre }}
+                                            </div>
+                                            @if ($post->sous_categorie_info->categorie->luxury == 1)
+                                                <div>
+                                                    <span class="color">
+                                                        <i class="bi bi-gem"></i>
+                                                        LUXURY
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </div>
+
                                         <div class="text-left">
                                             Marque if available
                                         </div>
@@ -210,6 +221,7 @@
                                     <div class="text-left">
                                         <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                                             <a href="/post/{{ $post->id }}">
+
                                                 {{ $post->titre }}
                                             </a>
                                         </h5>

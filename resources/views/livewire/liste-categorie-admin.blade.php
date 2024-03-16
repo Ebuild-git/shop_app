@@ -3,7 +3,6 @@
         <thead class="table-dark">
             <tr>
                 <td></td>
-                <td></td>
                 <th>Titre</th>
                 <th>sous-catégories</th>
                 <th>Propriétés</th>
@@ -15,9 +14,6 @@
         <tbody class="table-border-bottom-0">
             @forelse ($liste as $item)
                 <tr>
-                    <td style="width: 30px">
-                        <img width="28" height="28" wire:click="add_luxury({{ $item->id }})" src="https://img.icons8.com/color/28/diamond.png" alt="diamond"/>
-                    </td>
                     <td>
                         <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}"
                             style="height: 30px !important">
@@ -26,7 +22,7 @@
                         <span class="fw-medium text-capitalize">
                             @if ($item->luxury == 1)
                                 <span style="color: #008080;">
-                                    <b>[ LUXURY ]</b>
+                                    <b>[ <i class="ti ti-star me-1"></i> LUXURY ]</b>
                                 </span>
                             @endif
                             {{ $item->titre }} <br>
@@ -67,11 +63,14 @@
                                     <i class="ti ti-plus me-1"></i>
                                     Ajouter une sous-catégorie
                                 </a>
-
+                                <a class="dropdown-item"  href="javascript:void(0);" wire:click='add_luxury({{ $item->id }})'>
+                                    <i class="ti ti-star me-1"></i>
+                                    Marquer en tant que LUXURY
+                                </a>
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);"><i
                                         class="ti ti-pencil me-1"></i> Modifier</a>
-                                <a class="dropdown-item" href="javascript:void(0)"
+                                <a class="dropdown-item text-danger" href="javascript:void(0)"
                                     wire:confirm="Voullez vous supprimer ?" wire:click="delete( {{ $item->id }})">
                                     <i class="ti ti-trash me-1"></i> Supprimer </a>
                             </div>
@@ -81,7 +80,7 @@
                 @include('Admin.categories.modal-update', ['item' => $item])
             @empty
                 <tr>
-                    <td colspan="7">
+                    <td colspan="6">
                         No Data Found!
                     </td>
                 </tr>

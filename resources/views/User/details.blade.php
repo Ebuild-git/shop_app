@@ -60,7 +60,14 @@
                     <div class="prd_details">
 
                         <div class="prt_01 mb-2">
-                            <span class="text-success bg-light-success rounded px-2 py-1">
+                            @if ($post->sous_categorie_info->categorie->luxury == 1)
+                                <span class="text-success bg-light-success rounded px-2 py-1">
+                                    <i class="bi bi-gem"></i>
+                                    SHOPIN LUXURY
+                                </span>
+                                &nbsp;
+                            @endif
+                            <span class="text-info bg-light-info rounded px-2 py-1">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                         </div>
