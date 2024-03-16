@@ -47,7 +47,7 @@ class HomeController extends Controller
             abort(404);
         }
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-        ->select("titre","photos","prix","id","statut")
+        ->select("titre","photos","id","statut")
         ->inRandomOrder()
         ->take(16)
         ->get();

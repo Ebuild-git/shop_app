@@ -113,7 +113,8 @@
                                     </h5>
                                     <div class="elis_rty color">
                                         <span class="ft-bold  fs-sm">
-                                            {{ $lux->prix }} DH
+                                                @livewire('User.prix', ['id_post' => $lux->id])
+                                             DH
                                         </span>
                                     </div>
                                 </div>
@@ -205,7 +206,8 @@
                                     </h5>
                                     <div class="elis_rty color">
                                         <span class="ft-bold  fs-sm">
-                                            {{ $last->prix }} DH
+                                            @livewire('User.prix', ['id_post' => $last->id])
+                                            DH
                                         </span>
                                     </div>
                                 </div>

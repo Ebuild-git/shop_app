@@ -91,9 +91,13 @@
                                 </div>
                                 <div class="elis_rty">
                                     <span class="ft-bold color fs-lg">
-                                        {{ $post->prix }} DH
+                                        @livewire('User.prix', ['id_post' => $post->id]) DH
                                     </span>
                                 </div>
+                                <span class="color">
+                                    <i class="bi bi-bus-front-fill"></i>
+                                    Frais de Livraison : {{ $post->sous_categorie_info->categorie->frais_livraison ?? 0 }} DH
+                                </span>
                             </div>
                         </div>
 
@@ -416,7 +420,7 @@
                                                 </h5>
                                                 <div class="elis_rty">
                                                     <span class="ft-bold fs-md color">
-                                                        {{ $other->prix }} DH
+                                                        @livewire('User.prix', ['id_post' => $other->id]) DH
                                                     </span>
                                                 </div>
                                             </div>
