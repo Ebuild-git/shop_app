@@ -411,10 +411,14 @@ body {
 }
 .card-img-top img{
     width: 100%;
+    height: 100%;
 }
 .card-img-top{
     height: 400px !important;
     overflow: hidden;
+}
+.card-img-top img:hover{
+    scale: 1.1;
 }
 
 
