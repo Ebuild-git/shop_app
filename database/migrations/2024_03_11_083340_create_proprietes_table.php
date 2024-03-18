@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("nom");
             $table->enum("type",["text","number","color"]);
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

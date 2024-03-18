@@ -77,7 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
         return view('User.notifications');
     })->name('user-notifications');
 
-
+    Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/add_sous_categorie/{id}', [AdminController::class, 'add_sous_categorie'])->name('add_sous_categorie');
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');

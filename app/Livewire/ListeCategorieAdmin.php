@@ -15,8 +15,19 @@ class ListeCategorieAdmin extends Component
     public $proprietes, $categories;
     public $proprios = [];
     public $liste;
-    protected $listeners = ['categorieCreated' => '$refresh'];
+    protected $listeners = ['categorieCreated' => '$refresh','reorder_do' => 'reorder'];
 
+    public function reorder($data)
+    {
+        // Convertir la chaîne de caractères en un tableau d'IDs
+        $ids = explode(',', $data);
+    
+        // Traiter chaque ID individuellement
+        foreach ($ids as $index => $id) {
+            // Votre logique de réorganisation ici...
+        }
+    }
+    
 
 
     public function render()
@@ -31,7 +42,7 @@ class ListeCategorieAdmin extends Component
 
     public function get_all_categorie()
     {
-        $data = categories::Orderby("id", "Desc")->get();
+        $data = categories::orderBy('order')->get();
         return $data;
     }
 

@@ -66,7 +66,9 @@
             <br>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">
-                    <x-loading></x-loading>
+                    <span wire:loading>
+                        <x-loading></x-loading>
+                    </span>
                     Enregistrer
                 </button>
               </div>

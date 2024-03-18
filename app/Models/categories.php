@@ -11,7 +11,8 @@ class categories extends Model
     protected $fillable = [
         'titre',
         'description',
-        'photo'
+        'photo',
+        'order'
     ];
 
 

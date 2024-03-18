@@ -16,6 +16,8 @@ class Shop extends Component
     public $liste_gouvernorat,$gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
 
 
+
+
     public function mount($categorie,$key){
         $this->categorie = $categorie;
         $this->key = $key;
@@ -30,7 +32,7 @@ class Shop extends Component
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
         $this->total = posts::count();
-        $this->liste_categories = categories::all(["titre", "id"]);
+        $this->liste_categories = categories::orderBy('order')->get(["titre", "id"]);
         
         $query = posts::whereNotNull('verified_at')->whereNull('sell_at');
     

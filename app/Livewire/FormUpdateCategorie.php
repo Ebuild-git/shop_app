@@ -43,10 +43,10 @@ class FormUpdateCategorie extends Component
             $categorie->frais_livraison= $this->frais_livraison;
             $categorie->pourcentage_gain=$this->pourcentage_gain ;
             $categorie->save();
-            session()->flash('success-modal', "La catégorie a été modifiée avec succès");
-            
+            session()->flash('success', "La catégorie a été modifiée avec succès");
+            //$this->dispatch('categorieCreated');
         } catch (\Exception $e) {
-            session()->flash('error-modal', 'Une erreur est survenue lors de la modification de la catégorie');
+            session()->flash('error', 'Une erreur est survenue lors de la modification de la catégorie');
         }
     }
 }

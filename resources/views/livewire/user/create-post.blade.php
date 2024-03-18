@@ -105,8 +105,7 @@
                                             <i class="bi bi-info-circle"></i>
                                             {{ $propriete_info->nom }}
                                         </label>
-                                        <input type="{{ $propriete_info->type }}" wire:model="article_propriete['{{ $propriete_info->nom }}']"
-                                            placeholder="{{ $propriete_info->nom }} de l'article" class="form-control">
+                                        <input type="{{ $propriete_info->type }}" placeholder="{{ $propriete_info->nom }}" class="form-control" wire:model="article_propriete.{{ $propriete_info->nom }}">
                                     </div>
                                 </div>
                             @endif

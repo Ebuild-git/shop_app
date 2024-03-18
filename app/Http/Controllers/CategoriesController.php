@@ -22,6 +22,18 @@ class CategoriesController extends Controller
         );
     }
 
+    public function changerOrdre()
+    {
+        $ids = request()->get('ids');
+        $idsArray = explode(',', $ids);
+        foreach ($idsArray as $index => $id) {
+            $enregistrement = categories::findOrFail($id);
+            $enregistrement->update(['order' => $index]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
 
 
@@ -41,7 +53,7 @@ class CategoriesController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' =>  "Impossible de trouver la categorie"
+                    'message' => "Impossible de trouver la categorie"
                 ]
             );
         }
@@ -66,7 +78,7 @@ class CategoriesController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' =>  "Impossible de trouver la categorie"
+                    'message' => "Impossible de trouver la categorie"
                 ]
             );
         }
@@ -77,7 +89,7 @@ class CategoriesController extends Controller
     public function create_categorie(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titre'    => 'required|string',
+            'titre' => 'required|string',
             'description' => 'required|string',
             'icon' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
 
@@ -114,7 +126,7 @@ class CategoriesController extends Controller
     public function update_categorie(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titre'    => 'required|string',
+            'titre' => 'required|string',
             'id_categorie' => 'required|integer|exists:categories,id',
             'description' => 'required|string',
             'icon' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',

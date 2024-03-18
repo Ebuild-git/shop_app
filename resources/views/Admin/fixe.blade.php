@@ -53,6 +53,7 @@
     <script src="/assets-admin/js/config.js"></script>
     @yield('css')
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 </head>
 
 <body>

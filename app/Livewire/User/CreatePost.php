@@ -78,14 +78,11 @@ class CreatePost extends Component
 
     public function submit()
     {
-        //$this->validate(); // Vous validez les données soumises
+        $this->validate(); // Vous validez les données soumises
 
-        $proprieteValeurs = [];
+        $jsonProprietes = json_encode($this->article_propriete);
 
-        foreach ($this->article_propriete as $nomPropriete => $valeur) {
-            $proprieteValeurs[$nomPropriete] = $valeur;
-        }
-     
+ 
         $post = posts::find($this->post->id ?? "d"); // Vous cherchez le post existant par son ID
         if (!$post) {
             $post = new posts(); // Si le post n'existe pas, vous en créez un nouveau
@@ -112,6 +109,7 @@ class CreatePost extends Component
         $post->description = $this->description;
         $post->gouvernorat = $this->gouvernorat;
         $post->etat = $this->etat;
+        $post->proprietes =  $jsonProprietes ?? [];
         $post->id_sous_categorie = $this->id_sous_categorie;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
