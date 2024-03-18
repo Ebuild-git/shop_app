@@ -1,7 +1,7 @@
 @extends('User.fixe')
 @section('titre', $post->titre)
 @section('content')
-@section('body')
+
 
     @php
         $photos = json_decode($post->photos, true);
@@ -531,5 +531,5 @@
         </div>
     </section>
     <!-- ======================= Similar Products Start ============================ -->
-    
+
 @endsection
