@@ -25,7 +25,9 @@
                          @endforeach
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
-                        <x-loading></x-loading>
+                        <span wire:loading>
+                        <x-loading ></x-loading>
+                    </span>
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
