@@ -12,10 +12,25 @@ class ListMesPosts extends Component
 {
     use WithPagination;
 
-    public  $date, $etat;
+    public  $date, $etat,$filter,$titre,$statut;
+
+
+    
+    public function mount($titre,$filter,$statut){
+            $this->titre = $titre;
+            $this->filter=$filter;
+            $this->statut=$statut;
+            if(isset($statut)  && !empty($statut)){
+                $this->etat=$statut;
+            }
+    }
+
+
+
     public function render()
     {
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
+
 
         if (!empty($this->date)) {
             $Query->whereDate('Created_at', $this->date);

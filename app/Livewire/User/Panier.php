@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Panier extends Component
 {
-    public $cart, $total;
+    public $cart, $total,$produits=[];
     protected $listeners = ['PostAdded' => 'get'];
 
 

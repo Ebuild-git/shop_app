@@ -66,7 +66,8 @@ class HomeController extends Controller
 
     public function historiques()
     {
-        return view('User.historiques');
+        $count = posts::where("id_user",Auth::user()->id)->count();
+        return view('User.historiques', compact("count"));
     }
 
     public function list_proposition($id_post)
@@ -85,6 +86,12 @@ class HomeController extends Controller
 
         return view("User.mes-achats");
     }
+
+
+    public function checkout(){
+        return view("User.checkout");
+    }
+
 
     public function shop(Request $request)
     {

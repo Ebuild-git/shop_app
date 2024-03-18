@@ -90,36 +90,7 @@
                 </table>
             </div>
             <br>
-            <div class="card p-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        @if ($total == 0)
-                            <span class="h4">
-                                Créer Votre Première publication
-                                <span class="text-red">Maintenant </span> !
-                            </span>
-                        @else
-                            <span class="h4">
-                                Créer une publication
-                                <span class="text-red">Maintenant </span> !
-                            </span>
-                        @endif
-                        <div class="text-muted small">
-                            {{ Auth::user()->name }} ,vous pouvez créer une <br> publication et vendre vos poduits quand
-                            vous voulez !
-                        </div>
-
-                    </div>
-                    <div style="text-align: right">
-                        <a href="/publication">
-                            <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
-                                <i class="bi bi-plus-circle-fill"></i>
-                                Vendre un article
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
     </div>

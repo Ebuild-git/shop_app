@@ -414,15 +414,24 @@ body {
     height: 100%;
 }
 .card-img-top{
-    height: 400px !important;
+    height: 300px !important;
     overflow: hidden;
 }
 .card-img-top img:hover{
     scale: 1.1;
 }
-
-
-
+.slick-arrow{
+    background-color: #ffffff17 !important;
+    border: white !important;
+    border-radius: 100% !important;
+    
+}
+.slick-arrow i{
+    color: white !important;
+}
+.slick-arrow span{
+    color: white !important;
+}
 
 
 

@@ -18,16 +18,9 @@
                                 <!-- Slide Title -->
                                 <div class="home-slider-desc text-center p-2 position-absolute header-btn-position">
                                     <div class="home-slider-title mb-4">
-                                        {{-- <h5 class="theme-cl fs-sm ft-ragular mb-0">
-                                            {{ $cat->titre }}
-                                        </h5> --}}
-                                        {{--  <h1 class="mb-1 ft-bold lg-heading" style="color: white;">
-                                            {{ $cat->titre }}
-                                        </h1> --}}
                                     </div>
-                                    <a href="/shop" class="btn btn-md  bg-dark text-light fs-md ft-medium ">
+                                    <a href="/shop" class="btn btn-md  bg-dark text-light  " style="font-size: 25px;">
                                         {{ $cat->titre }}
-                                        <i class="lni lni-arrow-right ml-2"></i>
                                     </a>
                                 </div>
                                 <!-- Slide Title / End -->
@@ -58,7 +51,6 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Trendy Products</h2>
                         <h3 class="ft-bold pt-3">Nouveau Sur SHOP<span class="color">IN</span> LUXURY</h3>
                     </div>
                 </div>
@@ -113,8 +105,8 @@
                                     </h5>
                                     <div class="elis_rty color">
                                         <span class="ft-bold  fs-sm">
-                                                @livewire('User.prix', ['id_post' => $lux->id])
-                                             DH
+                                            @livewire('User.prix', ['id_post' => $lux->id])
+                                            DH
                                         </span>
                                     </div>
                                 </div>
@@ -130,7 +122,8 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="position-relative text-center">
-                            <a href="/shop?categorie={{ $luxurys->first()->id_categorie }}" class="btn stretched-link borders">
+                            <a href="/shop?categorie={{ $luxurys->first()->id_categorie }}"
+                                class="btn stretched-link borders">
                                 Voir Plus
                                 <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -149,7 +142,6 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Trendy Products</h2>
                         <h3 class="ft-bold pt-3">Nouveau Sur SHOP<span class="color">IN</span> </h3>
                     </div>
                 </div>

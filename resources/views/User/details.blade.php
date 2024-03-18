@@ -1,6 +1,6 @@
 @extends('User.fixe')
 @section('titre', $post->titre)
-@section('content')
+@section('body')
 
 
     @php
@@ -68,8 +68,14 @@
                                 </span>
                                 &nbsp;
                             @endif
-                            <span class="text-info bg-light-info rounded px-2 py-1">
+                            <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
                                 {{ $post->sous_categorie_info->titre }}
+                            </span>
+                             <span class="text-muted">
+                                 
+                             </span>
+                            <span class="text-info bg-light-info rounded px-2 py-1">
+                                {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                             </span>
                         </div>
                         <div class="prt_02 mb-3">
@@ -111,38 +117,14 @@
                         <div class="row">
                             <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
-                                Catégorie :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->sous_categorie_info->titre ?? '' }}
-                                </strong>
-                            </div>
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
-                                Sous catégorie :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
-                                </strong>
-                            </div>
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
                                 Etat :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->etat }}
                                 </strong>
                             </div>
                             <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
-                                Prix :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->prix }} DH
-                                </strong>
-                            </div>
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
                                 Gouvernorat :<strong class="fs-sm text-dark ft-medium ml-1">
                                     {{ $post->gouvernorat }}
-                                </strong>
-                            </div>
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
-                                Statut :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->statut }}
                                 </strong>
                             </div>
                         </div>
@@ -374,7 +356,6 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Similar Products</h2>
                         <h3 class="ft-bold pt-3">
                             Autres produits de la même catégorie
                         </h3>

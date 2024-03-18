@@ -3,17 +3,19 @@
         <div class="d-flex justify-content-between">
             <div>
                 <h5>
-                    Mes publications
+                    {{ $titre }}
                 </h5>
             </div>
             <div>
                 <form wire:submit="filtrer">
                     <div class="d-flex justify-content-start mb-3">
-                        <select class="form-control sm" wire:model="etat">
-                            <option value=""></option>
-                            <option value="En modération">En modération</option>
-                            <option value="Active">Active</option>
-                        </select>
+                        @if ($filter === true)
+                            <select class="form-control sm" wire:model="etat">
+                                <option value=""></option>
+                                <option value="En modération">En modération</option>
+                                <option value="Active">Active</option>
+                            </select>
+                        @endif
                         <input type="date" class="form-control sm" wire:model="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
@@ -73,13 +75,13 @@
                                     Modifer
                                 </button>
                             </a>
-                            @endif
-                            @if ($item->sell_at == null)
+                        @endif
+                        @if ($item->sell_at == null)
                             <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"
                                 wire:confirm="Voulez-vous supprimer cette publication ?">
                                 <i class="bi bi-trash"></i>
                             </button>
-                            @endif
+                        @endif
                     </td>
                 </tr>
             @empty

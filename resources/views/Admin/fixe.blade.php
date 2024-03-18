@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="/assets-admin/vendor/libs/apex-charts/apex-charts.css" />
     <link rel="stylesheet" href="/assets-admin/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
     <link rel="stylesheet" href="/assets-admin/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Page CSS -->
 
@@ -56,6 +57,7 @@
 
 <body>
 
+    @livewire('SweetAlert')
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">

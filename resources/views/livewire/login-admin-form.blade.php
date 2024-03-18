@@ -32,7 +32,9 @@
             @endif
 
             <x-primary-button class="ms-3">
-                <x-loading></x-loading>
+                <span wire:loading >
+                    <x-Loading></x-Loading>
+                </span>
                 {{ __('Connexion') }}
             </x-primary-button>
         </div>

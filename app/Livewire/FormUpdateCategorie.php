@@ -10,7 +10,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $description,$photo,$id,$frais_livraison,$pourcentage_gain;
+    public $categorie, $titre,$icon, $description,$photo,$id,$frais_livraison,$pourcentage_gain;
 
     public function mount($id)
     {
@@ -22,6 +22,7 @@ class FormUpdateCategorie extends Component
     {
         $this->categorie = categories::find($this->id);
         $this->titre = $this->categorie->titre;
+        $this->icon = $this->categorie->icon;
         $this->pourcentage_gain = $this->categorie-> pourcentage_gain ?? 0;
         $this->frais_livraison =$this->categorie->frais_livraison ?? 0;
         $this->description = $this->categorie->description;

@@ -30,6 +30,9 @@ Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
 Route::get('/reset/{token}', [Security::class, 'reset_password']);
 Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
 Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
+Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
+
+
 
 
 Route::get('/conditions', function () {

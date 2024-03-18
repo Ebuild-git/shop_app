@@ -31,7 +31,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                    <span wire:loading>
+                    <span wire:loading >
                         <x-Loading></x-Loading>
                     </span>
                     Connexion

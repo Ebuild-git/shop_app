@@ -3,17 +3,22 @@
         <thead class="table-dark">
             <tr>
                 <td></td>
+                <td></td>
                 <th>Titre</th>
                 <th>sous-catégories</th>
-                <th>Propriétés</th>
                 <th>Frais</th>
                 <th></th>
             </tr>
         </thead>
 
-        <tbody class="table-border-bottom-0">
+        <tbody class="table-border-bottom-0" wire:sortable="updateTaskOrder">
             @forelse ($liste as $item)
-                <tr>
+                <tr wire:sortable.item="{{ $item->id }}" wire:key="task-{{ $item->id }}">
+                    <td>
+                      <button wire:sortable.handle class="flex cursor-pointer">
+                        ici
+                      </button>
+                    </td>
                     <td>
                         <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}"
                             style="height: 30px !important">
@@ -35,21 +40,6 @@
                         {{ $item->getSousCategories->count() }}
                     </td>
                     <td>
-                        @php
-                            $proprietes = json_decode($item->proprietes, true);
-                        @endphp
-                        @foreach ($proprietes as $pro)
-                            @php
-                                $pro = DB::table('proprietes')->find($pro);
-                            @endphp
-                            @if ($pro)
-                                <span class="alert alert-warning p-1 text-capitalize " style="margin: 2px">
-                                    {{ $pro->nom }}
-                                </span>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td>
                         Livraison : {{ $item->frais_livraison }} DH <br>
                         Gain : {{ $item->pourcentage_gain }}
                     </td>
@@ -60,8 +50,8 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"  href="/admin/add_sous_categorie/{{ $item->id }}">
-                                    <i class="ti ti-plus me-1"></i>
-                                    Ajouter une sous-catégorie
+                                    <i class="ti ti-eye me-1"></i>
+                                    Consulter les sous-catégories
                                 </a>
                                 <a class="dropdown-item"  href="javascript:void(0);" wire:click='add_luxury({{ $item->id }})'>
                                     <i class="ti ti-star me-1"></i>
@@ -80,7 +70,7 @@
                 @include('Admin.categories.modal-update', ['item' => $item])
             @empty
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         No Data Found!
                     </td>
                 </tr>

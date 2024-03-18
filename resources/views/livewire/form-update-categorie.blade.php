@@ -1,4 +1,5 @@
 <div>
+    <img src="{{ Storage::url($icon) }}" class="w-100" alt="photo" srcset="">
     <form wire:submit="modifier">
         @csrf
         @if (session()->has('error-modal'))
@@ -19,6 +20,15 @@
                 {{ $message }}
             </div>
         @enderror
+        <div>
+            <label for="">choisir une nouvelle photo</label>
+            <input type="file" wire:model ="photo" value="{{ $photo }}" class="form-control" >
+            @error('photo')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
     
         <label for="">description </label>
         <textarea class="form-control" wire:model="description" rows="4" required>
@@ -54,7 +64,9 @@
         </div>
         <hr>
         <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
-            <x-loading></x-loading>
+            <span wire:loading>
+                <x-loading></x-loading>
+            </span>
             Enregistrer
         </button>
     </form>

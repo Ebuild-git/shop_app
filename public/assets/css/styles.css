@@ -2797,6 +2797,7 @@ li.login-attri .account-drop a {
 }
 .home-slider.hide-navigation .slick-arrow{
 	display:none !important;
+    background-color: #000 !important;
 }
 /*------------ New homes -----------------*/
 .killore--block-link-content ul {
@@ -3071,7 +3072,7 @@ li.login-attri .account-drop a {
 }
 .home-slider .slick-prev {
     left: initial;
-    right:100px;
+    left: 40px !important;
     z-index: 1;
 }
 .home-slider .slick-next, .home-slider .slick-prev {
