@@ -41,23 +41,6 @@
 
 
 
-    <!-- Add New Credit Card Modal -->
-    <div class="modal fade" id="addsouscategorie" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
-            <div class="modal-content p-3 p-md-5">
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="text-center mb-4">
-                        <h3 class="mb-2">sous-catégorie</h3>
-                        <p class="text-muted">Création d'une nouvelle sous-catégorie</p>
-                    </div>
-                    @livewire('CreateSousCategorie')
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/ Add New Credit Card Modal -->
-
 
      <!-- Add New Credit Card Modal -->
      <div class="modal fade" id="addcategorie" tabindex="-1" aria-hidden="true">

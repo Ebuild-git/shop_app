@@ -14,11 +14,23 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule,$username;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username;
 
     public function render()
     {
         return view('livewire.user.inscription');
+    }
+
+
+
+    public function updatedUsername($value)
+    {
+        $cleanedUsername = preg_replace('/[^A-Za-z0-9]/', '', $value);
+        $count = User::where("username", $cleanedUsername)->count();
+        if ($count > 0) {
+            $this->addError('username', "Ce nom d'utilisateur est déjà utilisé !");
+        }
+        $this->username = $cleanedUsername;
     }
 
 
@@ -41,7 +53,7 @@ class Inscription extends Component
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');
 
-            
+
 
             //generer un token pour la verification de mail
             $token = md5(time());
@@ -49,20 +61,20 @@ class Inscription extends Component
             $user = new User();
             $user->name = $this->nom;
             $user->email = $this->email;
-            $user->password =  Hash::make($this->password);
+            $user->password = Hash::make($this->password);
             $user->phone_number = $this->telephone;
             $user->role = "user";
             $user->type = "user";
-            $user->username= $this->username;
+            $user->username = $this->username;
             $user->avatar = $newName;
             $user->ip_adress = request()->ip();
-            $user->remember_token =  $token;
+            $user->remember_token = $token;
 
             if ($this->matricule) {
                 $matricule = $this->matricule->store('uploads/documents', 'public');
-                $user->type="shop";
+                $user->type = "shop";
                 $user->matricule = $matricule;
-            }else{
+            } else {
                 $user->validate_at = now();
             }
 

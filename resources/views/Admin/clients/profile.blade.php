@@ -1,5 +1,5 @@
 @extends('Admin.fixe')
-@section('title', 'Profil ' . $user->name)
+@section('titre', 'Profil ' . $user->name)
 @section('content')
 
 
@@ -19,8 +19,10 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                            <img src="{{ Storage::url($user->avatar) }}" alt="user image"
-                                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                            <a href="{{ Storage::url($user->avatar) }}">
+                                <img src="{{ Storage::url($user->avatar) }}" alt="user image"
+                                    class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                            </a>
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             @livewire('HeaderUserProfilAdmin', ['id' => $user->id])
@@ -37,7 +39,7 @@
                 <ul class="nav nav-pills flex-column flex-sm-row mb-4">
                     <li class="nav-item">
                         <a class="nav-link active" href="javascript:void(0);">
-                          <i class="ti-xs ti ti-user-check me-1"></i>
+                            <i class="ti-xs ti ti-user-check me-1"></i>
                             Profile</a>
                     </li>
                 </ul>
@@ -116,7 +118,7 @@
                 <!-- Projects table -->
                 <div class="card mb-4">
                     <div class="card-datatable table-responsive">
-                      @livewire('ListPublicaionUserProfil', ['posts' => $user->GetPosts])
+                        @livewire('ListPublicaionUserProfil', ['posts' => $user->GetPosts])
                     </div>
                 </div>
                 <!--/ Projects table -->

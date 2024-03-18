@@ -1,143 +1,264 @@
-<div class="row">
-    <div class="col-sm-3">
-        <div class="p-3 card">
-            <form wire:submit="filtrer" class="">
-                <h5 class="text-muted">
-                    <i class="bi bi-filter-left"></i> Filtres Avancés
-                </h5>
-                <hr>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text input-group-text-ps" >
-                            <i class="bi bi-search"></i>
-                        </span>
-                    </div>
-                    <input type="text" wire:model="key" class="form-control border-left-none shadow-none"
-                        placeholder="Mot clé">
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-group-text-ps" >
-                                    <i class="bi bi-funnel"></i>
-                                </span>
-                            </div>
-                            <select wire:model="gouvernorat"  wire:model="gouvernorat" class="form-control shadow-none border-left-none">
-                                <option value="">Gouvernorat</option>
-                                @foreach ($liste_gouvernorat as $item)
-                                    <option value="{{ $item }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-group-text-ps" >
-                                    <i class="bi bi-funnel"></i>
-                                </span>
-                            </div>
-                            <input type="number" class="form-control shadow-none border-left-none"
-                                placeholder="Prix Minimum" wire:model="prix_minimun">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-group-text-ps" >
-                                    <i class="bi bi-funnel"></i>
-                                </span>
-                            </div>
-                            <input type="number" class="form-control shadow-none border-left-none"
-                                placeholder="Prix Maximun" wire:model="prix_maximun">
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text input-group-text-ps" >
-                            <i class="bi bi-funnel"></i>
-                        </span>
-                    </div>
-                    <select wire:model="categorie" wire:model="categorie" class="form-control shadow-none border-left-none">
-                        <option value="">Catégories</option>
-                        @foreach ($liste_categories as $item)
-                            <option value="{{ $item->id }}">{{ $item->titre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group mb-3 ">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text input-group-text-ps" >
-                                <i class="bi bi-sort-alpha-down"></i>
-                            </span>
-                        </div>
-                        <select wire:model="ordre" class="form-control shadow-none border-left-none">
-                            <option value="">Ordre de publication</option>
-                            <option value="Asc">Des plus ancients</option>
-                            <option value="Desc">Des plus récents</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <button type="submit" class="btn bg-red w-100">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                wire:loading></span>
-                            Filtrer
-                            <i class="bi bi-funnel"></i>
-                        </button>
-                    </div>
-                    <div class="col-4">
-                        <button type="rerst" wire:click="reset_form" class="btn btn-secondary disabled w-100">
-                            <i class="bi bi-x-lg"></i>
-                            Vider
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <hr>
-            <div class="row">
-                @foreach ($liste_categories as $item)
-                    <div class="col-sm-4 col-4">
-                        <div class="div-cat-shop-item">
-                            <img src="{{ Storage::url($item->icon) }}" >
-                            <div class="small">
-                                {{ strlen($item->titre) > 10 ? substr($item->titre, 0, 10) . '...' : $item->titre }}
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-9">
-        <div class="card p-2">
-            <div>
-                <span class="h5">
-                    Vous avez a votre disposition plus de <span class="color-orange">{{ $total }}</span>
-                    disponibles.
-                </span>
-            </div>
-            <br>
-            <div class="row">
+<section class="middle">
+    <div class="container">
+        <div class="row">
 
-                @forelse ($posts as $item)
-                    <x-CardPost :post="$item" :class="'col-6 col-md-2 col-lg-3 col-xl-2 pb-3'"></x-CardPost>
-                @empty
-                    <div class="alert alert-danger col-lg-12" role="alert">
-                        Aucun article trouvé !
+            <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
+                <div class="search-sidebar sm-sidebar border">
+                    <div class="search-sidebar-body">
+                        <div>
+                            <input type="text" class="form-control" wire:model.live="key" placeholder="Mot clé">
+                        </div>
+
+                        <!-- Single Option -->
+                        <div class="single_search_boxed">
+                            <div class="widget-boxed-header px-3">
+                                <h4 class="mt-3">Categories</h4>
+                            </div>
+                            <div class="widget-boxed-body">
+                                <div class="side-list no-border">
+                                    <div class="filter-card" id="shop-categories">
+
+                                        @forelse ($liste_categories as $categorie)
+                                            <!-- Single Filter Card -->
+                                            <div class="single_filter_card">
+                                                <h5>
+                                                    <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
+                                                        class="collapsed" aria-expanded="false" role="button">
+                                                        {{ $categorie->titre }}
+                                                        <i class="accordion-indicator ti-angle-down"></i>
+                                                    </a>
+                                                </h5>
+
+                                                <div class="collapse" id="cat-{{ $categorie->id }}"
+                                                    data-parent="#shop-categories">
+                                                    <div class="card-body">
+                                                        <div class="inner_widget_link">
+                                                            <ul>
+                                                                @forelse ($categorie->getSousCategories as $SousCategorie)
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            {{ $SousCategorie->titre }}
+                                                                            <span>
+                                                                                {{ $SousCategorie->getPost->count() }}
+                                                                            </span>
+                                                                        </a>
+                                                                    </li>
+                                                                @empty
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                        @endforelse
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- Single Option -->
+                        <div class="single_search_boxed">
+                            <div class="widget-boxed-header">
+                                <h4><a href="#types" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                        role="button">Type</a></h4>
+                            </div>
+                            <div class="widget-boxed-body collapse" id="types" data-parent="#types">
+                                <div class="side-list no-border">
+                                    <!-- Single Filter Card -->
+                                    <div class="single_filter_card">
+                                        <div class="card-body pt-0">
+                                            <div class="inner_widget_link">
+                                                <ul class="no-ul-list">
+                                                    <li>
+                                                        <input id="t1" class="checkbox-custom" name="t1"
+                                                            type="radio">
+                                                        <label for="t1" class="checkbox-custom-label">
+                                                            Neufs
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input id="t2" class="checkbox-custom" name="t2"
+                                                            type="checkbox">
+                                                        <label for="t2" class="checkbox-custom-label">
+                                                            Occasion
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Single Option -->
+                        <div class="single_search_boxed">
+                            <div class="widget-boxed-header">
+                                <h4><a href="#occation" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                        role="button">Localisation</a></h4>
+                            </div>
+                            <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
+                                <div class="side-list no-border">
+                                    <!-- Single Filter Card -->
+                                    <div class="single_filter_card">
+                                        <div class="card-body pt-0">
+                                            <div class="inner_widget_link">
+                                                <ul class="">
+                                                    @forelse ($liste_gouvernorat as $gouvernorat)
+                                                        <li>
+                                                            <input type="radio">
+                                                            <label class="checkbox-custom-label">
+                                                                {{ $gouvernorat }}
+                                                            </label>
+                                                        </li>
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
+                            <span wire:loading>
+                                <x-Loading></x-Loading>
+                            </span>
+
+                            Filtrer
+                            <i class="bi bi-arrow-right-circle-fill"></i>
+                        </button>
+
                     </div>
-                @endforelse
+                </div>
             </div>
-            <!-- Pagination -->
-            <nav aria-label="...">
-                <ul class="pagination justify-content-center">
-                    {{ $posts->links('pagination::bootstrap-5') }}
-                </ul>
-            </nav>
+
+            <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12">
+                        <div class="border mb-3 mfliud">
+                            <div class="row align-items-center py-2 m-0">
+                                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
+                                    <h6 class="mb-0">
+                                        {{ $total }} éléments trouvés
+                                    </h6>
+                                </div>
+
+                                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
+                                    <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
+                                        <div class="single_fitres mr-2 br-right">
+                                            <select class="custom-select simple">
+                                                <option value="1" selected="">Default Sorting</option>
+                                                <option value="2">Sort by price: Low price</option>
+                                                <option value="3">Sort by price: Hight price</option>
+                                                <option value="4">Sort by rating</option>
+                                                <option value="5">Sort by trending</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- row -->
+                <div class="row align-items-center rows-products">
+
+                    @forelse ($posts as $post)
+                        @php
+                            $photo = json_decode($post->photos, true);
+                        @endphp
+                        <!-- Single -->
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-6">
+                            <div class="product_grid card b-0">
+                                <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                    {{ $post->statut }}
+                                </div>
+                                <div class="badge badge-like-post-count position-absolute ab-right text-upper">
+                                    <i class="far fa-heart"></i>
+                                    <span>
+                                        {{ $post->getLike->count() }}
+                                    </span>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                        <a class="card-img-top d-block overflow-hidden"
+                                            href="/post/{{ $post->id }}">
+                                            <img  src="{{ Storage::url($photo[0] ?? '') }}"
+                                                alt="..."></a>
+                                    </div>
+                                </div>
+                                <div class="card-footer b-0 p-0 pt-2 bg-white">
+                                    <div class="">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="text-left">
+                                                {{ $post->sous_categorie_info->titre }}
+                                            </div>
+                                            @if ($post->sous_categorie_info->categorie->luxury == 1)
+                                                <div>
+                                                    <span class="color">
+                                                        <i class="bi bi-gem"></i>
+                                                        LUXURY
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="text-left">
+                                            Marque if available
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
+                                            <a href="/post/{{ $post->id }}">
+
+                                                {{ $post->titre }}
+                                            </a>
+                                        </h5>
+                                        <div class="elis_rty color">
+                                            <span class="ft-bold  fs-sm">
+                                                {{ $post->prix }} DH
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1 color">
+                                        <i class="bi bi-info-circle"></i>
+                                        Aucun résultat trouvé
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
+
+
+                </div>
+                <!-- row -->
+
+                {{--  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 text-center">
+                        <a href="#" class="btn stretched-link borders m-auto"><i
+                                class="lni lni-reload mr-2"></i>Load More</a>
+                    </div>
+                </div> --}}
+            </div>
+
         </div>
     </div>
-</div>
+</section>

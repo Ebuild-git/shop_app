@@ -15,15 +15,14 @@ class posts extends Model
 
 
 
-    public function categorie_info()
-    {
-        return $this->hasOne(categories::class, 'id', 'id_categorie');
-    }
+
 
     public function sous_categorie_info()
     {
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
+
+
 
     //recuperer les informations su l'uilisateur
     public function user_info()
@@ -38,5 +37,9 @@ class posts extends Model
 
     public function acheteur(){
         return $this->belongsTo(User::class,"id_user_buy","id");
+    }
+
+    public function getLike(){
+        return $this->hasMany(likes::class,'id_post','id');
     }
 }

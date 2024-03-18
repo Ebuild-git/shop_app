@@ -20,18 +20,45 @@
             </li>
         </ul>
     </div>
+
+    @if (is_null($user->photo_verified_at))
+        <a href="javascript:void(0)">
+            <button class="btn btn-success" wire:click="photo()">
+                <span wire:loading>
+                    <x-loading></x-loading>
+                </span>
+                <i class="ti ti-camera me-1"></i> Accepter 
+            </button>
+        </a>
+    @else
+        <a href="javascript:void(0)">
+            <button class="btn btn-danger" wire:click="photo()">
+                <span wire:loading>
+                    <x-loading></x-loading>
+                </span>
+                <i class="ti ti-camera me-1"></i> Réfuser
+            </button>
+        </a>
+    @endif
+
+
     @if ($user->certifier == 'oui')
         <a href="javascript:void(0)">
-            <button class="btn btn-danger"  wire:click="decertifier()">
+            <button class="btn btn-danger" wire:click="decertifier()">
+                <span wire:loading>
+                    <x-loading></x-loading>
+                </span>
                 <i class="ti ti-check me-1"></i> Décertifer
             </button>
         </a>
     @else
-    <a href="javascript:void(0)">
-        <button class="btn btn-success" wire:click="certifier()">
-            <x-loading></x-loading>
-            <i class="ti ti-check me-1"></i> Certifer
-        </button>
-    </a>
+        <a href="javascript:void(0)">
+            <button class="btn btn-success" wire:click="certifier()">
+                <span wire:loading>
+                    <x-loading></x-loading>
+                </span>
+                <i class="ti ti-check me-1"></i> Certifer
+            </button>
+        </a>
     @endif
 </div>

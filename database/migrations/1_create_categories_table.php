@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text("description")->nullable()->default(null);
             $table->decimal("frais_livraison", 13, 3)->nullable()->default(null);
             $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
+            $table->boolean("luxury")->default(false);
             $table->string("icon");
             $table->json("proprietes")->nullable(true);
             $table->timestamps();

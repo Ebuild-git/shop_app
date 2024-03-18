@@ -367,6 +367,7 @@ body {
     top: 2px;
     right: 17px;
     border-radius: 1px;
+    border: none;
 }
 
 .option-icon-header {
@@ -390,6 +391,50 @@ body {
 .comment-position-top a{
     padding-left: 0px !important
 }
+.password_show{
+    position: absolute;
+    right: 20px;
+    bottom: 14px;
+    background-color: #008080;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+.btn-liked{
+    background-color: #d32a2a !important;
+    color: white !important;
+}
+.badge-like-post-count{
+    background-color: #cccccc65;
+    border:solid 1px #008080;
+    color: white !important;
+}
+.card-img-top img{
+    width: 100%;
+    height: 100%;
+}
+.card-img-top{
+    height: 400px !important;
+    overflow: hidden;
+}
+.card-img-top img:hover{
+    scale: 1.1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

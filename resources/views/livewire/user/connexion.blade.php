@@ -31,8 +31,9 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                        wire:loading></span>
+                    <span wire:loading>
+                        <x-Loading></x-Loading>
+                    </span>
                     Connexion
                     <i class="bi bi-arrow-right-circle-fill"></i>
                 </button>

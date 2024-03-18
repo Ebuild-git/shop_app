@@ -90,13 +90,19 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="form-group">
-                <label>Photo de profil</label>
-                <input type="file" class="form-control shadow-none" @error('avatar') is-invalid @enderror wire:model="avatar" >
+                <input type="file" class="form-control shadow-none" @error('avatar') is-invalid @enderror
+                    wire:model="avatar">
                 @error('avatar')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
+            @if (is_null(Auth::user()->photo_verified_at))
+            <div class="alert alert-info">
+                Votre photo de profil est en attente de validation par les administrateurs !
+            </div>
+        @endif
         </div>
+
         <div class="col-sm-4 text-center">
             @if ($avatar)
                 <img src="{{ $avatar->temporaryUrl() }}" alt="" class="avatar-inscription">

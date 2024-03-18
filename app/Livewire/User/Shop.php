@@ -14,51 +14,59 @@ class Shop extends Component
     use WithPagination;
 
     public $liste_gouvernorat,$gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
+
+
+    public function mount($categorie,$key){
+        $this->categorie = $categorie;
+        $this->key = $key;
+    }
+
+    public function updatedKey($value){
+        $this->key = $value;
+        $this->resetPage();
+    }
+
     public function render()
     {
         $this->liste_gouvernorat = $this->get_list_gouvernorat();
         $this->total = posts::count();
-        $this->liste_categories = categories::all(["titre", "id", "icon"]);
-        $Query = posts::where("verified_at", '!=', null)->where("sell_at",null);
+        $this->liste_categories = categories::all(["titre", "id"]);
+        
+        $query = posts::whereNotNull('verified_at')->whereNull('sell_at');
+    
         if (!empty($this->ordre)) {
-            if ($this->ordre == "Desc") {
-                $Query = $Query->orderBy('created_at', 'DESC');
-            } else {
-                $Query = $Query->orderBy('created_at');
-            }
+            $query->orderBy('created_at', ($this->ordre == "Desc") ? 'DESC' : 'ASC');
         }
-
+    
         if (!empty($this->gouvernorat)) {
-            $Query->where('gouvernorat', $this->gouvernorat);
+            $query->where('gouvernorat', $this->gouvernorat);
         }
-
-        if (!empty($this->categorie)) {
-            $Query->where('id_categorie', $this->categorie);
-        }
-        if (!empty($this->prix_minimun)) {
-            $Query->where('prix', '>=', $this->prix_minimun);
-        }
-        if (!empty($this->prix_maximun)) {
-            $Query->where('prix', '<=', $this->prix_maximun);
-        }
-        if (!empty($this->sous_categorie)) {
-            $Query->where('id_sous_categorie', $this->sous_categorie);
-        }
-
-        if ($this->etat == "neuf" || $this->etat == "occasion") {
-            $Query->where('etat', $this->etat);
-        }
-
-        //recherche en fonction du mot cle
+    
         if (!empty($this->key)) {
             $q = $this->key;
-            $Query = $Query->where(function ($query) use ($q) {
+            $query->where(function ($query) use ($q) {
                 $query->where('titre', 'like', '%' . $q . '%')
-                    ->OrWhere('description', 'like', '%' . $q . '%');
+                      ->orWhere('description', 'like', '%' . $q . '%');
             });
         }
-        return view('livewire.user.shop', ['posts' => $Query->paginate(30)]);
+    
+        if (!empty($this->categorie)) {
+            $query->whereHas('sous_categorie_info.categorie', function ($query) {
+                $query->where('id', $this->categorie);
+            });
+        }
+    
+        if (!empty($this->sous_categorie)) {
+            $query->where('id_sous_categorie', $this->sous_categorie);
+        }
+    
+        if ($this->etat == "neuf" || $this->etat == "occasion") {
+            $query->where('etat', $this->etat);
+        }
+    
+        return view('livewire.user.shop', ['posts' => $query->paginate(30)]);
     }
+    
 
 
     public function filtrer()

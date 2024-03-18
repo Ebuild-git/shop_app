@@ -12,7 +12,7 @@ use Livewire\WithFileUploads;
 class ListeCategorieAdmin extends Component
 {
     use WithFileUploads;
-    public  $proprietes,$categories;
+    public $proprietes, $categories;
     public $proprios = [];
     public $liste;
     protected $listeners = ['categorieCreated' => '$refresh'];
@@ -29,27 +29,47 @@ class ListeCategorieAdmin extends Component
 
 
 
-    public function get_all_categorie(){
-        $data = categories::Orderby("id","Desc")->get();
+    public function get_all_categorie()
+    {
+        $data = categories::Orderby("id", "Desc")->get();
         return $data;
     }
 
 
-    
-    public function delete($id){
+
+    public function delete($id)
+    {
         $categorie = categories::findOrFail($id);
-        if($categorie){
-           Storage::disk('public')->delete($categorie->icon);
+        if ($categorie) {
+            Storage::disk('public')->delete($categorie->icon);
             $categorie->delete();
         }
-        
+
         session()->flash("success", "La catégorie a été supprimée avec succès");
-       $this->dispatch('categorieCreated');
+        $this->dispatch('categorieCreated');
     }
 
+    public function add_luxury($id)
+{
+    // Trouver la catégorie correspondante
+    $cat = categories::find($id);
 
-public function delete_sous_cat($id){
-    sous_categories::find( $id )->delete();
+    if ($cat) {
+        if ($cat->luxury) {
+            $cat->luxury = false;
+            $cat->save();
+        } else {
+            categories::where('id', '!=', $id)->update(['luxury' => false]);
+            $cat->luxury = true;
+            $cat->save();
+        }
+    }
 }
-    
+
+
+    public function delete_sous_cat($id)
+    {
+        sous_categories::find($id)->delete();
+    }
+
 }

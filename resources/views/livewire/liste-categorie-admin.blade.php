@@ -3,7 +3,6 @@
         <thead class="table-dark">
             <tr>
                 <td></td>
-                <td></td>
                 <th>Titre</th>
                 <th>sous-catégories</th>
                 <th>Propriétés</th>
@@ -15,13 +14,17 @@
         <tbody class="table-border-bottom-0">
             @forelse ($liste as $item)
                 <tr>
-                    <td></td>
                     <td>
                         <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}"
                             style="height: 30px !important">
                     </td>
                     <td>
                         <span class="fw-medium text-capitalize">
+                            @if ($item->luxury == 1)
+                                <span style="color: #008080;">
+                                    <b>[ <i class="ti ti-star me-1"></i> LUXURY ]</b>
+                                </span>
+                            @endif
                             {{ $item->titre }} <br>
                             <span class="small text-muted">
                                 <i>Créer le {{ $item->created_at }} </i>
@@ -40,9 +43,9 @@
                                 $pro = DB::table('proprietes')->find($pro);
                             @endphp
                             @if ($pro)
-                               <span class="alert alert-warning p-1 text-capitalize " style="margin: 2px">
-                                {{ $pro->nom }}
-                               </span>
+                                <span class="alert alert-warning p-1 text-capitalize " style="margin: 2px">
+                                    {{ $pro->nom }}
+                                </span>
                             @endif
                         @endforeach
                     </td>
@@ -56,46 +59,28 @@
                                 <i class="ti ti-dots-vertical"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" data-bs-toggle="modal"
-                                    onclick="create_sous_cat({{ $item->id }})" href="javascript:void(0);"><i
-                                        class="ti ti-plus me-1"></i>Ajouter une sous-catégorie</a>
-
+                                <a class="dropdown-item"  href="/admin/add_sous_categorie/{{ $item->id }}">
+                                    <i class="ti ti-plus me-1"></i>
+                                    Ajouter une sous-catégorie
+                                </a>
+                                <a class="dropdown-item"  href="javascript:void(0);" wire:click='add_luxury({{ $item->id }})'>
+                                    <i class="ti ti-star me-1"></i>
+                                    Marquer en tant que LUXURY
+                                </a>
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);"><i
                                         class="ti ti-pencil me-1"></i> Modifier</a>
-                                <a class="dropdown-item" href="javascript:void(0)"
-                                wire:confirm="Voullez vous supprimer ?"
-                                    wire:click="delete( {{ $item->id }})">
+                                <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                    wire:confirm="Voullez vous supprimer ?" wire:click="delete( {{ $item->id }})">
                                     <i class="ti ti-trash me-1"></i> Supprimer </a>
                             </div>
                         </div>
                     </td>
                 </tr>
-                @if ($item->getSousCategories->count() >0)
-                    <tr>
-                        <td colspan="7">
-                            <table class="">
-                                @foreach ($item->getSousCategories as $sous)
-                                    <tr>
-                                        <td class="text-capitalize">
-                                            <button class="btn btn-danger btn-sm" 
-                                            style="padding: 2px !important;"
-                                            wire:confirm="Voullez vous supprimer ?"
-                                            wire:click="delete_sous_cat({{$sous->id}})">
-                                                x
-                                            </button>
-                                            {{ $sous->titre }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </td>
-                    </tr>
-                @endif
                 @include('Admin.categories.modal-update', ['item' => $item])
             @empty
                 <tr>
-                    <td colspan="7">
+                    <td colspan="6">
                         No Data Found!
                     </td>
                 </tr>

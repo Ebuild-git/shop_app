@@ -1,6 +1,5 @@
 @extends('User.fixe')
 @section('titre', '404')
-@section('content')
 @section('body')
     <!-- ======================= Top Breadcrubms ======================== -->
     <div class="gray py-3">

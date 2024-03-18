@@ -13,4 +13,9 @@ class sous_categories extends Model
     public function getPost() {
         return $this->hasMany(posts::class, 'id_sous_categorie','id');
     }
+
+    public function categorie()
+    {
+        return $this->belongsTo(categories::class, 'id_categorie');
+    }
 }

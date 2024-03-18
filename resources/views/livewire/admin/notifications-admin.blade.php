@@ -28,6 +28,9 @@
                                     @if ($item->type == 'new_post')
                                         <img src="{{ Storage::url($item->getUser->avatar ?? '') }}" alt
                                             class="h-auto rounded-circle" />
+                                    @elseif($item->type == 'photo')
+                                        <img src="{{ Storage::url($item->getUser->avatar ?? '') }}" alt
+                                            class="h-auto rounded-circle" />
                                     @else
                                         <img src="/assets-admin/img/avatars/1.png" alt class="h-auto rounded-circle" />
                                     @endif
@@ -41,7 +44,7 @@
                                 <small class="text-muted">
                                     {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
                                 </small>
-                                
+
                             </div>
                             <div class="flex-shrink-0 dropdown-notifications-actions"
                                 wire:click="delete({{ $item->id }} )">
@@ -60,7 +63,7 @@
 
             </ul>
         </li>
-        
+
         {{--  <li class="dropdown-menu-footer border-top">
             <a href="javascript:void(0);"
                 class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
@@ -84,4 +87,3 @@
 
     });
 </script>
-

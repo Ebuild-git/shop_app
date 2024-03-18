@@ -1,4 +1,4 @@
-<span wire:loading>
-    <span class="spinner-border" role="status" aria-hidden="true"></span>
+<span >
+   <img src="https://i.gifer.com/ZKZg.gif" alt="loading" height="20" width="20">
     &nbsp;
 </span>

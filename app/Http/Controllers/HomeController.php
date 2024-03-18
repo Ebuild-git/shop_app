@@ -12,63 +12,84 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $categories = categories::all();
-        $configuration= configurations::firstorCreate();
-        $posts = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> paginate(50);
-        $last_post = posts::where('verified_at','!=', null) -> orderByDesc('created_at') -> get();
-        return view("User.index", compact( "categories","posts","configuration","last_post"));
+        $configuration = configurations::firstorCreate();
+        $posts = posts::where('verified_at', '!=', null)->orderByDesc('created_at')->paginate(50);
+        $last_post = posts::where('verified_at', '!=', null)
+        ->select("id","titre","photos","prix","id_sous_categorie","statut")
+        ->orderByDesc('created_at')
+        ->get();
+        $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
+        ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+        ->where('categories.luxury', true)
+        ->select("posts.id","posts.titre","posts.photos","posts.statut","posts.id_sous_categorie","categories.id As id_categorie")
+        ->get();
+        return view("User.index", compact("categories", "posts", "configuration", "last_post","luxurys"));
     }
 
-    public function index_post(Request $request){
+    public function index_post(Request $request)
+    {
         $id = $request->id ?? "";
         return view('User.post', compact("id"));
     }
 
-    public function index_mes_post(){
+    public function index_mes_post()
+    {
         return view('User.list_post');
     }
 
-    public function details_post($id){
+    public function details_post($id)
+    {
         $post = posts::find($id);
-        $other_product =  posts::where('id_sous_categorie' ,$post->id_sous_categorie)->inRandomOrder()->take(16)->get();
-        return view('User.details', compact( 'post','other_product'));
+        if(!$post){
+            abort(404);
+        }
+        $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
+        ->select("titre","photos","id","statut")
+        ->inRandomOrder()
+        ->take(16)
+        ->get();
+        return view('User.details')
+            ->with("post", $post)
+            ->with("other_products", $other_product);
 
     }
 
-    public function user_profile($id){
+    public function user_profile($id)
+    {
         $user = User::find($id);
-        return view('User.profile')->with("user",$user);
+        return view('User.profile')->with("user", $user);
     }
 
 
-    public function historiques(){
+    public function historiques()
+    {
         return view('User.historiques');
     }
 
     public function list_proposition($id_post)
     {
-        $post = posts::where('id',$id_post)->where("id_user",Auth::id())->first();
-        if($post){
+        $post = posts::where('id', $id_post)->where("id_user", Auth::id())->first();
+        if ($post) {
             return view("User.propositions", compact("post"));
-        }else{
+        } else {
             echo "erro";
         }
     }
 
-    
-    public function index_mes_achats(){
-      
+
+    public function index_mes_achats()
+    {
+
         return view("User.mes-achats");
     }
 
-    public function shop(Request $request){
-        
-        $categorie =  $request->get('categorie') ?? '';
-        $etat = $request->get("etat") ?? '';
-        $key = $request->get("key") ?? '';
-        $sous_categorie =  $request->get('sous_categorie') ?? '';
-        $categories = categories::all("titre","id");
-        return view('User.shop', compact("categorie","sous_categorie","etat","key","categories"));
+    public function shop(Request $request)
+    {
+        $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
+        $key = $request->input("key",'');
+        return view('User.shop', compact("categorie", "categorie", "key", ));
     }
 }
