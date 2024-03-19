@@ -1,11 +1,9 @@
-@php
-$photos = json_decode($post->photos, true);
-@endphp
+
 <div class="row">
     <div class="col-sm-4">
         <div class="card">
             <div class="carouselpropositions">
-                <img src="{{ Storage::url($photos[1] ?? '') }}" >
+                <img src="{{ Storage::url($post->photos[0] ?? '') }}" >
             </div>
             <div class="p-2">
                 <h6>

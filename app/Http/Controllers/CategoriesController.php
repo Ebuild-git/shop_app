@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\categories;
+use App\Models\proprietes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,6 +35,30 @@ class CategoriesController extends Controller
         return response()->json(['success' => true]);
     }
 
+
+    public function changerOrdrepropriete(){
+        $ids = request()->get('ids');
+        $idsArray = explode(',', $ids);
+        foreach ($idsArray as $index => $id) {
+            $enregistrement = proprietes::findOrFail($id);
+            $enregistrement->update(['order' => $index]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function changer_ordre_propriete_in_categorie(){
+        $ids = request()->get('ids');
+        $id_cat = request()->get('id_cat');
+        $categorie = categories::find($id_cat);
+        if($categorie){
+            //convert $ids to arry
+            $tabIds = array_map('intval',explode(",",$ids));
+            $categorie->proprietes =  $tabIds;
+            $categorie->save();
+        }
+        return response()->json(['success' => true]);
+    }
 
 
 

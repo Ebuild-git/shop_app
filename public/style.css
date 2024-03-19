@@ -433,7 +433,11 @@ body {
     color: white !important;
 }
 
-
+.avatar img{
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
+}
 
 
 

@@ -41,13 +41,10 @@
         </thead>
         <tbody>
             @forelse ($posts as $item)
-                @php
-                    $photo = json_decode($item->photos, true);
-                @endphp
                 <tr>
                     <th scope="row">
                         <div class="avatar-small-product">
-                            <img src="{{ Storage::url($photo[0] ?? '') }}" alt="avtar">
+                            <img src="{{ Storage::url($item->photos[0] ?? '') }}" alt="avtar">
                         </div>
                     </th>
                     <td>

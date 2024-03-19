@@ -15,13 +15,12 @@
             @if ($post)
                 @php
                     $prix_total += $post->prix;
-                    $photos = json_decode($post->photos, true);
                 @endphp
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
                             <a href="#">
-                                <img src="{{ Storage::url($photos[0] ?? '') }}" width="60" class="img-fluid"
+                                <img src="{{ Storage::url($post->photos[0] ?? '') }}" width="60" class="img-fluid"
                                     alt="" />
                             </a>
                         </div>

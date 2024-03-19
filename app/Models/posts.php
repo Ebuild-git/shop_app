@@ -13,6 +13,10 @@ class posts extends Model
         'id_user_buy'
     ];
 
+    protected $casts = [
+        'photos' => 'json',
+        'proprietes' => 'json'
+    ];
 
 
 

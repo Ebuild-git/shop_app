@@ -34,7 +34,7 @@ class CreatePost extends Component
     {
         $this->sous_categories = sous_categories::where("id_categorie", $value)->get();
         $cat = categories::find($value);
-        $this->proprietes = json_decode($cat->proprietes, true);;
+        $this->proprietes = $cat->proprietes;
     }
 
 
@@ -48,11 +48,11 @@ class CreatePost extends Component
             $this->gouvernorat = $post->gouvernorat;
             $this->categorie = $post->id_categorie;
             $this->prix = $post->prix;
-            $this->old_photos = json_decode($post->photos);
+            $this->old_photos = $post->photos;
             $this->post = $post;
         }
 
-        $categories = categories::all(['id', 'titre']);
+        $categories = categories::Orderby("order")->get(['id', 'titre']);
         return view('livewire.user.create-post')
             ->with("categories", $categories)
             ->with("list_gouvernorat", $this->get_list_gouvernorat());
@@ -97,7 +97,7 @@ class CreatePost extends Component
 
             // Si le post existe déjà, ajoutez les nouvelles images aux images existantes
             if ($post->photos) {
-                $existing_photos = json_decode($post->photos, true); // true pour obtenir un tableau associatif
+                $existing_photos = $post->photos; // true pour obtenir un tableau associatif
                 $data = array_merge($existing_photos, $data);
             }
 
@@ -152,7 +152,7 @@ class CreatePost extends Component
     {
         $post = posts::find($id_post);
         if ($post) {
-            $photosArray = json_decode($post->photos, true);
+            $photosArray = $post->photos;
 
             //get total of image
             $totalImage = count($photosArray);

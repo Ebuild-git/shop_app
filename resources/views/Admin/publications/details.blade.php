@@ -1,10 +1,5 @@
 @extends('Admin.fixe')
 @section('title', 'Publication |' . $post->titre)
-@section('content')
-    @php
-        $imagesArray = json_decode($post->photos);
-    @endphp
-
 
 @section('body')
     <!-- Content -->
@@ -24,7 +19,7 @@
                             style="background-color: #25293c;">
                             <div class="carousel-inner">
 
-                                @foreach ($imagesArray as $key => $image)
+                                @foreach ($post->photos ?? [] as $key => $image)
                                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}"
                                         style="text-align: center !important">
                                         <img class="" src="{{ Storage::url($image) }}" style="max-height: 400px;">

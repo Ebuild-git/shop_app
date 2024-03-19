@@ -15,7 +15,9 @@ class categories extends Model
         'order'
     ];
 
-
+    protected $casts = [
+        'proprietes' => 'json',
+    ];
 
     //get all sous categorie
     public function getSousCategories(){

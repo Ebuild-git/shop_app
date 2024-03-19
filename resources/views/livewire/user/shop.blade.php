@@ -175,9 +175,6 @@
                 <div class="row align-items-center rows-products">
 
                     @forelse ($posts as $post)
-                        @php
-                            $photo = json_decode($post->photos, true);
-                        @endphp
                         <!-- Single -->
                         <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
@@ -194,7 +191,7 @@
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden"
                                             href="/post/{{ $post->id }}">
-                                            <img  src="{{ Storage::url($photo[0] ?? '') }}"
+                                            <img  src="{{ Storage::url($post->photos[0] ?? '') }}"
                                                 alt="..."></a>
                                     </div>
                                 </div>

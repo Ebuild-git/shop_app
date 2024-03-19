@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('proprietes', function (Blueprint $table) {
             $table->id();
             $table->string("nom");
-            $table->enum("type",["text","number","color"]);
+            $table->enum("type",["text","number","color","option"]);
+            $table->json("options")->nullable(true);
+            $table->boolean("required")->default(false);
             $table->integer('order')->default(0);
             $table->timestamps();
         });

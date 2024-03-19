@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class proprietes extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'order'
+    ];
+    
+    protected $casts = [
+        'options' => 'json',
+    ];
 }

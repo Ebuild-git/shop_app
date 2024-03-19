@@ -41,13 +41,10 @@
                 </div>
                 <table class="table">
                     @forelse ($achats as $achat)
-                        @php
-                            $photo = json_decode($achat->photos, true);
-                        @endphp
                         <tr>
                             <td style="width: 41px;">
                                 <div class="avatar-small-product">
-                                    <img src="{{ Storage::url($photo[0] ?? '') }}" alt="avtar">
+                                    <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avtar">
                                 </div>
                             </td>
                             <td>

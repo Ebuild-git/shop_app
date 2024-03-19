@@ -30,7 +30,7 @@ Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account']);
 Route::get('/reset/{token}', [Security::class, 'reset_password']);
 Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
 Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
-Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
+
 
 
 
@@ -54,12 +54,14 @@ Route::get('/forget', function () {
 
 
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post']);
+Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post']);
 
 
 
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
+    Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
 
     Route::get('/admin/categorie', function () {
         return view('Admin.categories.index');
@@ -78,6 +80,8 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('user-notifications');
 
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
+    Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);
+    Route::get('/admin/changer_ordre_propriete_in_categorie', [CategoriesController::class, 'changer_ordre_propriete_in_categorie']);
     Route::get('/admin/add_sous_categorie/{id}', [AdminController::class, 'add_sous_categorie'])->name('add_sous_categorie');
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');

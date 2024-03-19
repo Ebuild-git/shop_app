@@ -86,7 +86,7 @@ class ListMesPosts extends Component
         }
 
         // supprimer toutes les images du post dans le serveurs
-        $photos = json_decode($post->photos, true);
+        $photos = $post->photos;
         foreach ($photos as $photo) {
             Storage::delete('/public/img/' . $photo);
         }

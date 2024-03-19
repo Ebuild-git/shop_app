@@ -59,9 +59,6 @@
             <!-- row -->
             <div class="row align-items-center rows-products">
                 @forelse ($luxurys as $lux)
-                    @php
-                        $photo = json_decode($lux->photos, true);
-                    @endphp
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
@@ -77,7 +74,7 @@
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}"><img
-                                            class="card-img-top" src="{{ Storage::url($photo[0] ?? '') }}"
+                                            class="card-img-top" src="{{ Storage::url($lux->photos[0] ?? '') }}"
                                             alt="..."></a>
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
@@ -151,9 +148,6 @@
             <div class="row align-items-center rows-products">
 
                 @forelse ($last_post as $last)
-                    @php
-                        $photo = json_decode($last->photos, true);
-                    @endphp
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
@@ -169,7 +163,7 @@
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
-                                        <img src="{{ Storage::url($photo[0] ?? '') }}" alt="...">
+                                        <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="...">
                                     </a>
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">

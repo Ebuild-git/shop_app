@@ -45,6 +45,7 @@
             <div class="form-group">
                 <label>Gouvernorat</label>
                 <select class="form-control shadow-none" wire:model="gouvernorat" required>
+                    <option value=""></option>
                     @foreach ($list_gouvernorat as $item)
                         <option value="{{ $item }}">{{ $item }}</option>
                     @endforeach

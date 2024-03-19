@@ -3,10 +3,7 @@
 @section('body')
 
 
-    @php
-        $photos = json_decode($post->photos, true);
-        $proprietes = json_decode($post->proprietes, true);
-    @endphp
+
 
 
     <!-- ======================= Top Breadcrubms ======================== -->
@@ -46,10 +43,10 @@
             <div class="row">
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="sp-loading"><img src="{{ Storage::url($photos[0] ?? '') }}" alt=""><br>LOADING
+                    <div class="sp-loading"><img src="{{ Storage::url($post->photos[0] ?? '') }}" alt=""><br>LOADING
                         IMAGES</div>
                     <div class="sp-wrap">
-                        @forelse ($photos as $photo)
+                        @forelse ($post->photos as $photo)
                             <a href="{{ Storage::url($photo) }}">
                                 <img src="{{ Storage::url($photo) }}" alt="">
                             </a>
@@ -134,7 +131,7 @@
                         <div>
 
                             <div class="row text-center">
-                                @forelse ($proprietes  as $key => $value)
+                                @forelse ($post->proprietes ?? []  as $key => $value)
                                     <div class="col-sm-4 col-4">
                                         <div class="p-2 alert alert-success">
                                             <b>{{ ucfirst($key) }} </b>
@@ -156,9 +153,7 @@
                                 </div>
                                 <div class="col-12 col-lg-auto">
                                     <!-- Wishlist -->
-                                    @auth
-                                        @livewire('User.ButtonAddLike', ['id_post' => $post->id])
-                                    @endauth
+                                    @livewire('User.ButtonAddLike', ['id_post' => $post->id])
 
                                 </div>
                             </div>
@@ -223,7 +218,7 @@
                             <div class="additionals">
                                 <table class="table">
                                     <tbody>
-                                        @forelse ($proprietes  as $key => $value)
+                                        @forelse ($proprietes ?? [] as $key => $value)
                                             <tr>
                                                 <th class="ft-medium text-dark">{{ ucfirst($key) }}</th>
                                                 <td>{{ $value }}</td>
@@ -259,9 +254,6 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="slide_items">
                         @forelse ($other_products as $other)
-                            @php
-                                $photo = json_decode($other->photos, true);
-                            @endphp
                             <!-- single Item -->
                             <div class="single_itesm">
                                 <div class="product_grid card b-0 mb-0">
@@ -275,7 +267,7 @@
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $other->id }}"><img class="card-img-top"
-                                                    src="{{ Storage::url($photo[0] ?? '') }}" alt="..."></a>
+                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="..."></a>
                                             <div
                                                 class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                                 <div class="edlio"><a href="#" data-toggle="modal"
