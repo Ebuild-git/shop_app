@@ -72,7 +72,7 @@
                                     </a>
                                     <a class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#modalToggle-{{ $item->id }}-pro" href="javascript:void(0);">
-                                        <i class="ti ti-pencil me-1"></i> Modifier les propriétés
+                                        <i class="ti ti-pencil me-1"></i> Modifier l'ordre des propriétés
                                     </a>
                                     <a class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);">
