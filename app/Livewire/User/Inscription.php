@@ -88,10 +88,8 @@ class Inscription extends Component
             //envoi du mail avec le lien de validation
             Mail::to($user->email)->send(new VerifyMail($user, $token));
 
-            session()->flash("success", "Votre compte a bien été créé. Nous vous avons envoyé un email pour valider votre adresse e-mail.");
-
+            return redirect("/connexion")->with("success", "Votre compte a bien été créé. Nous vous avons envoyé un email pour valider votre adresse e-mail.");
             //reset form
-            $this->reset(['nom', 'email', 'password', 'telephone']);
         } else {
             //add error photo
             $this->addError('phpoto', 'Veuillez ajouter une image');

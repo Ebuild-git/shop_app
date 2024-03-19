@@ -105,7 +105,7 @@
     <div class="form-group">
         <label for="">Matricule fiscal </label>
         <div class="fil-import-registrer">
-            <input type="file" class="d-none" name="matricule" id="matricule" wire:model="matricule" >
+            <input type="file" class="d-none" name="matricule" id="matricule" wire:model="matricule">
             <span id="select-matricule">
                 @if ($matricule)
                     <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png" alt="ok--v1"
@@ -139,8 +139,7 @@
 
 
         <div>
-            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit"
-                disabled>
+            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit">
                 <span wire:loading>
                     <x-Loading></x-Loading>
                 </span>
