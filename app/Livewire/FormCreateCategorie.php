@@ -31,11 +31,12 @@ class FormCreateCategorie extends Component
 
 
         $indexes = array_keys($this->proprios, true);
+
         $indexesArray = [];
         foreach ($indexes as $index) {
             $indexesArray[] = $index;
         }
-        $jsonIndexes = json_encode($indexesArray);
+        $jsonIndexes = $indexesArray;
 
         $newName = $this->photo->store('uploads/categories', 'public');
 
