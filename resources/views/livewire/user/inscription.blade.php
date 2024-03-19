@@ -139,7 +139,8 @@
 
 
         <div>
-            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit" disabled>
+            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit"
+                >
                 <span wire:loading>
                     <x-Loading></x-Loading>
                 </span>
@@ -183,17 +184,5 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-    let checkboxAccept = document.getElementById('accept');
-    let submitButton = document.getElementById('submit');
-    
-    // Vérifier l'état initial de la case à cocher et activer/désactiver le bouton en conséquence
-    submitButton.disabled = !checkboxAccept.checked;
-
-    // Ajouter un écouteur d'événement pour vérifier les changements de la case à cocher
-    checkboxAccept.addEventListener('change', () => {
-        submitButton.disabled = !checkboxAccept.checked;
-    });
-});
 
 </script>
