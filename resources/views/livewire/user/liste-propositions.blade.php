@@ -10,7 +10,7 @@
                     {{ $post->titre }}
                 </h6>
                 <h5 class="color-orange">
-                    {{ $post->prix }} DT
+                    @livewire('User.prix', ['id_post' => $post->id]) DT
                 </h5>
                 <div class="small text-muted">
                 </div>

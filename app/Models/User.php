@@ -66,5 +66,9 @@ class User extends Authenticatable implements JWTSubject
     public function GetPosts(){
         return $this->hasMany(posts::class, 'id_user','id');
     }
+
+    public function region(){
+        return $this->belongsTo(regions::class,'id','region');
+    }
     
 }

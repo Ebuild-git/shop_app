@@ -43,5 +43,6 @@ class ButtonAddPanier extends Component
             $this->dispatch('PostAdded');
         }
     }
+    
 
 }

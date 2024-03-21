@@ -27,11 +27,15 @@ class ListePropositions extends Component
 
     public function supprimer($id_acheteur)
     {
-        $proposition = propositions::where("id_acheteur", $id_acheteur)
-            ->where("id_post", $this->post->id)
-            ->where("id_vendeur", Auth::id())
+
+        $proposition = propositions::join('posts', 'posts.id', '=', 'propositions.id_post')
+            ->where('posts.id_user', '=', Auth::user()->id)
+            ->select("propositions.id")
             ->first();
+
+
         if ($proposition) {
+            $proposition = propositions::find($proposition->id);
             $proposition->etat = "refusé";
             $proposition->save();
 
@@ -50,19 +54,24 @@ class ListePropositions extends Component
                 $this->post->update(
                     [
                         'sell_at' => Now(),
-                        'id_user_buy' => $id_acheteur
+                        'id_user_buy' => $id_acheteur,
                     ]
                 );
+
+                $this->post->statut = "vendu";
+                $this->post->save();
+
+                //send mail to the buyer
 
                 //make notification
                 $notification = new notifications();
                 $notification->titre = "Félicitation pour votre commande !";
                 $notification->id_user_destination  =  $id_acheteur;
                 $notification->type = "user";
-                $notification->url ="/post/".$this->post->id;
+                $notification->url = "/post/" . $this->post->id;
                 $notification->message = "Nous vous informons que votre commande chez  " . $this->post->user_info->name . " a été acceptée !";
                 $notification->save();
-                event(new UserEvent($this->post->id_user));
+                event(new UserEvent($id_acheteur));
 
                 //show success message
                 session()->flash('success', 'La proposition a été acceptée avec succès!');
@@ -76,10 +85,21 @@ class ListePropositions extends Component
         }
     }
 
+
+
+
+
+
+
+
+
     public function retaurer()
     {
-        $proposition = propositions::where("id_post", $this->post->id)
-            ->where("id_vendeur", Auth::id())->get();
+        $proposition = propositions::join('posts', 'posts.id', '=', 'propositions.id_post')
+            ->where('posts.id_user', '=', Auth::user()->id)
+            ->select("propositions.id")
+            ->get();
+
         if ($proposition) {
             foreach ($proposition as $p) {
                 $p->etat = "traitement";
@@ -92,4 +112,10 @@ class ListePropositions extends Component
             session()->flash('error', 'Aucune proposition n\'a été trouvée pour cette annonce.');
         }
     }
+
+
+
+
+
+
 }

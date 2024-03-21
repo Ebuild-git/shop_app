@@ -90,7 +90,7 @@
                                     <a href="#" class="color">
                                         <b>
                                             <i class="bi bi-person-circle"></i>
-                                            {{ $post->user_info->username }}
+                                            {{ '@' . $post->user_info->username }}
                                         </b>
                                     </a>
                                 </div>
@@ -147,10 +147,19 @@
 
                         <div class="prt_05 mb-4">
                             <div class="form-row mb-7">
-                                <div class="col-12 col-lg">
-                                    <!-- Submit -->
-                                    @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-                                </div>
+                                @if ($post->statut == 'vente')
+                                    <div class="col-12 col-lg">
+                                        <!-- Submit -->
+                                        @guest
+                                            @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
+                                        @endguest
+                                        @auth
+                                            @if (Auth::user()->id != $post->id_user)
+                                                @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
+                                            @endif
+                                        @endauth
+                                    </div>
+                                @endif
                                 <div class="col-12 col-lg-auto">
                                     <!-- Wishlist -->
                                     @livewire('User.ButtonAddLike', ['id_post' => $post->id])

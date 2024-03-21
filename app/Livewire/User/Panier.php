@@ -19,6 +19,8 @@ class Panier extends Component
 
     public function delete($id)
     {
+
+        
         // Validation de l'ID
         if (!is_numeric($id) || $id < 0) {
             return; // Arrêtez-vous si l'ID n'est pas valide

@@ -10,10 +10,13 @@
                 <form wire:submit="filtrer">
                     <div class="d-flex justify-content-start mb-3">
                         @if ($filter === true)
-                            <select class="form-control sm" wire:model="etat">
+                            <select class="form-control sm" wire:model="statut">
                                 <option value=""></option>
-                                <option value="En modération">En modération</option>
-                                <option value="Active">Active</option>
+                                <option value="validation">En validation</option>
+                                <option value="vente">En cour de vente</option>
+                                <option value="vendu">Vendu</option>
+                                <option value="livraison">En cour de Livraison</option>
+                                <option value="livré">Déja livré</option>
                             </select>
                         @endif
                         <input type="date" class="form-control sm" wire:model="date">
@@ -55,7 +58,9 @@
                             <i>Publié le {{ $item->created_at }}</i>
                         </span>
                     </td>
-                    <td>{{ $item->prix }} Dt</td>
+                    <td>
+                        @livewire('User.prix', ['id_post' => $item->id]) Dt
+                    </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
                             <a href="/publication/{{ $item->id }}/propositions">

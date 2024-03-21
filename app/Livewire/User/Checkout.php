@@ -11,7 +11,9 @@ use Livewire\Component;
 
 class Checkout extends Component
 {
-    public $cart, $success = 0;
+    public  $success = 0;
+    protected $listeners = ['PostAdded' => '$refresh'];
+
     public function render()
     {
         
@@ -19,9 +21,9 @@ class Checkout extends Component
         $total = 0;
         $nbre_article = 0;
 
-        $this->cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
 
-        foreach ($this->cart as $item) {
+        foreach ($cart as $item) {
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
                 ->select("categories.pourcentage_gain", "posts.prix", "posts.id",  "posts.titre", "posts.photos")
@@ -42,6 +44,7 @@ class Checkout extends Component
         return view('livewire.user.checkout')
         ->with("articles_panier",$articles_panier)
         ->with("total",$total)
+        ->with("cart",$cart)
         ->with("nbre_article",$nbre_article);
     }
 
@@ -52,14 +55,16 @@ class Checkout extends Component
             return;
         }
 
-
-        foreach ($this->cart as $index => $item) {
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        foreach ($cart as $index => $item) {
             if ($item['id'] == $id) {
-                unset($this->cart[$index]);
+                unset($cart[$index]);
                 break;
             }
         }
-        $cart = array_values($this->cart);
+        $cart = array_values($cart);
+
+        
 
         setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
 
@@ -69,6 +74,13 @@ class Checkout extends Component
 
 
 
+
+
+    public function vider(){
+        //empty cart
+        setcookie('cart','[]',time()-1,'/');
+        $this->dispatch('PostAdded');
+    }
 
 
 
@@ -81,15 +93,11 @@ class Checkout extends Component
     public function valider()
     {
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        if ($this->total > 0) {
             foreach ($cart as $item) {
                 $this->make_proposition($item["id"]);
             }
-            session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !');
-            session()->flash('info', "Taux de réussite  : " . $this->success . "/" . $this->total);
-        } else {
-            session()->flash('error', 'Désoler ! votre panier est vide .');
-        }
+            session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !'); 
+
     }
 
 
@@ -121,7 +129,6 @@ class Checkout extends Component
         $proposition = new propositions();
         $proposition->id_post = $post->id;
         $proposition->id_acheteur = Auth::user()->id;
-        $proposition->id_vendeur = $post->id_user;
         $proposition->save();
 
         //make notification
@@ -129,6 +136,7 @@ class Checkout extends Component
         $notification->titre = "Une nouvelle commande !";
         $notification->id_user_destination  =  $post->id_user;
         $notification->type = "alerte";
+        $notification->url = "/publication/".$post->id."/propositions";
         $notification->message = "Nous vous informons que votre publication  " . $post->titre . " vient de recevoir une nouvelle demande de commande";
         $notification->save();
         event(new UserEvent($post->id_user));

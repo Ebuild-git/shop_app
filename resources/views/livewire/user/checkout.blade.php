@@ -13,8 +13,6 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <b>Adresse : </b> {{ Auth::user()->adress ?? 'N/A' }} <br>
-                        <b>Gouvernorat :</b> {{ Auth::user()->gouvernorat ?? 'N/A' }} <br>
-                        <b>Ville :</b> {{ Auth::user()->ville ?? 'N/A' }} <br>
                         <b>Numéro de téléphone :</b> {{ Auth::user()->phone_number ?? 'N/A' }} <br>
                     </div>
                 </div>
@@ -45,11 +43,9 @@
                             </div>
                         </td>
                         <td>
-                            <b> 
                                 <a href="/post/{{ $item['id'] }}/{{ $item['titre'] }}" class="color">
                                     {{ $item['titre'] }}
                                 </a>
-                            </b>
                         </td>
                         <td>
                             <i> {{ $item['prix'] }} DH</i>
@@ -73,6 +69,16 @@
             <br>
             <div class="d-flex justify-content-end">
 
+                <button class="btn btn-danger btn-sm stretched-link" @disabled($nbre_article <= 0) wire:click="vider()">
+                    <span wire:loading>
+                        <x-Loading></x-Loading>
+                    </span>
+                    
+                    <span wire:loading.remove>
+                        Vider le panier
+                    </span>
+                    
+                </button>
                     <button class="btn btn-white stretched-link hover-black" @disabled($nbre_article <= 0) wire:click="valider()">
                         <span wire:loading>
                             <x-Loading></x-Loading>

@@ -35,24 +35,23 @@ class ListMesPosts extends Component
         if (!empty($this->date)) {
             $Query->whereDate('Created_at', $this->date);
         }
-
-        if (!empty($this->etat)) {
-            switch ($this->etat) {
-                case 'En modération':
-                    $postsQuery = $Query->where('verified_at', null);
+        if (!empty($this->statut)) {
+            switch ($this->statut) {
+                case 'validation':
+                    $postsQuery = $Query->where('statut', "validation");
                     break;
-                case 'Rejetée':
-                    $postsQuery = $Query->where('reject_at', '!=', null);
-                    break;
-                case 'Supprimée':
-                    $postsQuery = $Query->onlyTrashed();
-                    break;
-                case 'Vendue':
-                    $postsQuery = $Query->where('sell_at', '!=', null);
-                    break;
-                case 'Active':
-                    $postsQuery = $Query->where('sell_at', null);
-                    break;
+                    case 'vente':
+                        $postsQuery = $Query->where('statut', "vente");
+                        break;
+                        case 'vendu':
+                            $postsQuery = $Query->where('statut', "vendu");
+                            break;
+                            case 'livraison':
+                                $postsQuery = $Query->where('statut', "livraison");
+                                break;
+                                case 'livré':
+                                    $postsQuery = $Query->where('statut', "livré");
+                                    break;
             }
         }
         $posts =  $Query
