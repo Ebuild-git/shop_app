@@ -35,7 +35,7 @@ class AdminController extends Controller
             'publication' => $stats_publication
         ];
 
-        $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "gouvernorat", "sell_at", "photos"]);
+        $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
 
         return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication"));
     }
