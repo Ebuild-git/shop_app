@@ -17,11 +17,6 @@
                         <b>Ville :</b> {{ Auth::user()->ville ?? 'N/A' }} <br>
                         <b>Numéro de téléphone :</b> {{ Auth::user()->phone_number ?? 'N/A' }} <br>
                     </div>
-                    <div>
-                        <div class="avatar avatar-xxl">
-                            <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="..." class="img-fluid circle">
-                        </div>
-                    </div>
                 </div>
             </div>
             <br>

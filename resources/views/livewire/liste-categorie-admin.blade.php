@@ -31,8 +31,10 @@
                 @forelse ($liste as $item)
                     <tr wire:key="{{ $item->id }}" data-id="{{ $item->id }}" class="tb-hover-btn">
                         <td style="width: 45px !important;">
-                            <img src="{{ Storage::url($item->icon) }}" alt="{{ $item->icon }}"
-                                style="width: 40px !important">
+                            <div class="card-image-categorie-list-admin">
+                                <img src="{{ Storage::url($item->icon) }}" class="img-card-image-categorie-list-admin"
+                                    alt="{{ $item->icon }}">
+                            </div>
                         </td>
                         <td>
                             <span class="fw-medium text-capitalize">
@@ -51,7 +53,6 @@
                             {{ $item->getSousCategories->count() }}
                         </td>
                         <td>
-                            Livraison : {{ $item->frais_livraison }} DH <br>
                             Gain : {{ $item->pourcentage_gain }}
                         </td>
                         <td>
@@ -71,7 +72,8 @@
                                         Marquer en tant que LUXURY
                                     </a>
                                     <a class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#modalToggle-{{ $item->id }}-pro" href="javascript:void(0);">
+                                        data-bs-target="#modalToggle-{{ $item->id }}-pro"
+                                        href="javascript:void(0);">
                                         <i class="ti ti-pencil me-1"></i> Modifier l'ordre des propriétés
                                     </a>
                                     <a class="dropdown-item" data-bs-toggle="modal"
@@ -145,6 +147,25 @@
 
             .tb-hover-btn:hover .btn-drag-categorie {
                 display: block !important;
+            }
+
+            .card-image-categorie-list-admin {
+                width: 44px !important;
+                height: 44px !important;
+                overflow: hidden !important;
+
+            }
+
+            .img-card-image-categorie-list-admin {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover;
+                border-radius: 10px;
+                border:solid 1px #008080;
+
+            }
+            .img-card-image-categorie-list-admin:hover{
+                transform: scale(1.1)
             }
         </style>
 

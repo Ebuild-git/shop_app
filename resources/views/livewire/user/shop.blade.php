@@ -211,9 +211,6 @@
                                             @endif
                                         </div>
 
-                                        <div class="text-left">
-                                            Marque if available
-                                        </div>
                                     </div>
                                     <div class="text-left">
                                         <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
@@ -224,7 +221,7 @@
                                         </h5>
                                         <div class="elis_rty color">
                                             <span class="ft-bold  fs-sm">
-                                                {{ $post->prix }} DH
+                                                @livewire('User.prix', ['id_post' => $post->id]) DH
                                             </span>
                                         </div>
                                     </div>

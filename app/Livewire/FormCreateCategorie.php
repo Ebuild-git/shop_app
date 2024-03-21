@@ -4,28 +4,36 @@ namespace App\Livewire;
 
 use App\Models\categories;
 use App\Models\proprietes;
+use App\Models\regions;
+use App\Models\regions_categories;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo, $frais_livraison, $pourcentage_gain, $proprietes;
+    public $titre, $description, $photo,  $pourcentage_gain, $proprietes, $list_regions;
     public $proprios = [];
+    public $regions = [];
+    protected $listeners = ['regionCreated' => '$refresh'];
+
 
     public function render()
     {
         $this->proprietes = proprietes::all();
+        $this->list_regions = regions::all('id', 'nom');
         return view('livewire.form-create-categorie');
     }
 
     public function creer()
     {
+
+
+
         $this->validate([
             'titre' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:10048',
-            'frais_livraison' => 'numeric|nullable|min:0',
             'pourcentage_gain' => 'numeric|nullable|min:0',
         ]);
 
@@ -44,12 +52,21 @@ class FormCreateCategorie extends Component
         $categorie->titre = $this->titre;
         $categorie->description = $this->description;
         $categorie->icon = $newName;
-        $categorie->frais_livraison = $this->frais_livraison ?? 0;
         $categorie->proprietes = $jsonIndexes ?? [];
         $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
-        $categorie->save();
-        $this->reset(['titre', 'description', 'photo']);
-        session()->flash("success", "La catégorie a été ajoutée avec succès");
-        $this->dispatch('categorieCreated');
+        if ($categorie->save()) {
+            foreach ($this->regions as $cle => $valeur) {
+                $regions_categorie = new regions_categories();
+                $regions_categorie->id_region = $cle;
+                $regions_categorie->id_categorie = $categorie->id;
+                $regions_categorie->prix =  $valeur;
+                $regions_categorie->save();
+            }
+            $this->reset(['titre', 'description', 'photo']);
+            session()->flash("success", "La catégorie a été ajoutée avec succès");
+            $this->dispatch('categorieCreated');
+        } else {
+            session()->flash("error", "Une erreur est survenue lors de l'ajout de la catégorie. Veuillez réessayer plus tard.");
+        }
     }
 }

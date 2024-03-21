@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="d-flex flex-row bd-highlight ">
-                        @foreach ($imagesArray as $key => $image)
+                        @foreach ($post->photos ?? [] as $key => $image)
                                 <div class="card-image-details-post">
                                     <img src="{{ Storage::url($image) }}" alt="" srcset="">
                                 </div>
@@ -50,7 +50,7 @@
                         {!! $post->description !!}
                     </p>
                 </div>
-                <div class="col-sm-4 p-3">
+                <div class="col-sm-4 p-3 text-capitalize">
                     <div class="alert alert-dark" role="alert">
                         <div class="row">
                             <div class="col">
@@ -63,9 +63,9 @@
                     </div>
                     <b>Titre : </b> {{ $post->titre }} <br>
                     <b>Prix : </b> {{ $post->prix }} DT <br>
-                    <b>Catégorie :</b>  <br>
-                    <b>Ville : </b> {{ $post->ville }} <br>
-                    <b>Gouvernorat : </b> {{ $post->gouvernorat }} <br>
+                    <b>Sous-Catégorie :</b> {{ $post->sous_categorie_info->titre ?? "N/A"}} <br>
+                    <b>Catégorie :</b> {{ $post->sous_categorie_info->categorie->titre ?? "N/A"}} <br>
+                    <b>Région : </b> {{ $post->region->nom ?? "N/A" }} <br>
                     <b>Etat :</b> {{ $post->etat }}
                     <div class="p-2">
                         <hr>

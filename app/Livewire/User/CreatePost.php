@@ -8,22 +8,23 @@ use App\Models\notifications;
 use Livewire\WithFileUploads;
 use App\Models\posts;
 use App\Models\proprietes;
+use App\Models\regions;
+use App\Models\regions_categories;
 use App\Models\sous_categories;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use App\Traits\ListGouvernorat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CreatePost extends Component
 {
-    use ListGouvernorat;
     use WithFileUploads;
 
-    public $titre, $description, $gouvernorat, $categorie, $sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
+    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
     public $photos = [];
     public $article_propriete = [];
-    public $proprietes,$quantite;
+    public $proprietes, $quantite;
+    public $extimation_prix =0  ;
 
     public function mount($id)
     {
@@ -35,7 +36,43 @@ class CreatePost extends Component
         $this->sous_categories = sous_categories::where("id_categorie", $value)->get();
         $cat = categories::find($value);
         $this->proprietes = $cat->proprietes;
+
+        if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
+            $this->calcule_estimation($this->region, $value, $this->prix);
+        }
     }
+
+    public function updatedRegion($value)
+    {
+        $this->region =  $value;
+        if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
+            $this->calcule_estimation($value, $this->selectedCategory, $this->prix);
+        }
+    }
+
+    public function updatedPrix($value)
+    {
+        $this->prix =  $value;
+        if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
+            $this->calcule_estimation($this->region, $this->selectedCategory, $value);
+        }
+    }
+
+
+
+
+
+    public function calcule_estimation($id_region, $id_categorie, $prix)
+    {
+        $regions_categorie = regions_categories::where('id_region', $id_region)->where("id_categorie", $id_categorie)->first();
+        if ($regions_categorie) {
+            $this->extimation_prix = $regions_categorie->prix + $prix;
+            
+        }
+    }
+
+    
+
 
 
 
@@ -45,7 +82,7 @@ class CreatePost extends Component
         if ($post) {
             $this->titre = $post->titre;
             $this->description = $post->description;
-            $this->gouvernorat = $post->gouvernorat;
+            $this->region = $post->id_region;
             $this->categorie = $post->id_categorie;
             $this->prix = $post->prix;
             $this->old_photos = $post->photos;
@@ -53,9 +90,10 @@ class CreatePost extends Component
         }
 
         $categories = categories::Orderby("order")->get(['id', 'titre']);
+        $regions = regions::all(['id', 'nom']);
         return view('livewire.user.create-post')
-            ->with("categories", $categories)
-            ->with("list_gouvernorat", $this->get_list_gouvernorat());
+            ->with('regions', $regions)
+            ->with("categories", $categories);
     }
 
     //validation with multi upload image
@@ -63,7 +101,7 @@ class CreatePost extends Component
         'titre' => 'required|min:2',
         'description' => 'required',
         'photos.*' => 'image|max:2048|min:1',
-        'gouvernorat' => 'required',
+        'region' => 'required|integer|exists:regions,id',
         'prix' => 'required|numeric|min:1',
         'etat' => ['required', 'in:neuf,occasion'],
         'id_sous_categorie' => 'required|integer|exists:sous_categories,id'
@@ -80,9 +118,9 @@ class CreatePost extends Component
     {
         $this->validate(); // Vous validez les données soumises
 
-        $jsonProprietes = json_encode($this->article_propriete);
+        $jsonProprietes = $this->article_propriete;
 
- 
+
         $post = posts::find($this->post->id ?? "d"); // Vous cherchez le post existant par son ID
         if (!$post) {
             $post = new posts(); // Si le post n'existe pas, vous en créez un nouveau
@@ -101,13 +139,13 @@ class CreatePost extends Component
                 $data = array_merge($existing_photos, $data);
             }
 
-            $post->photos = json_encode($data);
+            $post->photos = $data;
         }
 
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
         $post->description = $this->description;
-        $post->gouvernorat = $this->gouvernorat;
+        $post->id_region = $this->region;
         $post->etat = $this->etat;
         $post->proprietes =  $jsonProprietes ?? [];
         $post->id_sous_categorie = $this->id_sous_categorie;
@@ -131,7 +169,7 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'gouvernorat', 'categorie', 'prix', 'etat', 'photos']); 
+        $this->reset(['titre', 'description', 'region', 'categorie', 'prix', 'etat', 'photos']);
     }
 
 

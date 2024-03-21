@@ -1,5 +1,5 @@
 @extends('Admin.fixe')
-@section('titre', 'Catégories')
+@section('title', 'Catégories')
 @section('content')
 
 
@@ -8,27 +8,35 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Catégories /</span> Gestion des Catégories</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Catégories /</span> Ajouter une nouvelle catégorie</h4>
         <!-- Bootstrap Table with Header - Dark -->
         <div class=" container">
             <div class="row">
                 <div class="col-sm-12 card">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <h5 class="card-header">Liste des catégories</h5>
+                            <h5 class="card-header">Ajouter une nouvelle catégorie</h5>
                         </div>
                         <div class="my-auto">
-                            <a href="{{ route('add_categorie') }}">
-                                <button class="btn btn-primary">
-                                    <i class="bi bi-plus"></i> Catégorie
-                                </button>
-                            </a>
+                            <button class="btn btn-primary me-sm-3 me-1 waves-effect waves-light" data-bs-toggle="modal"
+                                data-bs-target="#ajouter-region">
+                                <i class="bi bi-plus"></i> Ajouter une région
+                            </button>
                         </div>
                     </div>
+
+                   
+
                     <div class="nav-align-top mb-4">
                         <div class="tab-content">
+                            <div class="alert p-1 small alert-light">
+                                <img width="20" height="20" src="https://img.icons8.com/fluency/20/error.png"
+                                    alt="error" />
+                                Veuillez ajouter les régions avant de debuter la configuration des prix pour une quelconque
+                                catégorie !
+                            </div>
                             <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
-                                @livewire('ListeCategorieAdmin')
+                                @livewire('FormCreateCategorie')
                             </div>
                         </div>
                     </div>
@@ -40,6 +48,25 @@
     </div>
     <!--/ Content -->
 
+
+
+    <!-- Modal 1-->
+    <div class="modal fade" id="ajouter-region" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalToggleLabel">
+                        Ajouter une régions
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @livewire('Admin.AjouterRegion')
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

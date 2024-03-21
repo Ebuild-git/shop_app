@@ -27,7 +27,6 @@ class posts extends Model
     }
 
 
-
     //recuperer les informations su l'uilisateur
     public function user_info()
     {
@@ -45,5 +44,9 @@ class posts extends Model
 
     public function getLike(){
         return $this->hasMany(likes::class,'id_post','id');
+    }
+
+    public function region(){
+        return $this->belongsTo(regions::class,'id_region','id');
     }
 }

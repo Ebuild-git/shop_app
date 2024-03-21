@@ -1,17 +1,7 @@
 <div>
-    <img src="{{ Storage::url($icon) }}" class="w-100" alt="photo" srcset="">
+    
     <form wire:submit="modifier">
-        @csrf
-        @if (session()->has('error-modal'))
-            <span class="text-danger small">
-                {{ session('error-modal') }}
-            </span>
-        @enderror
-        @if (session()->has('success-modal'))
-            <span class="text-success small">
-                {{ session('success-modal') }}
-            </span>
-        @enderror
+        @include('components.alert-livewire')
         <br>
         <label for="">Titre de la catégorie </label>
         <input type="text" wire:model ="titre" value="{{ $titre }}" class="form-control" required>
@@ -20,17 +10,9 @@
                 {{ $message }}
             </div>
         @enderror
-        <div>
-            <label for="">choisir une nouvelle photo</label>
-            <input type="file" wire:model ="photo" value="{{ $photo }}" class="form-control" >
-            @error('photo')
-                <div class="text-danger">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
+        
     
-        <label for="">description </label>
+        <label for="">Description </label>
         <textarea class="form-control" wire:model="description" rows="4" required>
             {{ $description }}
         </textarea>
@@ -52,14 +34,29 @@
                 @enderror
             </div>
             <div class="col">
-                <label for="">Frais de livraison </label>
-                <input type="number" step="0.1" min="0" wire:model ="frais_livraison"
-                    value="{{ $frais_livraison }}" class="form-control" required>
-                @error('frais_livraison')
+                <label for="">Choisir une nouvelle photo</label>
+                <input type="file" wire:model ="photo" value="{{ $photo }}" class="form-control" >
+                @error('photo')
                     <div class="text-danger">
                         {{ $message }}
                     </div>
                 @enderror
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="">
+                Frais de livraison par regions
+            </label>
+            <div class="row">
+                @forelse ($region_prix as $region)
+                    <div class="col-sm-4">
+                        <label for=""> {{ $region['nom'] }}</label>
+                        <input type="number" wire:model="region_prix.{{ $loop->index }}.prix" placeholder="{{ $region['nom'] }}" class="form-control">
+                    </div>
+                @empty
+                    
+                @endforelse
             </div>
         </div>
         <hr>

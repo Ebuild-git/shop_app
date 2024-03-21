@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string("titre");
             $table->text("description");
             $table->json("photos");
+            $table->unsignedBigInteger("id_region");
             $table->unsignedBigInteger("id_user");
             $table->unsignedBigInteger("id_user_buy")->nullable()->default(null);
             $table->unsignedBigInteger("id_sous_categorie");
-            $table->string("gouvernorat");
             $table->json("proprietes")->nullable();
             $table->enum('etat',['neuf','occasion'])->default('neuf');
             $table->decimal("prix", 13, 3);
@@ -32,6 +32,7 @@ return new class extends Migration
 
 
             $table->foreign('id_user_buy')->references('id')->on('users');
+            $table->foreign('id_region')->references('id')->on('regions')->onDelete('cascade');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_sous_categorie')->references('id')->on('sous_categories')->onDelete('cascade');
         });

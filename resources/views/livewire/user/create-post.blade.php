@@ -17,7 +17,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="number" class="form-control " placeholder="Prix de votre article" required wire:model="prix">
+                            <input type="number" class="form-control " placeholder="Prix de votre article" required
+                                wire:model.live="prix">
                             @error('prix')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -39,13 +40,13 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <select class="form-control " wire:model="gouvernorat" required>
-                                <option value="">Veuillez selectionner le gouvernorat*</option>
-                                @foreach ($list_gouvernorat as $item)
-                                    <option value="{{ $item }}">{{ $item }}</option>
+                            <select class="form-control " wire:model.live="region" required>
+                                <option value="">Veuillez selectionner la region</option>
+                                @foreach ($regions as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nom }}</option>
                                 @endforeach
                             </select>
-                            @error('gouvernorat')
+                            @error('region')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -105,7 +106,9 @@
                                             <i class="bi bi-info-circle"></i>
                                             {{ $propriete_info->nom }}
                                         </label>
-                                        <input type="{{ $propriete_info->type }}" placeholder="{{ $propriete_info->nom }}" class="form-control" wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                        <input type="{{ $propriete_info->type }}"
+                                            placeholder="{{ $propriete_info->nom }}" class="form-control"
+                                            wire:model="article_propriete.{{ $propriete_info->nom }}">
                                     </div>
                                 </div>
                             @endif
@@ -181,6 +184,11 @@
     </div>
     <br>
     <div class="modal-footer">
+        @if ($extimation_prix > 0)
+            <div>
+                Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
+            </div>
+        @endif
         <button type="reset" class="btn btn-secondary disabled">
             Effacer
         </button>
@@ -199,9 +207,6 @@
     </div>
 
     <script>
-       
-
-
         // click btn-photos when i click in select-pic
         document.getElementById("select-pic").addEventListener("click", function() {
             document.getElementById("btn-photos").click();

@@ -96,12 +96,12 @@
                                 </div>
                                 <div class="elis_rty">
                                     <span class="ft-bold color fs-lg">
-                                        @livewire('User.prix', ['id_post' => $post->id]) DH
+                                        @livewire('User.Prix', ['id_post' => $post->id]) DH
                                     </span>
                                 </div>
                                 <span class="color">
                                     <i class="bi bi-bus-front-fill"></i>
-                                    Frais de Livraison : {{ $post->sous_categorie_info->categorie->frais_livraison ?? 0 }}
+                                    Frais de Livraison : @livewire('User.FraisLivraison', ['id_post' => $post->id])
                                     DH
                                 </span>
                             </div>
@@ -122,8 +122,8 @@
                             </div>
                             <div class="col-6 mb-1 text-capitalize">
                                 <i class="bi bi-chevron-double-right"></i>
-                                Gouvernorat :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->gouvernorat }}
+                                Région :<strong class="fs-sm text-dark ft-medium ml-1">
+                                    {{ $post->region->nom ?? 'N/A' }}
                                 </strong>
                             </div>
                         </div>

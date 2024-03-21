@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Validator;
 class CategoriesController extends Controller
 {
 
-
+public function add_categorie(){
+    return view( 'Admin.categories.ajouter_categorie');
+}
 
     public function list_categorie()
     {

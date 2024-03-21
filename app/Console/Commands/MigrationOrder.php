@@ -43,6 +43,8 @@ class MigrationOrder extends Command
             '30_create_contacts_table.php',
             "2024_03_11_083340_create_proprietes_table.php",
             '2024_03_15_144434_create_likes_table.php',
+            '2024_03_21_081210_create_regions_table.php',
+            '2024_03_21_083016_create_regions_categories_table.php'
 
         ];
 
