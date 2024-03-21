@@ -4,19 +4,18 @@ namespace App\Livewire\User;
 
 use App\Events\AdminEvent;
 use App\Models\notifications;
+use App\Models\regions;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Traits\ListGouvernorat;
 
 
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    use ListGouvernorat;
-    public $name, $email, $telephone, $ville, $gouvernorat, $avatar, $adress;
+    public $name, $email, $telephone, $ville, $region, $avatar, $adress;
 
     public function render()
     {
@@ -24,19 +23,18 @@ class UpdateInformations extends Component
         $this->email = $user->email;
         $this->name = $user->name;
         $this->ville = $user->ville;
-        $this->gouvernorat = $user->gouvernorat;
+        $this->region = $user->region;
         $this->adress = $user->adress;
         $this->telephone = $user->phone_number;
-        return view('livewire.user.update-informations')
-            ->with("list_gouvernorat", $this->get_list_gouvernorat());
+        $regions = regions::all(["id","nom"]);
+        return view('livewire.user.update-informations')->with("regions",$regions);
     }
 
     protected $rules = [
         'name' => 'required|min:6',
         'email' => 'required|email',
         'telephone' => ['nullable', 'numeric'],
-        'ville' => 'required|string|max:255',
-        'gouvernorat' => 'required|string|max:255',
+        'region' => 'required|integer|exists:regions,id',
         'adress' => 'string|nullable|max:255',
         'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
     ];
@@ -83,8 +81,7 @@ class UpdateInformations extends Component
 
         $user->name = $this->name;
         $user->phone_number = $this->telephone;
-        $user->ville = $this->ville;
-        $user->gouvernorat = $this->gouvernorat;
+        $user->region = $this->region;
         $user->adress = $this->adress;
         $user->save();
 

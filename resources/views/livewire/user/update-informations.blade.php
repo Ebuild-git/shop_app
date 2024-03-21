@@ -43,24 +43,14 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label>Gouvernorat</label>
-                <select class="form-control shadow-none" wire:model="gouvernorat" required>
+                <label>Région</label>
+                <select class="form-control shadow-none" wire:model="region" required>
                     <option value=""></option>
-                    @foreach ($list_gouvernorat as $item)
-                        <option value="{{ $item }}">{{ $item }}</option>
+                    @foreach ($regions as $item)
+                        <option value="{{ $item->id }}">{{ $item->nom }}</option>
                     @endforeach
                 </select>
-                @error('gouvernorat')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>Ville</label>
-                <input type="text" class="form-control shadow-none" @error('ville') is-invalid @enderror
-                    wire:model="ville" required>
-                @error('ville')
+                @error('region')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -85,12 +75,9 @@
                 @enderror
             </div>
         </div>
-    </div>
-    <br>
-    <h5 class="text-muted">Nouvelle de photo de profil</h5>
-    <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <div class="form-group">
+                <label>Nouvelle de photo de profil</label>
                 <input type="file" class="form-control shadow-none" @error('avatar') is-invalid @enderror
                     wire:model="avatar">
                 @error('avatar')
@@ -98,11 +85,15 @@
                 @enderror
             </div>
             @if (is_null(Auth::user()->photo_verified_at))
-            <div class="alert alert-info">
-                Votre photo de profil est en attente de validation par les administrateurs !
-            </div>
-        @endif
+                <div class="alert alert-info">
+                    Votre photo de profil est en attente de validation par les administrateurs !
+                </div>
+            @endif
         </div>
+    </div>
+    <br>
+    <div class="row">
+        
 
         <div class="col-sm-4 text-center">
             @if ($avatar)

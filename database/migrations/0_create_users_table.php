@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string("ip_adress")->nullable()->default(null);
             $table->string("avatar")->nullable()->default("avatar.png");
             $table->string("adress")->nullable()->default(null);
-            $table->string("gouvernorat")->nullable()->default(null);
+            $table->unsignedBigInteger("region")->nullable(true)->default(null);
             $table->string("role");
             $table->string("ville")->nullable()->default(null);
             $table->enum('type', ['user', 'shop']);
@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+
+            $table->foreign('region')->references('id')->on('regions')->onDelete('set null');
         });
     }
 
