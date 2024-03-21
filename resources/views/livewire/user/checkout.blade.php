@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div>
                 <div class="d-flex justify-content-between">
                     <h4>Adresse de livraison</h4>
@@ -21,7 +21,7 @@
             <b>Nombre d'article :</b> {{ $nbre_article }} <br><br>
 
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="d-flex justify-content-end">
                 <div>
                     <h3 class="color">

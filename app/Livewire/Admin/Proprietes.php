@@ -35,7 +35,7 @@ class Proprietes extends Component
         $propriete->required = $this->required;
         $propriete->nom = $this->nom;
         if($this->type == "option"){
-            $propriete->options = json_encode($this->optionsCases);
+            $propriete->options = $this->optionsCases;
         }
         $propriete->save();
         session()->flash("success", "La propriété a été ajoutée avec succès");

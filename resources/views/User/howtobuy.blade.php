@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', 'Comment vendre ?')
+@section('titre', 'Comment acheter ?')
 @section('content')
 @section('body')
    <!-- ======================= Top Breadcrubms ======================== -->
@@ -10,7 +10,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Comment Vendre ?</li>
+                        <li class="breadcrumb-item active" aria-current="page">Comment acheter?</li>
                     </ol>
                 </nav>
             </div>
@@ -20,7 +20,7 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
     <div class="container pt-5 pb-5">
-        <h2 class="mb-2 ft-bold">Comment Vendre ?</h2>
+        <h2 class="mb-2 ft-bold">Comment Acheter?</h2>
         <br>
         <div class="row">
             <div class="col-sm-8">
@@ -30,9 +30,11 @@
                             <img src="/faq/1.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-1"><b>Mettez votre article en ligne en un instant</b></h4>
-                            <p>Ajoutez des photos, rédigez une description, fixez le
-                                prix</p>
+                            <h4 class="title title-1">
+                                <b>Utilisez la recherche multicritères ou simplement parcourez les
+                                annonces des autres SHOP<span class="color">IN</span>ERS</b>
+                            </h4>
+                            <p>Continuez jusqu’à ce que vous trouvez votre coup de coeur</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(2)">
@@ -40,9 +42,11 @@
                             <img src="/faq/2.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-2"><b>Préparez votre article pour la livraison</b></h4>
-                            <p>Emballez votre article. Un livreur viendra récupérer le
-                                colis directement depuis chez vous</p>
+                            <h4 class="title title-2">
+                                <b>Laissez un petit Coeur sur l’article qui vous plait</b>
+                            </h4>
+                            <p>Comme çà l’article sera ajouter à votre liste de coup de
+                                coeur</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(3)">
@@ -50,9 +54,9 @@
                             <img src="/faq/3.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-3"><b>Recevez votre argent rapidement</b></h4>
-                            <p>24h après la livraison, vous receverez votre argent par
-                                virement bancaire</p>
+                            <h4 class="title title-3"><b>Appuyez sur « J’achète »</b></h4>
+                            <p>Et voilà c’est aussi simple que çà et le paiement se fait à la
+                                livraison</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(4)">
@@ -60,9 +64,9 @@
                             <img src="/faq/4.png" alt="" height="45">
                         </td>
                         <td>
-                            <h4 class="title title-4"><b>À vous maintenant! Achetez sur SHOP<span
-                                        class="color">IN</span></b></h4>
-                            <p>Explorez les beaux articles et passer à l’achat</p>
+                            <h4 class="title title-4"><b>Attendez votre colis</h4>
+                            <p>ExploAprès avoir confirmé la réception de votre colis, un livreur
+                                se rendra chez vous pour le remettre</p>
                         </td>
                     </tr>
                 </table>

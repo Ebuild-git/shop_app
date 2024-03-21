@@ -20,7 +20,7 @@ class CreatePost extends Component
 {
     use WithFileUploads;
 
-    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
+    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id,$prix_achat, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
     public $photos = [];
     public $article_propriete = [];
     public $proprietes, $quantite;
@@ -33,13 +33,17 @@ class CreatePost extends Component
 
     public function updatedSelectedCategory($value)
     {
-        $this->sous_categories = sous_categories::where("id_categorie", $value)->get();
-        $cat = categories::find($value);
-        $this->proprietes = $cat->proprietes;
-
-        if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
-            $this->calcule_estimation($this->region, $value, $this->prix);
+        if($value != "x"){
+            $c =sous_categories::where("id_categorie", $value)->get();
+            $this->sous_categories  = $c;
+            $cat = categories::find($value);
+            $this->proprietes = $cat->proprietes;
+    
+            if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
+                $this->calcule_estimation($this->region, $value, $this->prix);
+            }
         }
+       
     }
 
     public function updatedRegion($value)
@@ -59,6 +63,9 @@ class CreatePost extends Component
     }
 
 
+    public function updatedPtitre($value){
+        $this->titre = $value;
+    }
 
 
 
@@ -103,6 +110,7 @@ class CreatePost extends Component
         'photos.*' => 'image|max:2048|min:1',
         'region' => 'required|integer|exists:regions,id',
         'prix' => 'required|numeric|min:1',
+        'prix_achat' => 'required|numeric|min:1',
         'etat' => ['required', 'in:neuf,occasion'],
         'id_sous_categorie' => 'required|integer|exists:sous_categories,id'
     ];
@@ -149,6 +157,7 @@ class CreatePost extends Component
         $post->etat = $this->etat;
         $post->proprietes =  $jsonProprietes ?? [];
         $post->id_sous_categorie = $this->id_sous_categorie;
+        $post->prix_achat = $this->prix_achat;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
         $post->save(); // Sauvegarder le post

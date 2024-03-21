@@ -48,7 +48,7 @@
                                 @endif
                             </td>
                             <td>
-                                @forelse (json_decode($proriete->options) ?? [] as $op)
+                                @forelse ($proriete->options ?? [] as $op)
                                     {{ $op }} ,
                                 @empty
                                     

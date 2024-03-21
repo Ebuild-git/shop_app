@@ -93,6 +93,20 @@ class HomeController extends Controller
     }
 
 
+    public function about(){
+        return view("User.about");
+    }
+
+
+    public function how_buy(){
+        return view("User.howtobuy");
+    }
+
+    public function how_sell(){
+        return view('User.faq');
+    }
+
+
     public function shop(Request $request)
     {
         $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';

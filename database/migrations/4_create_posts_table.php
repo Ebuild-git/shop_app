@@ -23,6 +23,7 @@ return new class extends Migration
             $table->json("proprietes")->nullable();
             $table->enum('etat',['neuf','occasion'])->default('neuf');
             $table->decimal("prix", 13, 3);
+            $table->decimal("prix_achat", 13, 3);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
             $table->timestamp("delivered_at")->nullable()->default(null);

@@ -65,7 +65,7 @@
         </div>
         <div class="col-sm-4">
             <h5>
-                Ajout des prix par région
+                Ajout des prix de livraison par région
             </h5>
             @forelse ($list_regions as $region)
                 <div class="input-group mb-3">

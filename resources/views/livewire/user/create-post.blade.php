@@ -1,7 +1,4 @@
 <form wire:submit="submit" id="my-form">
-    <div>
-        <h3>Publier un article</h3>
-    </div>
     <div class="">
         <div class="row  p-3">
             <div class="col-sm-8">
@@ -9,7 +6,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <input type="text" class="form-control " placeholder="Titre de la publication*"
-                                wire:model="titre" required>
+                                wire:model.live="titre" required>
                             @error('titre')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -40,13 +37,9 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <select class="form-control " wire:model.live="region" required>
-                                <option value="">Veuillez selectionner la region</option>
-                                @foreach ($regions as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('region')
+                            <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
+                                required wire:model.live="prix_achat">
+                            @error('prix_achat')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -65,8 +58,20 @@
             <div class="col-sm-4">
 
                 <div class="form-group">
+                    <select class="form-control " wire:model.live="region" required>
+                        <option value="">Veuillez selectionner la region</option>
+                        @foreach ($regions as $item)
+                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                        @endforeach
+                    </select>
+                    @error('region')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
                     <select class="form-control " wire:model.live="selectedCategory">
-                        <option selected>Veuilez selectionner une catégorie*</option>
+                        <option selected value="x">Veuilez selectionner une catégorie*</option>
                         @foreach ($categories as $category => $categorie)
                             <option value="{{ $categorie->id }}">
                                 {{ $categorie->titre }}
@@ -82,7 +87,7 @@
                         <label for="exampleInputEmail1">Sous-catégorie</label>
                         <span class="bold text-danger">*</span>
                         <select class="form-control" wire:model="id_sous_categorie">
-                            <option selected>Veuilez selectionner une sous-catégorie</option>
+                            <option selected value="">Veuilez selectionner une sous-catégorie</option>
                             @foreach ($sous_categories as $sous)
                                 <option value="{{ $sous->id }}"
                                     class="sous-cat sous-cat-{{ $sous->id_categorie }}">
@@ -106,9 +111,15 @@
                                             <i class="bi bi-info-circle"></i>
                                             {{ $propriete_info->nom }}
                                         </label>
-                                        <input type="{{ $propriete_info->type }}"
-                                            placeholder="{{ $propriete_info->nom }}" class="form-control"
-                                            wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                        @if ($propriete_info->type == 'option')
+                                         
+                                        option en construction
+                                        @else
+                                            <input type="{{ $propriete_info->type }}"
+                                                placeholder="{{ $propriete_info->nom }}" class="form-control"
+                                                wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                        @endif
+
                                     </div>
                                 </div>
                             @endif
@@ -150,20 +161,20 @@
                             @foreach ($photos as $index => $image)
                                 <div class="col-sm-2 col-4" wire:key="{{ $loop->index }}">
                                     <div class="car-image-upload">
-                                        <button class="btn btn-danger btn-sm position-absolute" type="button"
+                                        <button class=" position-absolute" type="button"
                                             wire:click="RemoveMe({{ $loop->index }})">
                                             <i class="lni lni-cross-circle"></i>
                                         </button>
                                         <img src="{{ $image->temporaryUrl() }}"
-                                            alt="Preview Image {{ $index }}" class="w-100">
+                                            alt="Preview Image {{ $index }}">
                                     </div>
                                 </div>
                             @endforeach
                         @endif
                         <div class="col-sm-2 col-4">
-                            <div class="no-picture" id="select-pic">
-                                <img src="https://cdn-icons-png.flaticon.com/256/6066/6066857.png" class="w-100"
-                                    alt="" srcset="">
+                            <div id="select-pic">
+                                <img width="60" height="60" src="https://img.icons8.com/color/60/add-image.png"
+                                    alt="add-image" class="" />
                             </div>
                         </div>
                     </div>

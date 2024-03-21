@@ -67,15 +67,17 @@
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-
+                        Appelez le:
+                        <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
+                            {{ $configurations->phone_number ?? '' }}
+                        </a>
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
-                            Appelez le:
-                            <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
-                                {{ $configurations->phone_number ?? '' }}
-                            </a>
+                            
+                                <a href="/about" style="color: white !important">À propos</a>
+                            
                         </div>
                         <div class="currency-selector dropdown js-dropdown ml-3">
                             @auth
@@ -215,9 +217,7 @@
                             </li>
 
 
-                            <li>
-                                <a href="/about">À PROPOS</a>
-                            </li>
+                            
 
                             <li>
                                 @php
@@ -265,13 +265,23 @@
                                 <a href="#">Comment ça marche?</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     <li>
-                                        <a href="/faqs">
-                                            Comment Vendre ou acheter?
+                                        <a href="{{ route('how_sell') }}">
+                                            Comment Vendre ?
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('how_buy') }}">
+                                            Comment acheter?
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/conditions">
                                             Conditions générales
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Nos Politiques Tarifaires
                                         </a>
                                     </li>
                                 </ul>
