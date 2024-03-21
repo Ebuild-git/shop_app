@@ -15,16 +15,26 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <img src="/icons/logo.png" alt="" class="w-20 fill-current text-gray-500">
-                </a>
-            </div>
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 big-div-bg">
+
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <div class="text-center" style="text-align: center;">
+                    <a href="/">
+                        <img src="/icons/logo.png" style="width: 50% !important">
+                    </a>
+                </div>
+                <br>
                 {{ $slot }}
             </div>
         </div>
     </body>
+
+    <style>
+        .big-div-bg{
+            background: url('/icons/closeup-delivery-man-closing-carboard-box-with-tape-while-preparing-packages-shipment.webp')no-repeat;
+            background-size: cover;
+        }
+    </style>
+
 </html>

@@ -124,18 +124,11 @@
 
 
          <div class="modal-footer">
-             @if (session()->has('error'))
-                 <span class="text-danger small">
-                     {{ session('error') }}
-                 </span><br>
-             @enderror
-             @if (session()->has('success'))
-                 <span class="text-success small">
-                     {{ session('success') }}
-                 </span><br>
-             @enderror
+            @include('components.alert-livewire')
              <button type="submit" class="btn btn-primary">
-                 <x-loading></x-loading>
+                 <span wire:loading>
+                    <x-loading></x-loading>
+                 </span>
                  Enregistrer les modifications
              </button>
  </div>
