@@ -15,6 +15,7 @@
     <div class="div-1">
         <div class="form-group">
             <span for="small text-muted">Nom et prénom</span>
+            <span class="text-danger">*</span>
             <input type="text" placeholder="Nom et prénom"
                 class="form-control @error('nom') is-invalid @enderror shadow-none" wire:model="nom" required>
             @error('nom')
@@ -25,6 +26,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <span for="small">Username</span>
+                    <span class="text-danger">*</span>
                     <input type="tel"
                         class="form-control @error('username') is-invalid @enderror shadow-none"id="username"
                         placeholder="username23" wire:model.live="username" required>
@@ -38,6 +40,7 @@
                     <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
                         style="bottom:30px;left: 30px;border-radius: 100%;">
                     <span for="small">Numéro de téléphone</span>
+                    <span class="text-danger">*</span>
                     <input type="tel" style="padding-left: 50px;"
                         class="form-control @error('telephone') is-invalid @enderror shadow-none" id="telephone"
                         placeholder="Numéro de téléphone*" value="+212" wire:model="telephone" required>
@@ -50,6 +53,7 @@
 
         <div class="form-group">
             <span for="small">Adresse email</span>
+            <span class="text-danger">*</span>
             <input type="email" class="form-control @error('email') is-invalid @enderror shadow-none" id="email"
                 placeholder="Adresse email*" wire:model="email" required>
             @error('email')
@@ -58,6 +62,7 @@
         </div>
         <div class="form-group" style="position: relative;">
             <span for="small">Mot de passe</span>
+            <span class="text-danger">*</span>
             <input type="password" placeholder="Mot de passe" class="form-control  shadow-none" id="password"
                 wire:model="password" required>
             <button class="password_show" type="button">
@@ -72,7 +77,7 @@
     </div>
     <div class="form-group">
         <div class="fil-import-registrer">
-            <input type="file" class="d-none" id="photo" wire:model="photo" required>
+            <input type="file" class="d-none" id="photo" wire:model="photo" >
             <span id="select-image">
                 @if ($photo)
                     <img src="{{ $photo->temporaryUrl() }}" alt="" class="avatar-inscription">
