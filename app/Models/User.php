@@ -70,5 +70,18 @@ class User extends Authenticatable implements JWTSubject
     public function region(){
         return $this->belongsTo(regions::class,'id','region');
     }
+
+
+    public function categoriesWhereUserPosted()
+    {
+        return $this->hasManyThrough(
+            categories::class,
+            posts::class,
+            'id_user', // clé étrangère dans la table posts
+            'id',       // clé primaire dans la table categories
+            'id',       // clé primaire dans la table users
+            'id_sous_categorie' // clé étrangère dans la table posts vers sous_categories
+        )->distinct();
+    }
     
 }

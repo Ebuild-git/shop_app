@@ -87,7 +87,7 @@
                                     {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
                                     {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
                                     par &nbsp;
-                                    <a href="#" class="color">
+                                    <a href="/user/{{$post->user_info->id}}" class="color">
                                         <b>
                                             <i class="bi bi-person-circle"></i>
                                             {{ '@' . $post->user_info->username }}

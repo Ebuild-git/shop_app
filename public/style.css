@@ -464,11 +464,11 @@ body {
     right: 0px;
 }
 .note-shopinner-bas{
-    background-color:#fab00544;
+    background-color:#008080;
     padding: 05px;
+    color: white !important;
     border-radius: 5px;
     border:solid 1px #0080801c;
-    color: black !important;
 }
 
 
