@@ -29,20 +29,23 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
     Route::post('/posts/create', [PostsController::class, 'create_post'])->name('create_post');
     Route::post('/posts/update', [PostsController::class, 'update_post'])->name('update_post');
+
+
+    //categories
+    Route::get('/categories/list', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
+    Route::get('/categories/details/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
+    Route::get('/categories/delete/{id}', [CategoriesController::class, 'delete_categorie'])->name('delete_categorie');
+    Route::post('/categories/create', [CategoriesController::class, 'create_categorie'])->name('create_categorie');
+    Route::post('/categories/update', [CategoriesController::class, 'update_categorie'])->name('update_categorie');
+
+    //notifications
+    Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
+    Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
+    Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
 });
 
 
-//categories
-Route::get('/categories/list', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
-Route::get('/categories/details/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
-Route::get('/categories/delete/{id}', [CategoriesController::class, 'delete_categorie'])->name('delete_categorie');
-Route::post('/categories/create', [CategoriesController::class, 'create_categorie'])->name('create_categorie');
-Route::post('/categories/update', [CategoriesController::class, 'update_categorie'])->name('update_categorie');
 
-//notifications
-Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
-Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
-Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
 
 
 //route de gestion des utilisateurs

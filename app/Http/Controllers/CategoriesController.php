@@ -24,6 +24,7 @@ public function add_categorie(){
             ]
         );
     }
+    
 
     public function changerOrdre()
     {

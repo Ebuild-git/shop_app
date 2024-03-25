@@ -41,8 +41,11 @@ class ButtonAddPanier extends Component
                 'id' => $this->post->id,
             ];
             setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
+            $this->dispatch('alert', ['message' => "Produit ajouté au panier",'type'=>'success']);
 
             $this->dispatch('PostAdded');
+        }else{
+            $this->dispatch('alert', ['message' => "Produit déja ajouté",'type'=>'success']);
         }
     }
     

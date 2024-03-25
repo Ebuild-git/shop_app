@@ -175,6 +175,7 @@ class CreatePost extends Component
         $notification->destination = "admin";
         $notification->save();
 
+        $this->dispatch('alert', ['message' => "Le post a été créé avec succès",'type'=>'success']);
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire

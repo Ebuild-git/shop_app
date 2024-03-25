@@ -98,6 +98,8 @@ class Checkout extends Component
             $this->make_proposition($item["id"]);
         }
         $this->vider();
+        
+        $this->dispatch('alert', ['message' => "Vos commandes ont été envoyés aux differents vendeurs",'type'=>'success']);
         session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !');
     }
 

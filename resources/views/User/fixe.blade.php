@@ -20,12 +20,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
         integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @livewireStyles
     @yield('head')
 </head>
 
 <body>
 
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('alert', (parametres) => {
+                console.log(parametres);
+                const message = parametres[0].message;
+                const type = parametres[0].type;
+
+
+                Swal.fire({
+                    position: "center",
+                    icon:type,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+
+                console.log('Événement LiveWire déclenché avec le paramètre :', parametre);
+            });
+        });
+    </script>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -75,9 +97,9 @@
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
-                            
-                                <a href="/about" style="color: white !important">À propos</a>
-                            
+
+                            <a href="/about" style="color: white !important">À propos</a>
+
                         </div>
                         <div class="currency-selector dropdown js-dropdown ml-3">
                             @auth
@@ -217,7 +239,7 @@
                             </li>
 
 
-                            
+
 
                             <li>
                                 @php
@@ -520,11 +542,11 @@
                     @livewire('User.Panier')
                     <div class="cart_action px-3 py-3">
                         <div class="form-group">
-                           <a href="/checkout">
-                            <button type="button" class="btn d-block full-width btn-dark">
-                                Finaliser les achats
-                            </button>
-                        </a>
+                            <a href="/checkout">
+                                <button type="button" class="btn d-block full-width btn-dark">
+                                    Finaliser les achats
+                                </button>
+                            </a>
                         </div>
                     </div>
 
