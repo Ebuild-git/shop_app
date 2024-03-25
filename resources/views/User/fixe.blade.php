@@ -258,7 +258,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">Shop<span class="color">in</span>ers</a>
+                                <a href="{{ route('shopiners') }}">Shop<span class="color">in</span>ers</a>
                             </li>
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
