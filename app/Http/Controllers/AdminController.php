@@ -51,4 +51,16 @@ class AdminController extends Controller
         }
 
     }
+
+
+    public function admin_settings(){
+        return view('Admin.parametre.index');
+    }
+
+    public function admin_settings_security(){
+        return view('Admin.parametre.security');
+    }
+
+
+
 }

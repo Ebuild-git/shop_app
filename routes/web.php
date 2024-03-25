@@ -89,6 +89,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/client/{id}/view', [UserController::class, 'details_user'])->name('vue_details_utilisateurs');
     Route::get('/admin/publication/{id}/view', [PostsController::class, 'details_publication'])->name('vue_details_publication');
     Route::get('/admin/add_categorie', [CategoriesController::class, 'add_categorie'])->name('add_categorie');
+    Route::get('/admin/settings', [AdminController::class, 'admin_settings'])->name('admin_settings');
+    Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
+    
 });
 
 

@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Livewire\Admin;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class UpdateInformations extends Component
+{
+    use WithFileUploads;
+
+    public $avatar,$avatar2, $nom, $email;
+
+   
+
+    public function render()
+    {
+        $user = User::find(Auth::id());
+        if($user){
+            $this->nom = $user->name;
+            $this->email = $user->email;
+            $this->avatar = $user->avatar;
+        }
+        return view('livewire.admin.update-informations');
+    }
+
+    protected $rules = [
+        'nom' => 'required',
+        'email' => ['required', 'email'],
+        'avatar2' => 'nullable|mimes:jpg,png,jpeg,webp|max:2048'
+    ];
+
+    public function update_informations()
+    {
+
+        //validations 
+        $this->validate();
+       
+
+        $user = User::find(Auth::id());
+        if ($user) {
+            $user->name = $this->nom;
+            if ($user->email != $this->email) {
+                $count = User::where('email', $this->email)->count();
+                if ($count > 0) {
+                    $this->addError("email", "Désoler mais cette adresse est déja  utilisée");
+                    return;
+                } else {
+                    $user->email = $this->email;
+                }
+            }
+            if ($this->avatar2) {
+                if ($user->avatar) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
+                $newName = $this->avatar2->store('admin', 'public');
+                $user->avatar = $newName;
+            }
+            $user->save();
+            $this->render();
+            session()->flash('success', "Informations modifiées avec succes");
+        }
+    }
+}

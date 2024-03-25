@@ -221,22 +221,6 @@
                                                 <small class="text-muted mb-0">Account Settings</small>
                                             </div>
                                         </div>
-                                        <div class="row row-bordered overflow-visible g-0">
-                                            <div class="dropdown-shortcuts-item col">
-                                                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                                                    <i class="ti ti-help fs-4"></i>
-                                                </span>
-                                                <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                                                <small class="text-muted mb-0">FAQs & Articles</small>
-                                            </div>
-                                            <div class="dropdown-shortcuts-item col">
-                                                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                                                    <i class="ti ti-square fs-4"></i>
-                                                </span>
-                                                <a href="modal-examples.html" class="stretched-link">Modals</a>
-                                                <small class="text-muted mb-0">Useful Popups</small>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -251,7 +235,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="/assets-admin/img/avatars/1.png" alt
+                                        <img src="{{ Storage::url(Auth::user()->avatar)}}" alt
                                             class="h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -261,7 +245,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="/assets-admin/img/avatars/1.png" alt
+                                                        <img src="{{ Storage::url(Auth::user()->avatar)}}" alt
                                                             class="h-auto rounded-circle" />
                                                     </div>
                                                 </div>
@@ -280,40 +264,11 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="pages-profile-user.html">
-                                            <i class="ti ti-user-check me-2 ti-sm"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                        <a class="dropdown-item" href="{{ route('admin_settings') }}">
                                             <i class="ti ti-settings me-2 ti-sm"></i>
-                                            <span class="align-middle">Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="pages-account-settings-billing.html">
-                                            <span class="d-flex align-items-center align-middle">
-                                                <i class="flex-shrink-0 ti ti-credit-card me-2 ti-sm"></i>
-                                                <span class="flex-grow-1 align-middle">Billing</span>
-                                                <span
-                                                    class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20">2</span>
+                                            <span class="align-middle">
+                                                Parametres
                                             </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="pages-faq.html">
-                                            <i class="ti ti-help me-2 ti-sm"></i>
-                                            <span class="align-middle">FAQ</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="pages-pricing.html">
-                                            <i class="ti ti-currency-dollar me-2 ti-sm"></i>
-                                            <span class="align-middle">Pricing</span>
                                         </a>
                                     </li>
                                     <li>
