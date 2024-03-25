@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule, $username;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept;
 
     public function render()
     {
@@ -34,21 +34,39 @@ class Inscription extends Component
     }
 
 
-    //validation strict
-    protected $rules = [
-        'email' => 'required|email|unique:users,email',
-        'password' => ['required', 'string'],
-        'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
-        'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
-        'nom' => ['required', 'string'],
-        'telephone' => ['required', 'numeric'],
-        'username' => "string|unique:users,username",
-    ];
+
 
 
     public function inscription()
     {
-        $this->validate();
+        $validatedData = $this->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', 'string'],
+            'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
+            'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
+            'nom' => ['required', 'string'],
+            'telephone' => ['required', 'numeric'],
+            'accept' => ['required', 'accepted'],
+            'username' => "string|unique:users,username",
+        ], [
+            'email.required' => 'Le champ email est obligatoire.',
+            'email.email' => 'Veuillez entrer une adresse email valide.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
+            'password.required' => 'Le champ mot de passe est obligatoire.',
+            'photo.image' => 'Le fichier doit être une image.',
+            'photo.mimes' => 'Le fichier doit être au format jpg, png, jpeg ou webp.',
+            'photo.max' => 'La taille de l\'image ne doit pas dépasser 2 Mo.',
+            'matricule.mimes' => 'Le fichier doit être au format jpg, png, jpeg ou pdf.',
+            'matricule.max' => 'La taille du fichier ne doit pas dépasser 2 Mo.',
+            'nom.required' => 'Le champ nom est obligatoire.',
+            'telephone.required' => 'Le champ téléphone est obligatoire.',
+            'telephone.numeric' => 'Le numéro de téléphone doit être un nombre.',
+            'accept.required' => 'Vous devez accepter les termes et conditions.',
+            'accept.accept' => 'Vous devez accepter les termes et conditions pour continuer.',
+            'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
+            'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
+
+        ]);
 
 
 

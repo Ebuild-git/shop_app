@@ -38,6 +38,7 @@
             <tr>
                 <th scope="col" style="width: 51px;">#</th>
                 <th scope="col">titre</th>
+                <th scope="col">Statut</th>
                 <th scope="col">Prix</th>
                 <th scope="col"></th>
             </tr>
@@ -58,8 +59,11 @@
                             <i>Publié le {{ $item->created_at }}</i>
                         </span>
                     </td>
+                    <td class="text-capitalize">
+                        {{ $item->statut}}
+                    </td>
                     <td>
-                        @livewire('User.prix', ['id_post' => $item->id]) Dt
+                        @livewire('User.prix', ['id_post' => $item->id]) DH
                     </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
@@ -78,7 +82,7 @@
                                 </button>
                             </a>
                         @endif
-                        @if ($item->sell_at == null)
+                        @if ($item->statut == "validation" ||  $item->statut == "vente")
                             <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"
                                 wire:confirm="Voulez-vous supprimer cette publication ?">
                                 <i class="bi bi-trash"></i>
@@ -88,7 +92,7 @@
                 </tr>
             @empty
                 <tr>
-                    <th colspan="4">
+                    <th colspan="5">
                         <div class="alert alert-warning">
                             Aucun article trouvé pour ces critères de recherche.
                         </div>

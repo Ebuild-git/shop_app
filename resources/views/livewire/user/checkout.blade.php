@@ -66,14 +66,11 @@
                     </tr>
                 @endforelse
             </table>
+            @include('components.alert-livewire')
             <br>
             <div class="d-flex justify-content-end">
 
                 <button class="btn btn-danger btn-sm stretched-link" @disabled($nbre_article <= 0) wire:click="vider()">
-                    <span wire:loading>
-                        <x-Loading></x-Loading>
-                    </span>
-                    
                     <span wire:loading.remove>
                         Vider le panier
                     </span>
@@ -81,7 +78,6 @@
                 </button>
                     <button class="btn btn-white stretched-link hover-black" @disabled($nbre_article <= 0) wire:click="valider()">
                         <span wire:loading>
-                            <x-Loading></x-Loading>
                             Soumission des commandes....
                         </span>
                         

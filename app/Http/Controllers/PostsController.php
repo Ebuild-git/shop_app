@@ -36,15 +36,7 @@ class PostsController extends Controller
 
     public function liste_publications(Request $request)
     {
-        $type = $request->type ?? "";
-        $type_post = ["attente", "publiés", "signalés", "vendu"];
-        //verifier si le type est parmis les types de posts
-        if (!in_array($type, $type_post)) {
-            $type = "publiés"; //par default on affiche que les publications publies
-        }
-        return view("Admin.publications.index")
-            ->with("gouvernorats", $this->get_list_gouvernorat())
-            ->with("type", $type);
+        return view("Admin.publications.index");
     }
 
     public function details_publication(Request $request)

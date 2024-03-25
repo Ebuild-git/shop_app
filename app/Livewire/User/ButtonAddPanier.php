@@ -24,6 +24,8 @@ class ButtonAddPanier extends Component
 
     public function add()
     {
+
+
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
 
         $productExists = false;

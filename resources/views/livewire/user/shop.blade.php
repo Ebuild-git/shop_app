@@ -111,11 +111,11 @@
                                         <div class="card-body pt-0">
                                             <div class="inner_widget_link">
                                                 <ul class="">
-                                                    @forelse ($liste_gouvernorat as $gouvernorat)
+                                                    @forelse ($regions as $region)
                                                         <li>
                                                             <input type="radio">
                                                             <label class="checkbox-custom-label">
-                                                                {{ $gouvernorat }}
+                                                                {{ $region->nom }}
                                                             </label>
                                                         </li>
                                                     @empty
@@ -156,12 +156,10 @@
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
                                         <div class="single_fitres mr-2 br-right">
-                                            <select class="custom-select simple">
-                                                <option value="1" selected="">Default Sorting</option>
-                                                <option value="2">Sort by price: Low price</option>
-                                                <option value="3">Sort by price: Hight price</option>
-                                                <option value="4">Sort by rating</option>
-                                                <option value="5">Sort by trending</option>
+                                            <select class="custom-select simple" wire:model.live="filtre">
+                                                <option value="" selected="">Filtre par defaut</option>
+                                                <option value="asc">Sort by price: Low price</option>
+                                                <option value="desc">Sort by price: Hight price</option>
                                             </select>
                                         </div>
                                     </div>

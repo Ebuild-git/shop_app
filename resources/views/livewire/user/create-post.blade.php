@@ -112,80 +112,88 @@
                                             {{ $propriete_info->nom }}
                                         </label>
                                         @if ($propriete_info->type == 'option')
-                                         
-                                        option en construction
+                                            <select wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                id="" class="form-control">
+                                                <option value=""></option>
+                                                @forelse (json_decode($propriete_info->options) as $option)
+                                                    <option value="{{ $option }}">{{ $option }}</option>
+                                                @empty
+                                                @endforelse
+                                            </select>
                                         @else
                                             <input type="{{ $propriete_info->type }}"
                                                 placeholder="{{ $propriete_info->nom }}" class="form-control"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}">
                                         @endif
-
                                     </div>
                                 </div>
                             @endif
                         @empty
                         @endforelse
-                    </div>
-                    <br>
-                @endif
-                @if ($old_photos)
-                    <div class="row">
-                        @foreach ($old_photos as $item)
-                            <div class="col-6 ">
-                                <div class="card-iamge-post-create">
-                                    <img src="{{ Storage::url($item) }}">
-                                    <button class="btn btn-sm btn-danger" type="button"
-                                        wire:click="removeOldPhoto('{{ $item }}',{{ $post->id }})">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
 
-                <div>
-                    @include('components.alert-livewire')
-                </div>
+                    </div>
 
-                <div class=" text-danger">
-                    -Tous les champs contenant (*) sont obligatoires
-                </div>
 
             </div>
-            <div class="col-sm-12">
-                <!-- Affichage des images prévisualisées -->
-                <div class="p-3">
-                    <div class="row">
-                        @if ($photos)
-                            @foreach ($photos as $index => $image)
-                                <div class="col-sm-2 col-4" wire:key="{{ $loop->index }}">
-                                    <div class="car-image-upload">
-                                        <button class=" position-absolute" type="button"
-                                            wire:click="RemoveMe({{ $loop->index }})">
-                                            <i class="lni lni-cross-circle"></i>
-                                        </button>
-                                        <img src="{{ $image->temporaryUrl() }}"
-                                            alt="Preview Image {{ $index }}">
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                        <div class="col-sm-2 col-4">
-                            <div id="select-pic">
-                                <img width="60" height="60" src="https://img.icons8.com/color/60/add-image.png"
-                                    alt="add-image" class="" />
+            <br>
+            @endif
+            @if ($old_photos)
+                <div class="row">
+                    @foreach ($old_photos as $item)
+                        <div class="col-6 ">
+                            <div class="card-iamge-post-create">
+                                <img src="{{ Storage::url($item) }}">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    wire:click="removeOldPhoto('{{ $item }}',{{ $post->id }})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <input type="file" wire:model="photos" required id="btn-photos" class="d-none" multiple>
-                    @error('photos')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
+                    @endforeach
                 </div>
+            @endif
+
+            <div>
+                @include('components.alert-livewire')
+            </div>
+
+            <div class=" text-danger">
+                -Tous les champs contenant (*) sont obligatoires
             </div>
 
         </div>
+        <div class="col-sm-12">
+            <!-- Affichage des images prévisualisées -->
+            <div class="p-3">
+                <div class="row">
+                    @if ($photos)
+                        @foreach ($photos as $index => $image)
+                            <div class="col-sm-2 col-4" wire:key="{{ $loop->index }}">
+                                <div class="car-image-upload">
+                                    <button class=" position-absolute" type="button"
+                                        wire:click="RemoveMe({{ $loop->index }})">
+                                        <i class="lni lni-cross-circle"></i>
+                                    </button>
+                                    <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}">
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                    <div class="col-sm-2 col-4">
+                        <div id="select-pic">
+                            <img width="60" height="60" src="https://img.icons8.com/color/60/add-image.png"
+                                alt="add-image" class="" />
+                        </div>
+                    </div>
+                </div>
+                <input type="file" wire:model="photos" name="photos" id="btn-photos" class="d-none" multiple>
+                @error('photos')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+    </div>
 
     </div>
     <br>

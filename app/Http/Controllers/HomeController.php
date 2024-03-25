@@ -6,6 +6,7 @@ use App\Events\MyEvent;
 use App\Models\categories;
 use App\Models\configurations;
 use App\Models\posts;
+use App\Models\regions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -106,11 +107,16 @@ class HomeController extends Controller
         return view('User.faq');
     }
 
+    public function contact(){
+        $configuration = configurations::first();
+        return view('User.contact', compact("configuration"));
+    }
+
 
     public function shop(Request $request)
     {
         $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
         $key = $request->input("key",'');
-        return view('User.shop', compact("categorie", "categorie", "key", ));
+        return view('User.shop', compact("categorie", "key"));
     }
 }

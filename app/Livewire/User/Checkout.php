@@ -16,7 +16,7 @@ class Checkout extends Component
 
     public function render()
     {
-        
+
         $articles_panier = [];
         $total = 0;
         $nbre_article = 0;
@@ -42,10 +42,10 @@ class Checkout extends Component
         }
 
         return view('livewire.user.checkout')
-        ->with("articles_panier",$articles_panier)
-        ->with("total",$total)
-        ->with("cart",$cart)
-        ->with("nbre_article",$nbre_article);
+            ->with("articles_panier", $articles_panier)
+            ->with("total", $total)
+            ->with("cart", $cart)
+            ->with("nbre_article", $nbre_article);
     }
 
 
@@ -64,7 +64,7 @@ class Checkout extends Component
         }
         $cart = array_values($cart);
 
-        
+
 
         setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
 
@@ -76,9 +76,10 @@ class Checkout extends Component
 
 
 
-    public function vider(){
+    public function vider()
+    {
         //empty cart
-        setcookie('cart','[]',time()-1,'/');
+        setcookie('cart', '[]', time() - 1, '/');
         $this->dispatch('PostAdded');
     }
 
@@ -93,11 +94,11 @@ class Checkout extends Component
     public function valider()
     {
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-            foreach ($cart as $item) {
-                $this->make_proposition($item["id"]);
-            }
-            session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !'); 
-
+        foreach ($cart as $item) {
+            $this->make_proposition($item["id"]);
+        }
+        $this->vider();
+        session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !');
     }
 
 
@@ -136,7 +137,7 @@ class Checkout extends Component
         $notification->titre = "Une nouvelle commande !";
         $notification->id_user_destination  =  $post->id_user;
         $notification->type = "alerte";
-        $notification->url = "/publication/".$post->id."/propositions";
+        $notification->url = "/publication/" . $post->id . "/propositions";
         $notification->message = "Nous vous informons que votre publication  " . $post->titre . " vient de recevoir une nouvelle demande de commande";
         $notification->save();
         event(new UserEvent($post->id_user));

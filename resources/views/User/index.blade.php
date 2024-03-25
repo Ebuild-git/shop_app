@@ -78,9 +78,11 @@
                                             alt="..."></a>
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview"
-                                                class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick
-                                                View</a>
+                                        <div class="edlio"><a href="#" data-toggle="modal"
+                                                data-target="#quickview-{{ $lux->id }}"
+                                                class="text-white fs-sm ft-medium">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                vue rapide </a>
                                         </div>
                                     </div>
                                 </div>
@@ -110,6 +112,7 @@
                             </div>
                         </div>
                     </div>
+                    @livewire('User.ProductViewModal', ['id_post' => $lux->id])
                 @empty
                 @endforelse
 
@@ -168,9 +171,12 @@
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                         <div class="edlio">
-                                            <a href="#" data-toggle="modal" data-target="#quickview"
-                                                class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick
-                                                View</a>
+                                            <a href="#" data-toggle="modal"
+                                                data-target="#quickview-{{ $last->id }}"
+                                                class="text-white fs-sm ft-medium">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                Vue rapide
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +206,7 @@
                             </div>
                         </div>
                     </div>
+                    @livewire('User.ProductViewModal', ['id_post' => $last->id])
                 @empty
                 @endforelse
                 <!-- Single -->

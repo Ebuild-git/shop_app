@@ -1,14 +1,5 @@
 <form wire:submit="inscription">
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     @include('components.alert-livewire')
 
 
@@ -77,7 +68,7 @@
     </div>
     <div class="form-group">
         <div class="fil-import-registrer">
-            <input type="file" class="d-none" id="photo" wire:model="photo" >
+            <input type="file" class="d-none" id="photo" wire:model="photo">
             <span id="select-image">
                 @if ($photo)
                     <img src="{{ $photo->temporaryUrl() }}" alt="" class="avatar-inscription">
@@ -123,6 +114,7 @@
                 <i>Veuillez selectionner votre matricule </i>
             </span>
         </div>
+
     </div>
     <br>
 
@@ -130,12 +122,16 @@
 
 
     <div class="p-1">
-        <input type="checkbox" id="accept"> j'ai lu
+        <input type="checkbox" id="accept" wire:model="accept" required> j'ai lu
         <b>
             <i class="bi bi-link-45deg"></i>
             <a href="/conditions" target="__blank">Les Conditions générales</a>
         </b>
         et j'accepte !
+        @error('accept')
+            <br>
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
     </div>
 
 
@@ -144,8 +140,7 @@
 
 
         <div>
-            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit"
-                >
+            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit">
                 <span wire:loading>
                     <x-Loading></x-Loading>
                 </span>
@@ -188,6 +183,4 @@
             document.querySelector('.div-2').classList.add('d-none');
         }
     });
-
-
 </script>

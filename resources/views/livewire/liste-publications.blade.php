@@ -3,19 +3,27 @@
 
  <div class="card">
      <div class="row p-2">
-         <div class="col-sm-4 my-auto">
+         <div class="col-sm-12 my-auto">
              <h5 class="card-header">
                  Liste des publications
              </h5>
          </div>
-         <div class="col-sm-8 my-auto">
+         <div class="col-sm-12 my-auto">
              <form wire:submit="filtre">
                  <div class="input-group mb-3">
                      <input type="text" class="form-control" wire:model="mot_key" placeholder="titre">
-                     <select wire:model ="gouvernorat_key" class="form-control">
-                         <option value="" selected>Tous les gouvernorats</option>
-                         @foreach ($gouvernorats as $item)
-                             <option value="{{ $item }}">{{ $item }}</option>
+                     <select wire:model ="type" class="form-control">
+                        <option value="" selected>Toutes les publications</option>
+                        <option value="validation">En cour de validation</option>
+                        <option value="vente">En vente</option>
+                        <option value="vendu">vendu</option>
+                        <option value="livraison">en cour de livraison</option>
+                        <option value="livré">livré</option>
+                    </select>
+                     <select wire:model ="region_key" class="form-control">
+                         <option value="" selected>Toutes les regions</option>
+                         @foreach ($regions as $item)
+                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
                          @endforeach
                      </select>
                      <select wire:model ="categorie_key" class="form-control">
@@ -52,8 +60,8 @@
                      <th></th>
                      <th>Titre</th>
                      <th>Prix</th>
-                     <th>Ville</th>
-                     <th>Gouvernorat</th>
+                     <th>Régions</th>
+                     <th>Statut</th>
                      <th>Actions</th>
                      <td></td>
                  </tr>
@@ -92,8 +100,12 @@
                              </span>
                          </td>
                          <td> {{ $post->prix ?? '0' }} DT</td>
-                         <td> {{ $post->ville }} </td>
-                         <td> {{ $post->gouvernorat }} </td>
+                         <td> {{ $post->region->nom }} </td>
+                         <td>
+                            <span class="text-capitalize">
+                                {{ $post->statut }}
+                            </span>
+                         </td>
                          <td>
                              <button class="btn btn-sm btn-secondary"
                                  onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">

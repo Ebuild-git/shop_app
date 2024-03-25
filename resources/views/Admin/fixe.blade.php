@@ -390,23 +390,9 @@
                                     </a>
                                     <ul class="menu-sub">
                                         <li class="menu-item">
-                                            <a href="/admin/publications?type=publiés" class="menu-link">
+                                            <a href="/admin/publications" class="menu-link">
                                                 <i class="menu-icon bi bi-stickies"></i>
                                                 <div data-i18n="Liste des publications">Liste des publications</div>
-                                            </a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="/admin/publications?type=attente" class="menu-link">
-                                                <i class="menu-icon bi bi-hourglass"></i>
-                                                <div data-i18n="Publications en attente d'approbation">
-                                                    Publications en attente d'approbation
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="/admin/publications?type=vendu" class="menu-link">
-                                                <i class="menu-icon bi bi-cart-check"></i>
-                                                <div data-i18n="Publications vendus">Publications vendus</div>
                                             </a>
                                         </li>
                                         <li class="menu-item">

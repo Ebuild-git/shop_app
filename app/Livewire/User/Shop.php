@@ -4,16 +4,15 @@ namespace App\Livewire\User;
 
 use App\Models\categories;
 use App\Models\posts;
+use App\Models\regions;
 use Livewire\Component;
-use App\Traits\ListGouvernorat;
 use Livewire\WithPagination;
 
 class Shop extends Component
 {
-    use ListGouvernorat;
     use WithPagination;
 
-    public $liste_gouvernorat,$gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat;
+    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat,$filtre;
 
 
 
@@ -28,9 +27,14 @@ class Shop extends Component
         $this->resetPage();
     }
 
-    public function render()
-    {
-        $this->liste_gouvernorat = $this->get_list_gouvernorat();
+
+    public function updateFiltre($value){
+        $this->filtre = $value;
+        $this->resetPage();
+    }
+
+
+    public function render(){
         $this->total = posts::count();
         $this->liste_categories = categories::orderBy('order')->get(["titre", "id"]);
         
@@ -38,6 +42,11 @@ class Shop extends Component
     
         if (!empty($this->ordre)) {
             $query->orderBy('created_at', ($this->ordre == "Desc") ? 'DESC' : 'ASC');
+        }
+
+
+        if (!empty($this->filtre)) {
+            $query->orderBy('prix', ($this->filtre == "Desc") ? 'DESC' : 'ASC');
         }
     
         if (!empty($this->gouvernorat)) {
@@ -66,7 +75,8 @@ class Shop extends Component
             $query->where('etat', $this->etat);
         }
     
-        return view('livewire.user.shop', ['posts' => $query->paginate(30)]);
+        $regions = regions::all(["id","nom"]);
+        return view('livewire.user.shop', ['posts' => $query->paginate(30),"regions"=>$regions]);
     }
     
 

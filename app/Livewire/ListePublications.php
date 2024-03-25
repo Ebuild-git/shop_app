@@ -6,6 +6,7 @@ use App\Events\UserEvent;
 use App\Models\categories;
 use App\Models\notifications;
 use App\Models\posts;
+use App\Models\regions;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,14 +14,8 @@ class ListePublications extends Component
 {
     use WithPagination;
 
-    public $type, $categories, $mot_key, $categorie_key, $gouvernorat_key;
-    public $gouvernorats = [];
+    public $type, $categories, $mot_key, $categorie_key, $region_key;
 
-    public function mount($type, $gouvernorats)
-    {
-        $this->type = $type;
-        $this->gouvernorats = $gouvernorats;
-    }
 
 
     public function render()
@@ -28,15 +23,11 @@ class ListePublications extends Component
         $this->categories = categories::all();
 
 
-        $postsQuery = posts::Orderby("id", "Desc");
+        $postsQuery = posts::Orderby("id", "Desc")->select("id","titre","photos","id_user","created_at","id_sous_categorie","statut","prix","id_region");
 
-        if ($this->type == "attente") {
-            $postsQuery->whereNull("verified_at");
-        } elseif ($this->type == "publiés") {
-            $postsQuery->whereNotNull("verified_at")
-                ->whereNull("sell_at");
-        } elseif ($this->type == "vendu") {
-            $postsQuery->whereNotNull("sell_at");
+        
+        if (strlen($this->type) > 0) {
+            $postsQuery->where('statut',  $this->type);
         }
 
         // Filtrage par mot-clé
@@ -50,15 +41,16 @@ class ListePublications extends Component
             $postsQuery->where('id_categorie', $this->categorie_key);
         }
 
-        // Filtrage par gouvernorat
-        if (strlen($this->gouvernorat_key) > 0) {
-            $postsQuery->where('gouvernorat', $this->gouvernorat_key);
+        // Filtrage par region
+        if (strlen($this->region_key) > 0) {
+            $postsQuery->where('id_region', $this->region_key);
         }
 
 
         $posts = $postsQuery->paginate(50);
+        $regions = regions::all(['id', 'nom']);
 
-        return view('livewire.liste-publications', compact('posts'));
+        return view('livewire.liste-publications', compact('posts', 'regions'));
     }
 
     public function valider($id)
@@ -71,17 +63,17 @@ class ListePublications extends Component
             $post->statut = 'vente';
             $post->save();
 
-             //make notification
-             $notification = new notifications();
-             $notification->titre = "Une vente a été retouner ";
-             $notification->id_user_destination  =  $post->id_user;
-             $notification->type = "alerte";
-             $notification->url = "/post/".$post->id;
-             $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
-             $notification->save();
-             event(new UserEvent($post->id_user));
+            //make notification
+            $notification = new notifications();
+            $notification->titre = "Une vente a été retouner ";
+            $notification->id_user_destination  =  $post->id_user;
+            $notification->type = "alerte";
+            $notification->url = "/post/" . $post->id;
+            $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
+            $notification->save();
+            event(new UserEvent($post->id_user));
 
-             
+
             session()->flash("success", "Le publication a été validée");
         } else {
             session()->flash("error", "Une erreur est survenue lors de la validation de la publication, veuillez réessayer plus tard.");
@@ -89,7 +81,8 @@ class ListePublications extends Component
     }
 
 
-    public function filtre(){
+    public function filtre()
+    {
         $this->resetPage();
     }
 
