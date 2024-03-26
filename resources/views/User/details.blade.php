@@ -137,7 +137,7 @@
                                             <b>{{ ucfirst($key) }} </b>
                                             <br>
                                             @if ($key == 'couleur' || $key == 'Couleur')
-                                                <span style="background-color: {{ $value }} ;  p-2">
+                                                <span style="background-color: {{ $value }} ;color:{{ $value }};" class="p-2">
                                                     {{ $value }}
                                                 </span>
                                             @else
