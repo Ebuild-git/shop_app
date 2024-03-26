@@ -4,6 +4,7 @@
         <div class="input-group mb-3">
             <input type="text" required wire:model="nom" placeholder="Nom de la région" class="form-control">
             <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp;
                 Ajouter
             </button>
         </div>
@@ -14,6 +15,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nom</th>
+                    <th>Date d'ajout</th>
                     <th></th>
                 </tr>
             </thead>
@@ -21,9 +23,11 @@
                 @forelse ($regions as $item)
                     <tr>
                         <td>{{ $item->nom }}</td>
+                        <td>{{ $item->created_at }}</td>
                         <td style="text-align: right">
                             <button class="btn btn-sm btn-danger" type="button" wire:confirm="Voulez-vous supprimer ?"
                                 wire:click="delete({{ $item->id }})">
+                                <i class="bi bi-trash3"></i> &nbsp;
                                 Supprimer
                             </button>
                         </td>

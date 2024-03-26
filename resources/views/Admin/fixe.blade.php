@@ -41,7 +41,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Page CSS -->
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="/assets-admin/vendor/css/pages/app-logistics-dashboard.css" />
 
     <!-- Helpers -->
@@ -54,11 +56,31 @@
     @yield('css')
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
 
-    @livewire('SweetAlert')
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('alert', (parametres) => {
+                console.log(parametres);
+                const message = parametres[0].message;
+                const type = parametres[0].type;
+
+
+                Swal.fire({
+                    position: "center",
+                    icon: type,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            });
+        });
+    </script>
+
+
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">
@@ -68,8 +90,7 @@
                 <div class="container-xxl">
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
                         <a href="/dashboard" class="app-brand-link gap-2">
-                            <img src="/icons/logo.png" alt="" srcset=""
-                                style="height: 25px;">
+                            <img src="/icons/logo.png" alt="" srcset="" style="height: 25px;">
                         </a>
 
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -235,7 +256,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ Storage::url(Auth::user()->avatar)}}" alt
+                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt
                                             class="h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -245,7 +266,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ Storage::url(Auth::user()->avatar)}}" alt
+                                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt
                                                             class="h-auto rounded-circle" />
                                                     </div>
                                                 </div>
@@ -397,7 +418,7 @@
 
                     @yield('body')
 
-      
+
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl">

@@ -72,5 +72,6 @@ class Informations extends Component
 
         //show success message
         session()->flash('success', __('Information mises à jour avec succès'));
+        $this->dispatch('alert', ['message' => "Information mises à jour avec succès",'type'=>'info']);
     }
 }

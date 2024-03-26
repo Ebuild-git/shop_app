@@ -42,9 +42,6 @@
                     showConfirmButton: false,
                     timer: 2000
                 });
-
-
-                console.log('Événement LiveWire déclenché avec le paramètre :', parametre);
             });
         });
     </script>

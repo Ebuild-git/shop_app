@@ -14,6 +14,10 @@ public function add_categorie(){
     return view( 'Admin.categories.ajouter_categorie');
 }
 
+public function add_regions(){
+    return view( 'Admin.categories.ajouter-regions');
+}
+
     public function list_categorie()
     {
         $categories = categories::all();

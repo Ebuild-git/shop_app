@@ -75,7 +75,7 @@
                                         <div>
                                             publications :{{ $shopiner->GetPosts->count() }} <br>
                                             Total des ventes :
-                                            {{ $shopiner->GetPosts->where('sell_at', '!=', null)->count() }}
+                                            {{ $shopiner->total_sales }}
                                         </div>
                                     </div>
                                 </div>

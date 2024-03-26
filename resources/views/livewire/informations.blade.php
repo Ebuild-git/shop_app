@@ -129,6 +129,7 @@
                  <span wire:loading>
                     <x-loading></x-loading>
                  </span>
+                 <i class="bi bi-plus-circle"></i> &nbsp;
                  Enregistrer les modifications
              </button>
  </div>
