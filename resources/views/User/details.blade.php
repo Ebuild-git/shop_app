@@ -136,7 +136,13 @@
                                         <div class="p-2 alert alert-success">
                                             <b>{{ ucfirst($key) }} </b>
                                             <br>
+                                            @if ($key == "couleur")
+                                                <span style="background-color: {{ $key }} p-2">
+                                                    {{ $value }}
+                                                </span>
+                                            @else
                                             {{ $value }}
+                                            @endif
                                         </div>
                                     </div>
                                 @empty
