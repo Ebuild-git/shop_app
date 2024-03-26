@@ -40,17 +40,46 @@
                     @enderror
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span for="small">Genre</span>
+                    <span class="text-danger">*</span>
+                    <select wire:model="genre" class="form-control @error('genre') is-invalid @enderror shadow-none">
+                        <option value=""></option>
+                        <option value="Masculin">Masculin</option>
+                        <option value="Féminin">Féminin</option>
+                    </select>
+                    @error('genre')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span for="small">Date de naissance</span>
+                    <span class="text-danger">*</span>
+                    <input type="date" class="form-control @error('date') is-invalid @enderror shadow-none"
+                        id="date" placeholder="date de naissance *" wire:model="date" required>
+                    @error('date')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <span for="small">Adresse email</span>
+                    <span class="text-danger">*</span>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror shadow-none"
+                        id="email" placeholder="Adresse email*" wire:model="email" required>
+                    @error('email')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+
         </div>
 
-        <div class="form-group">
-            <span for="small">Adresse email</span>
-            <span class="text-danger">*</span>
-            <input type="email" class="form-control @error('email') is-invalid @enderror shadow-none" id="email"
-                placeholder="Adresse email*" wire:model="email" required>
-            @error('email')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+
         <div class="form-group" style="position: relative;">
             <span for="small">Mot de passe</span>
             <span class="text-danger">*</span>
@@ -86,7 +115,10 @@
 
     </div>
     <div class="p-1">
-        <input type="checkbox" id="shop"> je suis une boutique
+        <input type="checkbox" id="shop">
+        <b>
+            <a href="#">je suis une boutique</a>
+        </b>
     </div>
 
     @error('matricule')
@@ -104,8 +136,8 @@
             <input type="file" class="d-none" name="matricule" id="matricule" wire:model="matricule">
             <span id="select-matricule">
                 @if ($matricule)
-                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png" alt="ok--v1"
-                        class="avatar-inscription" />
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/ok--v1.png"
+                        alt="ok--v1" class="avatar-inscription" />
                 @else
                     <img width="50" height="50" src="https://img.icons8.com/ios/50/1A1A1A/document--v1.png"
                         alt="document--v1" class="avatar-inscription" />

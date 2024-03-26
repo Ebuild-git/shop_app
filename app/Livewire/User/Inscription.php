@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Mail\VerifyMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept,$date,$genre;
 
     public function render()
     {
@@ -48,24 +49,22 @@ class Inscription extends Component
             'telephone' => ['required', 'numeric'],
             'accept' => ['required', 'accepted'],
             'username' => "string|unique:users,username",
+            'date'=>['required'],
+            'genre' =>'required|in:Féminin,Masculin'
         ], [
-            'email.required' => 'Le champ email est obligatoire.',
-            'email.email' => 'Veuillez entrer une adresse email valide.',
-            'email.unique' => 'Cette adresse email est déjà utilisée.',
-            'password.required' => 'Le champ mot de passe est obligatoire.',
-            'photo.image' => 'Le fichier doit être une image.',
-            'photo.mimes' => 'Le fichier doit être au format jpg, png, jpeg ou webp.',
-            'photo.max' => 'La taille de l\'image ne doit pas dépasser 2 Mo.',
+            'equired' => 'Ce champ est obligatoire.',
+            'email' => 'Veuillez entrer une adresse email valide.',
+            'unique' => 'Cette valeur est déjà utilisée.',
+            'image' => 'Le fichier doit être une image.',
+            'mimes' => 'Le fichier doit être au format jpg, png, jpeg ou webp.',
+            'max' => 'La taille de l\'image ne doit pas dépasser 2 Mo.',
             'matricule.mimes' => 'Le fichier doit être au format jpg, png, jpeg ou pdf.',
-            'matricule.max' => 'La taille du fichier ne doit pas dépasser 2 Mo.',
-            'nom.required' => 'Le champ nom est obligatoire.',
-            'telephone.required' => 'Le champ téléphone est obligatoire.',
             'telephone.numeric' => 'Le numéro de téléphone doit être un nombre.',
             'accept.required' => 'Vous devez accepter les termes et conditions.',
             'accept.accept' => 'Vous devez accepter les termes et conditions pour continuer.',
             'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
-
+            'genre.in' => 'Le genre choisi n\'est pas valide.',
         ]);
 
 
@@ -75,11 +74,20 @@ class Inscription extends Component
         //generer un token pour la verification de mail
         $token = md5(time());
 
+
+        //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
+        if (Carbon::parse($this->date)->age < 13) {
+            $this->addError('date', 'L\'âge minimal est de 13ans');
+            return;
+        }
+
         $user = new User();
         $user->name = $this->nom;
         $user->email = $this->email;
         $user->password = Hash::make($this->password);
         $user->phone_number = $this->telephone;
+        $user->naissance = $this->date;
+        $user->genre = $this->genre;
         $user->role = "user";
         $user->type = "user";
         $user->username = $this->username;
