@@ -51,6 +51,7 @@ class Connexion extends Component
 
         //connecter l'utilisateur
         auth()->login($user);
+        
         return redirect('/');
 
     }

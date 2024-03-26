@@ -23,7 +23,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'certifier'
+        'certifier',
+        'first_login_at'
     ];
 
     /**
@@ -89,6 +90,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(ratings::class, 'id_user_rated')
                     ->selectRaw('AVG(etoiles) as average_rating')
                     ->groupBy('id_user_rated');
+    }
+
+
+    public function markFirstLogin()
+    {
+        if (is_null($this->first_login_at)) {
+            $this->update(['first_login_at' => now()]);
+        }
     }
     
 }

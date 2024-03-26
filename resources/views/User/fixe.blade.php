@@ -37,7 +37,7 @@
 
                 Swal.fire({
                     position: "center",
-                    icon:type,
+                    icon: type,
                     title: message,
                     showConfirmButton: false,
                     timer: 2000
@@ -608,6 +608,64 @@
         </div>
     </div>
     <!-- End Modal -->
+
+
+    @auth
+        <!-- Condition Modal -->
+        <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content" id="first-login">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+
+                    <div class="first-login ">
+                        <div class="text-center">
+                            <img width="100" height="100"
+                                src="https://img.icons8.com/carbon-copy/100/018d8d/camera--v1.png" alt="camera--v1" />
+                            <h5 class="color">
+                                <b>
+                                    Bienvennue ,
+                                    @if (Auth::user()->genre == 'Masculin')
+                                        M.
+                                    @else
+                                        Mme.
+                                    @endif
+
+                                    {{ Auth::user()->name }}
+                                </b>
+                            </h5>
+                        </div>
+                        <p class="p-3">
+                            Nous vous informons que votre photo de profil sera soumise à un processus de validation, qui
+                            prendra jusqu'à un maximum de 24 heures avant d'être approuvée.
+                            <br><br>
+                            Nous vous remercions pour votre
+                            patience et votre compréhension.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
+
+        @if (Auth::user()->first_login_at == null)
+            <script>
+                $(document).ready(function() {
+                    $('#first-login').modal('show');
+                });
+            </script>
+            @php
+                Auth::user()->markFirstLogin();
+            @endphp
+        @endif
+    @endauth
+
     <script>
         $(document).ready(function() {
             // Vérifier si l'utilisateur a déjà accepté les conditions

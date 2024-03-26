@@ -1,206 +1,180 @@
 <form wire:submit="submit" id="my-form">
-    <div class="">
-        <div class="row  p-3">
-            <div class="col-sm-8">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control " placeholder="Titre de la publication*"
-                                wire:model.live="titre" required>
-                            @error('titre')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input type="number" class="form-control " placeholder="Prix de votre article" required
-                                wire:model.live="prix">
-                            @error('prix')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <select name="etat" wire:model="etat" class="form-control ">
-                                <option value="">Veuillez selectionner l'état*</option>
-                                <option value="neuf">Neuf</option>
-                                <option value="occasion">Occasion</option>
-                            </select>
-                            @error('etat')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
-                                required wire:model.live="prix_achat">
-                            @error('prix_achat')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Description</label>
-                    <span class="bold text-danger">*</span>
-                    <textarea wire:model="description" required class="form-control " rows="7"></textarea>
-                    @error('description')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-            </div>
-            <div class="col-sm-4">
-
-                <div class="form-group">
-                    <select class="form-control " wire:model.live="region" required>
-                        <option value="">Veuillez selectionner la region</option>
-                        @foreach ($regions as $item)
-                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
-                        @endforeach
-                    </select>
-                    @error('region')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <select class="form-control " wire:model.live="selectedCategory">
-                        <option selected value="x">Veuilez selectionner une catégorie*</option>
-                        @foreach ($categories as $category => $categorie)
-                            <option value="{{ $categorie->id }}">
-                                {{ $categorie->titre }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('categorie')
-                        <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-                @if ($selectedCategory)
+    <div class="row p-3">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Sous-catégorie</label>
-                        <span class="bold text-danger">*</span>
-                        <select class="form-control" wire:model="id_sous_categorie">
-                            <option selected value="">Veuilez selectionner une sous-catégorie</option>
-                            @foreach ($sous_categories as $sous)
-                                <option value="{{ $sous->id }}"
-                                    class="sous-cat sous-cat-{{ $sous->id_categorie }}">
-                                    {{ $sous->titre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('id_sous_categorie')
+                        <input type="text" class="form-control " placeholder="Titre de la publication*"
+                            wire:model.live="titre" required>
+                        @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="row">
-                        @forelse ($proprietes as $propriete)
-                            @php
-                                $propriete_info = DB::table('proprietes')->find($propriete);
-                            @endphp
-                            @if ($propriete_info)
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-capitalize">
-                                            <i class="bi bi-info-circle"></i>
-                                            {{ $propriete_info->nom }}
-                                        </label>
-                                        @if ($propriete_info->type == 'option')
-                                            <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                id="" class="form-control">
-                                                <option value=""></option>
-                                                @forelse (json_decode($propriete_info->options) as $option)
-                                                    <option value="{{ $option }}">{{ $option }}</option>
-                                                @empty
-                                                @endforelse
-                                            </select>
-                                        @else
-                                            <input type="{{ $propriete_info->type }}"
-                                                placeholder="{{ $propriete_info->nom }}" class="form-control"
-                                                wire:model="article_propriete.{{ $propriete_info->nom }}">
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-                        @empty
-                        @endforelse
-
-                    </div>
-
-
-            </div>
-            <br>
-            @endif
-            @if ($old_photos)
-                <div class="row">
-                    @foreach ($old_photos as $item)
-                        <div class="col-6 ">
-                            <div class="card-iamge-post-create">
-                                <img src="{{ Storage::url($item) }}">
-                                <button class="btn btn-sm btn-danger" type="button"
-                                    wire:click="removeOldPhoto('{{ $item }}',{{ $post->id }})">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
-            @endif
-
-            <div>
-                @include('components.alert-livewire')
-            </div>
-
-            <div class=" text-danger">
-                -Tous les champs contenant (*) sont obligatoires
-            </div>
-
-        </div>
-        <div class="col-sm-12">
-            <!-- Affichage des images prévisualisées -->
-            <div class="p-3">
-                <div class="row">
-                    @if ($photos)
-                        @foreach ($photos as $index => $image)
-                            <div class="col-sm-2 col-4" wire:key="{{ $loop->index }}">
-                                <div class="car-image-upload">
-                                    <button class=" position-absolute" type="button"
-                                        wire:click="RemoveMe({{ $loop->index }})">
-                                        <i class="lni lni-cross-circle"></i>
-                                    </button>
-                                    <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}">
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-                    <div class="col-sm-2 col-4">
-                        <div id="select-pic">
-                            <img width="60" height="60" src="https://img.icons8.com/color/60/add-image.png"
-                                alt="add-image" class="" />
-                        </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input type="number" class="form-control " placeholder="Prix de votre article" required
+                            wire:model.live="prix">
+                        @error('prix')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
-                <input type="file" wire:model="photos" name="photos" id="btn-photos" class="d-none" multiple>
-                @error('photos')
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <select name="etat" wire:model="etat" class="form-control ">
+                            <option value="">Veuillez selectionner l'état*</option>
+                            <option value="neuf">Neuf</option>
+                            <option value="occasion">Occasion</option>
+                        </select>
+                        @error('etat')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
+                            required wire:model.live="prix_achat">
+                        @error('prix_achat')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <span class="bold text-danger">*</span>
+                <textarea wire:model="description" required class="form-control " rows="7"></textarea>
+                @error('description')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
         </div>
+        <div class="col-sm-4">
+
+            <div class="form-group">
+                <select class="form-control " wire:model.live="region" required>
+                    <option value="">Veuillez selectionner la region</option>
+                    @foreach ($regions as $item)
+                        <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                    @endforeach
+                </select>
+                @error('region')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <select class="form-control " wire:model.live="selectedCategory">
+                    <option selected value="x">Veuilez selectionner une catégorie*</option>
+                    @foreach ($categories as $category => $categorie)
+                        <option value="{{ $categorie->id }}">
+                            {{ $categorie->titre }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('categorie')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            @if ($selectedCategory)
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Sous-catégorie</label>
+                    <span class="bold text-danger">*</span>
+                    <select class="form-control" wire:model="id_sous_categorie">
+                        <option selected value="">Veuilez selectionner une sous-catégorie</option>
+                        @foreach ($sous_categories as $sous)
+                            <option value="{{ $sous->id }}" class="sous-cat sous-cat-{{ $sous->id_categorie }}">
+                                {{ $sous->titre }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_sous_categorie')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="row">
+                    @forelse ($proprietes as $propriete)
+                        @php
+                            $propriete_info = DB::table('proprietes')->find($propriete);
+                        @endphp
+                        @if ($propriete_info)
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="text-capitalize">
+                                        <i class="bi bi-info-circle"></i>
+                                        {{ $propriete_info->nom }}
+                                    </label>
+                                    @if ($propriete_info->type == 'option')
+                                        <select wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                            id="" class="form-control">
+                                            <option value=""></option>
+                                            @forelse (json_decode($propriete_info->options) as $option)
+                                                <option value="{{ $option }}">{{ $option }}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    @else
+                                        <input type="{{ $propriete_info->type }}"
+                                            placeholder="{{ $propriete_info->nom }}" class="form-control"
+                                            wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    @empty
+                    @endforelse
+                </div>
+            @endif
+        </div>
+        <br>
 
     </div>
+    <!-- Affichage des images prévisualisées -->
+    <div class="d-flex justify-content-end">
+        @if ($photos)
+            @foreach ($photos as $index => $image)
+                <div class="" wire:key="{{ $loop->index }}">
+                    <div class="car-image-upload">
+                        <button class=" position-absolute" type="button" wire:click="RemoveMe({{ $loop->index }})">
+                            <i class="lni lni-cross-circle"></i>
+                        </button>
+                        <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}">
+                    </div>
+                </div>
+            @endforeach
 
+        @endif
     </div>
+
+
+    <label for="images" class="drop-container" id="dropcontainer">
+        <span class="drop-title">Veuillez selectionner maximun 4 images</span>
+        or
+        <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
+    </label>
+
+    @error('photos')
+        <small class="form-text text-danger">{{ $message }}</small>
+    @enderror
+
+
     <br>
     <div class="text-muted text-center">
         Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
         possibilité de modifer !
+        <div class=" text-danger">
+            -Tous les champs contenant (*) sont obligatoires
+        </div>
     </div>
+    <div>
+        @include('components.alert-livewire')
+    </div>
+
+
     <br>
     <div class="modal-footer">
         @if ($extimation_prix > 0)
@@ -225,12 +199,57 @@
         </button>
     </div>
 
-    <script>
-        // click btn-photos when i click in select-pic
-        document.getElementById("select-pic").addEventListener("click", function() {
-            document.getElementById("btn-photos").click();
-        });
-    </script>
 
+
+    <style>
+        .drop-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            width: 100% !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #555;
+            color: #444;
+            cursor: pointer;
+            transition: background .2s ease-in-out, border .2s ease-in-out;
+        }
+
+        .drop-container:hover {
+            background: #eee;
+            border-color: #111;
+        }
+
+        .drop-container:hover .drop-title {
+            color: #222;
+        }
+
+        .drop-title {
+            color: #444;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            transition: color .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #018d8d;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #023d3d;
+        }
+    </style>
 
 </form>
