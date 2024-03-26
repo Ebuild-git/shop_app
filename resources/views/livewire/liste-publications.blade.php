@@ -100,7 +100,7 @@
                              </span>
                          </td>
                          <td> {{ $post->prix ?? '0' }} DT</td>
-                         <td> {{ $post->region->nom }} </td>
+                         <td> {{ $post->region->nom ?? "N/A" }} </td>
                          <td>
                             <span class="text-capitalize">
                                 {{ $post->statut }}
