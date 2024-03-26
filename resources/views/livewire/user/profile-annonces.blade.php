@@ -73,8 +73,11 @@
     </div>
     @livewire('User.ProductViewModal', ['id_post' => $post->id])
     @empty
-        <div class="alert alert-danger col-lg-12" role="alert">
-            Aucun article trouvé !
+        <div class="col-sm-4 mx-auto text-center pt-5 pb-5">
+            <img width="80" height="80" src="https://img.icons8.com/dotty/80/018d8d/web-design.png" alt="web-design"/>
+            <div class="color col-lg-12" role="alert">
+               <b> Aucun article trouvé !</b>
+            </div>
         </div>
     @endforelse
 

@@ -124,12 +124,11 @@ class HomeController extends Controller
 
         //get all post where collun sell_at is not null group by id_user Asc
 
-        $shopiners = User::select('users.id', 'users.name','users.avatar','users.username', DB::raw('COUNT(posts.id) as total_sales'))
-            ->join('posts', 'users.id', '=', 'posts.id_user')
-            ->whereNotNull('posts.sell_at')
+        $shopiners = User::select('users.id', 'users.name','users.avatar','users.username', DB::raw('AVG(etoiles) as average_rating'))
+            ->join('ratings', 'users.id', '=', 'ratings.id_user_rated')
             ->groupBy('users.id', 'users.name','users.avatar','users.username')
             ->where('users.role', '!=', 'admin')
-            ->orderByDesc('total_sales')
+            ->orderByDesc('average_rating')
             ->limit(10)
             ->get();
 

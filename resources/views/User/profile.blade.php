@@ -3,11 +3,32 @@
 @section('content')
 @section('body')
 
+    <!-- ======================= Filter Wrap Style 1 ======================== -->
+    <section class="py-3 br-bottom br-top">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/">Accueil</a>
+                            </li>
+                            <li class="breadcrumb-item " aria-current="page">Utilisateur</li>
+                            <li class="breadcrumb-item active" aria-current="page"> {{ $user->name }} </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================= Filter Wrap ============================== -->
+
+
     <div class="container pb-3 pt-3">
         <div class="row">
             <div class="col-sm-3 ">
                 <div class="card p-3">
-                    <div class="text-center position-relative">
+                    <div class="position-relative">
                         <button class="btn-start-profile" type="button" data-toggle="modal" data-target="#noter">
                             <img width="24" height="24"
                                 src="https://img.icons8.com/external-zen-filled-royyan-wijaya/24/FAB005/external-stars-astronomy-zen-filled-royyan-wijaya.png"
@@ -22,20 +43,24 @@
                                     alt="">
                             @endif
                         </div>
-
-                        <br>
-                        <span class="h5">
-                            {{ $user->name }}
-                        </span>
+                        <div class="pt-1 pb-1">
+                            <span class="h5 text-capitalize">
+                                {{ $user->name }}
+                            </span>
+                        </div>
                     </div>
-                    <hr>
                     <div>
                         <i class="bi bi-card-list"></i>
                         {{ $user->GetPosts->count() }} Annonces <br>
                         <i class="bi bi-geo-alt"></i>
-                        {{ $user->adress }} <br>
+                        {{ $user->adress ?? 'N/A'}} <br>
                         <i class="bi bi-house"></i>
-                        {{ $user->region->nom ?? '' }}<br>
+                        {{ $user->region->nom ?? 'N/A' }}<br>
+                        <div style="text-align: right;" style="background-color: #018d8d;">
+                            <b>Note :</b>
+                            {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
+                            <i class="bi bi-star-fill" style="color: #fab005;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,4 +121,5 @@
             height: 300px;
         }
     </style>
+    <br><br><br>
 @endsection

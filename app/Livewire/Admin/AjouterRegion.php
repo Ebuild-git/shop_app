@@ -43,6 +43,7 @@ class AjouterRegion extends Component
             $region = regions::find($id);
             $region->delete();
             session()->flash("success", "La région a bien été supprimé!");
+            $this->dispatch('alert', ['message' => "La région a bien été supprimé!", 'type' => 'info']);
             $this->dispatch('regionCreated');
         }
     }

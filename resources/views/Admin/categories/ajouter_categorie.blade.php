@@ -18,15 +18,20 @@
                             <h5 class="card-header">Ajouter une nouvelle catégorie</h5>
                         </div>
                         <div class="my-auto">
+                            <a href="{{ route('grille_prix') }}">
+                                <button class="btn btn-dark me-sm-3 me-1 waves-effect waves-light">
+                                    <i class="bi bi-grid-3x3"></i> &nbsp; grille de prix
+                                </button>
+                            </a>
                             <a href="{{ route('add_regions') }}">
                                 <button class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
-                                <i class="bi bi-plus"></i> Ajouter une région
-                            </button>
+                                    <i class="bi bi-plus"></i> Ajouter une région
+                                </button>
                             </a>
                         </div>
                     </div>
 
-                   
+
 
                     <div class="nav-align-top mb-4">
                         <div class="tab-content">

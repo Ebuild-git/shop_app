@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/publication/{id}/view', [PostsController::class, 'details_publication'])->name('vue_details_publication');
     Route::get('/admin/add_categorie', [CategoriesController::class, 'add_categorie'])->name('add_categorie');
     Route::get('/admin/ajouter/regions', [CategoriesController::class, 'add_regions'])->name('add_regions');
+    Route::get('/admin/grille_prix', [CategoriesController::class, 'grille_prix'])->name('grille_prix');
     Route::get('/admin/settings', [AdminController::class, 'admin_settings'])->name('admin_settings');
     Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
     

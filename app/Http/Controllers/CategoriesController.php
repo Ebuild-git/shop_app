@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Validator;
 class CategoriesController extends Controller
 {
 
-public function add_categorie(){
-    return view( 'Admin.categories.ajouter_categorie');
-}
+    public function add_categorie()
+    {
+        return view('Admin.categories.ajouter_categorie');
+    }
 
-public function add_regions(){
-    return view( 'Admin.categories.ajouter-regions');
-}
+    public function add_regions()
+    {
+        return view('Admin.categories.ajouter-regions');
+    }
+
+    public function grille_prix()
+    {
+        return view('Admin.categories.grille_prix');
+    }
 
     public function list_categorie()
     {
@@ -28,7 +35,7 @@ public function add_regions(){
             ]
         );
     }
-    
+
 
     public function changerOrdre()
     {
@@ -43,7 +50,8 @@ public function add_regions(){
     }
 
 
-    public function changerOrdrepropriete(){
+    public function changerOrdrepropriete()
+    {
         $ids = request()->get('ids');
         $idsArray = explode(',', $ids);
         foreach ($idsArray as $index => $id) {
@@ -54,13 +62,14 @@ public function add_regions(){
         return response()->json(['success' => true]);
     }
 
-    public function changer_ordre_propriete_in_categorie(){
+    public function changer_ordre_propriete_in_categorie()
+    {
         $ids = request()->get('ids');
         $id_cat = request()->get('id_cat');
         $categorie = categories::find($id_cat);
-        if($categorie){
+        if ($categorie) {
             //convert $ids to arry
-            $tabIds = array_map('intval',explode(",",$ids));
+            $tabIds = array_map('intval', explode(",", $ids));
             $categorie->proprietes =  $tabIds;
             $categorie->save();
         }

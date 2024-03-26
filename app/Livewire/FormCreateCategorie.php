@@ -64,10 +64,12 @@ class FormCreateCategorie extends Component
             }
             $this->reset(['titre', 'description', 'photo']);
             session()->flash("success", "La catégorie a été ajoutée avec succès");
+            $this->dispatch('alert', ['message' => "La catégorie a été ajoutée avec succès",'type'=>'success']);
             $this->list_regions = "";
             $this->dispatch('categorieCreated');
         } else {
             session()->flash("error", "Une erreur est survenue lors de l'ajout de la catégorie. Veuillez réessayer plus tard.");
+            $this->dispatch('alert', ['message' => "Une erreur est survenue !",'type'=>'info']);
         }
     }
 }

@@ -1,30 +1,25 @@
 <div>
-    @include('components.alert-livewire')
-    <form wire:submit="addRegion">
-        <div class="input-group mb-3">
-            <input type="text" required wire:model="nom" placeholder="Nom de la région" class="form-control">
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> &nbsp;
-                Ajouter
-            </button>
-        </div>
-        <div class="alert alert-warning">
-            La suppression d'une regions entrainera la suppression des articles en vente dans cette région !
-        </div>
-        <table class="table">
+    <div class="table-responsive text-nowrap ">
+        <table class="table text-capitalize" id="sortable-list">
             <thead class="table-dark">
-                <tr>
-                    <th>Nom</th>
-                    <th>Date d'ajout</th>
-                    <th></th>
-                </tr>
+                <th>Catégorie</th>
+                <th>Région</th>
+                <th>Prix</th>
+                <th>Date</th>
+                <td></td>
             </thead>
             <tbody>
-                @forelse ($regions as $item)
+                @forelse ($regions_categories as $item)
                     <tr>
-                        <td>{{ $item->nom }}</td>
-                        <td>{{ $item->created_at }}</td>
+                        <td> {{ $item->categorie->titre ?? '/' }} </td>
+                        <td> <i class="bi bi-globe-europe-africa"></i> {{ $item->region->nom ?? '/' }} </td>
+                        <td> {{ $item->prix ?? '/' }} DH</td>
+                        <td> {{ $item->created_at ?? '/' }} </td>
                         <td style="text-align: right">
+                            <button class="btn-sm btn btn-info">
+                                <i class="bi bi-pencil-square"></i> &nbsp;
+                                Modifié
+                            </button>
                             <button class="btn btn-sm btn-danger" type="button"
                                 onclick="toggle_confirmation({{ $item->id }})">
                                 <i class="bi bi-trash3"></i>
@@ -38,18 +33,11 @@
                         </td>
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="2">
-                            <div class="alert alert-warning">
-                                Aucune région enregistrée pour le moment !
-                            </div>
-                        </td>
-                    </tr>
+                    s
                 @endforelse
             </tbody>
         </table>
-    </form>
-
+    </div>
 
     <script>
         function toggle_confirmation(productId) {
