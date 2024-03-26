@@ -48,7 +48,12 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                 <img src="{{ Storage::url($user->avatar) }}" class="rounded-circle">
+                                 @if ($user->avatar != '')
+                                     <img src="{{ Storage::url($user->avatar) }}" alt="..." class="rounded-circle">
+                                 @else
+                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                         alt="" class="rounded-circle">
+                                 @endif
                              </div>
                          </td>
                          <td> {{ $user->name }} </td>
@@ -74,10 +79,10 @@
                                          Validation
                                      </span>
                                  </a>
-                                 @else
+                             @else
                                  <span class="badge bg-label-success">
-                                    Validé
-                                </span>
+                                     Validé
+                                 </span>
                              @endif
                          </td>
                          <td> {{ $user->ville ?? '/' }} </td>

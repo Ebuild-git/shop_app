@@ -94,6 +94,8 @@ class Inscription extends Component
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');
             $user->avatar = $newName;
+        }else{
+            $user->avatar = null;
         }
         $user->ip_adress = request()->ip();
         $user->remember_token = $token;
