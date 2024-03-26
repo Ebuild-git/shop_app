@@ -70,7 +70,7 @@ class UpdateInformations extends Component
                 $notification->type = "photo";
                 $notification->titre = $user->name . " vient de changé sa photo de profil";
                 $notification->url = "/admin/client/". $user->id ."/view";
-                $notification->message = "Le client a modifié sa photo de profile";
+                $notification->message = "Le client a modifié sa photo de profil";
                 $notification->id_user = Auth::user()->id;
                 $notification->destination = "admin";
                 $notification->save();

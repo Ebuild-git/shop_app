@@ -16,10 +16,6 @@
                         <td> {{ $item->prix ?? '/' }} DH</td>
                         <td> {{ $item->created_at ?? '/' }} </td>
                         <td style="text-align: right">
-                            <button class="btn-sm btn btn-info">
-                                <i class="bi bi-pencil-square"></i> &nbsp;
-                                Modifié
-                            </button>
                             <button class="btn btn-sm btn-danger" type="button"
                                 onclick="toggle_confirmation({{ $item->id }})">
                                 <i class="bi bi-trash3"></i>
