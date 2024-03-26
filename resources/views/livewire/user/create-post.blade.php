@@ -70,7 +70,7 @@
             </div>
 
             <div class="form-group">
-                <select class="form-control" id="single" wire:model.live="selectedCategory">
+                <select class="form-control" id="select2-dropdown" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
@@ -112,7 +112,7 @@
                                     </label>
                                     @if ($propriete_info->type == 'option')
                                         <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                            class="form-control">
+                                            class="form-control ">
                                             <option value=""></option>
                                             @forelse (json_decode($propriete_info->options) as $option)
                                                 <option value="{{ $option }}">{{ $option }}</option>
@@ -135,6 +135,18 @@
         <br>
 
     </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.select2').select2({})
+        })
+    </script>
+
+
+
     <!-- Affichage des images prévisualisées -->
     <div class="d-flex justify-content-end">
         @if ($photos)
@@ -257,30 +269,7 @@
 
 
 
+  
 
-   
-
-    <style>
-        .select-options {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: none;
-        }
-
-        .select-options li {
-            cursor: pointer;
-            padding: 8px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .select-options li:last-child {
-            border-bottom: none;
-        }
-
-        .select-options li:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
 
 </form>
