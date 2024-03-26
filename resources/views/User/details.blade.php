@@ -66,16 +66,15 @@
                                 </span>
                                 &nbsp;
                             @endif
-                            <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
-                                {{ $post->sous_categorie_info->titre }}
+                            <span class="text-info bg-light-info rounded px-2 py-1">
+                                {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                             </span>
                             <span class="text-muted">
 
                             </span>
-                            <span class="text-info bg-light-info rounded px-2 py-1">
-                                {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                            <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
+                                {{ $post->sous_categorie_info->titre }}
                             </span>
-                        </div>
                         <div class="prt_02 mb-3">
                             <h2 class="ft-bold mb-1">
                                 {{ $post->titre }}

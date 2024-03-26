@@ -45,9 +45,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Description</label>
-                <span class="bold text-danger">*</span>
-                <textarea wire:model="description" required class="form-control " rows="7"></textarea>
+                <textarea wire:model="description" required class="form-control " rows="7"
+                    placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
+                    
+                </textarea>
                 @error('description')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -55,8 +56,9 @@
         </div>
         <div class="col-sm-4">
 
-            <div class="form-group">
-                <select class="form-control " wire:model.live="region" required>
+            <div class="form-group position-relative">
+                <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
+                <select class="form-control pl-4" wire:model.live="region" required style="">
                     <option value="">Veuillez selectionner la region</option>
                     @foreach ($regions as $item)
                         <option value="{{ $item->id }}">{{ $item->nom }}</option>
@@ -68,7 +70,7 @@
             </div>
 
             <div class="form-group">
-                <select class="form-control " wire:model.live="selectedCategory">
+                <select class="form-control" id="single" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
@@ -110,7 +112,7 @@
                                     </label>
                                     @if ($propriete_info->type == 'option')
                                         <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                            id="" class="form-control">
+                                            class="form-control">
                                             <option value=""></option>
                                             @forelse (json_decode($propriete_info->options) as $option)
                                                 <option value="{{ $option }}">{{ $option }}</option>
@@ -177,6 +179,9 @@
 
     <br>
     <div class="modal-footer">
+        <span wire:loading>
+            <x-Loading></x-Loading>
+        </span>
         @if ($extimation_prix > 0)
             <div>
                 Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
@@ -186,9 +191,6 @@
             Effacer
         </button>
         <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
-            <span wire:loading>
-                <x-Loading></x-Loading>
-            </span>
             @if ($post)
                 <i class="bi bi-pencil-square"></i>
                 Enregistrer les modifications
@@ -249,6 +251,35 @@
 
         input[type=file]::file-selector-button:hover {
             background: #023d3d;
+        }
+    </style>
+
+
+
+
+
+   
+
+    <style>
+        .select-options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+        }
+
+        .select-options li {
+            cursor: pointer;
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .select-options li:last-child {
+            border-bottom: none;
+        }
+
+        .select-options li:hover {
+            background-color: #f0f0f0;
         }
     </style>
 

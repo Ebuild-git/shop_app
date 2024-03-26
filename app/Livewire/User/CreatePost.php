@@ -42,6 +42,8 @@ class CreatePost extends Component
             if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
                 $this->calcule_estimation($this->region, $value, $this->prix);
             }
+        }else{
+            $this->selectedCategory = null;
         }
        
     }
