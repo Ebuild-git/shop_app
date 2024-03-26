@@ -7,8 +7,20 @@
         <div class="row">
             <div class="col-sm-3 ">
                 <div class="card p-3">
-                    <div class="text-center">
-                        <img src="{{ Storage::url($user->avatar) }}" alt="" srcset="" class="avatar-profil">
+                    <div class="text-center position-relative">
+                        <button class="btn-start-profile" type="button" data-toggle="modal" data-target="#noter">
+                            <img width="24" height="24"
+                                src="https://img.icons8.com/external-zen-filled-royyan-wijaya/24/FAB005/external-stars-astronomy-zen-filled-royyan-wijaya.png"
+                                alt="external-stars-astronomy-zen-filled-royyan-wijaya" />
+                                <b>Noter</b>
+                        </button>
+                        @if ($user->avatar != '')
+                            <img src="{{ Storage::url($user->avatar) }}" alt="..." class="avatar-profil">
+                        @else
+                            <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                alt="" class="avatar-profil">
+                        @endif
+
                         <br>
                         <span class="h5">
                             {{ $user->name }}
@@ -31,6 +43,42 @@
         </div>
     </div>
 
+
+    <!-- Log In Modal -->
+    <div class="modal fade" id="noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="loginmodal">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class=" h5">
+                            Votre avis compte !
+                        </h2>
+                    </div>
+                    <p>
+                        Votre opinion est précieuse pour nous. Aidez-nous à améliorer notre service en partageant votre
+                        expérience avec d'autres utilisateurs. Veuillez prendre un moment pour évaluer votre interaction
+                        avec {{ $user->username }} en lui attribuant une note de 1 à 5 étoiles.
+                    </p>
+                    <hr>
+                    @auth
+                    @livewire('User.Rating', ['user' => $user])
+                    @endauth
+                    @guest
+                        <div class="alert alert-danger">
+                            Pour ajouter un avis, vous devez être connecté(e).
+                        </div>
+                    @endguest
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 
 
     <style>

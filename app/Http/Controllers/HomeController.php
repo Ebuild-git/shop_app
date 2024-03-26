@@ -117,7 +117,7 @@ class HomeController extends Controller
     public function shopiners(){
 
         //get all post where collun sell_at is not null group by id_user Asc
-        $shopiners=user::all();
+        $shopiners=user::where('role','!=','admin')->get();
 
         
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("etoiles");
             $table->unsignedBigInteger("id_user_rating");
-            $table->unsignedBigInteger("id_user_reted");
+            $table->unsignedBigInteger("id_user_rated");
             $table->timestamps();
 
 
@@ -25,7 +25,7 @@ return new class extends Migration
                 ->on("users")
                 ->cascadeOnDelete();
 
-            $table->foreign("id_user_reted")
+            $table->foreign("id_user_rated")
                 ->references("id")
                 ->on("users")
                 ->cascadeOnDelete();

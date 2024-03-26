@@ -82,7 +82,7 @@
                                 <div class="d-flex justify-content-between mt-2 note-shopinner-bas">
                                     <div>
                                         <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
-                                        5.5
+                                        {{ number_format($shopiner->averageRating->average_rating ?? 0, 1) }}
                                     </div>
                                     <div>
                                         <i class="bi bi-bag"></i> Invendus

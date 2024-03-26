@@ -83,5 +83,12 @@ class User extends Authenticatable implements JWTSubject
             'id_sous_categorie' // clé étrangère dans la table posts vers sous_categories
         )->distinct();
     }
+
+    public function averageRating()
+    {
+        return $this->hasOne(ratings::class, 'id_user_rated')
+                    ->selectRaw('AVG(etoiles) as average_rating')
+                    ->groupBy('id_user_rated');
+    }
     
 }

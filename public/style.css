@@ -470,9 +470,23 @@ body {
     border-radius: 5px;
     border:solid 1px #0080801c;
 }
-
-
-
+.btn-start-profile{
+    background-color: unset;
+    position: absolute;
+    border: none;
+    right: 0px;
+    top: 0px;
+}
+.btn-rating-modal{
+    border: none;
+    background-color: unset;
+}
+.btn-rating-modal:hover{
+    color: #fab005;
+}
+.rating-yellow-color{
+    color: #fab005;
+}
 
 
 
