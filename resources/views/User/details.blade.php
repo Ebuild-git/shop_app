@@ -87,7 +87,7 @@
                                     {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
                                     {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
                                     par &nbsp;
-                                    <a href="/user/{{$post->user_info->id}}" class="color">
+                                    <a href="/user/{{ $post->user_info->id }}" class="color">
                                         <b>
                                             <i class="bi bi-person-circle"></i>
                                             {{ '@' . $post->user_info->username }}
@@ -136,12 +136,12 @@
                                         <div class="p-2 alert alert-success">
                                             <b>{{ ucfirst($key) }} </b>
                                             <br>
-                                            @if ($key == "couleur")
-                                                <span style="background-color: {{ $key }} p-2">
+                                            @if ($key == 'couleur' || $key == 'Couleur')
+                                                <span style="background-color: {{ $value }} ;  p-2">
                                                     {{ $value }}
                                                 </span>
                                             @else
-                                            {{ $value }}
+                                                {{ $value }}
                                             @endif
                                         </div>
                                     </div>
