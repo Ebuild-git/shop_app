@@ -487,8 +487,21 @@ body {
 .rating-yellow-color{
     color: #fab005;
 }
-
-
+.avatar-profil-user{
+    height: 80px;
+    width: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: solid 1px #018d8d;
+}
+.avatar-profil-user img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.avatar-profil-user img:hover{
+    transform: scale(1.1);
+}
 
 
 

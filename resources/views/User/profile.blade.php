@@ -12,14 +12,16 @@
                             <img width="24" height="24"
                                 src="https://img.icons8.com/external-zen-filled-royyan-wijaya/24/FAB005/external-stars-astronomy-zen-filled-royyan-wijaya.png"
                                 alt="external-stars-astronomy-zen-filled-royyan-wijaya" />
-                                <b>Noter</b>
+                            <b>Noter</b>
                         </button>
-                        @if ($user->avatar != '')
-                            <img src="{{ Storage::url($user->avatar) }}" alt="..." class="avatar-profil">
-                        @else
-                            <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                alt="" class="avatar-profil">
-                        @endif
+                        <div class="avatar-profil-user">
+                            @if ($user->avatar != '')
+                                <img src="{{ Storage::url($user->avatar) }}" alt="...">
+                            @else
+                                <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                    alt="">
+                            @endif
+                        </div>
 
                         <br>
                         <span class="h5">
@@ -67,7 +69,7 @@
                     </p>
                     <hr>
                     @auth
-                    @livewire('User.Rating', ['user' => $user])
+                        @livewire('User.Rating', ['user' => $user])
                     @endauth
                     @guest
                         <div class="alert alert-danger">
