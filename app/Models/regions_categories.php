@@ -11,7 +11,7 @@ class regions_categories extends Model
 
 
     public function categorie(){
-        return $this->belongsTo(Categories::class,'id_categorie','id');
+        return $this->belongsTo(categories::class,'id_categorie','id');
     }
 
     public function region(){
