@@ -22,12 +22,12 @@
                         </div>
                         <div class="my-auto">
                             <a href="{{ route('grille_prix') }}">
-                                <button class="btn btn-dark me-sm-3 me-1 waves-effect waves-light">
+                                <button class="btn btn-dark me-sm-3 btn-sm me-1 waves-effect waves-light">
                                     <i class="bi bi-grid-3x3"></i> &nbsp; grille de prix
                                 </button>
                             </a>
                             <a href="{{ route('add_categorie') }}">
-                                <button class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
+                                <button class="btn btn-primary me-sm-3 btn-sm me-1 waves-effect waves-light">
                                     <i class="bi bi-arrow-counterclockwise"></i> Ajout une catégorie
                                 </button>
                             </a>

@@ -10,7 +10,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
             <span class="text-muted fw-light">
-                Catégories /
+                Sous-catégories /
             </span>
             {{ $categorie->titre }}
         </h4>
@@ -20,15 +20,24 @@
                 <div class="col-sm-12 card">
                     <div class="p-3">
                         <div class="d-flex justify-content-between">
-                            <h5>Sous-catégorie de "{{ $categorie->titre }}"</h5>
-                            <a href="/admin/categorie">
-                                <button class="btn btn-sm btn-dark">
-                                    Retour
-                                </button>
-                            </a>
+                            <div>
+                                <h5>Sous-catégorie de "{{ $categorie->titre }}"</h5>
+                            </div>
+                            <div>
+                                <a href="/admin/categorie">
+                                    <button class="btn btn-sm btn-dark">
+                                        Retour
+                                    </button>
+                                </a>
+                                <a href="{{ route('gestion_proprietes') }}">
+                                    <button class="btn btn-primary btn-sm me-sm-3 me-1 waves-effect waves-light">
+                                        <i class="bi bi-plus"></i> Ajouter une propriété
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    @livewire('CreateSousCategorie', ["id_categorie" => $categorie->id])
+                    @livewire('CreateSousCategorie', ['id_categorie' => $categorie->id])
                     <br><br>
                 </div>
             </div>
@@ -65,4 +74,5 @@
 
     <!-- Page JS -->
     <script src="/assets-admin/js/app-logistics-dashboard.js"></script>
+    
 @endsection

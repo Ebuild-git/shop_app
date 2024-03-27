@@ -1,11 +1,11 @@
 <!-- Modal 1-->
-<div class="modal fade" id="modalToggle-{{ $categorie->id }}-pro" aria-labelledby="modalToggleLabel" tabindex="-1"
+<div class="modal fade" id="modalToggle-{{ $sous_categorie->id }}-pro" aria-labelledby="modalToggleLabel" tabindex="-1"
     style="display: none" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalToggleLabel">
-                    Propriétés de <b>{{ $categorie->titre }}</b>
+                    Propriétés de <b>{{ $sous_categorie->titre }}</b>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -26,8 +26,8 @@
                     </div>
                 </div>
 
-                <div class="row" id="sortable-list{{ $categorie->id }}">
-                    @forelse ($categorie->proprietes ?? [] as $item)
+                <div class="row" id="sortable-list{{ $sous_categorie->id }}">
+                    @forelse ($sous_categorie->proprietes ?? [] as $item)
                         @php
                             $propriete = DB::table('proprietes')->find($item);
                         @endphp
@@ -48,7 +48,7 @@
     </div>
 
     <script>
-        new Sortable(document.getElementById("sortable-list{{ $categorie->id }}"), {
+        new Sortable(document.getElementById("sortable-list{{ $sous_categorie->id }}"), {
             animation: 150,
             onEnd: function(event) {
                 let data = Array.from(event.to.children).map((item, index) => {
@@ -56,7 +56,7 @@
                 }).join(',');
                 let idsArray = data.split(',');
 
-                fetch('/admin/changer_ordre_propriete_in_categorie?ids=' + idsArray.join(',')+'&id_cat='+{{ $categorie->id }}, {
+                fetch('/admin/changer_ordre_propriete_in_sous_categorie?ids=' + idsArray.join(',')+'&id_sous_cat='+{{ $sous_categorie->id }}, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json'

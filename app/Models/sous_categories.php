@@ -10,6 +10,13 @@ class sous_categories extends Model
     use HasFactory;
 
 
+
+    protected $casts = [
+        'proprietes' => 'json',
+    ];
+
+    
+
     public function getPost() {
         return $this->hasMany(posts::class, 'id_sous_categorie','id');
     }

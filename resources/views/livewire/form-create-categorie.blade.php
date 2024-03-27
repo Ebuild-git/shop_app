@@ -40,28 +40,6 @@
                 </div>
             @enderror
 
-
-            <br>
-            <div class=" p-2">
-                <label for="">Propriétés des annonce de cette catégorie </label>
-                <br>
-                <div class="row">
-                    @forelse ($proprietes as $propriete)
-                        <div class="col-sm-4">
-                            <input type="checkbox" class="form-check-input" wire:model="proprios.{{ $propriete->id }}"
-                                value="{{ $propriete->id }}">
-                            {{ $propriete->nom }}
-                        </div>
-                    @empty
-                        <p>Aucune propriété trouvée.</p>
-                    @endforelse
-                </div>
-                @error('proprios')
-                    <div class="text-danger">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
         </div>
         <div class="col-sm-4">
             <h5>

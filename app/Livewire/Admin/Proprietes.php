@@ -28,17 +28,15 @@ class Proprietes extends Component
         $this->validate([
             'type' => 'required',
             'nom' => 'required',
-            'required' => 'required|in:1,0'
         ]);
         $propriete = new ModelsProprietes();
         $propriete->type = $this->type;
-        $propriete->required = $this->required;
         $propriete->nom = $this->nom;
         if($this->type == "option"){
             $propriete->options = $this->optionsCases;
         }
         $propriete->save();
-        session()->flash("success", "La propriété a été ajoutée avec succès");
+        $this->dispatch('alert', ['message' => "La propriété a été ajoutée avec succès", 'type' => 'success']);
         //reset input
         $this->resetInput();
         $this->reset();
@@ -62,7 +60,7 @@ class Proprietes extends Component
     {
         if ($id) {
             ModelsProprietes::find($id)->delete();
-            session()->flash("success", "La propriété a été supprimé avec succès");
+            $this->dispatch('alert', ['message' => "La propriété a été supprimé avec succès", 'type' => 'info']);
         }
     }
 }

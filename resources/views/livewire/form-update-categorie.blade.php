@@ -1,71 +1,82 @@
-<div>
-    
-    <form wire:submit="modifier">
-        @include('components.alert-livewire')
-        <br>
-        <label for="">Titre de la catégorie </label>
-        <input type="text" wire:model ="titre" value="{{ $titre }}" class="form-control" required>
-        @error('titre')
-            <div class="text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-        
-    
-        <label for="">Description </label>
-        <textarea class="form-control" wire:model="description" rows="4" required>
-            {{ $description }}
-        </textarea>
-        @error('description')
-            <div class="text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    
-        <div class="row">
-            <div class="col">
-                <label for="">Pourcentage de gain</label>
-                <input type="number" step="0.1" min="0" wire:model ="pourcentage_gain"
-                    value="{{ $pourcentage_gain }}" class="form-control" required>
-                @error('pourcentage_gain')
+<form wire:submit.prevent="modifier">
+    <div class="row">
+        <div class="col-sm-8">
+            <h5>Informations sur la catégorie</h5>
+            <div class="mb-3">
+                @include('components.alert-livewire')
+                <label for="">Titre de la catégorie</label>
+                <input type="text" wire:model ="titre" class="form-control" requireddd>
+                @error('titre')
                     <div class="text-danger">
                         {{ $message }}
                     </div>
                 @enderror
             </div>
-            <div class="col">
-                <label for="">Choisir une nouvelle photo</label>
-                <input type="file" wire:model ="photo" value="{{ $photo }}" class="form-control" >
-                @error('photo')
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="">Marge de gain ( % ) </label>
+                        <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1"
+                            class="form-control" requireddd>
+                        @error('pourcentage_gain')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="">Image d'illustration </label>
+                        <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
+                        @error('photo')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="">Description </label>
+                <textarea class="form-control" wire:model="description" rows="5" requireddd></textarea>
+                @error('description')
                     <div class="text-danger">
                         {{ $message }}
                     </div>
                 @enderror
             </div>
+
         </div>
-        <br>
-        <div>
-            <label for="">
-                Frais de livraison par regions
-            </label>
+        <div class="col-sm-4">
+            <h5>
+                Ajout des prix de livraison par région
+            </h5>
             <div class="row">
                 @forelse ($region_prix as $region)
-                    <div class="col-sm-4">
-                        <label for=""> {{ $region['nom'] }}</label>
-                        <input type="number" wire:model="region_prix.{{ $loop->index }}.prix" placeholder="{{ $region['nom'] }}" class="form-control">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="">
+                                <i class="bi bi-geo-alt"></i>
+                                {{ $region['nom'] }}
+                            </label>
+                            <input type="number" wire:model="region_prix.{{ $loop->index }}.prix"
+                                placeholder="{{ $region['nom'] }}" class="form-control">
+                        </div>
                     </div>
                 @empty
-                    
                 @endforelse
             </div>
         </div>
-        <hr>
+    </div>
+    <div class="float-end">
         <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
             <span wire:loading>
                 <x-loading></x-loading>
             </span>
-            Enregistrer
+            <i class="bi bi-plus-circle"></i> &nbsp;
+            Enregistrer les modifications
         </button>
-    </form>
-    
-</div>
+    </div>
+</form>

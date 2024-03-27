@@ -1,4 +1,23 @@
 <div>
+    <div class="d-flex justify-content-end">
+        <form wire:submit="filtre">
+            <div class="input-group mb-3">
+                <select wire:model ="categorie" class="form-control">
+                    <option value="" selected>Toutes les catégories</option>
+                    @foreach ($categories as $item)
+                        <option value="{{ $item->id }}">{{ $item->titre }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-primary" type="submit" id="button-addon2">
+                   <span wire:loading>
+                   <x-loading ></x-loading>
+               </span>
+                    <i class="fa-solid fa-filter"></i> &nbsp;
+                    Filtrer par catégories
+                </button>
+            </div>
+        </form>
+    </div>
     <div class="table-responsive text-nowrap ">
         <table class="table text-capitalize" id="sortable-list">
             <thead class="table-dark">
@@ -29,7 +48,13 @@
                         </td>
                     </tr>
                 @empty
-                    s
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-warning">
+                            Aucune donnée disponible pour l'instant.
+                        </div>
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

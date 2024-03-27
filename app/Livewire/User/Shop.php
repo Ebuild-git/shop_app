@@ -57,6 +57,7 @@ class Shop extends Component
             $q = $this->key;
             $query->where(function ($query) use ($q) {
                 $query->where('titre', 'like', '%' . $q . '%')
+                      ->orWhere('proprietes', 'like', '%' . $q . '%')
                       ->orWhere('description', 'like', '%' . $q . '%');
             });
         }
@@ -71,7 +72,7 @@ class Shop extends Component
             $query->where('id_sous_categorie', $this->sous_categorie);
         }
     
-        if ($this->etat == "neuf" || $this->etat == "occasion") {
+        if (!empty($this->etat)) {
             $query->where('etat', $this->etat);
         }
     
@@ -94,5 +95,10 @@ class Shop extends Component
         $this->prix_maximun = null;
         $this->key = "";
         $this->resetPage();
+    }
+
+
+    public function filtre_sous_cat($id){
+        $this->sous_categorie = $id;
     }
 }

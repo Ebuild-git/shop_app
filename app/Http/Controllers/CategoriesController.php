@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categories;
 use App\Models\proprietes;
+use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,6 +25,64 @@ class CategoriesController extends Controller
     {
         return view('Admin.categories.grille_prix');
     }
+
+
+    public function update_sous_categorie($id)
+    {
+        $sous_categorie = sous_categories::find($id);
+        $mes_proprietes = [];
+        if (!$sous_categorie) {
+            abort(404);
+        }
+        $proprietes = proprietes::all();
+        foreach ($proprietes as $item) {
+            $mes_proprietes[] = [
+                "id" => $item->id,
+                "isChecked" => in_array($item->id, $sous_categorie->proprietes) ? true : false,
+                "nom" => $item->nom
+            ];
+        }
+        $categories = categories::all(["id", "titre"]);
+        return view('Admin.categories.update_sous_categorie', compact('sous_categorie', 'mes_proprietes', 'categories'));
+    }
+
+    public function post_update_sous_categorie(Request $request)
+    {
+
+        //validation
+        $this->validate($request, [
+            'titre' => 'required|string',
+            'id_categorie' => 'integer|exists:categories,id',
+            'option.*' => 'nullable|integer|exists:proprietes,id'
+        ]);
+
+
+
+        $sous_categorie = sous_categories::find($request->id);
+        if (!$sous_categorie) {
+            abort(404);
+        }
+
+        $options = $request->input('option');
+
+        $indexes = array_keys($options, true);
+        $indexesArray = [];
+        foreach ($indexes as $index) {
+            $indexesArray[] = $index;
+        }
+        $jsonIndexes = $indexesArray;
+
+
+
+        $sous_categorie->id_categorie  = $request->id_categorie;
+        $sous_categorie->proprietes = $jsonIndexes ??  [];
+        $sous_categorie->titre = $request->titre;
+        $sous_categorie->save();
+
+        return redirect()->back()->with('success', 'La modification a été enregidtré !');
+    }
+
+
 
     public function list_categorie()
     {
@@ -62,11 +121,11 @@ class CategoriesController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function changer_ordre_propriete_in_categorie()
+    public function changer_ordre_propriete_in_sous_categorie()
     {
         $ids = request()->get('ids');
-        $id_cat = request()->get('id_cat');
-        $categorie = categories::find($id_cat);
+        $id_sous_cat = request()->get('id_sous_cat');
+        $categorie = sous_categories::find($id_sous_cat);
         if ($categorie) {
             //convert $ids to arry
             $tabIds = array_map('intval', explode(",", $ids));
@@ -164,39 +223,12 @@ class CategoriesController extends Controller
 
 
 
-    public function update_categorie(Request $request)
+    public function update_categorie($id)
     {
-        $validator = Validator::make($request->all(), [
-            'titre' => 'required|string',
-            'id_categorie' => 'required|integer|exists:categories,id',
-            'description' => 'required|string',
-            'icon' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Veuillez verifier les champs !',
-                "errors" => $validator->errors()
-            ]);
+        $categorie = categories::find($id);
+        if (!$categorie) {
+            abort(404);
         }
-        $categorie = categories::find($request->input('id_categorie'));
-        if ($request->hasFile('icon')) {
-            $this->delete_trait($categorie->icon);
-            $icon = $request->file('icon');
-            $image = $this->upload_trait($icon);
-        }
-        $categorie->titre = $request->input("titre");
-        $categorie->description = $request->input('description');
-        $categorie->icon = $image;
-        $categorie->save();
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Categorie modifié'
-            ]
-        );
+        return view("Admin.categories.update_categorie")->with('categorie', $categorie);
     }
 }

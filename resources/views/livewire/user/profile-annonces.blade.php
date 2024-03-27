@@ -51,9 +51,6 @@
                     <div class="text-left">
                         {{ $post->sous_categorie_info->titre }}
                     </div>
-                    <div class="text-left">
-                        Marque if available {{ $post->id }}
-                    </div>
                 </div>
                 <div class="text-left">
                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">

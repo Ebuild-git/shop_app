@@ -24,6 +24,7 @@
                     <th>sous-catégories</th>
                     <th>Frais</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -71,26 +72,25 @@
                                         <i class="ti ti-star me-1"></i>
                                         Marquer en tant que LUXURY
                                     </a>
-                                    <a class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#modalToggle-{{ $item->id }}-pro"
-                                        href="javascript:void(0);">
-                                        <i class="ti ti-pencil me-1"></i> Modifier l'ordre des propriétés
-                                    </a>
-                                    <a class="dropdown-item" data-bs-toggle="modal"
-                                        data-bs-target="#modalToggle-{{ $item->id }}" href="javascript:void(0);">
+                                    <a class="dropdown-item" href="/admin/update_categorie/{{ $item->id }}">
                                         <i class="ti ti-pencil me-1"></i> Modifier la catégorie
-                                    </a>
-                                    <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                        wire:confirm="Voulez-vous supprimer ?"
-                                        wire:click="delete({{ $item->id }})">
-                                        <i class="ti ti-trash me-1"></i> Supprimer
                                     </a>
                                 </div>
                             </div>
                         </td>
+                        <td style="text-align: right">
+                            <button class="btn btn-sm btn-danger" type="button"
+                                onclick="toggle_confirmation({{ $item->id }})">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success d-none" id="confirmBtn{{ $item->id }}"
+                                type="button" wire:confirm="Voulez-vous supprimer ?"
+                                wire:click="delete({{ $item->id }})">
+                                <i class="bi bi-check-circle"></i> &nbsp;
+                                confirmer
+                            </button>
+                        </td>
                     </tr>
-                    @include('Admin.categories.modal-update', ['item' => $item])
-                    @include('Admin.categories.modal-update-proprietes', ['categorie' => $item])
                 @empty
                     <tr>
                         <td colspan="6">
@@ -135,7 +135,22 @@
                 }
             });
         </script>
-
+        <script>
+            function toggle_confirmation(productId) {
+                const confirmBtn = document.getElementById('confirmBtn' + productId);
+                if (!confirmBtn.classList.contains('d-none')) {
+                    confirmBtn.classList.add('d-none');
+                } else {
+                    // Masquer tous les autres boutons de confirmation s'ils sont visibles
+                    document.querySelectorAll('.confirm-btn').forEach(btn => {
+                        if (!btn.classList.contains('d-none')) {
+                            btn.classList.add('d-none');
+                        }
+                    });
+                    confirmBtn.classList.remove('d-none');
+                }
+            }
+        </script>
 
 
         <style>
@@ -161,10 +176,11 @@
                 height: 100% !important;
                 object-fit: cover;
                 border-radius: 10px;
-                border:solid 1px #008080;
+                border: solid 1px #008080;
 
             }
-            .img-card-image-categorie-list-admin:hover{
+
+            .img-card-image-categorie-list-admin:hover {
                 transform: scale(1.1)
             }
         </style>

@@ -67,7 +67,7 @@ class AuthController extends Controller
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
-            'username' => "required|string|min:6|unique:users,username"
+            'username' => "required|string|unique:users,username"
         ]);
 
         // Si la validation échoue, retourner les erreurs sous forme de réponse JSON

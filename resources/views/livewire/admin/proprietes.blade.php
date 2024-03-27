@@ -23,7 +23,6 @@
                 <thead class="table-dark">
                     <th>Nom</th>
                     <th>Type</th>
-                    <th>Obligatoire</th>
                     <td></td>
                     <td></td>
                 </thead>
@@ -41,31 +40,23 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($proriete->required == 0)
-                                    <span class="badge bg-label-danger"> Non </span>
-                                @else
-                                    <span class="badge bg-label-success"> Oui </span>
-                                @endif
-                            </td>
-                            <td>
                                 @forelse ($proriete->options ?? [] as $op)
                                     {{ $op }} ,
                                 @empty
                                     
                                 @endforelse
                             </td>
-                            <td style="text-align: right;">
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="ti ti-dots-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                            wire:confirm="Voulez-vous supprimer ?" wire:click="delete({{ $proriete->id }})">
-                                            <i class="ti ti-trash me-1"></i> Supprimer
-                                        </a>
-                                    </div>
-                                </div>
+                            <td style="text-align: right">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    onclick="toggle_confirmation({{ $proriete->id }})">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                                <button class="btn btn-sm btn-success d-none" id="confirmBtn{{ $proriete->id }}"
+                                    type="button" wire:confirm="Voulez-vous supprimer ?"
+                                    wire:click="delete({{ $proriete->id }})">
+                                    <i class="bi bi-check-circle"></i> &nbsp;
+                                    confirmer
+                                </button>
                             </td>
                         </tr>
                     @empty
@@ -90,7 +81,7 @@
                 @enderror
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <label class="form-label">Type de la propriété</label>
                     <select wire:model.live="type" class="form-control @error('type') is-invalid @enderror" required>
                         <option value=""></option>
@@ -105,20 +96,8 @@
                         </div>
                     @enderror
                 </div>
-                <div class="col-6">
-                    <label class="form-label">Obligatoire</label>
-                    <select wire:model="required" class="form-control @error('required') is-invalid @enderror" required>
-                        <option value=""></option>
-                        <option value="1">Oui</option>
-                        <option value="0">Non</option>
-                    </select>
-                    @error('required')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
             </div>
+            
             @if ($typeselected)
                     @if ($typeselected == 'option')
                     <br>
@@ -175,7 +154,22 @@
             }
         });
     </script>
-
+    <script>
+        function toggle_confirmation(productId) {
+            const confirmBtn = document.getElementById('confirmBtn' + productId);
+            if (!confirmBtn.classList.contains('d-none')) {
+                confirmBtn.classList.add('d-none');
+            } else {
+                // Masquer tous les autres boutons de confirmation s'ils sont visibles
+                document.querySelectorAll('.confirm-btn').forEach(btn => {
+                    if (!btn.classList.contains('d-none')) {
+                        btn.classList.add('d-none');
+                    }
+                });
+                confirmBtn.classList.remove('d-none');
+            }
+        }
+    </script>
 
 
     <style>

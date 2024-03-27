@@ -5,138 +5,125 @@
             <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
                 <div class="search-sidebar sm-sidebar border">
                     <div class="search-sidebar-body">
-                        <div>
-                            <input type="text" class="form-control" wire:model.live="key" placeholder="Mot clé">
-                        </div>
-
-                        <!-- Single Option -->
-                        <div class="single_search_boxed">
-                            <div class="widget-boxed-header px-3">
-                                <h4 class="mt-3">Categories</h4>
+                        <form wire:submit="filtrer">
+                            <div>
+                                <input type="text" class="form-control" wire:model.live="key" placeholder="Mot clé">
                             </div>
-                            <div class="widget-boxed-body">
-                                <div class="side-list no-border">
-                                    <div class="filter-card" id="shop-categories">
 
-                                        @forelse ($liste_categories as $categorie)
-                                            <!-- Single Filter Card -->
-                                            <div class="single_filter_card">
-                                                <h5>
-                                                    <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
-                                                        class="collapsed" aria-expanded="false" role="button">
-                                                        {{ $categorie->titre }}
-                                                        <i class="accordion-indicator ti-angle-down"></i>
-                                                    </a>
-                                                </h5>
+                            <!-- Single Option -->
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header px-3">
+                                    <h4 class="mt-3">Categories</h4>
+                                </div>
+                                <div class="widget-boxed-body">
+                                    <div class="side-list no-border">
+                                        <div class="filter-card" id="shop-categories">
 
-                                                <div class="collapse" id="cat-{{ $categorie->id }}"
-                                                    data-parent="#shop-categories">
-                                                    <div class="card-body">
-                                                        <div class="inner_widget_link">
-                                                            <ul>
-                                                                @forelse ($categorie->getSousCategories as $SousCategorie)
-                                                                    <li>
-                                                                        <a href="#">
-                                                                            {{ $SousCategorie->titre }}
+                                            @forelse ($liste_categories as $categorie)
+                                                <!-- Single Filter Card -->
+                                                <div class="single_filter_card">
+                                                    <h5>
+                                                        <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
+                                                            class="collapsed" aria-expanded="false" role="button">
+                                                            {{ $categorie->titre }}
+                                                            <i class="accordion-indicator ti-angle-down"></i>
+                                                        </a>
+                                                    </h5>
+
+                                                    <div class="collapse" id="cat-{{ $categorie->id }}"
+                                                        data-parent="#shop-categories">
+                                                        <div class="card-body">
+                                                            <div class="inner_widget_link">
+                                                                <ul>
+                                                                    @forelse ($categorie->getSousCategories as $SousCategorie)
+                                                                        <li class="d-flex justify-content-between">
+                                                                            <span  wire:click="filtre_sous_cat({{ $SousCategorie->id }})">
+                                                                                {{ $SousCategorie->titre }}
+                                                                            </span>
                                                                             <span>
                                                                                 {{ $SousCategorie->getPost->count() }}
                                                                             </span>
-                                                                        </a>
-                                                                    </li>
-                                                                @empty
-                                                                @endforelse
-                                                            </ul>
+                                                                        </li>
+                                                                    @empty
+                                                                    @endforelse
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @empty
-                                        @endforelse
+                                            @empty
+                                            @endforelse
 
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-
-
-
-
-                        <!-- Single Option -->
-                        <div class="single_search_boxed">
-                            <div class="widget-boxed-header">
-                                <h4><a href="#types" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                        role="button">Type</a></h4>
+                            <!-- Single Option -->
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header">
+                                    <h4><a href="#types" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                            role="button">état</a></h4>
+                                </div>
+                                <div class="widget-boxed-body collapse" id="types" data-parent="#types">
+                                    <div class="side-list no-border">
+                                        <!-- Single Filter Card -->
+                                        <select name="etat" wire:model="etat" class="form-control ">
+                                            <option value=""></option>
+                                            <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
+                                            <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
+                                            <option value="Très bon état">Très bon état</option>
+                                            <option value="Bon état">Bon état</option>
+                                            <option value="Usé">Usé</option>
+                                        </select>
+                                        @error('etat')
+                                            <small class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                            <div class="widget-boxed-body collapse" id="types" data-parent="#types">
-                                <div class="side-list no-border">
-                                    <!-- Single Filter Card -->
-                                    <div class="single_filter_card">
-                                        <div class="card-body pt-0">
-                                            <div class="inner_widget_link">
-                                                <ul class="no-ul-list">
-                                                    <li>
-                                                        <input id="t1" class="checkbox-custom" name="t1"
-                                                            type="radio">
-                                                        <label for="t1" class="checkbox-custom-label">
-                                                            Neufs
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <input id="t2" class="checkbox-custom" name="t2"
-                                                            type="checkbox">
-                                                        <label for="t2" class="checkbox-custom-label">
-                                                            Occasion
-                                                        </label>
-                                                    </li>
-                                                </ul>
+
+                            <!-- Single Option -->
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header">
+                                    <h4><a href="#occation" data-toggle="collapse" class="collapsed"
+                                            aria-expanded="false" role="button">Localisation</a></h4>
+                                </div>
+                                <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
+                                    <div class="side-list no-border">
+                                        <!-- Single Filter Card -->
+                                        <div class="single_filter_card">
+                                            <div class="card-body pt-0">
+                                                <div class="inner_widget_link">
+                                                    <ul class="">
+                                                        @forelse ($regions as $region)
+                                                            <li>
+                                                                <input type="radio">
+                                                                <label class="checkbox-custom-label">
+                                                                    {{ $region->nom }}
+                                                                </label>
+                                                            </li>
+                                                        @empty
+                                                        @endforelse
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Single Option -->
-                        <div class="single_search_boxed">
-                            <div class="widget-boxed-header">
-                                <h4><a href="#occation" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                        role="button">Localisation</a></h4>
-                            </div>
-                            <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
-                                <div class="side-list no-border">
-                                    <!-- Single Filter Card -->
-                                    <div class="single_filter_card">
-                                        <div class="card-body pt-0">
-                                            <div class="inner_widget_link">
-                                                <ul class="">
-                                                    @forelse ($regions as $region)
-                                                        <li>
-                                                            <input type="radio">
-                                                            <label class="checkbox-custom-label">
-                                                                {{ $region->nom }}
-                                                            </label>
-                                                        </li>
-                                                    @empty
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
+                                <span wire:loading>
+                                    <x-Loading></x-Loading>
+                                </span>
 
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                            <span wire:loading>
-                                <x-Loading></x-Loading>
-                            </span>
+                                Filtrer
+                                <i class="bi bi-arrow-right-circle-fill"></i>
+                            </button>
 
-                            Filtrer
-                            <i class="bi bi-arrow-right-circle-fill"></i>
-                        </button>
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -189,8 +176,7 @@
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden"
                                             href="/post/{{ $post->id }}">
-                                            <img  src="{{ Storage::url($post->photos[0] ?? '') }}"
-                                                alt="..."></a>
+                                            <img src="{{ Storage::url($post->photos[0] ?? '') }}" alt="..."></a>
                                     </div>
                                 </div>
                                 <div class="card-footer b-0 p-0 pt-2 bg-white">

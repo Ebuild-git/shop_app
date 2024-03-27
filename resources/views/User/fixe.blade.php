@@ -639,7 +639,7 @@
                                         Mme.
                                     @endif
 
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->username }}
                                 </b>
                             </h5>
                         </div>

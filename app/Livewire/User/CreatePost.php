@@ -20,11 +20,11 @@ class CreatePost extends Component
 {
     use WithFileUploads;
 
-    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id,$prix_achat, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
+    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
     public $photos = [];
     public $article_propriete = [];
     public $proprietes, $quantite;
-    public $extimation_prix =0  ;
+    public $extimation_prix = 0;
 
     public function mount($id)
     {
@@ -33,20 +33,32 @@ class CreatePost extends Component
 
     public function updatedSelectedCategory($value)
     {
-        if($value != "x"){
-            $c =sous_categories::where("id_categorie", $value)->get();
+        if ($value != "x") {
+            $c = sous_categories::where("id_categorie", $value)->get();
             $this->sous_categories  = $c;
-            $cat = categories::find($value);
-            $this->proprietes = $cat->proprietes;
-    
             if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
                 $this->calcule_estimation($this->region, $value, $this->prix);
             }
-        }else{
+        } else {
             $this->selectedCategory = null;
         }
-       
     }
+
+
+
+    public function updatedselectedSubcategory($value)
+    {
+        if ($value != "x") {
+            $sous_categorie = sous_categories::find($value);
+            if ($sous_categorie) {
+                $this->proprietes = $sous_categorie->proprietes;
+            }
+        } else {
+            $this->id_sous_categorie = null;
+        }
+    }
+
+
 
     public function updatedRegion($value)
     {
@@ -56,6 +68,8 @@ class CreatePost extends Component
         }
     }
 
+
+
     public function updatedPrix($value)
     {
         $this->prix =  $value;
@@ -63,9 +77,11 @@ class CreatePost extends Component
             $this->calcule_estimation($this->region, $this->selectedCategory, $value);
         }
     }
+    
 
 
-    public function updatedPtitre($value){
+    public function updatedPtitre($value)
+    {
         $this->titre = $value;
     }
 
@@ -76,11 +92,10 @@ class CreatePost extends Component
         $regions_categorie = regions_categories::where('id_region', $id_region)->where("id_categorie", $id_categorie)->first();
         if ($regions_categorie) {
             $this->extimation_prix = $regions_categorie->prix + $prix;
-            
         }
     }
 
-    
+
 
 
 
@@ -113,8 +128,8 @@ class CreatePost extends Component
         'region' => 'required|integer|exists:regions,id',
         'prix' => 'required|numeric|min:1',
         'prix_achat' => 'required|numeric|min:1',
-        'etat' => ['required', 'in:neuf,occasion'],
-        'id_sous_categorie' => 'required|integer|exists:sous_categories,id'
+        'etat' => ['required', 'string'],
+        'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
     ];
 
 
@@ -158,7 +173,7 @@ class CreatePost extends Component
         $post->id_region = $this->region;
         $post->etat = $this->etat;
         $post->proprietes =  $jsonProprietes ?? [];
-        $post->id_sous_categorie = $this->id_sous_categorie;
+        $post->id_sous_categorie = $this->selectedSubcategory;
         $post->prix_achat = $this->prix_achat;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
@@ -177,7 +192,7 @@ class CreatePost extends Component
         $notification->destination = "admin";
         $notification->save();
 
-        $this->dispatch('alert', ['message' => "Le post a été créé avec succès",'type'=>'success']);
+        $this->dispatch('alert', ['message' => "Le post a été créé avec succès", 'type' => 'success']);
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire

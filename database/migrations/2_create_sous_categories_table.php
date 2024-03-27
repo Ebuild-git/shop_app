@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("titre");
             $table->unsignedBigInteger("id_categorie");
             $table->text("description")->nullable()->default(null);
+            $table->json("proprietes")->nullable(true);
             $table->timestamps();
 
             $table->foreign('id_categorie')->references('id')->on('categories')->onDelete('cascade');

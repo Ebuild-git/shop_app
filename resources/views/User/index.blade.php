@@ -92,9 +92,6 @@
                                     <div class="text-left">
                                         {{ $lux->sous_categorie_info->titre }}
                                     </div>
-                                    <div class="text-left">
-                                        Marque if available {{ $lux->id }}
-                                    </div>
                                 </div>
                                 <div class="text-left">
                                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
@@ -185,9 +182,6 @@
                                 <div class="">
                                     <div class="text-left">
                                         {{ $last->sous_categorie_info->titre }}
-                                    </div>
-                                    <div class="text-left">
-                                        Marque if available
                                     </div>
                                 </div>
                                 <div class="text-left">

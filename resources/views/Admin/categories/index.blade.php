@@ -19,13 +19,13 @@
                         </div>
                         <div class="my-auto">
                             <a href="{{ route('grille_prix') }}">
-                                <button class="btn btn-dark me-sm-3 me-1 waves-effect waves-light">
+                                <button class="btn btn-dark btn-sm me-sm-3 me-1 waves-effect waves-light">
                                     <i class="bi bi-grid-3x3"></i> &nbsp; grille de prix
                                 </button>
                             </a>
                             <a href="{{ route('add_categorie') }}">
-                                <button class="btn btn-primary">
-                                    <i class="bi bi-plus"></i> Catégorie
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="bi bi-plus"></i> &nbsp; Catégorie
                                 </button>
                             </a>
                         </div>

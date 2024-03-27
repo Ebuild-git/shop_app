@@ -26,8 +26,11 @@
                     <div class="form-group">
                         <select name="etat" wire:model="etat" class="form-control ">
                             <option value="">Veuillez selectionner l'état*</option>
-                            <option value="neuf">Neuf</option>
-                            <option value="occasion">Occasion</option>
+                            <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
+                            <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
+                            <option value="Très bon état">Très bon état</option>
+                            <option value="Bon état">Bon état</option>
+                            <option value="Usé">Usé</option>
                         </select>
                         @error('etat')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -82,14 +85,16 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
+
+
             @if ($selectedCategory)
                 <div class="form-group">
                     <label for="exampleInputEmail1">Sous-catégorie</label>
                     <span class="bold text-danger">*</span>
-                    <select class="form-control" wire:model="id_sous_categorie">
-                        <option selected value="">Veuilez selectionner une sous-catégorie</option>
+                    <select class="form-control" wire:model.live="selectedSubcategory">
+                        <option selected value="x">Veuilez selectionner une sous-catégorie</option>
                         @foreach ($sous_categories as $sous)
-                            <option value="{{ $sous->id }}" class="sous-cat sous-cat-{{ $sous->id_categorie }}">
+                            <option value="{{ $sous->id }}">
                                 {{ $sous->titre }}
                             </option>
                         @endforeach
@@ -98,6 +103,9 @@
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+            @endif
+
+            @if ($proprietes)
                 <div class="row">
                     @forelse ($proprietes as $propriete)
                         @php
@@ -165,11 +173,16 @@
     </div>
 
 
-    <label for="images" class="drop-container" id="dropcontainer">
-        <span class="drop-title">Veuillez selectionner maximun 4 images</span>
-        or
-        <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
-    </label>
+  <div class="row">
+    <div class="col-sm-4">
+        <label for="images" class="drop-container" id="dropcontainer">
+            <span class="drop-title">Image</span>
+            or
+            <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
+        </label>
+    </div>
+  </div>
+
 
     @error('photos')
         <small class="form-text text-danger">{{ $message }}</small>
@@ -220,7 +233,7 @@
             position: relative;
             display: flex;
             gap: 10px;
-            width: 100% !important;
+            width: 24% !important;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -251,7 +264,6 @@
         }
 
         input[type=file]::file-selector-button {
-            margin-right: 20px;
             border: none;
             background: #018d8d;
             padding: 10px 20px;
@@ -269,7 +281,7 @@
 
 
 
-  
+
 
 
 </form>

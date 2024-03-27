@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Admin\Proprietes;
 use App\Models\categories;
+use App\Models\proprietes as ModelsProprietes;
 use App\Models\regions;
 use App\Models\regions_categories;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +14,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $icon, $description, $photo, $id, $pourcentage_gain;
+    public $categorie, $titre, $icon, $description, $photo, $id, $pourcentage_gain, $proprietes,$list_regions;
     public $region_prix = [];
 
     public function mount($id)
@@ -29,8 +31,10 @@ class FormUpdateCategorie extends Component
         $this->pourcentage_gain = $this->categorie->pourcentage_gain ?? 0;
         $this->description = $this->categorie->description;
 
-        $list_regions = regions::all('id', 'nom');
-        foreach ($list_regions as $regi) {
+        $this->proprietes = ModelsProprietes::all();
+        $this->list_regions = regions::all('id', 'nom');
+
+        foreach ($this->list_regions as $regi) {
             $data = regions_categories::where("id_categorie", $this->categorie->id)
                 ->where("id_region", $regi->id)
                 ->select("prix")
@@ -42,6 +46,7 @@ class FormUpdateCategorie extends Component
             ];
         }
 
+       
         return view('livewire.form-update-categorie');
     }
 
