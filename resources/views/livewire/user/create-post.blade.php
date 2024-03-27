@@ -173,16 +173,11 @@
     </div>
 
 
-  <div class="row">
-    <div class="col-sm-4">
-        <label for="images" class="drop-container" id="dropcontainer">
-            <span class="drop-title">Image</span>
-            or
-            <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
-        </label>
-    </div>
-  </div>
-
+    <label for="images" class="drop-container" id="dropcontainer">
+        <span class="drop-title">Veuillez selectionner maximun 4 images</span>
+        or
+        <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
+    </label>
 
     @error('photos')
         <small class="form-text text-danger">{{ $message }}</small>
@@ -233,7 +228,7 @@
             position: relative;
             display: flex;
             gap: 10px;
-            width: 24% !important;
+            width: 100% !important;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -264,6 +259,7 @@
         }
 
         input[type=file]::file-selector-button {
+            margin-right: 20px;
             border: none;
             background: #018d8d;
             padding: 10px 20px;
