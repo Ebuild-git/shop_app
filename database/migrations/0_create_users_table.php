@@ -30,8 +30,8 @@ return new class extends Migration
             $table->timestamp('first_login_at')->nullable()->default(null);
             $table->timestamp('photo_verified_at')->nullable()->default(null);
             $table->string('matricule')->nullable()->default(null);
-            $table->dateTime('naissance')->default(now());
-            $table->enum("genre", ["Féminin","Masculin"])->default("Masculin");
+            $table->dateTime('naissance');
+            $table->enum("genre", ["Féminin","Masculin"]);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
