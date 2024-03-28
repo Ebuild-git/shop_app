@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("nom");
             $table->enum("type",["text","number","color","option"]);
+            $table->enum("affichage",["case","input"])->default("case");
             $table->json("options")->nullable(true);
             $table->boolean("required")->default(false);
             $table->integer('order')->default(0);

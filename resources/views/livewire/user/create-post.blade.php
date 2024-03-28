@@ -119,14 +119,20 @@
                                         {{ $propriete_info->nom }}
                                     </label>
                                     @if ($propriete_info->type == 'option')
-                                        <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                            class="form-control ">
-                                            <option value=""></option>
-                                            @forelse (json_decode($propriete_info->options) as $option)
-                                                <option value="{{ $option }}">{{ $option }}</option>
-                                            @empty
-                                            @endforelse
-                                        </select>
+                                        @if ($propriete_info->affichage == 'case')
+                                            <select wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                class="form-control ">
+                                                <option value=""></option>
+                                                @foreach (json_decode($propriete_info->options) as $option)
+                                                    <option value="{{ $option }}">{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <input type="text" class="form-control liste"
+                                                placeholder="{{ $propriete_info->nom }}"
+                                                wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                data-suggestions="{{ $propriete_info->options }}">
+                                        @endif
                                     @else
                                         <input type="{{ $propriete_info->type }}"
                                             placeholder="{{ $propriete_info->nom }}" class="form-control"
@@ -144,14 +150,6 @@
 
     </div>
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.select2').select2({})
-        })
-    </script>
 
 
 
@@ -278,6 +276,68 @@
 
 
 
+
+
+    @section('head')
+    @endsection
+
+
+    <script>
+        $(document).ready(function() {
+            let suggestions; // Déclarer la variable suggestions en dehors de la fonction d'événement
+
+            $(document).on("keyup", ".liste", function(event) {
+                const inputField = $(this);
+
+                // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
+                if (!suggestions) {
+                    suggestions = inputField.data('suggestions');
+                }
+
+                // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
+                function updateSuggestions(input) {
+                    return suggestions.filter(suggestion =>
+                        suggestion.toLowerCase().includes(input.toLowerCase())
+                    );
+                }
+
+                // Fonction pour afficher les suggestions
+                function showSuggestions(suggestions) {
+                    const suggestionList = $('<ul id="suggestion-list"></ul>');
+
+                    suggestions.forEach(suggestion => {
+                        const listItem = $('<li></li>').text(suggestion);
+                        suggestionList.append(listItem);
+                    });
+
+                    // Supprime la liste de suggestions précédente s'il y en a une
+                    $('#suggestion-list').remove();
+
+                    // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
+                    inputField.parent().append(suggestionList);
+
+                   /*  // Gère la sélection de suggestion
+                    suggestionList.on('click', 'li', function() {
+                        inputField.val($(this).text());
+                        suggestionList.remove();
+                    }); */
+                }
+
+                // Récupère la valeur actuelle du champ de saisie
+                const input = inputField.val();
+                const filteredSuggestions = updateSuggestions(input);
+                showSuggestions(filteredSuggestions);
+
+                // Gère le clic en dehors de la liste de suggestions pour la fermer
+                $(document).on('click', function(event) {
+                    if (!$(event.target).closest(inputField).length && !$(event.target).closest(
+                            '#suggestion-list').length) {
+                        $('#suggestion-list').remove();
+                    }
+                });
+            });
+        });
+    </script>
 
 
 </form>

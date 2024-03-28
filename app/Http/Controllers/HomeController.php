@@ -124,9 +124,9 @@ class HomeController extends Controller
 
         //get all post where collun sell_at is not null group by id_user Asc
 
-        $shopiners = User::select('users.id', 'users.name','users.avatar','users.username', DB::raw('AVG(etoiles) as average_rating'))
+        $shopiners = User::select('users.id', 'users.name','users.avatar','users.username','users.certifier', DB::raw('AVG(etoiles) as average_rating'))
             ->join('ratings', 'users.id', '=', 'ratings.id_user_rated')
-            ->groupBy('users.id', 'users.name','users.avatar','users.username')
+            ->groupBy('users.id', 'users.name','users.avatar','users.username','users.certifier')
             ->where('users.role', '!=', 'admin')
             ->orderByDesc('average_rating')
             ->limit(10)

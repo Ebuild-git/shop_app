@@ -45,7 +45,10 @@
                         </div>
                         <div class="pt-1 pb-1">
                             <span class="h5 text-capitalize">
-                                {{ $user->name }}
+                                {{ '@'.$user->username }}
+                                @if ($user->certifier == 'oui')
+                                    <i class="bi bi-patch-check-fill small" style="color: #28c76f;"></i>
+                                @endif
                             </span>
                         </div>
                     </div>
@@ -53,7 +56,7 @@
                         <i class="bi bi-card-list"></i>
                         {{ $user->GetPosts->count() }} Annonces <br>
                         <i class="bi bi-geo-alt"></i>
-                        {{ $user->adress ?? 'N/A'}} <br>
+                        {{ $user->adress ?? 'N/A' }} <br>
                         <i class="bi bi-house"></i>
                         {{ $user->region->nom ?? 'N/A' }}<br>
                         <div style="text-align: right;" style="background-color: #018d8d;">

@@ -20,12 +20,12 @@ class LoginAdminForm extends Component
     public function connexion(Request $request)
     {
         $validatedData = $this->validate([
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required'
         ], [
             'required' => 'Ce champ est obligatoire.',
             'email' => 'Veuillez entrer une adresse email valide.',
-            'unique' => 'Cette valeur est déjà utilisée.',
+            'exists' => "Cette adresse email n'existe pas.",
         ]);
 
 

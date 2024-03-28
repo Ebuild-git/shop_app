@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Proprietes extends Component
 {
-    public $type, $nom, $prorietes, $typeselected, $required;
+    public $type, $nom, $prorietes, $typeselected, $required,$affichage;
     public $optionsCases = [];
 
     public function render()
@@ -28,11 +28,14 @@ class Proprietes extends Component
         $this->validate([
             'type' => 'required',
             'nom' => 'required',
+            'affichage' =>'nullable|in:case,input'
+
         ]);
         $propriete = new ModelsProprietes();
         $propriete->type = $this->type;
         $propriete->nom = $this->nom;
         if($this->type == "option"){
+            $propriete->affichage = $this->affichage ;
             $propriete->options = $this->optionsCases;
         }
         $propriete->save();

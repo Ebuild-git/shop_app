@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_user_buy")->nullable()->default(null);
             $table->unsignedBigInteger("id_sous_categorie");
             $table->json("proprietes")->nullable();
-            $table->enum('etat',['neuf','occasion'])->default('neuf');
+            $table->enum('etat',['Neuf avec étiquettes','Neuf sans étiquettes','Très bon état','Bon état','Usé']);
             $table->decimal("prix", 13, 3);
             $table->decimal("prix_achat", 13, 3);
             $table->timestamp('verified_at')->nullable()->default(null);

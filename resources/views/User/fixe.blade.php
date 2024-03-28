@@ -14,6 +14,10 @@
     <!-- Custom CSS -->
     <link href="/assets/css/styles.css" rel="stylesheet">
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
+    
+    @yield('head')
+
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -21,12 +25,12 @@
         integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    
 
 
     @livewireStyles
-    @yield('head')
+    
 </head>
 
 <body>
@@ -326,7 +330,7 @@
         @yield('body')
 
 
-       
+
         <!-- ============================ Footer Start ================================== -->
         <footer class="light-footer">
             <br>
@@ -758,10 +762,10 @@
             document.getElementById("Search").style.display = "none";
         }
     </script>
- @yield('script')
+    @yield('script')
 
- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 </body>

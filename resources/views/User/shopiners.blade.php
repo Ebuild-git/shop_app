@@ -67,9 +67,12 @@
                                     <div class="pl-3" style="text-align: left">
                                         <div>
                                             <h4 class="h6">
-                                               <a href="/user/{{ $shopiner->id }}" class="link">
-                                                {{ '@' . $shopiner->username }}
-                                               </a>
+                                                <a href="/user/{{ $shopiner->id }}" class="link">
+                                                    {{ '@' . $shopiner->username }}
+                                                    @if ($shopiner->certifier == "oui")
+                                                        <i class="bi bi-patch-check-fill small" style="color: #28c76f;"></i>
+                                                    @endif
+                                                </a>
                                             </h4>
                                         </div>
                                         <div>
@@ -98,8 +101,8 @@
                     </div>
 
                     <!-- Log In Modal -->
-                    <div class="modal fade" id="login{{ $shopiner->id }}" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-                        aria-hidden="true">
+                    <div class="modal fade" id="login{{ $shopiner->id }}" tabindex="1" role="dialog"
+                        aria-labelledby="loginmodal" aria-hidden="true">
                         <div class="modal-dialog modal-xl login-pop-form" role="document">
                             <div class="modal-content" id="loginmodal">
                                 <div class="modal-headers">
@@ -114,15 +117,14 @@
                                             Top des Catégories vendus !
                                         </h2>
                                         <h4 class="h6 color">
-                                           Par : {{ '@' . $shopiner->username }}
+                                            Par : {{ '@' . $shopiner->username }}
                                         </h4>
                                     </div>
                                     <hr>
                                     @forelse ($shopiner->categoriesWhereUserPosted as $item)
-                                    <i class="bi bi-arrow-right"></i>
-                                     {{ $item->titre  }} <br>
+                                        <i class="bi bi-arrow-right"></i>
+                                        {{ $item->titre }} <br>
                                     @empty
-                                        
                                     @endforelse
 
                                 </div>
