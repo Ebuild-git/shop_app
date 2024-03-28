@@ -70,13 +70,13 @@
                                 {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                             </span>
                             <span class="text-muted">
-
+                                &nbsp;
                             </span>
                             <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                         <div class="prt_02 mb-3">
-                            <h2 class="ft-bold mb-1">
+                            <h2 class="ft-bold mb-1 mt-2 text-capitalize" >
                                 {{ $post->titre }}
                             </h2>
                             <div class="text-left">
