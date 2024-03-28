@@ -1,11 +1,11 @@
 <div>
-    <form wire:submit="connexion">
+    <form  wire:submit.prevent="connexion">
 
         @include('components.alert-livewire')
 
         <div class="form-group">
             <label>Adresse E-mail</label>
-            <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
+            <input type="email" name="email" id="email" class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none"  wire:model.lazy="email"
                  placeholder="Enter email">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -13,8 +13,8 @@
         </div>
         <div class="form-group">
             <label>Mot de passe</label>
-            <input type="password" name="password" class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none" 
-                wire:model="password" placeholder="*****">
+            <input type="password" name="password" id="password" class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none" 
+                 wire:model.lazy="password" placeholder="*****" >
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror

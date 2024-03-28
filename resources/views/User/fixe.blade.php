@@ -113,7 +113,7 @@
                             <a href="javascript:void(0);" class="text-light medium text-capitalize"
                                 data-toggle="dropdown" title="Language" aria-label="Language dropdown">
                                 @auth
-                                    {{ Auth::user()->name }}
+                                    {{ "@".Auth::user()->username }}
                                     <i class="fa fa-angle-down medium text-light"></i>
                                     <ul class="dropdown-menu popup-content link">
                                         <li>

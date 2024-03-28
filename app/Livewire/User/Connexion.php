@@ -7,7 +7,10 @@ use Livewire\Component;
 
 class Connexion extends Component
 {
-    public $email,$password;
+    public $email;
+public $password;
+
+
     public function render()
     {
         return view('livewire.user.connexion');

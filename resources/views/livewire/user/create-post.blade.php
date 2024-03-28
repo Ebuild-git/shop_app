@@ -105,7 +105,10 @@
                 </div>
             @endif
 
-            @if ($proprietes)
+
+
+
+            @if ($proprietes && $selectedCategory)
                 <div class="row">
                     @forelse ($proprietes as $propriete)
                         @php
@@ -131,7 +134,8 @@
                                             <input type="text" class="form-control liste"
                                                 placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                data-suggestions="{{ $propriete_info->options }}">
+                                                data-suggestions="{{ $propriete_info->options }}"
+                                                data-model="{{ $propriete_info->nom }}">
                                         @endif
                                     @else
                                         <input type="{{ $propriete_info->type }}"
@@ -153,191 +157,341 @@
 
 
 
-    <!-- Affichage des images prévisualisées -->
-    <div class="d-flex justify-content-end">
-        @if ($photos)
-            @foreach ($photos as $index => $image)
-                <div class="" wire:key="{{ $loop->index }}">
-                    <div class="car-image-upload">
-                        <button class=" position-absolute" type="button" wire:click="RemoveMe({{ $loop->index }})">
-                            <i class="lni lni-cross-circle"></i>
-                        </button>
-                        <img src="{{ $image->temporaryUrl() }}" alt="Preview Image {{ $index }}">
-                    </div>
-                </div>
-            @endforeach
+    <div class="row">
 
-        @endif
-    </div>
-
-
-    <label for="images" class="drop-container" id="dropcontainer">
-        <span class="drop-title">Veuillez selectionner maximun 4 images</span>
-        or
-        <input type="file" wire:model="photos" accept="image/*" name="photos" id="btn-photos" multiple>
-    </label>
-
-    @error('photos')
-        <small class="form-text text-danger">{{ $message }}</small>
-    @enderror
-
-
-    <br>
-    <div class="text-muted text-center">
-        Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez plus la
-        possibilité de modifer !
-        <div class=" text-danger">
-            -Tous les champs contenant (*) sont obligatoires
-        </div>
-    </div>
-    <div>
-        @include('components.alert-livewire')
-    </div>
-
-
-    <br>
-    <div class="modal-footer">
-        <span wire:loading>
-            <x-Loading></x-Loading>
-        </span>
-        @if ($extimation_prix > 0)
-            <div>
-                Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
-            </div>
-        @endif
-        <button type="reset" class="btn btn-secondary disabled">
-            Effacer
-        </button>
-        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
-            @if ($post)
-                <i class="bi bi-pencil-square"></i>
-                Enregistrer les modifications
-            @else
-                <i class="bi bi-pencil-square"></i>
-                Publier mon article
+        <div class="col-sm-2 col-6 position-relative">
+            @if ($photo1)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo1()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
-        </button>
-    </div>
+            <label for="images" class="drop-container" id="pic1">
+                @if ($photo1)
+                    <img src="{{ $photo1->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo1" accept="image/*" class="d-none" id="btn-1">
+            </label>
+            @error('photo1')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
 
 
-    <style>
-        .drop-container {
-            position: relative;
-            display: flex;
-            gap: 10px;
-            width: 100% !important;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px dashed #555;
-            color: #444;
-            cursor: pointer;
-            transition: background .2s ease-in-out, border .2s ease-in-out;
-        }
-
-        .drop-container:hover {
-            background: #eee;
-            border-color: #111;
-        }
-
-        .drop-container:hover .drop-title {
-            color: #222;
-        }
-
-        .drop-title {
-            color: #444;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            transition: color .2s ease-in-out;
-        }
-
-        input[type=file]::file-selector-button {
-            margin-right: 20px;
-            border: none;
-            background: #018d8d;
-            padding: 10px 20px;
-            border-radius: 10px;
-            color: #fff;
-            cursor: pointer;
-            transition: background .2s ease-in-out;
-        }
-
-        input[type=file]::file-selector-button:hover {
-            background: #023d3d;
-        }
-    </style>
+        <div class="col-sm-2 col-6 position-relative">
+            @if ($photo2)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo2()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic2">
+                @if ($photo2)
+                    <img src="{{ $photo2->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo2" accept="image/*" class="d-none" id="btn-2">
+            </label>
+            @error('photo2')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
 
+        <div class="col-sm-2 col-6 position-relative">
+            @if ($photo3)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo3()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic3">
+                @if ($photo3)
+                    <img src="{{ $photo3->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo3" accept="image/*" class="d-none" id="btn-3">
+            </label>
+            @error('photo3')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+        <div class="col-sm-2 col-6 position-relative">
+            @if ($photo4)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo4()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic4">
+                @if ($photo4)
+                    <img src="{{ $photo4->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo4" accept="image/*" class="d-none" id="btn-4">
+            </label>
+            @error('photo4')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+
+            <div class="col-sm-2 col-6 position-relative">
+                @if ($photo5)
+                    <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
+                        <i class="bi bi-x-octagon"></i>
+                    </button>
+                @endif
+                <label for="images" class="drop-container" id="pic5">
+                    @if ($photo5)
+                        <img src="{{ $photo5->temporaryUrl() }}" class="preview">
+                    @else
+                        <img width="50" height="50"
+                            src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                    @endif
+                    <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
+                </label>
+                @error('photo5')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+        </div>
 
 
 
 
 
-    @section('head')
-    @endsection
 
 
-    <script>
-        $(document).ready(function() {
-            let suggestions; // Déclarer la variable suggestions en dehors de la fonction d'événement
+        <br>
+        <div class="text-muted text-center">
+            Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez
+            plus la
+            possibilité de modifer !
+            <div class=" text-danger">
+                -Tous les champs contenant (*) sont obligatoires
+            </div>
+        </div>
+        <div>
+            @include('components.alert-livewire')
+        </div>
 
-            $(document).on("keyup", ".liste", function(event) {
-                const inputField = $(this);
 
-                // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
-                if (!suggestions) {
-                    suggestions = inputField.data('suggestions');
-                }
+        <br>
+        <div class="modal-footer">
+            <span wire:loading>
+                <x-Loading></x-Loading>
+            </span>
+            @if ($extimation_prix > 0)
+                <div>
+                    Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
+                </div>
+            @endif
+            <button type="reset" class="btn btn-secondary disabled">
+                Effacer
+            </button>
+            <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
+                @if ($post)
+                    <i class="bi bi-pencil-square"></i>
+                    Enregistrer les modifications
+                @else
+                    <i class="bi bi-pencil-square"></i>
+                    Publier mon article
+                @endif
+            </button>
+        </div>
 
-                // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
-                function updateSuggestions(input) {
-                    return suggestions.filter(suggestion =>
-                        suggestion.toLowerCase().includes(input.toLowerCase())
-                    );
-                }
 
-                // Fonction pour afficher les suggestions
-                function showSuggestions(suggestions) {
-                    const suggestionList = $('<ul id="suggestion-list"></ul>');
 
-                    suggestions.forEach(suggestion => {
-                        const listItem = $('<li></li>').text(suggestion);
-                        suggestionList.append(listItem);
-                    });
+        <style>
+            .drop-container {
+                position: relative;
+                display: flex;
+                gap: 10px;
+                width: 100% !important;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100px;
+                padding: 5px;
+                border-radius: 10px;
+                border: 2px dashed #018d8d;
+                color: #444;
+                cursor: pointer;
+                transition: background .2s ease-in-out, border .2s ease-in-out;
+                overflow: hidden;
+            }
 
-                    // Supprime la liste de suggestions précédente s'il y en a une
-                    $('#suggestion-list').remove();
+            .drop-container .preview {
+                height: 100%;
+                border-radius: 10px;
+                width: 100%;
+                object-fit: cover
+            }
 
-                    // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
-                    inputField.parent().append(suggestionList);
+            .drop-container .preview:hover {
+                transform: scale(1.1)
+            }
 
-                   /*  // Gère la sélection de suggestion
-                    suggestionList.on('click', 'li', function() {
-                        inputField.val($(this).text());
-                        suggestionList.remove();
-                    }); */
-                }
+            .drop-container:hover {
+                background: #eee;
+                border-color: #111;
+            }
 
-                // Récupère la valeur actuelle du champ de saisie
-                const input = inputField.val();
-                const filteredSuggestions = updateSuggestions(input);
-                showSuggestions(filteredSuggestions);
+            .drop-container:hover .drop-title {
+                color: #222;
+            }
 
-                // Gère le clic en dehors de la liste de suggestions pour la fermer
-                $(document).on('click', function(event) {
-                    if (!$(event.target).closest(inputField).length && !$(event.target).closest(
-                            '#suggestion-list').length) {
-                        $('#suggestion-list').remove();
+            .drop-title {
+                color: #444;
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                transition: color .2s ease-in-out;
+            }
+
+            input[type=file]::file-selector-button {
+                margin-right: 20px;
+                border: none;
+                background: #018d8d;
+                padding: 10px 20px;
+                border-radius: 10px;
+                color: #fff;
+                cursor: pointer;
+                transition: background .2s ease-in-out;
+            }
+
+            input[type=file]::file-selector-button:hover {
+                background: #023d3d;
+            }
+
+            .btn-cancel-image {
+                border: none;
+                border-radius: 10px;
+                position: absolute;
+                left: 25px;
+                top: 10px;
+                z-index: 9999999999;
+            }
+        </style>
+
+
+
+
+
+
+
+        @section('head')
+        @endsection
+
+
+        <script>
+            $(document).ready(function() {
+                let suggestions, model; // Déclarer la variable suggestions en dehors de la fonction d'événement
+
+                $(document).on("keyup", ".liste", function(event) {
+                    const inputField = $(this);
+
+                    // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
+                    if (!suggestions) {
+                        suggestions = inputField.data('suggestions');
+                        model = inputField.data('model');
                     }
+
+                    // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
+                    function updateSuggestions(input) {
+                        return suggestions.filter(suggestion =>
+                            suggestion.toLowerCase().includes(input.toLowerCase())
+                        );
+                    }
+
+                    // Fonction pour afficher les suggestions
+                    function showSuggestions(suggestions) {
+                        const suggestionList = $('<ul id="suggestion-list"></ul>');
+
+                        suggestions.forEach(suggestion => {
+                            const listItem = $('<li></li>').text(suggestion);
+                            suggestionList.append(listItem);
+                        });
+
+                        // Supprime la liste de suggestions précédente s'il y en a une
+                        $('#suggestion-list').remove();
+
+                        // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
+                        inputField.parent().append(suggestionList);
+
+                        // Gère la sélection de suggestion
+                        suggestionList.on('click', 'li', function() {
+                            inputField.val($(this).text());
+                            suggestionList.remove();
+
+
+                            Livewire.dispatch('suggestionSelected', {
+                                name: 'marque',
+                                value: $(this).text()
+                            });
+
+
+                        });
+                    }
+
+                    // Récupère la valeur actuelle du champ de saisie
+                    const input = inputField.val();
+                    const filteredSuggestions = updateSuggestions(input);
+                    showSuggestions(filteredSuggestions);
+
+                    // Gère le clic en dehors de la liste de suggestions pour la fermer
+                    $(document).on('click', function(event) {
+                        if (!$(event.target).closest(inputField).length && !$(event.target).closest(
+                                '#suggestion-list').length) {
+                            $('#suggestion-list').remove();
+                        }
+                    });
                 });
             });
-        });
-    </script>
+
+
+
+            $(document).ready(function() {
+
+                //photo 1
+                document.getElementById("pic1").addEventListener("click", function() {
+                    document.getElementById("btn-1").click();
+                });
+
+                //photo 2
+                document.getElementById("pic2").addEventListener("click", function() {
+                    document.getElementById("btn-2").click();
+                });
+
+                //photo 3
+                document.getElementById("pic3").addEventListener("click", function() {
+                    document.getElementById("btn-3").click();
+                });
+
+                //photo 4
+                document.getElementById("pic4").addEventListener("click", function() {
+                    document.getElementById("btn-4").click();
+                });
+
+                //photo 5
+                document.getElementById("pic5").addEventListener("click", function() {
+                    document.getElementById("btn-5").click();
+                });
+
+
+            });
+        </script>
 
 
 </form>

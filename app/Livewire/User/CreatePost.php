@@ -21,10 +21,12 @@ class CreatePost extends Component
     use WithFileUploads;
 
     public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
-    public $photos = [];
+    public $photo1, $photo2, $photo3, $photo4,$photo5;
     public $article_propriete = [];
     public $proprietes, $quantite;
     public $extimation_prix = 0;
+    protected $listeners = ['suggestionSelected'];
+
 
     public function mount($id)
     {
@@ -54,6 +56,7 @@ class CreatePost extends Component
                 $this->proprietes = $sous_categorie->proprietes;
             }
         } else {
+            $this->proprietes = null;
             $this->id_sous_categorie = null;
         }
     }
@@ -77,7 +80,7 @@ class CreatePost extends Component
             $this->calcule_estimation($this->region, $this->selectedCategory, $value);
         }
     }
-    
+
 
 
     public function updatedPtitre($value)
@@ -96,7 +99,29 @@ class CreatePost extends Component
     }
 
 
+    public function suggestionSelected($name, $value)
+    {
+        if ($value != "") {
+            $this->article_propriete[$name] = $value;
+        }
+    }
 
+
+    public function reset_photo1(){
+        $this->photo1 = null;
+    }
+    public function reset_photo2(){
+        $this->photo2 = null;
+    }
+    public function reset_photo3(){
+        $this->photo3 = null;
+    }
+    public function reset_photo4(){
+        $this->photo4 = null;
+    }
+    public function reset_photo5(){
+        $this->photo5 = null;
+    }
 
 
 
@@ -124,7 +149,10 @@ class CreatePost extends Component
     protected $rules = [
         'titre' => 'required|min:2',
         'description' => 'required',
-        'photos.*' => 'image|max:2048|min:1',
+        'photo1' => 'nullable|max:2048|min:1',
+        'photo2' => 'nullable|max:2048|min:1',
+        'photo3' => 'nullable|max:2048|min:1',
+        'photo4' => 'nullable|max:2048|min:1',
         'region' => 'required|integer|exists:regions,id',
         'prix' => 'required|numeric|min:1',
         'prix_achat' => 'required|numeric|min:1',
@@ -139,6 +167,8 @@ class CreatePost extends Component
     }
 
 
+
+
     public function submit()
     {
         $this->validate(); // Vous validez les données soumises
@@ -150,22 +180,34 @@ class CreatePost extends Component
         if (!$post) {
             $post = new posts(); // Si le post n'existe pas, vous en créez un nouveau
         }
+
+
+
         // Traitement des photos
-        if ($this->photos) {
-            $data = [];
-            foreach ($this->photos as $photo) {
-                $name = $photo->store('uploads/posts', 'public');
-                $data[] = $name;
-            }
-
-            // Si le post existe déjà, ajoutez les nouvelles images aux images existantes
-            if ($post->photos) {
-                $existing_photos = $post->photos; // true pour obtenir un tableau associatif
-                $data = array_merge($existing_photos, $data);
-            }
-
-            $post->photos = $data;
+        $data = [];
+        if ($this->photo1) {
+            $name = $this->photo1->store('uploads/posts', 'public');
+            $data[] = $name;
         }
+        if ($this->photo2) {
+            $name = $this->photo2->store('uploads/posts', 'public');
+            $data[] = $name;
+        }
+        if ($this->photo3) {
+            $name = $this->photo3->store('uploads/posts', 'public');
+            $data[] = $name;
+        }
+        if ($this->photo4) {
+            $name = $this->photo4->store('uploads/posts', 'public');
+            $data[] = $name;
+        }
+        if ($this->photo5) {
+            $name = $this->photo5->store('uploads/posts', 'public');
+            $data[] = $name;
+        }
+        $post->photos = $data;
+
+
 
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
@@ -196,7 +238,7 @@ class CreatePost extends Component
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'region', 'categorie', 'prix', 'etat', 'photos']);
+        $this->reset(['titre', 'description', 'region', 'categorie', 'prix', 'etat', 'photo1', 'photo2', 'photo3', 'photo4', 'photo5']);
     }
 
 

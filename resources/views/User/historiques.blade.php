@@ -20,7 +20,7 @@
                         </span>
                     @endif
                     <div class="text-muted small">
-                        {{ Auth::user()->name }} ,vous pouvez créer une <br> publication et vendre vos poduits quand
+                        {{ "@".Auth::user()->username }} ,vous pouvez créer une <br> publication et vendre vos poduits quand
                         vous voulez !
                     </div>
 

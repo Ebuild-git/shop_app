@@ -173,24 +173,6 @@
                             </div>
                         </div>
 
-                        <div class="prt_06">
-                            <p class="mb-0 d-flex align-items-center">
-                                <span class="mr-4">Share:</span>
-                                <a class="d-inline-flex align-items-center justify-content-center p-3 gray circle fs-sm text-muted mr-2"
-                                    href="#!">
-                                    <i class="fab fa-twitter position-absolute"></i>
-                                </a>
-                                <a class="d-inline-flex align-items-center justify-content-center p-3 gray circle fs-sm text-muted mr-2"
-                                    href="#!">
-                                    <i class="fab fa-facebook-f position-absolute"></i>
-                                </a>
-                                <a class="d-inline-flex align-items-center justify-content-center p-3 gray circle fs-sm text-muted"
-                                    href="#!">
-                                    <i class="fab fa-pinterest-p position-absolute"></i>
-                                </a>
-                            </p>
-                        </div>
-
                     </div>
                 </div>
             </div>
