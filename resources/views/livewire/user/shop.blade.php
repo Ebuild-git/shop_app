@@ -35,17 +35,20 @@
                                                         <div class="card-body">
                                                             <div class="inner_widget_link">
                                                                 <ul>
-                                                                    @forelse ($categorie->getSousCategories as $SousCategorie)
-                                                                        <li class="d-flex justify-content-between">
-                                                                            <span  wire:click="filtre_sous_cat({{ $SousCategorie->id }})">
-                                                                                {{ $SousCategorie->titre }}
-                                                                            </span>
-                                                                            <span>
-                                                                                {{ $SousCategorie->getPost->count() }}
-                                                                            </span>
-                                                                        </li>
-                                                                    @empty
-                                                                    @endforelse
+                                                                    @foreach ($categorie->getSousCategories as $SousCategorie)
+                                                                        @if ($SousCategorie->getPost->count() > 0)
+                                                                            <li class="d-flex justify-content-between">
+                                                                                <button class="btn-btn-shop-style"
+                                                                                    type="button"
+                                                                                    wire:click="filtre_sous_cat({{ $SousCategorie->id }})">
+                                                                                    {{ $SousCategorie->titre }}
+                                                                                </button>
+                                                                                <span>
+                                                                                    {{ $SousCategorie->getPost->count() }}
+                                                                                </span>
+                                                                            </li>
+                                                                        @endif
+                                                                    @endforeach
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -69,17 +72,19 @@
                                 <div class="widget-boxed-body collapse" id="types" data-parent="#types">
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
-                                        <select name="etat" wire:model="etat" class="form-control ">
-                                            <option value=""></option>
-                                            <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
-                                            <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
-                                            <option value="Très bon état">Très bon état</option>
-                                            <option value="Bon état">Bon état</option>
-                                            <option value="Usé">Usé</option>
-                                        </select>
-                                        @error('etat')
-                                            <small class="form-text text-danger">{{ $message }}</small>
-                                        @enderror
+                                        <div>
+                                            <select name="etat" wire:model="etat" class="btn-btn-shop-style-select">
+                                                <option value="">état de l'article</option>
+                                                <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
+                                                <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
+                                                <option value="Très bon état">Très bon état</option>
+                                                <option value="Bon état">Bon état</option>
+                                                <option value="Usé">Usé</option>
+                                            </select>
+                                            @error('etat')
+                                                <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,15 +102,18 @@
                                             <div class="card-body pt-0">
                                                 <div class="inner_widget_link">
                                                     <ul class="">
-                                                        @forelse ($regions as $region)
-                                                            <li>
-                                                                <input type="radio">
-                                                                <label class="checkbox-custom-label">
-                                                                    {{ $region->nom }}
-                                                                </label>
-                                                            </li>
-                                                        @empty
-                                                        @endforelse
+                                                        @foreach ($regions as $region)
+                                                            @if ($region->getPost->count() > 0)
+                                                                <li class="d-flex justify-content-between">
+                                                                    <button class="btn-btn-shop-style" type="button"
+                                                                        wire:click="filtre_sous_cat({{ $region->id }})">
+                                                                        {{ $region->nom }}
+                                                                    </button>
+                                                                    <span>
+                                                                        {{ $region->getPost->count() }}
+                                                                    </span>
+                                                            @endif
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
@@ -114,15 +122,22 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                                <span wire:loading>
-                                    <x-Loading></x-Loading>
-                                </span>
+                            <div wire:loading>
+                                <div class="text-danger p-2">
+                                    <x-Loading></x-Loading> Traitement...
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="reset" class="btn btn-md  bg-danger text-light fs-md ft-medium">
+                                    Vider
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
 
-                                Filtrer
-                                <i class="bi bi-arrow-right-circle-fill"></i>
-                            </button>
-
+                                <button type="submit" class="btn btn-md  bg-dark text-light fs-md ft-medium">
+                                    Filtrer
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -133,22 +148,18 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12">
                         <div class="border mb-3 mfliud">
-                            <div class="row align-items-center py-2 m-0">
-                                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
+                            <div class="d-flex justify-content-between p-2 m-0">
+                                <div >
                                     <h6 class="mb-0">
                                         {{ $total }} éléments trouvés
                                     </h6>
                                 </div>
 
-                                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
+                                <div >
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
-                                        <div class="single_fitres mr-2 br-right">
-                                            <select class="custom-select simple" wire:model.live="filtre">
-                                                <option value="" selected="">Filtre par defaut</option>
-                                                <option value="asc">Sort by price: Low price</option>
-                                                <option value="desc">Sort by price: Hight price</option>
-                                            </select>
-                                        </div>
+                                        <a href="/">
+                                            <img src="/icons/logo.png" alt="" height="20">
+                                        </a>
                                     </div>
                                 </div>
                             </div>

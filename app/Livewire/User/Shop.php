@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\categories;
 use App\Models\posts;
 use App\Models\regions;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -76,7 +77,12 @@ class Shop extends Component
             $query->where('etat', $this->etat);
         }
     
-        $regions = regions::all(["id","nom"]);
+        $regions = regions::all();
+
+        //recuperer toute les regions qui ont un pots identifier par la colonne id_regions dans la table posts
+
+
+
         return view('livewire.user.shop', ['posts' => $query->paginate(30),"regions"=>$regions]);
     }
     

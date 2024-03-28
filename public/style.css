@@ -502,6 +502,39 @@ body {
 .avatar-profil-user img:hover{
     transform: scale(1.1);
 }
+.btn-btn-shop-style{
+    border: none;
+    background-color: unset;
+    padding: 0px !important;
+}
+.btn-btn-shop-style:hover{
+    font-weight: bold;
+    color: #008080;
+}
+.btn-btn-shop-style-select{
+    border: solid 1px white !important;
+    width: 100% !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
