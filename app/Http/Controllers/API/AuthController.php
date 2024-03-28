@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register','reset_password']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'reset_password']]);
     }
 
     public function login(Request $request)
@@ -151,7 +151,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'message' => $validator->errors()->all()
-            ], 400); 
+            ], 400);
         }
 
         $user = User::where("email", $request->email)->first();
@@ -166,6 +166,37 @@ class AuthController extends Controller
             Mail::to($request->email)->send(new NewPassword($token, $user));
             return response()->json(
                 ['message' => "Un lien de réinitialisation a été envoyé à votre adresse e-mail."],
+                200
+
+            );
+        } else {
+            return response()->json(
+                [
+                    'message' => 'Cette adresse n\'est pas associée à un compte.'
+                ],
+                401
+            );
+        }
+    }
+
+
+
+
+    public function delete_email(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            $user->delete();
+            return response()->json(
+                ['message' => "L'adresse email a été supprimé !."],
                 200
 
             );
