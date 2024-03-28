@@ -11,7 +11,7 @@ class LoginAdminForm extends Component
 {
     public $email, $password;
 
-    protected $rules = ['email' => 'required|email|exists:users,email', 'password' => 'required|min:8'];
+
     public function render()
     {
         return view('livewire.login-admin-form');
@@ -19,7 +19,16 @@ class LoginAdminForm extends Component
 
     public function connexion(Request $request)
     {
-        $this->validate();
+        $validatedData = $this->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required'
+        ], [
+            'required' => 'Ce champ est obligatoire.',
+            'email' => 'Veuillez entrer une adresse email valide.',
+            'unique' => 'Cette valeur est déjà utilisée.',
+        ]);
+
+
         $user = User::where('email', $this->email)
             ->where("role", "admin")
             ->first();

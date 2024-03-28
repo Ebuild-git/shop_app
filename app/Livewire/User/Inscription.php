@@ -54,7 +54,7 @@ class Inscription extends Component
             'date'=>['required'],
             'genre' =>'required|in:Féminin,Masculin'
         ], [
-            'equired' => 'Ce champ est obligatoire.',
+            'required' => 'Ce champ est obligatoire.',
             'email' => 'Veuillez entrer une adresse email valide.',
             'unique' => 'Cette valeur est déjà utilisée.',
             'image' => 'Le fichier doit être une image.',
