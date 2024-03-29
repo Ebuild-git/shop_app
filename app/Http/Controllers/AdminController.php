@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categories;
 use App\Models\posts;
+use App\Models\proprietes;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -61,6 +62,21 @@ class AdminController extends Controller
         return view('Admin.parametre.security');
     }
 
+
+
+    public function update_propriete($id){
+        $propriete = proprietes::find($id);
+        $proprietes = proprietes::all();
+        if(!$propriete){
+            abort(404);
+        }
+        return view("Admin.categories.update_propriete", compact('propriete',"proprietes"));
+    }
+
+
+
+
+ 
 
 
 }

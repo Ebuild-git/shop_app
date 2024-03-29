@@ -98,6 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/settings', [AdminController::class, 'admin_settings'])->name('admin_settings');
     Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
     
+    Route::get('/admin/update_propriete/{id}', [AdminController::class, 'update_propriete'])->name('update_propriete');
 });
 
 
