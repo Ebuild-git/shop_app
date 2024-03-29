@@ -79,6 +79,7 @@ class UpdateInformations extends Component
                     $notification->destination = "admin";
                     $notification->save();
                 }
+                $user->photo_verified_at = null;
             }else{
                 $user->photo_verified_at = now();
             }
