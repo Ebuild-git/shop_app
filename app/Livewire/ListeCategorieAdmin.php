@@ -70,7 +70,6 @@ class ListeCategorieAdmin extends Component
             $cat->luxury = false;
             $cat->save();
         } else {
-            categories::where('id', '!=', $id)->update(['luxury' => false]);
             $cat->luxury = true;
             $cat->save();
         }

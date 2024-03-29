@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Events\AdminEvent;
 use App\Models\categories;
+use App\Models\configurations;
 use App\Models\notifications;
 use Livewire\WithFileUploads;
 use App\Models\posts;
@@ -20,8 +21,8 @@ class CreatePost extends Component
 {
     use WithFileUploads;
 
-    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat,  $selectedCategory, $selectedSubcategory;
-    public $photo1, $photo2, $photo3, $photo4,$photo5;
+    public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat, $selectedCategory, $selectedSubcategory;
+    public $photo1, $photo2, $photo3, $photo4, $photo5;
     public $article_propriete = [];
     public $proprietes, $quantite;
     public $extimation_prix = 0;
@@ -37,7 +38,7 @@ class CreatePost extends Component
     {
         if ($value != "x") {
             $c = sous_categories::where("id_categorie", $value)->get();
-            $this->sous_categories  = $c;
+            $this->sous_categories = $c;
             if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
                 $this->calcule_estimation($this->region, $value, $this->prix);
             }
@@ -65,7 +66,7 @@ class CreatePost extends Component
 
     public function updatedRegion($value)
     {
-        $this->region =  $value;
+        $this->region = $value;
         if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
             $this->calcule_estimation($value, $this->selectedCategory, $this->prix);
         }
@@ -75,7 +76,7 @@ class CreatePost extends Component
 
     public function updatedPrix($value)
     {
-        $this->prix =  $value;
+        $this->prix = $value;
         if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
             $this->calcule_estimation($this->region, $this->selectedCategory, $value);
         }
@@ -107,19 +108,24 @@ class CreatePost extends Component
     }
 
 
-    public function reset_photo1(){
+    public function reset_photo1()
+    {
         $this->photo1 = null;
     }
-    public function reset_photo2(){
+    public function reset_photo2()
+    {
         $this->photo2 = null;
     }
-    public function reset_photo3(){
+    public function reset_photo3()
+    {
         $this->photo3 = null;
     }
-    public function reset_photo4(){
+    public function reset_photo4()
+    {
         $this->photo4 = null;
     }
-    public function reset_photo5(){
+    public function reset_photo5()
+    {
         $this->photo5 = null;
     }
 
@@ -172,6 +178,7 @@ class CreatePost extends Component
     public function submit()
     {
         $this->validate(); // Vous validez les données soumises
+        $config = configurations::first();
 
         $jsonProprietes = $this->article_propriete;
 
@@ -214,25 +221,32 @@ class CreatePost extends Component
         $post->description = $this->description;
         $post->id_region = $this->region;
         $post->etat = $this->etat;
-        $post->proprietes =  $jsonProprietes ?? [];
+        $post->proprietes = $jsonProprietes ?? [];
         $post->id_sous_categorie = $this->selectedSubcategory;
         $post->prix_achat = $this->prix_achat;
         $post->prix = $this->prix;
-        $post->id_user = Auth::user()->id; // Assumant que vous utilisez le système d'authentification de Laravel
+        $post->id_user = Auth::user()->id;
+        if ($config->valider_publication === false) {
+            $post->verified_at = now();
+            $post->statut = 'vente';
+        }
         $post->save(); // Sauvegarder le post
 
-        // Message de succès
-        event(new AdminEvent('Un post a été créé avec succès.'));
-        //enregistrer la notification
-        $notification = new notifications();
-        $notification->type = "new_post";
-        $notification->titre = Auth::user()->name . " vient de publier un article ";
-        $notification->url = "/admin/publication/" . $post->id . "/view";
-        $notification->message = $post->titre;
-        $notification->id_post = $post->id;
-        $notification->id_user = Auth::user()->id;
-        $notification->destination = "admin";
-        $notification->save();
+
+        if ($config->valider_publication == 1 ) {
+            // Message de succès
+            event(new AdminEvent('Un post a été créé avec succès.'));
+            //enregistrer la notification
+            $notification = new notifications();
+            $notification->type = "new_post";
+            $notification->titre = Auth::user()->name . " vient de publier un article ";
+            $notification->url = "/admin/publication/" . $post->id . "/view";
+            $notification->message = $post->titre;
+            $notification->id_post = $post->id;
+            $notification->id_user = Auth::user()->id;
+            $notification->destination = "admin";
+            $notification->save();
+        }
 
         $this->dispatch('alert', ['message' => "Le post a été créé avec succès", 'type' => 'success']);
         session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
@@ -272,7 +286,7 @@ class CreatePost extends Component
                 unset($photosArray[$key]);
             }
             Storage::disk('public')->delete($url_image);
-            $post->photos =  json_encode($photosArray);
+            $post->photos = json_encode($photosArray);
             $post->save();
         }
     }

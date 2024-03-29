@@ -67,11 +67,19 @@
                                         <i class="ti ti-eye me-1"></i>
                                         Consulter les sous-catégories
                                     </a>
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                        wire:click='add_luxury({{ $item->id }})'>
-                                        <i class="ti ti-star me-1"></i>
-                                        Marquer en tant que LUXURY
-                                    </a>
+                                    @if ($item->luxury == 1)
+                                        <a class="dropdown-item" href="javascript:void(0);"
+                                            wire:click='add_luxury({{ $item->id }})'>
+                                            <i class="ti ti-star me-1"></i>
+                                            Rétirer en tant que LUXURY
+                                        </a>
+                                    @else
+                                        <a class="dropdown-item" href="javascript:void(0);"
+                                            wire:click='add_luxury({{ $item->id }})'>
+                                            <i class="ti ti-star me-1"></i>
+                                            Ajouter en tant que LUXURY
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item" href="/admin/update_categorie/{{ $item->id }}">
                                         <i class="ti ti-pencil me-1"></i> Modifier la catégorie
                                     </a>

@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Events\AdminEvent;
 use App\Mail\VerifyMail;
+use App\Models\configurations;
 use App\Models\notifications;
 use App\Models\User;
 use Carbon\Carbon;
@@ -113,20 +114,27 @@ class Inscription extends Component
 
         $user->save();
 
+        $config = configurations::first();
+        if($config->valider_photo == 1)
+        {
 
-        if($this->photo){
-            if($user->save()){
-                event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
-                //enregistrer la notification
-                $notification = new notifications();
-                $notification->type = "photo";
-                $notification->titre = $user->name . " vient de choisir  une  photo de profil";
-                $notification->url = "/admin/client/". $user->id ."/view";
-                $notification->message = "Le client a ajouté une photo de profil";
-                $notification->id_user = $user->id;
-                $notification->destination = "admin";
-                $notification->save();
+            if($this->photo){
+                if($user->save()){
+                    event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
+                    //enregistrer la notification
+                    $notification = new notifications();
+                    $notification->type = "photo";
+                    $notification->titre = $user->name . " vient de choisir  une  photo de profil";
+                    $notification->url = "/admin/client/". $user->id ."/view";
+                    $notification->message = "Le client a ajouté une photo de profil";
+                    $notification->id_user = $user->id;
+                    $notification->destination = "admin";
+                    $notification->save();
+                }
+
             }
+        }else{
+            $user->photo_verified_at= now();
         }
 
 

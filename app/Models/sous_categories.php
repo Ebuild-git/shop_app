@@ -9,6 +9,10 @@ class sous_categories extends Model
 {
     use HasFactory;
 
+    //filiable
+    protected $fillable = [
+        'order'
+    ];
 
 
     protected $casts = [

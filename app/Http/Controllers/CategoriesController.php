@@ -109,6 +109,22 @@ class CategoriesController extends Controller
     }
 
 
+
+
+    public function changerOrdresous(){
+        $ids = request()->get('ids');
+        $idsArray = explode(',', $ids);
+        foreach ($idsArray as $index => $id) {
+            $enregistrement = sous_categories::findOrFail($id);
+            $enregistrement->update(['order' => $index]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+
+
+
     public function changerOrdrepropriete()
     {
         $ids = request()->get('ids');

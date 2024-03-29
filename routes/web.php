@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('user-notifications');
 
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
+    Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
     Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);
     Route::get('/admin/changer_ordre_propriete_in_sous_categorie', [CategoriesController::class, 'changer_ordre_propriete_in_sous_categorie']);
     Route::get('/admin/add_sous_categorie/{id}', [AdminController::class, 'add_sous_categorie'])->name('add_sous_categorie');
