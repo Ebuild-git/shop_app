@@ -84,6 +84,8 @@ class Inscription extends Component
             return;
         }
 
+        $config = configurations::first();
+
         $user = new User();
         $user->name = $this->nom;
         $user->email = $this->email;
@@ -111,10 +113,7 @@ class Inscription extends Component
             $user->validate_at = now();
         }
 
-
-        $user->save();
-
-        $config = configurations::first();
+        
         if($config->valider_photo == 1)
         {
             if($this->photo){
@@ -137,6 +136,7 @@ class Inscription extends Component
         }
 
 
+        $user->save();
         //donner le role user
         $user->assignRole('user');
 

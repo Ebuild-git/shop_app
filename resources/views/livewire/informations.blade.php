@@ -104,7 +104,7 @@
                  <hr>
                  <div class="form-group mb-3">
                     <input type="checkbox" class="form-check-input" id="" wire:model='valider_photo' @checked($valider_photo)>
-                    Valider les photos de profils des utilisateurs a chanque changement.
+                    Valider les photos de profils des utilisateurs a chaque changement.
                     @error('valider_photo')
                         <div class="text-danger">
                             {{ $message }}
