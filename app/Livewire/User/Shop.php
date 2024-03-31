@@ -17,7 +17,6 @@ class Shop extends Component
 
 
 
-
     public function mount($categorie,$key){
         $this->categorie = $categorie;
         $this->key = $key;
@@ -60,6 +59,10 @@ class Shop extends Component
                 $query->where('titre', 'like', '%' . $q . '%')
                       ->orWhere('proprietes', 'like', '%' . $q . '%')
                       ->orWhere('description', 'like', '%' . $q . '%');
+            });
+
+            $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
+                $query->where('titre', 'like', '%' . $q . '%');
             });
         }
     
