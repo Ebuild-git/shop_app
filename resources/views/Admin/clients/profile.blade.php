@@ -58,11 +58,18 @@
                 <!-- About User -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <small class="card-text text-uppercase">A propos</small>
+                        <div class="d-flex justify-content-between">
+                            <small class="card-text text-uppercase">A propos</small>
+                            <span>
+                                <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                                {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
+                            </span>
+                        </div>
                         <ul class="list-unstyled mb-4 mt-3">
                             <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-user text-heading"></i><span class="fw-medium mx-2 text-heading">Full
-                                    Name:</span> <span>{{ $user->name }}</span>
+                                <i class="ti ti-user text-heading"></i>
+                                <span class="fw-medium mx-2 text-heading">
+                                    nom complet :</span> <span>{{ $user->name }}</span>
                                     &nbsp;
                                     [ {{ $user->genre }} ]
                             </li>
