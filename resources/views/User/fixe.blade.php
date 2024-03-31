@@ -647,12 +647,6 @@
                             <h5 class="color">
                                 <b>
                                     Bienvennue ,
-                                    @if (Auth::user()->genre == 'Masculin')
-                                        M.
-                                    @else
-                                        Mme.
-                                    @endif
-
                                     {{ Auth::user()->username }}
                                 </b>
                             </h5>
@@ -672,7 +666,7 @@
         <!-- End Modal -->
 
 
-        @if (Auth::user()->first_login_at == null)
+        @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
             <script>
                 $(document).ready(function() {
                     $('#first-login').modal('show');

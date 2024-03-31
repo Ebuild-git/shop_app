@@ -16,13 +16,17 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\ListColor;
 
 class CreatePost extends Component
 {
     use WithFileUploads;
+    use ListColor;
 
     public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat, $selectedCategory, $selectedSubcategory;
     public $photo1, $photo2, $photo3, $photo4, $photo5;
+    public $colors;
+    public $selected_color = null;
     public $article_propriete = [];
     public $proprietes, $quantite;
     public $extimation_prix = 0;
@@ -32,6 +36,7 @@ class CreatePost extends Component
     public function mount($id)
     {
         $this->id = $id;
+        $this->colors = $this->get_list_color();
     }
 
     public function updatedSelectedCategory($value)
@@ -47,6 +52,11 @@ class CreatePost extends Component
         }
     }
 
+
+    public function choose($nom,$code,$propriete_nom){
+        $this->selected_color = $nom;
+        $this->article_propriete[$propriete_nom] = $code;
+    }
 
 
     public function updatedselectedSubcategory($value)

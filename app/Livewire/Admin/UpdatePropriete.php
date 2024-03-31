@@ -33,6 +33,9 @@ class UpdatePropriete extends Component
         $this->optionsCases = ['option'];
     }
 
+    public function delete_option($key){
+        unset($this->optionsCases[$key]);
+    }
 
 
     public function add_option()

@@ -64,18 +64,20 @@ class CategoriesController extends Controller
         }
 
         $options = $request->input('option');
-
-        $indexes = array_keys($options, true);
         $indexesArray = [];
-        foreach ($indexes as $index) {
-            $indexesArray[] = $index;
+        if ($options) {
+            $indexes = array_keys($options, true);
+
+            foreach ($indexes as $index) {
+                $indexesArray[] = $index;
+            }
         }
         $jsonIndexes = $indexesArray;
 
 
 
-        $sous_categorie->id_categorie  = $request->id_categorie;
-        $sous_categorie->proprietes = $jsonIndexes ??  [];
+        $sous_categorie->id_categorie = $request->id_categorie;
+        $sous_categorie->proprietes = $jsonIndexes ?? [];
         $sous_categorie->titre = $request->titre;
         $sous_categorie->save();
 
@@ -111,7 +113,8 @@ class CategoriesController extends Controller
 
 
 
-    public function changerOrdresous(){
+    public function changerOrdresous()
+    {
         $ids = request()->get('ids');
         $idsArray = explode(',', $ids);
         foreach ($idsArray as $index => $id) {
@@ -145,7 +148,7 @@ class CategoriesController extends Controller
         if ($categorie) {
             //convert $ids to arry
             $tabIds = array_map('intval', explode(",", $ids));
-            $categorie->proprietes =  $tabIds;
+            $categorie->proprietes = $tabIds;
             $categorie->save();
         }
         return response()->json(['success' => true]);

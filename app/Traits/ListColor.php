@@ -11,7 +11,7 @@ trait ListColor
      * @param Request $request
      * @return $this|false|string
      */
-    public function get_list_gouvernorat()
+    public function get_list_color()
     {
         $colors = [
             "Argenté" => "#C0C0C0",

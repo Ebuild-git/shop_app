@@ -66,6 +66,9 @@
                             <img width="20" height="20" src="https://img.icons8.com/fluency/48/add--v1.png"
                                 alt="add--v1" />
                         </button>
+                        <button class="btn btn-sm btn-light" type="button" wire:click="delete_option({{ $key }})">
+                            <img width="20" height="20" src="https://img.icons8.com/fluency/20/delete-sign.png" alt="delete-sign"/>
+                        </button>
                     </div>
                 @endforeach
             @endif
