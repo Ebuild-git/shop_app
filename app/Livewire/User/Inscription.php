@@ -117,7 +117,6 @@ class Inscription extends Component
         $config = configurations::first();
         if($config->valider_photo == 1)
         {
-
             if($this->photo){
                 if($user->save()){
                     event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
@@ -131,7 +130,7 @@ class Inscription extends Component
                     $notification->destination = "admin";
                     $notification->save();
                 }
-
+                $user->photo_verified_at = null;
             }
         }else{
             $user->photo_verified_at= now();

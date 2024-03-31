@@ -23,7 +23,7 @@
                                         
                             </div>
                             <h4 class="ms-1 mb-0">
-                                {{ DB::table("users")->where("type","user")->count() }}
+                                {{ DB::table("users")->where("role","user")->count() }}
                             </h4>
                         </div>
                         <p class="mb-1">

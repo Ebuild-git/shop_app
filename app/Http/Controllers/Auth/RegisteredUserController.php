@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
         $user->email = $request->email;
         $user->username = "admin";
         $user->role= "admin"; 
+        $user->type= "admin"; 
         $user->email_verified_at = now();
         $user->naissance = now();
         $user->genre = "Féminin";
