@@ -1,6 +1,9 @@
 <div
     class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
     <div class="user-profile-info">
+       <span style="position: absolute;right: 10px;" wire:loading>
+        <x-loading></x-loading>
+       </span>
         <h4>
             {{ $user->name }}
             @if ($user->certifier == 'oui')
@@ -24,18 +27,12 @@
     @if (is_null($user->photo_verified_at))
         <a href="javascript:void(0)">
             <button class="btn btn-success" wire:click="photo()">
-                <span wire:loading>
-                    <x-loading></x-loading>
-                </span>
                 <i class="ti ti-camera me-1"></i> Accepter 
             </button>
         </a>
     @else
         <a href="javascript:void(0)">
             <button class="btn btn-danger" wire:click="photo()">
-                <span wire:loading>
-                    <x-loading></x-loading>
-                </span>
                 <i class="ti ti-camera me-1"></i> Réfuser
             </button>
         </a>
@@ -44,19 +41,13 @@
 
     @if ($user->certifier == 'oui')
         <a href="javascript:void(0)">
-            <button class="btn btn-danger" wire:click="decertifier()">
-                <span wire:loading>
-                    <x-loading></x-loading>
-                </span>
+            <button class="btn btn-danger btn-sm" wire:click="certifier()">
                 <i class="ti ti-check me-1"></i> Décertifer
             </button>
         </a>
     @else
         <a href="javascript:void(0)">
-            <button class="btn btn-success" wire:click="certifier()">
-                <span wire:loading>
-                    <x-loading></x-loading>
-                </span>
+            <button class="btn btn-success btn-sm" wire:click="certifier()">
                 <i class="ti ti-check me-1"></i> Certifer
             </button>
         </a>

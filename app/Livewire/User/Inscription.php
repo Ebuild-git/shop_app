@@ -109,8 +109,6 @@ class Inscription extends Component
             $matricule = $this->matricule->store('uploads/documents', 'public');
             $user->type = "shop";
             $user->matricule = $matricule;
-        } else {
-            $user->validate_at = now();
         }
 
         
@@ -129,7 +127,6 @@ class Inscription extends Component
                     $notification->destination = "admin";
                     $notification->save();
                 }
-                $user->photo_verified_at = null;
             }
         }else{
             $user->photo_verified_at= now();
