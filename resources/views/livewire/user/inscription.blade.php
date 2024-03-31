@@ -114,7 +114,7 @@
         @enderror
 
     </div>
-    <div class="p-1">
+   {{--  <div class="p-1">
         <input type="checkbox" id="shop">
         <b>
             <a href="#">je suis une boutique</a>
@@ -123,14 +123,14 @@
 
     @error('matricule')
         <small class="form-text text-danger">{{ $message }}</small>
-    @enderror
+    @enderror --}}
     @if ($matricule)
         <div class="div-2">
         @else
             <div class="div-2 d-none">
     @endif
 
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label for="">Matricule fiscal </label>
         <div class="fil-import-registrer">
             <input type="file" class="d-none" name="matricule" id="matricule" wire:model="matricule">
@@ -147,7 +147,7 @@
             </span>
         </div>
 
-    </div>
+    </div> --}}
     <br>
 
     </div>
