@@ -137,6 +137,18 @@
                                                 data-suggestions="{{ $propriete_info->options }}"
                                                 data-model="{{ $propriete_info->nom }}">
                                         @endif
+                                    @elseif($propriete_info->type == 'color')
+                                        @if ($selected_color)
+                                            : <b> {{ $selected_color }} </b>
+                                        @endif
+                                        <br>
+                                        @forelse ($colors as $key => $item)
+                                            <button style="background-color: {{ $item }};" type="button"
+                                                class="btn-color-create"
+                                                wire:click = "choose('{{ $key }}','{{ $item }}','{{ $propriete_info->nom }}')">
+                                            </button>
+                                        @empty
+                                        @endforelse
                                     @else
                                         <input type="{{ $propriete_info->type }}"
                                             placeholder="{{ $propriete_info->nom }}" class="form-control"
@@ -245,145 +257,27 @@
 
 
 
-            <div class="col-sm-2 col-6 position-relative">
-                @if ($photo5)
-                    <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
-                        <i class="bi bi-x-octagon"></i>
-                    </button>
-                @endif
-                <label for="images" class="drop-container" id="pic5">
-                    @if ($photo5)
-                        <img src="{{ $photo5->temporaryUrl() }}" class="preview">
-                    @else
-                        <img width="50" height="50"
-                            src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                    @endif
-                    <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
-                </label>
-                @error('photo5')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-
-        </div>
-
-
-
-
-
-
-
-        <br>
-        <div class="text-muted text-center">
-            Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez
-            plus la
-            possibilité de modifer !
-            <div class=" text-danger">
-                -Tous les champs contenant (*) sont obligatoires
-            </div>
-        </div>
-        <div>
-            @include('components.alert-livewire')
-        </div>
-
-
-        <br>
-        <div class="modal-footer">
-            <span wire:loading>
-                <x-Loading></x-Loading>
-            </span>
-            @if ($extimation_prix > 0)
-                <div>
-                    Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
-                </div>
+        <div class="col-sm-2 col-6 position-relative">
+            @if ($photo5)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
-            <button type="reset" class="btn btn-secondary disabled">
-                Effacer
-            </button>
-            <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form">
-                @if ($post)
-                    <i class="bi bi-pencil-square"></i>
-                    Enregistrer les modifications
+            <label for="images" class="drop-container" id="pic5">
+                @if ($photo5)
+                    <img src="{{ $photo5->temporaryUrl() }}" class="preview">
                 @else
-                    <i class="bi bi-pencil-square"></i>
-                    Publier mon article
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
-            </button>
+                <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
+            </label>
+            @error('photo5')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
-
-
-        <style>
-            .drop-container {
-                position: relative;
-                display: flex;
-                gap: 10px;
-                width: 100% !important;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100px;
-                padding: 5px;
-                border-radius: 10px;
-                border: 2px dashed #018d8d;
-                color: #444;
-                cursor: pointer;
-                transition: background .2s ease-in-out, border .2s ease-in-out;
-                overflow: hidden;
-            }
-
-            .drop-container .preview {
-                height: 100%;
-                border-radius: 10px;
-                width: 100%;
-                object-fit: cover
-            }
-
-            .drop-container .preview:hover {
-                transform: scale(1.1)
-            }
-
-            .drop-container:hover {
-                background: #eee;
-                border-color: #111;
-            }
-
-            .drop-container:hover .drop-title {
-                color: #222;
-            }
-
-            .drop-title {
-                color: #444;
-                font-size: 20px;
-                font-weight: bold;
-                text-align: center;
-                transition: color .2s ease-in-out;
-            }
-
-            input[type=file]::file-selector-button {
-                margin-right: 20px;
-                border: none;
-                background: #018d8d;
-                padding: 10px 20px;
-                border-radius: 10px;
-                color: #fff;
-                cursor: pointer;
-                transition: background .2s ease-in-out;
-            }
-
-            input[type=file]::file-selector-button:hover {
-                background: #023d3d;
-            }
-
-            .btn-cancel-image {
-                border: none;
-                border-radius: 10px;
-                position: absolute;
-                left: 25px;
-                top: 10px;
-                z-index: 9999999999;
-            }
-        </style>
+    </div>
 
 
 
@@ -391,107 +285,234 @@
 
 
 
-        @section('head')
-        @endsection
+    <br>
+    <div class="text-muted text-center">
+        Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez
+        plus la
+        possibilité de modifer !
+        <div class=" text-danger">
+            -Tous les champs contenant (*) sont obligatoires
+        </div>
+    </div>
+    <div>
+        @include('components.alert-livewire')
+    </div>
 
 
-        <script>
-            $(document).ready(function() {
-                let suggestions, model; // Déclarer la variable suggestions en dehors de la fonction d'événement
-
-                $(document).on("keyup", ".liste", function(event) {
-                    const inputField = $(this);
-
-                    // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
-                    if (!suggestions) {
-                        suggestions = inputField.data('suggestions');
-                        model = inputField.data('model');
-                    }
-
-                    // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
-                    function updateSuggestions(input) {
-                        return suggestions.filter(suggestion =>
-                            suggestion.toLowerCase().includes(input.toLowerCase())
-                        );
-                    }
-
-                    // Fonction pour afficher les suggestions
-                    function showSuggestions(suggestions) {
-                        const suggestionList = $('<ul id="suggestion-list"></ul>');
-
-                        suggestions.forEach(suggestion => {
-                            const listItem = $('<li></li>').text(suggestion);
-                            suggestionList.append(listItem);
-                        });
-
-                        // Supprime la liste de suggestions précédente s'il y en a une
-                        $('#suggestion-list').remove();
-
-                        // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
-                        inputField.parent().append(suggestionList);
-
-                        // Gère la sélection de suggestion
-                        suggestionList.on('click', 'li', function() {
-                            inputField.val($(this).text());
-                            suggestionList.remove();
+    <br>
+    <div class="modal-footer">
+        <span wire:loading>
+            <x-Loading></x-Loading>
+        </span>
+        @if ($extimation_prix > 0)
+            <div>
+                Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
+            </div>
+        @endif
+        <button type="reset" class="btn btn-secondary disabled" wire:loading.attr="disabled">
+            Effacer
+        </button>
+        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form"
+            wire:loading.attr="disabled">
+            @if ($post)
+                <i class="bi bi-pencil-square"></i>
+                Enregistrer les modifications
+            @else
+                <i class="bi bi-pencil-square"></i>
+                Publier mon article
+            @endif
+        </button>
+    </div>
 
 
-                            Livewire.dispatch('suggestionSelected', {
-                                name: 'marque',
-                                value: $(this).text()
-                            });
+
+    <style>
+        .drop-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            width: 100% !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            padding: 5px;
+            border-radius: 10px;
+            border: 2px dashed #018d8d;
+            color: #444;
+            cursor: pointer;
+            transition: background .2s ease-in-out, border .2s ease-in-out;
+            overflow: hidden;
+        }
+
+        .drop-container .preview {
+            height: 100%;
+            border-radius: 10px;
+            width: 100%;
+            object-fit: cover
+        }
+
+        .drop-container .preview:hover {
+            transform: scale(1.1)
+        }
+
+        .drop-container:hover {
+            background: #eee;
+            border-color: #111;
+        }
+
+        .drop-container:hover .drop-title {
+            color: #222;
+        }
+
+        .drop-title {
+            color: #444;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            transition: color .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #018d8d;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #023d3d;
+        }
+
+        .btn-cancel-image {
+            border: none;
+            border-radius: 10px;
+            position: absolute;
+            left: 25px;
+            top: 10px;
+            z-index: 9999999999;
+        }
+
+        .btn-color-create {
+            border-radius: 100%;
+            border: none;
+            height: 25px !important;
+            width: 25px !important;
+            border: solid 1px #00b3b380;
+        }
+    </style>
 
 
-                        });
-                    }
 
-                    // Récupère la valeur actuelle du champ de saisie
-                    const input = inputField.val();
-                    const filteredSuggestions = updateSuggestions(input);
-                    showSuggestions(filteredSuggestions);
 
-                    // Gère le clic en dehors de la liste de suggestions pour la fermer
-                    $(document).on('click', function(event) {
-                        if (!$(event.target).closest(inputField).length && !$(event.target).closest(
-                                '#suggestion-list').length) {
-                            $('#suggestion-list').remove();
-                        }
+
+
+
+    @section('head')
+    @endsection
+
+
+    <script>
+        $(document).ready(function() {
+            let suggestions, model; // Déclarer la variable suggestions en dehors de la fonction d'événement
+
+            $(document).on("keyup", ".liste", function(event) {
+                const inputField = $(this);
+
+                // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
+                if (!suggestions) {
+                    suggestions = inputField.data('suggestions');
+                    model = inputField.data('model');
+                }
+
+                // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
+                function updateSuggestions(input) {
+                    return suggestions.filter(suggestion =>
+                        suggestion.toLowerCase().includes(input.toLowerCase())
+                    );
+                }
+
+                // Fonction pour afficher les suggestions
+                function showSuggestions(suggestions) {
+                    const suggestionList = $('<ul id="suggestion-list"></ul>');
+
+                    suggestions.forEach(suggestion => {
+                        const listItem = $('<li></li>').text(suggestion);
+                        suggestionList.append(listItem);
                     });
+
+                    // Supprime la liste de suggestions précédente s'il y en a une
+                    $('#suggestion-list').remove();
+
+                    // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
+                    inputField.parent().append(suggestionList);
+
+                    // Gère la sélection de suggestion
+                    suggestionList.on('click', 'li', function() {
+                        inputField.val($(this).text());
+                        suggestionList.remove();
+
+
+                        Livewire.dispatch('suggestionSelected', {
+                            name: 'marque',
+                            value: $(this).text()
+                        });
+
+
+                    });
+                }
+
+                // Récupère la valeur actuelle du champ de saisie
+                const input = inputField.val();
+                const filteredSuggestions = updateSuggestions(input);
+                showSuggestions(filteredSuggestions);
+
+                // Gère le clic en dehors de la liste de suggestions pour la fermer
+                $(document).on('click', function(event) {
+                    if (!$(event.target).closest(inputField).length && !$(event.target).closest(
+                            '#suggestion-list').length) {
+                        $('#suggestion-list').remove();
+                    }
                 });
+            });
+        });
+
+
+
+        $(document).ready(function() {
+
+            //photo 1
+            document.getElementById("pic1").addEventListener("click", function() {
+                document.getElementById("btn-1").click();
+            });
+
+            //photo 2
+            document.getElementById("pic2").addEventListener("click", function() {
+                document.getElementById("btn-2").click();
+            });
+
+            //photo 3
+            document.getElementById("pic3").addEventListener("click", function() {
+                document.getElementById("btn-3").click();
+            });
+
+            //photo 4
+            document.getElementById("pic4").addEventListener("click", function() {
+                document.getElementById("btn-4").click();
+            });
+
+            //photo 5
+            document.getElementById("pic5").addEventListener("click", function() {
+                document.getElementById("btn-5").click();
             });
 
 
-
-            $(document).ready(function() {
-
-                //photo 1
-                document.getElementById("pic1").addEventListener("click", function() {
-                    document.getElementById("btn-1").click();
-                });
-
-                //photo 2
-                document.getElementById("pic2").addEventListener("click", function() {
-                    document.getElementById("btn-2").click();
-                });
-
-                //photo 3
-                document.getElementById("pic3").addEventListener("click", function() {
-                    document.getElementById("btn-3").click();
-                });
-
-                //photo 4
-                document.getElementById("pic4").addEventListener("click", function() {
-                    document.getElementById("btn-4").click();
-                });
-
-                //photo 5
-                document.getElementById("pic5").addEventListener("click", function() {
-                    document.getElementById("btn-5").click();
-                });
-
-
-            });
-        </script>
+        });
+    </script>
 
 
 </form>

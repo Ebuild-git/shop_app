@@ -56,6 +56,11 @@
                                 @endif
                             </td>
                             <td style="text-align: right">
+                                <a href="/admin/update_propriete/{{ $proriete->id }}">
+                                    <button class="btn btn-sm btn-info" type="button">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </a>
                                 <button class="btn btn-sm btn-danger" type="button"
                                     onclick="toggle_confirmation({{ $proriete->id }})">
                                     <i class="bi bi-trash3"></i>

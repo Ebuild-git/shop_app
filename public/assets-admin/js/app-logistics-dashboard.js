@@ -218,15 +218,16 @@
 
   // Reasons for delivery exceptions Chart
   // --------------------------------------------------------------------
-  const deliveryExceptionsChartE1 = document.querySelector('#deliveryExceptionsChart'),
-    deliveryExceptionsChartConfig = {
+  const deliveryExceptionsChartE1 = document.querySelector('#deliveryExceptionsChart');
+  const genres = JSON.parse(deliveryExceptionsChartE1.getAttribute('data-genres'));
+    const deliveryExceptionsChartConfig = {
       chart: {
         height: 420,
         parentHeightOffset: 0,
         type: 'donut'
       },
-      labels: ['Incorrect address', 'Weather conditions', 'Federal Holidays', 'Damage during transit'],
-      series: [13, 25, 22, 40],
+      labels: ['Hommes', 'Femmes'],
+      series: [genres['homme'], genres['femme']],
       colors: [
         chartColors.donut.series1,
         chartColors.donut.series2,
@@ -301,7 +302,7 @@
               total: {
                 show: true,
                 fontSize: '.75rem',
-                label: 'AVG. Exceptions',
+                label: 'Stats H/F',
                 color: labelColor,
                 formatter: function (w) {
                   return '30%';

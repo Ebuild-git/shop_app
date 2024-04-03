@@ -14,10 +14,10 @@
     <!-- Custom CSS -->
     <link href="/assets/css/styles.css" rel="stylesheet">
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
-    
+
     @yield('head')
 
-    
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -30,7 +30,7 @@
 
 
     @livewireStyles
-    
+
 </head>
 
 <body>
@@ -113,7 +113,7 @@
                             <a href="javascript:void(0);" class="text-light medium text-capitalize"
                                 data-toggle="dropdown" title="Language" aria-label="Language dropdown">
                                 @auth
-                                    {{ "@".Auth::user()->username }}
+                                    {{ '@' . Auth::user()->username }}
                                     <i class="fa fa-angle-down medium text-light"></i>
                                     <ul class="dropdown-menu popup-content link">
                                         <li>
@@ -248,15 +248,25 @@
 
                             <li>
                                 @php
-                                    $categories = DB::table('categories')->get(['id', 'titre']);
+                                    $categories = DB::table('categories')->get(['id', 'titre','luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">
-                                                {{ $item->titre }}
+                                                <div class="d-flex justify-content-between">
+                                                    <span>
+                                                        {{ $item->titre }}
+                                                    </span>
+                                                    <span class="small color">
+                                                        @if ($item->luxury == 1)
+                                                           <i class="bi bi-gem"></i> LUXURY 
+                                                        @endif
+                                                    </span>
+                                                </div>
                                             </a>
+
                                         </li>
                                     @empty
                                     @endforelse
@@ -637,12 +647,6 @@
                             <h5 class="color">
                                 <b>
                                     Bienvennue ,
-                                    @if (Auth::user()->genre == 'Masculin')
-                                        M.
-                                    @else
-                                        Mme.
-                                    @endif
-
                                     {{ Auth::user()->username }}
                                 </b>
                             </h5>
@@ -662,7 +666,7 @@
         <!-- End Modal -->
 
 
-        @if (Auth::user()->first_login_at == null)
+        @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
             <script>
                 $(document).ready(function() {
                     $('#first-login').modal('show');

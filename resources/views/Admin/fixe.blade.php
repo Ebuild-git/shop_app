@@ -371,12 +371,12 @@
                                                 <div data-i18n="Liste des publications">Liste des publications</div>
                                             </a>
                                         </li>
-                                        <li class="menu-item">
+                                        {{-- <li class="menu-item">
                                             <a href="/admin/publications?type=signalés" class="menu-link">
                                                 <i class="menu-icon bi bi-exclamation-triangle"></i>
                                                 <div data-i18n="Publications signalés">Publications signalées</div>
                                             </a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </li>
 

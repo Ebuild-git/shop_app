@@ -100,26 +100,26 @@
 
              </div>
              <div class="col-sm-4">
-                 <h5>Banniere publicitaire</h5>
+                 <h5>Configuration</h5>
                  <hr>
-                 <div>
-                     <div class="form-group">
-                         <label for="">fichier image</label>
-                         <input type="file" wire:model="logo" class="form-control">
-                         @error('logo')
-                             <div class="text-danger">
-                                 {{ $message }}
-                             </div>
-                         @enderror
-                     </div>
-                 </div>
-                 <br>
-                 <div>
-                     @if ($logo2)
-                         <img src="{{ Storage::url($logo2) }}" alt="logo" class="w-100">
-                     @endif
-                 </div>
-             </div>
+                 <div class="form-group mb-3">
+                    <input type="checkbox" class="form-check-input" id="" wire:model='valider_photo' @checked($valider_photo)>
+                    Valider les photos de profils des utilisateurs a chaque changement.
+                    @error('valider_photo')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-3">
+                    <input type="checkbox" class="form-check-input" id="" wire:model='valider_publication' @checked($valider_publication)>
+                    Valider toutes les nouvelles publications des utilisateurs.
+                    @error('valider_publication')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
          </div>
 
 

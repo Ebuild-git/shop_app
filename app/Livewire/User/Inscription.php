@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Events\AdminEvent;
 use App\Mail\VerifyMail;
+use App\Models\configurations;
 use App\Models\notifications;
 use App\Models\User;
 use Carbon\Carbon;
@@ -83,6 +84,8 @@ class Inscription extends Component
             return;
         }
 
+        $config = configurations::first();
+
         $user = new User();
         $user->name = $this->nom;
         $user->email = $this->email;
@@ -106,30 +109,31 @@ class Inscription extends Component
             $matricule = $this->matricule->store('uploads/documents', 'public');
             $user->type = "shop";
             $user->matricule = $matricule;
-        } else {
-            $user->validate_at = now();
+        }
+
+        
+        if($config->valider_photo == 1)
+        {
+            if($this->photo){
+                if($user->save()){
+                    event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
+                    //enregistrer la notification
+                    $notification = new notifications();
+                    $notification->type = "photo";
+                    $notification->titre = $user->name . " vient de choisir  une  photo de profil";
+                    $notification->url = "/admin/client/". $user->id ."/view";
+                    $notification->message = "Le client a ajouté une photo de profil";
+                    $notification->id_user = $user->id;
+                    $notification->destination = "admin";
+                    $notification->save();
+                }
+            }
+        }else{
+            $user->photo_verified_at= now();
         }
 
 
         $user->save();
-
-
-        if($this->photo){
-            if($user->save()){
-                event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
-                //enregistrer la notification
-                $notification = new notifications();
-                $notification->type = "photo";
-                $notification->titre = $user->name . " vient de choisir  une  photo de profil";
-                $notification->url = "/admin/client/". $user->id ."/view";
-                $notification->message = "Le client a ajouté une photo de profil";
-                $notification->id_user = $user->id;
-                $notification->destination = "admin";
-                $notification->save();
-            }
-        }
-
-
         //donner le role user
         $user->assignRole('user');
 

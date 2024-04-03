@@ -23,10 +23,14 @@
                                         
                             </div>
                             <h4 class="ms-1 mb-0">
-                                {{ DB::table("users")->where("type","user")->count() }}
+                                {{ DB::table("users")->where("role","user")->count() }}
                             </h4>
                         </div>
-                        <p class="mb-1">Vendeurs particuliers</p>
+                        <p class="mb-1">
+                            <a href="/admin/utilisateurs">
+                                Vendeurs particuliers
+                            </a>
+                        </p>
                         <p class="mb-0">
                             <small class="text-muted">
                                 Nombre total des vendeurs particuliers !
@@ -41,22 +45,26 @@
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-warning">
-                                    <i class="fa-solid fa-user-shield"></i>
+                                    <i class="fa-solid fa-folder"></i>
                                 </span>
                             </div>
                             <h4 class="ms-1 mb-0">
-                                {{ DB::table("users")->where("type","shop")->count() }}
+                                {{ DB::table("categories")->count() }}
                             </h4>
                         </div>
-                        <p class="mb-1">Vendeurs pro</p>
+                        <p class="mb-1">
+                            <a href="/admin/categorie">
+                                Catégories
+                            </a>
+                        </p>
                         <p class="mb-0">
                             <small class="text-muted">
-                                Nombre total des boutiques !
+                                Nombre total des Catégories !
                             </small>
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-danger">
                     <div class="card-body">
@@ -70,7 +78,11 @@
                                 {{ DB::table("posts")->count() }}
                             </h4>
                         </div>
-                        <p class="mb-1">Publications</p>
+                        <p class="mb-1">
+                            <a href="/admin/publications">
+                                Publications
+                            </a>
+                        </p>
                         <p class="mb-0">
                             <small class="text-muted">
                                 Publications totales de la plate-forme !
@@ -387,22 +399,13 @@
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">Reasons for delivery exceptions</h5>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="deliveryExceptions" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deliveryExceptions">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
+                            <h5 class="m-0 me-2">
+                                Statistiques d'incription par genre.
+                            </h5>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="deliveryExceptionsChart" class="pt-md-4"></div>
+                        <div id="deliveryExceptionsChart" class="pt-md-4" data-genres="{{ json_encode($genres) }}"></div>
                     </div>
                 </div>
             </div>

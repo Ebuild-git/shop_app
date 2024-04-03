@@ -43,7 +43,9 @@
             <div class="row">
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="sp-loading"><img src="{{ Storage::url($post->photos[0] ?? '') }}" alt=""><br>LOADING
+                    <div class="sp-loading">
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100" alt="">
+                        <br>LOADING
                         IMAGES</div>
                     <div class="sp-wrap">
                         @forelse ($post->photos as $photo)

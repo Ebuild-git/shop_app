@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Events\AdminEvent;
+use App\Models\configurations;
 use App\Models\notifications;
 use App\Models\regions;
 use App\Models\User;
@@ -26,8 +27,8 @@ class UpdateInformations extends Component
         $this->region = $user->region;
         $this->adress = $user->adress;
         $this->telephone = $user->phone_number;
-        $regions = regions::all(["id","nom"]);
-        return view('livewire.user.update-informations')->with("regions",$regions);
+        $regions = regions::all(["id", "nom"]);
+        return view('livewire.user.update-informations')->with("regions", $regions);
     }
 
     protected $rules = [
@@ -62,21 +63,26 @@ class UpdateInformations extends Component
             $newName = $this->avatar->store('uploads/avatars', 'public');
             $user->avatar = $newName;
 
-            if (!is_null($user->photo_verified_at)) {
-                // Message de succès
-                event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
-                //enregistrer la notification
-                $notification = new notifications();
-                $notification->type = "photo";
-                $notification->titre = $user->name . " vient de changé sa photo de profil";
-                $notification->url = "/admin/client/". $user->id ."/view";
-                $notification->message = "Le client a modifié sa photo de profil";
-                $notification->id_user = Auth::user()->id;
-                $notification->destination = "admin";
-                $notification->save();
-            }
 
-            $user->photo_verified_at = null;
+            $config = configurations::first();
+            if ($config->valider_photo == 1) {
+                if (!is_null($user->photo_verified_at)) {
+                    // Message de succès
+                    event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
+                    //enregistrer la notification
+                    $notification = new notifications();
+                    $notification->type = "photo";
+                    $notification->titre = $user->name . " vient de changé sa photo de profil";
+                    $notification->url = "/admin/client/" . $user->id . "/view";
+                    $notification->message = "Le client a modifié sa photo de profil";
+                    $notification->id_user = Auth::user()->id;
+                    $notification->destination = "admin";
+                    $notification->save();
+                }
+                $user->photo_verified_at = null;
+            }else{
+                $user->photo_verified_at = now();
+            }
         }
 
         $user->name = $this->name;

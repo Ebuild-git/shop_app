@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\categories;
 use App\Models\posts;
+use App\Models\proprietes;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,8 +37,12 @@ class AdminController extends Controller
         ];
 
         $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
+        $genres=[
+            "homme"=> User::where('genre','Masculin')->count(),
+            'femme'=>User::where('genre','Féminin')->count()
+        ];
 
-        return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication"));
+        return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication","genres"));
     }
 
 
@@ -61,6 +66,21 @@ class AdminController extends Controller
         return view('Admin.parametre.security');
     }
 
+
+
+    public function update_propriete($id){
+        $propriete = proprietes::find($id);
+        $proprietes = proprietes::all();
+        if(!$propriete){
+            abort(404);
+        }
+        return view("Admin.categories.update_propriete", compact('propriete',"proprietes"));
+    }
+
+
+
+
+ 
 
 
 }
