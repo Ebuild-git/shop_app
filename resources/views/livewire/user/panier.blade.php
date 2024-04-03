@@ -9,12 +9,12 @@
             @php
                 $post = DB::table('posts')
                     ->where('id', $item['id'])
-                    ->select('photos', 'titre', 'prix')
+                    ->select('photos', 'titre','id', 'prix')
                     ->first();
             @endphp
             @if ($post)
                 @php
-                    $prix_total += $post->getPrix();
+                    $prix_total += $post->prix;
                 @endphp
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">

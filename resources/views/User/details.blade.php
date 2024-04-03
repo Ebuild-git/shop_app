@@ -44,9 +44,10 @@
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="sp-loading">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100" alt="">
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" alt="">
                         <br>LOADING
-                        IMAGES</div>
+                        IMAGES
+                    </div>
                     <div class="sp-wrap">
                         @forelse ($post->photos as $photo)
                             <a href="{{ Storage::url($photo) }}">
@@ -77,107 +78,103 @@
                             <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
-                        <div class="prt_02 mb-3">
-                            <h2 class="ft-bold mb-1 mt-2 text-capitalize" >
-                                {{ $post->titre }}
-                            </h2>
-                            <div class="text-left">
-                                <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                    <i class="bi bi-calendar3"></i>
-                                    Publier le
-                                    {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
-                                    {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
-                                    par &nbsp;
-                                    <a href="/user/{{ $post->user_info->id }}" class="color">
-                                        <b>
-                                            <i class="bi bi-person-circle"></i>
-                                            {{ '@' . $post->user_info->username }}
-                                        </b>
-                                    </a>
-                                </div>
-                                <div class="elis_rty">
-                                    <span class="ft-bold color fs-lg">
-                                        {{ $post->getPrix() }} DH
+                            <div class="prt_02 mb-3">
+                                <h2 class="ft-bold mb-1 mt-2 text-capitalize">
+                                    {{ $post->titre }}
+                                </h2>
+                                <div class="text-left">
+                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                        <i class="bi bi-calendar3"></i>
+                                        Publier le
+                                        {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
+                                        {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
+                                        par &nbsp;
+                                        <a href="/user/{{ $post->user_info->id }}" class="color">
+                                            <b>
+                                                <i class="bi bi-person-circle"></i>
+                                                {{ '@' . $post->user_info->username }}
+                                            </b>
+                                        </a>
+                                    </div>
+                                    <div class="elis_rty">
+                                        <span class="ft-bold color fs-lg">
+                                            {{ $post->getPrix() }} DH
+                                        </span>
+                                    </div>
+                                    <span class="color">
+                                        <i class="bi bi-bus-front-fill"></i>
+                                        Frais de Livraison : {{ $post->getFraisLivraison() }} DH
                                     </span>
                                 </div>
-                                <span class="color">
-                                    <i class="bi bi-bus-front-fill"></i>
-                                    Frais de Livraison : {{ $post->getFraisLivraison( )}} DH
-                                </span>
                             </div>
-                        </div>
 
-                        <div class="prt_03 mb-4">
-                            <p>
-                                {!! $post->description !!}
-                            </p>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
-                                Etat :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->etat }}
-                                </strong>
+                            <div class="prt_03 mb-4">
+                                <p>
+                                    {!! $post->description !!}
+                                </p>
                             </div>
-                            <div class="col-6 mb-1 text-capitalize">
-                                <i class="bi bi-chevron-double-right"></i>
-                                Région :<strong class="fs-sm text-dark ft-medium ml-1">
-                                    {{ $post->region->nom ?? 'N/A' }}
-                                </strong>
-                            </div>
-                        </div>
-                        <br>
-                        <div>
 
-                            <div class="row text-center">
-                                @forelse ($post->proprietes ?? []  as $key => $value)
-                                    <div class="col-sm-4 col-4">
-                                        <div class="p-2 alert alert-success">
-                                            <b>{{ ucfirst($key) }} </b>
-                                            <br>
-                                            @if ($key == 'couleur' || $key == 'Couleur')
-                                                <span style="background-color: {{ $value }} ;color:{{ $value }};" class="">
-                                                    {{ $value }}
-                                                </span>
-                                            @else
-                                                {{ $value }}
-                                            @endif
-                                        </div>
-                                    </div>
-                                @empty
-                                @endforelse
-                            </div>
-                        </div>
-                        <br>
-
-                        <div class="prt_05 mb-4">
-                            <div class="form-row mb-7">
-                                @if ($post->statut == 'vente')
-                                    <div class="col-12 col-lg">
-                                        <!-- Submit -->
-                                        @guest
-                                            @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-                                        @endguest
-                                        @auth
-                                            @if (Auth::user()->id != $post->id_user)
-                                                @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-                                            @endif
-                                        @endauth
-                                    </div>
-                                @endif
-                                <div class="col-12 col-lg-auto">
-                                    <!-- Wishlist -->
-                                    @livewire('User.ButtonAddLike', ['id_post' => $post->id])
-
+                            <div class="row">
+                                <div class="col-6 mb-1 text-capitalize">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    Etat :<strong class="fs-sm text-dark ft-medium ml-1">
+                                        {{ $post->etat }}
+                                    </strong>
+                                </div>
+                                <div class="col-6 mb-1 text-capitalize">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    Région :<strong class="fs-sm text-dark ft-medium ml-1">
+                                        {{ $post->region->nom ?? 'N/A' }}
+                                    </strong>
                                 </div>
                             </div>
-                        </div>
+                            <br>
+                            <div>
 
+                                <div class="row text-center">
+                                    @forelse ($post->proprietes ?? []  as $key => $value)
+                                        <div class="col-sm-4 col-4">
+                                            <div class="p-2 alert alert-success">
+                                                <b>{{ ucfirst($key) }} </b>
+                                                <br>
+                                                @if ($key == 'couleur' || $key == 'Couleur')
+                                                    <span
+                                                        style="background-color: {{ $value }} ;color:{{ $value }};"
+                                                        class="">
+                                                        {{ $value }}
+                                                    </span>
+                                                @else
+                                                    {{ $value }}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @empty
+                                    @endforelse
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="prt_05 mb-4">
+                                <div class="form-row mb-7">
+                                    @if ($post->statut == 'vente')
+                                        <div class="col-12 col-lg">
+                                            <!-- Submit -->
+                                            @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
+
+                                        </div>
+                                    @endif
+                                    <div class="col-12 col-lg-auto">
+                                        <!-- Wishlist -->
+                                        @livewire('User.ButtonAddLike', ['id_post' => $post->id])
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <!-- ======================= Product Detail End ======================== -->
 
@@ -300,9 +297,9 @@
         </div>
     </section>
     <!-- ======================= Similar Products Start ============================ -->
-<style>
-    .sp-current-big{
-        width: 100% !important;
-    }
-</style>
+    <style>
+        .sp-current-big {
+            width: 100% !important;
+        }
+    </style>
 @endsection
