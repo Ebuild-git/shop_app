@@ -292,7 +292,7 @@
                 fontWeight: 500,
                 offsetY: -30,
                 formatter: function (val) {
-                  return parseInt(val) + '%';
+                  return parseInt(val) ;
                 }
               },
               name: {
@@ -305,7 +305,7 @@
                 label: 'Stats H/F',
                 color: labelColor,
                 formatter: function (w) {
-                  return '30%';
+                  return genres['femme']+genres['homme'];
                 }
               }
             }

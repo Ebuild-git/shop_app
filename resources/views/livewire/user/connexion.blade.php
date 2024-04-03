@@ -4,8 +4,8 @@
         @include('components.alert-livewire')
 
         <div class="form-group">
-            <label>Adresse E-mail</label>
-            <input type="email" name="email" id="email"
+            <label>Adresse E-mail / Nom d'utilisateur</label>
+            <input type="text" name="email" id="email-login"
                 class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none"
                 wire:model.lazy="email" placeholder="Email / Nom d'utilisateur">
             @error('email')
@@ -15,11 +15,14 @@
         <div class="form-group ">
             <label>Mot de passe</label>
             <div class="position-relative">
-                <img width="30" height="30" src="/icons/visible.png" class="image-visible-login show"
-                    alt="." id="show" />
-                <input type="password" name="password" id="password"
+                <input type="password" name="password" id="password-login"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
                     wire:model.lazy="password" placeholder="*****">
+                    <button class="password_show" type="button" id="show">
+                        <span class="input-group-text" >
+                            <i class="bi bi-eye"></i>
+                        </span>
+                    </button>
             </div>
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -50,8 +53,13 @@
         </div>
         <script>
             //change password type when i click on see button
-            $("#show").on('click', function() {
-                $('#password').prop('type', 'text');
+            document.getElementById("show").addEventListener("click", function() {
+                var x = document.getElementById("password-login");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
             });
         </script>
         </script>

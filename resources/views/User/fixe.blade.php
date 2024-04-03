@@ -106,45 +106,7 @@
                             <a href="/about" style="color: white !important">À propos</a>
 
                         </div>
-                        <div class="currency-selector dropdown js-dropdown ml-3">
-                            @auth
-                                @livewire('User.MenuInformations')
-                            @endauth
-                            <a href="javascript:void(0);" class="text-light medium text-capitalize"
-                                data-toggle="dropdown" title="Language" aria-label="Language dropdown">
-                                @auth
-                                    {{ '@' . Auth::user()->username }}
-                                    <i class="fa fa-angle-down medium text-light"></i>
-                                    <ul class="dropdown-menu popup-content link">
-                                        <li>
-                                            <a href="/user-notifications" class="dropdown-item medium text-medium">
-                                                Notifications
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/mes-publication" class="dropdown-item medium text-medium">
-                                                Mes annonces
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/mes-achats" class="dropdown-item medium text-medium">
-                                                Mes achats
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/informations" class="dropdown-item medium text-medium">
-                                                Sécurité
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/logout" class="dropdown-item medium text-medium text-danger">
-                                                Déconnexion
-                                            </a>
-                                        </li>
-                                    </ul>
-                                @endauth
-                            </a>
-                        </div>
+
                     </div>
 
 
@@ -190,7 +152,44 @@
                     </div>
                 </div>
                 <div class="col-sm-2 mx-auto my-auto">
-
+                    <div class="currency-selector dropdown js-dropdown ml-3">
+                        <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
+                            title="Language" aria-label="Language dropdown">
+                            @auth
+                                <span style="color: black;">
+                                    {{ Auth::user()->username }}
+                                </span>
+                                <i class="fa fa-angle-down medium text-light"></i>
+                                <ul class="dropdown-menu popup-content link">
+                                    <li>
+                                        <a href="/user-notifications" class="dropdown-item medium text-medium">
+                                            Notifications
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/mes-publication" class="dropdown-item medium text-medium">
+                                            Mes annonces
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/mes-achats" class="dropdown-item medium text-medium">
+                                            Mes achats
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/informations" class="dropdown-item medium text-medium">
+                                            Sécurité
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout" class="dropdown-item medium text-medium text-danger">
+                                            Déconnexion
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endauth
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -248,7 +247,7 @@
 
                             <li>
                                 @php
-                                    $categories = DB::table('categories')->get(['id', 'titre','luxury']);
+                                    $categories = DB::table('categories')->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu">
@@ -261,7 +260,7 @@
                                                     </span>
                                                     <span class="small color">
                                                         @if ($item->luxury == 1)
-                                                           <i class="bi bi-gem"></i> LUXURY 
+                                                            <i class="bi bi-gem"></i> LUXURY
                                                         @endif
                                                     </span>
                                                 </div>
@@ -280,8 +279,8 @@
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
-                                    <a href="{{ route('historique') }}">
-                                        <i class="bi bi-clock-history"></i>
+                                    <a href="{{ route('historique') }}" class="ml-2">
+                                        <img width="19" height="19" src="https://img.icons8.com/ios/19/1A1A1A/time-machine--v1.png" alt="time-machine--v1"/>
                                         <span class="hide-desktop">Historique</span>
                                     </a>
                                 @endauth
@@ -576,29 +575,28 @@
 
 
 
-
-    <!-- Log In Modal -->
-    <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="loginmodal">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-
-                <div class="modal-body p-5">
-                    <div class="text-center mb-4">
-                        <h2 class="m-0 ft-regular">Connexion</h2>
+    @if (Route::currentRouteName() != 'connexion')
+        <!-- Log In Modal -->
+        <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="loginmodal">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
                     </div>
-                    @livewire('User.Connexion')
-
+                    <div class="modal-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="m-0 ft-regular">Connexion</h2>
+                        </div>
+                        @livewire('User.Connexion')
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Modal -->
+        <!-- End Modal -->
+    @endif
 
 
     <!-- Condition Modal -->

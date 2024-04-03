@@ -18,7 +18,7 @@ public $password;
 
     //validation strict
     protected $rules = [
-        'email' => 'required|email|exists:users,email',
+        'email' => 'required|string',
         'password' => ['required', 'string']
     ];
 
@@ -26,9 +26,9 @@ public $password;
         $this->validate();
 
         // verifier que l'email existe si non retourner l'erreur
-        $user = User::where("email",$this->email)->first();
+        $user = User::where("email",$this->email)->Orwhere('username',$this->email)->first();
         if(!$user){
-            session()->flash("error","Cet email n'existe pas");
+            session()->flash("error","Cet utilisateur n'existe pas");
             $this->reset(['email','password']);
             return;
         }

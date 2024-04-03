@@ -396,7 +396,8 @@ body {
     display: none !important;
 }
 .comment-position-top a{
-    padding-left: 0px !important
+    padding-left: 0px !important;
+    padding-right: 05px !important;
 }
 .password_show{
     position: absolute;

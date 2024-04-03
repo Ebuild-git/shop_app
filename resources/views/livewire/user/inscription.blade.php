@@ -4,16 +4,30 @@
 
 
     <div class="div-1">
-        <div class="form-group">
-            <span for="small text-muted">Nom et prénom</span>
-            <span class="text-danger">*</span>
-            <input type="text" placeholder="Nom et prénom"
-                class="form-control @error('nom') is-invalid @enderror shadow-none" wire:model="nom" required>
-            @error('nom')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
         <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span for="small text-muted">Nom</span>
+                    <span class="text-danger">*</span>
+                    <input type="text" placeholder="Nom "
+                        class="form-control @error('nom') is-invalid @enderror shadow-none" wire:model="nom" required>
+                    @error('nom')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span for="small text-muted">Prénom</span>
+                    <span class="text-danger">*</span>
+                    <input type="text" placeholder="Prénom"
+                        class="form-control @error('prenom') is-invalid @enderror shadow-none" wire:model="prenom" required>
+                    @error('prenom')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <span for="small">Username</span>
@@ -95,7 +109,7 @@
             <small class="form-text text-danger">{{ $message }}</small>
         @enderror
     </div>
-    <div class="form-group">
+   {{--  <div class="form-group">
         <div class="fil-import-registrer">
             <input type="file" class="d-none" id="photo" wire:model="photo">
             <span id="select-image">
@@ -113,8 +127,8 @@
             <small class="form-text text-danger">{{ $message }}</small>
         @enderror
 
-    </div>
-   {{--  <div class="p-1">
+    </div> --}}
+    {{--  <div class="p-1">
         <input type="checkbox" id="shop">
         <b>
             <a href="#">je suis une boutique</a>
