@@ -300,5 +300,9 @@
         </div>
     </section>
     <!-- ======================= Similar Products Start ============================ -->
-
+<style>
+    .sp-current-big{
+        width: 100% !important;
+    }
+</style>
 @endsection
