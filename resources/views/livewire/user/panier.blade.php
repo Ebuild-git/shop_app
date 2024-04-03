@@ -14,7 +14,7 @@
             @endphp
             @if ($post)
                 @php
-                    $prix_total += $post->prix;
+                    $prix_total += $post->getPrix();
                 @endphp
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">

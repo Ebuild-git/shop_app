@@ -26,7 +26,7 @@ class HomeController extends Controller
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
-            ->select("posts.id", "posts.titre", "posts.photos", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
+            ->select("posts.id", "posts.titre", "posts.photos", "posts.prix","posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
             ->get();
         return view("User.index", compact("categories", "posts", "configuration", "last_post", "luxurys"));
     }
@@ -49,7 +49,8 @@ class HomeController extends Controller
             abort(404);
         }
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->select("titre", "photos", "id", "statut")
+            ->select("titre", "photos","prix", "id", "statut","id_sous_categorie")
+            ->where("verified_at",'!=',null)
             ->inRandomOrder()
             ->take(16)
             ->get();

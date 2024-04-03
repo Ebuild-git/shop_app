@@ -95,13 +95,12 @@
                                 </div>
                                 <div class="elis_rty">
                                     <span class="ft-bold color fs-lg">
-                                        @livewire('User.Prix', ['id_post' => $post->id]) DH
+                                        {{ $post->getPrix() }} DH
                                     </span>
                                 </div>
                                 <span class="color">
                                     <i class="bi bi-bus-front-fill"></i>
-                                    Frais de Livraison : @livewire('User.FraisLivraison', ['id_post' => $post->id])
-                                    DH
+                                    Frais de Livraison : {{ $post->getFraisLivraison( )}} DH
                                 </span>
                             </div>
                         </div>
@@ -282,7 +281,7 @@
                                                 </h5>
                                                 <div class="elis_rty">
                                                     <span class="ft-bold fs-md color">
-                                                        @livewire('User.prix', ['id_post' => $other->id]) DH
+                                                        {{ $other->getPrix() }} DH
                                                     </span>
                                                 </div>
                                             </div>

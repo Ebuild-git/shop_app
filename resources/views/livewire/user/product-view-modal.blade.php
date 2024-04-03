@@ -38,7 +38,7 @@
                                  <div class="text-left">
                                      <div class="elis_rty">
                                          <span class="ft-bold color fs-lg mr-2">
-                                             @livewire('User.prix', ['id_post' => $post->id]) DH
+                                             {{ $post->getPrix() }} DH
                                          </span>
                                      </div>
                                  </div>

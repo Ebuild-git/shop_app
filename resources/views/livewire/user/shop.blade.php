@@ -216,7 +216,7 @@
                                         </h5>
                                         <div class="elis_rty color">
                                             <span class="ft-bold  fs-sm">
-                                                @livewire('User.prix', ['id_post' => $post->id]) DH
+                                                {{ $post->getPrix() }} DH
                                             </span>
                                         </div>
                                     </div>

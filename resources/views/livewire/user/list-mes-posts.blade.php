@@ -63,7 +63,7 @@
                         {{ $item->statut}}
                     </td>
                     <td>
-                        @livewire('User.prix', ['id_post' => $item->id]) DH
+                       {{ $item->getPrix() }} DH
                     </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
