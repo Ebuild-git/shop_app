@@ -74,6 +74,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/informations', function () {
+        return view('User.infromations');
+    })->name('mes_informations');
+
+    
 });
 
 
@@ -92,9 +98,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
         return view('Admin.categories.index_proprietes');
     })->name('gestion_proprietes');
 
-    Route::get('/informations', function () {
-        return view('User.infromations');
-    })->name('mes_informations');
+ 
 
     Route::get('/user-notifications', function () {
         return view('User.notifications');
