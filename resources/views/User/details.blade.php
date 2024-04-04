@@ -51,7 +51,7 @@
                     <div class="sp-wrap">
                         @forelse ($post->photos as $photo)
                             <a href="{{ Storage::url($photo) }}">
-                                <img src="{{ Storage::url($photo) }}" alt="">
+                                <img src="{{ Storage::url($photo) }}" alt="" style="width: 100% !important;">
                             </a>
                         @empty
                         @endforelse
