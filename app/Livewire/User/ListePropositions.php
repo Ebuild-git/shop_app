@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Events\UserEvent;
+use App\Models\favoris;
 use App\Models\notifications;
 use App\Models\propositions;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,10 @@ class ListePropositions extends Component
 
                 $this->post->statut = "vendu";
                 $this->post->save();
+
+
+                //retirer des favoris // suprimer tout les article de a table favoris
+                favoris::where('id_post',$this->post->id)->delete();
 
                 //send mail to the buyer
 
