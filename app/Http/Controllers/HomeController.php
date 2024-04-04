@@ -83,9 +83,12 @@ class HomeController extends Controller
     }
 
 
+    public function favoris(){
+        return view("User.favoris");
+    }
+
     public function index_mes_achats()
     {
-
         return view("User.mes-achats");
     }
 

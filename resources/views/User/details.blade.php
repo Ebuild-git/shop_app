@@ -168,6 +168,13 @@
                                         @livewire('User.ButtonAddLike', ['id_post' => $post->id])
 
                                     </div>
+                                    @auth
+                                    <div class="col-12 col-lg-auto">
+                                        <!-- Wishlist -->
+                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+
+                                    </div>
+                                    @endauth
                                 </div>
                             </div>
 

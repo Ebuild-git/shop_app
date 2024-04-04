@@ -53,6 +53,24 @@
             });
         });
     </script>
+    @auth
+        <style>
+            .comment-position-top {
+                position: absolute;
+                right: 150px;
+                top: -63px;
+            }
+        </style>
+    @endauth
+    @guest
+        <style>
+            .comment-position-top {
+                position: absolute;
+                right: 0px;
+                top: -63px;
+            }
+        </style>
+    @endguest
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -157,7 +175,7 @@
                             title="Language" aria-label="Language dropdown">
                             @auth
                                 <span style="color: black;">
-                                    {{ Auth::user()->username }} 
+                                    {{ Auth::user()->username }}
                                     <i class="bi bi-caret-down"></i>
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
@@ -165,6 +183,11 @@
                                     <li>
                                         <a href="/user-notifications" class="dropdown-item medium text-medium">
                                             Notifications
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('favoris') }}" class="dropdown-item medium text-medium">
+                                            Mes Favoris
                                         </a>
                                     </li>
                                     <li>
@@ -248,7 +271,9 @@
 
                             <li>
                                 @php
-                                    $categories = DB::table('categories')->Orderby('order',"ASC")->get(['id', 'titre', 'luxury']);
+                                    $categories = DB::table('categories')
+                                        ->Orderby('order', 'ASC')
+                                        ->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu">
@@ -261,7 +286,8 @@
                                                     </span>
                                                     <span class="small color">
                                                         @if ($item->luxury == 1)
-                                                            <i class="bi bi-gem" style="font-weight: 800;font-size: 20px;"></i>
+                                                            <i class="bi bi-gem"
+                                                                style="font-weight: 800;font-size: 20px;"></i>
                                                         @endif
                                                     </span>
                                                 </div>
@@ -281,7 +307,9 @@
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
                                     <a href="{{ route('historique') }}" class="ml-2">
-                                        <img width="19" height="19" src="https://img.icons8.com/ios/19/1A1A1A/time-machine--v1.png" alt="time-machine--v1"/>
+                                        <img width="19" height="19"
+                                            src="https://img.icons8.com/ios/19/1A1A1A/time-machine--v1.png"
+                                            alt="time-machine--v1" />
                                         <span class="hide-desktop">Historique</span>
                                     </a>
                                 @endauth

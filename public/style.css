@@ -525,6 +525,10 @@ body {
 .luxury {
     color: red !important;
 }
+.btn-favoris-added{
+    background-color: #008080 !important;
+    color: white !important;
+}
 
 
 
@@ -604,11 +608,8 @@ body {
         display: none;
     }
 
-    .comment-position-top {
-        position: absolute;
-        right: 150px;
-        top: -63px;
-    }
+  
+    
     .comment-position {
         position: absolute;
         right: 0px;

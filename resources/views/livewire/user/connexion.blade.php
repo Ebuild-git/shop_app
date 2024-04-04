@@ -5,9 +5,9 @@
 
         <div class="form-group">
             <label>Adresse E-mail / Nom d'utilisateur</label>
-            <input type="text" name="email" id="email-login"
+            <input type="text" name="email" id="email-login" autocomplete="off"
                 class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none"
-                wire:model.lazy="email" placeholder="Email / Nom d'utilisateur">
+                wire:model="email" placeholder="Email / Nom d'utilisateur">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
@@ -15,9 +15,9 @@
         <div class="form-group ">
             <label>Mot de passe</label>
             <div class="position-relative">
-                <input type="password" name="password" id="password-login"
+                <input type="password" name="password" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
-                    wire:model.lazy="password" placeholder="*****">
+                    wire:model="password" placeholder="*****">
                     <button class="password_show" type="button" id="show">
                         <span class="input-group-text" >
                             <i class="bi bi-eye"></i>
