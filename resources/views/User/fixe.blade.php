@@ -151,13 +151,14 @@
 
                     </div>
                 </div>
-                <div class="col-sm-2 mx-auto my-auto">
+                <div class="col-sm-3 mx-auto my-auto" style="text-align: right !important">
                     <div class="currency-selector dropdown js-dropdown ml-3">
                         <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
                             title="Language" aria-label="Language dropdown">
                             @auth
                                 <span style="color: black;">
-                                    {{ Auth::user()->username }}
+                                    {{ Auth::user()->username }} 
+                                    <i class="bi bi-caret-down"></i>
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
                                 <ul class="dropdown-menu popup-content link">
@@ -247,7 +248,7 @@
 
                             <li>
                                 @php
-                                    $categories = DB::table('categories')->get(['id', 'titre', 'luxury']);
+                                    $categories = DB::table('categories')->Orderby('order',"ASC")->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu">
@@ -260,7 +261,7 @@
                                                     </span>
                                                     <span class="small color">
                                                         @if ($item->luxury == 1)
-                                                            <i class="bi bi-gem"></i> LUXURY
+                                                            <i class="bi bi-gem" style="font-weight: 800;font-size: 20px;"></i>
                                                         @endif
                                                     </span>
                                                 </div>

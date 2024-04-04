@@ -154,7 +154,7 @@ class CreatePost extends Component
             $this->post = $post;
         }
 
-        $categories = categories::Orderby("order")->get(['id', 'titre']);
+        $categories = categories::Orderby("order")->get(['id', 'titre','luxury']);
         $regions = regions::all(['id', 'nom']);
         return view('livewire.user.create-post')
             ->with('regions', $regions)
@@ -164,14 +164,14 @@ class CreatePost extends Component
     //validation with multi upload image
     protected $rules = [
         'titre' => 'required|min:2',
-        'description' => 'required',
+        'description' => 'string|nullable',
         'photo1' => 'nullable|max:2048|min:1',
         'photo2' => 'nullable|max:2048|min:1',
         'photo3' => 'nullable|max:2048|min:1',
         'photo4' => 'nullable|max:2048|min:1',
         'region' => 'required|integer|exists:regions,id',
         'prix' => 'required|numeric|min:1',
-        'prix_achat' => 'required|numeric|min:1',
+        'prix_achat' => 'nullable|numeric|min:1',
         'etat' => ['required', 'string'],
         'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
     ];

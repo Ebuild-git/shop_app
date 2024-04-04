@@ -1,8 +1,8 @@
  <!-- Ajax Sourced Server-side -->
- <div class="card">
-     <div class="row p-2">
+ <div class="card ">
+     <div class="row p-3 card-header">
          <div class="col-sm-4 my-auto">
-             <h5 class="card-header">
+             <h5 class="">
                  Liste des utilisateurs du site
              </h5>
          </div>
@@ -22,10 +22,23 @@
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
+                     <button class="btn btn-dark ">
+                         <a href="{{ route('export_users') }}" style="color: white !important;"> 
+                             <i class="bi bi-file-earmark-excel"></i>
+                             Exporter la liste
+                         </a>
+                     </button>
                  </div>
              </form>
          </div>
+
+         <div class="d-flex justify-content-between">
+
+         </div>
+
+
      </div>
+
      <div class="card-datatable text-nowrap">
          <table class="datatables-ajax table">
              <thead class="table-dark">
@@ -36,7 +49,6 @@
                      <th>Téléphone</th>
                      <th>Publications</th>
                      <th>Verifié</th>
-                     <th>Photo</th>
                      <th>Ville</th>
                      <th>Action</th>
                      <td></td>
@@ -71,20 +83,6 @@
                                  </span>
                              @endif
                          </td>
-                         <td>
-                             @if (is_null($user->photo_verified_at))
-                                 <a href='/admin/client/{{ $user->id }}/view'>
-                                     <span class="badge bg-label-danger">
-                                         <i class="ti ti-camera me-1"></i>
-                                         Validation
-                                     </span>
-                                 </a>
-                             @else
-                                 <span class="badge bg-label-success">
-                                     Validé
-                                 </span>
-                             @endif
-                         </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
                              <button class="btn btn-sm"
@@ -110,7 +108,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="9">
+                         <td colspan="8">
                              <div class="p-3">
                                  Aucun utilisateur trouvé!
                              </div>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string("titre");
-            $table->text("description");
+            $table->text("description")->nullable()->default(null);
             $table->json("photos");
             $table->unsignedBigInteger("id_region");
             $table->unsignedBigInteger("id_user");
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->json("proprietes")->nullable();
             $table->enum('etat',['Neuf avec étiquettes','Neuf sans étiquettes','Très bon état','Bon état','Usé']);
             $table->decimal("prix", 13, 3);
-            $table->decimal("prix_achat", 13, 3);
+            $table->decimal("prix_achat", 13, 3)->nullable()->default(null);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
             $table->timestamp("delivered_at")->nullable()->default(null);

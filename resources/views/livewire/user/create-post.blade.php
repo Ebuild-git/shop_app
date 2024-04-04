@@ -40,7 +40,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
-                            required wire:model.live="prix_achat">
+                             wire:model.live="prix_achat">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <textarea wire:model="description" required class="form-control " rows="7"
+                <textarea wire:model="description" class="form-control " rows="7"
                     placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
                     
                 </textarea>
@@ -78,6 +78,11 @@
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
                             {{ $categorie->titre }}
+                            @if ($categorie->luxury == 1)
+                                <span class="luxury">
+                                    ( luxury ) 
+                                </span>
+                            @endif
                         </option>
                     @endforeach
                 </select>

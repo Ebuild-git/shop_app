@@ -522,6 +522,9 @@ body {
     top: 14px;
 }
 
+.luxury {
+    color: red !important;
+}
 
 
 
@@ -603,7 +606,7 @@ body {
 
     .comment-position-top {
         position: absolute;
-        right: 0px;
+        right: 150px;
         top: -63px;
     }
     .comment-position {

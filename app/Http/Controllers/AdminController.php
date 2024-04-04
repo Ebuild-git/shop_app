@@ -8,6 +8,8 @@ use App\Models\proprietes;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsersExport;
 
 class AdminController extends Controller
 {
@@ -77,6 +79,10 @@ class AdminController extends Controller
         return view("Admin.categories.update_propriete", compact('propriete',"proprietes"));
     }
 
+
+    public function export_users(){
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
 
 
 

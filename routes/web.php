@@ -99,6 +99,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
     
     Route::get('/admin/update_propriete/{id}', [AdminController::class, 'update_propriete'])->name('update_propriete');
+    Route::get('/admin/export-user', [AdminController::class, 'export_users'])->name('export_users');
 });
 
 
