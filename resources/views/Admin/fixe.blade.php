@@ -79,6 +79,19 @@
             });
         });
     </script>
+    <style>
+        .avatar-online{
+            height: 35px !important;
+            width: 35px !important;
+            overflow: hidden;
+            
+        }
+        .avatar-online img{
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+    </style>
 
 
     <!-- Layout wrapper -->
