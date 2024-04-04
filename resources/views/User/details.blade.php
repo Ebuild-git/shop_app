@@ -79,9 +79,18 @@
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                             <div class="prt_02 mb-3">
-                                <h2 class="ft-bold mb-1 mt-2 text-capitalize">
-                                    {{ $post->titre }}
-                                </h2>
+                                <div class="d-flex justify-content-between">
+                                    <h2 class="ft-bold mb-1 mt-2 text-capitalize">
+                                        {{ $post->titre }}
+                                    </h2>
+                                    @auth
+                                        <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                            <i class="bi bi-exclamation-octagon"></i>
+                                            Signaler
+                                        </h1>
+                                    @endauth
+                                </div>
+
                                 <div class="text-left">
                                     <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                         <i class="bi bi-calendar3"></i>
@@ -169,11 +178,11 @@
 
                                     </div>
                                     @auth
-                                    <div class="col-12 col-lg-auto">
-                                        <!-- Wishlist -->
-                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+                                        <div class="col-12 col-lg-auto">
+                                            <!-- Wishlist -->
+                                            @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
 
-                                    </div>
+                                        </div>
                                     @endauth
                                 </div>
                             </div>
@@ -304,6 +313,40 @@
         </div>
     </section>
     <!-- ======================= Similar Products Start ============================ -->
+
+
+
+
+    @auth
+        <!-- Log In Modal -->
+        <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="loginmodal">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="m-0 ft-regular h5 text-danger">
+                                <i class="bi bi-exclamation-octagon"></i>
+                                Signaler une publication.
+                            </h1>
+                            <span class="text-muted">
+                                " {{ $post->titre }} "
+                            </span>
+                        </div>
+                        @livewire('User.Signalement', ['post' => $post])
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+    @endauth
+
+
     <style>
         .sp-current-big {
             width: 100% !important;

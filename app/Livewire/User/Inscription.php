@@ -26,7 +26,6 @@ class Inscription extends Component
     }
 
 
-
     public function updatedUsername($value)
     {
         $cleanedUsername = preg_replace('/[^A-Za-z0-9]/', '', $value);

@@ -35,11 +35,19 @@
     </div>
 
     <script>
-        //auto click every 5 seconde on slick-next button class
         $(document).ready(function() {
+            $('.slick-next').on('click', function(event) {
+                // Arrête la propagation de l'événement de clic
+                event.stopPropagation();
+
+                // Clique sur le bouton slick-next
+                $(this).click();
+            });
+
+            // Auto clic sur le bouton slick-next toutes les 3 secondes
             setInterval(function() {
                 $('.slick-next').click();
-            }, 3000);
+            }, 6000);
         });
     </script>
     <!-- ============================ Hero Banner End ================================== -->
@@ -101,7 +109,7 @@
                                     </h5>
                                     <div class="elis_rty color">
                                         <span class="ft-bold  fs-sm">
-                                           {{ $lux->getPrix() }}DH
+                                            {{ $lux->getPrix() }}DH
                                         </span>
                                     </div>
                                 </div>

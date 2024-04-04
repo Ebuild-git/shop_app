@@ -18,11 +18,9 @@
           <br>
       @enderror
 
-      <b>Publication :</b> {{ $post->titre }}
-      <hr>
       <b>Motif</b>
       <select required wire:model="type" class="form-control shadow-none">
-          <option value="" disabled>Choisir un motif</option>
+          <option value="">Choisir un motif</option>
           <option value="Fraude">Fraude</option>
           <option value="Spam">Spam</option>
       </select>
@@ -35,10 +33,11 @@
           <small class="form-text text-danger">{{ $message }}</small>
       @enderror
       <div class="modal-footer">
-          <button type="submit" class="btn bg-red">
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                  wire:loading></span>
-              Envoyer
+          <button type="submit" class="btn btn-sm btn-danger">
+            <span wire:loading>
+                <x-Loading></x-Loading>
+            </span>
+              Envoyer le signalement
               <i class="bi bi-arrow-right-circle-fill"></i>
           </button>
       </div>

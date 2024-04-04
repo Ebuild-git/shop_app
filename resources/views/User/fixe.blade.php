@@ -644,7 +644,7 @@
                 </div>
                 <div class="p-2">
                     <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" disabled id="agree_condition">
+                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition">
                             J'accepte les conditions
                         </button>
                     </div>
@@ -721,15 +721,7 @@
         });
 
         document.getElementById('conditiondiv').addEventListener('scroll', function() {
-            var div = this;
-            // Vérifier si l'utilisateur a atteint la fin de la div
-            if (div.scrollHeight - div.scrollTop === div.clientHeight) {
-                // Activer le bouton
-                document.getElementById('agree_condition').disabled = false;
-            } else {
-                // Désactiver le bouton
-                document.getElementById('agree_condition').disabled = true;
-            }
+            document.getElementById('agree_condition').disabled = false;
         });
     </script>
     <style>
