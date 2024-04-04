@@ -44,7 +44,7 @@
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="sp-loading">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" alt="">
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" style="width: 100% !important;" alt="">
                         <br>LOADING
                         IMAGES
                     </div>
