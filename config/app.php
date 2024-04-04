@@ -186,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Excel' => Maatwebsite\Excel\Facades\Excel::class, 
+        'role' => \App\Http\Middleware\CheckRole::class,
     ])->toArray(),
 
 ];

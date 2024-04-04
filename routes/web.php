@@ -58,7 +58,27 @@ Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_pos
 
 
 
-Route::group(['middleware' => 'auth'], function () {
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
+    Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
+    Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
+    Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
+    Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
+    Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
+
+
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+
+
+Route::group(['middleware' => ['auth', 'role']], function () {
 
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
     Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
@@ -106,21 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::middleware('auth')->group(function () {
 
-    Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
-    Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
-    Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
-    Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
-    Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
-    Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
-
-
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 
 
