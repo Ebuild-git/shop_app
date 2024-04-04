@@ -38,25 +38,19 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                 @if ($post->user_info->avatar != '')
-                                     <img src="{{ Storage::url($post->user_info->avatar) }}" alt="..."
-                                         class="rounded-circle">
-                                 @else
-                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                         alt="" class="rounded-circle">
-                                 @endif
+                                 <img src="{{ $post->user_info->getAvatar() }}" alt="..." class="rounded-circle">
                              </div>
                          </td>
                          <td>
                              {{ $post->titre }}
                              <div class="small">
-                                <i class="bi bi-heart-fill text-danger"></i> {{ $post->getLike->count() }} likes
+                                 <i class="bi bi-heart-fill text-danger"></i> {{ $post->getLike->count() }} likes
                              </div>
                          </td>
                          <td>
-                            <a href="/admin/client/{{  $post->user_info->id }}/view">
-                                {{  $post->user_info->username }}
-                            </a>
+                             <a href="/admin/client/{{ $post->user_info->id }}/view">
+                                 {{ $post->user_info->username }}
+                             </a>
                          </td>
                          <td>
                              <b class="text-danger">

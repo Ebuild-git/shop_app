@@ -81,8 +81,8 @@
                             </div>
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}"><img
-                                            class="card-img-top" src="{{ Storage::url($lux->photos[0] ?? '') }}"
+                                    <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
+                                        <img class="card-img-top" src="{{ Storage::url($lux->photos[0] ?? '') }}"
                                             alt="..."></a>
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
