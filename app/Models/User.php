@@ -6,13 +6,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -64,12 +65,24 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function GetPosts(){
-        return $this->hasMany(posts::class, 'id_user','id');
+    public function GetPosts()
+    {
+        return $this->hasMany(posts::class, 'id_user', 'id');
     }
 
-    public function region(){
-        return $this->belongsTo(regions::class,'id','region');
+    public function region()
+    {
+        return $this->belongsTo(regions::class, 'id', 'region');
+    }
+
+
+    public function getAvatar()
+    {
+        if (is_null($this->avatar)) {
+            return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
+        } else {
+            return Storage::url($this->avatar);
+        }
     }
 
 
@@ -88,8 +101,8 @@ class User extends Authenticatable implements JWTSubject
     public function averageRating()
     {
         return $this->hasOne(ratings::class, 'id_user_rated')
-                    ->selectRaw('AVG(etoiles) as average_rating')
-                    ->groupBy('id_user_rated');
+            ->selectRaw('AVG(etoiles) as average_rating')
+            ->groupBy('id_user_rated');
     }
 
 
@@ -99,5 +112,5 @@ class User extends Authenticatable implements JWTSubject
             $this->update(['first_login_at' => now()]);
         }
     }
-    
+
 }

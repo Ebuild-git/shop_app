@@ -73,13 +73,8 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                 @if ($post->user_info->avatar != '')
-                                     <img src="{{ Storage::url($post->user_info->avatar) }}" alt="..."
-                                         class="rounded-circle">
-                                 @else
-                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                         alt="" class="rounded-circle">
-                                 @endif
+                                 <img src="{{ $post->user_info->getAvatar() }}" alt="..."
+                                     class="rounded-circle">
                              </div>
                          </td>
                          <td>

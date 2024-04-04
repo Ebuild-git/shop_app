@@ -20,13 +20,8 @@
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                             <a href="{{ Storage::url($user->avatar) }}">
-                                @if ($user->avatar != '')
-                                    <img src="{{ Storage::url($user->avatar) }}" alt="..."
-                                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                @else
-                                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                        alt="" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
-                                @endif
+                                <img src="{{ $user->getAvatar() }}" alt="..."
+                                    class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
                             </a>
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
@@ -70,8 +65,8 @@
                                 <i class="ti ti-user text-heading"></i>
                                 <span class="fw-medium mx-2 text-heading">
                                     nom complet :</span> <span>{{ $user->name }}</span>
-                                    &nbsp;
-                                    [ {{ $user->genre }} ]
+                                &nbsp;
+                                [ {{ $user->genre }} ]
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span
@@ -93,7 +88,7 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-flag text-heading"></i><span class="fw-medium mx-2 text-heading">
                                     Date de naissance :</span>
-                                    <span class="ms-2">{{ \Carbon\Carbon::parse($user->naissance)->format('d M Y') }}
+                                <span class="ms-2">{{ \Carbon\Carbon::parse($user->naissance)->format('d M Y') }}
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-file-description text-heading"></i><span

@@ -74,7 +74,7 @@
                                 <div class="d-flex align-items-start">
                                     <div class="d-flex align-items-start">
                                         <div class="avatar me-2">
-                                            <img src="{{ Storage::url($post->user_info->avatar) }}" alt="Avatar"
+                                            <img src="{{ $post->user_info->getAvatar() }}" alt="Avatar"
                                                 class="rounded-circle">
                                         </div>
                                         <div class="me-2 ms-1">

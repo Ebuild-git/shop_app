@@ -23,7 +23,7 @@
                          Filtrer
                      </button>
                      <button class="btn btn-dark ">
-                         <a href="{{ route('export_users') }}" style="color: white !important;"> 
+                         <a href="{{ route('export_users') }}" style="color: white !important;">
                              <i class="bi bi-file-earmark-excel"></i>
                              Exporter la liste
                          </a>
@@ -60,12 +60,7 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                 @if ($user->avatar != '')
-                                     <img src="{{ Storage::url($user->avatar) }}" alt="..." class="rounded-circle">
-                                 @else
-                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                         alt="" class="rounded-circle">
-                                 @endif
+                                 <img src="{{ $user->getAvatar() }}" alt="..." class="rounded-circle">
                              </div>
                          </td>
                          <td> {{ $user->name }} </td>
