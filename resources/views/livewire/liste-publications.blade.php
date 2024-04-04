@@ -13,13 +13,13 @@
                  <div class="input-group mb-3">
                      <input type="text" class="form-control" wire:model="mot_key" placeholder="titre">
                      <select wire:model ="type" class="form-control">
-                        <option value="" selected>Toutes les publications</option>
-                        <option value="validation">En cour de validation</option>
-                        <option value="vente">En vente</option>
-                        <option value="vendu">vendu</option>
-                        <option value="livraison">en cour de livraison</option>
-                        <option value="livré">livré</option>
-                    </select>
+                         <option value="" selected>Toutes les publications</option>
+                         <option value="validation">En cour de validation</option>
+                         <option value="vente">En vente</option>
+                         <option value="vendu">vendu</option>
+                         <option value="livraison">en cour de livraison</option>
+                         <option value="livré">livré</option>
+                     </select>
                      <select wire:model ="region_key" class="form-control">
                          <option value="" selected>Toutes les regions</option>
                          @foreach ($regions as $item)
@@ -33,9 +33,9 @@
                          @endforeach
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
-                        <span wire:loading>
-                        <x-loading ></x-loading>
-                    </span>
+                         <span wire:loading>
+                             <x-loading></x-loading>
+                         </span>
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
@@ -59,6 +59,7 @@
                  <tr>
                      <th></th>
                      <th>Titre</th>
+                     <th>Likes</th>
                      <th>Prix</th>
                      <th>Régions</th>
                      <th>Statut</th>
@@ -72,13 +73,13 @@
                      <tr>
                          <td class="avatar">
                              <div class="avatar me-3">
-                                @if ($post->user_info->avatar != '')
-                                    <img src="{{ Storage::url($post->user_info->avatar) }}" alt="..."
-                                        class="rounded-circle">
-                                @else
-                                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                        alt="" class="rounded-circle">
-                                @endif
+                                 @if ($post->user_info->avatar != '')
+                                     <img src="{{ Storage::url($post->user_info->avatar) }}" alt="..."
+                                         class="rounded-circle">
+                                 @else
+                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                         alt="" class="rounded-circle">
+                                 @endif
                              </div>
                          </td>
                          <td>
@@ -104,12 +105,16 @@
                                  </span>
                              </span>
                          </td>
-                         <td> {{ $post->prix ?? '0' }} DT</td>
-                         <td> {{ $post->region->nom ?? "N/A" }} </td>
                          <td>
-                            <span class="text-capitalize">
-                                {{ $post->statut }}
-                            </span>
+                             <i class="bi bi-heart-fill text-danger"></i>
+                             {{ $post->getLike->count() }}
+                         </td>
+                         <td> {{ $post->prix ?? '0' }} DT</td>
+                         <td> {{ $post->region->nom ?? 'N/A' }} </td>
+                         <td>
+                             <span class="text-capitalize">
+                                 {{ $post->statut }}
+                             </span>
                          </td>
                          <td>
                              <button class="btn btn-sm btn-secondary"
@@ -149,7 +154,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="8">
+                         <td colspan="9">
                              <div class="p-3">
                                  Aucun publication trouvé!
                              </div>

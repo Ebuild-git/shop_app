@@ -39,6 +39,22 @@ class PostsController extends Controller
         return view("Admin.publications.index");
     }
 
+
+    public function liste_publications_signaler(){
+        return view("Admin.publications.signalements");
+    }
+
+    public function liste_signalement_publications($id_post){
+        $post = posts::find($id_post);
+        if($post){
+            return view("Admin.publications.liste-signalement")->with("post", $post);
+        }else{
+            return redirect()->route('post_signalers');
+        }
+
+    }
+
+
     public function details_publication(Request $request)
     {
         $statut = $request->get("statut") ?? "";

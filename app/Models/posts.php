@@ -74,4 +74,11 @@ class posts extends Model
     {
         return $this->belongsTo(regions::class, 'id_region', 'id');
     }
+
+
+    public function signalements(){
+        return $this->hasMany(signalements::class, 'id_post', 'id');
+    }
+
+
 }

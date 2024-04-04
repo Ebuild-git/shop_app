@@ -78,6 +78,11 @@
                             <span class="text-success bg-light-success rounded px-2 py-1 mr-2">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
+                            <div class="elis_rty mt-2">
+                                <span class="ft-bold color fs-lg">
+                                    {{ $post->getPrix() }} DH
+                                </span>
+                            </div>
                             <div class="prt_02 mb-3">
                                 <div class="d-flex justify-content-between">
                                     <h2 class="ft-bold mb-1 mt-2 text-capitalize">
@@ -92,12 +97,13 @@
                                 </div>
 
                                 <div class="text-left">
-                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                    <div class="">
                                         <i class="bi bi-calendar3"></i>
                                         Publier le
                                         {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} à
                                         {{ Carbon\Carbon::parse($post->created_at)->format('H:i') }}
-                                        par &nbsp;
+                                        <br>
+                                        Auteur &nbsp;
                                         <a href="/user/{{ $post->user_info->id }}" class="color">
                                             <b>
                                                 <i class="bi bi-person-circle"></i>
@@ -105,11 +111,7 @@
                                             </b>
                                         </a>
                                     </div>
-                                    <div class="elis_rty">
-                                        <span class="ft-bold color fs-lg">
-                                            {{ $post->getPrix() }} DH
-                                        </span>
-                                    </div>
+                                    <br>
                                     <span class="color">
                                         <i class="bi bi-bus-front-fill"></i>
                                         Frais de Livraison : {{ $post->getFraisLivraison() }} DH

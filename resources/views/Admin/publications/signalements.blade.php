@@ -1,5 +1,5 @@
 @extends('Admin.fixe')
-@section('titre', 'publications')
+@section('titre', 'Publications signalées')
 @section('content')
 
 
@@ -8,9 +8,9 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">publications</span></h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Publications signalées</span></h4>
 
-        @livewire('ListePublications')
+        @livewire('Signalements')
         
     </div>
     <!--/ Content -->

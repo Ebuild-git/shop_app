@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_post");
             $table->unsignedBigInteger("id_user_make");
             $table->string("message")->nullable()->default(null);
-            $table->enum('statut', ['read','unread']);
+            $table->string('type');
             $table->timestamps();
 
 

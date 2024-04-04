@@ -372,7 +372,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="/admin/publications?type=signalés" class="menu-link">
+                                            <a href="{{ route('post_signalers') }}" class="menu-link">
                                                 <i class="menu-icon bi bi-exclamation-triangle"></i>
                                                 <div data-i18n="Publications signalés">Publications signalées</div>
                                             </a>
