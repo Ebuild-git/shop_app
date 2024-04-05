@@ -36,21 +36,26 @@ class FormCreateSousCategorie extends Component
         //recuperation des proprietes
         $indexes = array_keys($this->proprios, true);
         $indexesArray = [];
+        $test = [];
         foreach ($indexes as $index) {
             $indexesArray[] = $index;
+            $status = $this->required[$index] ?? 'Non';
+            $test[] = [
+                'id' => $index,
+                'required' => $status,
+            ];
         }
         $jsonIndexes = $indexesArray;
-
-
         $sous_categorie = new sous_categories();
         $sous_categorie->titre = $this->titre;
         $sous_categorie->id_categorie = $this->id_categorie;
         $sous_categorie->proprietes = $jsonIndexes ?? [];
+        $sous_categorie->required = json_encode($test) ?? [];
         $sous_categorie->save();
 
 
-       //flash message
-       session()->flash('success', 'La sous catégorie a bien été ajoutée');
+        //flash message
+        session()->flash('success', 'La sous catégorie a bien été ajoutée');
 
         //reset form
         $this->reset(['titre']);

@@ -25,7 +25,7 @@ class CreatePost extends Component
 
     public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat, $selectedCategory, $selectedSubcategory;
     public $photo1, $photo2, $photo3, $photo4, $photo5;
-    public $colors;
+    public $colors,$required;
     public $selected_color = null;
     public $article_propriete = [];
     public $proprietes, $quantite;
@@ -65,6 +65,7 @@ class CreatePost extends Component
             $sous_categorie = sous_categories::find($value);
             if ($sous_categorie) {
                 $this->proprietes = $sous_categorie->proprietes;
+                $this->required = $sous_categorie->required;
             }
         } else {
             $this->proprietes = null;

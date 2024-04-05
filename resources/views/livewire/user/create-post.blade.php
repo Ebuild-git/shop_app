@@ -40,7 +40,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
-                             wire:model.live="prix_achat">
+                            wire:model.live="prix_achat">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -80,7 +80,7 @@
                             {{ $categorie->titre }}
                             @if ($categorie->luxury == 1)
                                 <span class="luxury">
-                                    ( luxury ) 
+                                    (luxury)
                                 </span>
                             @endif
                         </option>
@@ -126,17 +126,29 @@
                                         <i class="bi bi-info-circle"></i>
                                         {{ $propriete_info->nom }}
                                     </label>
+
+                                    @php
+                                        $requi = false;
+                                        if ($required) {
+                                            $collection = collect(json_decode($required, true));
+                                            $requiredStatus =
+                                                $collection->firstWhere('id', $propriete_info->id) ?? 'null';
+                                            if ($requiredStatus['required'] == 'Oui') {
+                                                $requi = true;
+                                            }
+                                        }
+                                    @endphp
                                     @if ($propriete_info->type == 'option')
                                         @if ($propriete_info->affichage == 'case')
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                class="form-control ">
+                                                @required($requi) class="form-control ">
                                                 <option value=""></option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @else
-                                            <input type="text" class="form-control liste"
+                                            <input type="text" class="form-control liste" @required($requi)
                                                 placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
@@ -155,7 +167,7 @@
                                         @empty
                                         @endforelse
                                     @else
-                                        <input type="{{ $propriete_info->type }}"
+                                        <input type="{{ $propriete_info->type }}" @required($requi)
                                             placeholder="{{ $propriete_info->nom }}" class="form-control"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
                                     @endif

@@ -3,18 +3,6 @@
 @section('content')
 @section('body')
 
-    <!-- ======================= Shop Style 1 ======================== -->
-    <section class="bg-cover" style="background:url('/icons/post.jpg') no-repeat;">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="text-left py-5 mt-3 mb-3">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ======================= Shop Style 1 ======================== -->
     <!-- ======================= Top Breadcrubms ======================== -->
     <div class="gray py-3">
         <div class="container">
