@@ -71,7 +71,7 @@
                                 <div class="col-sm-8">
                                     <div class="row">
                                         @forelse ($mes_proprietes as $propriete)
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="input-group form-control mb-1">
                                                 <table class="w-100">
                                                     <tr>
