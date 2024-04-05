@@ -53,7 +53,8 @@ class CategoriesController extends Controller
         $this->validate($request, [
             'titre' => 'required|string',
             'id_categorie' => 'integer|exists:categories,id',
-            'option.*' => 'nullable|integer|exists:proprietes,id'
+            'option.*' => 'nullable|integer|exists:proprietes,id',
+            'required.*' => 'nullable|string',
         ]);
 
 
@@ -64,12 +65,19 @@ class CategoriesController extends Controller
         }
 
         $options = $request->input('option');
+        $required = $request->input('required');
         $indexesArray = [];
+        $test = [];
+
         if ($options) {
             $indexes = array_keys($options, true);
-
             foreach ($indexes as $index) {
                 $indexesArray[] = $index;
+                $status = $required[$index] ?? 'Non';
+                $test[] = [
+                    'id' => $index,
+                    'required' => $status,
+                ];
             }
         }
         $jsonIndexes = $indexesArray;
@@ -79,6 +87,7 @@ class CategoriesController extends Controller
         $sous_categorie->id_categorie = $request->id_categorie;
         $sous_categorie->proprietes = $jsonIndexes ?? [];
         $sous_categorie->titre = $request->titre;
+        $sous_categorie->required = json_encode($test) ?? [];
         $sous_categorie->save();
 
         return redirect()->back()->with('success', 'La modification a été enregidtré !');

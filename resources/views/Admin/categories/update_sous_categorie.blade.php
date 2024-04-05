@@ -69,32 +69,51 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-8">
+                                    <label>Propriétés de la sous-catégorie </label>
                                     <div class="row">
                                         @forelse ($mes_proprietes as $propriete)
-                                        <div class="col-sm-6">
-                                            <div class="input-group form-control mb-1">
-                                                <table class="w-100">
-                                                    <tr>
-                                                        <td style="width: 30px !important;">
-                                                            <input class="form-check-input mt-0" @checked($propriete['isChecked']) type="checkbox" name="option[{{ $propriete['id'] }}]"
-                                                            aria-label="Checkbox for following text input" value="{{ $propriete['id'] }}" >
-                                                        </td>
-                                                        <td>
-                                                            <span >
-                                                                {{ $propriete['nom'] }}
-                                                            </span>
-                                                        </td>
-                                                        <td style="width: 60px !important">
-                                                            <select aria-placeholder="" class="form-control p-1" style="font-size: 14px;">
-                                                                <option value="">Obligé</option>
-                                                                <option value="Oui">Oui</option>
-                                                                <option value="Non">Non</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                            @php
+                                                $requi = false;
+                                                $collection = collect(
+                                                    json_decode($sous_categorie->required ?? [], true),
+                                                );
+                                                $requiredStatus =
+                                                    $collection->firstWhere('id', $propriete['id']) ?? null;
+                                                if ($requiredStatus) {
+                                                    if ($requiredStatus['required'] == 'Oui') {
+                                                        $requi = true;
+                                                    }
+                                                }
+                                            @endphp
+
+
+                                            <div class="col-sm-6">
+                                                <div class="input-group form-control mb-1">
+                                                    <table class="w-100">
+                                                        <tr>
+                                                            <td style="width: 30px !important;">
+                                                                <input class="form-check-input mt-0"
+                                                                    @checked($propriete['isChecked']) type="checkbox"
+                                                                    name="option[{{ $propriete['id'] }}]"
+                                                                    aria-label="Checkbox for following text input"
+                                                                    value="{{ $propriete['id'] }}">
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    {{ $propriete['nom'] }}
+                                                                </span>
+                                                            </td>
+                                                            <td style="width: 60px !important">
+                                                                <select aria-placeholder=""  name="required[{{ $propriete['id'] }}]" class="form-control p-1"
+                                                                    style="font-size: 14px;">
+                                                                    <option value="Non">Non</option>
+                                                                    <option value="Oui" @selected($requi)>Oui</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
                                         @empty
                                             <p>Aucune propriété trouvée.</p>
                                         @endforelse
