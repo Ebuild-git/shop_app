@@ -56,7 +56,7 @@
     <!-- Modal 1-->
     <div class="modal fade" id="modalToggle-new-sous-cat" aria-labelledby="modalToggleLabel" tabindex="-1"
         style="display: none" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-xl  modal-pricing modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalToggleLabel">

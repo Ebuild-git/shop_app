@@ -17,20 +17,28 @@
 
             <div class="row">
                 @forelse ($proprietes as $propriete)
-                    <div class="col-sm-6">
-                        <div class="input-group mb-1">
-                            <div class="input-group-text">
-                                <input class="form-check-input mt-0" type="checkbox" wire:model='proprios.{{ $propriete->id }}'
-                                    aria-label="Checkbox for following text input">
-                            </div>
-                            <spann class="input-group-text">
-                                {{ $propriete->nom }}
-                            </spann>
-                            <select class="form-control" wire:model='required.{{$propriete->id}}'>
-                                <option value=""></option>
-                                <option value="Oui">Oui</option>
-                                <option value="Non">Non</option>
-                            </select>
+                    <div class="col-sm-4">
+                        <div class="input-group form-control mb-1">
+                            <table class="w-100">
+                                <tr>
+                                    <td style="width: 30px !important;">
+                                        <input class="form-check-input mt-0" type="checkbox" wire:model='proprios.{{ $propriete->id }}'
+                                        aria-label="Checkbox for following text input">
+                                    </td>
+                                    <td>
+                                        <span >
+                                            {{ $propriete->nom }}
+                                        </span>
+                                    </td>
+                                    <td style="width: 60px !important">
+                                        <select class="form-control"  name="" id="">
+                                            <option value=""></option>
+                                            <option value="Oui">Oui</option>
+                                            <option value="Non">Non</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 @empty
