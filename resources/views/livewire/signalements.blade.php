@@ -29,7 +29,6 @@
                      <th>Auteur</th>
                      <th>Signalements</th>
                      <th></th>
-                     <th></th>
                  </tr>
              </thead>
 
@@ -58,19 +57,25 @@
                                  {{ $post->signalements_count }}
                              </b>
                          </td>
-                         <td>
+                         <td style="text-align: right;">
                              <a href="/admin/publication/{{ $post->id }}/view">
                                  <button class="btn btn-sm btn-primary">
                                      Voir la publication
                                  </button>
                              </a>
-                         </td>
-                         <td>
                              <a href="/admin/post/{{ $post->id }}/signalement">
-                                 <button class="btn btn-sm btn-danger">
+                                 <button class="btn btn-sm btn-dark">
                                      Voir les sginalements
                                  </button>
                              </a>
+                             <button class="btn btn-sm btn-danger" onclick="toggle_confirmation({{ $post->id }})">
+                                 <i class="bi bi-trash3"></i>
+                             </button>
+                             <button class="btn btn-sm btn-success d-none" id="confirmBtn{{ $post->id }}" wire:click="delete({{ $post->id }})">
+                                 <i class="bi bi-check-circle"></i>
+                                 &nbsp;
+                                 Confirmer
+                             </button>
                          </td>
 
                      </tr>
@@ -87,5 +92,27 @@
          </table>
          <div class="p-3" {{ $posts->links('pagination::bootstrap-4') }} </div>
          </div>
+
+
+
+
+         <script>
+             function toggle_confirmation(productId) {
+                 const confirmBtn = document.getElementById('confirmBtn' + productId);
+                 if (!confirmBtn.classList.contains('d-none')) {
+                     confirmBtn.classList.add('d-none');
+                 } else {
+                     // Masquer tous les autres boutons de confirmation s'ils sont visibles
+                     document.querySelectorAll('.confirm-btn').forEach(btn => {
+                         if (!btn.classList.contains('d-none')) {
+                             btn.classList.add('d-none');
+                         }
+                     });
+                     confirmBtn.classList.remove('d-none');
+                 }
+             }
+         </script>
+
+
      </div>
      <!--/ Ajax Sourced Server-side -->

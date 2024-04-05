@@ -382,6 +382,9 @@ body {
 
     text-transform: capitalize;
 }
+.option-icon-header:hover{
+    color: #008080 !important;
+}
 
 .elementToHideBeforeScroll {
     display: none;

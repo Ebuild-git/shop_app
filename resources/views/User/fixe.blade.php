@@ -307,9 +307,7 @@
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
                                     <a href="{{ route('historique') }}" class="ml-2">
-                                        <img width="19" height="19"
-                                            src="https://img.icons8.com/ios/19/1A1A1A/time-machine--v1.png"
-                                            alt="time-machine--v1" />
+                                        <i class="bi lni bi-clock-history"></i>
                                         <span class="hide-desktop">Historique</span>
                                     </a>
                                 @endauth
