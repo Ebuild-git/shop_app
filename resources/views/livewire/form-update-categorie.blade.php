@@ -1,9 +1,8 @@
 <form wire:submit.prevent="modifier">
+    @include('components.alert-livewire')
     <div class="row">
-        <div class="col-sm-8">
-            <h5>Informations sur la catégorie</h5>
+        <div class="col-sm-4">
             <div class="mb-3">
-                @include('components.alert-livewire')
                 <label for="">Titre de la catégorie</label>
                 <input type="text" wire:model ="titre" class="form-control" requireddd>
                 @error('titre')
@@ -13,23 +12,12 @@
                 @enderror
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="mb-3">
                         <label for="">Marge de gain ( % ) </label>
                         <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1"
                             class="form-control" requireddd>
                         @error('pourcentage_gain')
-                            <div class="text-danger">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="">Image d'illustration </label>
-                        <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
-                        @error('photo')
                             <div class="text-danger">
                                 {{ $message }}
                             </div>
@@ -48,6 +36,20 @@
                 @enderror
             </div>
 
+        </div>
+        <div class="col-sm-4">
+            <div class="mb-3">
+                <div class="div-img-update-categorie">
+                    <img src="{{ Storage::url($actu_photo) }}" alt="..">
+                </div>
+                <label for="">Image d'illustration </label>
+                <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
+                @error('photo')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
         <div class="col-sm-4">
             <h5>
@@ -79,4 +81,21 @@
             Enregistrer les modifications
         </button>
     </div>
+
+    <style>
+        .div-img-update-categorie {
+            height: 200px !important;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .div-img-update-categorie img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .div-img-update-categorie img:hover{
+            transform: scale(1.1);
+        }
+    </style>
 </form>

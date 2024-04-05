@@ -18,7 +18,7 @@
                 <input type="password" name="password" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
                     wire:model="password" placeholder="*****">
-                    <button class="password_show" type="button" id="show">
+                    <button class="password_show2" type="button" id="show">
                         <span class="input-group-text" >
                             <i class="bi bi-eye"></i>
                         </span>

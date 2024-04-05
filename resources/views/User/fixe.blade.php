@@ -202,7 +202,7 @@
                                     </li>
                                     <li>
                                         <a href="/informations" class="dropdown-item medium text-medium">
-                                            Sécurité
+                                            Paramètre
                                         </a>
                                     </li>
                                     <li>

@@ -12,7 +12,7 @@ class UsersExport implements FromCollection
     */
     public function collection()
     {
-        return User::select('name','prenom','username','email','phone_number','region','genre','naissance','type')
+        return User::select('name','prenom','username','email','phone_number','genre','naissance',)
         ->where('role','!=','admin')
         ->get();
     }

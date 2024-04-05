@@ -534,9 +534,15 @@ body {
     cursor: pointer;
 }
 
-
-
-
+.password_show2{
+    position: absolute;
+    right: 20px;
+    bottom: 14px;
+    color: #008080;
+    font-weight: bold;
+    border: none;
+    background: transparent;
+}
 
 
 

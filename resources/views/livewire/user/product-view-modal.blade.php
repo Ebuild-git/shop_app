@@ -13,23 +13,16 @@
                  <div class="quick_view_wrap">
 
                      <div class="quick_view_thmb">
-                         <div class="quick_view_slide">
-                            @forelse ($post->photos as $item)
-                            <div class="single_view_slide">
-                                <img src="{{ Storage::url($item) }}" class="img-fluid" alt="" />
-                            </div>
-                            @empty
-                                
-                            @endforelse
-                         </div>
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="img-fluid"
+                        alt="" />
                      </div>
 
                      <div class="quick_view_capt">
                          <div class="prd_details">
 
                              <div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">
-                                {{ $post->sous_categorie_info->titre}}
-                             </span>
+                                     {{ $post->sous_categorie_info->titre }}
+                                 </span>
                              </div>
                              <div class="prt_02 mb-2">
                                  <h2 class="ft-bold mb-1">
@@ -72,7 +65,7 @@
                                  </div>
                              </div>
 
-                            
+
 
                          </div>
                      </div>
