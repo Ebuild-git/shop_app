@@ -40,7 +40,7 @@
                             @csrf
                             <input type="hidden" value="{{ $sous_categorie->id }}" name="id">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label>Titre de la sous-catégorie :</label>
                                         <input type="text " required name="titre" value="{{ $sous_categorie->titre }}"
@@ -68,21 +68,42 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    @forelse ($mes_proprietes as $propriete)
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        @forelse ($mes_proprietes as $propriete)
                                         <div class="col-sm-4">
-                                            <input type="checkbox" class="form-check-input" @checked($propriete['isChecked'])
-                                                value="{{ $propriete['id'] }}" name="option[{{ $propriete['id'] }}]">
-                                            {{ $propriete['nom'] }}
+                                            <div class="input-group form-control mb-1">
+                                                <table class="w-100">
+                                                    <tr>
+                                                        <td style="width: 30px !important;">
+                                                            <input class="form-check-input mt-0" @checked($propriete['isChecked']) type="checkbox" name="option[{{ $propriete['id'] }}]"
+                                                            aria-label="Checkbox for following text input" value="{{ $propriete['id'] }}" >
+                                                        </td>
+                                                        <td>
+                                                            <span >
+                                                                {{ $propriete['nom'] }}
+                                                            </span>
+                                                        </td>
+                                                        <td style="width: 60px !important">
+                                                            <select aria-placeholder="" class="form-control p-1" style="font-size: 14px;">
+                                                                <option value="">Obligé</option>
+                                                                <option value="Oui">Oui</option>
+                                                                <option value="Non">Non</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
-                                    @empty
-                                        <p>Aucune propriété trouvée.</p>
-                                    @endforelse
-                                    @error('option')
-                                    <div class="text-danger">
-                                        {{ $message }}
+                                        @empty
+                                            <p>Aucune propriété trouvée.</p>
+                                        @endforelse
+                                        @error('option')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                    @enderror
                                 </div>
                             </div>
                             <div class="modal-footer">

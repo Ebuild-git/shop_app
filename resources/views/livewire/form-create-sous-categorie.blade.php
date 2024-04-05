@@ -31,8 +31,8 @@
                                         </span>
                                     </td>
                                     <td style="width: 60px !important">
-                                        <select class="form-control p-1"  wire:model='required.{{ $propriete->id }}'>
-                                            <option value=""></option>
+                                        <select aria-placeholder="" class="form-control p-1" style="font-size: 14px;" wire:model='required.{{ $propriete->id }}'>
+                                            <option value="">Obligé</option>
                                             <option value="Oui">Oui</option>
                                             <option value="Non">Non</option>
                                         </select>
