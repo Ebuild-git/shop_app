@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_categorie");
             $table->text("description")->nullable()->default(null);
             $table->json("proprietes")->nullable(true);
+            $table->json("required")->nullable(true);
             $table->integer('order')->default(0);
             $table->timestamps();
 
