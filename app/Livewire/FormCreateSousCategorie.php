@@ -54,6 +54,8 @@ class FormCreateSousCategorie extends Component
 
         //reset form
         $this->reset(['titre']);
+        $this->proprios = [];
+        $this->required = [];
 
         $this->dispatch('categorieCreated');
     }
