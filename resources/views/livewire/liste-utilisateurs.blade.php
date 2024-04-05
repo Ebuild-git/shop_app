@@ -43,8 +43,8 @@
          <table class="datatables-ajax table">
              <thead class="table-dark">
                  <tr>
-                     <th></th>
-                     <th>Full name</th>
+                     <th>Nom</th>
+                     <th>Prénom</th>
                      <th>Email</th>
                      <th>Téléphone</th>
                      <th>Publications</th>
@@ -58,12 +58,8 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                         <td class="avatar">
-                             <div class="avatar me-3">
-                                 <img src="{{ $user->getAvatar() }}" alt="..." class="rounded-circle">
-                             </div>
-                         </td>
-                         <td> {{ $user->name }} </td>
+                        <td> {{ $user->name }} </td>
+                         <td> {{ $user->prenom }} </td>
                          <td> {{ $user->email }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>

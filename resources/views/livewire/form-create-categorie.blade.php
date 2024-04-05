@@ -1,6 +1,6 @@
 <form wire:submit.prevent="creer">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-4">
             <h5>Informations sur la catégorie</h5>
             @include('components.alert-livewire')
             <label for="">Titre de la catégorie</label>
@@ -41,6 +41,25 @@
             @enderror
 
         </div>
+        <div class="col-sm-4">
+            @if ($photo)
+                <div class="div-img-update-categorie">
+                    <img src="{{ $photo->temporaryUrl() }}" alt="..">
+                </div>
+            @else
+                <div class="div-img-update-categorie">
+                    <img src="https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg" alt="..">
+                </div>
+            @endif
+            <label for="">Image d'illustration </label>
+            <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
+            @error('photo')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
         <div class="col-sm-4">
             <h5>
                 Ajout des prix de livraison par région

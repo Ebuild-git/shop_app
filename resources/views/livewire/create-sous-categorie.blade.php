@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12">
 
         <div class="alert alert-light">
             <div class="d-flex p-2 bd-highlight">
@@ -71,53 +71,7 @@
         </div>
 
     </div>
-    <div class="col-sm-4">
-        <div class="card pb-4 pt-3 p-2">
-            @include('components.alert-livewire')
-            <form wire:submit = "save" class="">
-                <div>
-                    <label class="form-label" for="modalAddCardName">Titre</label>
-                    <input type="text" wire:model="titre" class="form-control" required
-                        placeholder="Titre de la sous-catégorie" />
-                    @error('titre')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <br>
-                <div>
-                    <label for="" class="mb-2">Propriétés des annonce de cette sous-catégorie </label>
 
-                    <div class="row">
-                        @forelse ($proprietes as $propriete)
-                            <div class="col-sm-4">
-                                <input type="checkbox" class="form-check-input"
-                                    wire:model="proprios.{{ $propriete->id }}" value="{{ $propriete->id }}">
-                                {{ $propriete->nom }}
-                            </div>
-                        @empty
-                            <p>Aucune propriété trouvée.</p>
-                        @endforelse
-                    </div>
-                    @error('proprios')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <br>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">
-                        <span wire:loading>
-                            <x-loading></x-loading>
-                        </span>
-                        Enregistrer
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
 
     <script>

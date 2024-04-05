@@ -25,15 +25,19 @@
                             </div>
                             <div>
                                 <a href="/admin/categorie">
-                                    <button class="btn btn-sm btn-dark">
+                                    <button class="btn  btn-dark">
                                         Retour
                                     </button>
                                 </a>
                                 <a href="{{ route('gestion_proprietes') }}">
-                                    <button class="btn btn-primary btn-sm me-sm-3 me-1 waves-effect waves-light">
+                                    <button class="btn btn-info  me-sm-3 me-1 waves-effect waves-light">
                                         <i class="bi bi-plus"></i> Ajouter une propriété
                                     </button>
                                 </a>
+                                <button class="btn btn-primary  me-sm-3 me-1 waves-effect waves-light" data-bs-toggle="modal"
+                                data-bs-target="#modalToggle-new-sous-cat">
+                                    <i class="bi bi-plus"></i> Ajouter une sous-categorie
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -46,6 +50,26 @@
     <!--/ Content -->
 
 
+
+
+
+    <!-- Modal 1-->
+    <div class="modal fade" id="modalToggle-new-sous-cat" aria-labelledby="modalToggleLabel" tabindex="-1"
+        style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalToggleLabel">
+                        Nouvelle sous-catégorie
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @livewire('FormCreateSousCategorie', ['id_categorie' => $categorie->id])
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -74,5 +98,5 @@
 
     <!-- Page JS -->
     <script src="/assets-admin/js/app-logistics-dashboard.js"></script>
-    
+
 @endsection

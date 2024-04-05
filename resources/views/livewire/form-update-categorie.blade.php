@@ -82,20 +82,5 @@
         </button>
     </div>
 
-    <style>
-        .div-img-update-categorie {
-            height: 200px !important;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .div-img-update-categorie img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-        .div-img-update-categorie img:hover{
-            transform: scale(1.1);
-        }
-    </style>
+   
 </form>
