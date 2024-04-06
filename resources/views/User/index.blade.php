@@ -66,7 +66,7 @@
             }, false);
 
             // Change slide every 3 seconds
-            setInterval(nextItem, 3000);
+            setInterval(nextItem, 6000);
         });
     </script>
     <style>
