@@ -4,54 +4,71 @@
 
 
     <!-- ============================ Hero Banner  Start================================== -->
-    <div class="home-slider margin-bottom-0">
-
-
-        @forelse ($categories as $cat)
-            <!-- Slide -->
-            <div data-background-image="{{ Storage::url($cat->icon) }}" class="item ">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="home-slider-container ">
-
-                                <!-- Slide Title -->
-                                <div class="home-slider-desc text-center p-2 position-absolute header-btn-position">
-                                    <div class="home-slider-title mb-4">
-                                    </div>
-                                    <a href="/shop" class="btn btn-md  bg-dark text-light  " style="font-size: 25px;">
-                                        {{ $cat->titre }}
-                                    </a>
-                                </div>
-                                <!-- Slide Title / End -->
-
-                            </div>
-                        </div>
-                    </div>
+    <div>
+        <div class="carousel">
+            @forelse ($categories as $cat)
+                <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
+                    <a href="/shop" class="btn btn-md bg-dark text-light position-absolute " style="font-size: 25px; bottom: 20px;  left: 50%; transform: translateX(-50%);">
+                        Category Title 1
+                    </a>
                 </div>
-            </div>
-        @empty
-        @endforelse
+            @empty
+            @endforelse
+        </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $('.slick-next').on('click', function(event) {
-                // Arrête la propagation de l'événement de clic
-                event.stopPropagation();
 
-                // Clique sur le bouton slick-next
-                $(this).click();
-            });
-
-            // Auto clic sur le bouton slick-next toutes les 3 secondes
-            setInterval(function() {
-                $('.slick-next').click();
-            }, 6000);
-        });
-    </script>
     <!-- ============================ Hero Banner End ================================== -->
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentIndex = 0;
+            const items = document.querySelectorAll('.carousel-item');
+            const totalItems = items.length;
+    
+            let touchstartX = 0;
+            let touchendX = 0;
+    
+            function showItem(index) {
+                items.forEach(item => {
+                    item.style.display = 'none';
+                });
+                items[index].style.display = 'block';
+            }
+    
+            function nextItem() {
+                currentIndex = (currentIndex + 1) % totalItems;
+                showItem(currentIndex);
+            }
+    
+            function prevItem() {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                showItem(currentIndex);
+            }
+    
+            function handleGesture() {
+                if (touchendX < touchstartX) {
+                    nextItem();
+                }
+                if (touchendX > touchstartX) {
+                    prevItem();
+                }
+            }
+    
+            document.addEventListener('touchstart', function(event) {
+                touchstartX = event.changedTouches[0].screenX;
+            }, false);
+    
+            document.addEventListener('touchend', function(event) {
+                touchendX = event.changedTouches[0].screenX;
+                handleGesture();
+            }, false);
+    
+            // Change slide every 3 seconds
+            setInterval(nextItem, 3000);
+        });
+    </script>
+    
     <!-- ======================= Product List ======================== -->
     <section class="middle">
         <div class="container">
