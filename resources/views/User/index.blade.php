@@ -8,7 +8,8 @@
         <div class="carousel">
             @forelse ($categories as $cat)
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
-                    <a href="/shop" class="btn btn-md bg-dark text-light position-absolute " style="font-size: 25px; bottom: 20px;  left: 50%; transform: translateX(-50%);">
+                    <a href="/shop" class="btn btn-md bg-dark text-light position-absolute "
+                        style="font-size: 25px; bottom: 20px;  left: 50%; transform: translateX(-50%);">
                         Category Title 1
                     </a>
                 </div>
@@ -25,27 +26,27 @@
             let currentIndex = 0;
             const items = document.querySelectorAll('.carousel-item');
             const totalItems = items.length;
-    
+
             let touchstartX = 0;
             let touchendX = 0;
-    
+
             function showItem(index) {
                 items.forEach(item => {
                     item.style.display = 'none';
                 });
                 items[index].style.display = 'block';
             }
-    
+
             function nextItem() {
                 currentIndex = (currentIndex + 1) % totalItems;
                 showItem(currentIndex);
             }
-    
+
             function prevItem() {
                 currentIndex = (currentIndex - 1 + totalItems) % totalItems;
                 showItem(currentIndex);
             }
-    
+
             function handleGesture() {
                 if (touchendX < touchstartX) {
                     nextItem();
@@ -54,21 +55,41 @@
                     prevItem();
                 }
             }
-    
+
             document.addEventListener('touchstart', function(event) {
                 touchstartX = event.changedTouches[0].screenX;
             }, false);
-    
+
             document.addEventListener('touchend', function(event) {
                 touchendX = event.changedTouches[0].screenX;
                 handleGesture();
             }, false);
-    
+
             // Change slide every 3 seconds
             setInterval(nextItem, 3000);
         });
     </script>
-    
+    <style>
+        .carousel {
+            overflow: hidden;
+            width: 100%;
+            height: 600px;
+            /* Ajustez la hauteur selon vos besoins */
+        }
+
+        .carousel-item {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item:first-child {
+            display: block;
+        }
+    </style>
+
     <!-- ======================= Product List ======================== -->
     <section class="middle">
         <div class="container">
