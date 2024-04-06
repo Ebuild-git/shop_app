@@ -10,7 +10,7 @@
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
                     <a href="/shop" class="btn btn-md bg-dark text-light position-absolute "
                         style="font-size: 25px; bottom: 20px;  left: 50%; transform: translateX(-50%);">
-                        Category Title 1
+                        {{ $cat->titre }}
                     </a>
                 </div>
             @empty
