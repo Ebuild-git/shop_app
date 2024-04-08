@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/corrction', [Security::class, 'corrction']);
 
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');

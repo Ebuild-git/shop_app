@@ -276,7 +276,7 @@
                                         ->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu">
+                                <ul class="nav-dropdown nav-submenu" style="width: 350px !important">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">
@@ -286,8 +286,9 @@
                                                     </span>
                                                     <span class="small color">
                                                         @if ($item->luxury == 1)
+                                                            Luxury
                                                             <i class="bi bi-gem"
-                                                                style="font-weight: 800;font-size: 20px;"></i>
+                                                                style="font-weight: 800;"></i>
                                                         @endif
                                                     </span>
                                                 </div>

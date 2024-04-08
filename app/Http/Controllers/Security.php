@@ -12,35 +12,6 @@ class Security extends Controller
 {
 
 
-    public function corrction()
-    {
-        $enregistrements = sous_categories::all();
-        foreach ($enregistrements as $sous) {
-            if (is_null($sous->required)) {
-                $s = sous_categories::find($sous->id);
-                if ($s) {
-                    $convert = [];
-                    foreach ($s ?? [] as $pro) {
-                        $convert[] =
-                            [
-                                'id' => $pro,
-                                'required' => 'Non'
-                            ];
-                        // convert $convert to collection
-                        $coll = collect($convert);
-                    }
-                    $s->required = $coll;
-                    $s->save();
-                    echo "---------------- fais  <br> ";
-                }
-            } else {
-                echo "------------------------ pas null  <br> ";
-            }
-        }
-
-        echo "tout est ok";
-    }
-
 
 
     public function verify_account($id_user, $token)
