@@ -14,8 +14,8 @@ class Security extends Controller
 
     public function corrction()
     {
-        $enregistrements = sous_categories::where('required',null)->get();
-        dd($enregistrements);
+        $enregistrements = sous_categories::all();
+            dd($enregistrements);
     }
 
 
