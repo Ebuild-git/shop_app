@@ -271,8 +271,11 @@
 
                             <li>
                                 @php
-                                    $categories = app\Models\categories::Orderby('order', 'ASC')
-                                        ->get(['id', 'titre', 'luxury']);
+                                    $categories = app\Models\categories::Orderby('order', 'ASC')->get([
+                                        'id',
+                                        'titre',
+                                        'luxury',
+                                    ]);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu" style="width: 300px !important">
@@ -286,21 +289,23 @@
                                                     <span class="small color">
                                                         @if ($item->luxury == 1)
                                                             Luxury
-                                                            <i class="bi bi-gem"
-                                                                style="font-weight: 800;"></i>
+                                                            <i class="bi bi-gem" style="font-weight: 800;"></i>
                                                         @endif
                                                     </span>
                                                 </div>
                                             </a>
-                                            <ul class="nav-dropdown nav-submenu p-1">
-                                                @foreach ($item->getSousCategories as $sous)
-                                                <li >
-                                                    <a href="/shop?sous_categorie={{ $sous->id }}" class="p-1">
-                                                        {{ $sous->titre }}
-                                                    </a>
-                                                </li>
-                                                @endforeach
-											</ul>
+                                            <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav">
+                                                
+                                                    @foreach ($item->getSousCategories as $sous)
+                                                        <li>
+                                                            <a href="/shop?sous_categorie={{ $sous->id }}"
+                                                                class="p-2 text-right">
+                                                                {{ $sous->titre }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                
+                                            </ul>
                                         </li>
                                     @empty
                                     @endforelse
