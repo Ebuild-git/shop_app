@@ -87,7 +87,7 @@
                     commencer à profiter pleinement de tous les services que
                     LeBonCoin a à vous offrir.
                 </p>
-                <a href=" {{ route('verify_account', ['id_user' => $user->id, 'totken' => $token]) }} "
+                <a href=" {{ route('verify_account', ['id_user' => $user->id, 'token' => $token]) }} "
                     class="btn btn-infos w-100">
                     <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png"
                         alt="link--v1" />
