@@ -130,7 +130,7 @@
                                     @php
                                         $requi = false;
                                         if ($required) {
-                                            $collection = collect(json_decode($required, true));
+                                            $collection = collect(json_decode($required ?? [], true));
                                             $requiredStatus =
                                                 $collection->firstWhere('id', $propriete_info->id) ?? 'null';
                                             if ($requiredStatus['required'] == 'Oui') {
