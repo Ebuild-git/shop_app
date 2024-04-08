@@ -19,7 +19,7 @@ class Security extends Controller
             $s = sous_categories::find($sous->id);
             if ($s) {
                 $convert = [];
-                foreach ($sous->proprietes ?? [] as $pro) {
+                foreach ($s ?? [] as $pro) {
                     $convert[] =
                         [
                             'id' => $pro,
@@ -36,6 +36,8 @@ class Security extends Controller
         echo "tout est ok";
     }
 
+
+    
     public function verify_account($id_user, $token)
     {
         try {
