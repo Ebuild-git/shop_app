@@ -25,7 +25,7 @@ class CreatePost extends Component
 
     public $titre, $description, $region, $categorie, $sous_categories, $prix, $id, $prix_achat, $post, $old_photos, $id_sous_categorie, $etat, $selectedCategory, $selectedSubcategory;
     public $photo1, $photo2, $photo3, $photo4, $photo5;
-    public $colors,$required;
+    public $colors,$required = [];
     public $selected_color = null;
     public $article_propriete = [];
     public $proprietes, $quantite;
