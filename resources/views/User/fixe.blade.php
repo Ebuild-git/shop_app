@@ -276,7 +276,7 @@
                                         ->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu" style="width: 350px !important">
+                                <ul class="nav-dropdown nav-submenu" style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">
