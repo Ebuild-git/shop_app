@@ -271,8 +271,7 @@
 
                             <li>
                                 @php
-                                    $categories = DB::table('categories')
-                                        ->Orderby('order', 'ASC')
+                                    $categories = app\Models\categories::Orderby('order', 'ASC')
                                         ->get(['id', 'titre', 'luxury']);
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
@@ -293,7 +292,13 @@
                                                     </span>
                                                 </div>
                                             </a>
-
+                                            <ul class="nav-dropdown nav-submenu">
+                                                @foreach ($item->getSousCategories as $sous)
+                                                <li>
+                                                    <a href="/shop?sous_categorie={{ $sous->id }}">{{ $sous->titre }}</a>
+                                                </li>
+                                                @endforeach
+											</ul>
                                         </li>
                                     @empty
                                     @endforelse

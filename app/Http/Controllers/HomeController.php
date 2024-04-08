@@ -147,7 +147,8 @@ class HomeController extends Controller
     public function shop(Request $request)
     {
         $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
+        $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         $key = $request->input("key", '');
-        return view('User.shop', compact("categorie", "key"));
+        return view('User.shop', compact("categorie","sous_categorie", "key"));
     }
 }

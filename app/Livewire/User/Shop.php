@@ -17,8 +17,9 @@ class Shop extends Component
 
 
 
-    public function mount($categorie,$key){
+    public function mount($categorie,$key,$sous_categorie){
         $this->categorie = $categorie;
+        $this->sous_categorie = $sous_categorie;
         $this->key = $key;
     }
 
