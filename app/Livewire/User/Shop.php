@@ -37,7 +37,7 @@ class Shop extends Component
 
     public function render(){
         $this->total = posts::count();
-        $this->liste_categories = categories::orderBy('order')->get(["titre", "id"]);
+        $this->liste_categories = categories::orderBy('order')->get(["titre", "id","luxury"]);
         
         $query = posts::whereNotNull('verified_at')->whereNull('sell_at');
     

@@ -26,6 +26,14 @@
                                                         <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
                                                             class="collapsed" aria-expanded="false" role="button">
                                                             {{ $categorie->titre }}
+                                                            @if ($categorie->luxury == 1)
+                                                                <span class="color small">
+                                                                    <b>
+                                                                        (Luxury
+                                                                        <i class="bi bi-gem"></i>)
+                                                                    </b>
+                                                                </span>
+                                                            @endif
                                                             <i class="accordion-indicator ti-angle-down"></i>
                                                         </a>
                                                     </h5>
@@ -103,16 +111,14 @@
                                                 <div class="inner_widget_link">
                                                     <ul class="">
                                                         @foreach ($regions as $region)
-                                                            @if ($region->getPost->count() > 0)
-                                                                <li class="d-flex justify-content-between">
-                                                                    <button class="btn-btn-shop-style" type="button"
-                                                                        wire:click="filtre_sous_cat({{ $region->id }})">
-                                                                        {{ $region->nom }}
-                                                                    </button>
-                                                                    <span>
-                                                                        {{ $region->getPost->count() }}
-                                                                    </span>
-                                                            @endif
+                                                            <li class="d-flex justify-content-between">
+                                                                <button class="btn-btn-shop-style" type="button"
+                                                                    wire:click="filtre_sous_cat({{ $region->id }})">
+                                                                    {{ $region->nom }}
+                                                                </button>
+                                                                <span>
+                                                                    {{ $region->getPost->count() }}
+                                                                </span>
                                                         @endforeach
                                                     </ul>
                                                 </div>
@@ -149,13 +155,13 @@
                     <div class="col-xl-12 col-lg-12 col-md-12">
                         <div class="border mb-3 mfliud">
                             <div class="d-flex justify-content-between p-2 m-0">
-                                <div >
+                                <div>
                                     <h6 class="mb-0">
                                         {{ $total }} éléments publiés.
                                     </h6>
                                 </div>
 
-                                <div >
+                                <div>
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
                                         <a href="/">
                                             <img src="/icons/logo.png" alt="" height="20">

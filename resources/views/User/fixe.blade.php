@@ -292,10 +292,12 @@
                                                     </span>
                                                 </div>
                                             </a>
-                                            <ul class="nav-dropdown nav-submenu">
+                                            <ul class="nav-dropdown nav-submenu p-1">
                                                 @foreach ($item->getSousCategories as $sous)
-                                                <li>
-                                                    <a href="/shop?sous_categorie={{ $sous->id }}">{{ $sous->titre }}</a>
+                                                <li >
+                                                    <a href="/shop?sous_categorie={{ $sous->id }}" class="p-1">
+                                                        {{ $sous->titre }}
+                                                    </a>
                                                 </li>
                                                 @endforeach
 											</ul>
