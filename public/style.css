@@ -547,9 +547,13 @@ body {
     background: transparent;
 }
 .scrollbar-y-nav{
-    max-height: 300px;
+    max-height: 500px;
     overflow: scroll;
     overflow-x: hidden;
+}
+.selected-register{
+    border: solid 5px #008080 !important;
+    background-color: #00808015 !important;
 }
 
 

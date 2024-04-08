@@ -19,6 +19,7 @@ class Inscription extends Component
 {
     use WithFileUploads;
     public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept,$date,$genre,$prenom,$adress;
+    public $jour,$mois,$annee;
 
     public function render()
     {
@@ -37,6 +38,11 @@ class Inscription extends Component
     }
 
 
+    public function set_genre($val){
+        if($val == "Masculin"  || $val == "Féminin"){
+            $this->genre = $val;
+        }
+    }
 
 
 
@@ -51,9 +57,7 @@ class Inscription extends Component
             'prenom' => ['required', 'string'],
             'adress' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
-            'accept' => ['required', 'accepted'],
             'username' => "string|unique:users,username",
-            'date'=>['required'],
             'genre' =>'required|in:Féminin,Masculin'
         ], [
             'required' => 'Ce champ est obligatoire.',
@@ -64,8 +68,6 @@ class Inscription extends Component
             'max' => 'La taille de l\'image ne doit pas dépasser 2 Mo.',
             'matricule.mimes' => 'Le fichier doit être au format jpg, png, jpeg ou pdf.',
             'telephone.numeric' => 'Le numéro de téléphone doit être un nombre.',
-            'accept.required' => 'Vous devez accepter les termes et conditions.',
-            'accept.accept' => 'Vous devez accepter les termes et conditions pour continuer.',
             'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
             'genre.in' => 'Le genre choisi n\'est pas valide.',
@@ -81,8 +83,14 @@ class Inscription extends Component
 
 
         //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
-        if (Carbon::parse($this->date)->age < 13) {
-            $this->addError('date', 'L\'âge minimal est de 13ans');
+       /*  $date = $this->annee."-".$this->mois."-".$this->jour;
+        if ( date('Y')-$this->annee < 13) {
+            $this->addError('jour', 'L\'âge minimal est de 13ans');
+            return;
+        } */
+
+        if(!$this->genre){
+            $this->addError('genre','Choissisez votre genre');
             return;
         }
 
@@ -94,11 +102,11 @@ class Inscription extends Component
         $user->prenom = $this->prenom;
         $user->password = Hash::make($this->password);
         $user->phone_number = $this->telephone;
-        $user->naissance = $this->date;
+        $user->naissance = now();
         $user->genre = $this->genre;
         $user->role = "user";
         $user->type = "user";
-        $user->adress-> $this->adress;
+        $user->adress = $this->adress;
         $user->username = $this->username;
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');

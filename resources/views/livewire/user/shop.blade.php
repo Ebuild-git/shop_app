@@ -24,17 +24,21 @@
                                                 <div class="single_filter_card">
                                                     <h5>
                                                         <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
-                                                            class="collapsed" aria-expanded="false" role="button">
+                                                            class="collapsed d-flex justify-content-between" aria-expanded="false" role="button">
                                                             {{ $categorie->titre }}
-                                                            @if ($categorie->luxury == 1)
-                                                                <span class="color small">
-                                                                    <b>
-                                                                        (Luxury
-                                                                        <i class="bi bi-gem"></i>)
-                                                                    </b>
-                                                                </span>
-                                                            @endif
-                                                            <i class="accordion-indicator ti-angle-down"></i>
+
+                                                            <span>
+                                                                @if ($categorie->luxury == 1)
+                                                                    <span class="color small">
+                                                                        <b>
+                                                                            Luxury <i class="bi bi-gem"></i>
+                                                                        </b>
+                                                                    </span>
+                                                                    &nbsp;
+                                                                @endif
+                                                                <i class="accordion-indicator ti-angle-down"></i>
+                                                            </span>
+
                                                         </a>
                                                     </h5>
 

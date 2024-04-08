@@ -44,7 +44,8 @@
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="sp-loading">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" style="width: 100% !important;" alt="">
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
+                            style="width: 100% !important;" alt="">
                         <br>LOADING
                         IMAGES
                     </div>
@@ -89,10 +90,12 @@
                                         {{ $post->titre }}
                                     </h2>
                                     @auth
-                                        <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
-                                            <i class="bi bi-exclamation-octagon"></i>
-                                            Signaler
-                                        </h1>
+                                        @if (Auth::id() != $post->id_user)
+                                            <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                                <i class="bi bi-exclamation-octagon"></i>
+                                                Signaler
+                                            </h1>
+                                        @endif
                                     @endauth
                                 </div>
 
@@ -176,14 +179,14 @@
                                     @endif
                                     <div class="col-12 col-lg-auto">
                                         <!-- Wishlist -->
-                                        @livewire('User.ButtonAddLike', ['id_post' => $post->id])
+                                        @livewire('User.ButtonAddLike', ['post' => $post])
 
                                     </div>
                                     @auth
                                         <div class="col-12 col-lg-auto">
-                                            <!-- Wishlist -->
-                                            @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
-
+                                            @if (Auth::id() != $post->id_user)
+                                                @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+                                            @endif
                                         </div>
                                     @endauth
                                 </div>
@@ -320,32 +323,34 @@
 
 
     @auth
-        <!-- Log In Modal -->
-        <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl login-pop-form" role="document">
-                <div class="modal-content" id="loginmodal">
-                    <div class="modal-headers">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-5">
-                        <div class="text-center mb-4">
-                            <h1 class="m-0 ft-regular h5 text-danger">
-                                <i class="bi bi-exclamation-octagon"></i>
-                                Signaler une publication.
-                            </h1>
-                            <span class="text-muted">
-                                " {{ $post->titre }} "
-                            </span>
+        @if (Auth::id() != $post->id_user)
+            <!-- Log In Modal -->
+            <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl login-pop-form" role="document">
+                    <div class="modal-content" id="loginmodal">
+                        <div class="modal-headers">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span class="ti-close"></span>
+                            </button>
                         </div>
-                        @livewire('User.Signalement', ['post' => $post])
+                        <div class="modal-body p-5">
+                            <div class="text-center mb-4">
+                                <h1 class="m-0 ft-regular h5 text-danger">
+                                    <i class="bi bi-exclamation-octagon"></i>
+                                    Signaler une publication.
+                                </h1>
+                                <span class="text-muted">
+                                    " {{ $post->titre }} "
+                                </span>
+                            </div>
+                            @livewire('User.Signalement', ['post' => $post])
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End Modal -->
+            <!-- End Modal -->
+        @endif
     @endauth
 
 

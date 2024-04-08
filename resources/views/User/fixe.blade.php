@@ -271,11 +271,12 @@
 
                             <li>
                                 @php
-                                    $categories = app\Models\categories::Orderby('order', 'ASC')->get([
+                                    $categories = \App\Models\categories::orderBy('order', 'ASC')->get([
                                         'id',
                                         'titre',
                                         'luxury',
                                     ]);
+
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
                                 <ul class="nav-dropdown nav-submenu" style="width: 300px !important">
@@ -295,16 +296,16 @@
                                                 </div>
                                             </a>
                                             <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav">
-                                                
-                                                    @foreach ($item->getSousCategories as $sous)
-                                                        <li>
-                                                            <a href="/shop?sous_categorie={{ $sous->id }}"
-                                                                class="p-2 text-right">
-                                                                {{ $sous->titre }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                
+
+                                                @foreach ($item->getSousCategories as $sous)
+                                                    <li>
+                                                        <a href="/shop?sous_categorie={{ $sous->id }}"
+                                                            class="p-2 text-right">
+                                                            {{ $sous->titre }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+
                                             </ul>
                                         </li>
                                     @empty

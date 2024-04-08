@@ -259,11 +259,10 @@ class CreatePost extends Component
             $notification->save();
         }
 
-        $this->dispatch('alert', ['message' => "Le post a été créé avec succès", 'type' => 'success']);
-        session()->flash("success", "Le post a été créé avec succès. Vous recevrez une notification une fois la publication validée par un administrateur.");
+        //$this->dispatch('alert', ['message' => "Le post a été créé avec succès", 'type' => 'success']);
 
         // Réinitialiser le formulaire
-        $this->reset(['titre', 'description', 'region', 'categorie', 'prix', 'etat', 'photo1', 'photo2', 'photo3', 'photo4', 'photo5']);
+        return redirect()->route('details_post',['id'=>$post->id]);
     }
 
 

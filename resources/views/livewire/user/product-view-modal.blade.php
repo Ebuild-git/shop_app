@@ -60,7 +60,7 @@
                                      </div>
                                      <div class="col-12 col-lg-auto">
                                          <!-- Wishlist -->
-                                         @livewire('User.ButtonAddLike', ['id_post' => $post->id])
+                                         @livewire('User.ButtonAddLike', ['post' => $post])
                                      </div>
                                  </div>
                              </div>
