@@ -37,29 +37,34 @@
   const shipmentEl = document.querySelector('#shipmentStatisticsChart');
   const inscription = JSON.parse(shipmentEl.getAttribute('data-inscription'));
   const publication = JSON.parse(shipmentEl.getAttribute('data-publication'));
+  var register = Array.from(inscription);
+  var posts = Array.from(publication);
+  var combinedArray = register.concat(posts);
+  var maxValue = Math.max(...combinedArray);
+
    const shipmentConfig = {
       series: [
         {
           name: 'Publications',
           type: 'column',
-          data: publication
+          data: register
         },
         {
           name: 'Inscriptions',
           type: 'line',
-          data: inscription
+          data:  posts
         }
       ],
       chart: {
         height: 270,
         type: 'line',
-        stacked: false,
+        stacked: true,
         parentHeightOffset: 0,
         toolbar: {
-          show: false
+          show: true
         },
         zoom: {
-          enabled: false
+          enabled: true
         }
       },
       markers: {
@@ -129,16 +134,16 @@
           }
         },
         axisBorder: {
-          show: false
+          show: true
         },
         axisTicks: {
-          show: false
+          show: true
         }
       },
       yaxis: {
         tickAmount: 4,
-        min: 10,
-        max: 50,
+        min: 0,
+        max: maxValue,
         labels: {
           style: {
             colors: labelColor,
@@ -147,7 +152,7 @@
             fontWeight: 400
           },
           formatter: function (val) {
-            return val + '%';
+            return val + ' ';
           }
         }
       },

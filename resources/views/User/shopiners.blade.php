@@ -37,14 +37,6 @@
                                 src="https://img.icons8.com/external-vitaliy-gorbachev-fill-vitaly-gorbachev/30/FAB005/external-cup-award-vitaliy-gorbachev-fill-vitaly-gorbachev-9.png" />
                             <div>
                                 <div class="d-flex justify-content-start">
-                                    <div class=" card-image-shopiner">
-                                        @if ($shopiner->avatar != '')
-                                            <img src="{{ Storage::url($shopiner->avatar) }}" alt="...">
-                                        @else
-                                            <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                                alt="">
-                                        @endif
-                                    </div>
                                     <div class="pl-3" style="text-align: left">
                                         <div>
                                             <h4 class="h6">
