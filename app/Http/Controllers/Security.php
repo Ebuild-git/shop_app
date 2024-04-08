@@ -14,7 +14,7 @@ class Security extends Controller
 
     public function corrction()
     {
-        $enregistrements = sous_categories::whereNull('required')->get();
+        $enregistrements = sous_categories::where('required',null)->get();
         foreach ($enregistrements as $sous) {
             $s = sous_categories::find($sous->id);
             if ($s) {
