@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/corrction', [Security::class, 'corrction']);
+
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account'])->name('verify_account');

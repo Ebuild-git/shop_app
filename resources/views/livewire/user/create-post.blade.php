@@ -115,7 +115,7 @@
 
             @if ($proprietes && $selectedCategory)
                 <div class="row">
-                    @forelse ($proprietes as $propriete)
+                    @foreach ($proprietes as $propriete)
                         @php
                             $propriete_info = DB::table('proprietes')->find($propriete);
                         @endphp
@@ -159,13 +159,12 @@
                                             : <b> {{ $selected_color }} </b>
                                         @endif
                                         <br>
-                                        @forelse ($colors as $key => $item)
+                                        @foreach ($colors as $key => $item)
                                             <button style="background-color: {{ $item }};" type="button"
                                                 class="btn-color-create"
                                                 wire:click = "choose('{{ $key }}','{{ $item }}','{{ $propriete_info->nom }}')">
                                             </button>
-                                        @empty
-                                        @endforelse
+                                        @endforeach
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
                                             placeholder="{{ $propriete_info->nom }}" class="form-control"
@@ -174,8 +173,7 @@
                                 </div>
                             </div>
                         @endif
-                    @empty
-                    @endforelse
+                    @endforeach
                 </div>
             @endif
         </div>
