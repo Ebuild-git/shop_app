@@ -30,6 +30,7 @@ class Security extends Controller
                 }
                 $s->required = $coll;
                 $s->save();
+                echo "fais  <br> ";
             }
         }
 
