@@ -90,6 +90,17 @@
                     @enderror
                 </div>
             </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <span for="small">Adresse de localisation</span>
+                    <span class="text-danger">*</span>
+                    <input type="text" class="form-control @error('adress') is-invalid @enderror shadow-none"
+                        id="adress" placeholder="Adresse adress*" wire:model="adress" required>
+                    @error('adress')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
 
         </div>
 

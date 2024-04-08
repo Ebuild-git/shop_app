@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept,$date,$genre,$prenom;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept,$date,$genre,$prenom,$adress;
 
     public function render()
     {
@@ -49,6 +49,7 @@ class Inscription extends Component
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
+            'adress' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
             'accept' => ['required', 'accepted'],
             'username' => "string|unique:users,username",
@@ -68,6 +69,7 @@ class Inscription extends Component
             'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
             'genre.in' => 'Le genre choisi n\'est pas valide.',
+            
         ]);
 
 
@@ -96,6 +98,7 @@ class Inscription extends Component
         $user->genre = $this->genre;
         $user->role = "user";
         $user->type = "user";
+        $user->adress-> $this->adress;
         $user->username = $this->username;
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');
