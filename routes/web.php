@@ -55,7 +55,7 @@ Route::get('/forget', function () {
 
 
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post');
-Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post']);
+Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 
 
 
