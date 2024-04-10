@@ -125,22 +125,7 @@ class HomeController extends Controller
 
     public function shopiners()
     {
-
-        //get all post where collun sell_at is not null group by id_user Asc
-
-        $shopiners = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
-            ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
-            ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-            ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier')
-            ->where('users.role', '!=', 'admin')
-            ->orderByDesc('average_rating')
-            ->orderByDesc('total_posts')
-            ->limit(50)
-            ->get();
-
-
-
-        return view('User.shopiners', compact("shopiners"));
+        return view('User.shopiners');
     }
 
 

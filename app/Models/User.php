@@ -113,4 +113,10 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
+
+
+    public function pings(){
+        return $this->hasMany(pings::class, 'id_user', 'id');
+    }
+
 }

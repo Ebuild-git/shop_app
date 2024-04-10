@@ -555,6 +555,11 @@ body {
     border: solid 5px #008080 !important;
     background-color: #00808015 !important;
 }
+.btn-ping-shopinner{
+    border: none;
+    background-color: unset;
+    padding: 0px !important;
+}
 
 
 

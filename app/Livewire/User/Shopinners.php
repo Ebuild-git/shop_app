@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Livewire\User;
+
+use App\Models\pings;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class Shopinners extends Component
+{
+    use WithPagination;
+    public function render()
+    {
+        $shopiners = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(ratings.etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
+            ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
+            ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+            ->leftJoinSub(function ($query) {
+                $query->select('id_user')
+                    ->from('pings')
+                    ->where('pings.pined', auth()->user()->id)
+                    ->orderByDesc('created_at'); // Choisissez ici comment vous souhaitez trier les résultats pingés
+            }, 'pings', function ($join) {
+                $join->on('users.id', '=', 'pings.id_user');
+            })
+            ->where('users.role', '!=', 'admin')
+            ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier')
+            ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
+            ->orderByDesc('average_rating') // Ensuite, trie par note moyenne
+            ->orderByDesc('total_posts')
+            ->paginate(50);
+
+
+        return view('livewire.user.shopinners', compact("shopiners"));
+    }
+
+
+    public function ping($id_user)
+    {
+        if (Auth::check()) {
+            $user = pings::where('id_user', Auth::id())->where('pined', $id_user)->first();
+            if ($user) {
+                $user->delete();
+            } else {
+                pings::firstOrCreate(
+                    [
+                        'id_user' => Auth::id(),
+                        'pined' => $id_user
+                    ]
+                );
+            }
+        }
+    }
+}

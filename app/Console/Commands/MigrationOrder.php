@@ -46,7 +46,8 @@ class MigrationOrder extends Command
             '2024_03_15_144434_create_likes_table.php',
             '2024_03_21_083016_create_regions_categories_table.php',
             "2024_03_25_124212_create_ratings_tables.php",
-            "2024_04_04_152640_create_favoris_table.php"
+            "2024_04_04_152640_create_favoris_table.php",
+            "2024_04_10_095736_create_pings_table.php"
 
         ];
 
