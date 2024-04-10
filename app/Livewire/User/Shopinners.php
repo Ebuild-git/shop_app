@@ -14,16 +14,22 @@ class Shopinners extends Component
     use WithPagination;
     public function render()
     {
-        $shopiners = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(ratings.etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
+        $userId = auth()->user()->id;
+
+        $shopiners = User::select(
+            'users.id',
+            'users.name',
+            'users.avatar',
+            'users.username',
+            'users.certifier',
+            DB::raw('AVG(ratings.etoiles) as average_rating'),
+            DB::raw('COUNT(posts.id) as total_posts')
+        )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-            ->leftJoinSub(function ($query) {
-                $query->select('id_user')
-                    ->from('pings')
-                    ->where('pings.pined', auth()->user()->id)
-                    ->orderByDesc('created_at'); // Choisissez ici comment vous souhaitez trier les résultats pingés
-            }, 'pings', function ($join) {
-                $join->on('users.id', '=', 'pings.id_user');
+            ->leftJoin('pings', function ($join) use ($userId) {
+                $join->on('users.id', '=', 'pings.pined')
+                    ->where('pings.id_user', $userId);
             })
             ->where('users.role', '!=', 'admin')
             ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier')
@@ -31,6 +37,7 @@ class Shopinners extends Component
             ->orderByDesc('average_rating') // Ensuite, trie par note moyenne
             ->orderByDesc('total_posts')
             ->paginate(50);
+
 
 
         return view('livewire.user.shopinners', compact("shopiners"));
