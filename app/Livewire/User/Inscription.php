@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept,$date,$genre,$prenom,$adress;
-    public $jour,$mois,$annee;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept, $date, $genre, $prenom, $adress;
+    public $jour, $mois, $annee;
 
     public function render()
     {
@@ -38,8 +38,9 @@ class Inscription extends Component
     }
 
 
-    public function set_genre($val){
-        if($val == "Masculin"  || $val == "Féminin"){
+    public function set_genre($val)
+    {
+        if ($val == "Masculin" || $val == "Féminin") {
             $this->genre = $val;
         }
     }
@@ -58,7 +59,7 @@ class Inscription extends Component
             'adress' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
             'username' => "string|unique:users,username",
-            'genre' =>'required|in:Féminin,Masculin'
+            'genre' => 'required|in:Féminin,Masculin'
         ], [
             'required' => 'Ce champ est obligatoire.',
             'email' => 'Veuillez entrer une adresse email valide.',
@@ -71,7 +72,7 @@ class Inscription extends Component
             'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
             'genre.in' => 'Le genre choisi n\'est pas valide.',
-            
+
         ]);
 
 
@@ -83,14 +84,25 @@ class Inscription extends Component
 
 
         //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
-       /*  $date = $this->annee."-".$this->mois."-".$this->jour;
-        if ( date('Y')-$this->annee < 13) {
-            $this->addError('jour', 'L\'âge minimal est de 13ans');
+        $dateString = $this->annee . "-" . $this->mois . "-" . $this->jour;
+        $date = date_create_from_format('Y-m-d', $dateString);
+        if ($date === false) {
+            $this->addError('jour', 'Format de date incorrect');
             return;
-        } */
+        }
+        // Calculer la différence entre l'année actuelle et l'année fournie
+        $currentYear = date('Y');
+        $yearOfBirth = (int) $date->format('Y');
+        $age = $currentYear - $yearOfBirth;
 
-        if(!$this->genre){
-            $this->addError('genre','Choissisez votre genre');
+        if ($age < 13) {
+            $this->addError('jour', 'L\'âge minimal est de 13 ans');
+            return;
+        }
+
+
+        if (!$this->genre) {
+            $this->addError('genre', 'Choissisez votre genre');
             return;
         }
 
@@ -102,7 +114,7 @@ class Inscription extends Component
         $user->prenom = $this->prenom;
         $user->password = Hash::make($this->password);
         $user->phone_number = $this->telephone;
-        $user->naissance = now();
+        $user->naissance = $date;
         $user->genre = $this->genre;
         $user->role = "user";
         $user->type = "user";
@@ -111,7 +123,7 @@ class Inscription extends Component
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');
             $user->avatar = $newName;
-        }else{
+        } else {
             $user->avatar = null;
         }
         $user->ip_adress = request()->ip();
@@ -123,25 +135,24 @@ class Inscription extends Component
             $user->matricule = $matricule;
         }
 
-        
-        if($config->valider_photo == 1)
-        {
-            if($this->photo){
-                if($user->save()){
+
+        if ($config->valider_photo == 1) {
+            if ($this->photo) {
+                if ($user->save()) {
                     event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
                     //enregistrer la notification
                     $notification = new notifications();
                     $notification->type = "photo";
                     $notification->titre = $user->name . " vient de choisir  une  photo de profil";
-                    $notification->url = "/admin/client/". $user->id ."/view";
+                    $notification->url = "/admin/client/" . $user->id . "/view";
                     $notification->message = "Le client a ajouté une photo de profil";
                     $notification->id_user = $user->id;
                     $notification->destination = "admin";
                     $notification->save();
                 }
             }
-        }else{
-            $user->photo_verified_at= now();
+        } else {
+            $user->photo_verified_at = now();
         }
 
 
