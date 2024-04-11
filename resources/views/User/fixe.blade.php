@@ -121,7 +121,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
 
-                            <a href="/about" style="color: white !important">À propos</a>
+                            <a href="/about" style="color: white !important;padding-right: 10px">À propos</a>
 
                         </div>
 
@@ -262,8 +262,8 @@
                                     <img src="/icons/logo.png" class="logo" alt="" height="20" />
                                 </a>
                             </li>
-                            <li>
-                                <a href="/">Accueil</a>
+                            <li >
+                                <a href="/" style="padding-left: 0px !important">Accueil</a>
                             </li>
 
 
@@ -279,7 +279,7 @@
 
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu" style="width: 300px !important">
+                                <ul class="nav-dropdown nav-submenu p-0" style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">

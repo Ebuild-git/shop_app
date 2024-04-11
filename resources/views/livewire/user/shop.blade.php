@@ -24,7 +24,8 @@
                                                 <div class="single_filter_card">
                                                     <h5>
                                                         <a href="#cat-{{ $categorie->id }}" data-toggle="collapse"
-                                                            class="collapsed d-flex justify-content-between" aria-expanded="false" role="button">
+                                                            class="collapsed d-flex justify-content-between"
+                                                            aria-expanded="false" role="button">
                                                             {{ $categorie->titre }}
 
                                                             <span>
@@ -48,18 +49,16 @@
                                                             <div class="inner_widget_link">
                                                                 <ul>
                                                                     @foreach ($categorie->getSousCategories as $SousCategorie)
-                                                                        @if ($SousCategorie->getPost->count() > 0)
-                                                                            <li class="d-flex justify-content-between">
-                                                                                <button class="btn-btn-shop-style"
-                                                                                    type="button"
-                                                                                    wire:click="filtre_sous_cat({{ $SousCategorie->id }})">
-                                                                                    {{ $SousCategorie->titre }}
-                                                                                </button>
-                                                                                <span>
-                                                                                    {{ $SousCategorie->getPost->count() }}
-                                                                                </span>
-                                                                            </li>
-                                                                        @endif
+                                                                        <li class="d-flex justify-content-between">
+                                                                            <button class="btn-btn-shop-style"
+                                                                                type="button"
+                                                                                wire:click="filtre_sous_cat({{ $SousCategorie->id }})">
+                                                                                {{ $SousCategorie->titre }}
+                                                                            </button>
+                                                                            <span>
+                                                                                {{ $SousCategorie->getPost->count() }}
+                                                                            </span>
+                                                                        </li>
                                                                     @endforeach
                                                                 </ul>
                                                             </div>
