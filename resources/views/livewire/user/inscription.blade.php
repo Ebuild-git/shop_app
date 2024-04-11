@@ -31,11 +31,10 @@
 
             <div class="col-sm-6">
                 <div class="form-group">
-                    <span for="small">Username</span>
+                    <span for="small">Pseudonyme</span>
                     <span class="text-danger">*</span>
-                    <input type="tel"
-                        class="form-control @error('username') is-invalid @enderror shadow-none"id="username"
-                        placeholder="username23" wire:model.live="username" required>
+                    <input type="tel" class="form-control @error('username') is-invalid @enderror shadow-none"
+                        id="pseudonyme" placeholder="Pseudonyme" wire:model.live="username" required>
                     @error('username')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -131,10 +130,10 @@
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <span for="small">Adresse de localisation</span>
+                    <span for="small">Adresse</span>
                     <span class="text-danger">*</span>
                     <input type="text" class="form-control @error('adress') is-invalid @enderror shadow-none"
-                        id="adress" placeholder="Adresse adress*" wire:model="adress" required>
+                        id="adress" placeholder="Adresse *" wire:model="adress" required>
                     @error('adress')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -144,20 +143,40 @@
         </div>
 
 
-        <div class="form-group" style="position: relative;">
-            <span for="small">Mot de passe</span>
-            <span class="text-danger">*</span>
-            <input type="password" placeholder="Mot de passe" class="form-control  shadow-none" id="password"
-                wire:model="password" required>
-            <button class="password_show" type="button">
-                <span class="input-group-text" id="showPassword">
-                    <i class="bi bi-eye"></i>
-                </span>
-            </button>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group" style="position: relative;">
+                    <span for="small">Mot de passe</span>
+                    <span class="text-danger">*</span>
+                    <input type="password" placeholder="Mot de passe" class="form-control  shadow-none"
+                        id="password" wire:model="password" required>
+                    <button class="password_show" type="button">
+                        <span class="input-group-text" id="showPassword">
+                            <i class="bi bi-eye"></i>
+                        </span>
+                    </button>
+                </div>
+                @error('password')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" style="position: relative;">
+                    <span for="small">Confirmation du mot de passe</span>
+                    <span class="text-danger">*</span>
+                    <input type="password" placeholder="Mot de passe" class="form-control  shadow-none"
+                        id="password_confirmation" wire:model="password_confirmation" required>
+                    <button class="password_show" type="button">
+                        <span class="input-group-text" id="showPassword2">
+                            <i class="bi bi-eye"></i>
+                        </span>
+                    </button>
+                </div>
+                @error('password')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
         </div>
-        @error('password')
-            <small class="form-text text-danger">{{ $message }}</small>
-        @enderror
     </div>
     {{--  <div class="form-group">
         <div class="fil-import-registrer">
@@ -243,6 +262,15 @@
             x.type = "text";
         } else {
             x.type = "password";
+        }
+    });
+
+    document.getElementById("showPassword2").addEventListener("click", function() {
+        var y = document.getElementById("password_confirmation");
+        if (y.type === "password") {
+            y.type = "text";
+        } else {
+            y.type = "password";
         }
     });
 

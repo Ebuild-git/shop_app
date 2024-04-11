@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 class Inscription extends Component
 {
     use WithFileUploads;
-    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept, $date, $genre, $prenom, $adress;
+    public $nom, $email, $telephone, $password, $photo, $matricule, $username, $accept, $date, $genre, $prenom, $adress, $password_confirmation;
     public $jour, $mois, $annee;
 
     public function render()
@@ -29,13 +29,14 @@ class Inscription extends Component
 
     public function updatedUsername($value)
     {
-        $cleanedUsername = preg_replace('/[^A-Za-z0-9]/', '', $value);
+        $cleanedUsername = preg_replace('/[^A-Za-z0-9\-#]/', '', $value);
         $count = User::where("username", $cleanedUsername)->count();
         if ($count > 0) {
             $this->addError('username', "Ce nom d'utilisateur est déjà utilisé !");
         }
         $this->username = $cleanedUsername;
     }
+
 
 
     public function set_genre($val)
@@ -51,7 +52,7 @@ class Inscription extends Component
     {
         $validatedData = $this->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => ['required', 'string'],
+            'password' => ['required', 'confirmed', 'string'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
@@ -72,6 +73,7 @@ class Inscription extends Component
             'username.string' => 'Le nom d\'utilisateur doit être une chaîne de caractères.',
             'username.unique' => 'Ce nom d\'utilisateur est déjà utilisé.',
             'genre.in' => 'Le genre choisi n\'est pas valide.',
+            'confirmed' => 'Les mots de passe ne correspondent pas.'
 
         ]);
 

@@ -67,8 +67,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-4 text-center">
-                <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage"  height="400" srcset="">
+            <div class="col-sm-8=4 text-center">
+                <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage" style="width: 100%;">
             </div>
         </div>
     </div>

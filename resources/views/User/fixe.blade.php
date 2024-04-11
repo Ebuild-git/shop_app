@@ -262,7 +262,7 @@
                                     <img src="/icons/logo.png" class="logo" alt="" height="20" />
                                 </a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="/" style="padding-left: 0px !important">Accueil</a>
                             </li>
 
@@ -295,18 +295,18 @@
                                                     </span>
                                                 </div>
                                             </a>
-                                            <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav">
-
-                                                @foreach ($item->getSousCategories as $sous)
-                                                    <li>
-                                                        <a href="/shop?sous_categorie={{ $sous->id }}"
-                                                            class="p-2 text-right">
-                                                            {{ $sous->titre }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-
-                                            </ul>
+                                            @if ($item->getSousCategories->count() > 0)
+                                                <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav">
+                                                    @foreach ($item->getSousCategories as $sous)
+                                                        <li>
+                                                            <a href="/shop?sous_categorie={{ $sous->id }}"
+                                                                class="p-2 text-start">
+                                                                {{ $sous->titre }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </li>
                                     @empty
                                     @endforelse
