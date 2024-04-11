@@ -66,6 +66,10 @@ class HomeController extends Controller
     }
 
 
+    public function informations(){
+        return view('User.infromations');
+    }
+
     public function historiques()
     {
         $count = posts::where("id_user", Auth::user()->id)->count();

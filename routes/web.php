@@ -67,18 +67,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
-    Route::get('/publication/{id}/update', [ControllersHomeController::class, 'index_post'])->name('udapte_publication');
     Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
 
 
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/informations', function () {
-        return view('User.infromations');
-    })->name('mes_informations');
 
     
 });

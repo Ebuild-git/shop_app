@@ -12,9 +12,12 @@ class ListMesPosts extends Component
 {
     use WithPagination;
 
+    protected $listeners = ['update-price' => 'refresh'];
+
+
     public  $date, $etat,$filter,$titre,$statut;
 
-
+   
     
     public function mount($titre,$filter,$statut){
             $this->titre = $titre;
