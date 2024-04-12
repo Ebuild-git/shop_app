@@ -179,34 +179,34 @@
                                     <i class="bi bi-caret-down"></i>
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
-                                <ul class="dropdown-menu popup-content link">
+                                <ul class="dropdown-menu popup-content p-3 ">
                                     <li>
-                                        <a href="/user-notifications" class="dropdown-item medium text-medium">
+                                        <a href="/user-notifications" class=" medium link-red text-medium">
                                             Notifications
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('favoris') }}" class="dropdown-item medium text-medium">
+                                        <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
                                             Mes Favoris
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-publication" class="dropdown-item medium text-medium">
+                                        <a href="/mes-publication" class=" medium link-red text-medium">
                                             Mes annonces
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-achats" class="dropdown-item medium text-medium">
+                                        <a href="/mes-achats" class=" medium link-red text-medium">
                                             Mes achats
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/informations" class="dropdown-item medium text-medium">
-                                            Paramètre
+                                        <a href="/informations" class=" medium link-red text-medium">
+                                            Mon compte
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/logout" class="dropdown-item medium text-medium text-danger">
+                                        <a href="/logout" class=" medium text-medium link-red">
                                             Déconnexion
                                         </a>
                                     </li>
@@ -744,7 +744,7 @@
         }
     </style>
     <!-- end Condition Modal -->
-
+ 
 
 
     <!-- ============================================================== -->

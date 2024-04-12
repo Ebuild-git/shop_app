@@ -7,8 +7,8 @@ use Livewire\Component;
 
 class Connexion extends Component
 {
-    public $email;
-public $password;
+    public $email,$password;
+public $showPassword = false;
 
 
     public function render()

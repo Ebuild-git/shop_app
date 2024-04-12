@@ -21,9 +21,9 @@
 
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
-                <label>Nom et prénom</label>
+                <label>Nom </label>
                 <input type="text" class="form-control shadow-none" @error('name') is-invalid @enderror
                     wire:model="name" required>
                 @error('name')
@@ -31,7 +31,27 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Prénom </label>
+                <input type="text" class="form-control shadow-none" @error('prenom') is-invalid @enderror
+                    wire:model="prenom" required>
+                @error('prenom')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Pseudonyme </label>
+                <input type="text" class="form-control shadow-none" @error('username') is-invalid @enderror
+                    wire:model="username" required>
+                @error('username')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label>Numéro de téléphone</label>
                 <input type="tel" class="form-control shadow-none"
@@ -41,7 +61,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label>Région</label>
                 <select class="form-control shadow-none" wire:model="region" required>
@@ -55,7 +75,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label>Adresse</label>
                 <input type="test" class="form-control shadow-none" @error('adress') is-invalid @enderror
@@ -65,7 +85,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label>Adresse email</label>
                 <input type="email" class="form-control shadow-none" @error('email') is-invalid @enderror
@@ -75,46 +95,14 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>Nouvelle de photo de profil</label>
-                <input type="file" class="form-control shadow-none" @error('avatar') is-invalid @enderror
-                    wire:model="avatar">
-                @error('avatar')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            @if (is_null(Auth::user()->photo_verified_at))
-                <div class="alert alert-info">
-                    Votre photo de profil est en attente de validation par les administrateurs !
-                </div>
-            @endif
-        </div>
     </div>
     <br>
-    <div class="row">
-        
-
-        <div class="col-sm-4 text-center">
-            @if ($avatar)
-                <img src="{{ $avatar->temporaryUrl() }}" alt="" class="avatar-inscription">
-            @else
-                <img src="{{ Storage::url(Auth::user()->avatar) }}" class="avatar-inscription">
-            @endif
-        </div>
-    </div>
-
-    <br><br>
-    <div class="d-flex justify-content-between">
-        <div>
-        </div>
-        <div>
-            <button type="submit" class="btn bg-red">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                    wire:loading></span>
-                Enregistrer les modifications
-                <i class="bi bi-arrow-right-circle-fill"></i>
-            </button>
-        </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn bg-red">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                wire:loading></span>
+            Enregistrer les modifications
+            <i class="bi bi-arrow-right-circle-fill"></i>
+        </button>
     </div>
 </form>

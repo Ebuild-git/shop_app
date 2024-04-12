@@ -14,7 +14,6 @@
                     </a>
                 </div>
                 <div>
-                    <h5 class="color-white">Votre compte</h5>
                 </div>
             </div>
         </div>
@@ -23,7 +22,7 @@
             <div>
                 <button class="btn btn-perso bg-red shadow-none" onclick="change('perso')">
                     <i class="bi bi-person"></i>
-                    Informations
+                    Informations personnelles
                 </button>
                 <button class="btn btn-secu shadow-none" onclick="change('secu')">
                     <i class="bi bi-lock"></i>

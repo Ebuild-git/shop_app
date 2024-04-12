@@ -6,8 +6,8 @@
         <div class="form-group">
             <label>Adresse E-mail / Nom d'utilisateur</label>
             <input type="text" name="email" id="email-login" autocomplete="off"
-                class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none"
-                wire:model="email" placeholder="Email / Nom d'utilisateur">
+                class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
+                placeholder="Email / Nom d'utilisateur">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
@@ -15,14 +15,14 @@
         <div class="form-group ">
             <label>Mot de passe</label>
             <div class="position-relative">
-                <input type="password" name="password" id="password-login" autocomplete="off"
+                <input type="{{ $showPassword ? 'text' : 'password' }}" name="password" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
                     wire:model="password" placeholder="*****">
-                    <button class="password_show2" type="button" id="show">
-                        <span class="input-group-text" >
-                            <i class="bi bi-eye"></i>
-                        </span>
-                    </button>
+                <button class="password_show2" type="button" wire:click="$toggle('showPassword')">
+                    <span class="input-group-text">
+                        <i class="bi bi-eye"></i>
+                    </span>
+                </button>
             </div>
             @error('password')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -45,22 +45,13 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-
                     Connexion
                     <i class="bi bi-arrow-right-circle-fill"></i>
                 </button>
             </div>
         </div>
-        <script>
-            //change password type when i click on see button
-            document.getElementById("show").addEventListener("click", function() {
-                var x = document.getElementById("password-login");
-                if (x.type === "password") {
-                    x.type = "text";
-                } else {
-                    x.type = "password";
-                }
-            });
-        </script>
-        </script>
+
+        <!-- Dans votre vue Livewire -->
+        
+
 </div>

@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $name, $email, $telephone, $ville, $region, $avatar, $adress;
+    public $name, $email, $telephone, $ville, $region, $avatar, $adress,$username,$prenom;
 
     public function render()
     {
@@ -26,13 +26,23 @@ class UpdateInformations extends Component
         $this->ville = $user->ville;
         $this->region = $user->region;
         $this->adress = $user->adress;
+        $this->username = $user->username;
+        $this->prenom = $user->prenom;
         $this->telephone = $user->phone_number;
         $regions = regions::all(["id", "nom"]);
         return view('livewire.user.update-informations')->with("regions", $regions);
     }
 
+    public function updatedUsername($value)
+    {
+        $cleanedUsername = preg_replace('/[^A-Za-z0-9\-#]/', '', $value);
+        $this->username = $cleanedUsername;
+    }
+
     protected $rules = [
-        'name' => 'required|min:6',
+        'name' => 'required|string',
+        'prenom' => 'required|string',
+        'username' => 'required|string',
         'email' => 'required|email',
         'telephone' => ['nullable', 'numeric'],
         'region' => 'required|integer|exists:regions,id',
@@ -86,6 +96,8 @@ class UpdateInformations extends Component
         }
 
         $user->name = $this->name;
+        $user->prenom = $this->prenom;
+        $user->username = $this->username;
         $user->phone_number = $this->telephone;
         $user->region = $this->region;
         $user->adress = $this->adress;
