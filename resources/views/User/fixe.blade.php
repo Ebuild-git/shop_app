@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-sm-7 col-8">
                     <div class="row">
-                        <div class="col-10 recherche-div">
+                        <div class="col-8 recherche-div">
                             <form action="/shop" method="get">
                                 @csrf
                                 <input type="text" class="form-control sm text-capitalize input" name="key"
@@ -152,13 +152,13 @@
                             </form>
                         </div>
 
-                        <div class="col-2" style="text-align: left !important;">
+                        <div class="col-4" style="text-align: left !important;">
                             @auth
                                 <a href="/publication">
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#login">
                                     @endauth
-                                    <button class="btn btn-sm  bg-dark text-light p-2" type="button">
+                                    <button class="btn btn-sm  bg-dark text-light p-2 btn-block" type="button">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
                                             Publier
