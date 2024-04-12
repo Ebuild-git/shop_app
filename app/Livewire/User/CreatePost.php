@@ -237,7 +237,7 @@ class CreatePost extends Component
         $post->prix_achat = $this->prix_achat;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id;
-        if ($config->valider_publication === false) {
+        if ($config->valider_publication == 0) {
             $post->verified_at = now();
             $post->statut = 'vente';
         }

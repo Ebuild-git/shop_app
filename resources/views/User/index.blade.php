@@ -260,14 +260,14 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="elis_rty color">
                                             <span class="ft-bold  fs-sm">
-                                                {{ $lux->getPrix() }} DH
+                                                {{ $last->getPrix() }} DH
                                             </span>
                                         </div>
-                                        @if ($lux->old_prix)
+                                        @if ($last->old_prix)
                                             <div>
                                                 <strike>
                                                     <span class="text-danger">
-                                                        {{ $lux->getOldPrix() }} DH
+                                                        {{ $last->getOldPrix() }} DH
                                                     </span>
                                                 </strike>
                                             </div>
