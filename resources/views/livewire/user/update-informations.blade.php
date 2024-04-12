@@ -83,9 +83,8 @@
         <div class="col-sm-4">
             <div class="form-group">
                 <label>Adresse</label>
-                <span class="text-danger">*</span>
                 <input type="test" class="form-control shadow-none" @error('adress') is-invalid @enderror
-                    wire:model="adress" required>
+                    wire:model="adress">
                 @error('adress')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
