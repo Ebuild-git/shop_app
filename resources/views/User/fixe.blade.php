@@ -560,20 +560,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="footer-bottom" style="background-color: #008080 !important;color: black;">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-12 col-md-12 text-center">
-                                <p class="mb-0">© {{ date('Y') }}.
-                                    Designd By <a href="https://e-build.tn" style="color: #c71f17;">
-                                        <b>E-build</b>
-                                    </a>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </footer>
             <!-- ============================ Footer End ================================== -->
 

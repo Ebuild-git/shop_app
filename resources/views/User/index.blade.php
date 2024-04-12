@@ -218,9 +218,6 @@
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
-                                {{ $last->statut }}
-                            </div>
                             <div class="badge badge-like-post-count position-absolute ab-right text-upper">
                                 <i class="far fa-heart"></i>
                                 <span>
