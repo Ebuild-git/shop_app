@@ -7,6 +7,7 @@ use App\Models\configurations;
 use App\Models\notifications;
 use App\Models\regions;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -16,9 +17,10 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $name, $email, $telephone, $ville, $region, $avatar, $adress,$username,$prenom;
+    public $name, $email, $telephone, $ville, $region, $avatar, $adress, $username, $prenom, $jour, $mois, $annee;
 
-    public function render()
+
+    public function mount()
     {
         $user = User::find(Auth::id());
         $this->email = $user->email;
@@ -29,8 +31,17 @@ class UpdateInformations extends Component
         $this->username = $user->username;
         $this->prenom = $user->prenom;
         $this->telephone = $user->phone_number;
+        $date = Carbon::parse($user->naissance);
+        $this->jour = $date->day;
+        $this->mois = $date->month;
+        $this->annee = $date->year;
+
+    }
+
+    public function render()
+    {
         $regions = regions::all(["id", "nom"]);
-        return view('livewire.user.update-informations')->with("regions", $regions);
+        return view('livewire.user.update-informations', compact('regions'));
     }
 
     public function updatedUsername($value)
@@ -54,6 +65,26 @@ class UpdateInformations extends Component
     {
 
         $this->validate();
+
+        //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
+        $dateString = $this->annee . "-" . $this->mois . "-" . $this->jour;
+        $date = date_create_from_format('Y-m-d', $dateString);
+        if ($date === false) {
+            $this->addError('jour', 'Format de date incorrect');
+            return;
+        }
+        // Calculer la différence entre l'année actuelle et l'année fournie
+        $currentYear = date('Y');
+        $yearOfBirth = (int) $date->format('Y');
+        $age = $currentYear - $yearOfBirth;
+
+        if ($age < 13) {
+            $this->addError('jour', 'L\'âge minimal est de 13 ans');
+            return;
+        }
+
+
+
         $user = User::find(Auth::user()->id);
 
         //verifier si l'email a ete changer si oui si cela est libre
@@ -90,7 +121,7 @@ class UpdateInformations extends Component
                     $notification->save();
                 }
                 $user->photo_verified_at = null;
-            }else{
+            } else {
                 $user->photo_verified_at = now();
             }
         }
@@ -101,6 +132,7 @@ class UpdateInformations extends Component
         $user->phone_number = $this->telephone;
         $user->region = $this->region;
         $user->adress = $this->adress;
+        $user->naissance = $date;
         $user->save();
 
         session()->flash('info', 'Informations mises à jour avec succès !');

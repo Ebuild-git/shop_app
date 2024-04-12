@@ -313,7 +313,11 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="{{ route('shopiners') }}">Shop<span class="color">in</span>ers</a>
+                                <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
+                                @guest data-toggle="modal" data-target="#login" @endguest>
+                                Shop<span class="color">in</span>ers
+                            </a>
+                            
                             </li>
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
@@ -744,7 +748,7 @@
         }
     </style>
     <!-- end Condition Modal -->
- 
+
 
 
     <!-- ============================================================== -->

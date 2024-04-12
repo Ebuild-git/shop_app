@@ -84,6 +84,9 @@ class User extends Authenticatable implements JWTSubject
             return Storage::url($this->avatar);
         }
     }
+    
+
+  
 
 
     public function categoriesWhereUserPosted()

@@ -63,7 +63,17 @@
                         {{ $item->statut }}
                     </td>
                     <td>
-                        {{ $item->getPrix() }} DH
+                        @if ($item->old_prix)
+                            <b>
+                                {{ $item->prix }} DH
+                            </b>
+                            <br>
+                            <strike class="text-danger">
+                                {{ $item->old_prix }} DH
+                            </strike>
+                        @else
+                            {{ $item->prix }} DH
+                        @endif
                     </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
@@ -109,7 +119,6 @@
                                 </div>
                             </div>
                             <!-- End Modal -->
-
                         @endif
                         @if ($item->statut == 'validation' || $item->statut == 'vente')
                             <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"

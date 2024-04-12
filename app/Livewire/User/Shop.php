@@ -39,7 +39,7 @@ class Shop extends Component
         $this->total = posts::count();
         $this->liste_categories = categories::orderBy('order')->get(["titre", "id","luxury"]);
         
-        $query = posts::whereNotNull('verified_at')->whereNull('sell_at');
+        $query = posts::where('statut','vente');
     
         if (!empty($this->ordre)) {
             $query->orderBy('created_at', ($this->ordre == "Desc") ? 'DESC' : 'ASC');

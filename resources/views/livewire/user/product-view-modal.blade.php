@@ -13,8 +13,7 @@
                  <div class="quick_view_wrap">
 
                      <div class="quick_view_thmb">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100"
-                        alt="" />
+                         <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100" alt="" />
                      </div>
 
                      <div class="quick_view_capt">
@@ -29,10 +28,20 @@
                                      {{ $post->titre }}
                                  </h2>
                                  <div class="text-left">
-                                     <div class="elis_rty">
-                                         <span class="ft-bold color fs-lg mr-2">
-                                             {{ $post->getPrix() }} DH
-                                         </span>
+                                     <div class="elis_rty mt-2">
+                                         @if ($post->old_prix)
+                                             <span class="ft-bold color fs-lg">
+                                                 {{ $post->getPrix() }} DH
+                                             </span>
+                                             <br>
+                                             <strike class="text-danger">
+                                                 {{ $post->getOldPrix() }} DH
+                                             </strike>
+                                         @else
+                                             <span class="ft-bold color fs-lg">
+                                                 {{ $post->getPrix() }} DH
+                                             </span>
+                                         @endif
                                      </div>
                                  </div>
                              </div>

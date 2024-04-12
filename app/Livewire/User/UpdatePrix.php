@@ -21,13 +21,13 @@ class UpdatePrix extends Component
     public function form_update_prix(){
         $post = posts::find($this->post->id);
         if($post){
+            $post->old_prix = $post->prix;
             $post->prix = $this->prix;
             $post->save();
 
            // $this->dispatch('update-price');
 
-           //flash message
-           session()->flash("success", "Le prix du post a été modifié"); 
+           return redirect()->route('details_post',['id' => $post->id]);
 
         }
     }

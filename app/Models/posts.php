@@ -27,6 +27,13 @@ class posts extends Model
         return $prix ?? "N/A";
     }
 
+    
+    public function getOldPrix(){
+
+        $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
+        $prix = round($this->attributes['old_prix'] + (($pourcentage_gain * $this->attributes['old_prix']) / 100), 3);
+        return $prix ?? "N/A";
+    }
 
     public function getFraisLivraison()
     {

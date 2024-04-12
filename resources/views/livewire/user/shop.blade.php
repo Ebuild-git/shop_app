@@ -223,10 +223,21 @@
                                                 {{ $post->titre }}
                                             </a>
                                         </h5>
-                                        <div class="elis_rty color">
-                                            <span class="ft-bold  fs-sm">
-                                                {{ $post->getPrix() }} DH
-                                            </span>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="elis_rty color">
+                                                <span class="ft-bold  fs-sm">
+                                                    {{ $post->getPrix() }} DH
+                                                </span>
+                                            </div>
+                                            @if ($post->old_prix)
+                                                <div>
+                                                    <strike>
+                                                        <span class="text-danger">
+                                                            {{ $post->getOldPrix() }} DH
+                                                        </span>
+                                                    </strike>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

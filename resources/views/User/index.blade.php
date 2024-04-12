@@ -4,7 +4,7 @@
 
 
     <!-- ============================ Hero Banner  Start================================== -->
-    <div>
+    <div class="position-relative">
         <div class="carousel">
             @forelse ($categories as $cat)
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
@@ -16,59 +16,69 @@
             @empty
             @endforelse
         </div>
+        <div class="group-btn-slide">
+            <div class="d-flex justify-content-between">
+                <button class="btn-slide-home" onclick="prevItem()">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <button class="btn-slide-home" onclick="nextItem()">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
+
 
 
     <!-- ============================ Hero Banner End ================================== -->
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let currentIndex = 0;
-            const items = document.querySelectorAll('.carousel-item');
-            const totalItems = items.length;
+        let currentIndex = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        const totalItems = items.length;
 
-            let touchstartX = 0;
-            let touchendX = 0;
+        let touchstartX = 0;
+        let touchendX = 0;
 
-            function showItem(index) {
-                items.forEach(item => {
-                    item.style.display = 'none';
-                });
-                items[index].style.display = 'block';
+        function showItem(index) {
+            items.forEach(item => {
+                item.style.display = 'none';
+            });
+            items[index].style.display = 'block';
+        }
+
+        function nextItem() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            showItem(currentIndex);
+        }
+
+        function prevItem() {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            showItem(currentIndex);
+        }
+
+        function handleGesture(event) {
+            if (touchendX < touchstartX) {
+                nextItem();
             }
-
-            function nextItem() {
-                currentIndex = (currentIndex + 1) % totalItems;
-                showItem(currentIndex);
+            if (touchendX > touchstartX) {
+                prevItem();
             }
+        }
 
-            function prevItem() {
-                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-                showItem(currentIndex);
-            }
+        document.addEventListener('touchstart', function(event) {
+            touchstartX = event.changedTouches[0].screenX;
+        }, false);
 
-            function handleGesture() {
-                if (touchendX < touchstartX) {
-                    nextItem();
-                }
-                if (touchendX > touchstartX) {
-                    prevItem();
-                }
-            }
+        document.addEventListener('touchend', function(event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        }, false);
 
-            document.addEventListener('touchstart', function(event) {
-                touchstartX = event.changedTouches[0].screenX;
-            }, false);
-
-            document.addEventListener('touchend', function(event) {
-                touchendX = event.changedTouches[0].screenX;
-                handleGesture();
-            }, false);
-
-            // Change slide every 3 seconds
-            setInterval(nextItem, 6000);
-        });
+        // Change slide every 3 seconds
+        setInterval(nextItem, 6000);
     </script>
+
     <style>
         .carousel {
             overflow: hidden;
@@ -89,6 +99,7 @@
             display: block;
         }
     </style>
+
 
     <!-- ======================= Product List ======================== -->
     <section class="middle">
@@ -145,10 +156,21 @@
                                             {{ $lux->titre }}
                                         </a>
                                     </h5>
-                                    <div class="elis_rty color">
-                                        <span class="ft-bold  fs-sm">
-                                            {{ $lux->getPrix() }}DH
-                                        </span>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="elis_rty color">
+                                            <span class="ft-bold  fs-sm">
+                                                {{ $lux->getPrix() }} DH
+                                            </span>
+                                        </div>
+                                        @if ($lux->old_prix)
+                                            <div>
+                                                <strike>
+                                                    <span class="text-danger">
+                                                        {{ $lux->getOldPrix() }} DH
+                                                    </span>
+                                                </strike>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -235,10 +257,21 @@
                                             {{ $last->titre }}
                                         </a>
                                     </h5>
-                                    <div class="elis_rty color">
-                                        <span class="ft-bold  fs-sm">
-                                            {{ $last->getPrix() }}DH
-                                        </span>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="elis_rty color">
+                                            <span class="ft-bold  fs-sm">
+                                                {{ $lux->getPrix() }} DH
+                                            </span>
+                                        </div>
+                                        @if ($lux->old_prix)
+                                            <div>
+                                                <strike>
+                                                    <span class="text-danger">
+                                                        {{ $lux->getOldPrix() }} DH
+                                                    </span>
+                                                </strike>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

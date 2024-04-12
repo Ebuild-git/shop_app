@@ -80,9 +80,19 @@
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                             <div class="elis_rty mt-2">
-                                <span class="ft-bold color fs-lg">
-                                    {{ $post->getPrix() }} DH
-                                </span>
+                                @if ($post->old_prix)
+                                    <span class="ft-bold color fs-lg">
+                                        {{ $post->getPrix() }} DH
+                                    </span>
+                                    <br>
+                                    <strike class="text-danger">
+                                        {{ $post->getOldPrix() }} DH
+                                    </strike>
+                                @else
+                                    <span class="ft-bold color fs-lg">
+                                        {{ $post->getPrix() }} DH
+                                    </span>
+                                @endif
                             </div>
                             <div class="prt_02 mb-3">
                                 <div class="d-flex justify-content-between">
@@ -299,10 +309,21 @@
                                                         {{ $other->titre }}
                                                     </a>
                                                 </h5>
-                                                <div class="elis_rty">
-                                                    <span class="ft-bold fs-md color">
-                                                        {{ $other->getPrix() }} DH
-                                                    </span>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="elis_rty color">
+                                                        <span class="ft-bold  fs-sm">
+                                                            {{ $other->getPrix() }} DH
+                                                        </span>
+                                                    </div>
+                                                    @if ($other->old_prix)
+                                                        <div>
+                                                            <strike>
+                                                                <span class="text-danger">
+                                                                    {{ $other->getOldPrix() }} DH
+                                                                </span>
+                                                            </strike>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

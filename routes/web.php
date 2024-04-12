@@ -35,7 +35,7 @@ Route::get('/about', [ControllersHomeController::class, 'about'])->name('about')
 Route::get('/how_buy', [ControllersHomeController::class, 'how_buy'])->name('how_buy');
 Route::get('/how_sell', [ControllersHomeController::class, 'how_sell'])->name('how_sell');
 Route::get('/contact', [ControllersHomeController::class, 'contact'])->name('contact');
-Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
+
 
 
 Route::get('/conditions', function () {
@@ -62,6 +62,7 @@ Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_pos
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
     Route::get('/favoris', [ControllersHomeController::class, 'favoris'])->name('favoris');
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');

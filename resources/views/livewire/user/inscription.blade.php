@@ -245,7 +245,7 @@
 
     <br>
     <div>
-        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit">
+        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit" wire:loading.attr="disabled">
             <span wire:loading>
                 <x-Loading></x-Loading>
             </span>

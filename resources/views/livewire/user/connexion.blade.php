@@ -44,7 +44,7 @@
                 </span>
             </div>
             <div>
-                <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
+                <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" wire:loading.attr="disabled">
                     Connexion
                     <i class="bi bi-arrow-right-circle-fill"></i>
                 </button>
