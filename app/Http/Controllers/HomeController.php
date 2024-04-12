@@ -88,6 +88,27 @@ class HomeController extends Controller
     }
 
 
+    public function user_notifications(){
+        return view('User.notifications');
+    }
+
+    public function conditions(){
+        return view('User.conditions');
+    }
+
+    public function inscription(){
+        return view('User.Auth-user.inscription');
+    }
+
+    public function connexion(){
+        return view('User.Auth-user.connexion');
+    }
+
+    public function forget(){
+        return view('User.Auth-user.forget');
+    }
+
+
     public function favoris()
     {
         return view("User.favoris");

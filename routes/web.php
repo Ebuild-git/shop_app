@@ -35,25 +35,10 @@ Route::get('/about', [ControllersHomeController::class, 'about'])->name('about')
 Route::get('/how_buy', [ControllersHomeController::class, 'how_buy'])->name('how_buy');
 Route::get('/how_sell', [ControllersHomeController::class, 'how_sell'])->name('how_sell');
 Route::get('/contact', [ControllersHomeController::class, 'contact'])->name('contact');
-
-
-
-Route::get('/conditions', function () {
-    return view('User.conditions');
-})->name('conditions');
-
-Route::get('/inscription', function () {
-    return view('User.Auth-user.inscription');
-})->name('inscription');
-Route::get('/connexion', function () {
-    return view('User.Auth-user.connexion');
-})->name('connexion');
-
-Route::get('/forget', function () {
-    return view('User.Auth-user.forget');
-})->name('forget');
-
-
+Route::get('/conditions', [ControllersHomeController::class, 'conditions'])->name('conditions');
+Route::get('/inscription', [ControllersHomeController::class, 'inscription'])->name('inscription');
+Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name('connexion');
+Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 
@@ -69,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
     Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
-
+    Route::get('/user-notifications', [ControllersHomeController::class, 'user_notifications'])->name('user-notifications');
 
 
     Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');
@@ -97,10 +82,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     })->name('gestion_proprietes');
 
  
-
-    Route::get('/user-notifications', function () {
-        return view('User.notifications');
-    })->name('user-notifications');
+    
 
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
