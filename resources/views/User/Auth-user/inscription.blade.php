@@ -11,7 +11,7 @@
                         <h4>
                            <i> Débutez l'aventure !</i>
                         </h4>
-                        <img style="width: 80%;" src="https://demos.pixinvent.com/vuexy-html-admin-template/assets/img/illustrations/auth-register-illustration-light.png" alt="" srcset="">
+                        <img style="width: 80%;" src="/icons/illus-register.png" alt="" srcset="">
                     </div>
                 </div>
             </div>
