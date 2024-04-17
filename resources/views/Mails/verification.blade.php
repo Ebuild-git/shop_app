@@ -57,35 +57,13 @@
         <br>
         <div class="row">
             <div class="col-sm-6 mx-auto bg-white p-1">
-                @if ($categorie)
-                   <div class="header-image">
-                    <img src="{{ url(Storage::url($categorie->icon)) }}" alt>
-                </div> 
-                @endif
-                
-                <br>
-                <h5>
-                    Confirmez votre inscription
-                </h5>
 
                 <p>
-                    Cher(e) utilisateur/trice, <br>
+                    Bonjour {{ $user->username }}, <br>
 
-                    Nous vous souhaitons la bienvenue sur <b class="color">{{ config('app.name') }}</b>, la plateforme
-                    en ligne pour acheter et vendre en toute simplicité.
-                    Nous sommes
-                    ravis de vous compter parmi notre communauté.
-                </p>
-                <p>
-                    Pour finaliser votre inscription, veuillez cliquer sur
-                    le lien
-                    ci-dessous afin de confirmer votre adresse e-mail :
-                </p>
-                <p class="fw-normal">
-                    En cliquant sur ce lien, vous activerez votre compte et
-                    pourrez
-                    commencer à profiter pleinement de tous les services que
-                    LeBonCoin a à vous offrir.
+                    Vous venez de créer un compte SHOPIN. <br>
+                    Avant de pouvoir utiliser votre compte, vous devez vérifier que cette adresse
+                    e-mail est bien la vôtre.
                 </p>
                 <a href=" {{ route('verify_account', ['id_user' => $user->id, 'token' => $token]) }} "
                     class="btn btn-infos w-100">
@@ -93,23 +71,19 @@
                         alt="link--v1" />
                     Confirmer mon inscription
                 </a>
-                <br><br>
+                <br>
+                <p>
+                    Merci et bienvenue parmi nous !
+                    <br>
+                    L’équipe SHOPIN
+                </p>
+                <br>
                 <p>
                     Si vous n'avez pas tenté de vous inscrire à notre
                     plateforme,
                     veuillez ignorer cet e-mail.
                 </p>
-                <p>
-                    Nous restons à votre disposition pour toute question ou
-                    assistance supplémentaire. N'hésitez pas à nous
-                    contacter..
-                </p>
-                <p>
-                    Cordialement,
-                </p>
-                <p>
-                    L'équipe <b class="color">{{ config('app.name') }}</b>
-                </p>
+
             </div>
         </div>
     </div>

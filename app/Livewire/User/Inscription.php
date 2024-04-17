@@ -111,16 +111,16 @@ class Inscription extends Component
         $config = configurations::first();
 
         $user = new User();
-        $user->name = $this->nom;
+        $user->lastname = $this->nom;
         $user->email = $this->email;
-        $user->prenom = $this->prenom;
+        $user->firstname = $this->prenom;
         $user->password = Hash::make($this->password);
         $user->phone_number = $this->telephone;
-        $user->naissance = $date;
-        $user->genre = $this->genre;
+        $user->birthdate = $date;
+        $user->gendre = $this->genre;
         $user->role = "user";
         $user->type = "user";
-        $user->adress = $this->adress;
+        $user->address = $this->adress;
         $user->username = $this->username;
         if ($this->photo) {
             $newName = $this->photo->store('uploads/avatars', 'public');
@@ -128,7 +128,7 @@ class Inscription extends Component
         } else {
             $user->avatar = null;
         }
-        $user->ip_adress = request()->ip();
+        $user->ip_address = request()->ip();
         $user->remember_token = $token;
 
         if ($this->matricule) {

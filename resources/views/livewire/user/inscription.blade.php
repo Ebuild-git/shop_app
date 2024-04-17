@@ -60,15 +60,15 @@
                     <span class="text-danger">*</span>
                     <div class="input-group">
                         <buttonn type="button"
-                            class="form-control {{ $genre == 'Masculin' ? 'selected-register' : '' }}"
-                            wire:click="set_genre('Masculin')">
+                            class="form-control {{ $genre == 'male' ? 'selected-register' : '' }}"
+                            wire:click="set_genre('male')">
                             <img width="20" height="20" src="https://img.icons8.com/sf-black/20/008080/male.png"
                                 alt="male" />
                             Homme
                         </buttonn>
                         <buttonn type="button"
-                            class="form-control {{ $genre == 'Féminin' ? 'selected-register' : '' }}"
-                            wire:click="set_genre('Féminin')">
+                            class="form-control {{ $genre == 'female' ? 'selected-register' : '' }}"
+                            wire:click="set_genre('female')">
                             <img width="20" height="20"
                                 src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
                             Femme
