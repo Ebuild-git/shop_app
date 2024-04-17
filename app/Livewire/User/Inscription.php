@@ -41,7 +41,7 @@ class Inscription extends Component
 
     public function set_genre($val)
     {
-        if ($val == "Masculin" || $val == "Féminin") {
+        if ($val == "male" || $val == "female") {
             $this->genre = $val;
         }
     }
@@ -60,7 +60,7 @@ class Inscription extends Component
             'adress' => ['required', 'string'],
             'telephone' => ['required', 'numeric'],
             'username' => "string|unique:users,username",
-            'genre' => 'required|in:Féminin,Masculin'
+            'genre' => 'required|in:female,male'
         ], [
             'required' => 'Ce champ est obligatoire.',
             'email' => 'Veuillez entrer une adresse email valide.',
