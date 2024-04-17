@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamp('photo_verified_at')->nullable()->default(null);
             $table->string('matricule')->nullable()->default(null);
             $table->dateTime('birthday');
-            $table->enum("gender", ["male","female"]);
+            $table->enum("gender", ["male","fema"]);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
