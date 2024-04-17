@@ -161,12 +161,18 @@
                                             <div class="p-2 alert alert-success">
                                                 <b>{{ ucfirst($key) }} </b>
                                                 <br>
-                                                @if ($key == 'couleur' || $key == 'Couleur')
-                                                    <span
-                                                        style="background-color: {{ $value }} ;color:{{ $value }};"
-                                                        class="">
-                                                        {{ $value }}
-                                                    </span>
+                                                @if ($key = "couleur" || $key = "Couleur")
+                                                    @if ($value == "#000000")
+                                                        <div class="multi-color-btn w-100" >
+                                                            <br><br>
+                                                        </div>
+                                                    @else
+                                                        <span
+                                                            style="background-color: {{ $value }} ;color:{{ $value }};"
+                                                            class="">
+                                                            {{ $value }}
+                                                        </span>
+                                                    @endif
                                                 @else
                                                     {{ $value }}
                                                 @endif
