@@ -25,15 +25,14 @@ return new class extends Migration
             $table->string("address")->nullable()->default(null);
             $table->unsignedBigInteger("region")->nullable(true)->default(null);
             $table->string("role");
-            $table->string("city")->nullable()->default(null);
             $table->enum('type', ['user', 'shop']);
             $table->timestamp('email_verified_at')->nullable(true)->default(null);
             $table->timestamp('validate_at')->nullable()->default(null);
             $table->timestamp('first_login_at')->nullable()->default(null);
             $table->timestamp('photo_verified_at')->nullable()->default(null);
             $table->string('matricule')->nullable()->default(null);
-            $table->dateTime('birthday');
-            $table->enum("gender", ["male","fema"]);
+            $table->dateTime('birthdate');
+            $table->enum("gender", ["male","female"]);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
