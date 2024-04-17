@@ -39,7 +39,7 @@ Route::get('/conditions', [ControllersHomeController::class, 'conditions'])->nam
 Route::get('/inscription', [ControllersHomeController::class, 'inscription'])->name('inscription');
 Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name('connexion');
 Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
-Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post');
+Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 
 
