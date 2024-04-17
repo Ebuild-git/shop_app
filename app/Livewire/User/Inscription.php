@@ -117,7 +117,7 @@ class Inscription extends Component
         $user->password = Hash::make($this->password);
         $user->phone_number = $this->telephone;
         $user->birthdate = $date;
-        $user->gendre = $this->genre;
+        $user->gender = $this->genre;
         $user->role = "user";
         $user->type = "user";
         $user->address = $this->adress;
