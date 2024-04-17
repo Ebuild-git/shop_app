@@ -19,17 +19,13 @@
                             <span class="text-red">Maintenant </span> !
                         </span>
                     @endif
-                    <div class="text-muted small">
-                        {{ "@".Auth::user()->username }} ,vous pouvez créer une <br> publication et vendre vos poduits quand
-                        vous voulez !
-                    </div>
 
                 </div>
                 <div style="text-align: right">
                     <a href="/publication">
                         <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
                             <i class="bi bi-plus-circle-fill"></i>
-                            Vendre un article
+                            Publier un article
                         </button>
                     </a>
                 </div>
@@ -40,15 +36,15 @@
             <div>
                 <button class="btn btn-achat bg-red shadow-none" onclick="change('achat')">
                     <i class="bi bi-bag"></i>
-                    Achats
+                    Mes achats
                 </button>
                 <button class="btn btn-vente shadow-none" onclick="change('vente')">
                     <i class="bi bi-cash-coin"></i>
-                    Ventes
+                    Mes ventes
                 </button>
                 <button class="btn btn-pub shadow-none" onclick="change('pub')">
-                    <i class="bi bi-cash-coin"></i>
-                    publications
+                    <i class="bi bi-upload"></i>
+                    Mes annonces
                 </button>
             </div>
             <div class="border border-1 p-3 rounded card">

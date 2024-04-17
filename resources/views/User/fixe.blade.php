@@ -71,6 +71,11 @@
             }
         </style>
     @endguest
+    <style>
+        .icon-icon-header:hover {
+            color: #ff0080 !important;
+        }
+    </style>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -121,7 +126,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
 
-                            <a href="/about" style="color: white !important;padding-right: 10px">À propos</a>
+                            <a href="/about" style="color: white !important;padding-right: 17px">À propos</a>
 
                         </div>
 
@@ -144,8 +149,9 @@
                         <div class="col-8 recherche-div">
                             <form action="/shop" method="get">
                                 @csrf
-                                <input type="text" class="form-control sm text-capitalize input" name="key"
-                                    placeholder="recherche un produit">
+                                <input type="text" class="form-control sm text-capitalize input "
+                                    style="padding-left: 40px !important" name="key"
+                                    placeholder="recherche un article">
                                 <button type="submit" class="span-icon-recherche">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -158,10 +164,10 @@
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#login">
                                     @endauth
-                                    <button class="btn btn-sm  bg-dark text-light p-2 btn-block" type="button">
+                                    <button class=" btn-publier-header   p-2 " type="button">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
-                                            Publier
+                                            Publier un article
                                         </span>
                                     </button>
                                 </a>
@@ -181,13 +187,13 @@
                                 <i class="fa fa-angle-down medium text-light"></i>
                                 <ul class="dropdown-menu popup-content p-3 ">
                                     <li>
-                                        <a href="/user-notifications" class=" medium link-red text-medium">
-                                            Notifications
+                                        <a href="/mes-achats" class=" medium link-red text-medium">
+                                            Mes achats
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
-                                            Mes Favoris
+                                        <a href="/mes-achats" class=" medium link-red text-medium">
+                                            Mes ventes
                                         </a>
                                     </li>
                                     <li>
@@ -196,10 +202,17 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-achats" class=" medium link-red text-medium">
-                                            Mes achats
+                                        <a href="/user-notifications" class=" medium link-red text-medium">
+                                            Notifications
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
+                                            Mes coups de coeur
+                                        </a>
+                                    </li>
+
+
                                     <li>
                                         <a href="/informations" class=" medium link-red text-medium">
                                             Mon compte
@@ -314,18 +327,18 @@
                             </li>
                             <li>
                                 <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
-                                @guest data-toggle="modal" data-target="#login" @endguest>
-                                Shop<span class="color">in</span>ers
-                            </a>
-                            
+                                    @guest data-toggle="modal" data-target="#login" @endguest>
+                                    Shop<span class="color">in</span>ers
+                                </a>
+
                             </li>
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
-                                    <a href="{{ route('historique') }}" class="ml-2">
-                                        <i class="bi lni bi-clock-history"></i>
+                                    <a href="{{ route('historique') }}" class="ml-2 icon-icon-header" style="color: black !important;">
+                                        <i class="bi lni bi-clock-history icon-icon-header"></i>
                                         <span class="hide-desktop">Historique</span>
                                     </a>
                                 @endauth
@@ -333,8 +346,8 @@
                                 @livewire('User.CountPanier')
 
                                 @guest
-                                    <a href="#" data-toggle="modal" data-target="#login">
-                                        <i class="bi lni  bi-person-circle"></i>
+                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important;">
+                                        <i class="bi lni  bi-person-circle icon-icon-header"></i>
                                         <span class="hide-desktop">Connexion</span>
                                     </a>
                                 @endguest

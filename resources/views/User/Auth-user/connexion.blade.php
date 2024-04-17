@@ -7,9 +7,6 @@
         <div class="row">
             <div class="col-sm-6 ">
                 <div class="position-absolute">
-                    <h4>
-                        <img src="/icons/logo.png"height="30" alt="">
-                    </h4>
                 </div>
                 <img src="https://supply-chain.net/wp-content/uploads/2023/01/Screenshot-2023-01-12-at-19-02-17-livreur-recevant-colis-pour-livraison_23-2149371921.jpg-Image-WEBP-626-%C3%97-417-pixels.png" class="img" alt="" srcset="">
             </div>

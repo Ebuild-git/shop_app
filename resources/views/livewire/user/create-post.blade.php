@@ -159,11 +159,18 @@
                                             : <b> {{ $selected_color }} </b>
                                         @endif
                                         <br>
-                                        @foreach ($colors as $key => $item)
-                                            <button style="background-color: {{ $item }};" type="button"
-                                                class="btn-color-create"
-                                                wire:click = "choose('{{ $key }}','{{ $item }}','{{ $propriete_info->nom }}')">
-                                            </button>
+                                        @foreach ($colors as $item)
+                                            @if ($item['nom'] == 'Multicolore')
+                                                <button  type="button"
+                                                    class="btn-color-create multi-color-btn"
+                                                    wire:click = "choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @else
+                                                <button style="background-color: {{ $item['code'] }};" type="button"
+                                                    class="btn-color-create"
+                                                    wire:click = "choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @endif
                                         @endforeach
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
@@ -417,8 +424,9 @@
             border: none;
             height: 25px !important;
             width: 25px !important;
-            border: solid 1px #00b3b380;
+            border: solid 1px #011d1d8c;
         }
+        
     </style>
 
 

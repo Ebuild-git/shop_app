@@ -330,7 +330,7 @@ body {
 .car-image-upload img {
     height: 100% !important;
     width: 100% !important;
-    
+
 
 }
 
@@ -372,7 +372,7 @@ body {
     padding: 7px;
     position: absolute;
     top: 2px;
-    right: 17px;
+    left: 17px;
     border-radius: 1px;
     border: none;
 }
@@ -382,9 +382,11 @@ body {
 
     text-transform: capitalize;
 }
-.option-icon-header:hover{
+
+.option-icon-header:hover {
     color: #008080 !important;
 }
+
 
 .elementToHideBeforeScroll {
     display: none;
@@ -395,14 +397,17 @@ body {
 .hide {
     display: none;
 }
-.slick-dots{
+
+.slick-dots {
     display: none !important;
 }
-.comment-position-top a{
+
+.comment-position-top a {
     padding-left: 0px !important;
-    padding-right: 05px !important;
+    padding-right: 17px !important;
 }
-.password_show{
+
+.password_show {
     position: absolute;
     right: 20px;
     bottom: 14px;
@@ -411,116 +416,140 @@ body {
     font-weight: bold;
     border: none;
 }
-.btn-liked{
+
+.btn-liked {
     background-color: #d32a2a !important;
     color: white !important;
 }
-.badge-like-post-count{
+
+.badge-like-post-count {
     background-color: #cccccc65;
-    border:solid 1px #008080;
+    border: solid 1px #008080;
     color: white !important;
 }
-.card-img-top img{
+
+.card-img-top img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
 }
-.card-img-top{
+
+.card-img-top {
     height: 200px !important;
     overflow: hidden;
 }
-.card-img-top img:hover{
+
+.card-img-top img:hover {
     scale: 1.1;
 }
-.slick-arrow{
+
+.slick-arrow {
     background-color: #ffffff17 !important;
     border: white !important;
     border-radius: 100% !important;
-    
+
 }
-.slick-arrow i{
-    color: white !important;
-}
-.slick-arrow span{
+
+.slick-arrow i {
     color: white !important;
 }
 
-.avatar img{
+.slick-arrow span {
+    color: white !important;
+}
+
+.avatar img {
     overflow: hidden !important;
     width: 100% !important;
     height: 100% !important;
 }
-.card-image-shopiner{
+
+.card-image-shopiner {
     height: 80px;
     width: 80px;
     overflow: hidden;
     border-radius: 5px;
 }
-.card-image-shopiner img{
+
+.card-image-shopiner img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
-.card-image-shopiner img:hover{
+
+.card-image-shopiner img:hover {
     transform: scale(1.1);
 }
-.shopinner-cup-image{
+
+.shopinner-cup-image {
     position: absolute;
     right: 0px;
 }
-.note-shopinner-bas{
-    background-color:#008080;
+
+.note-shopinner-bas {
+    background-color: #008080;
     padding: 05px;
     color: white !important;
     border-radius: 5px;
-    border:solid 1px #0080801c;
+    border: solid 1px #0080801c;
 }
-.btn-start-profile{
+
+.btn-start-profile {
     background-color: unset;
     position: absolute;
     border: none;
     right: 0px;
     top: 0px;
 }
-.btn-rating-modal{
+
+.btn-rating-modal {
     border: none;
     background-color: unset;
 }
-.btn-rating-modal:hover{
+
+.btn-rating-modal:hover {
     color: #fab005;
 }
-.rating-yellow-color{
+
+.rating-yellow-color {
     color: #fab005;
 }
-.avatar-profil-user{
+
+.avatar-profil-user {
     height: 80px;
     width: 80px;
     border-radius: 10px;
     overflow: hidden;
     border: solid 1px #018d8d;
 }
-.avatar-profil-user img{
+
+.avatar-profil-user img {
     height: 100%;
     width: 100%;
     object-fit: cover;
 }
-.avatar-profil-user img:hover{
+
+.avatar-profil-user img:hover {
     transform: scale(1.1);
 }
-.btn-btn-shop-style{
+
+.btn-btn-shop-style {
     border: none;
     background-color: unset;
     padding: 0px !important;
 }
-.btn-btn-shop-style:hover{
+
+.btn-btn-shop-style:hover {
     font-weight: bold;
     color: #008080;
 }
-.btn-btn-shop-style-select{
+
+.btn-btn-shop-style-select {
     border: solid 1px white !important;
     width: 100% !important;
 }
-.image-visible-login{
+
+.image-visible-login {
     position: absolute;
     right: 10px;
     top: 14px;
@@ -529,15 +558,17 @@ body {
 .luxury {
     color: red !important;
 }
-.btn-favoris-added{
+
+.btn-favoris-added {
     background-color: #008080 !important;
     color: white !important;
 }
-.cursor{
+
+.cursor {
     cursor: pointer;
 }
 
-.password_show2{
+.password_show2 {
     position: absolute;
     right: 20px;
     bottom: 14px;
@@ -546,48 +577,67 @@ body {
     border: none;
     background: transparent;
 }
-.scrollbar-y-nav{
+
+.scrollbar-y-nav {
     max-height: 500px;
     overflow: scroll;
     overflow-x: hidden;
 }
-.selected-register{
+
+.selected-register {
     border: solid 5px #008080 !important;
     background-color: #00808015 !important;
 }
-.btn-ping-shopinner{
+
+.btn-ping-shopinner {
     border: none;
     background-color: unset;
     padding: 0px !important;
 }
-.popup-content{
+
+.popup-content {
     border-radius: 10px !important;
     border: none !important;
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1) !important;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
 }
-.link-red:hover{
+
+.link-red:hover {
     color: #df1379 !important;
 }
-.btn-slide-home{
+
+.btn-slide-home {
     background-color: transparent;
-    border:solid 2px #008080;
+    border: solid 2px #008080;
     color: #008080;
     border-radius: 100%;
     height: 50px;
     width: 50px;
 }
-.btn-slide-home:hover{
+
+.btn-slide-home:hover {
     background-color: #008080;
     color: white;
 }
-.group-btn-slide{
+
+.group-btn-slide {
     width: 100%;
     position: absolute !important;
     padding: 5px;
     top: 50%;
 }
 
+.btn-publier-header {
+    color: #018d8d !important;
+    border-radius: 10px;
+    background-color: transparent !important;
+    border: solid 2px #018d8d;
+    font-weight: 500;
+}
 
+.multi-color-btn {
+    background: url("/icons/color-wheel.png")no-repeat;
+    background-size: cover;
+}
 
 
 
@@ -654,8 +704,8 @@ body {
         display: none;
     }
 
-  
-    
+
+
     .comment-position {
         position: absolute;
         right: 0px;

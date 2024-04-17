@@ -1,6 +1,6 @@
 
-<a href="{{ route('user-notifications') }}">
-    <i class="lni bi bi-bell"></i>
+<a href="{{ route('user-notifications') }}" style="color: black !important;">
+    <i class="lni bi bi-bell icon-icon-header"></i>
     <span class="dn-counter bg-success-ps"> {{ $notifications->count() }}</span>
     <span class="hide-desktop">Notifications</span>
 </a>

@@ -26,8 +26,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Contact Us</h2>
-                        <h3 class="ft-bold pt-3">Entrer en contact</h3>
+                        <h3 class="ft-bold pt-3">Laissez-nous votre message ici</h3>
                     </div>
                 </div>
             </div>
@@ -37,20 +36,62 @@
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">
                         <h4 class="ft-medium mb-3 color">Passer un coup de téléphone</h4>
-                        <p>{{ $configuration->adresse ?? '' }}</p>
-                        <p class="lh-1"><span class="text-dark ft-medium">Email:</span> {{ $configuration->email ?? '' }}
+                        <p>{{ $configuration->adresse ?? '' }}</p> 
                         </p>
                     </div>
 
                     <div class="card-wrap-body mb-3">
-                        <h4 class="ft-medium mb-3 color">Make a Call</h4>
-                        <h6 class="ft-medium mb-1">Customer Care:</h6>
-                        <p class="mb-2">{{ $configuration->phone_number ?? '' }}</p>
+                        <table>
+                            <tr >
+                                <td class="pr-2">
+                                    <img width="50" height="50"
+                                        src="https://img.icons8.com/ios-filled/50/008080/chat.png" alt="chat" />
+                                </td>
+                                <td>
+                                    <span class="h6">
+                                        <b>Chat</b><br>
+                                    </span>
+                                    <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
+                                    <div>7 jours sur 7</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img width="50" height="50"
+                                        src="https://img.icons8.com/ios-filled/50/008080/circled-envelope.png"
+                                        alt="circled-envelope" />
+                                </td>
+                                <td>
+                                    <span class="h6">
+                                        <b>Email</b><br>
+                                    </span>
+                                    <b>{{ $configuration->email ?? 'xxxxx@gmail.com' }}</b>
+                                    <div>7 jours sur 7</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img width="50" height="50"
+                                        src="https://img.icons8.com/glyph-neue/50/008080/ringer-volume.png"
+                                        alt="ringer-volume" />
+                                </td>
+                                <td>
+                                    <span class="h6">
+                                        <b>Appelez le</b><br>
+                                    </span>
+                                    <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
+                                    <div>7 jours sur 7</div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
                     <div class="card-wrap-body mb-3">
-                        <h4 class="ft-medium mb-3 color">Suivez nous sur nos réseaux sociaux :</h4>
-                        <p>
+                        <h4 class="ft-medium mb-3 ">
+                            Trouvez
+                            SHOP<span class="color">IN</span> sur
+                        </h4>
+                        <div class="text-center">
                             @if ($configuration->facebook)
                                 <a href="{{ $configuration->facebook }}">
                                     <img width="30" height="30"
@@ -78,7 +119,7 @@
                                 </a>
                             @endif
 
-                        </p>
+                        </div>
                     </div>
                 </div>
 
@@ -88,14 +129,14 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Votre nom *</label>
-                                <input type="text" class="form-control" >
+                                <input type="text" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Votre adresse email *</label>
-                                <input type="text" class="form-control" >
+                                <input type="text" class="form-control">
                             </div>
                         </div>
 
@@ -115,7 +156,7 @@
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <button type="button" class="btn btn-dark">
+                                <button type="button" class="btn bg-red">
                                     Envoyer le message
                                 </button>
                             </div>

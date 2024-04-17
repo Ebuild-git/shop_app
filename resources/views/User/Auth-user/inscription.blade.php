@@ -9,7 +9,7 @@
                 <div class="p-3 ">
                     <div class="p-3 ">
                         <h4>
-                           <i> Débutez l'aventure !</i>
+                            Connectez-vous pour vendre et acheter sur SHOP<span class="color">IN</span>.
                         </h4>
                         <img style="width: 80%;" src="/icons/illus-register.png" alt="" srcset="">
                     </div>

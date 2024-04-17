@@ -12,12 +12,22 @@ use Livewire\WithPagination;
 class Shopinners extends Component
 {
     use WithPagination;
+    public $key;
+
+
+    public function updatedKey($value)
+    {
+        $this->key = $value;
+        $this->resetPage();
+    }
+
+
     public function render()
     {
         if (Auth::check()) {
             $userId = auth()->user()->id;
 
-            $shopiners = User::select(
+            $Query = User::select(
                 'users.id',
                 'users.name',
                 'users.avatar',
@@ -31,8 +41,14 @@ class Shopinners extends Component
                 ->leftJoin('pings', function ($join) use ($userId) {
                     $join->on('users.id', '=', 'pings.pined')
                         ->where('pings.id_user', $userId);
-                })
-                ->where('users.role', '!=', 'admin')
+                });
+
+            // Si on a une recherche en
+            if (!empty($this->key)) {
+                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('name', 'like', '%' . $this->key . '%');
+            }
+
+            $shopiners =  $Query->where('users.role', '!=', 'admin')
                 ->where('users.id', '!=', Auth::id())
                 ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', 'pings.id_user')
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
@@ -40,12 +56,16 @@ class Shopinners extends Component
                 ->orderByDesc('total_posts')
                 ->paginate(50);
         } else {
-            $shopiners = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
+            $Query = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier')
-                ->where('users.role', '!=', 'admin')
-                ->orderByDesc('average_rating')
+                ->where('users.role', '!=', 'admin');
+            // Si on a une recherche en
+            if (!empty($this->key)) {
+                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('name', 'like', '%' . $this->key . '%');
+            }
+            $shopiners =  $Query->orderByDesc('average_rating')
                 ->orderByDesc('total_posts')
                 ->paginate(50);
         }

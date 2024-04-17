@@ -165,7 +165,10 @@ class Inscription extends Component
         //envoi du mail avec le lien de validation
         Mail::to($user->email)->send(new VerifyMail($user, $token));
 
-        return redirect("/connexion")->with("success", "Votre compte a bien été créé. Nous vous avons envoyé un email pour valider votre adresse e-mail.");
+        return redirect("/connexion")->with("success", "Votre compte a été créé avec succès! Pour
+        finaliser votre inscription, cliquez sur le lien de
+        validation que nous vous avons envoyé par
+        e-mail. Merci et bienvenue parmi nous !");
         //reset form
 
     }
