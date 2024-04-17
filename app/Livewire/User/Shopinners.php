@@ -29,10 +29,10 @@ class Shopinners extends Component
 
             $Query = User::select(
                 'users.id',
-                'users.name',
+                'users.lastname',
                 'users.avatar',
                 'users.username',
-                'users.certifier',
+                'users.certified',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts')
             )
@@ -45,12 +45,12 @@ class Shopinners extends Component
 
             // Si on a une recherche en
             if (!empty($this->key)) {
-                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('name', 'like', '%' . $this->key . '%');
+                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
             }
 
             $shopiners =  $Query->where('users.role', '!=', 'admin')
                 ->where('users.id', '!=', Auth::id())
-                ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', 'pings.id_user')
+                ->groupBy('users.id', 'users.lastname', 'users.avatar', 'users.username', 'users.certified', 'pings.id_user')
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
                 ->orderByDesc('average_rating') // Ensuite, trie par note moyenne
                 ->orderByDesc('total_posts')
@@ -59,11 +59,11 @@ class Shopinners extends Component
             $Query = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-                ->groupBy('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier')
+                ->groupBy('users.id', 'users.lastname', 'users.avatar', 'users.username', 'users.certified')
                 ->where('users.role', '!=', 'admin');
             // Si on a une recherche en
             if (!empty($this->key)) {
-                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('name', 'like', '%' . $this->key . '%');
+                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
             }
             $shopiners =  $Query->orderByDesc('average_rating')
                 ->orderByDesc('total_posts')
