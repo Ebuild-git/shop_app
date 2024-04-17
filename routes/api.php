@@ -50,7 +50,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 //route de gestion des utilisateurs
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/regions', [AuthController::class, 'login']);
+Route::get('/regions', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/reset_password', [AuthController::class, 'reset_password']);
