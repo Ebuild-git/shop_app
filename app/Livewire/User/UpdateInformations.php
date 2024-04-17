@@ -17,21 +17,21 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $name, $email, $telephone, $ville, $region, $avatar, $adress, $username, $prenom, $jour, $mois, $annee;
+    public $lastname, $email, $phone_number, $ville, $region, $avatar, $address, $username, $firstname, $jour, $mois, $annee;
 
 
     public function mount()
     {
         $user = User::find(Auth::id());
         $this->email = $user->email;
-        $this->name = $user->name;
+        $this->lastname = $user->lastname;
         $this->ville = $user->ville;
         $this->region = $user->region;
-        $this->adress = $user->adress;
+        $this->address = $user->address;
         $this->username = $user->username;
-        $this->prenom = $user->prenom;
-        $this->telephone = $user->phone_number;
-        $date = Carbon::parse($user->naissance);
+        $this->firstname = $user->firstname;
+        $this->phone_number = $user->phone_number;
+        $date = Carbon::parse($user->birthdate);
         $this->jour = $date->day;
         $this->mois = $date->month;
         $this->annee = $date->year;
@@ -51,13 +51,13 @@ class UpdateInformations extends Component
     }
 
     protected $rules = [
-        'name' => 'required|string',
-        'prenom' => 'required|string',
-        'username' => 'required|string',
-        'email' => 'required|email',
-        'telephone' => ['nullable', 'numeric'],
+        'lastname' => 'required|string|max:100',
+        'firstname' => 'required|string|max:100',
+        'username' => 'required|string|max:100',
+        'email' => 'required|email|max:100',
+        'phone_number' => ['nullable', 'numeric','max:100'],
         'region' => 'required|integer|exists:regions,id',
-        'adress' => 'string|nullable|max:255',
+        'address' => 'string|nullable|max:255',
         'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
     ];
 
@@ -126,16 +126,17 @@ class UpdateInformations extends Component
             }
         }
 
-        $user->name = $this->name;
+        $user->lastname = $this->lastname;
         $user->prenom = $this->prenom;
         $user->username = $this->username;
-        $user->phone_number = $this->telephone;
+        $user->phone_number = $this->phone_number;
         $user->region = $this->region;
-        $user->adress = $this->adress;
-        $user->naissance = $date;
+        $user->address = $this->address;
+        $user->birthdate = $date;
         $user->save();
 
         session()->flash('info', 'Informations mises à jour avec succès !');
+
         $this->dispatch('refreshAlluser-information');
     }
 }

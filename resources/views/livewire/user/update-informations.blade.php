@@ -25,9 +25,9 @@
             <div class="form-group">
                 <label>Nom </label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control shadow-none" @error('name') is-invalid @enderror
-                    wire:model="name" required>
-                @error('name')
+                <input type="text" class="form-control shadow-none" @error('lastname') is-invalid @enderror
+                    wire:model="lastname" required>
+                @error('lastname')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -36,9 +36,9 @@
             <div class="form-group">
                 <label>Prénom </label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control shadow-none" @error('prenom') is-invalid @enderror
-                    wire:model="prenom" required>
-                @error('prenom')
+                <input type="text" class="form-control shadow-none" @error('firstname') is-invalid @enderror
+                    wire:model="firstname" required>
+                @error('firstname')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -59,8 +59,8 @@
                 <label>Numéro de téléphone</label>
                 <span class="text-danger">*</span>
                 <input type="tel" class="form-control shadow-none"
-                    @error('telephone') is-invalid @enderror wire:model="telephone" required>
-                @error('telephone')
+                    @error('phone_number') is-invalid @enderror wire:model="phone_number" required>
+                @error('phone_number')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -83,9 +83,9 @@
         <div class="col-sm-4">
             <div class="form-group">
                 <label>Adresse</label>
-                <input type="test" class="form-control shadow-none" @error('adress') is-invalid @enderror
-                    wire:model="adress">
-                @error('adress')
+                <input type="test" class="form-control shadow-none" @error('address') is-invalid @enderror
+                    wire:model="address">
+                @error('address')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
