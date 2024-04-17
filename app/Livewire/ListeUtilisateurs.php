@@ -32,7 +32,7 @@ class ListeUtilisateurs extends Component
 
         if (!empty($this->key)) {
             $users = $users->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->key . '%')
+                $query->where('lasrname', 'like', '%' . $this->key . '%')
                     ->orWhere('phone_number', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
             });

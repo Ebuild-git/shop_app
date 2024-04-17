@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string("address")->nullable()->default(null);
             $table->unsignedBigInteger("region")->nullable(true)->default(null);
             $table->string("role");
-            $table->enum('type', ['user', 'shop']);
+            $table->enum('type', ['user', 'shop','admin']);
             $table->timestamp('email_verified_at')->nullable(true)->default(null);
             $table->timestamp('validate_at')->nullable()->default(null);
             $table->timestamp('first_login_at')->nullable()->default(null);

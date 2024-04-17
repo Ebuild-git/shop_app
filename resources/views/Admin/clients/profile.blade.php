@@ -64,9 +64,10 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
                                 <span class="fw-medium mx-2 text-heading">
-                                    nom complet :</span> <span>{{ $user->name }}</span>
+                                    Nom :</span> <span>{{ $user->lastname }}</span>
+                                <span>{{ $user->firstname }}</span>
                                 &nbsp;
-                                [ {{ $user->genre }} ]
+                                [ {{ $user->gender }} ]
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span
@@ -88,7 +89,7 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-flag text-heading"></i><span class="fw-medium mx-2 text-heading">
                                     Date de naissance :</span>
-                                <span class="ms-2">{{ \Carbon\Carbon::parse($user->naissance)->format('d M Y') }}
+                                <span class="ms-2">{{ \Carbon\Carbon::parse($user->birthdate)->format('d M Y') }}
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-file-description text-heading"></i><span

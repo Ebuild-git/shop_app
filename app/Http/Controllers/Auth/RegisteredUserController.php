@@ -37,14 +37,15 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = new User();
-        $user->name = $request->name;
+        $user->lastname = $request->name;
+        $user->firstname = $request->name;
         $user->email = $request->email;
         $user->username = "admin";
         $user->role= "admin"; 
         $user->type= "admin"; 
         $user->email_verified_at = now();
-        $user->naissance = now();
-        $user->genre = "Féminin";
+        $user->birthdate = now();
+        $user->gender = "female";
         $user->password = bcrypt($request->password);
         $user->save();
 
