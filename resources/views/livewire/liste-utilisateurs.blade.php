@@ -58,8 +58,8 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td> {{ $user->name }} </td>
-                         <td> {{ $user->prenom }} </td>
+                        <td> {{ $user->lastname }} </td>
+                         <td> {{ $user->firstname }} </td>
                          <td> {{ $user->email }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>
