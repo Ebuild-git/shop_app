@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\configurations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +26,11 @@ return new class extends Migration
             $table->boolean('valider_publication')->default(true);
             $table->timestamps();
         });
+
+        //create first save
+        $configuration = configurations::firstorCreate();
+        $configuration->email = "<EMAIL>";
+        $configuration->save();
     }
 
     /**

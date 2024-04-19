@@ -37,6 +37,7 @@ Route::get('/how_sell', [ControllersHomeController::class, 'how_sell'])->name('h
 Route::get('/contact', [ControllersHomeController::class, 'contact'])->name('contact');
 Route::get('/conditions', [ControllersHomeController::class, 'conditions'])->name('conditions');
 Route::get('/inscription', [ControllersHomeController::class, 'inscription'])->name('inscription');
+Route::post('/inscription', [ControllersHomeController::class, 'inscription_post'])->name('inscription.post');
 Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name('connexion');
 Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
