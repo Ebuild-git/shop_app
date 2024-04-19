@@ -57,7 +57,7 @@ class Inscription extends Component
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
-            'adress' => ['required', 'string'],
+            'adress' => ['nullable', 'string'],
             'telephone' => ['required', 'numeric'],
             'username' => "string|unique:users,username",
             'genre' => 'required|in:female,male'

@@ -48,7 +48,7 @@
                     <span class="text-danger">*</span>
                     <input type="tel" style="padding-left: 50px;"
                         class="form-control @error('telephone') is-invalid @enderror shadow-none" id="telephone"
-                        placeholder="Numéro de téléphone*" value="+212" wire:model="telephone" required>
+                        placeholder="0 00 00 00 00" value="+212" wire:model="telephone" required>
                     @error('telephone')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -86,20 +86,20 @@
                     <span class="text-danger">*</span>
                     <div class="input-group">
                         <select wire:model="jour" class="form-control">
-                            <option selected disabled>Jour</option>
+                            <option selected >Jour</option>
                             @for ($i = 1; $i <= 31; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
                         <select wire:model="mois" class="form-control">
-                            <option selected disabled>Mois</option>
+                            <option selected >Mois</option>
                             @foreach (range(1, 12) as $m)
                                 <option value="{{ $m }}">{{ strftime('%B', mktime(0, 0, 0, $m, 1)) }}
                                 </option>
                             @endforeach
                         </select>
                         <select wire:model="annee" class="form-control">
-                            <option selected disabled>Année</option>
+                            <option selected >Année</option>
                             @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
                                 <option value="{{ $year }}">{{ $year }}</option>
                             @endfor
@@ -133,7 +133,7 @@
                     <span for="small">Adresse</span>
                     <span class="text-danger">*</span>
                     <input type="text" class="form-control @error('adress') is-invalid @enderror shadow-none"
-                        id="adress" placeholder="Adresse *" wire:model="adress" required>
+                        id="adress" placeholder="Adresse *" wire:model="adress" >
                     @error('adress')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
