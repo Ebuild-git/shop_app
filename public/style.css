@@ -671,9 +671,9 @@ body {
 }
 .custom-scrollbar-left {
     height: 400px;
-    overflow-y: auto; /* Activer la barre de défilement verticale si nécessaire */
+    overflow-y: auto; /* Activer la barre de défilement verticale */
     overflow-x: hidden; /* Cacher la barre de défilement horizontale */
-
+    direction: rtl; /
 }
 
 
