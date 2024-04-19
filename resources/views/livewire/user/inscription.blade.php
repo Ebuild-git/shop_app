@@ -132,7 +132,6 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <span for="small">Adresse</span>
-                    <span class="text-danger">*</span>
                     <input type="text" class="form-control @error('adress') is-invalid @enderror shadow-none"
                         id="adress" placeholder="Adresse *" wire:model="adress">
                     @error('adress')
