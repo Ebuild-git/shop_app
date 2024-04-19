@@ -292,7 +292,7 @@
 
                                 @endphp
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu p-0" style="width: 300px !important">
+                                <ul class="nav-dropdown nav-submenu p-0 custom-scrollbar-left" style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">
