@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\Permission\Models\Role;
 
 class MigrationOrder extends Command
 {
@@ -59,5 +60,8 @@ class MigrationOrder extends Command
                 '--path' => $path,
             ]);
         }
+
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'user']);
     }
 }

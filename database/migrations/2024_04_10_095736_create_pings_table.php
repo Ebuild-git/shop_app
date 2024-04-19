@@ -21,6 +21,9 @@ return new class extends Migration
             //relation
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('pined')->references('id')->on('users')->onDelete('cascade');
+
+
+
         });
     }
 
