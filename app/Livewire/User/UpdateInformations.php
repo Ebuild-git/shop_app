@@ -127,7 +127,7 @@ class UpdateInformations extends Component
         }
 
         $user->lastname = $this->lastname;
-        $user->prenom = $this->prenom;
+        $user->first = $this->first;
         $user->username = $this->username;
         $user->phone_number = $this->phone_number;
         $user->region = $this->region;
