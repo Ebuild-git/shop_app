@@ -91,7 +91,7 @@
                                  | Par
                                  <span
                                      onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                     <i class="bi bi-person"></i>{{ $post->user_info->name }}
+                                     <i class="bi bi-person"></i>{{ $post->user_info->firstname }}
                                      @if ($post->user_info->certifier == 'oui')
                                          <img width="14" height="14"
                                              src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"

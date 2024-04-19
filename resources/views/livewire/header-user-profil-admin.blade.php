@@ -5,7 +5,7 @@
         <x-loading></x-loading>
        </span>
         <h4>
-            {{ $user->name }}
+            {{ $user->firstname }} {{ $user->lastname }}
             @if ($user->certifier == 'oui')
                 <img width="20" height="20" src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"
                     alt="approval" title="Certifié" />
