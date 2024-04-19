@@ -43,25 +43,30 @@
                             <td>
                                 <button class="btn btn-sm" type="button" data-bs-toggle="modal"
                                     data-bs-target="#voir-{{ $proriete->id }}">
-                                    Voir
+                                    Voir les propriétés ( {{ count($proriete->options ?? [] ) }} )
                                 </button>
-                                <div class="modal fade" id="voir-{{ $proriete->id }}"
-                                    aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none"
-                                    aria-hidden="true">
+                                <div class="modal fade" id="voir-{{ $proriete->id }}" aria-labelledby="modalToggleLabel"
+                                    tabindex="-1" style="display: none" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="modalToggleLabel">
-                                                    Détails de la propriété  {{ $proriete->nom }} .
+                                                    Détails de la propriété {{ $proriete->nom }} .
                                                 </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                @forelse ($proriete->options ?? [] as $op)
-                                                    {{ $op }} ,
-                                                @empty
-                                                @endforelse
+                                                <div class="row">
+                                                    @forelse ($proriete->options ?? [] as $op)
+                                                        <div class="col-sm-3 col-3">
+                                                            <div class="alert shadow text-center">
+                                                                {{ $op }}
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
