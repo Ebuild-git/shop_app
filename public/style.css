@@ -2,33 +2,38 @@ body {
 
     font-family: Lato, Almarai, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 
-    --sb-track-color: #000000;
-    --sb-thumb-color: #008080;
-    --sb-size: 10px;
   }
   
-  body::-webkit-scrollbar {
-    width: var(--sb-size)
-  }
-  
-  body::-webkit-scrollbar-track {
-    background: var(--sb-track-color);
-    border-radius: 14px;
-  }
-  
-  body::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb-color);
-    border-radius: 14px;
-    
-  }
-  
-  @supports not selector(::-webkit-scrollbar) {
-    body {
-      scrollbar-color: var(--sb-thumb-color)
-                       var(--sb-track-color);
-    }
-  }
+  .custom-scrollbar {
+    /* Définir une hauteur fixe ou une hauteur maximale pour activer la barre de défilement */
+    height: 200px; /* Exemple de hauteur fixe */
+    max-height: 400px; /* Exemple de hauteur maximale */
 
+    /* Activer les barres de défilement personnalisées */
+    overflow-y: auto; /* Activer la barre de défilement verticale si nécessaire */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f4f5f7;
+    border-radius: 14px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #008080;
+    border-radius: 14px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    .custom-scrollbar {
+        scrollbar-color: #008080 #008080;
+    }
+}
+
+  
 .header-1 {
     background-color: #018d8d;
     color: white;

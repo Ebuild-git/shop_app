@@ -33,7 +33,7 @@
 
 </head>
 
-<body>
+<body class="custom-scrollbar">
 
     <script>
         document.addEventListener('livewire:init', () => {
@@ -309,7 +309,7 @@
                                                 </div>
                                             </a>
                                             @if ($item->getSousCategories->count() > 0)
-                                                <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav">
+                                                <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav custom-scrollbar">
                                                     @foreach ($item->getSousCategories as $sous)
                                                         <li>
                                                             <a href="/shop?sous_categorie={{ $sous->id }}"
