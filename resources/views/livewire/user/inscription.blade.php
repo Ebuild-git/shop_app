@@ -59,15 +59,13 @@
                     <span for="small">Genre</span>
                     <span class="text-danger">*</span>
                     <div class="input-group">
-                        <buttonn type="button"
-                            class="form-control {{ $genre == 'male' ? 'selected-register' : '' }}"
+                        <buttonn type="button" class="form-control {{ $genre == 'male' ? 'selected-register' : '' }}"
                             wire:click="set_genre('male')">
                             <img width="20" height="20" src="https://img.icons8.com/sf-black/20/008080/male.png"
                                 alt="male" />
                             Homme
                         </buttonn>
-                        <buttonn type="button"
-                            class="form-control {{ $genre == 'female' ? 'selected-register' : '' }}"
+                        <buttonn type="button" class="form-control {{ $genre == 'female' ? 'selected-register' : '' }}"
                             wire:click="set_genre('female')">
                             <img width="20" height="20"
                                 src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
@@ -86,20 +84,23 @@
                     <span class="text-danger">*</span>
                     <div class="input-group">
                         <select wire:model="jour" class="form-control">
-                            <option selected >Jour</option>
+                            <option selected>Jour</option>
                             @for ($i = 1; $i <= 31; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
+                        @php
+                            setlocale(LC_TIME, 'fr_FR');
+                        @endphp
                         <select wire:model="mois" class="form-control">
-                            <option selected >Mois</option>
+                            <option selected>Mois</option>
                             @foreach (range(1, 12) as $m)
                                 <option value="{{ $m }}">{{ strftime('%B', mktime(0, 0, 0, $m, 1)) }}
                                 </option>
                             @endforeach
                         </select>
                         <select wire:model="annee" class="form-control">
-                            <option selected >Année</option>
+                            <option selected>Année</option>
                             @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
                                 <option value="{{ $year }}">{{ $year }}</option>
                             @endfor
@@ -133,7 +134,7 @@
                     <span for="small">Adresse</span>
                     <span class="text-danger">*</span>
                     <input type="text" class="form-control @error('adress') is-invalid @enderror shadow-none"
-                        id="adress" placeholder="Adresse *" wire:model="adress" >
+                        id="adress" placeholder="Adresse *" wire:model="adress">
                     @error('adress')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
@@ -245,7 +246,8 @@
 
     <br>
     <div>
-        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit" wire:loading.attr="disabled">
+        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" id="submit"
+            wire:loading.attr="disabled">
             <span wire:loading>
                 <x-Loading></x-Loading>
             </span>
