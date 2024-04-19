@@ -43,7 +43,7 @@
                             <td>
                                 <button class="btn btn-sm" type="button" data-bs-toggle="modal"
                                     data-bs-target="#voir-{{ $proriete->id }}">
-                                    Voir les propriétés ( {{ count($proriete->options ?? [] ) }} )
+                                    Voir les propriétés ( {{ count($proriete->options ?? []) }} )
                                 </button>
                                 <div class="modal fade" id="voir-{{ $proriete->id }}" aria-labelledby="modalToggleLabel"
                                     tabindex="-1" style="display: none" aria-hidden="true">
@@ -65,6 +65,11 @@
                                                             </div>
                                                         </div>
                                                     @empty
+                                                        <div class="col-12">
+                                                            <div class="p-2 text-center">
+                                                                Aucune propriété !
+                                                            </div>
+                                                        </div>
                                                     @endforelse
                                                 </div>
                                             </div>
