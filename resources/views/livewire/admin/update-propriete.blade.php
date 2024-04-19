@@ -36,7 +36,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label class="form-label">Méthode d'affichage</label>
-                            <select wire:model="affichage" class="form-control @error('type') is-invalid @enderror"
+                            <select wire:model.live="affichage" class="form-control @error('type') is-invalid @enderror"
                                 required>
                                 <option value=""></option>
                                 <option value="case">Case a coché</option>
@@ -56,7 +56,7 @@
             <hr>
             @if ($typeselected && $typeselected == 'option')
                 <div class="row">
-                    @foreach ($optionsCases as $key => $option)
+                    @foreach ($optionsCases ?? [] as $key => $option)
                         <div class="col-sm-6">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">

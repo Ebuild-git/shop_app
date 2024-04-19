@@ -23,11 +23,12 @@ class UpdatePropriete extends Component
 
     public function render()
     {
+        
         return view('livewire.admin.update-propriete');
     }
 
 
-    public function updatedType($value)
+    public function updatedTypeselected($value)
     {
         $this->typeselected = $value;
         $this->optionsCases = ['option'];
