@@ -108,6 +108,8 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/export-user', [AdminController::class, 'export_users'])->name('export_users');
     Route::get('/admin/post/{post_id}/signalement', [PostsController::class, 'liste_signalement_publications']);
     Route::get('/admin/publications/signalements', [PostsController::class, 'liste_publications_signaler'])->name('post_signalers');
+
+    Route::get('/admin/changer_ordre_attribus', [CategoriesController::class, 'changer_ordre_attribus'])->name('changer_ordre_attribus');
 });
 
 

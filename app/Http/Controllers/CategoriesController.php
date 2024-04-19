@@ -163,6 +163,22 @@ class CategoriesController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function changer_ordre_attribus(){
+        $ids = request()->get('ids');
+        $id_propriete = request()->get('id_propriete');
+        $propriete = proprietes::find($id_propriete);
+        if($propriete){
+
+        $tabIds = explode(",", $ids);
+        $sortedIds = [];
+        foreach ($tabIds as $id) {
+                $sortedIds[] = str($id);
+        }
+        $propriete->options= $sortedIds;
+        $propriete->save();;
+        }
+        return response()->json(['success' => true]);
+    }
 
 
 

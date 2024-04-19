@@ -45,37 +45,8 @@
                                     data-bs-target="#voir-{{ $proriete->id }}">
                                     Voir les propriétés ( {{ count($proriete->options ?? []) }} )
                                 </button>
-                                <div class="modal fade" id="voir-{{ $proriete->id }}" aria-labelledby="modalToggleLabel"
-                                    tabindex="-1" style="display: none" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalToggleLabel">
-                                                    Détails de la propriété {{ $proriete->nom }} .
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    @forelse ($proriete->options ?? [] as $op)
-                                                        <div class="col-sm-3 col-3">
-                                                            <div class="alert shadow text-center">
-                                                                {{ $op }}
-                                                            </div>
-                                                        </div>
-                                                    @empty
-                                                        <div class="col-12">
-                                                            <div class="p-2 text-center">
-                                                                Aucune propriété !
-                                                            </div>
-                                                        </div>
-                                                    @endforelse
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('Admin.categories.modal-ordre-attribue',['proriete'=>$proriete])
+                                
                             </td>
                             <td>
                                 @if ($proriete->type == 'option')
