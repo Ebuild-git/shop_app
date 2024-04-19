@@ -65,7 +65,7 @@
                         </td>
                         <td>
                             <h4 class="title title-4"><b>Attendez votre colis</h4>
-                            <p>ExploAprès avoir confirmé la réception de votre colis, un livreur
+                            <p>Après avoir confirmé la réception de votre colis, un livreur
                                 se rendra chez vous pour le remettre</p>
                         </td>
                     </tr>

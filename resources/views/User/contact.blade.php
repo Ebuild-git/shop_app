@@ -23,19 +23,11 @@
     <section class="middle">
         <div class="container">
 
-            <div class="row justify-content-center">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="sec_title position-relative text-center">
-                        <h3 class="ft-bold pt-3">Laissez-nous votre message ici</h3>
-                    </div>
-                </div>
-            </div>
 
             <div class="row align-items-start justify-content-between">
 
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">
-                        <h4 class="ft-medium mb-3 color">Passer un coup de téléphone</h4>
                         <p>{{ $configuration->adresse ?? '' }}</p> 
                         </p>
                     </div>
@@ -55,6 +47,8 @@
                                     <div>7 jours sur 7</div>
                                 </td>
                             </tr>
+                        </table> <br>
+                        <table>
                             <tr>
                                 <td>
                                     <img width="50" height="50"
@@ -69,6 +63,8 @@
                                     <div>7 jours sur 7</div>
                                 </td>
                             </tr>
+                        </table> <br>
+                        <table>
                             <tr>
                                 <td>
                                     <img width="50" height="50"
@@ -77,7 +73,7 @@
                                 </td>
                                 <td>
                                     <span class="h6">
-                                        <b>Appelez le</b><br>
+                                        <b>Appelez-le</b><br>
                                     </span>
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
                                     <div>7 jours sur 7</div>
@@ -87,6 +83,7 @@
                     </div>
 
                     <div class="card-wrap-body mb-3">
+
                         <h4 class="ft-medium mb-3 ">
                             Trouvez
                             SHOP<span class="color">IN</span> sur
@@ -124,6 +121,10 @@
                 </div>
 
                 <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative ">
+                        <h2 class="ft-bold pt-3">Laissez-nous votre message ici</h2>
+                    </div>
+                    
                     <form class="row">
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

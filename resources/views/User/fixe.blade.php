@@ -192,7 +192,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-achats" class=" medium link-red text-medium">
+                                        <a href="/mes-publication" class=" medium link-red text-medium">
                                             Mes ventes
                                         </a>
                                     </li>
@@ -520,50 +520,35 @@
                                 </div>
                             </div>
 
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
-                                    <h4 class="widget_title">Supports</h4>
+                                    <h4 class="widget_title">Générales</h4>
                                     <ul class="footer-menu">
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">About Page</a></li>
-                                        <li><a href="#">Size Guide</a></li>
-                                        <li><a href="#">Shipping & Returns</a></li>
-                                        <li><a href="#">FAQ's Page</a></li>
-                                        <li><a href="#">Privacy</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
-                                <div class="footer_widget">
-                                    <h4 class="widget_title">Shop</h4>
-                                    <ul class="footer-menu">
-                                        <li><a href="#">Men's Shopping</a></li>
-                                        <li><a href="#">Women's Shopping</a></li>
-                                        <li><a href="#">Kids's Shopping</a></li>
-                                        <li><a href="#">Furniture</a></li>
-                                        <li><a href="#">Discounts</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
-                                <div class="footer_widget">
-                                    <h4 class="widget_title">Company</h4>
-                                    <ul class="footer-menu">
-                                        <li><a href="#">About</a></li>
-                                        <li><a href="#">Blog</a></li>
-                                        <li><a href="#">Affiliate</a></li>
-                                        <li><a href="#">Login</a></li>
+                                        <li><a href="/contact">Contactez-nous</a></li>
+                                        <li><a href="#">Page FAQs</a></li>
+                                        <li><a href="#">Abonnez-vous</a></li>
+                                        <li><a href="/connexion">Connexion</a></li>
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
-                                    <h4 class="widget_title">Subscribe</h4>
+                                    <h4 class="widget_title">Informations</h4>
+                                    <ul class="footer-menu">
+                                        <li><a href="/about">À propos</a></li>
+                                        <li><a href="/how_sell">Comment Vendre?</a></li>
+                                        <li><a href="/how_buy">Comment Acheter?</a></li>
+                                        <li><a href="/conditions">Conditions Générales</a></li>
+                                        <li><a href="#">Politiques Tarrifaires</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                                <div class="footer_widget">
+                                    <h4 class="widget_title">Nos Partenaires</h4>
                                     <div class="address mt-3">
-                                        <h5 class="fs-sm">Secure Payments</h5>
                                         <div class="scr_payment"><img src="/assets/img/card.png" class="img-fluid"
                                                 alt="" /></div>
                                     </div>
