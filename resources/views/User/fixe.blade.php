@@ -332,8 +332,7 @@
                                         </button>
                                         @csrf
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control sm text-capitalize input "
-                                                style="padding-left: 40px !important" name="key"
+                                            <input type="text" class="form-control sm text-capitalize input " name="key"
                                                 placeholder="recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>
