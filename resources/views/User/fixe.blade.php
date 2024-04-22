@@ -92,8 +92,20 @@
             transition: width 0.3s ease-in-out;
             /* Ajoute une transition de largeur avec une durée de 0.3s */
         }
-        .full-width{
+
+        .full-width {
             width: 100%;
+        }
+
+        .span-icon-recherche {
+            background-color: #008080;
+            color: white;
+            padding: 7px;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            border-radius: 1px;
+            border: none;
         }
     </style>
     <!-- ============================================================== -->
