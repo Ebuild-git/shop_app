@@ -291,7 +291,7 @@
                                     style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
-                                            <a href="/shop?categorie={{ $item->id }}">
+                                            <a href="/shop?categorie={{ $item->id }}" style="padding-top: 6px;padding-bottom: 6px">
                                                 <div class="d-flex justify-content-between">
                                                     <span>
                                                         {{ $item->titre }}
