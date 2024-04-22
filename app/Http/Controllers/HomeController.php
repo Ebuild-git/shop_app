@@ -114,7 +114,7 @@ class HomeController extends Controller
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
-            'annee' => 'required|integer|between:'.$year.','.$year-100,
+            'annee' => 'required|integer',
         ]);
 
         $dateString = $request->annee . "-" . $request->mois . "-" . $request->jour;
