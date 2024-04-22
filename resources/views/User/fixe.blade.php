@@ -1,6 +1,9 @@
 @php
     $configurations = DB::table('configurations')->first();
+    $categories = \App\Models\categories::orderBy('order', 'ASC')->get(['id', 'titre', 'luxury', 'pourcentage_gain']);
 @endphp
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -283,16 +286,9 @@
 
 
                             <li>
-                                @php
-                                    $categories = \App\Models\categories::orderBy('order', 'ASC')->get([
-                                        'id',
-                                        'titre',
-                                        'luxury',
-                                    ]);
-
-                                @endphp
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu p-0 custom-scrollbar-left" style="width: 300px !important">
+                                <ul class="nav-dropdown nav-submenu p-0 custom-scrollbar-left"
+                                    style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
                                             <a href="/shop?categorie={{ $item->id }}">
@@ -309,7 +305,8 @@
                                                 </div>
                                             </a>
                                             @if ($item->getSousCategories->count() > 0)
-                                                <ul class="nav-dropdown nav-submenu p-1 scrollbar-y-nav custom-scrollbar">
+                                                <ul
+                                                    class="nav-dropdown nav-submenu p-1 scrollbar-y-nav custom-scrollbar">
                                                     @foreach ($item->getSousCategories as $sous)
                                                         <li>
                                                             <a href="/shop?sous_categorie={{ $sous->id }}"
@@ -337,7 +334,8 @@
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
-                                    <a href="{{ route('historique') }}" class="ml-2 icon-icon-header" style="color: black !important;">
+                                    <a href="{{ route('historique') }}" class="ml-2 icon-icon-header"
+                                        style="color: black !important;">
                                         <i class="bi lni bi-clock-history icon-icon-header"></i>
                                         <span class="hide-desktop">Historique</span>
                                     </a>
@@ -346,7 +344,8 @@
                                 @livewire('User.CountPanier')
 
                                 @guest
-                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important;">
+                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"
+                                        style="color: black !important;">
                                         <i class="bi lni  bi-person-circle icon-icon-header"></i>
                                         <span class="hide-desktop">Connexion</span>
                                     </a>
@@ -374,7 +373,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="#" data-toggle="modal" data-target="#tarifaire">
                                             Nos Politiques Tarifaires
                                         </a>
                                     </li>
@@ -626,6 +625,52 @@
         </div>
         <!-- End Modal -->
     @endif
+
+
+
+    <!-- Log In Modal -->
+    <div class="modal fade" id="tarifaire" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="loginmodal">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-1 pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="m-0 ft-regular">
+                            <img width="20" height="20"
+                                src="https://img.icons8.com/ios/20/008080/ticket--v1.png" alt="ticket--v1" />
+                            <b>
+                                Politique tarifaire.
+                            </b>
+                        </h5>
+                    </div>
+                    <div class="p-2">
+                        <table class="w-100">
+                            @foreach ($categories as $tarif)
+                                <tr>
+                                    <td>
+                                        <b> {{ $tarif->titre }}</b>
+                                    </td>
+                                    <td style="text-align: right !important;">
+                                        {{ intval($tarif->pourcentage_gain) }} %
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                        <hr>
+                        <p class="text-center">
+                            Le montant de la comission est prélécé au moment du aiement par l'acheteur.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 
 
     <!-- Condition Modal -->
