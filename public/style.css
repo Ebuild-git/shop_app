@@ -675,17 +675,6 @@ body {
     overflow-x: hidden; /* Cacher la barre de défilement horizontale */
     direction: rtl; /
 }
-.div-sroll-recherche{
- margin-top: 15px;
-}
-.myInputRecherche{
-    width: 20%;
-    border: solid 1px #96999b;
-}
-.transition-width {
-    transition: width 0.3s ease-in-out; /* Ajoute une transition de largeur avec une durée de 0.3s */
-}
-
 
 
 

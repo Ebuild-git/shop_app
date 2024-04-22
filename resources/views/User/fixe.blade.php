@@ -78,6 +78,20 @@
         .icon-icon-header:hover {
             color: #ff0080 !important;
         }
+
+        .div-sroll-recherche {
+            margin-top: 15px;
+        }
+
+        .myInputRecherche {
+            width: 20%;
+            border: solid 1px #96999b;
+        }
+
+        .transition-width {
+            transition: width 0.3s ease-in-out;
+            /* Ajoute une transition de largeur avec une durée de 0.3s */
+        }
     </style>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -341,8 +355,9 @@
                                         </button>
                                         @csrf
                                         <div class="input-group mb-3">
-                                            <input type="text" id="myInputRecherche" class="transition-width myInputRecherche"
-                                                name="key" placeholder="Recherche un article">
+                                            <input type="text" id="myInputRecherche"
+                                                class="transition-width myInputRecherche" name="key"
+                                                placeholder="Recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>
                                             </a>
