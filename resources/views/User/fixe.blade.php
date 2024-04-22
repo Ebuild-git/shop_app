@@ -332,8 +332,8 @@
                                         </button>
                                         @csrf
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control sm text-capitalize input " name="key"
-                                                placeholder="recherche un article">
+                                            <input type="text" class="form-control sm text-capitalize input "
+                                                name="key" placeholder="recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>
                                                 Publier
@@ -387,6 +387,28 @@
                                         <a href="#" data-toggle="modal" data-target="#tarifaire">
                                             Nos Politiques Tarifaires
                                         </a>
+                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left">
+                                            @foreach ($categories as $tarif)
+                                                <li style="direction: ltr !important">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            {{ $tarif->titre }}
+                                                            <span class="small color">
+                                                                @if ($tarif->luxury == 1)
+                                                                    Luxury
+                                                                    <i class="bi bi-gem"
+                                                                        style="font-weight: 800;"></i>
+                                                                @endif
+                                                        </div>
+                                                        <div>
+                                                            <span>
+                                                                {{ intval($tarif->pourcentage_gain) }} %
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>
@@ -666,6 +688,12 @@
                                 <tr>
                                     <td>
                                         <b> {{ $tarif->titre }}</b>
+                                        <span class="small color">
+                                            @if ($tarif->luxury == 1)
+                                                Luxury
+                                                <i class="bi bi-gem" style="font-weight: 800;"></i>
+                                            @endif
+                                        </span>
                                     </td>
                                     <td style="text-align: right !important;">
                                         {{ intval($tarif->pourcentage_gain) }} %
