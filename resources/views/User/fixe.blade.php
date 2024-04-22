@@ -335,13 +335,10 @@
                                             <input type="text" class="form-control sm text-capitalize input "
                                                 style="padding-left: 40px !important" name="key"
                                                 placeholder="recherche un article">
-                                            @auth
-                                                <a class="btn bg-red p-2" href="/publication" type="button">
-                                                    <i class="lni lni-circle-plus"></i>
-                                                    Publier
-                                                </a>
-                                            @endauth
-
+                                            <a class="btn bg-red p-2" href="/publication" type="button">
+                                                <i class="lni lni-circle-plus"></i>
+                                                Publier
+                                            </a>
                                         </div>
 
                                     </form>
