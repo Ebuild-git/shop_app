@@ -102,7 +102,7 @@
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
                                     <select name="jour" class="form-control">
-                                        <option selected>Jour</option>
+                                        <option value="">Jour</option>
                                         @for ($i = 1; $i <= 31; $i++)
                                             <option value="{{ $i }}" @selected($i == old('jour'))>
                                                 {{ $i }}</option>
@@ -111,8 +111,8 @@
                                     @php
                                         setlocale(LC_TIME, 'fr_FR');
                                     @endphp
-                                    <select name="mois" class="form-control">
-                                        <option selected>Mois</option>
+                                    <select name="mois" class="form-control" required>
+                                        <option value="">Mois</option>
                                         <option @selected(1 == old('mois')) value="1">Janvier</option>
                                         <option @selected(2 == old('mois')) value="2">Février</option>
                                         <option @selected(3 == old('mois')) value="3">Mars</option>
@@ -127,8 +127,8 @@
                                         <option @selected(12 == old('mois')) value="12">Décembre</option>
 
                                     </select>
-                                    <select name="annee" class="form-control">
-                                        <option selected>Année</option>
+                                    <select name="annee" class="form-control" required>
+                                        <option value="">Année</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
                                             <option value="{{ $year }}" @selected($i == old('annee'))>
                                                 {{ $year }}</option>
