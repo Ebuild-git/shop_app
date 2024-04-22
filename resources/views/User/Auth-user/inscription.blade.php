@@ -16,6 +16,15 @@
                 </div>
             </div>
             <div class="col-sm-6 ">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="post" action="{{ route('inscription') }}">
                     @csrf
 
@@ -130,7 +139,8 @@
                                         <option value="">Année</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
                                             <option value="{{ $year }}" @selected($i == old('annee'))>
-                                                {{ $year }}</option>
+                                                {{ $year }}
+                                            </option>
                                         @endfor
                                     </select>
                                 </div>

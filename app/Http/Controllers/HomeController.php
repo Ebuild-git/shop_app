@@ -101,7 +101,7 @@ class HomeController extends Controller
     public function inscription_post(Request $request)
     {
         $year = date('Y');
-        $request->validate([
+        $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'confirmed', 'string'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
@@ -114,19 +114,15 @@ class HomeController extends Controller
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
-            'annee' => 'required|integer',
+            'annee' => 'required|integer|between:1950,2024',
         ]);
 
-        $dateString = $request->annee . "-" . $request->mois . "-" . $request->jour;
-        $date = date_create_from_format('Y-m-d', $dateString);
+        $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
-        // Calculer la différence entre l'année actuelle et l'année fournie
-        $age = $request->annee-$year;
-        if ($age < 13) {
-            return back()->withErrors(['jour', 'L\'âge minimal est de 13 ans']);
-        }
-
-
+        // Calculer l'âge avec précision
+        $age = $date->diffInYears(\Carbon\Carbon::now());
+        
+ 
 
         $config = configurations::first();
         $token = md5(time());
@@ -238,7 +234,6 @@ class HomeController extends Controller
     public function shopiners()
     {
         return view('User.shopiners');
-
     }
 
 
