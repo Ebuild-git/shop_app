@@ -387,7 +387,7 @@
                                         <a href="#" data-toggle="modal" data-target="#tarifaire">
                                             Nos Politiques Tarifaires
                                         </a>
-                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left">
+                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left" style="left: -110% !important;">
                                             @foreach ($categories as $tarif)
                                                 <li style="direction: ltr !important">
                                                     <div class="d-flex justify-content-between">
