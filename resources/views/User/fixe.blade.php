@@ -149,8 +149,8 @@
                 </div>
                 <div class="col-sm-7 col-8">
                     <div class="row">
-                        <div class="col-8 recherche-div">
-                            <form action="/shop" method="get">
+                        <div class="col-8 ">
+                            <form action="/shop" method="get" class="position-relative">
                                 @csrf
                                 <input type="text" class="form-control sm text-capitalize input "
                                     style="padding-left: 40px !important" name="key"
@@ -235,29 +235,20 @@
         </div>
 
         <script>
-            window.addEventListener('scroll', function() {
-                var elementToHide = document.getElementById('elementToHideBeforeScroll');
-                var icons_position = document.getElementById('icons_position');
-                var comment_position = document.getElementById('comment_position');
-                var scrollPosition = window.scrollY;
+            $(window).scroll(function() {
+                var elementToHide = $('.elementToHideBeforeScroll');
+                var icons_position = $('#icons_position');
+                var comment_position = $('#comment_position');
+                var scrollPosition = $(window).scrollTop();
 
                 if (scrollPosition === 0) {
-                    elementToHide.classList.add('d-none');
-                    comment_position.classList.add("comment-position");
-                    comment_position.classList.remove("comment-position-top");
-
-                    icons_position.classList.remove("comment-position");
-                    icons_position.classList.add("comment-position-top");
-
+                    elementToHide.addClass('d-none');
+                    comment_position.addClass("comment-position").removeClass("comment-position-top");
+                    icons_position.removeClass("comment-position").addClass("comment-position-top");
                 } else {
-
-
-                    icons_position.classList.add("comment-position");
-                    icons_position.classList.remove("comment-position-top");
-
-                    comment_position.classList.remove("comment-position");
-                    comment_position.classList.add("comment-position-top");
-                    elementToHide.classList.remove('d-none');
+                    icons_position.addClass("comment-position").removeClass("comment-position-top");
+                    comment_position.removeClass("comment-position").addClass("comment-position-top");
+                    elementToHide.removeClass('d-none');
                 }
             });
         </script>
@@ -273,7 +264,7 @@
                     <div class="nav-menus-wrapper" style="transition-property: none;">
                         <ul class="nav-menu text-uppercase">
 
-                            <li id="elementToHideBeforeScroll" class="d-none">
+                            <li class="elementToHideBeforeScroll d-none">
                                 <a href="/">
                                     <img src="/icons/logo.png" class="logo" alt="" height="20" />
                                 </a>
@@ -291,7 +282,8 @@
                                     style="width: 300px !important">
                                     @forelse ($categories as $item)
                                         <li>
-                                            <a href="/shop?categorie={{ $item->id }}" style="padding-top: 6px;padding-bottom: 6px">
+                                            <a href="/shop?categorie={{ $item->id }}"
+                                                style="padding-top: 6px;padding-bottom: 6px">
                                                 <div class="d-flex justify-content-between">
                                                     <span>
                                                         {{ $item->titre }}
@@ -331,6 +323,29 @@
                             </li>
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
+                            </li>
+                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                                <div class="div-sroll-recherche">
+                                    <form action="/shop" method="get" class="position-relative">
+                                        <button type="submit" class="span-icon-recherche">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                        @csrf
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control sm text-capitalize input "
+                                                style="padding-left: 40px !important" name="key"
+                                                placeholder="recherche un article">
+                                            @auth
+                                                <a class="btn bg-red p-2" href="/publication" type="button">
+                                                    <i class="lni lni-circle-plus"></i>
+                                                    Publier
+                                                </a>
+                                            @endauth
+
+                                        </div>
+
+                                    </form>
+                                </div>
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
@@ -539,7 +554,8 @@
                                         <li><a href="/how_sell">Comment Vendre?</a></li>
                                         <li><a href="/how_buy">Comment Acheter?</a></li>
                                         <li><a href="/conditions">Conditions Générales</a></li>
-                                        <li><a href="#">Politiques Tarrifaires</a></li>
+                                        <li><a href="#" data-toggle="modal" data-target="#tarifaire">Politiques
+                                                Tarrifaires</a></li>
                                     </ul>
                                 </div>
                             </div>
