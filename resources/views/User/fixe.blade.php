@@ -92,6 +92,9 @@
             transition: width 0.3s ease-in-out;
             /* Ajoute une transition de largeur avec une durée de 0.3s */
         }
+        .full-width{
+            width: 100%;
+        }
     </style>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
