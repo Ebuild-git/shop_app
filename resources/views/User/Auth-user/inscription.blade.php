@@ -125,7 +125,6 @@
                                         <option @selected(10 == old('mois')) value="10">Octobre</option>
                                         <option @selected(11 == old('mois')) value="11">Novembre</option>
                                         <option @selected(12 == old('mois')) value="12">Décembre</option>
-
                                     </select>
                                     <select name="annee" class="form-control" required>
                                         <option value="">Année</option>
