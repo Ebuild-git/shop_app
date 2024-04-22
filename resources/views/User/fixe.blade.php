@@ -251,6 +251,15 @@
                     elementToHide.removeClass('d-none');
                 }
             });
+            $(document).ready(function() {
+                var inputField = $('#myInputRecherche');
+                inputField.click(function() {
+                    inputField.addClass('full-width');
+                });
+                inputField.blur(function() {
+                    inputField.removeClass('full-width');
+                });
+            });
         </script>
         <!-- Start Navigation -->
         <div class="header header-light dark-text">
@@ -332,11 +341,10 @@
                                         </button>
                                         @csrf
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control sm text-capitalize input "
-                                                name="key" placeholder="recherche un article">
+                                            <input type="text" id="myInputRecherche" class="transition-width myInputRecherche"
+                                                name="key" placeholder="Recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>
-                                                Publier
                                             </a>
                                         </div>
 
@@ -387,7 +395,8 @@
                                         <a href="#" data-toggle="modal" data-target="#tarifaire">
                                             Nos Politiques Tarifaires
                                         </a>
-                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left" style="left: -110% !important;">
+                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left"
+                                            style="left: -110% !important;">
                                             @foreach ($categories as $tarif)
                                                 <li style="direction: ltr !important">
                                                     <div class="d-flex justify-content-between">
