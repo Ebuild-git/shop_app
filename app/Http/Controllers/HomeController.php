@@ -358,11 +358,19 @@ class HomeController extends Controller
 
     public function inscription()
     {
+        //check if user loged
+        if( Auth::check()){
+            return redirect()->route('home');
+        }
         return view('User.Auth-user.inscription');
     }
 
     public function connexion()
     {
+        //check if user loged
+        if( Auth::check()){
+            return redirect()->route('home');
+        }
         return view('User.Auth-user.connexion');
     }
 
