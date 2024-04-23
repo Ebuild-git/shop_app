@@ -191,7 +191,7 @@ class HomeController extends Controller
             //json error
             return response()->json(
                 [
-                    'error' => true,
+                    'status' => true,
                     'message' => "Cet article n'est plus disponible a la vente",
                 ]
             );
@@ -200,7 +200,7 @@ class HomeController extends Controller
         if ($post->id_user == Auth::user()->id) {
             return response()->json(
                 [
-                    'error' => true,
+                    'status' => true,
                     'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
                 ]
             );
@@ -222,14 +222,14 @@ class HomeController extends Controller
             setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
             return response()->json(
                 [
-                    'error' => false,
+                    'status' => false,
                     'message' => "Article ajouté avec succès",
                 ]
             );
         } else {
             return response()->json(
                 [
-                    'error' => true,
+                    'status' => true,
                     'message' => "Cet article est déjà dans votre panier",
                 ]
             );

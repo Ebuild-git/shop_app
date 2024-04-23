@@ -5,7 +5,7 @@ function add_cart(id) {
             id: id,
         },
         function (data, status) {
-            if (status == "success") {
+            if (status) {
                 CountPanier();
                 Swal.fire({
                     position: "center",
