@@ -27,6 +27,6 @@ class sous_categories extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(categories::class, 'id_categorie');
+        return $this->belongsTo(categories::class, 'id_categorie')->orderBy("order","asc");
     }
 }

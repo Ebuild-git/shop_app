@@ -19,6 +19,6 @@ class categories extends Model
 
     //get all sous categorie
     public function getSousCategories(){
-        return $this->hasMany(sous_categories::class, 'id_categorie','id');
+        return $this->hasMany(sous_categories::class, 'id_categorie','id')->orderBy("order","asc");
     }
 }

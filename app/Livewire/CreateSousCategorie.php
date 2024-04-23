@@ -15,9 +15,7 @@ class CreateSousCategorie extends Component
   
     public function render()
     {
-
-       
-        $liste = sous_categories::where('id_categorie', $this->id_categorie)->orderBy('order')->get();
+        $liste = sous_categories::where('id_categorie', $this->id_categorie)->orderBy('order','asc')->get();
         return view('livewire.create-sous-categorie', compact("liste"));
     }
 

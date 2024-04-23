@@ -331,9 +331,9 @@
                 Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
             </div>
         @endif
-        <button type="reset" class="btn btn-secondary disabled" wire:loading.attr="disabled">
+        <a href="/publication" class="btn btn-secondary">
             Effacer
-        </button>
+        </a>
         <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form"
             wire:loading.attr="disabled">
             @if ($post)
