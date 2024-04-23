@@ -122,12 +122,7 @@
                             <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
                                 <i class="bi bi-gem"></i> LUXURY
                             </div>
-                            <div class="badge badge-like-post-count position-absolute ab-right text-upper">
-                                <i class="far fa-heart"></i>
-                                <span>
-                                    {{ $lux->getLike->count() }}
-                                </span>
-                            </div>
+                            @livewire('LikeCard', ['id' => $lux->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
@@ -218,12 +213,7 @@
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <div class="badge badge-like-post-count position-absolute ab-right text-upper">
-                                <i class="far fa-heart "></i>
-                                <span>
-                                    {{ $last->getLike->count() }}
-                                </span>
-                            </div>
+                            @livewire('LikeCard', ['id' => $last->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">

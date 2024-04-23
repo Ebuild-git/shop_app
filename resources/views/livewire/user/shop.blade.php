@@ -183,12 +183,7 @@
                         <!-- Single -->
                         <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
-                                <div class="badge badge-like-post-count position-absolute ab-right text-upper">
-                                    <i class="far fa-heart "></i>
-                                    <span>
-                                        {{ $post->getLike->count() }}
-                                    </span>
-                                </div>
+                                @livewire('LikeCard', ['id' => $post->id])
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden"

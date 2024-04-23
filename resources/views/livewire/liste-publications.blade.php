@@ -57,7 +57,6 @@
          <table class="datatables-ajax table">
              <thead class="table-dark">
                  <tr>
-                     <th></th>
                      <th>Titre</th>
                      <th>Likes</th>
                      <th>Prix</th>
@@ -71,12 +70,6 @@
              <tbody>
                  @forelse ($posts as $post)
                      <tr>
-                         <td class="avatar">
-                             <div class="avatar me-3">
-                                 <img src="{{ $post->user_info->getAvatar() }}" alt="..."
-                                     class="rounded-circle">
-                             </div>
-                         </td>
                          <td>
                              <span class="small">
                                  <strong>
@@ -149,7 +142,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="9">
+                         <td colspan="8">
                              <div class="p-3">
                                  Aucun publication trouvé!
                              </div>

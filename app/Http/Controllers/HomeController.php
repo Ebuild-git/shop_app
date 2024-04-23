@@ -26,9 +26,10 @@ class HomeController extends Controller
         $categories = categories::all();
         $configuration = configurations::firstorCreate();
         $posts = posts::where('verified_at', '!=', null)->orderByDesc('created_at')->paginate(50);
-        $last_post = posts::where('verified_at', '!=', null)
-            ->select("id", "titre", "photos", "old_prix", "prix", "id_sous_categorie", "statut")
-            ->orderByDesc('created_at')
+        $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
+            ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+            ->where('categories.luxury', false)
+            ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
             ->get();
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
@@ -263,15 +264,15 @@ class HomeController extends Controller
         if (!Auth::check()) {
             return response()->json(
                 [
-                   'status' => true,
-                   'message' => "Veuillez vous connecter",
+                    'status' => true,
+                    'message' => "Veuillez vous connecter",
                 ]
             );
         }
 
 
         $post = posts::find($id_post);
-        if(!$post){
+        if (!$post) {
             return response()->json(
                 [
                     'status' => false,
@@ -281,20 +282,20 @@ class HomeController extends Controller
         }
 
         $liked = likes::where("id_post", $post->id)
-        ->where('id_user', Auth::user()->id)
-        ->exists();
+            ->where('id_user', Auth::user()->id)
+            ->exists();
 
         if ($liked === true) {
             likes::where("id_post", $post->id)
                 ->where('id_user', Auth::user()->id)
                 ->delete();
-                return response()->json(
-                    [
-                        'status' => false,
-                        'liked' => false,
-                        'message' => "Vous avez retiré votre like .",
-                    ]
-                );
+            return response()->json(
+                [
+                    'status' => false,
+                    'liked' => false,
+                    'message' => "Vous avez retiré votre like .",
+                ]
+            );
         } else {
             likes::firstOrCreate(
                 [
@@ -323,7 +324,7 @@ class HomeController extends Controller
         }
     }
 
-    
+
 
 
 
