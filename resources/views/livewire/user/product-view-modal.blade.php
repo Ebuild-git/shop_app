@@ -58,9 +58,11 @@
                                  <div class="form-row mb-7">
                                      <div class="col-12 col-lg">
                                          <!-- Submit -->
-                                         @guest
-                                             @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-                                         @endguest
+                                         <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                             onclick="add_cart({{ $post->id }})">
+                                             <i class="lni lni-shopping-basket mr-2"></i>
+                                             Ajouter au panier
+                                         </button>
                                          @auth
                                              @if (Auth::user()->id != $post->id_user)
                                                  @livewire('User.ButtonAddPanier', ['id_post' => $post->id])

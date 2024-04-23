@@ -40,14 +40,21 @@ Route::get('/inscription', [ControllersHomeController::class, 'inscription'])->n
 Route::post('/inscription', [ControllersHomeController::class, 'inscription_post'])->name('inscription.post');
 Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name('connexion');
 Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
-Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
+
+
+//panier
+Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
 
 
 
 
 Route::middleware('auth')->group(function () {
+    
+
+    Route::get('/add_panier', [ControllersHomeController::class, 'add_panier'])->name('add_panier');
+
 
     Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');

@@ -15,7 +15,7 @@
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
     <link rel="stylesheet" href="/style.css">
     <!-- Custom CSS -->
-    
+
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
 
     @yield('head')
@@ -29,11 +29,15 @@
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="/assets/css/styles.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     @livewireStyles
     <script src="/Cart.js"></script>
+    @auth
+        <script src="/Auth-Cart.js"></script>
+    @endauth
 </head>
 
 <body class="custom-scrollbar">
@@ -356,9 +360,10 @@
                                     </a>
                                 @endauth
 
-                                <a href="#" onclick="openCart()" class="position-relative" style="color: black !important;">
+                                <a href="#" onclick="openCart()" class="position-relative"
+                                    style="color: black !important;">
                                     <i class="bi lni bi-bag icon-icon-header"></i>
-                                    <span class="dn-counter bg-success-ps CountPanier-value" >0</span>
+                                    <span class="dn-counter bg-success-ps CountPanier-value">0</span>
                                     <span class="hide-desktop">Panier</span>
                                 </a>
 
@@ -593,12 +598,13 @@
                                     <div class="address mt-3">
                                         <div class="container-logo-home">
                                             <div class="logo-list-logo-home">
-                                              @foreach (json_decode($configurations->partenaires) ?? [] as $item)
-                                                <img src="{{ Storage::url($item) }}" alt="" srcset="">
-                                              @endforeach
+                                                @foreach (json_decode($configurations->partenaires) ?? [] as $item)
+                                                    <img src="{{ Storage::url($item) }}" alt=""
+                                                        srcset="">
+                                                @endforeach
                                             </div>
-                                          </div>
-                                          
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

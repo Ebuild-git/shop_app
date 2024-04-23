@@ -184,6 +184,60 @@ class HomeController extends Controller
     }
 
 
+    public function add_panier($id)
+    {
+        $post = posts::where("id", $id)->where("statut", "vente")->first();
+        if (!$post) {
+            //json error
+            return response()->json(
+                [
+                    'error' => true,
+                    'message' => "Cet article n'est plus disponible a la vente",
+                ]
+            );
+        }
+
+        if ($post->id_user == Auth::user()->id) {
+            return response()->json(
+                [
+                    'error' => true,
+                    'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
+                ]
+            );
+        }
+
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        $productExists = false;
+        foreach ($cart as $item) {
+            if ($item['id'] == $post->id) {
+                $productExists = true;
+                break;
+            }
+        }
+
+        if (!$productExists) {
+            $cart[] = [
+                'id' => $post->id,
+            ];
+            setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
+            return response()->json(
+                [
+                    'error' => false,
+                    'message' => "Article ajouté avec succès",
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'error' => true,
+                    'message' => "Cet article est déjà dans votre panier",
+                ]
+            );
+        }
+    }
+
+
+
 
 
 

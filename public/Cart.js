@@ -5,3 +5,4 @@ function CountPanier() {
         $(".CountPanier-value").text(response.count);
     });
 }
+

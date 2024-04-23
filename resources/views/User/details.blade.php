@@ -161,9 +161,9 @@
                                             <div class="p-2 alert alert-success">
                                                 <b>{{ ucfirst($key) }} </b>
                                                 <br>
-                                                @if ($key = "couleur" || $key = "Couleur")
-                                                    @if ($value == "#000000")
-                                                        <div class="multi-color-btn w-100" >
+                                                @if ($key = 'couleur' || ($key = 'Couleur'))
+                                                    @if ($value == '#000000')
+                                                        <div class="multi-color-btn w-100">
                                                             <br><br>
                                                         </div>
                                                     @else
@@ -188,9 +188,15 @@
                                 <div class="form-row mb-7">
                                     @if ($post->statut == 'vente')
                                         <div class="col-12 col-lg">
-                                            <!-- Submit -->
-                                            @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-
+                                            <span>
+                                                @auth
+                                                    <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                                        onclick="add_cart({{ $post->id }})">
+                                                        <i class="lni lni-shopping-basket mr-2"></i>
+                                                        Ajouter au panier
+                                                    </button>
+                                                @endauth
+                                            </span>
                                         </div>
                                     @endif
                                     <div class="col-12 col-lg-auto">
