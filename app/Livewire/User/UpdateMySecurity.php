@@ -14,14 +14,20 @@ class UpdateMySecurity extends Component
     {
         return view('livewire.user.update-my-security');
     }
-    protected $rules = [
-        'old_password' => 'required|min:6',
-        'password' => 'required|confirmed|min:6'
-    ];
+
 
     public function update()
     {
-        $this->validate();
+        $this->validate([
+            'old_password' => 'required|string',
+            'password' => 'required|confirmed|min:8'
+        ],[
+            'old_password.required' => 'Veuillez saisir votre ancien mot de passe',
+            'password.required' => 'Veuillez saisir votre nouveau mot de passe',
+            'password.confirmed' => 'Veuillez confirmer votre nouveau mot de passe',
+            'password.min' => 'Votre nouveau mot de passe doit contenir au moins 8 caractères'
+        ]);
+
         $user = User::find(Auth::id());
         if ($user) {
             //verifier si le mot de passe actuelle est le meme que $old_password
