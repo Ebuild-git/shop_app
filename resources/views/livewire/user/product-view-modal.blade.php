@@ -63,11 +63,6 @@
                                              <i class="lni lni-shopping-basket mr-2"></i>
                                              Ajouter au panier
                                          </button>
-                                         @auth
-                                             @if (Auth::user()->id != $post->id_user)
-                                                 @livewire('User.ButtonAddPanier', ['id_post' => $post->id])
-                                             @endif
-                                         @endauth
                                      </div>
                                      <div class="col-12 col-lg-auto">
                                          <!-- Wishlist -->
