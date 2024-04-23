@@ -15,7 +15,7 @@
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
     <link rel="stylesheet" href="/style.css">
     <!-- Custom CSS -->
-    <link href="/assets/css/styles.css" rel="stylesheet">
+    
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
 
     @yield('head')
@@ -29,11 +29,11 @@
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<link href="/assets/css/styles.css" rel="stylesheet">
 
 
     @livewireStyles
-
+    <script src="/Cart.js"></script>
 </head>
 
 <body class="custom-scrollbar">
@@ -74,40 +74,6 @@
             }
         </style>
     @endguest
-    <style>
-        .icon-icon-header:hover {
-            color: #ff0080 !important;
-        }
-
-        .div-sroll-recherche {
-            margin-top: 15px;
-        }
-
-        .myInputRecherche {
-            width: 20%;
-            border: solid 1px #96999b;
-        }
-
-        .transition-width {
-            transition: width 0.3s ease-in-out;
-            /* Ajoute une transition de largeur avec une durée de 0.3s */
-        }
-
-        .full-width {
-            width: 100%;
-        }
-
-        .span-icon-recherche {
-            background-color: #008080;
-            color: white;
-            padding: 7px;
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            border-radius: 1px;
-            border: none;
-        }
-    </style>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -390,7 +356,11 @@
                                     </a>
                                 @endauth
 
-                                @livewire('User.CountPanier')
+                                <a href="#" onclick="openCart()" class="position-relative" style="color: black !important;">
+                                    <i class="bi lni bi-bag icon-icon-header"></i>
+                                    <span class="dn-counter bg-success-ps CountPanier-value" >0</span>
+                                    <span class="hide-desktop">Panier</span>
+                                </a>
 
                                 @guest
                                     <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"
@@ -621,8 +591,14 @@
                                 <div class="footer_widget">
                                     <h4 class="widget_title">Nos Partenaires</h4>
                                     <div class="address mt-3">
-                                        <div class="scr_payment"><img src="/assets/img/card.png" class="img-fluid"
-                                                alt="" /></div>
+                                        <div class="container-logo-home">
+                                            <div class="logo-list-logo-home">
+                                              @foreach (json_decode($configurations->partenaires) ?? [] as $item)
+                                                <img src="{{ Storage::url($item) }}" alt="" srcset="">
+                                              @endforeach
+                                            </div>
+                                          </div>
+                                          
                                     </div>
                                 </div>
                             </div>

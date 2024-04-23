@@ -40,6 +40,7 @@ Route::get('/inscription', [ControllersHomeController::class, 'inscription'])->n
 Route::post('/inscription', [ControllersHomeController::class, 'inscription_post'])->name('inscription.post');
 Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name('connexion');
 Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
+Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 
@@ -84,7 +85,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
  
     
-
+    Route::get('/admin/nos_partenaires', [AdminController::class, 'nos_partenaires'])->name('nos_partenaires');
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
     Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);

@@ -22,8 +22,9 @@ return new class extends Migration
             $table->string("linkedin")->nullable()->default(null);
             $table->string("tiktok")->nullable()->default(null);
             $table->string("instagram")->nullable()->default(null);
-            $table->boolean('valider_photo')->default(true);
-            $table->boolean('valider_publication')->default(true);
+            $table->boolean('valider_photo')->default(null);
+            $table->boolean('valider_publication')->default(null);
+            $table->json('partenaires')->nullable()->default(null);
             $table->timestamps();
         });
 

@@ -121,8 +121,8 @@ class HomeController extends Controller
 
         // Calculer l'âge avec précision
         $age = $date->diffInYears(\Carbon\Carbon::now());
-        
- 
+
+
 
         $config = configurations::first();
         $token = md5(time());
@@ -162,6 +162,49 @@ class HomeController extends Controller
     e-mail. Merci et bienvenue parmi nous !");
         //reset form
     }
+
+
+    public function count_panier()
+    {
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        foreach ($cart as $item) {
+            $produit = posts::find($item['id']);
+            if (!$produit) {
+                $this->delete($item['id']);
+            }
+        }
+
+        $cart2 = json_decode($_COOKIE['cart'] ?? '[]', true);
+        return response()->json(
+            [
+                'count' => count($cart2),
+                'cart' => $cart2,
+            ]
+        );
+    }
+
+
+
+
+
+
+
+    public function delete_form_cart($id)
+    {
+        if (!is_numeric($id) || $id < 0) {
+            return;
+        }
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        foreach ($cart as $index => $item) {
+            if ($item['id'] == $id) {
+                unset($cart[$index]);
+                break;
+            }
+        }
+        $cart = array_values($cart);
+        setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
+    }
+
 
 
     public function user_notifications()

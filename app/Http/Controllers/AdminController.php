@@ -86,6 +86,10 @@ class AdminController extends Controller
 
 
 
+
+    public function nos_partenaires(){
+        return view ("Admin.informations.partenaires");
+    }
  
 
 

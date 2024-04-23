@@ -666,6 +666,81 @@ body {
     overflow-x: hidden; /* Cacher la barre de défilement horizontale */
     direction: rtl; /
 }
+.icon-icon-header:hover {
+    color: #ff0080 !important;
+}
+
+.div-sroll-recherche {
+    margin-top: 15px;
+}
+
+.myInputRecherche {
+    width: 20%;
+    border: solid 1px #96999b;
+}
+
+.transition-width {
+    transition: width 0.3s ease-in-out;
+    /* Ajoute une transition de largeur avec une durée de 0.3s */
+}
+
+.full-width {
+    width: 100%;
+}
+
+.span-icon-recherche {
+    background-color: #008080;
+    color: white;
+    padding: 7px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 1px;
+    border: none;
+}
+
+
+
+/* Container pour les logos */
+.container-logo-home {
+    width: 100%; /* Largeur de votre conteneur */
+    height: 100px; /* Hauteur de votre conteneur */
+    overflow: hidden; /* Cacher les logos supplémentaires */
+    position: relative; /* Position relative pour les animations */
+  }
+  
+  /* Liste des logos */
+  .logo-list-logo-home {
+    display: flex; /* Affichage en ligne des logos */
+    animation: scroll 15s linear infinite; /* Animation de défilement */
+  }
+  
+  /* Animation de défilement */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0); /* Début sans décalage */
+    }
+    100% {
+      transform: translateX(-100%); /* Défilement complet vers la gauche */
+    }
+  }
+  
+  /* Style des logos */
+  .logo-list-logo-home img {
+    width: 50px; /* Largeur de chaque logo */
+    height: auto; /* Hauteur automatique pour maintenir les proportions */
+    margin-right: 10px; /* Marge entre chaque logo */
+  }
+  
+  /* Pour s'assurer que la hauteur du conteneur est suffisante pour afficher les logos */
+  .container-logo-home img {
+    height: 100%;
+  }
+  
+
+
+
+
 
 
 

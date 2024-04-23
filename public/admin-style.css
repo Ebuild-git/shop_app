@@ -13,3 +13,27 @@
 .div-img-update-categorie img:hover{
     transform: scale(1.1);
 }
+.preview-image-partenaire{
+    overflow: hidden;
+    height: 150px;
+    margin: 5px;
+    border-radius: 10px; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.preview-image-partenaire img{
+    object-fit: cover;
+    height: 100%;
+   
+}
+.preview-image-partenaire img:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+.list-logo .logo img{
+    height: 100px;
+}
+.list-logo .logo{
+    text-align: center;
+}

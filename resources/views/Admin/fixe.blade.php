@@ -292,12 +292,6 @@
                                                 <div data-i18n="Liste des utilisateurs">Liste des utilisateurs</div>
                                             </a>
                                         </li>
-                                        {{-- <li class="menu-item">
-                                            <a href="{{ route('liste_utilisateurs') }}?type=shop" class="menu-link">
-                                                <i class="menu-icon tf-icons ti ti-layout-distribute-vertical"></i>
-                                                <div data-i18n="Liste des boutiques">Liste des boutiques</div>
-                                            </a>
-                                        </li> --}}
                                     </ul>
                                 </li>
 
@@ -348,7 +342,12 @@
                                                 <i class="menu-icon tf-icons bi bi-sliders"></i>
                                                 <div data-i18n="Informations visuelles">Informations visuelles</div>
                                             </a>
-
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="{{ route('nos_partenaires') }}" class="menu-link">
+                                                <i class="menu-icon tf-icons ti ti-menu-2"></i>
+                                                <div data-i18n="Nos partenaires">Nos partenaires</div>
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
