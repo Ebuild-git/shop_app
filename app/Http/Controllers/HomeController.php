@@ -184,8 +184,9 @@ class HomeController extends Controller
     }
 
 
-    public function add_panier($id)
+    public function add_panier(Request $request)
     {
+        $id = $request->input('id') ?? "";
         $post = posts::where("id", $id)->where("statut", "vente")->first();
         if (!$post) {
             //json error
