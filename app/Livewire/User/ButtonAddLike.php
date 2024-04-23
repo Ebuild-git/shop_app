@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Events\UserEvent;
 use App\Models\likes;
+use App\Models\notifications;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -32,7 +33,7 @@ class ButtonAddLike extends Component
                     ->where('id_user', Auth::user()->id)
                     ->delete();
 
-                    
+
             } else {
                 likes::firstOrCreate(
                     [
