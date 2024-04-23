@@ -63,7 +63,11 @@
                          <td> {{ $user->email }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>
-                         <td> {{ $user->created_at->diffForHumans() }} </td>
+                         <td> 
+                            <span title="{{ $user->created_at->diffForHumans() }}">
+                                {{ $user->created_at->format("d/m/Y") }}
+                            </span>     
+                        </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
                              <button class="btn btn-sm"
