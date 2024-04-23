@@ -31,19 +31,6 @@ class ButtonAddLike extends Component
                 likes::where("id_post", $this->post->id)
                     ->where('id_user', Auth::user()->id)
                     ->delete();
-
-                //make notification
-                event(new UserEvent($this->user->id));
-                $notification = new notifications();
-                $notification->titre = Auth::user()->username." a aimé votre publication.";
-                $notification->id_user_destination = $this->post->id_user;
-                $notification->type = "alerte";
-                $notification->destination = "user";
-                $notification->url = "/post/".$this->post->id;
-                $notification->message = "@".Auth::user()->username." Vient d'aimé votre publication";
-                $notification->save();
-
-
             } else {
                 likes::firstOrCreate(
                     [
@@ -51,6 +38,16 @@ class ButtonAddLike extends Component
                         'id_user' => Auth::user()->id
                     ]
                 );
+                //make notification
+                event(new UserEvent($this->user->id));
+                $notification = new notifications();
+                $notification->titre = Auth::user()->username . " a aimé votre publication.";
+                $notification->id_user_destination = $this->post->id_user;
+                $notification->type = "alerte";
+                $notification->destination = "user";
+                $notification->url = "/post/" . $this->post->id;
+                $notification->message = "@" . Auth::user()->username . " Vient d'aimé votre publication";
+                $notification->save();
             }
         }
     }
