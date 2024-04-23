@@ -10,7 +10,7 @@ class Proprietes extends Component
 
     //listenign refresh
     protected $listeners = ['created-propriete' => '$refresh'];
- 
+
 
     public function render()
     {
@@ -19,7 +19,10 @@ class Proprietes extends Component
     }
 
 
-
+    public function delete($id)
+    {
+        ModelsProprietes::findOrFail($id)->delete();
+    }
 
 
 }
