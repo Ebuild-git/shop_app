@@ -7,6 +7,7 @@ function add_cart(id) {
         function (data, status) {
             if (status) {
                 CountPanier();
+                triggerLivewireEvent('PostAdded');
                 Swal.fire({
                     position: "center",
                     icon: false,

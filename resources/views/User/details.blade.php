@@ -307,9 +307,6 @@
                                                     src="{{ Storage::url($other->photos[0] ?? '') }}" alt="..."></a>
                                             <div
                                                 class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                                <div class="edlio"><a href="#" data-toggle="modal"
-                                                        data-target="#quickview" class="text-white fs-sm ft-medium"><i
-                                                            class="fas fa-eye mr-1"></i>Quick View</a></div>
                                             </div>
                                         </div>
                                     </div>
