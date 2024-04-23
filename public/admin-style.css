@@ -31,8 +31,12 @@
     transform: scale(1.1);
     transition: 0.5s;
 }
-.list-logo .logo img{
+.list-logo{
     height: 100px;
+    overflow: hidden;
+}
+.list-logo .logo img{
+    width: 80px;
 }
 .list-logo .logo{
     text-align: center;
