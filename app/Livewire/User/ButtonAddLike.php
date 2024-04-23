@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Events\UserEvent;
 use App\Models\likes;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -9,7 +10,7 @@ use Livewire\Component;
 class ButtonAddLike extends Component
 {
 
-    public  $total,$post;
+    public $total, $post;
     public $liked = false;
     public function render()
     {
@@ -30,6 +31,19 @@ class ButtonAddLike extends Component
                 likes::where("id_post", $this->post->id)
                     ->where('id_user', Auth::user()->id)
                     ->delete();
+
+                //make notification
+                event(new UserEvent($this->user->id));
+                $notification = new notifications();
+                $notification->titre = Auth::user()->username." a aimé votre publication.";
+                $notification->id_user_destination = $this->post->id_user;
+                $notification->type = "alerte";
+                $notification->destination = "user";
+                $notification->url = "/post/".$this->post->id;
+                $notification->message = "@".Auth::user()->username." Vient d'aimé votre publication";
+                $notification->save();
+
+
             } else {
                 likes::firstOrCreate(
                     [
