@@ -185,10 +185,10 @@
                             <div class="form-group" style="position: relative;">
                                 <span for="small">Mot de passe</span>
                                 <span class="text-danger">*</span>
-                                <input type="password" placeholder="Mot de passe" class="form-control" id="password"
+                                <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" required>
-                                <button class="password_show" type="button">
-                                    <span class="input-group-text" id="showPassword">
+                                <button class="password_show" type="button" onclick="showPassword(1)">
+                                    <span class="input-group-text" >
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -202,10 +202,10 @@
                                 <span for="small">Confirmation du mot de passe</span>
                                 <span class="text-danger">*</span>
                                 <input type="password" placeholder="Mot de passe" class="form-control"
-                                    value="{{ old('password_confirmation') }}" id="password_confirmation"
+                                    value="{{ old('password_confirmation') }}" id="password-2"
                                     name="password_confirmation" required>
-                                <button class="password_show" type="button">
-                                    <span class="input-group-text" id="showPassword2">
+                                <button class="password_show" type="button" onclick="showPassword(2)">
+                                    <span class="input-group-text" >
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -246,27 +246,8 @@
 
 
     <script>
-        //change type password to text
-        document.getElementById("showPassword").addEventListener("click", function() {
-            var x = document.getElementById("password");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        });
 
-        document.getElementById("showPassword2").addEventListener("click", function() {
-            var y = document.getElementById("password_confirmation");
-            if (y.type === "password") {
-                y.type = "text";
-            } else {
-                y.type = "password";
-            }
-        });
-
-
-
+        
         //formatage du numero de telephone
         function formatTelephone(input) {
             var phoneNumber = input.value.replace(/\D/g, '');

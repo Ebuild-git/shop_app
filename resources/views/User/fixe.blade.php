@@ -43,6 +43,14 @@
 <body class="custom-scrollbar">
 
     <script>
+        function showPassword(id){
+            var x = document.getElementById("password-"+id);
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
         document.addEventListener('livewire:init', () => {
             Livewire.on('alert', (parametres) => {
                 console.log(parametres);
