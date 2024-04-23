@@ -7,7 +7,6 @@ function add_cart(id) {
         function (data, status) {
             if (status) {
                 CountPanier();
-                triggerLivewireEvent('PostAdded');
                 Swal.fire({
                     position: "center",
                     icon: false,
@@ -16,6 +15,7 @@ function add_cart(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
+                triggerLivewireEvent('PostAdded');
             }
         }
     );

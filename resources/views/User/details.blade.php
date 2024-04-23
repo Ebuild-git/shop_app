@@ -304,10 +304,8 @@
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $other->id }}"><img class="card-img-top"
-                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="..."></a>
-                                            <div
-                                                class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                            </div>
+                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
+                                                </a>
                                         </div>
                                     </div>
                                     <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
