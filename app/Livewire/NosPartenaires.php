@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\configurations;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,12 +21,19 @@ class NosPartenaires extends Component
 
     public function delete($url){
         $configuration = configurations::first();
-        $logos = json_decode($configuration->partenaires) ?? [];
+        $logos = json_decode($configuration->partenaires, true) ?? []; 
         $index = array_search($url, $logos);
-        unset($logos[$index]);
-        $configuration->partenaires = json_encode($logos);
-        $configuration->save();
+        if($index !== false) {
+            unset($logos[$index]);
+
+            //delete logo image with Storage
+            Storage::disk('public')->delete($url);
+
+            $configuration->partenaires = json_encode($logos);
+            $configuration->save();
+        }
     }
+    
 
     public function create(){
         //validation de l'image logo
