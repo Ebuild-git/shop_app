@@ -50,21 +50,26 @@ class UpdateInformations extends Component
         $this->username = $cleanedUsername;
     }
 
-    protected $rules = [
-        'lastname' => 'required|string|max:100',
-        'firstname' => 'required|string|max:100',
-        'username' => 'required|string|max:100',
-        'email' => 'required|email|max:100',
-        'phone_number' => ['nullable', 'numeric'],
-        'region' => 'required|integer|exists:regions,id',
-        'address' => 'string|nullable|max:255',
-        'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
-    ];
 
     public function update()
     {
-
-        $this->validate();
+        $this->validate([
+            'lastname' => 'required|string|max:100',
+            'firstname' => 'required|string|max:100',
+            'username' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'phone_number' => ['nullable', 'string'],
+            'region' => 'required|integer|exists:regions,id',
+            'address' => 'string|nullable|max:255',
+            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
+        ],[
+            "required" => "Veuillez rensigner ce champs",
+            "veuillez entrer une valeur de type texte",
+            "string" => "Veuillez entrer une valeur de type texte",
+            "max" => "Veuillez choisir une image de maximnu 2048",
+            "mimes" => "Veuillez choisir une image de type jpg, png, jpeg, webp",
+            "email" => "Veuillez entrer une adresse email",
+        ]);
 
         //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
         $dateString = $this->annee . "-" . $this->mois . "-" . $this->jour;
@@ -87,18 +92,15 @@ class UpdateInformations extends Component
 
         $user = User::find(Auth::user()->id);
 
-        //verifier si l'email a ete changer si oui si cela est libre
         if ($this->email != Auth::user()->email) {
             $existingEmail = User::where('email', $this->email)->first();
             if ($existingEmail) {
-                //retutn erro in email input field
                 $this->addError('email', 'Cet email existe déja!');
             } else {
                 $user->email = $this->email;
             }
         }
         if ($this->avatar) {
-            //delete old image
             Storage::disk('public')->delete($user->avatar);
 
             $newName = $this->avatar->store('uploads/avatars', 'public');
@@ -129,7 +131,7 @@ class UpdateInformations extends Component
         $user->lastname = $this->lastname;
         $user->firstname = $this->firstname;
         $user->username = $this->username;
-        $user->phone_number = $this->phone_number;
+        $user->phone_number =  str_replace(' ', '', $this->phone_number);
         $user->region = $this->region;
         $user->address = $this->address;
         $user->birthdate = $date;

@@ -184,8 +184,8 @@
                         <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
                                 <div class="badge badge-like-post-count position-absolute ab-right text-upper">
-                                    <i class="far fa-heart color-red"></i>
-                                    <span class="color-red">
+                                    <i class="far fa-heart "></i>
+                                    <span>
                                         {{ $post->getLike->count() }}
                                     </span>
                                 </div>
