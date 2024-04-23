@@ -1,6 +1,6 @@
 function add_cart(id) {
     $.get(
-        "add_panier",
+        "/add_panier",
         {
             id: id,
         },
