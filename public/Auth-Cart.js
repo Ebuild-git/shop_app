@@ -15,7 +15,7 @@ function add_cart(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
-                window.livewire.dispatch('PostAdded');
+                Livewire.dispatch('PostAdded');
             }
         }
     );
