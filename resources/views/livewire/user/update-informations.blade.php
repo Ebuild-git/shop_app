@@ -69,7 +69,7 @@
             <div class="form-group">
                 <label>Région</label>
                 <span class="text-danger">*</span>
-                <select class="form-control shadow-none" wire:model="region" required>
+                <select class="form-control shadow-none" wire:model="region" >
                     <option value=""></option>
                     @foreach ($regions as $item)
                         <option value="{{ $item->id }}">{{ $item->nom }}</option>

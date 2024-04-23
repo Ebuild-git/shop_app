@@ -59,7 +59,7 @@ class UpdateInformations extends Component
             'username' => 'required|string|max:100',
             'email' => 'required|email|max:100',
             'phone_number' => ['nullable', 'string'],
-            'region' => 'required|integer|exists:regions,id',
+            'region' => 'nullable|integer|exists:regions,id',
             'address' => 'string|nullable|max:255',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
         ],[
