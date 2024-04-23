@@ -20,3 +20,26 @@ function add_cart(id) {
         }
     );
 }
+
+
+function add_like(id){
+    $.get(
+        "/like",
+        {
+            id_post: id,
+        },
+        function (data, status) {
+            if (status) {
+                CountPanier();
+                Swal.fire({
+                    position: "center",
+                    icon: false,
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: "swal-wide",
+                });
+            }
+        }
+    );
+}

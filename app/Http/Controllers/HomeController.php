@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Events\AdminEvent;
 use App\Events\MyEvent;
+use App\Events\UserEvent;
 use App\Mail\VerifyMail;
 use App\Models\categories;
 use App\Models\configurations;
+use App\Models\likes;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\regions;
@@ -115,10 +117,10 @@ class HomeController extends Controller
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
             'annee' => 'required|integer|between:1950,2024',
-        ],[
+        ], [
             'required' => "Veuillez renseigner ce lien",
-            'username.unique' =>  "Ce pseudo est déja utilisé",
-            'email.unique'=> "Cette adresse email est déja utilisé",
+            'username.unique' => "Ce pseudo est déja utilisé",
+            'email.unique' => "Cette adresse email est déja utilisé",
             "string" => "Veuillez entrer une valeur de type texte",
             "password.min" => "Votre mot de passe doit contenir minimun 8 caractères",
             "password.confirmed" => "Votre mot de passe ne correspond pas",
@@ -253,7 +255,75 @@ class HomeController extends Controller
 
 
 
+    public function like(Request $request)
+    {
+        $id_post = $request->input('id_post') ?? '';
 
+        //verification de la connexion
+        if (!Auth::check()) {
+            return response()->json(
+                [
+                   'status' => true,
+                   'message' => "Veuillez vous connecter",
+                ]
+            );
+        }
+
+
+        $post = posts::find($id_post);
+        if(!$post){
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => "Annonce introuvable",
+                ]
+            );
+        }
+
+        $liked = likes::where("id_post", $post->id)
+        ->where('id_user', Auth::user()->id)
+        ->exists();
+
+        if ($liked === true) {
+            likes::where("id_post", $post->id)
+                ->where('id_user', Auth::user()->id)
+                ->delete();
+                return response()->json(
+                    [
+                        'status' => false,
+                        'liked' => false,
+                        'message' => "Vous avez retiré votre like .",
+                    ]
+                );
+        } else {
+            likes::firstOrCreate(
+                [
+                    'id_post' => $post->id,
+                    'id_user' => Auth::user()->id
+                ]
+            );
+            //make notification
+            event(new UserEvent($post->id_user));
+            $notification = new notifications();
+            $notification->titre = Auth::user()->username . " a aimé votre publication.";
+            $notification->id_user_destination = $post->id_user;
+            $notification->type = "like";
+            $notification->destination = "user";
+            $notification->url = "/post/" . $post->id;
+            $notification->message = "@" . Auth::user()->username . " Vient d'aimé votre publication";
+            $notification->save();
+
+            return response()->json(
+                [
+                    'status' => false,
+                    'liked' => false,
+                    'message' => "Like ajouté !",
+                ]
+            );
+        }
+    }
+
+    
 
 
 

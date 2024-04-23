@@ -46,12 +46,12 @@ Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_pos
 
 //panier
 Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
-
+Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 
 
 
 Route::middleware('auth')->group(function () {
-    
+
 
     Route::get('/add_panier', [ControllersHomeController::class, 'add_panier'])->name('add_panier');
 
