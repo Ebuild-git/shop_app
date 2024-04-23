@@ -48,7 +48,7 @@
                      <th>Email</th>
                      <th>Téléphone</th>
                      <th>Publications</th>
-                     <th>Verifié</th>
+                     <th>Inscription</th>
                      <th>Ville</th>
                      <th>Action</th>
                      <td></td>
@@ -58,22 +58,12 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td> {{ $user->lastname }} </td>
+                         <td> {{ $user->lastname }} </td>
                          <td> {{ $user->firstname }} </td>
                          <td> {{ $user->email }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>
-                         <td>
-                             @if ($user->email_verified_at == null)
-                                 <span class="badge bg-label-danger">
-                                     Non
-                                 </span>
-                             @else
-                                 <span class="badge bg-label-success">
-                                     Oui
-                                 </span>
-                             @endif
-                         </td>
+                         <td> {{ $user->created_at->diffForHumans() }} </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
                              <button class="btn btn-sm"
