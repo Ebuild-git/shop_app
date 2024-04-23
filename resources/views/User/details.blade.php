@@ -298,8 +298,7 @@
                                         class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
                                         {{ $other->statut }}
                                     </div>
-                                    <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i
-                                            class="far fa-heart"></i></button>
+                                    @livewire('LikeCard', ['id' => $other->id])
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
