@@ -103,7 +103,7 @@ class HomeController extends Controller
         $year = date('Y');
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => ['required', 'confirmed', 'string'],
+            'password' => ['required', 'confirmed', 'string', 'min:8'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
@@ -115,6 +115,19 @@ class HomeController extends Controller
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
             'annee' => 'required|integer|between:1950,2024',
+        ],[
+            'required' => "Veuillez renseigner ce lien",
+            'username.unique' =>  "Ce pseudo est déja utilisé",
+            'email.unique'=> "Cette adresse email est déja utilisé",
+            "string" => "Veuillez entrer une valeur de type texte",
+            "password.min" => "Votre mot de passe doit contenir minimun 8 caractères",
+            "password.confirmed" => "Votre mot de passe ne correspond pas",
+            "interger" => "Veuillez entrer une valeur de type entier",
+            "in.genre" => "Veuillez choisir votre sexe",
+            "mimes" => "Veuillez choisir un format de fichier valide",
+            "image" => "Veuillez choisir une image valide",
+            "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
+            "between" => "Veuillez choisir une date valide",
         ]);
 
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);

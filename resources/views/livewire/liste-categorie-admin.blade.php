@@ -30,7 +30,7 @@
 
             <tbody class="table-border-bottom-0" wire:sortable-group="updateTaskOrder">
                 @forelse ($liste as $item)
-                    <tr wire:key="{{ $item->id }}" data-id="{{ $item->id }}" class="tb-hover-btn">
+                    <tr wire:key="{{ $item->id }}" data-id="{{ $item->id }}" class="tb-hover-btn cusor">
                         <td style="width: 45px !important;">
                             <div class="card-image-categorie-list-admin">
                                 <img src="{{ Storage::url($item->icon) }}" class="img-card-image-categorie-list-admin"

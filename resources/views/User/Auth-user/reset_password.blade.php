@@ -5,7 +5,7 @@
 
     <div class="container pt-5 pb-5">
         <div class="col-sm-6 mx-auto border border-1 p-3 rounded card">
-            <div class="bg-red p-3 rounded">
+            <div class="p-3 rounded">
                 <div class="d-flex justify-content-between">
                     <div>
                         <a href="/">
@@ -16,7 +16,7 @@
                     </div>
                     <div>
                         <h4 class="text-center">
-                            <img src="/icons/logo-version-blanc.png"height="30" alt="">
+                            <img src="/icons/logo.png" height="30" alt="">
                         </h4>
                     </div>
                     <div></div>
@@ -27,7 +27,7 @@
             @isset($user)
                 @livewire('User.reset', ['user' => $user])
             @else
-             {{ $message }}
+                {{ $message }}
             @endisset
         </div>
     </div>

@@ -32,7 +32,7 @@
                             $propriete = DB::table('proprietes')->find($item);
                         @endphp
                         @if ($propriete)
-                            <div class="col-sm-3 col-3 drop" wire:key="{{ $item }}"
+                            <div class="col-sm-3 col-3 drop cusor" wire:key="{{ $item }}"
                                 data-id="{{ $item }}">
                                 <div class="p-2 card mx-autu my-auto text-center">
                                     {{ $propriete->nom }}

@@ -17,12 +17,15 @@ class ResetPassword extends Component
         return view('livewire.user.reset-password');
     }
 
-    protected $rules = [
-        'email' => 'required|email|exists:users,email',
-    ];
 
     public function reset_password(){
-        $this->validate();
+        $this->validate([
+            'email' => 'required|email|exists:users,email',
+        ],[
+            "email.required" => "Veuillez entrer votre adresse email",
+            "email.email" => "Veuillez entrer une adresse email valide",
+            "email.exists" => "Cette adresse email n'existe pas",
+        ]);
         
         $user = User::where("email",$this->email)->first();
         if($user){

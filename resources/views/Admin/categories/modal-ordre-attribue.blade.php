@@ -27,7 +27,7 @@
                 </div>
                 <div class="row" id="sortable-list{{ $proriete->id }}">
                     @forelse ($proriete->options ?? [] as $item)
-                        <div class="col-sm-3 col-3" wire:key="{{ $item }}"data-id="{{ $item }}">
+                        <div class="col-sm-3 col-3 cusor" wire:key="{{ $item }}"data-id="{{ $item }}">
                             <div class="alert alert-light text-center">
                                 {{ $item }}
                             </div>
