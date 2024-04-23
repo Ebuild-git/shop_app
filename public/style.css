@@ -446,6 +446,7 @@ body {
 
 .badge-like-post-count {
     background-color:#018d8d;
+    border: none !important;
     color: white !important;
 }
 
