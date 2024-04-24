@@ -72,9 +72,9 @@
                                     style="bottom:30px;left: 30px;border-radius: 100%;">
                                 <span for="small">Numéro de téléphone</span>
                                 <span class="text-danger">*</span>
-                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="13"
+                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="14"
                                     value="{{ old('telephone') }}" oninput="formatTelephone(this)" id="telephone"
-                                    placeholder="0 00 00 00 00" name="telephone" required>
+                                    placeholder="00 00 00 00 00" name="telephone" required>
                                 @error('telephone')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
@@ -188,7 +188,7 @@
                                 <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" required>
                                 <button class="password_show" type="button" onclick="showPassword(1)">
-                                    <span class="input-group-text" >
+                                    <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -205,7 +205,7 @@
                                     value="{{ old('password_confirmation') }}" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
-                                    <span class="input-group-text" >
+                                    <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -246,22 +246,8 @@
 
 
     <script>
-
         
-        //formatage du numero de telephone
-        function formatTelephone(input) {
-            var phoneNumber = input.value.replace(/\D/g, '');
-            phoneNumber = phoneNumber.replace(/\s/g, '');
-            // puis chaque groupe de deux chiffres
-            var formattedPhoneNumber = phoneNumber[0] ? phoneNumber[0] + ' ' : '';
-            for (var i = 1; i < phoneNumber.length; i++) {
-                formattedPhoneNumber += phoneNumber[i];
-                if (i % 2 === 0 && i < phoneNumber.length - 1) {
-                    formattedPhoneNumber += ' ';
-                }
-            }
-            input.value = formattedPhoneNumber;
-        }
+
 
 
 

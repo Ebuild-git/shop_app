@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label>Numéro de téléphone</label>
                 <span class="text-danger">*</span>
-                <input type="tel" class="form-control shadow-none"
+                <input type="tel" class="form-control shadow-none" oninput="formatTelephone(this)"
                     @error('phone_number') is-invalid @enderror wire:model="phone_number" required>
                 @error('phone_number')
                     <small class="form-text text-danger">{{ $message }}</small>

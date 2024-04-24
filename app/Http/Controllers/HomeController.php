@@ -112,7 +112,7 @@ class HomeController extends Controller
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
             'adress' => ['nullable', 'string'],
-            'telephone' => ['required', 'string'],
+            'telephone' => ['required', 'string', 'Max:14','Min:14'],
             'username' => "string|unique:users,username",
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
@@ -131,12 +131,19 @@ class HomeController extends Controller
             "image" => "Veuillez choisir une image valide",
             "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
             "between" => "Veuillez choisir une date valide",
+            
         ]);
 
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
         // Calculer l'âge avec précision
         $age = $date->diffInYears(\Carbon\Carbon::now());
+
+        //verifier que l'utilisateur a plus de 13 ans
+        if ($age < 13) {
+            //retourner l'erreur sur la champ jour du formulaire
+            return back()->withErrors(['jour' => 'L\'utilisateur doit être âgé d\'au moins 13ans'])->withInput();
+        }
 
 
 
