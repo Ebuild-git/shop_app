@@ -14,7 +14,7 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item " aria-current="page">Utilisateur</li>
-                            <li class="breadcrumb-item active" aria-current="page"> {{ $user->name }} </li>
+                            <li class="breadcrumb-item active" aria-current="page">   {{ '@'.$user->username }} </li>
                         </ol>
                     </nav>
                 </div>
@@ -35,14 +35,6 @@
                                 alt="external-stars-astronomy-zen-filled-royyan-wijaya" />
                             <b>Noter</b>
                         </button>
-                        <div class="avatar-profil-user">
-                            @if ($user->avatar != '')
-                                <img src="{{ Storage::url($user->avatar) }}" alt="...">
-                            @else
-                                <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                                    alt="">
-                            @endif
-                        </div>
                         <div class="pt-1 pb-1">
                             <span class="h5 text-capitalize">
                                 {{ '@'.$user->username }}

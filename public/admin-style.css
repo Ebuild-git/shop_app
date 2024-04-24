@@ -44,3 +44,13 @@
 .cusor{
     cursor: pointer;
 }
+.card-admin-partenaires-logo{
+    position: relative;
+    border:solid 1px #dadada;
+    border-radius: 10px;
+}
+.card-admin-partenaires-logo button{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
