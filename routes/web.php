@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
 
     
 });
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => ['auth', 'role']], function () {
 
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
-    Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
+
 
     Route::get('/admin/categorie', function () {
         return view('Admin.categories.index');

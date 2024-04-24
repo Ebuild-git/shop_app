@@ -5,29 +5,31 @@
                 <x-Loading></x-Loading>
             </span>
         </div>
-        <div class="row">
-            @forelse ($logos as $logo_save)
-                <div class="col-sm-3 col-6 card pb-2">
-                    <div class="list-logo">
-                        <div class="logo">
-                            <img src="{{ Storage::url($logo_save) }}" alt="logo" srcset="">
+        <div class="p-2">
+            <div class="row">
+                @forelse ($logos as $logo_save)
+                    <div class="col-sm-3 col-6 alert  pb-2">
+                        <div class="list-logo">
+                            <div class="logo">
+                                <img src="{{ Storage::url($logo_save) }}" alt="logo" srcset="">
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-sm btn-danger btn-block" wire:confirm="Voulez-vous supprimer ?" wire:click="delete('{{$logo_save}}')">
+                            Supprimer
+                        </button>
+                    </div>
+                @empty
+                    <div class="col-sm-12 p-5 text-center">
+                        <img width="50" height="50"
+                            src="https://img.icons8.com/ios/50/008080/not-showing-video-frames.png"
+                            alt="not-showing-video-frames" />
+                        <div>
+                            Aucun logo disponible pour l'instant;
                         </div>
                     </div>
-                    <br>
-                    <button class="btn btn-sm btn-danger" wire:confirm="Voulez-vous supprimer ?" wire:click="delete('{{$logo_save}}')">
-                        Supprimer
-                    </button>
-                </div>
-            @empty
-                <div class="col-sm-12 p-5 text-center">
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/ios/50/008080/not-showing-video-frames.png"
-                        alt="not-showing-video-frames" />
-                    <div>
-                        Aucun logo disponible pour l'instant;
-                    </div>
-                </div>
-            @endforelse
+                @endforelse
+            </div>
         </div>
     </div>
     <div class="col-sm-4">
