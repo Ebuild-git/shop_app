@@ -193,7 +193,7 @@ class HomeController extends Controller
         foreach ($cart as $item) {
             $produit = posts::find($item['id']);
             if (!$produit) {
-                $this->delete($item['id']);
+                $this->delete_form_cart($item['id']);
             }
         }
 
