@@ -1,18 +1,10 @@
 <div class="row">
     <div class="col-sm-8">
-        <div class="d-flex justify-content-between">
-            <div>
-              <h5>
-                Ajouter un logo de partenaire
-              </h5>
-            </div>
         <div class="text-end">
             <span wire:loading>
                 <x-Loading></x-Loading>
             </span>
         </div>
-    </div>
-    <hr>
         <div class="p-2">
             <div class="row">
                 @forelse ($logos as $logo_save)
