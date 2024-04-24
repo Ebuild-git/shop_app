@@ -2,7 +2,7 @@
     <div class="col-sm-8">
         <div class="d-flex justify-content-between">
             <div>
-                Résultat : {{ count($logos)}}
+               
             </div>
         <div class="text-end">
             <span wire:loading>
