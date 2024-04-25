@@ -12,7 +12,7 @@ class UpdateInformations extends Component
 {
     use WithFileUploads;
 
-    public $avatar,$avatar2, $nom, $email;
+    public $avatar,$avatar2, $firstname, $email;
 
    
 
@@ -20,7 +20,7 @@ class UpdateInformations extends Component
     {
         $user = User::find(Auth::id());
         if($user){
-            $this->nom = $user->name;
+            $this->firstname = $user->firstname;
             $this->email = $user->email;
             $this->avatar = $user->avatar;
         }
@@ -28,7 +28,7 @@ class UpdateInformations extends Component
     }
 
     protected $rules = [
-        'nom' => 'required',
+        'firstname' => 'required',
         'email' => ['required', 'email'],
         'avatar2' => 'nullable|mimes:jpg,png,jpeg,webp|max:2048'
     ];
@@ -42,7 +42,7 @@ class UpdateInformations extends Component
 
         $user = User::find(Auth::id());
         if ($user) {
-            $user->name = $this->nom;
+            $user->firstname = $this->firstname;
             if ($user->email != $this->email) {
                 $count = User::where('email', $this->email)->count();
                 if ($count > 0) {

@@ -71,20 +71,11 @@ class UpdateInformations extends Component
             "email" => "Veuillez entrer une adresse email",
         ]);
 
-        //verifier en fonction de la date que l'utilisateur a minimun 13 ans et maximun 100 ans
-        $dateString = $this->annee . "-" . $this->mois . "-" . $this->jour;
-        $date = date_create_from_format('Y-m-d', $dateString);
-        if ($date === false) {
-            $this->addError('jour', 'Format de date incorrect');
-            return;
-        }
-        // Calculer la différence entre l'année actuelle et l'année fournie
-        $currentYear = date('Y');
-        $yearOfBirth = (int) $date->format('Y');
-        $age = $currentYear - $yearOfBirth;
 
+        $date = \Carbon\Carbon::createFromDate( $this->annee, $this->mois, $this->jour);
+        $age = $date->diffInYears(\Carbon\Carbon::now());
         if ($age < 13) {
-            $this->addError('jour', 'L\'âge minimal est de 13 ans');
+            $this->addError('jour', 'Vous devez doit être âgé d\'au moins 13 ans');
             return;
         }
 

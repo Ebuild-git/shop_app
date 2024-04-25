@@ -27,9 +27,9 @@
         <div class="row">
             <div class="mb-3 col-md-6">
                 <label for="firstName" class="form-label">Nom</label>
-                <input class="form-control" type="text" id="firstName" required name="firstName" wire:model="nom"
+                <input class="form-control" type="text" id="firstName" required name="firstName" wire:model="firstname"
                     value="John" autofocus />
-                @error('nom')
+                @error('firstname')
                     <small class="text-danger small">{{ $message }}</small>
                 @enderror
             </div>

@@ -22,13 +22,11 @@ class Reset extends Component
     public function reset_password()
     {
         $this->validate([
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password'
+            'password' => 'required|confirmed|min:8',
         ], [
             "password.required" => "Veuillez entrer votre mot de passe",
             "password.min" => "Le mot de passe doit contenir au moins 8 caractères",
-            "password_confirmation.required" => "Veuillez confirmer votre mot de passe",
-            "password_confirmation.same" => "La confirmation ne correspond pas au mot de passe"
+            "password.confirmed" => "Les mots de passes ne correspondent pas",
         ]);
 
         $user = User::find($this->user->id);

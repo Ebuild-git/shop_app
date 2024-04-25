@@ -67,6 +67,19 @@
                 });
             });
         });
+        //formatage du numero de telephone
+        function formatTelephone(input) {
+            var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques
+            // Crée des groupes de deux chiffres séparés par des espaces
+            var formattedPhoneNumber = '';
+            for (var i = 0; i < phoneNumber.length; i++) {
+                formattedPhoneNumber += phoneNumber[i];
+                if ((i + 1) % 2 === 0 && i < phoneNumber.length - 1) {
+                    formattedPhoneNumber += ' ';
+                }
+            }
+            input.value = formattedPhoneNumber;
+        }
     </script>
     @auth
         <style>

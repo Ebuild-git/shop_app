@@ -19,7 +19,7 @@
                 </button>
             </div>
             @error('password')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="small text-danger">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -35,7 +35,7 @@
                 </button>
             </div>
             @error('password_confirmation')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="small text-danger">{{ $message }}</div>
             @enderror
         </div>
         <br>

@@ -113,7 +113,7 @@ class HomeController extends Controller
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
             'adress' => ['nullable', 'string'],
-            'telephone' => ['required', 'string'],
+            'telephone' => ['required', 'string', 'Max:14','Min:14'],
             'username' => "string|unique:users,username",
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
@@ -132,6 +132,7 @@ class HomeController extends Controller
             "image" => "Veuillez choisir une image valide",
             "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
             "between" => "Veuillez choisir une date valide",
+            
         ]);
         if ($validator->fails()) {
             return redirect()->back()
@@ -196,7 +197,7 @@ class HomeController extends Controller
         foreach ($cart as $item) {
             $produit = posts::find($item['id']);
             if (!$produit) {
-                $this->delete($item['id']);
+                $this->delete_form_cart($item['id']);
             }
         }
 
