@@ -113,7 +113,7 @@ class HomeController extends Controller
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
             'adress' => ['nullable', 'string'],
-            'telephone' => ['required', 'string', 'Max:14','Min:14'],
+            'telephone' => ['required', 'string', 'Max:14'],
             'username' => "string|unique:users,username",
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
