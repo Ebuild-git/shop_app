@@ -202,7 +202,7 @@
                                 <span for="small">Confirmation du mot de passe</span>
                                 <span class="text-danger">*</span>
                                 <input type="password" placeholder="Mot de passe" class="form-control"
-                                    value="{{ old('password_confirmation') }}" id="password-2"
+                                    value="{{ old('password_confirmation') }}" min="" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
                                     <span class="input-group-text" >

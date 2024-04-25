@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -104,7 +105,7 @@ class HomeController extends Controller
     public function inscription_post(Request $request)
     {
         $year = date('Y');
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => ['required', 'confirmed', 'string', 'min:8'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
@@ -132,12 +133,21 @@ class HomeController extends Controller
             "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
             "between" => "Veuillez choisir une date valide",
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
 
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
         // Calculer l'âge avec précision
         $age = $date->diffInYears(\Carbon\Carbon::now());
-
+        //l'age doit etres superieur a 13 ans return with information
+        if ($age < 13) {
+            return redirect()->back()->with("error", "L'âge minimal est de 13 ans")->withInput();
+        }
 
 
         $config = configurations::first();
@@ -359,7 +369,7 @@ class HomeController extends Controller
     public function inscription()
     {
         //check if user loged
-        if( Auth::check()){
+        if (Auth::check()) {
             return redirect()->route('home');
         }
         return view('User.Auth-user.inscription');
@@ -368,7 +378,7 @@ class HomeController extends Controller
     public function connexion()
     {
         //check if user loged
-        if( Auth::check()){
+        if (Auth::check()) {
             return redirect()->route('home');
         }
         return view('User.Auth-user.connexion');
