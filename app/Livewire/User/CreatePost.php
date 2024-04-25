@@ -173,6 +173,40 @@ class CreatePost extends Component
     }
 
 
+    public function updatedPhoto1()
+    {
+        $this->validateOnly('photo1', [
+            'photo1' => 'nullable|image|max:2048|mimes:png,jpg,jpeg,webp',
+        ]);
+    }
+
+    public function updatedPhoto2()
+    {
+        $this->validateOnly('photo2', [
+            'photo2' => 'nullable|image|max:2048|mimes:png,jpg,jpeg,webp',
+        ]);
+    }
+
+    public function updatedPhoto3()
+    {
+        $this->validateOnly('photo3', [
+            'photo3' => 'nullable|image|max:2048|mimes:png,jpg,jpeg,webp',
+        ]);
+    }
+
+    public function updatedPhoto4()
+    {
+        $this->validateOnly('photo4', [
+            'photo4' => 'nullable|image|max:2048|mimes:png,jpg,jpeg,webp',
+        ]);
+    }
+
+    public function updatedPhoto5()
+    {
+        $this->validateOnly('photo5', [
+            'photo5' => 'nullable|image|max:2048|mimes:png,jpg,jpeg,webp',
+        ]);
+    }
 
 
     public function submit()
