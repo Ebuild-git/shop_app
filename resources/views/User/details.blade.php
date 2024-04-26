@@ -41,15 +41,14 @@
     <section class="middle">
         <div class="container">
             <div class="row">
-
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="sp-loading">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
-                            style="width: 100% !important;" alt="">
+                    <div class="sp-loading" >
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" 
+                            style="width: 100% !important;" alt="" >
                         <br>LOADING
                         IMAGES
                     </div>
-                    <div class="sp-wrap">
+                    <div class="sp-wrap" id="sp-loading--s">
                         @forelse ($post->photos as $photo)
                             <a href="{{ Storage::url($photo) }}">
                                 <img src="{{ Storage::url($photo) }}" alt="" style="width: 100% !important;">
@@ -304,7 +303,7 @@
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $other->id }}"><img class="card-img-top"
                                                     src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
-                                                </a>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
@@ -386,4 +385,12 @@
             width: 100% !important;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            $("#sp-loading--s").on('click', function() {
+                $("#close-modal-preview").show();
+            });
+        });
+    </script>
+
 @endsection

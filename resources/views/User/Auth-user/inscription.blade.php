@@ -85,13 +85,13 @@
                                 <span for="small">Genre</span>
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
-                                    <buttonn type="button" class="form-control register-button"
+                                    <buttonn type="button" class="form-control register-button {{ old('genre') == "male" ? 'selected-register' : 'd' ; }}" 
                                         onclick="selectButton(this,'male')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/sf-black/20/008080/male.png" alt="male" />
                                         Homme
                                     </buttonn>
-                                    <buttonn type="button" class="form-control register-button"
+                                    <buttonn type="button" class="form-control register-button {{ old('genre') == "female" ? 'selected-register' : 'd' ; }}"
                                         onclick="selectButton(this,'female')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
@@ -138,7 +138,7 @@
                                     <select name="annee" class="form-control" required>
                                         <option value="">Année</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
-                                            <option value="{{ $year }}" @selected($i == old('annee'))>
+                                            <option value="{{ $year }}" @selected($year == old('annee'))>
                                                 {{ $year }}
                                             </option>
                                         @endfor
@@ -185,7 +185,7 @@
                             <div class="form-group" style="position: relative;">
                                 <span for="small">Mot de passe</span>
                                 <span class="text-danger">*</span>
-                                <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
+                                <input type="password" placeholder="Mot de passe" minlength="8" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" required>
                                 <button class="password_show" type="button" onclick="showPassword(1)">
                                     <span class="input-group-text">
@@ -202,7 +202,7 @@
                                 <span for="small">Confirmation du mot de passe</span>
                                 <span class="text-danger">*</span>
                                 <input type="password" placeholder="Mot de passe" class="form-control"
-                                    value="{{ old('password_confirmation') }}" min="" id="password-2"
+                                    value="{{ old('password_confirmation') }}" minlength="8" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
                                     <span class="input-group-text">

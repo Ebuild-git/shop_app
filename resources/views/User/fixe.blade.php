@@ -42,9 +42,12 @@
 
 <body class="custom-scrollbar">
 
+    <button class="close-modal-preview" id="close-modal-preview">
+        <img width="40" height="40" src="https://img.icons8.com/external-creatype-outline-colourcreatype/40/FFFFFF/external-close-essential-ui-v4-creatype-outline-colourcreatype.png" alt="external-close-essential-ui-v4-creatype-outline-colourcreatype"/>
+    </button>
     <script>
-        function showPassword(id){
-            var x = document.getElementById("password-"+id);
+        function showPassword(id) {
+            var x = document.getElementById("password-" + id);
             if (x.type === "password") {
                 x.type = "text";
             } else {

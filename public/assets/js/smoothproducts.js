@@ -6,7 +6,7 @@
  * Free to use and abuse under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
-
+$("#close-modal-preview").hide();
 (function($) {
 	$.fn.extend({
 		deleteSmoothProducts: function () {
@@ -21,6 +21,7 @@
 		smoothproducts: function() {
 
 			// Add some markup & set some CSS
+			
 
 			$('.sp-loading').hide();
 			$('.sp-wrap').each(function() {
@@ -46,12 +47,14 @@
 						$(this).remove();
 					});
 					$('.sp-large', this).append('<a href="' + firstLarge + '" class="sp-current-big"><img src="' + firstThumb + '" alt="" /></a>');
+					
 					$('.sp-wrap').css('display', 'inline-block');
 				// If only one image
 				} else {
 					$(this).append('<div class="sp-large"></div>');
 					$('a', this).appendTo($('.sp-large', this)).addClass('.sp-current-big');
 					$('.sp-wrap').css('display', 'inline-block');
+					
 				}
 			});
 
@@ -59,6 +62,7 @@
 			// Prevent clicking while things are happening
 			$(document.body).on('click', '.sp-thumbs', function(event) {
 				event.preventDefault();
+				
 			});
 
 
@@ -150,6 +154,7 @@
 
 			// Open in Lightbox touch
 			$(document.body).on('click', '.sp-large a', function(event) {
+				
 				var currentImg = $(this).attr('href'),
 					thumbAmt = $(this).parents('.sp-wrap').find('.sp-thumbs a').length,
 					currentThumb = ($(this).parents('.sp-wrap').find('.sp-thumbs .sp-current').index())+1;
@@ -227,6 +232,9 @@
 
 			// Close Lightbox
 			$(document.body).on('click', '.sp-lightbox', function() {
+				closeModal();
+			});
+			$(document.body).on('click', '.close-modal-preview', function() {
 				closeModal();
 			});
 

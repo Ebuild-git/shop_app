@@ -744,6 +744,35 @@ body {
 .color-red{
     color: #f6182a;
 }
+.close-modal-preview{
+    position: fixed;
+    top: 120px;
+    z-index: 600;
+    right: 50px;
+    border: none;
+    background-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
