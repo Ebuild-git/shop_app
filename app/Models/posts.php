@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class posts extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+
+
+    
     protected $fillable = [
         'sell_at',
         'id_user_buy',

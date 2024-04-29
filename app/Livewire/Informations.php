@@ -11,7 +11,7 @@ class Informations extends Component
 {
     use WithFileUploads;
 
-    public $email, $telephone, $tiktok, $instagram, $facebook, $linkedin, $logo,$logo2,$adresse,$valider_publication,$valider_photo;
+    public $email, $telephone, $tiktok, $instagram, $facebook, $linkedin, $logo,$logo2,$adresse,$valider_publication,$valider_photo,$email_send_message;
 
 
     public function render()
@@ -27,6 +27,7 @@ class Informations extends Component
         $this->logo2 = $configuration->logo;
         $this->valider_photo = $configuration->valider_photo;
         $this->valider_publication = $configuration->valider_publication;
+        $this->email_send_message = $configuration->email_send_message;
         return view('livewire.informations');
     }
 
@@ -43,6 +44,7 @@ class Informations extends Component
             'facebook' => ['nullable', 'url'],
             'instagram' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
+            'email_send_message'=> ['nullable','email'],
             'logo'  => 'nullable|image|mimes:jpg,png,jpeg,webp|max:4048',
         ]);
 
@@ -72,6 +74,7 @@ class Informations extends Component
         $config->email = $this->email;
         $config->valider_publication = $this->valider_publication ? true : false;
         $config->valider_photo = $this->valider_photo ? true : false;
+        $config->email_send_message = $this->email_send_message;
         $config->save();
 
         //show success message

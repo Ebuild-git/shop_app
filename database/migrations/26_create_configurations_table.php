@@ -25,6 +25,7 @@ return new class extends Migration
             $table->boolean('valider_photo')->default(null);
             $table->boolean('valider_publication')->default(null);
             $table->json('partenaires')->nullable()->default(null);
+            $table->string("email_send_message")->nullable(true);
             $table->timestamps();
         });
 

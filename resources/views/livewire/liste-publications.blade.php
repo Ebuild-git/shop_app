@@ -53,7 +53,7 @@
              {{ session('success') }}
          </span>
      @enderror
-     <div class="card-datatable text-nowrap">
+     <div class="table-responsive text-nowrap">
          <table class="datatables-ajax table">
              <thead class="table-dark">
                  <tr>
@@ -73,7 +73,7 @@
                          <td>
                              <span class="small">
                                  <strong>
-                                     {{ $post->titre }}
+                                    {{ Str::of($post->titre)->limit(20) }}
                                  </strong> <br>
                                  <span class="text-warning">
                                      <i>
@@ -84,7 +84,8 @@
                                  | Par
                                  <span
                                      onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                     <i class="bi bi-person"></i>{{ $post->user_info->firstname }}
+                                     <i class="bi bi-person"></i>
+                                     <b class="cusor">{{ $post->user_info->firstname }}</b>
                                      @if ($post->user_info->certifier == 'oui')
                                          <img width="14" height="14"
                                              src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"

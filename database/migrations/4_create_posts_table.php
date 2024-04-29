@@ -30,6 +30,7 @@ return new class extends Migration
             $table->timestamp("delivered_at")->nullable()->default(null);
             $table->enum("statut",["validation","vente","vendu","livraison","livré","refusé"])->default("validation");
             $table->timestamps();
+            $table->softDeletes();
 
 
 

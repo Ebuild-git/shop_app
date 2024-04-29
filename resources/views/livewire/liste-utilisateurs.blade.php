@@ -60,14 +60,18 @@
                      <tr>
                          <td> {{ $user->lastname }} </td>
                          <td> {{ $user->firstname }} </td>
-                         <td> {{ $user->email }} </td>
+                         <td>
+                             <span class="cusor" onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
+                                 {{ $user->email }}
+                             </span>
+                         </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>
-                         <td> 
-                            <span title="{{ $user->created_at->diffForHumans() }}">
-                                {{ $user->created_at->format("d/m/Y") }}
-                            </span>     
-                        </td>
+                         <td>
+                             <span title="{{ $user->created_at->diffForHumans() }}">
+                                 {{ $user->created_at->format('d/m/Y') }}
+                             </span>
+                         </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
                              <button class="btn btn-sm"

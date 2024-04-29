@@ -33,9 +33,11 @@ return new class extends Migration
             $table->string('matricule')->nullable()->default(null);
             $table->dateTime('birthdate');
             $table->enum("gender", ["male","female"]);
+            $table->boolean("locked")->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            
 
 
             $table->foreign('region')->references('id')->on('regions')->onDelete('set null');
