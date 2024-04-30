@@ -7,6 +7,7 @@ use App\Models\categories;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\regions;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -117,6 +118,14 @@ class ListePublications extends Component
         }
     }
 
+    public function delete_definitivement($id){
+        $post=posts::withTrashed()->findOrFail($id);
+        foreach ($post->photos as $img) {
+            Storage::disk('public')->delete($img);
+        }
+        $post->forceDelete();
+        session()->flash("success","La publication a été définitivement supprimée !");
+    }
 
 
     public function vendu($id)

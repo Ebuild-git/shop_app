@@ -147,9 +147,20 @@
                                      <i class="ti ti-dots-vertical"></i>
                                  </button>
                                  <div class="dropdown-menu">
-                                     <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                         wire:click="delete({{ $post->id }})">
-                                         <i class="ti ti-trash me-1"></i> &nbsp; Supprimer </a>
+                                     @if ($post->deleted_at)
+                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                             wire:click="delete_definitivement({{ $post->id }})">
+                                             <i class="ti ti-trash me-1"></i>
+                                             &nbsp; Supprimer définitivement
+                                         </a>
+                                     @else
+                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                             wire:click="delete({{ $post->id }})">
+                                             <i class="ti ti-trash me-1"></i>
+                                             &nbsp; Supprimer
+                                         </a>
+                                     @endif
+
                                  </div>
                              </div>
                          </td>
