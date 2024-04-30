@@ -42,8 +42,8 @@
 
     <!-- Page CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
-    
+        integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+
     <link rel="stylesheet" href="/assets-admin/vendor/css/pages/app-logistics-dashboard.css" />
 
     <!-- Helpers -->
@@ -81,16 +81,25 @@
         });
     </script>
     <style>
-        .avatar-online{
+        .avatar-online {
             height: 35px !important;
             width: 35px !important;
             overflow: hidden;
-            
+
         }
-        .avatar-online img{
+
+        .avatar-online img {
             width: 100% !important;
             height: 100% !important;
             object-fit: cover !important;
+        }
+
+        .table-red {
+            background-color: #d32a2a;
+        }
+
+        .table-red tr th {
+            color: white !important;
         }
     </style>
 
@@ -311,7 +320,8 @@
                                         <li class="menu-item">
                                             <a href="{{ route('liste_publications_supprimer') }}" class="menu-link">
                                                 <i class="bi bi-trash3 menu-icon "></i>
-                                                <div data-i18n="Liste des publications supprimés">Liste des publications supprimés</div>
+                                                <div data-i18n="Liste des publications supprimés">Liste des
+                                                    publications supprimés</div>
                                             </a>
                                         </li>
                                         <li class="menu-item">
@@ -319,7 +329,7 @@
                                                 <i class="menu-icon bi bi-exclamation-triangle"></i>
                                                 <div data-i18n="Publications signalés">Publications signalées</div>
                                             </a>
-                                        </li> 
+                                        </li>
                                     </ul>
                                 </li>
 
