@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'reset_password','delete_email','regions']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'reset_password', 'delete_email', 'regions']]);
     }
 
     public function login(Request $request)
@@ -59,8 +59,9 @@ class AuthController extends Controller
 
 
 
-    public function regions(){
-        $regions=regions::all();
+    public function regions()
+    {
+        $regions = regions::all();
         return response()->json($regions);
     }
 
@@ -70,12 +71,30 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
-            'password' => ['required', 'string'],
+            'password' => ['required', 'confirmed', 'string', 'min:8'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
-            'telephone' => ['required', 'numeric'],
-            'username' => "required|string|unique:users,username"
+            'prenom' => ['required', 'string'],
+            'adress' => ['nullable', 'string'],
+            'telephone' => ['required', 'string', 'Max:14'],
+            'username' => "string|unique:users,username",
+            'genre' => 'required|in:female,male',
+            'birthdate' => 'required|date',
+        ], [
+            'required' => "Veuillez renseigner ce lien",
+            'username.unique' => "Ce pseudo est déja utilisé",
+            'email.unique' => "Cette adresse email est déja utilisé",
+            "string" => "Veuillez entrer une valeur de type texte",
+            "password.min" => "Votre mot de passe doit contenir minimun 8 caractères",
+            "password.confirmed" => "Votre mot de passe ne correspond pas",
+            "interger" => "Veuillez entrer une valeur de type entier",
+            "in.genre" => "Veuillez choisir votre sexe",
+            "mimes" => "Veuillez choisir un format de fichier valide",
+            "image" => "Veuillez choisir une image valide",
+            "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
+            "between" => "Veuillez choisir une date valide",
+
         ]);
 
         // Si la validation échoue, retourner les erreurs sous forme de réponse JSON
@@ -95,6 +114,7 @@ class AuthController extends Controller
             $user->avatar = $newName;
         }
         $user->name = $request->nom;
+        $user->birthdate = $request->birthdate;
         $user->email = $request->email;
         $user->password =  Hash::make($request->password);
         $user->phone_number = $request->telephone;

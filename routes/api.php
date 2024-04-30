@@ -25,18 +25,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     // Vos routes protégées
 
     //posts
-    Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
-    Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
     Route::post('/posts/create', [PostsController::class, 'create_post'])->name('create_post');
     Route::post('/posts/update', [PostsController::class, 'update_post'])->name('update_post');
 
 
-    //categories
-    Route::get('/categories/list', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
-    Route::get('/categories/details/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
-    Route::get('/categories/delete/{id}', [CategoriesController::class, 'delete_categorie'])->name('delete_categorie');
-    Route::post('/categories/create', [CategoriesController::class, 'create_categorie'])->name('create_categorie');
-    Route::post('/categories/update', [CategoriesController::class, 'update_categorie'])->name('update_categorie');
+
 
     //notifications
     Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
@@ -45,12 +38,20 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 });
 
 
+//categories
+Route::get('/categories/list', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
+Route::get('/categories/details/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
 
+//posts
+Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
+Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
+
+//regions
+Route::get('/regions', [AuthController::class, 'regions']);
 
 
 //route de gestion des utilisateurs
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/regions', [AuthController::class, 'regions']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/reset_password', [AuthController::class, 'reset_password']);

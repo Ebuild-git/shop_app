@@ -206,73 +206,8 @@ class CategoriesController extends Controller
 
 
 
-    public function delete_categorie($id)
-    {
-        try {
-            $categorie = categories::findOrFail($id);
-            $this->delete_trait($categorie->icon);
-            $categorie->delete();
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'La catégorie a été supprimé',
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => "Impossible de trouver la categorie"
-                ]
-            );
-        }
-    }
-
-
-
-    public function create_categorie(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'titre' => 'required|string',
-            'description' => 'required|string',
-            'icon' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
-
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Veuillez verifier les champs !',
-                "errors" => $validator->errors()
-            ]);
-        }
-        //upload image
-        $icon = $request->file('icon');
-        $image = $this->upload_trait($icon);
-
-        $categorie = new categories();
-        $categorie->titre = $request->input("titre");
-        $categorie->description = $request->input('description');
-        $categorie->icon = $image;
-        $categorie->save();
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Categorie ajouté'
-            ]
-        );
-    }
 
 
 
 
-    public function update_categorie($id)
-    {
-        $categorie = categories::find($id);
-        if (!$categorie) {
-            abort(404);
-        }
-        return view("Admin.categories.update_categorie")->with('categorie', $categorie);
-    }
 }

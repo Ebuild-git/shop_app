@@ -24,7 +24,7 @@ class PostsController extends Controller
      */
     public function list_post()
     {
-        $post = posts::with('categorie_info')->get();
+        $post = posts::paginate(50);
         return response()->json(
             [
                 'success' => true,
