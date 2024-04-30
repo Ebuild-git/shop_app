@@ -13,7 +13,7 @@ class Shop extends Component
 {
     use WithPagination;
 
-    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat,$filtre;
+    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat,$filtre,$ordre2;
 
 
 
@@ -34,12 +34,30 @@ class Shop extends Component
         $this->resetPage();
     }
 
+    public function choix_etat($etat){
+        $this->etat = $etat;
+        $this->resetPage();
+    }
+
+    public function choix_ordre($or){
+        if($or == "Asc"){
+            $this->ordre2 ="asc";
+        }else{
+            $this->ordre2 = "desc";
+        }
+        $this->resetPage();
+    }
+
 
     public function render(){
         $this->total = posts::count();
         $this->liste_categories = categories::orderBy('order')->get(["titre", "id","luxury"]);
         
         $query = posts::where('statut','vente');
+
+        if (!empty($this->ordre2)) {
+            $query->orderBy('prix', ($this->ordre2 == "Desc") ? 'DESC' : 'ASC');
+        }
     
         if (!empty($this->ordre)) {
             $query->orderBy('created_at', ($this->ordre == "Desc") ? 'DESC' : 'ASC');

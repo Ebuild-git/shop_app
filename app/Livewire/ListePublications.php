@@ -94,7 +94,7 @@ class ListePublications extends Component
         if ($post) {
             //update verified_at date
             $post->delete();
-            session()->flash("success", "La publication a été supprimé définitivement");
+            session()->flash("success", "La publication a été supprimé !");
         } else {
             session()->flash("error", "Une erreur est survenue lors de la suppression");
         }

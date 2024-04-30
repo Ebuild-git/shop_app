@@ -84,15 +84,49 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <select name="etat" wire:model="etat" class="btn-btn-shop-style-select">
-                                                <option value="">état de l'article</option>
-                                                <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
-                                                <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
-                                                <option value="Très bon état">Très bon état</option>
-                                                <option value="Bon état">Bon état</option>
-                                                <option value="Usé">Usé</option>
-                                            </select>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Neuf avec étiquettes')">
+                                                Neuf avec étiquettes
+                                            </button>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Neuf sans étiquettes')">
+                                                Neuf sans étiquettes
+                                            </button>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Très bon état')">
+                                                Très bon état
+                                            </button>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Bon état')">
+                                                Bon état
+                                            </button>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Usé')">
+                                                Usé
+                                            </button>
                                             @error('etat')
+                                                <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Single Option -->
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header">
+                                    <h4><a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                            role="button">
+                                        Ordre d'affichage
+                                        </a></h4>
+                                </div>
+                                <div class="widget-boxed-body collapse" id="prixs" data-parent="#prixs">
+                                    <div class="side-list no-border">
+                                        <!-- Single Filter Card -->
+                                        <div>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_ordre('Asc')">
+                                                Plus couteux au moins couteux
+                                            </button>
+                                            <button type="button" class="btn-etat-shop" wire:click="choix_ordre('Desc')">
+                                                Moins couteux au plus couteux
+                                            </button>
+                                            @error('ordre')
                                                 <small class="form-text text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -211,8 +245,7 @@
                                     <div class="text-left">
                                         <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                                             <a href="/post/{{ $post->id }}">
-
-                                                {{ $post->titre }}
+                                                {{ Str::limit($post->titre, 40) }}
                                             </a>
                                         </h5>
                                         <div class="d-flex justify-content-between">
