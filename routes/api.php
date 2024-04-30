@@ -50,7 +50,7 @@ Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('detail
 Route::get('/regions', [AuthController::class, 'regions']);
 
 // check username disponibility
-Route::get('/check_username', [PostsController::class, 'username'])->name('username');
+Route::post('/check_username', [PostsController::class, 'username'])->name('username');
 
 //route de gestion des utilisateurs
 Route::post('/login', [AuthController::class, 'login']);
