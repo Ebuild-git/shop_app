@@ -38,9 +38,6 @@
                         <div class="pt-1 pb-1">
                             <span class="h5 text-capitalize">
                                 {{ '@'.$user->username }}
-                                @if ($user->certifier == 'oui')
-                                    <i class="bi bi-patch-check-fill small" style="color: #28c76f;"></i>
-                                @endif
                             </span>
                         </div>
                     </div>

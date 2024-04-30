@@ -56,7 +56,7 @@ class Shopinners extends Component
                 ->orderByDesc('total_posts')
                 ->paginate(50);
         } else {
-            $Query = User::select('users.id', 'users.name', 'users.avatar', 'users.username', 'users.certifier', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
+            $Query = User::select('users.id', 'users.name', 'users.avatar', 'users.username', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->groupBy('users.id', 'users.lastname', 'users.avatar', 'users.username', 'users.certified')

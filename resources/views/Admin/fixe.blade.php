@@ -309,6 +309,12 @@
                                             </a>
                                         </li>
                                         <li class="menu-item">
+                                            <a href="{{ route('liste_publications_supprimer') }}" class="menu-link">
+                                                <i class="bi bi-trash3 menu-icon "></i>
+                                                <div data-i18n="Liste des publications supprimés">Liste des publications supprimés</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
                                             <a href="{{ route('post_signalers') }}" class="menu-link">
                                                 <i class="menu-icon bi bi-exclamation-triangle"></i>
                                                 <div data-i18n="Publications signalés">Publications signalées</div>

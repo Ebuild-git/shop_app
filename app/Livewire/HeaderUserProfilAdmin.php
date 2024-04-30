@@ -21,16 +21,6 @@ class HeaderUserProfilAdmin extends Component
         return view('livewire.header-user-profil-admin');
     }
 
-    public function certifier()
-    {
-        if ($this->user->certifier == "non") {
-            $this->user->certifier = "oui";
-        } else {
-            $this->user->certifier = "non";
-        }
-        $this->user->save();
-        $this->dispatch('alert', ['message' => "Certification modifié !", 'type' => 'warning']);
-    }
 
     public function photo()
     {

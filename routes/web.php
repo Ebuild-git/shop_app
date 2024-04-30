@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/add_sous_categorie/{id}', [AdminController::class, 'add_sous_categorie'])->name('add_sous_categorie');
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');
+    Route::get('/admin/publications/deleted', [PostsController::class, 'liste_publications_supprimer'])->name('liste_publications_supprimer');
     Route::get('/admin/informations', [InformationsController::class, 'index'])->name('informations');
     Route::get('/admin/client/{id}/view', [UserController::class, 'details_user'])->name('vue_details_utilisateurs');
     Route::get('/admin/publication/{id}/view', [PostsController::class, 'details_publication'])->name('vue_details_publication');

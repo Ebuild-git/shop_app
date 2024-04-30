@@ -6,10 +6,6 @@
        </span>
         <h4>
             {{ $user->firstname }} {{ $user->lastname }}
-            @if ($user->certifier == 'oui')
-                <img width="20" height="20" src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"
-                    alt="approval" title="Certifié" />
-            @endif
         </h4>
         <ul
             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
@@ -34,21 +30,6 @@
         <a href="javascript:void(0)">
             <button class="btn btn-danger" wire:click="photo()">
                 <i class="ti ti-camera me-1"></i> Réfuser
-            </button>
-        </a>
-    @endif
-
-
-    @if ($user->certifier == 'oui')
-        <a href="javascript:void(0)">
-            <button class="btn btn-danger btn-sm" wire:click="certifier()">
-                <i class="ti ti-check me-1"></i> Décertifer
-            </button>
-        </a>
-    @else
-        <a href="javascript:void(0)">
-            <button class="btn btn-success btn-sm" wire:click="certifier()">
-                <i class="ti ti-check me-1"></i> Certifer
             </button>
         </a>
     @endif

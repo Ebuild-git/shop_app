@@ -2,12 +2,26 @@
 
 
  <div class="card">
+     <div class="d-flex justify-content-between">
+         <h5 class="card-header">
+             Liste des publications
+             @if ($deleted)
+                 <span class="text-danger">
+                     (Supprimés)
+                 </span>
+             @endif
+             <span wire:loading>
+                 <x-loading></x-loading>
+             </span>
+         </h5>
+         <a href="{{ route('liste_publications_supprimer') }}" class="btn text-danger">
+             <b>
+                 <i class="bi bi-trash3"></i>
+                 Corbeille ( {{ $trashCount }} )
+             </b>
+         </a>
+     </div>
      <div class="row p-2">
-         <div class="col-sm-12 my-auto">
-             <h5 class="card-header">
-                 Liste des publications
-             </h5>
-         </div>
          <div class="col-sm-12 my-auto">
              <form wire:submit="filtre">
                  <div class="input-group mb-3">
@@ -33,9 +47,6 @@
                          @endforeach
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
-                         <span wire:loading>
-                             <x-loading></x-loading>
-                         </span>
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
@@ -43,16 +54,9 @@
              </form>
          </div>
      </div>
-     @if (session()->has('error'))
-         <span class="text-danger small">
-             {{ session('error') }}
-         </span>
-     @enderror
-     @if (session()->has('success'))
-         <span class="text-success small">
-             {{ session('success') }}
-         </span>
-     @enderror
+
+     @include('components.alert-livewire')
+
      <div class="table-responsive text-nowrap">
          <table class="datatables-ajax table">
              <thead class="table-dark">
@@ -73,24 +77,29 @@
                          <td>
                              <span class="small">
                                  <strong>
-                                    {{ Str::of($post->titre)->limit(20) }}
+                                     {{ Str::of($post->titre)->limit(30) }}
                                  </strong> <br>
-                                 <span class="text-warning">
-                                     <i>
-                                         <i class="bi bi-alarm"></i>
-                                         {{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}
-                                     </i>
-                                 </span>
+                                 @if ($post->deleted_at)
+                                     <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
+                                         <i>
+                                             <i class="bi bi-trash3"></i>
+                                             {{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}
+                                         </i>
+                                     </span>
+                                 @else
+                                     <span class="text-warning">
+                                         <i>
+                                             <i class="bi bi-alarm"></i>
+                                             {{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}
+                                         </i>
+                                     </span>
+                                 @endif
+
                                  | Par
                                  <span
                                      onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
                                      <i class="bi bi-person"></i>
                                      <b class="cusor">{{ $post->user_info->firstname }}</b>
-                                     @if ($post->user_info->certifier == 'oui')
-                                         <img width="14" height="14"
-                                             src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"
-                                             alt="approval" title="Certifié" />
-                                     @endif
                                  </span>
                              </span>
                          </td>
@@ -110,6 +119,11 @@
                                  onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
                                  <i class="bi bi-eye"></i> &nbsp; Voir
                              </button>
+                             @if ($post->deleted_at)
+                                 <button class="btn btn-sm btn-success" wire:click="restore({{ $post->id }})">
+                                     <i class="bi bi-upload"></i> &nbsp; Restorer
+                                 </button>
+                             @endif
                              @if ($type == 'attente')
                                  <button type="button" class="btn btn-sm btn-success"
                                      wire:click="valider({{ $post->id }})">
@@ -121,8 +135,7 @@
                                  </button>
                              @endif
                              @if ($type == 'publiés')
-                                 <button class="btn btn-sm btn-warning"
-                                     wire:click="vendu({{ $post->id }})">
+                                 <button class="btn btn-sm btn-warning" wire:click="vendu({{ $post->id }})">
                                      <i class="bi bi-cart-check"></i> &nbsp; vendu
                                  </button>
                              @endif

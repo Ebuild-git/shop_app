@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('email')->unique();
             $table->string('username');
-            $table->boolean('certified')->default(false);
             $table->string('phone_number')->nullable()->default(null);
             $table->string("ip_address")->nullable()->default(null);
             $table->string("avatar")->nullable()->default("avatar.png");

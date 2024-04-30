@@ -20,9 +20,6 @@
                                     <h4 class="h6">
                                         <a href="/user/{{ $shopiner->id }}" class="link">
                                             {{ '@' . $shopiner->username }}
-                                            @if ($shopiner->certifier == 'oui')
-                                                <i class="bi bi-patch-check-fill small" style="color: #28c76f;"></i>
-                                            @endif
                                         </a>
                                     </h4>
                                 </div>

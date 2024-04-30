@@ -50,11 +50,6 @@
                                     <div class="me-2 ms-1">
                                         <h6 class="mb-0">
                                             {{ $post->acheteur->name }}
-                                            @if ($post->acheteur->certifier == 'oui')
-                                                <img width="14" height="14"
-                                                    src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"
-                                                    alt="approval" title="Certifié" />
-                                            @endif
                                         </h6>
                                         <small class="text-muted">
                                             {{ $post->acheteur->GetPosts->count() }} publications. <br>

@@ -14,18 +14,23 @@ class ListePublications extends Component
 {
     use WithPagination;
 
-    public $type, $categories, $mot_key, $categorie_key, $region_key;
+    public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted;
 
-
+    public function mount($deleted)
+    {
+        $this->deleted = $deleted;
+    }
 
     public function render()
     {
         $this->categories = categories::all();
 
 
-        $postsQuery = posts::Orderby("id", "Desc")->select("id","titre","photos","id_user","created_at","id_sous_categorie","statut","prix","id_region");
+        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user","deleted_at", "created_at", "id_sous_categorie", "statut", "prix", "id_region");
 
-        
+        if($this->deleted == 'oui'){
+            $publications = $postsQuery->onlyTrashed();
+        }
         if (strlen($this->type) > 0) {
             $postsQuery->where('statut',  $this->type);
         }
@@ -50,7 +55,9 @@ class ListePublications extends Component
         $posts = $postsQuery->paginate(50);
         $regions = regions::all(['id', 'nom']);
 
-        return view('livewire.liste-publications', compact('posts', 'regions'));
+        //count total trashed post
+        $trashCount = posts::onlyTrashed()->count();
+        return view('livewire.liste-publications', compact('posts', 'regions', 'trashCount'));
     }
 
     public function valider($id)
@@ -97,6 +104,16 @@ class ListePublications extends Component
             session()->flash("success", "La publication a été supprimé !");
         } else {
             session()->flash("error", "Une erreur est survenue lors de la suppression");
+        }
+    }
+
+    public function restore($id){
+        $post=posts::withTrashed()->where('id',$id)->first();
+        if ($post) {
+            $post->restore();
+            session()->flash("success","La publication à été restaurer!");
+        } else {
+            session()->flash("error","Cette publication n'existe pas.");
         }
     }
 

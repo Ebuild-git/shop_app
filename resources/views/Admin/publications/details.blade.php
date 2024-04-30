@@ -80,11 +80,6 @@
                                         <div class="me-2 ms-1">
                                             <h6 class="mb-0">
                                                 {{ $post->user_info->name }}
-                                                @if ($post->user_info->certifier == 'oui')
-                                                    <img width="14" height="14"
-                                                        src="https://img.icons8.com/sf-regular-filled/48/40C057/approval.png"
-                                                        alt="approval" title="Certifié" />
-                                                @endif
                                             </h6>
                                             <small class="text-muted">
                                                 {{ $post->user_info->GetPosts->count() }} publications.
