@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\notifications;
 use App\Models\posts;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -158,6 +159,25 @@ class PostsController extends Controller
         );
     }
 
+
+    public function username(Request $request){
+        $username = $request->input("username");
+        // if username is empty
+        if(is_null($username)){
+            return response()->json([
+                'success' => false,
+                'message' => 'Veuillez vous rassurer que le username a été entrer',
+            ]);
+        }
+        $count = User::where('username',$username)->count();
+        return response()->json([
+            'success' => true,
+            'message' => '',
+            'total' => $count
+        ]);
+
+
+    }
 
 
 

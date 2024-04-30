@@ -39,8 +39,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 
 //categories
-Route::get('/categories/list', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
-Route::get('/categories/details/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
+Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
+Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
 
 //posts
 Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
@@ -49,6 +49,8 @@ Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('detail
 //regions
 Route::get('/regions', [AuthController::class, 'regions']);
 
+// check username disponibility
+Route::get('/check_username', [PostsController::class, 'username'])->name('username');
 
 //route de gestion des utilisateurs
 Route::post('/login', [AuthController::class, 'login']);

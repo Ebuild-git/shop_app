@@ -23,26 +23,33 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register', 'reset_password', 'delete_email', 'regions']]);
     }
 
+
+
+
+
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        $credentials = $request->only('email', 'password');
-
+        
+        $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        
+        $credentials = [
+            $loginType => $request->input('login'),
+            'password' => $request->input('password'),
+        ];
+        
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(
-                [
-                    'message' => 'Unauthorized'
-                ],
-                401
-            );
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
         }
-
+        
         // Récupération de l'utilisateur authentifié
         $user = Auth::user();
+        
 
         // Génération du token JWT
         $token = $user->createToken($user->username)->plainTextToken;
@@ -74,27 +81,13 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', 'string', 'min:8'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
-            'nom' => ['required', 'string'],
-            'prenom' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'firstnaeme' => ['required', 'string'],
             'adress' => ['nullable', 'string'],
-            'telephone' => ['required', 'string', 'Max:14'],
+            'phone_number' => ['required', 'string', 'Max:14'],
             'username' => "string|unique:users,username",
-            'genre' => 'required|in:female,male',
+            'gender' => 'required|in:female,male',
             'birthdate' => 'required|date',
-        ], [
-            'required' => "Veuillez renseigner ce lien",
-            'username.unique' => "Ce pseudo est déja utilisé",
-            'email.unique' => "Cette adresse email est déja utilisé",
-            "string" => "Veuillez entrer une valeur de type texte",
-            "password.min" => "Votre mot de passe doit contenir minimun 8 caractères",
-            "password.confirmed" => "Votre mot de passe ne correspond pas",
-            "interger" => "Veuillez entrer une valeur de type entier",
-            "in.genre" => "Veuillez choisir votre sexe",
-            "mimes" => "Veuillez choisir un format de fichier valide",
-            "image" => "Veuillez choisir une image valide",
-            "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
-            "between" => "Veuillez choisir une date valide",
-
         ]);
 
         // Si la validation échoue, retourner les erreurs sous forme de réponse JSON
@@ -116,6 +109,7 @@ class AuthController extends Controller
         $user->name = $request->nom;
         $user->birthdate = $request->birthdate;
         $user->email = $request->email;
+        $user->gender = $request->gender;
         $user->password =  Hash::make($request->password);
         $user->phone_number = $request->telephone;
         $user->role = "user";
