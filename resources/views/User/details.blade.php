@@ -42,9 +42,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="sp-loading" >
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big" 
-                            style="width: 100% !important;" alt="" >
+                    <div class="sp-loading">
+                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
+                            style="width: 100% !important;" alt="">
                         <br>LOADING
                         IMAGES
                     </div>
@@ -183,35 +183,39 @@
                             </div>
                             <br>
 
-                            <div class="prt_05 mb-4">
-                                <div class="form-row mb-7">
-                                    @if ($post->statut == 'vente')
-                                        <div class="col-12 col-lg">
-                                            <span>
-                                                @auth
-                                                    <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
-                                                        onclick="add_cart({{ $post->id }})">
-                                                        <i class="lni lni-shopping-basket mr-2"></i>
-                                                        Ajouter au panier
-                                                    </button>
-                                                @endauth
-                                            </span>
-                                        </div>
-                                    @endif
-                                    <div class="col-12 col-lg-auto">
-                                        <!-- Wishlist -->
-                                        @livewire('User.ButtonAddLike', ['post' => $post])
-
-                                    </div>
-                                    @auth
-                                        <div class="col-12 col-lg-auto">
-                                            @if (Auth::id() != $post->id_user)
-                                                @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+                            @auth
+                                @if ($post->id_user != Auth::id())
+                                    <div class="prt_05 mb-4">
+                                        <div class="form-row mb-7">
+                                            @if ($post->statut == 'vente')
+                                                <div class="col-12 col-lg">
+                                                    <span>
+                                                        @auth
+                                                            <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                                                onclick="add_cart({{ $post->id }})">
+                                                                <i class="lni lni-shopping-basket mr-2"></i>
+                                                                Ajouter au panier
+                                                            </button>
+                                                        @endauth
+                                                    </span>
+                                                </div>
                                             @endif
+                                            <div class="col-12 col-lg-auto">
+                                                <!-- Wishlist -->
+                                                @livewire('User.ButtonAddLike', ['post' => $post])
+
+                                            </div>
+                                            @auth
+                                                <div class="col-12 col-lg-auto">
+                                                    @if (Auth::id() != $post->id_user)
+                                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+                                                    @endif
+                                                </div>
+                                            @endauth
                                         </div>
-                                    @endauth
-                                </div>
-                            </div>
+                                    </div>
+                                @endif
+                            @endauth
 
                         </div>
                     </div>
