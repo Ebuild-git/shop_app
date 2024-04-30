@@ -54,3 +54,9 @@
     right: 10px;
     top: 10px;
 }
+.table-red{
+    background-color: #d32a2a;  
+}
+.table-red tr th{
+    color: white !important;
+}

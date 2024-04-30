@@ -59,7 +59,7 @@
 
      <div class="table-responsive text-nowrap">
          <table class="datatables-ajax table">
-             <thead class="table-dark">
+             <thead class="{{ $deleted ?  'table-red' : 'table-dark'}}">
                  <tr>
                      <th>Titre</th>
                      <th>Likes</th>
@@ -168,8 +168,8 @@
                  @empty
                      <tr>
                          <td colspan="8">
-                             <div class="p-3">
-                                 Aucun publication trouvé!
+                             <div class="p-3 text-center">
+                                 Aucune publication trouvé!
                              </div>
                          </td>
                      </tr>
