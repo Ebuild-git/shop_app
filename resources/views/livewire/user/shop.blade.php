@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <button type="reset" class="btn btn-md  bg-danger text-light fs-md ft-medium">
+                                <button type="button" wire:click="reset_form()" class="btn btn-md  bg-danger text-light fs-md ft-medium">
                                     Vider
                                     <i class="bi bi-x-lg"></i>
                                 </button>

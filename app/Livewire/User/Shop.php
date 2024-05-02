@@ -138,12 +138,7 @@ class Shop extends Component
 
     public function reset_form()
     {
-        $this->categorie = null;
-        $this->sous_categorie = null;
-        $this->prix_minimun = null;
-        $this->prix_maximun = null;
-        $this->key = "";
-        $this->resetPage();
+        return redirect()->route("shop");
     }
 
 
