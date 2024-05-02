@@ -18,15 +18,10 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-                                            <div class="single_filter_card">
-                                                <button type="button" class="btn-etat-shop"
-                                                    wire:click="luxury_only()">
-                                                    <span class="color ">
-                                                        <b>
-                                                            Luxury <i class="bi bi-gem"></i>
-                                                        </b>
-                                                    </span>
-                                                </button>
+                                            <div class="single_filter_card color" wire:click="check_luxury_only()">
+                                                <b>
+                                                    Uniquement Luxury <i class="bi bi-gem"></i>
+                                                </b>
                                             </div>
                                             @forelse ($liste_categories as $categorie)
                                                 <!-- Single Filter Card -->

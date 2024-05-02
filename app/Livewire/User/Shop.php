@@ -48,8 +48,13 @@ class Shop extends Component
         $this->resetPage();
     }
 
-    public function luxury_only(){
-        $this->luxury_only = true;
+    public function check_luxury_only(){
+        if($this->luxury_only){
+            $this->luxury_only = false;
+        }else{
+           $this->luxury_only = true; 
+        }
+        
         $this->resetPage();
     }
 
