@@ -99,7 +99,7 @@ $("#close-modal-preview").hide();
 					nextThumb = get_url_from_background($(this).parent().find('.sp-current').css('backgroundImage'));
 
 				$(this).parents('.sp-wrap').find('.sp-large').html('<a href="' + nextLarge + '" class="sp-current-big"><img src="' + nextThumb + '"/></a>');
-				$(this).parents('.sp-wrap').find('.sp-large').hide().fadeIn(250, function() {
+				$(this).parents('.sp-wrap').find('.sp-large').hide().fadeIn(500, function() {
 
 					var autoHeight = $(this).parents('.sp-wrap').find('.sp-large img').height();
 
@@ -120,13 +120,13 @@ $("#close-modal-preview").hide();
 			$(document.body).on('mouseenter', '.sp-non-touch .sp-large', function(event) {
 				var largeUrl = $('a', this).attr('href');
 				$(this).append('<div class="sp-zoom"><img src="' + largeUrl + '"/></div>');
-				$(this).find('.sp-zoom').fadeIn(250);
+				$(this).find('.sp-zoom').fadeIn(500);
 				event.preventDefault();
 			});
 
 			// Zoom Out non-touch
 			$(document.body).on('mouseleave', '.sp-non-touch .sp-large', function(event) {
-				$(this).find('.sp-zoom').fadeOut(250, function() {
+				$(this).find('.sp-zoom').fadeOut(500, function() {
 					$(this).remove();
 				});
 				event.preventDefault();
@@ -192,10 +192,10 @@ $("#close-modal-preview").hide();
 						$('.sp-selected .sp-current').removeClass();
 						$('.sp-selected .sp-thumbs a:eq('+currentEq+')').addClass('sp-current');
 						$('.sp-selected .sp-large').empty().append('<a href='+newImg+'><img src="'+newThumb+'"/></a>');
-						$('.sp-lightbox img').fadeOut(250, function() {
+						$('.sp-lightbox img').fadeOut(500, function() {
 							$(this).remove();
 							$('.sp-lightbox').data('currenteq',nextEq).append('<img src="'+newImg+'"/>');
-							$('.sp-lightbox img').hide().fadeIn(250);
+							$('.sp-lightbox img').hide().fadeIn(500);
 						});
 					}
 
@@ -220,10 +220,10 @@ $("#close-modal-preview").hide();
 						$('.sp-selected .sp-current').removeClass();
 						$('.sp-selected .sp-thumbs a:eq('+nextEq+')').addClass('sp-current');
 						$('.sp-selected .sp-large').empty().append('<a href='+newImg+'><img src="'+newThumb+'"/></a>');
-						$('.sp-lightbox img').fadeOut(250, function() {
+						$('.sp-lightbox img').fadeOut(500, function() {
 							$(this).remove();
 							$('.sp-lightbox').data('currenteq',currentEq).append('<img src="'+newImg+'"/>');
-							$('.sp-lightbox img').hide().fadeIn(250);
+							$('.sp-lightbox img').hide().fadeIn(500);
 						});
 					}
 				event.preventDefault();
@@ -264,8 +264,8 @@ $("#close-modal-preview").hide();
 					largeHeight = $(this).find('.sp-zoom').height(),
 					relativeXPosition = (e.pageX - viewOffset.left),
 					relativeYPosition = (e.pageY - viewOffset.top),
-					moveX = Math.floor((relativeXPosition * (viewWidth - largeWidth) / viewWidth)),
-					moveY = Math.floor((relativeYPosition * (viewHeight - largeHeight) / viewHeight));
+					moveX = Math.floor((relativeXPosition * (viewWidth - largeWidth) / viewWidth)) * 2,
+					moveY = Math.floor((relativeYPosition * (viewHeight - largeHeight) / viewHeight)) * 2;
 
 				$(this).find('.sp-zoom').css({
 					left: moveX,
