@@ -760,7 +760,9 @@ body {
     text-align: left !important;
 }
 
-
+.cusor{
+    cursor: pointer;
+}
 
 
 

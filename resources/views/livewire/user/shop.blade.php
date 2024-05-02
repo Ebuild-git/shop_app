@@ -18,7 +18,7 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-                                            <div class="single_filter_card color" wire:click="check_luxury_only()">
+                                            <div class="single_filter_card cusor color" wire:click="check_luxury_only()">
                                                 <b>
                                                     Uniquement Luxury <i class="bi bi-gem"></i>
                                                 </b>
