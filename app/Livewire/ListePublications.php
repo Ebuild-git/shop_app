@@ -44,8 +44,14 @@ class ListePublications extends Component
 
         // Filtrage par catégories
         if (strlen($this->categorie_key) > 0) {
-            $postsQuery->where('id_categorie', $this->categorie_key);
+            $categorie = categories::find($this->categorie_key);
+            if ($categorie) {
+                $postsQuery->whereHas('sous_categorie_info', function ($query) use ($categorie) {
+                    $query->where('id_categorie', $categorie->id);
+                });
+            }
         }
+        
 
         // Filtrage par region
         if (strlen($this->region_key) > 0) {

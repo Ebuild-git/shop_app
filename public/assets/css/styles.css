@@ -4004,8 +4004,8 @@ textarea.form-control{
 
 .sp-zoom {
 	position: absolute;
-	left: -50%;
-	top: -50%;
+	left: -70%;
+	top: -70%;
 	cursor: -webkit-zoom-in;
 	cursor: -moz-zoom-in;
 	cursor: zoom-in;

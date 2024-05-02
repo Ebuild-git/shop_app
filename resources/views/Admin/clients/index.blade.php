@@ -15,28 +15,6 @@
     </div>
     <!--/ Content -->
 
-
-    <!-- Modal 1-->
-    <div class="modal fade" id="MessageModal" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalToggleLabel">
-                        Envoyer un message à @<span id="destinataire">[distinataire]</span>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @livewire('Admin.SendMessage')
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
 @endsection
 
 
@@ -44,16 +22,7 @@
 
 
 @section('script')
-    <script>
-        function OpenModalMessage(email, username) {
-            Livewire.dispatch('sendDataUser', {
-                username: username,
-                email: email
-            });
-            $("#destinataire").html(username);
-            $('#MessageModal').modal('show');
-        }
-    </script>
+ 
 
 
     <script src="/assets-admin/vendor/libs/jquery/jquery.js"></script>

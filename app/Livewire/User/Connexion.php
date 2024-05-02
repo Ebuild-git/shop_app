@@ -7,8 +7,9 @@ use Livewire\Component;
 
 class Connexion extends Component
 {
-    public $email,$password;
-public $showPassword = false;
+    public $email, $password;
+    public $error = 0;
+    public $showPassword = false;
 
 
     public function render()
@@ -22,40 +23,45 @@ public $showPassword = false;
         'password' => ['required', 'string']
     ];
 
-    public function connexion(){
+    public function connexion()
+    {
         $this->validate();
 
         // verifier que l'email existe si non retourner l'erreur
-        $user = User::where("email",$this->email)->Orwhere('username',$this->email)->first();
-        if(!$user){
-            session()->flash("error","Cet utilisateur n'existe pas");
-            $this->reset(['email','password']);
+        $user = User::where("email", $this->email)->Orwhere('username', $this->email)->first();
+        if (!$user) {
+            session()->flash("error", "Cet utilisateur n'existe pas");
+            $this->reset(['email', 'password']);
             return;
         }
 
         //verifier que le mot de passe est ok
-        if (!password_verify($this->password , $user->password)) {
-            session()->flash("error","Mot de passe incorrect");
-            return ;
+        if (!password_verify($this->password, $user->password)) {
+            session()->flash("error", "Mot de passe incorrect");
+            $this->error = $this->error + 1;
+            $this->password="";
+            if ($this->error == 5) {
+                return redirect("/forget")->with("error", "Tentatives dépassées veuillez réessayer plus tard ou réinitialiser votre mot de passe si vous avez oublié !");
+            }
+            return;
         };
-        
+
         //verifier que l'utilisateur a bien verifier son compte avec l'email de verification
         if (!$user->hasVerifiedEmail()) {
-            session()->flash("info" ,"Veuillez vérifier votre boite mail pour activer votre compte.");
+            session()->flash("info", "Veuillez vérifier votre boite mail pour activer votre compte.");
             return;
         }
 
         //verifer que il a le role User 
-        if($user->hasRole('admin')){
-            session()->flash("error","Vous n'avez pas l'autorisation de vous connecter");
+        if ($user->hasRole('admin')) {
+            session()->flash("error", "Vous n'avez pas l'autorisation de vous connecter");
             return;
         }
-        
+
 
         //connecter l'utilisateur
         auth()->login($user);
-        
-        return redirect('/');
 
+        return redirect('/');
     }
 }

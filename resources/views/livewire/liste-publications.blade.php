@@ -76,9 +76,14 @@
                      <tr>
                          <td>
                              <span class="small">
+                                
                                  <strong>
                                      {{ Str::of($post->titre)->limit(30) }}
                                  </strong> <br>
+                                 <span class="text-primary cusor" onclick="OpenModalMessage('{{ $post->user_info->email }}','{{ $post->user_info->username }}')">
+                                    <i class="bi bi-envelope-fill"></i> écrire
+                                 </span>
+                                 | 
                                  @if ($post->deleted_at)
                                      <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
                                          <i>
@@ -95,12 +100,13 @@
                                      </span>
                                  @endif
 
-                                 | Par
-                                 <span
+                                 | 
+                                 <span title="Auteur"
                                      onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
                                      <i class="bi bi-person"></i>
                                      <b class="cusor">{{ $post->user_info->firstname }}</b>
                                  </span>
+                                
                              </span>
                          </td>
                          <td>

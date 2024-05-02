@@ -78,7 +78,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
-            'password' => ['required', 'confirmed', 'string', 'min:8'],
+            'password' => ['required', 'string', 'min:8'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'lastname' => ['required', 'string'],

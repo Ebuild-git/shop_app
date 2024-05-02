@@ -9,7 +9,7 @@
         </h4>
         <ul
             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-            <li class="list-inline-item d-flex gap-1">
+            <li class="list-inline-item d-flex gap-1 cusor" onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
                 <i class="ti ti-color-swatch"></i> {{ $user->email }}
             </li>
             <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>

@@ -36,8 +36,12 @@ class ListMesPosts extends Component
 
 
         if (!empty($this->date)) {
-            $Query->whereDate('Created_at', $this->date);
+            $date = $this->date.'-01'; 
+            $Query->whereYear('Created_at', date('Y', strtotime($date)))
+                  ->whereMonth('Created_at', date('m', strtotime($date)));
         }
+        
+        
         if (!empty($this->statut)) {
             switch ($this->statut) {
                 case 'validation':

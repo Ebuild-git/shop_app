@@ -18,7 +18,16 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-
+                                            <div class="single_filter_card">
+                                                <button type="button" class="btn-etat-shop"
+                                                    wire:click="luxury_only()">
+                                                    <span class="color ">
+                                                        <b>
+                                                            Luxury <i class="bi bi-gem"></i>
+                                                        </b>
+                                                    </span>
+                                                </button>
+                                            </div>
                                             @forelse ($liste_categories as $categorie)
                                                 <!-- Single Filter Card -->
                                                 <div class="single_filter_card">
@@ -84,16 +93,20 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Neuf avec étiquettes')">
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_etat('Neuf avec étiquettes')">
                                                 Neuf avec étiquettes
                                             </button>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Neuf sans étiquettes')">
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_etat('Neuf sans étiquettes')">
                                                 Neuf sans étiquettes
                                             </button>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Très bon état')">
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_etat('Très bon état')">
                                                 Très bon état
                                             </button>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Bon état')">
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_etat('Bon état')">
                                                 Bon état
                                             </button>
                                             <button type="button" class="btn-etat-shop" wire:click="choix_etat('Usé')">
@@ -113,18 +126,20 @@
                                 <div class="widget-boxed-header">
                                     <h4><a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
                                             role="button">
-                                        Ordre d'affichage
+                                            Ordre d'affichage des prix
                                         </a></h4>
                                 </div>
                                 <div class="widget-boxed-body collapse" id="prixs" data-parent="#prixs">
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_ordre('Asc')">
-                                                Plus couteux au moins couteux
-                                            </button>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_ordre('Desc')">
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_ordre('Desc')">
                                                 Moins couteux au plus couteux
+                                            </button>
+                                            <button type="button" class="btn-etat-shop"
+                                                wire:click="choix_ordre('Asc')">
+                                                Plus couteux au moins couteux
                                             </button>
                                             @error('ordre')
                                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -217,7 +232,6 @@
                         <!-- Single -->
                         <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
-                                @livewire('LikeCard', ['id' => $post->id])
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden"

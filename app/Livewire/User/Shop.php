@@ -14,7 +14,7 @@ class Shop extends Component
     use WithPagination;
 
     public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat,$filtre,$ordre2;
-
+    Public $luxury_only=false;
 
 
     public function mount($categorie,$key,$sous_categorie){
@@ -48,6 +48,12 @@ class Shop extends Component
         $this->resetPage();
     }
 
+    public function luxury_only(){
+        $this->luxury_only = true;
+        $this->resetPage();
+    }
+
+
 
     public function render(){
         $this->total = posts::count();
@@ -57,6 +63,13 @@ class Shop extends Component
 
         if (!empty($this->ordre2)) {
             $query->orderBy('prix', ($this->ordre2 == "Desc") ? 'DESC' : 'ASC');
+        }
+
+        if ($this->luxury_only) {
+            //sachant que le post est lier a une sous categorie qui est lier a une categoerie, je veux tout les post donc la categorie est luxuryt true
+            $query->whereHas('sous_categorie_info.categorie', function ($q) {
+                $q->where('luxury', true);
+            });
         }
     
         if (!empty($this->ordre)) {
@@ -114,6 +127,8 @@ class Shop extends Component
     {
         $this->resetPage();
     }
+
+
 
     public function reset_form()
     {

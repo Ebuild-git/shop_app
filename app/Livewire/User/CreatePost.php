@@ -197,7 +197,7 @@ class CreatePost extends Component
         $config = configurations::first();
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         if ($sous_categorie->categorie->luxury == 1) {
-            if ($this->prix <= 800) {
+            if ($this->prix < 800) {
                 //le prix doit dépasse 800 DH 
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY.');
                 return;
