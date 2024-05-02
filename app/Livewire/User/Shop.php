@@ -86,18 +86,19 @@ class Shop extends Component
         }
     
         if (!empty($this->key)) {
-            $q = $this->key;
+            $q = strtolower($this->key); // Convertir la recherche en minuscules
+        
             $query->where(function ($query) use ($q) {
-                $query->where('titre', 'like', '%' . $q . '%')
-                      ->orWhere('proprietes', 'like', '%' . $q . '%')
-                      ->orWhere('description', 'like', '%' . $q . '%');
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
+                      ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
+                      ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
             });
-
+        
             $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
-                $query->where('titre', 'like', '%' . $q . '%');
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
             });
         }
-    
+        
         if (!empty($this->categorie)) {
             $query->whereHas('sous_categorie_info.categorie', function ($query) {
                 $query->where('id', $this->categorie);
