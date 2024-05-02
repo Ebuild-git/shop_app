@@ -148,7 +148,7 @@
                                 <div class="text-left">
                                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                                         <a href="/post/{{ $lux->id }}">
-                                            {{ $lux->titre }}
+                                            {{ Str::limit($lux->titre, 40) }}
                                         </a>
                                     </h5>
                                     <div class="d-flex justify-content-between">
@@ -241,7 +241,7 @@
                                 <div class="text-left">
                                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                                         <a href="/post/{{ $last->id }}">
-                                            {{ $last->titre }}
+                                            {{ Str::limit($last->titre, 40) }}
                                         </a>
                                     </h5>
                                     <div class="d-flex justify-content-between">
