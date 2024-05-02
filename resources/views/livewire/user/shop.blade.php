@@ -204,7 +204,7 @@
                             <div class="d-flex justify-content-between p-2 m-0">
                                 <div>
                                     <h6 class="mb-0">
-                                        {{ $total }} éléments publiés.
+                                       {{ $posts->count()}} sur {{ $total }} éléments publiés.
                                     </h6>
                                 </div>
 
