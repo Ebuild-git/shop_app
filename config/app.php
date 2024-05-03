@@ -171,6 +171,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        
     ])->toArray(),
 
     /*

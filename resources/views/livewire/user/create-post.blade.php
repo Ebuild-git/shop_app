@@ -424,7 +424,6 @@
         .drop-container .preview {
             height: 100%;
             border-radius: 10px;
-            width: 100%;
             object-fit: cover
         }
 
