@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class ResetPassword extends Component
 {
-    public $email;
+    public $email,$send=false;
 
     public function render()
     {
@@ -39,7 +39,7 @@ class ResetPassword extends Component
             Mail::to($this->email)->send(new NewPassword($token,$user));
                 
             // Update the users password in the database
-            session()->flash("success","le lien de reinitialisation a été envoyé à votre adresse e-mail.");
+            $this->send=true;
 
             //reset form
             $this->reset(['email']);

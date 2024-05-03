@@ -199,7 +199,7 @@ class CreatePost extends Component
         if ($sous_categorie->categorie->luxury == 1) {
             if ($this->prix < 800) {
                 //le prix doit dépasse 800 DH 
-                $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY.');
+                $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
                 return;
             }
         }

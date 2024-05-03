@@ -763,9 +763,33 @@ body {
 .cusor{
     cursor: pointer;
 }
+.expand-collapse-arrows{
+    background-color: transparent;
+    position: absolute;
+    z-index: 12;
+    right: 30px;
+    top: 10px;
+    padding: 10px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.493);
+    border:solid 3px white;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    pointer-events: none;
+    outline: none;
+}
 
-
-
+input[type="month"]::before{
+    content: attr(placeholder) !important;
+    color: #aaa;
+    font-size: 10px;
+    width: 100%;
+  }
+  
+  input[type="month"]:focus::before,
+  input[type="month"]:active::before {
+    content: "";
+    width: 0%;
+  }
 
 
 

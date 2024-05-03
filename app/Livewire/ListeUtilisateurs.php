@@ -3,12 +3,13 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 use Livewire\Component;
 
 class ListeUtilisateurs extends Component
 {
-    public $type, $list, $key, $statut;
+    public $type, $list, $key, $statut,$etat;
     use WithPagination;
 
 
@@ -21,7 +22,8 @@ class ListeUtilisateurs extends Component
         }
     }
 
-    public function updatedKey($value){
+    public function updatedKey($value)
+    {
         $this->key = $value;
         $this->resetPage();
     }
@@ -37,6 +39,10 @@ class ListeUtilisateurs extends Component
                     ->orWhere('firstname', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
             });
+        }
+
+        if (strlen($this->etat) > 0) {
+            $users->where('locked', $this->etat);
         }
 
         if ($this->statut != '') {
@@ -67,6 +73,17 @@ class ListeUtilisateurs extends Component
         } catch (\Throwable $th) {
             //throw $th;
             session()->flash('error', 'Impossible de supprimer cet utilisateur !');
+        }
+    }
+
+
+    public function locked($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->locked == false) {
+            $user->update(['locked' => true]);
+        } else {
+            $user->update(['locked' => false]);
         }
     }
 }

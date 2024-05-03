@@ -15,6 +15,11 @@
                          <option value="1">Verifié</option>
                          <option value="0">Non verifié</option>
                      </select>
+                     <select wire:model ="etat" class="form-control">
+                         <option value="">Tous les étas</option>
+                         <option value="1">Bloquer</option>
+                         <option value="0">Actif</option>
+                     </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
                          <span wire:loading>
                              <x-loading></x-loading>
@@ -61,7 +66,8 @@
                          <td> {{ $user->lastname }} </td>
                          <td> {{ $user->firstname }} </td>
                          <td>
-                             <span class="cusor" onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
+                             <span class="cusor"
+                                 onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
                                  {{ $user->email }}
                              </span>
                          </td>
@@ -74,9 +80,21 @@
                          </td>
                          <td> {{ $user->ville ?? '/' }} </td>
                          <td>
-                             <button class="btn btn-sm"
+                             <button class="btn btn-sm btn-dark"
                                  onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
-                                 <i class="ti ti-eye me-1"></i>Voir plus</a>
+                                 <i class="bi bi-person-circle"></i>
+                                 </a>
+                             </button>
+
+                             @if ($user->locked == true)
+                                 <button class="btn btn-sm btn-success" wire:click="locked({{ $user->id }})"
+                                     type="button" title="Débloquer cet utilisateur">
+                                     <i class="bi bi-play-fill"></i>
+                                 @else
+                                     <button class="btn btn-sm btn-danger" wire:click="locked({{ $user->id }})"
+                                         type="button" title="Bloquer cet utilisateur">
+                                         <i class="bi bi-stop-fill"></i>
+                             @endif
                              </button>
                          </td>
                          <td>

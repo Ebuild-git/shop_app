@@ -58,6 +58,11 @@ class Connexion extends Component
             return;
         }
 
+        if($user->locked == true){
+            session()->flash("error","Compte bloqué. Veuillez contacter un administrateur pour réactiver votre compte.");
+            return;
+        }
+
 
         //connecter l'utilisateur
         auth()->login($user);

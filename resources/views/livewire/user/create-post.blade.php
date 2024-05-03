@@ -309,9 +309,7 @@
 
     <br>
     <div class="text-muted text-center">
-        Veuillez vous rassurer que votre prublication est complete et exact car apres validation vous n'auriez
-        plus la
-        possibilité de modifer !
+        Veuillez vous rassurer que votre publication est complète et exacte car vous ne pouvez plus la modifier après validation.
         <div class=" text-danger">
             -Tous les champs contenant (*) sont obligatoires
         </div>

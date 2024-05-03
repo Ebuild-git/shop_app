@@ -42,6 +42,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <button type="button" class="expand-collapse-arrows ">
+                        <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/64/1A1A1A/expand-collapse-arrows.png" alt="expand-collapse-arrows"/> 
+                    </button>
+                   
                     <div class="sp-loading">
                         <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
                             style="width: 100% !important;" alt="">

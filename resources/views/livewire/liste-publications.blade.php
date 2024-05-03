@@ -43,7 +43,10 @@
                      <select wire:model ="categorie_key" class="form-control">
                          <option value="" selected>Toutes les catégories</option>
                          @foreach ($categories as $item)
-                             <option value="{{ $item->id }}">{{ $item->titre }}</option>
+                             <option value="{{ $item->id }}">
+                                {{ $item->titre }}
+                                {{ $item->luxury == true ? "(Luxury)" : ""}}
+                            </option>
                          @endforeach
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
