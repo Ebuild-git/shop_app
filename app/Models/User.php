@@ -81,7 +81,13 @@ class User extends Authenticatable implements JWTSubject
         if (is_null($this->avatar)) {
             return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
         } else {
-            return Storage::url($this->avatar);
+                $url =  Storage::url($this->avatar);
+                if (Storage::disk('public')->exists($url)) {
+                    return $url;
+                } else {
+                    return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
+                }
+                
         }
     }
     
