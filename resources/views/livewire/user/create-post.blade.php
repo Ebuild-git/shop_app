@@ -1,19 +1,158 @@
 <form wire:submit="submit" id="my-form">
-    <div class="row p-3">
+
+
+    <div class="header-titre-create">
+        <div class="align-self-start ">
+            <img src="/icons/icons8-1-100.png" alt="" height="40" width="40" srcset="">
+            <span class="h6" class="color my-auto">
+                <b>Veuillez choisir les images de votre article.</b>
+            </span>
+        </div>
+    </div>
+    <div class="row ">
+
+        <div class="col-sm-2 col-6 mx-auto position-relative">
+            @if ($photo1)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo1()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic1">
+                @if ($photo1)
+                    <img src="{{ $photo1->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo1" accept="image/*" class="d-none" id="btn-1">
+            </label>
+            @error('photo1')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+
+        <div class="col-sm-2 col-6 mx-auto position-relative">
+            @if ($photo2)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo2()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic2">
+                @if ($photo2)
+                    <img src="{{ $photo2->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo2" accept="image/*" class="d-none" id="btn-2">
+            </label>
+            @error('photo2')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+        <div class="col-sm-2 col-6 mx-auto position-relative">
+            @if ($photo3)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo3()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic3">
+                @if ($photo3)
+                    <img src="{{ $photo3->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo3" accept="image/*" class="d-none" id="btn-3">
+            </label>
+            @error('photo3')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+        <div class="col-sm-2 col-6 mx-auto position-relative">
+            @if ($photo4)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo4()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic4">
+                @if ($photo4)
+                    <img src="{{ $photo4->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo4" accept="image/*" class="d-none" id="btn-4">
+            </label>
+            @error('photo4')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+
+
+        <div class="col-sm-2 col-6 mx-auto position-relative">
+            @if ($photo5)
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
+            @endif
+            <label for="images" class="drop-container" id="pic5">
+                @if ($photo5)
+                    <img src="{{ $photo5->temporaryUrl() }}" class="preview">
+                @else
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
+                @endif
+                <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
+            </label>
+            @error('photo5')
+                <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+    </div>
+
+
+    <br><br>
+
+
+
+    <div class="header-titre-create">
+        <div class="align-self-start ">
+            <img src="/icons/icons8-2-100.png" alt="" height="40" width="40" srcset="">
+            <span class="h6" class="color my-auto">
+                <b>Renseigner plus de détails sur votre article.</b>
+            </span>
+        </div>
+    </div>
+
+
+    <div class="row ">
         <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-6">
+                    <label>Titre de la publication</label>
+                    <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control " placeholder="Titre de la publication*"
-                            wire:model.live="titre" required>
+                        <input type="text" class="form-control " placeholder="titre" wire:model.live="titre"
+                            required>
                         @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    <label>Prix de votre article</label>
+                    <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control " placeholder="Prix de votre article" required
+                        <input type="number" class="form-control " placeholder="prix" required
                             wire:model.live="prix">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -23,6 +162,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
+                    <label>Etat de votre article</label>
+                    <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <select name="etat" wire:model="etat" class="form-control ">
                             <option value="">Veuillez selectionner l'état*</option>
@@ -38,6 +179,8 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    <label>Prix d'achat de votre article</label>
+                    <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
                             wire:model.live="prix_achat">
@@ -47,32 +190,30 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <textarea wire:model="description" class="form-control " rows="7"
-                    placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
-                    
-                </textarea>
-                @error('description')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+
         </div>
         <div class="col-sm-4">
 
-            <div class="form-group position-relative">
-                <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
-                <select class="form-control pl-4" wire:model.live="region" required style="">
-                    <option value="">Veuillez selectionner la region</option>
-                    @foreach ($regions as $item)
-                        <option value="{{ $item->id }}">{{ $item->nom }}</option>
-                    @endforeach
-                </select>
-                @error('region')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
+            <div class="form-group ">
+                <label>Région</label>
+                <span class="bold text-danger">*</span>
+                <div class="position-relative">
+                    <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
+                    <select class="form-control pl-4" wire:model.live="region" required style="">
+                        <option value="">Veuillez selectionner la region</option>
+                        @foreach ($regions as $item)
+                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                        @endforeach
+                    </select>
+                    @error('region')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
 
             <div class="form-group">
+                <label>Catégorie</label>
+                <span class="bold text-danger">*</span>
                 <select class="form-control" id="select2-dropdown" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
                     @foreach ($categories as $category => $categorie)
@@ -94,7 +235,7 @@
 
             @if ($selectedCategory)
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Sous-catégorie</label>
+                    <label>Sous-catégorie</label>
                     <span class="bold text-danger">*</span>
                     <select class="form-control" wire:model.live="selectedSubcategory">
                         <option selected value="x">Veuilez selectionner une sous-catégorie</option>
@@ -161,8 +302,7 @@
                                         <br>
                                         @foreach ($colors as $item)
                                             @if ($item['nom'] == 'Multicolore')
-                                                <button  type="button"
-                                                    class="btn-color-create multi-color-btn"
+                                                <button type="button" class="btn-color-create multi-color-btn"
                                                     wire:click = "choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
                                                 </button>
                                             @else
@@ -190,116 +330,32 @@
 
 
 
+    <br><br>
 
-    <div class="row">
 
-        <div class="col-sm-2 col-6 position-relative">
-            @if ($photo1)
-                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo1()">
-                    <i class="bi bi-x-octagon"></i>
-                </button>
-            @endif
-            <label for="images" class="drop-container" id="pic1">
-                @if ($photo1)
-                    <img src="{{ $photo1->temporaryUrl() }}" class="preview">
-                @else
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                @endif
-                <input type="file" wire:model="photo1" accept="image/*" class="d-none" id="btn-1">
-            </label>
-            @error('photo1')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
+
+    <div class="header-titre-create">
+        <div class="align-self-start ">
+            <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
+            <span class="h6" class="color my-auto">
+                <b>Descrivez en vos mot l'article.</b>
+            </span>
         </div>
-
-
-
-        <div class="col-sm-2 col-6 position-relative">
-            @if ($photo2)
-                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo2()">
-                    <i class="bi bi-x-octagon"></i>
-                </button>
-            @endif
-            <label for="images" class="drop-container" id="pic2">
-                @if ($photo2)
-                    <img src="{{ $photo2->temporaryUrl() }}" class="preview">
-                @else
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                @endif
-                <input type="file" wire:model="photo2" accept="image/*" class="d-none" id="btn-2">
-            </label>
-            @error('photo2')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-
-
-        <div class="col-sm-2 col-6 position-relative">
-            @if ($photo3)
-                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo3()">
-                    <i class="bi bi-x-octagon"></i>
-                </button>
-            @endif
-            <label for="images" class="drop-container" id="pic3">
-                @if ($photo3)
-                    <img src="{{ $photo3->temporaryUrl() }}" class="preview">
-                @else
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                @endif
-                <input type="file" wire:model="photo3" accept="image/*" class="d-none" id="btn-3">
-            </label>
-            @error('photo3')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-
-
-        <div class="col-sm-2 col-6 position-relative">
-            @if ($photo4)
-                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo4()">
-                    <i class="bi bi-x-octagon"></i>
-                </button>
-            @endif
-            <label for="images" class="drop-container" id="pic4">
-                @if ($photo4)
-                    <img src="{{ $photo4->temporaryUrl() }}" class="preview">
-                @else
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                @endif
-                <input type="file" wire:model="photo4" accept="image/*" class="d-none" id="btn-4">
-            </label>
-            @error('photo4')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-
-
-
-        <div class="col-sm-2 col-6 position-relative">
-            @if ($photo5)
-                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
-                    <i class="bi bi-x-octagon"></i>
-                </button>
-            @endif
-            <label for="images" class="drop-container" id="pic5">
-                @if ($photo5)
-                    <img src="{{ $photo5->temporaryUrl() }}" class="preview">
-                @else
-                    <img width="50" height="50"
-                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
-                @endif
-                <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
-            </label>
-            @error('photo5')
-                <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-
     </div>
+    <div class="form-group">
+        <textarea wire:model="description" class="form-control " rows="7"
+            placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
+            
+        </textarea>
+        @error('description')
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+
+
+
+
+
 
 
 
@@ -309,7 +365,8 @@
 
     <br>
     <div class="text-muted text-center">
-        Veuillez vous rassurer que votre publication est complète et exacte car vous ne pouvez plus la modifier après validation.
+        Veuillez vous rassurer que votre publication est complète et exacte car vous ne pouvez plus la modifier après
+        validation.
         <div class=" text-danger">
             -Tous les champs contenant (*) sont obligatoires
         </div>
@@ -424,7 +481,6 @@
             width: 25px !important;
             border: solid 1px #011d1d8c;
         }
-        
     </style>
 
 
