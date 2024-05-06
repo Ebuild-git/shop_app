@@ -1,7 +1,6 @@
 <div>
     <form wire:submit="connexion">
-        @if (session()->has('error')) <span class="text-sm text-red-600 space-y-1">{{ session('error') }}</span> @enderror
-        @csrf
+        @include('components.alert-livewire')
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

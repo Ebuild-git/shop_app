@@ -1,14 +1,14 @@
 @extends('Admin.fixe')
-@section('title', 'Accueil')
+@section('titre', 'Dashboard')
 @section('content')
 
 
 @section('body')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">
+        <h5 class="py-3 mb-4"><span class="text-muted fw-light">
             {{ config('app.name', 'Shopin') }} /</span> Dashboard
-        </h4>
+        </h5>
 
         <!-- Card Border Shadow -->
         <div class="row">

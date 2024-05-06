@@ -28,7 +28,7 @@
                         <div>
                             <form wire:submit="filtrer">
                                 <div class="input-group mb-3">
-                                    <input type="date" wire:model="date" class="form-control sm">
+                                    <input type="month" class="form-control sm" wire:model="date">
                                     <button type="submit" class="btn p-2 bg-red  ">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                             wire:loading></span>
