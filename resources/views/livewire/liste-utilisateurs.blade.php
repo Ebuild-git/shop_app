@@ -54,7 +54,6 @@
                      <th>Téléphone</th>
                      <th>Publications</th>
                      <th>Inscription</th>
-                     <th>Ville</th>
                      <th>Action</th>
                      <td></td>
                  </tr>
@@ -78,7 +77,6 @@
                                  {{ $user->created_at->format('d/m/Y') }}
                              </span>
                          </td>
-                         <td> {{ $user->ville ?? '/' }} </td>
                          <td>
                              <button class="btn btn-sm btn-dark"
                                  onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
@@ -115,7 +113,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="8">
+                         <td colspan="7">
                              <div class="p-3">
                                  Aucun utilisateur trouvé!
                              </div>
