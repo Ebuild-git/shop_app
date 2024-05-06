@@ -7,6 +7,7 @@ use App\Mail\NewPassword;
 use App\Mail\VerifyMail;
 use App\Models\regions;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'reset_password', 'delete_email', 'regions']]);
+        $this->middleware('auth:api', ['except' => ['login', 'update_information', 'register', 'reset_password', 'delete_email', 'regions', 'update_password']]);
     }
 
 
@@ -33,23 +34,23 @@ class AuthController extends Controller
             'login' => 'required|string',
             'password' => 'required|string',
         ]);
-        
+
         $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        
+
         $credentials = [
             $loginType => $request->input('login'),
             'password' => $request->input('password'),
         ];
-        
+
         if (!$token = Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
         }
-        
+
         // Récupération de l'utilisateur authentifié
         $user = Auth::user();
-        
+
 
         // Génération du token JWT
         $token = $user->createToken($user->username)->plainTextToken;
@@ -66,10 +67,46 @@ class AuthController extends Controller
 
 
 
+
+
+
     public function regions()
     {
         $regions = regions::all();
         return response()->json($regions);
+    }
+
+
+
+    public function update_password(Request $request)
+    {
+        //update user password with api
+        $validator = Validator::make($request->all(), [
+            "oldPassword" => ['required'],
+            "newPassword" => ['required', 'min:8']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'message' => $validator->errors()
+                ],
+                406
+            );
+        };
+
+        $user = Auth::user();
+
+        //checking if the old password is correct or not
+        if (!Hash::check($request['oldPassword'], $user['password'])) {
+            return response()->json(['message' => 'Old Password Does Not Match Our Records']);
+        } else {
+            //updating new password in database
+            User::where('id', '=', $user['id'])->update([
+                'password' => Hash::make($request['newPassword']),
+            ]);
+            return response()->json(['message' => 'Password Changed Successfully']);
+        }
     }
 
 
@@ -82,7 +119,7 @@ class AuthController extends Controller
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'lastname' => ['required', 'string'],
-            'firstnaeme' => ['required', 'string'],
+            'firstname' => ['required', 'string'],
             'adress' => ['nullable', 'string'],
             'phone_number' => ['required', 'string', 'Max:14'],
             'username' => "string|unique:users,username",
@@ -106,7 +143,8 @@ class AuthController extends Controller
             $newName = $request->photo->store('uploads/avatars', 'public');
             $user->avatar = $newName;
         }
-        $user->name = $request->nom;
+        $user->lastname = $request->lastname;
+        $user->irstname = $request->irstname;
         $user->birthdate = $request->birthdate;
         $user->email = $request->email;
         $user->gender = $request->gender;
@@ -141,6 +179,43 @@ class AuthController extends Controller
     }
 
 
+    public function update_information(Request $request)
+    {
+        // update user informations  lastname, firstname,email,phone_number,birthdate
+        $validator = Validator::make($request->all(), [
+            'firstname' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'email' => ['nullable', 'string', 'email:filter'],
+            'phone_number' => ['required', 'numeric'],
+            'birthdate' => ['required', 'date']
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = User::findOrFail(Auth::id());
+        $user->update([
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'email' => $request->input('email') ?: $user->email,
+            'phone_number' => $request->input('phone_number'),
+            'birthdate' => Carbon::parse($request->input('birthdate'))
+        ]);
+
+        //success mmessage
+        return response()->json(
+            ['message' => "La mise a jour a été effectué !"],
+            200
+
+        );
+    }
+
+
+
+
     public function logout()
     {
         Auth::logout();
@@ -149,6 +224,9 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
+
+
+
 
 
     public function refresh()
@@ -161,6 +239,9 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+
+
 
 
     public function reset_password(Request $request)
@@ -200,6 +281,8 @@ class AuthController extends Controller
             );
         }
     }
+
+
 
 
 

@@ -28,13 +28,16 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/posts/create', [PostsController::class, 'create_post'])->name('create_post');
     Route::post('/posts/update', [PostsController::class, 'update_post'])->name('update_post');
 
-
+    //users
+    Route::post('/user/update/securty', [AuthController::class, 'update_password']);
+    Route::post('/user/update', [AuthController::class, 'update_information']);
 
 
     //notifications
     Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
     Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
     Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
+    
 });
 
 
