@@ -69,7 +69,7 @@
                     class="btn btn-infos w-100">
                     <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png"
                         alt="link--v1" />
-                    Confirmer mon inscription
+                    Confirmer maintenant
                 </a>
                 <br>
                 <p>

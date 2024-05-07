@@ -45,7 +45,7 @@
                     <button type="button" class="expand-collapse-arrows ">
                         <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/64/1A1A1A/expand-collapse-arrows.png" alt="expand-collapse-arrows"/> 
                     </button>
-                   
+                    @livewire('User.ButtonAddLike', ['post' => $post])
                     <div class="sp-loading">
                         <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
                             style="width: 100% !important;" alt="">
@@ -204,11 +204,6 @@
                                                     </span>
                                                 </div>
                                             @endif
-                                            <div class="col-12 col-lg-auto">
-                                                <!-- Wishlist -->
-                                                @livewire('User.ButtonAddLike', ['post' => $post])
-
-                                            </div>
                                             @auth
                                                 <div class="col-12 col-lg-auto">
                                                     @if (Auth::id() != $post->id_user)

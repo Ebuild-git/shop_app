@@ -509,9 +509,8 @@ body {
 }
 
 .note-shopinner-bas {
-    background-color: #008080;
+    background-color: #e0e0e0b6;
     padding: 05px;
-    color: white !important;
     border-radius: 5px;
     border: solid 1px #0080801c;
 }
@@ -791,7 +790,9 @@ input[type="month"]::before{
     width: 0%;
   }
 
-
+.text-bold{
+    font-weight: bold;
+}
 
 
 

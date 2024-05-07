@@ -19,14 +19,9 @@
                                 <div>
                                     <h4 class="h6">
                                         <a href="/user/{{ $shopiner->id }}" class="link">
-                                            {{ '@' . $shopiner->username }}
+                                            {{ $shopiner->username }}
                                         </a>
                                     </h4>
-                                </div>
-                                <div>
-                                    publications :{{ $shopiner->GetPosts->count() }} <br>
-                                    Total des ventes :
-                                    {{ $shopiner->total_sales }}
                                 </div>
                             </div>
                             <div style="text-align: right;">
@@ -44,17 +39,41 @@
                                 @endauth
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-2 note-shopinner-bas">
+                        <div>
+                            <div class="row">
+                                <div class="col">
+                                    <div>
+
+                                    </div>
+                                    Ventes : {{ $shopiner->total_sales }}
+                                </div>
+                                <div class="col" data-toggle="modal" data-target="#login{{ $shopiner->id }}"> 
+                                    <div>
+
+                                    </div>
+                                    Catégories :
+                                </div>
+                                <div class="col">
+                                    <div>
+
+                                    </div>
+                                    Annonces : {{ $shopiner->GetPosts->count() }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small text-bold note-shopinner-bas">
                             <div>
                                 <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
                                 {{ number_format($shopiner->averageRating->average_rating ?? 0, 1) }}
+                                Avis
                             </div>
                             <div>
-                                
+
                             </div>
-                            <div data-toggle="modal" data-target="#login{{ $shopiner->id }}">
-                                <i class="bi bi-hdd-stack"></i>
-                                Catégories
+                            <div >
+                                <a href="/user/{{ $shopiner->id }}" class="link">
+                                    Voir le profil
+                                </a>
                             </div>
                         </div>
 
@@ -76,7 +95,7 @@
                         <div class="modal-body p-5">
                             <div class="text-center mb-4">
                                 <h2 class=" h5">
-                                    Top des Catégories vendus !
+                                    Catégories vendus !
                                 </h2>
                                 <h4 class="h6 color">
                                     Par : {{ '@' . $shopiner->username }}
@@ -96,12 +115,12 @@
             <!-- End Modal -->
 
         @empty
-        <p class="color text-center p-5">
-            Aucun shopiner trouvé pour le moment
-            @if ($key)
-                avec le mot " <b> {{ $key }} </b> "
-            @endif .
-        </p>
+            <p class="color text-center p-5">
+                Aucun shopiner trouvé pour le moment
+                @if ($key)
+                    avec le mot " <b> {{ $key }} </b> "
+                @endif .
+            </p>
         @endforelse
     </div>
 </div>
