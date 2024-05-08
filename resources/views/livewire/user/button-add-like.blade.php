@@ -1,29 +1,13 @@
 <span>
-    {{ $total }}
-
     @auth
-        @if (Auth::id() != $post->id_user)
-            <button class="@if ($liked === true) btn-liked @endif "
-                type="button" wire:click=like()>
-            </button>
+        <button type="button" class="btn-like-details" wire:click=like()>
+            {{ $total }}
+            @if ($liked === true)
+                <img src="/icons/icons8-aimer-50.png" height="16" width="16" alt="" srcset="">
             @else
-                <i class="lni lni-heart mr-2"></i>
-        @endif
-    @endauth
-
-
-
-    @guest
-        <button class="btn custom-height btn-default btn-block mb-2 " type="button" data-toggle="modal" data-target="#login">
-            <span wire:loading>
-                <i class="lni lni-heart mr-2"></i>
-            </span>
-
-            <span wire:loading.remove>
-                <i class="lni lni-heart mr-2"></i>
-                J'aime ( {{ $total }} )
-            </span>
+                <i class="lni lni-heart mr-2 "></i>
+            @endif
         </button>
-    @endguest
+    @endauth
 
 </span>

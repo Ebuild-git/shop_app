@@ -439,10 +439,6 @@ body {
     border: none;
 }
 
-.btn-liked {
-    background-color: #d32a2a !important;
-    color: white !important;
-}
 
 .badge-like-post-count {
     background-color:#018d8d;
@@ -775,6 +771,7 @@ body {
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     pointer-events: none;
     outline: none;
+    cursor: pointer;
 }
 
 input[type="month"]::before{
@@ -793,8 +790,21 @@ input[type="month"]::before{
 .text-bold{
     font-weight: bold;
 }
-
-
+.text-black{
+    color: black !important;
+}
+.btn-like-details{
+    background-color: white;
+    border-radius: 15px;
+    border:solid 1px black;
+    padding: 5px 10px 5px 15px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    position: absolute;
+    right: 30px;
+    bottom: 200px;
+    z-index: 13;
+    cursor: pointer;
+}
 
 
 

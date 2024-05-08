@@ -72,9 +72,9 @@
                                     style="bottom:30px;left: 30px;border-radius: 100%;">
                                 <span for="small">Numéro de téléphone</span>
                                 <span class="text-danger">*</span>
-                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="14"
+                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="13"
                                     value="{{ old('telephone') }}" oninput="formatTelephone(this)" id="telephone"
-                                    placeholder="00 00 00 00 00" name="telephone" required>
+                                    placeholder="0 00 00 00 00" name="telephone" required>
                                 @error('telephone')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
@@ -85,13 +85,13 @@
                                 <span for="small">Genre</span>
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
-                                    <buttonn type="button" class="form-control register-button {{ old('genre') == "male" ? 'selected-register' : 'd' ; }}" 
+                                    <buttonn type="button" class="form-control register-button"
                                         onclick="selectButton(this,'male')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/sf-black/20/008080/male.png" alt="male" />
                                         Homme
                                     </buttonn>
-                                    <buttonn type="button" class="form-control register-button {{ old('genre') == "female" ? 'selected-register' : 'd' ; }}"
+                                    <buttonn type="button" class="form-control register-button"
                                         onclick="selectButton(this,'female')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
@@ -138,7 +138,7 @@
                                     <select name="annee" class="form-control" required>
                                         <option value="">Année</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
-                                            <option value="{{ $year }}" @selected($year == old('annee'))>
+                                            <option value="{{ $year }}" @selected($i == old('annee'))>
                                                 {{ $year }}
                                             </option>
                                         @endfor
@@ -185,10 +185,10 @@
                             <div class="form-group" style="position: relative;">
                                 <span for="small">Mot de passe</span>
                                 <span class="text-danger">*</span>
-                                <input type="password" placeholder="Mot de passe" minlength="8" class="form-control" id="password-1"
-                                    name="password" value="{{ old('password') }}" required>
+                                <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
+                                    name="password" value="{{ old('password') }}" minlength="8" required>
                                 <button class="password_show" type="button" onclick="showPassword(1)">
-                                    <span class="input-group-text">
+                                    <span class="input-group-text" >
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -205,7 +205,7 @@
                                     value="{{ old('password_confirmation') }}" minlength="8" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
-                                    <span class="input-group-text">
+                                    <span class="input-group-text" >
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -246,8 +246,22 @@
 
 
     <script>
-        
 
+        
+        //formatage du numero de telephone
+        function formatTelephone(input) {
+            var phoneNumber = input.value.replace(/\D/g, '');
+            phoneNumber = phoneNumber.replace(/\s/g, '');
+            // puis chaque groupe de deux chiffres
+            var formattedPhoneNumber = phoneNumber[0] ? phoneNumber[0] + ' ' : '';
+            for (var i = 1; i < phoneNumber.length; i++) {
+                formattedPhoneNumber += phoneNumber[i];
+                if (i % 2 === 0 && i < phoneNumber.length - 1) {
+                    formattedPhoneNumber += ' ';
+                }
+            }
+            input.value = formattedPhoneNumber;
+        }
 
 
 
