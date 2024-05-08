@@ -41,38 +41,40 @@
                         </div>
                         <div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col text-center">
                                     <div>
-
+                                        <img width="20" height="20" src="https://img.icons8.com/wired/20/008080/sale.png" alt="sale"/>
                                     </div>
-                                    Ventes : {{ $shopiner->total_sales }}
+                                    Ventes : {{ $shopiner->total_sales ?? 0}}
                                 </div>
-                                <div class="col" data-toggle="modal" data-target="#login{{ $shopiner->id }}"> 
-                                    <div>
-
+                                <div class="col text-center" data-toggle="modal" data-target="#login{{ $shopiner->id }}"> 
+                                    <div >
+                                        <img width="20" height="20" src="https://img.icons8.com/quill/20/008080/category.png" alt="category"/>
                                     </div>
-                                    Catégories :
+                                    Catégories : {{ $shopiner->categoriesWhereUserPosted->count() }}
                                 </div>
-                                <div class="col">
-                                    <div>
-
+                                <div class="col text-center">
+                                    <div >
+                                        <img width="20" height="20" src="https://img.icons8.com/external-outline-design-circle/20/008080/external-46-business-and-investment-outline-design-circle.png" alt="external-46-business-and-investment-outline-design-circle"/>
                                     </div>
                                     Annonces : {{ $shopiner->GetPosts->count() }}
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-2 small text-bold note-shopinner-bas">
+                        <div class="d-flex justify-content-between mt-2  text-bold note-shopinner-bas">
                             <div>
-                                <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                                <b>
+                                    <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
                                 {{ number_format($shopiner->averageRating->average_rating ?? 0, 1) }}
                                 Avis
+                                </b>
                             </div>
                             <div>
 
                             </div>
                             <div >
                                 <a href="/user/{{ $shopiner->id }}" class="link">
-                                    Voir le profil
+                                    <b>Voir le profil</b>
                                 </a>
                             </div>
                         </div>
@@ -98,7 +100,7 @@
                                     Catégories vendus !
                                 </h2>
                                 <h4 class="h6 color">
-                                    Par : {{ '@' . $shopiner->username }}
+                                    Par : {{  $shopiner->username }}
                                 </h4>
                             </div>
                             <hr>
