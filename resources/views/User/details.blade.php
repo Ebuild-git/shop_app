@@ -125,7 +125,7 @@
                                 <div class="d-flex justify-content-between mt-2  text-bold note-shopinner-bas">
                                     <div>
                                         <b>
-                                            <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                                            <i class="bi bi-star-fill" style="color:#008080"></i>
                                             {{ number_format($post->user_info->averageRating->average_rating ?? 0, 1) }}
                                             Avis
                                         </b>
