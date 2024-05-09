@@ -7,13 +7,13 @@
         figure.zoom {
             background-position: 50% 50%;
             position: relative;
-            width: 500px;
             overflow: hidden;
             cursor: zoom-in;
         }
 
         figure.zoom img:hover {
             opacity: 0;
+            min-width: 100%;
         }
 
         figure.zoom img {
@@ -247,7 +247,7 @@
                                 <p>
                                 <table>
                                     <tr>
-                                        <td style="min-width: 100px">Condition </td>
+                                        <td style="min-width: 130px">Condition </td>
                                         <td class="text-black"> {{ $post->etat }} </td>
                                     </tr>
                                     <tr>
@@ -270,9 +270,7 @@
                                             <td>
                                                 @if ($key = 'couleur' || ($key = 'Couleur'))
                                                     @if ($value == '#000000')
-                                                        <div class="multi-color-btn w-100">
-                                                            <br><br>
-                                                        </div>
+                                                        <img src="/icons/color-wheel.png" height="20" width="20" alt="multicolor" title="Multi color" srcset="">
                                                     @else
                                                         <span
                                                             style="background-color: {{ $value }} ;color:{{ $value }};"
