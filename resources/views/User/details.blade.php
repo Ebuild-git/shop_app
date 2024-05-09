@@ -104,78 +104,7 @@
                         <b>Voilà le SHOP<span class="color">IN</span>ER!</b>
                     </h5>
                     <div>
-                        <div class="card p-2 position-relative">
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <div class="pl-3" style="text-align: left">
-                                        <div>
-                                            <h4 class="h6">
-                                                <a href="/user/{{ $post->user_info->id }}" class="link">
-                                                    {{ $post->user_info->username }}
-                                                </a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        @auth
-                                            @if (auth()->user()->pings()->where('pined', $post->user_info->id)->exists())
-                                                <button wire:click="ping( {{ $post->user_info->id }} )"
-                                                    class="btn-ping-shopinner">
-                                                    <img src="/icons/icons8.png" height="20" width="20" alt="">
-                                                </button>
-                                            @else
-                                                <button wire:click="ping( {{ $post->user_info->id }} )"
-                                                    class="btn-ping-shopinner">
-                                                    <img src="/icons/icons9.png" height="20" width="20" alt="">
-                                                </button>
-                                            @endif
-
-                                        @endauth
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="row">
-                                        <div class="col text-center">
-                                            <div>
-                                                <img width="20" height="20"
-                                                    src="https://img.icons8.com/wired/20/008080/sale.png" alt="sale" />
-                                            </div>
-                                            Ventes : {{ $post->user_info->total_sales ?? 0 }}
-                                        </div>
-                                        <div class="col text-center"
-                                            onclick="ShowPostsCatgorie({{ $post->user_info->id }})">
-                                            <div>
-                                                <img width="20" height="20"
-                                                    src="https://img.icons8.com/quill/20/008080/category.png"
-                                                    alt="category" />
-                                            </div>
-                                            Catégories : {{ $post->user_info->categoriesWhereUserPosted->count() }}
-                                        </div>
-                                        <div class="col text-center">
-                                            <div>
-                                                <img width="20" height="20"
-                                                    src="https://img.icons8.com/external-outline-design-circle/20/008080/external-46-business-and-investment-outline-design-circle.png"
-                                                    alt="external-46-business-and-investment-outline-design-circle" />
-                                            </div>
-                                            Annonces : {{ $post->user_info->GetPosts->count() }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-2  text-bold note-shopinner-bas">
-                                    <div>
-                                        <b>
-                                            <i class="bi bi-star-fill" style="color:#008080"></i>
-                                            {{ number_format($post->user_info->averageRating->average_rating ?? 0, 1) }}
-                                            Avis
-                                        </b>
-                                    </div>
-                                    <div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        @include('components.CardShopinner',["user"=>$post->user_info,"page"=>"details"])
                     </div>
                 </div>
 
@@ -273,7 +202,8 @@
                                                         <img src="/icons/color-wheel.png" height="20" width="20" alt="multicolor" title="Multi color" srcset="">
                                                     @else
                                                         <span
-                                                            style="background-color: {{ $value }} ;color:{{ $value }};">
+                                                            style="background-color: {{ $value }} ;color:{{ $value }};"
+>
                                                             {{ $value }}
                                                         </span>
                                                     @endif
