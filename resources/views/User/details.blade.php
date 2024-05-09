@@ -3,6 +3,39 @@
 @section('body')
 
 
+    <style>
+        figure.zoom {
+            background-position: 50% 50%;
+            position: relative;
+            width: 500px;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        figure.zoom img:hover {
+            opacity: 0;
+        }
+
+        figure.zoom img {
+            transition: opacity .5s;
+            display: block;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function zoom(e) {
+            var zoomer = e.currentTarget;
+            e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+            e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+            x = offsetX / zoomer.offsetWidth * 100
+            y = offsetY / zoomer.offsetHeight * 100
+            zoomer.style.backgroundPosition = x + '% ' + y + '%';
+        }
+        function change_principal_image(url){
+            document.getElementById("imgPrincipale").src= url ;
+            document.getElementById("figure").style.backgroundImage = "url('"+url+"')";
+        }
+    </script>
 
 
 
@@ -41,27 +74,31 @@
     <section class="middle">
         <div class="container">
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <button type="button" class="expand-collapse-arrows ">
-                        <img width="20" height="20"
-                            src="https://img.icons8.com/pastel-glyph/64/1A1A1A/expand-collapse-arrows.png"
-                            alt="expand-collapse-arrows" />
-                    </button>
-                    @livewire('User.ButtonAddLike', ['post' => $post])
-                    <div class="sp-loading">
-                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100 sp-current-big"
-                            style="width: 100% !important;" alt="">
-                        <br>LOADING
-                        IMAGES
+                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+
+
+                    <div>
+                        <div class="row">
+                            <div class="col-2 p-1">
+                                @foreach ($post->photos as $photo)
+                                    <div class="gallery-image-details" onclick="change_principal_image('{{ Storage::url($photo) }}')">
+                                        <img src="{{ Storage::url($photo) }}" alt=""
+                                            style="width: 100% !important;">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="col-10 p-1">
+                                <figure class="zoom w-100 position-relative" id="figure" onmousemove="zoom(event)"
+                                    style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
+                                    @livewire('User.ButtonAddLike', ['post' => $post])
+                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale" class="w-100" alt="image">
+                                </figure>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sp-wrap" id="sp-loading--s">
-                        @forelse ($post->photos as $photo)
-                            <a href="{{ Storage::url($photo) }}">
-                                <img src="{{ Storage::url($photo) }}" alt="" style="width: 100% !important;">
-                            </a>
-                        @empty
-                        @endforelse
-                    </div>
+
+
+
                     <hr>
                     <h5>
                         <b>Voilà le SHOP<span class="color">IN</span>ER!</b>
@@ -82,11 +119,13 @@
                                     <div style="text-align: right;">
                                         @auth
                                             @if (auth()->user()->pings()->where('pined', $post->user_info->id)->exists())
-                                                <button wire:click="ping( {{ $post->user_info->id }} )" class="btn-ping-shopinner">
+                                                <button wire:click="ping( {{ $post->user_info->id }} )"
+                                                    class="btn-ping-shopinner">
                                                     <img src="/icons/icons8.png" height="20" width="20" alt="">
                                                 </button>
                                             @else
-                                                <button wire:click="ping( {{ $post->user_info->id }} )" class="btn-ping-shopinner">
+                                                <button wire:click="ping( {{ $post->user_info->id }} )"
+                                                    class="btn-ping-shopinner">
                                                     <img src="/icons/icons9.png" height="20" width="20" alt="">
                                                 </button>
                                             @endif
@@ -103,8 +142,8 @@
                                             </div>
                                             Ventes : {{ $post->user_info->total_sales ?? 0 }}
                                         </div>
-                                        <div class="col text-center" data-toggle="modal"
-                                            data-target="#login{{ $post->user_info->id }}">
+                                        <div class="col text-center"
+                                            onclick="ShowPostsCatgorie({{ $post->user_info->id }})">
                                             <div>
                                                 <img width="20" height="20"
                                                     src="https://img.icons8.com/quill/20/008080/category.png"
@@ -133,11 +172,6 @@
                                     <div>
 
                                     </div>
-                                    <div>
-                                        <a href="/user/{{ $post->user_info->id }}" class="link">
-                                            <b>Voir le profil</b>
-                                        </a>
-                                    </div>
                                 </div>
 
                             </div>
@@ -145,7 +179,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
                     <div class="prd_details">
 
                         <div class="prt_01 mb-2">
@@ -200,6 +234,7 @@
                                     <span style="background-color: #ecedf1;border-bottom:solid 2px #008080; "
                                         class="p-2">
                                         <b>
+                                            <img width="25" height="25" src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery"/>
                                             + {{ $post->getFraisLivraison() }} DH de Frais de Livraison
                                         </b>
                                     </span>

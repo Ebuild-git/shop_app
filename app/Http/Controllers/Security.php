@@ -40,15 +40,15 @@ class Security extends Controller
 
             //check token time generation
             if (now()->diffInMinutes($user->updated_at) > 20) {
-                return view('User.Auth-user.reset_password')
+                return view('User.Auth.reset_password')
                     ->with("message", "token expirer");
             } else {
-                return view('User.Auth-user.reset_password')
+                return view('User.Auth.reset_password')
                     ->with(["user" => $user])
                     ->with("success", "ok");
             }
         } catch (ModelNotFoundException $e) {
-            return view('User.Auth-user.reset_password')
+            return view('User.Auth.reset_password')
                 ->with("message", "Utilisateur introuvable ou token invalide");
         }
     }

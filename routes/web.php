@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
+    Route::get('/category/post_user', [ControllersHomeController::class, 'get_user_categorie_post'])->name('get_user_categorie_post');
 
     
 });

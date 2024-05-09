@@ -43,7 +43,9 @@
 <body class="custom-scrollbar">
 
     <button class="close-modal-preview" id="close-modal-preview">
-        <img width="40" height="40" src="https://img.icons8.com/external-creatype-outline-colourcreatype/40/FFFFFF/external-close-essential-ui-v4-creatype-outline-colourcreatype.png" alt="external-close-essential-ui-v4-creatype-outline-colourcreatype"/>
+        <img width="40" height="40"
+            src="https://img.icons8.com/external-creatype-outline-colourcreatype/40/FFFFFF/external-close-essential-ui-v4-creatype-outline-colourcreatype.png"
+            alt="external-close-essential-ui-v4-creatype-outline-colourcreatype" />
     </button>
     <script>
         function showPassword(id) {
@@ -785,6 +787,37 @@
     <!-- End Modal -->
 
 
+
+    <div class="modal fade" id="CategoryPostsModal" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="loginmodal">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class=" h5">
+                            Catégories vendus !
+                        </h2>
+                        <h4 class="h6 color">
+                            Par : <span id="username_user_modal_categorie"> [ username ] </span>
+                        </h4>
+                    </div>
+                    <hr>
+                    <div>
+                        <ul class="list-group list-group-flush text-left " id="catelist">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
     @auth
         <!-- Condition Modal -->
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
@@ -836,12 +869,10 @@
     @endauth
 
     <script>
+        //verifier si les conditons on ete accepter ou page
         $(document).ready(function() {
-            // Vérifier si l'utilisateur a déjà accepté les conditions
             var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-            // Si les conditions n'ont pas été acceptées
             if (!conditionsAccepted) {
-                // Afficher la modal des conditions
                 $('#conditions').modal('show');
                 $("#agree_condition").click(function() {
                     localStorage.setItem('conditionsAccepted', true);
@@ -849,18 +880,31 @@
                 });
             }
         });
-
         document.getElementById('conditiondiv').addEventListener('scroll', function() {
             document.getElementById('agree_condition').disabled = false;
         });
-    </script>
-    <style>
-        .modal-dialog-scrollable {
-            overflow-y: auto;
-            overflow-x: hidden;
-            height: 500px;
+
+
+        // gerer l'ouverture du modal pour l'affichage des categories publier par les shopinners
+        function ShowPostsCatgorie(id) {
+            //open CatégoriesPost modal
+            $.ajax({
+                url: "/category/post_user",
+                data :{ id_user: id },
+                type: "GET",
+                success: function(response) {
+                    console.log("Success");
+                    $('.catgoryPosts').empty().html(response.view);
+                    $('#username_user_modal_categorie').html(response.username)
+                    $('#CategoryPostsModal').modal('toggle');
+                },
+                error: function() {
+                    alert("Error while loading posts of this category !");
+                }
+            });
         }
-    </style>
+    </script>
+
     <!-- end Condition Modal -->
 
 
@@ -903,16 +947,6 @@
 
         function closeCart() {
             document.getElementById("Cart").style.display = "none";
-        }
-    </script>
-
-    <script>
-        function openSearch() {
-            document.getElementById("Search").style.display = "block";
-        }
-
-        function closeSearch() {
-            document.getElementById("Search").style.display = "none";
         }
     </script>
     @yield('script')

@@ -47,7 +47,7 @@
                                     </div>
                                     Ventes : {{ $shopiner->total_sales ?? 0}}
                                 </div>
-                                <div class="col text-center" data-toggle="modal" data-target="#login{{ $shopiner->id }}"> 
+                                <div class="col text-center" onclick="ShowPostsCatgorie({{ $shopiner->id }})">
                                     <div >
                                         <img width="20" height="20" src="https://img.icons8.com/quill/20/008080/category.png" alt="category"/>
                                     </div>
@@ -82,39 +82,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Log In Modal -->
-            <div class="modal fade" id="login{{ $shopiner->id }}" tabindex="1" role="dialog"
-                aria-labelledby="loginmodal" aria-hidden="true">
-                <div class="modal-dialog modal-xl login-pop-form" role="document">
-                    <div class="modal-content" id="loginmodal">
-                        <div class="modal-headers">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span class="ti-close"></span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body p-5">
-                            <div class="text-center mb-4">
-                                <h2 class=" h5">
-                                    Catégories vendus !
-                                </h2>
-                                <h4 class="h6 color">
-                                    Par : {{  $shopiner->username }}
-                                </h4>
-                            </div>
-                            <hr>
-                            @forelse ($shopiner->categoriesWhereUserPosted as $item)
-                                <i class="bi bi-arrow-right"></i>
-                                {{ $item->titre }} <br>
-                            @empty
-                            @endforelse
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal -->
 
         @empty
             <p class="color text-center p-5">

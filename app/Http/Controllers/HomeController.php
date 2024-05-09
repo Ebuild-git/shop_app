@@ -132,12 +132,12 @@ class HomeController extends Controller
             "image" => "Veuillez choisir une image valide",
             "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo",
             "between" => "Veuillez choisir une date valide",
-            
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
 
@@ -364,7 +364,7 @@ class HomeController extends Controller
 
     public function conditions()
     {
-        return view('User.conditions');
+        return view('User.faq.conditions');
     }
 
     public function inscription()
@@ -373,7 +373,7 @@ class HomeController extends Controller
         if (Auth::check()) {
             return redirect()->route('home');
         }
-        return view('User.Auth-user.inscription');
+        return view('User.Auth.inscription');
     }
 
     public function connexion()
@@ -382,12 +382,12 @@ class HomeController extends Controller
         if (Auth::check()) {
             return redirect()->route('home');
         }
-        return view('User.Auth-user.connexion');
+        return view('User.Auth.connexion');
     }
 
     public function forget()
     {
-        return view('User.Auth-user.forget');
+        return view('User.Auth.forget');
     }
 
 
@@ -416,12 +416,12 @@ class HomeController extends Controller
 
     public function how_buy()
     {
-        return view("User.howtobuy");
+        return view("User.faq.howtobuy");
     }
 
     public function how_sell()
     {
-        return view('User.faq');
+        return view('User.faq.faq');
     }
 
     public function contact()
@@ -444,5 +444,32 @@ class HomeController extends Controller
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         $key = $request->input("key", '');
         return view('User.shop', compact("categorie", "sous_categorie", "key"));
+    }
+
+
+
+
+    public function get_user_categorie_post(Request $request)
+    {
+        $id_user = $request->input("id_user");
+        $categories = [];
+        $user = User::find($id_user);
+        if (!$user) {
+            return response()->json([
+                "status" => false,
+                "message" => "Utilisateur introuvable!"
+            ]);
+        }
+        foreach ($user->categoriesWhereUserPosted as $item) {
+            $categories[] = [
+                "nom" => $item->nom,
+            ];
+        }
+        return response()->json([
+            "status" => true,
+            "data" =>  $categories,
+            "username" => $user->username,
+            "total" => $user->categoriesWhereUserPosted->count()
+        ]);
     }
 }
