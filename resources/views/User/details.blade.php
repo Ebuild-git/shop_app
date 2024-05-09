@@ -273,8 +273,7 @@
                                                         <img src="/icons/color-wheel.png" height="20" width="20" alt="multicolor" title="Multi color" srcset="">
                                                     @else
                                                         <span
-                                                            style="background-color: {{ $value }} ;color:{{ $value }};"
-                                                            class="text-black">
+                                                            style="background-color: {{ $value }} ;color:{{ $value }};">
                                                             {{ $value }}
                                                         </span>
                                                     @endif
