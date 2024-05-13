@@ -858,16 +858,7 @@ input[type="month"]:active::before {
     }
 }
 
-.card-hover-prroposition:hover{
-    background-color: #018d8d;
-    color: white !important;
-    font-weight: bold;
-    cursor: pointer;
-}
-.card-hover-titre{
-    background-color: black !important;
-    color: white !important;
-}
+
 .zoom-in {cursor: zoom-in;}
 
 

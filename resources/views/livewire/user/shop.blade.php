@@ -1,4 +1,18 @@
 <section class="middle">
+
+    <style>
+        .card-hover-prroposition:hover {
+            background-color: #018d8d;
+            color: white !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card-hover-titre {
+            background-color: black !important;
+            color: white !important;
+        }
+    </style>
     <div class="container">
         <div class="row">
 
