@@ -18,6 +18,7 @@ class Shop extends Component
     public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat, $filtre, $ordre2;
     public $luxury_only = false;
     public $proprietes_sous_cat =[];
+    public $key2;
 
     public function mount($categorie, $key, $sous_categorie)
     {
@@ -33,7 +34,7 @@ class Shop extends Component
     }
 
     public function set_key($value){
-        $this->key = $value;
+        $this->key2 = $value;
         $this->resetPage();
     }
 
@@ -151,6 +152,13 @@ class Shop extends Component
         }
 
         if (!empty($this->sous_categorie)) {
+            //si on fais une recherche internet danbs une sous actegorie pour les proprietes du produits
+            if(!empty($this->key2)){
+                $u = $this->key2;
+                $query->where(function ($query) use ($u) {
+                    $query->WhereRaw('proprietes LIKE ?', ['%' . $u . '%']);
+                });
+            }
             $query->where('id_sous_categorie', $this->sous_categorie);
         }
 

@@ -98,6 +98,14 @@
         .carousel-item:first-child {
             display: block;
         }
+        .card-hover-prroposition:hover{
+    background-color: #018d8d;
+    color: white !important;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
     </style>
 
 
