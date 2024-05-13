@@ -233,7 +233,7 @@
                     <div class="card p-2 mb-3">
                         <div class="d-flex align-content-start flex-wrap">
                             @forelse ($proprietes_sous_cat as $item)
-                                <div class="card p-1 m-1 card-hover-prroposition">
+                                <div class="card p-1 m-1 card-hover-prroposition" wire:click="set_key('{{ $item['nom'] }}')">
                                     {{ $item['nom'] }}
                                 </div>
                             @empty

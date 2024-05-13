@@ -32,6 +32,10 @@ class Shop extends Component
         $this->resetPage();
     }
 
+    public function set_key($value){
+        $this->key = $value;
+        $this->resetPage();
+    }
 
     public function updateFiltre($value)
     {
@@ -81,9 +85,9 @@ class Shop extends Component
         if($sous_cat){
             $Array=[];
             foreach ($sous_cat->proprietes as $propriete) {
-                $proprietes= proprietes::select("options")->find($propriete);
+                $proprietes = proprietes::select("options")->find($propriete);
                 if($proprietes){
-                    foreach ($proprietes->options as $pro) {
+                    foreach ($proprietes->options ?? [] as $pro) {
                         $Array[]=[
                             "nom" => $pro
                         ];
