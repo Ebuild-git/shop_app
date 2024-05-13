@@ -13,58 +13,72 @@ class Shop extends Component
 {
     use WithPagination;
 
-    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat,$filtre,$ordre2;
-    Public $luxury_only=false;
+    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat, $filtre, $ordre2;
+    public $luxury_only = false;
 
 
-    public function mount($categorie,$key,$sous_categorie){
+    public function mount($categorie, $key, $sous_categorie)
+    {
         $this->categorie = $categorie;
         $this->sous_categorie = $sous_categorie;
         $this->key = $key;
     }
 
-    public function updatedKey($value){
+    public function updatedKey($value)
+    {
         $this->key = $value;
         $this->resetPage();
     }
 
 
-    public function updateFiltre($value){
+    public function updateFiltre($value)
+    {
         $this->filtre = $value;
         $this->resetPage();
     }
 
-    public function choix_etat($etat){
+    public function choix_etat($etat)
+    {
         $this->etat = $etat;
         $this->resetPage();
     }
 
-    public function choix_ordre($or){
-        if($or == "Asc"){
-            $this->ordre2 ="asc";
-        }else{
+    public function choix_ordre($or)
+    {
+        if ($or == "Asc") {
+            $this->ordre2 = "asc";
+        } else {
             $this->ordre2 = "desc";
         }
         $this->resetPage();
     }
 
-    public function check_luxury_only(){
-        if($this->luxury_only){
+    public function check_luxury_only()
+    {
+        if ($this->luxury_only) {
             $this->luxury_only = false;
-        }else{
-           $this->luxury_only = true; 
+        } else {
+            $this->luxury_only = true;
         }
-        
+
+        $this->resetPage();
+    }
+
+    //faire le filtre des posts pour une categorie procise
+    public function filtre_cat($id_categorie)
+    {
+        $this->categorie = $id_categorie;
         $this->resetPage();
     }
 
 
 
-    public function render(){
+    public function render()
+    {
         $this->total = posts::count();
-        $this->liste_categories = categories::orderBy('order')->get(["titre", "id","luxury"]);
-        
-        $query = posts::where('statut','vente');
+        $this->liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury"]);
+
+        $query = posts::where('statut', 'vente');
 
         if (!empty($this->ordre2)) {
             $query->orderBy('prix', ($this->ordre2 == "Desc") ? 'DESC' : 'ASC');
@@ -76,7 +90,7 @@ class Shop extends Component
                 $q->where('luxury', true);
             });
         }
-    
+
         if (!empty($this->ordre)) {
             $query->orderBy('created_at', ($this->ordre == "Desc") ? 'DESC' : 'ASC');
         }
@@ -85,48 +99,48 @@ class Shop extends Component
         if (!empty($this->filtre)) {
             $query->orderBy('prix', ($this->filtre == "Desc") ? 'DESC' : 'ASC');
         }
-    
+
         if (!empty($this->gouvernorat)) {
             $query->where('gouvernorat', $this->gouvernorat);
         }
-    
+
         if (!empty($this->key)) {
             $q = strtolower($this->key); // Convertir la recherche en minuscules
-        
+
             $query->where(function ($query) use ($q) {
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
-                      ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
-                      ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
+                    ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
             });
-        
+
             $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
             });
         }
-        
+
         if (!empty($this->categorie)) {
             $query->whereHas('sous_categorie_info.categorie', function ($query) {
                 $query->where('id', $this->categorie);
             });
         }
-    
+
         if (!empty($this->sous_categorie)) {
             $query->where('id_sous_categorie', $this->sous_categorie);
         }
-    
+
         if (!empty($this->etat)) {
             $query->where('etat', $this->etat);
         }
-    
+
         $regions = regions::all();
 
         //recuperer toute les regions qui ont un pots identifier par la colonne id_regions dans la table posts
 
 
 
-        return view('livewire.user.shop', ['posts' => $query->paginate(30),"regions"=>$regions]);
+        return view('livewire.user.shop', ['posts' => $query->paginate(30), "regions" => $regions]);
     }
-    
+
 
 
     public function filtrer()
@@ -142,7 +156,8 @@ class Shop extends Component
     }
 
 
-    public function filtre_sous_cat($id){
+    public function filtre_sous_cat($id)
+    {
         $this->sous_categorie = $id;
     }
 }

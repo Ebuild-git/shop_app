@@ -52,6 +52,13 @@
                                                         <div class="card-body">
                                                             <div class="inner_widget_link">
                                                                 <ul>
+                                                                    <li class="d-flex justify-content-between">
+                                                                        <button class="btn-btn-shop-style"
+                                                                            type="button"
+                                                                            wire:click="filtre_cat({{ $categorie->id }})">
+                                                                            Tous -   {{ $categorie->titre }}
+                                                                        </button>
+                                                                    </li>
                                                                     @foreach ($categorie->getSousCategories as $SousCategorie)
                                                                         <li class="d-flex justify-content-between">
                                                                             <button class="btn-btn-shop-style"
