@@ -380,11 +380,6 @@
         <span wire:loading>
             <x-Loading></x-Loading>
         </span>
-        @if ($extimation_prix > 0)
-            <div>
-                Extimation du prix de vente : <b> {{ $extimation_prix }} DH </b>
-            </div>
-        @endif
         <a href="/publication" class="btn btn-secondary">
             Effacer
         </a>

@@ -177,10 +177,10 @@
                         <div class="col-8 ">
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
-                                <input type="text" class="form-control sm input "
+                                <input type="text" class="form-control sm input cusor"
                                     style="padding-left: 40px !important" name="key"
                                     placeholder="recherche un article">
-                                <button type="submit" class="span-icon-recherche">
+                                <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
                                 </button>
                             </form>
@@ -192,7 +192,7 @@
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#login">
                                     @endauth
-                                    <button class=" btn-publier-header   p-2 " type="button">
+                                    <button class=" btn-publier-header cusor p-2 " type="button">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
                                             Publier un article
@@ -361,13 +361,13 @@
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                 <div class="div-sroll-recherche">
                                     <form action="/shop" method="get" class="position-relative">
-                                        <button type="submit" class="span-icon-recherche">
+                                        <button type="submit" class="span-icon-recherche cusor">
                                             <i class="bi bi-search"></i>
                                         </button>
                                         @csrf
                                         <div class="input-group mb-3">
                                             <input type="text" id="myInputRecherche"
-                                                class="transition-width myInputRecherche" name="key"
+                                                class="transition-width myInputRecherche cusor" name="key"
                                                 placeholder="Recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>

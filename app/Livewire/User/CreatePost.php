@@ -29,7 +29,6 @@ class CreatePost extends Component
     public $selected_color = null;
     public $article_propriete = [];
     public $proprietes, $quantite;
-    public $extimation_prix = 0;
     protected $listeners = ['suggestionSelected'];
 
 
@@ -99,16 +98,6 @@ class CreatePost extends Component
     public function updatedPtitre($value)
     {
         $this->titre = $value;
-    }
-
-
-
-    public function calcule_estimation($id_region, $id_categorie, $prix)
-    {
-        $regions_categorie = regions_categories::where('id_region', $id_region)->where("id_categorie", $id_categorie)->first();
-        if ($regions_categorie) {
-            $this->extimation_prix = $regions_categorie->prix + $prix;
-        }
     }
 
 

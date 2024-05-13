@@ -220,11 +220,6 @@
                                 <p>
                                     {!! $post->description !!}
                                 </p>
-                                <br>
-                                <b class="text-black">Frais de livraison</b>
-                                <p class="text-black">
-                                    {{ $post->getFraisLivraison() }} DH
-                                </p>
                             </div>
 
                             @auth
