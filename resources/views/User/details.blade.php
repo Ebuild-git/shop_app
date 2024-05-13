@@ -140,7 +140,7 @@
                                         {{ $post->titre }}
                                     </h2>
                                     @auth
-                                        <div style="padding: 15px;">
+                                        <div class="p-5">
                                             @if (Auth::id() != $post->id_user)
                                                 <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
                                                     <i class="bi bi-exclamation-octagon"></i>
