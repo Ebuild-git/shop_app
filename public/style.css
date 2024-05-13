@@ -557,6 +557,7 @@ body {
     border: none;
     background-color: unset;
     padding: 0px !important;
+    cursor: pointer !important;
 }
 
 .btn-btn-shop-style:hover {
@@ -857,7 +858,14 @@ input[type="month"]:active::before {
     }
 }
 
+.card-hover-prroposition:hover{
+    background-color: #018d8d;
+    color: white !important;
+    font-weight: bold;
+    cursor: pointer;
+}
 
+.zoom-in {cursor: zoom-in;}
 
 
 

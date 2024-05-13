@@ -20,8 +20,11 @@ class Shop extends Component
     public $proprietes_sous_cat =[];
     public $key2;
 
-    public function mount($categorie, $key, $sous_categorie)
+    public function mount($categorie, $key, $sous_categorie,$luxury_only)
     {
+        if($luxury_only == true){
+            $this->luxury_only=true;
+        }
         $this->categorie = $categorie;
         $this->sous_categorie = $sous_categorie;
         $this->key = $key;

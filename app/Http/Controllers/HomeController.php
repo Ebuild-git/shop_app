@@ -443,7 +443,11 @@ class HomeController extends Controller
         $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         $key = $request->input("key", '');
-        return view('User.shop', compact("categorie", "sous_categorie", "key"));
+        $luxury_only = $request->get('luxury_only') ?? false;
+        if($luxury_only != false){
+            $luxury_only == true;
+        }
+        return view('User.shop', compact("categorie", "sous_categorie", "key","luxury_only"));
     }
 
 

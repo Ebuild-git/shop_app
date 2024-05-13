@@ -98,14 +98,7 @@
         .carousel-item:first-child {
             display: block;
         }
-        .card-hover-prroposition:hover{
-    background-color: #018d8d;
-    color: white !important;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
+        
     </style>
 
 
@@ -189,7 +182,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="position-relative text-center">
-                            <a href="/shop?categorie={{ $luxurys->first()->id_categorie }}"
+                            <a href="/shop?luxury_only=true"
                                 class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
                                     Voir Plus

@@ -28,7 +28,7 @@
 
 
     <!-- ======================= All Product List ======================== -->
-   @livewire('User.shop', ["categorie"=>$categorie,"sous_categorie"=>$sous_categorie, "key" => $key])
+   @livewire('User.shop', ["categorie"=>$categorie,"sous_categorie"=>$sous_categorie, "key" => $key, "luxury_only"=>$luxury_only])
     <!-- ======================= All Product List ======================== -->
 
 

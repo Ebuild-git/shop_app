@@ -177,7 +177,7 @@
                         <div class="col-8 ">
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
-                                <input type="text" class="form-control sm input cusor"
+                                <input type="text" class="form-control sm input zoom-in"
                                     style="padding-left: 40px !important" name="key"
                                     placeholder="recherche un article">
                                 <button type="submit" class="span-icon-recherche cusor">

@@ -164,10 +164,10 @@
                                         <div class="single_filter_card">
                                             <div class="card-body pt-0">
                                                 <div class="inner_widget_link">
-                                                    <ul class="">
+                                                    <ul class="cusor">
                                                         @foreach ($regions as $region)
-                                                            <li class="d-flex justify-content-between">
-                                                                <button class="btn-btn-shop-style" type="button"
+                                                            <li class="d-flex justify-content-between cusor">
+                                                                <button class="btn-btn-shop-style"  type="button"
                                                                     wire:click="filtre_sous_cat({{ $region->id }})">
                                                                     {{ $region->nom }}
                                                                 </button>
@@ -233,7 +233,7 @@
                     <div class="card p-2 mb-3">
                         <div class="d-flex align-content-start flex-wrap">
                             @forelse ($proprietes_sous_cat as $item)
-                                <div class="card p-1 m-1 card-hover-prroposition" wire:click="set_key('{{ $item['nom'] }}')">
+                                <div class="card p-1 m-1 card-hover-prroposition cusor" wire:click="set_key('{{ $item['nom'] }}')">
                                     {{ $item['nom'] }}
                                 </div>
                             @empty
