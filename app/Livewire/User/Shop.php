@@ -17,13 +17,13 @@ class Shop extends Component
 
     public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat, $filtre, $ordre2;
     public $luxury_only = false;
-    public $proprietes_sous_cat =[];
+    public $proprietes_sous_cat = [];
     public $key2;
 
-    public function mount($categorie, $key, $sous_categorie,$luxury_only)
+    public function mount($categorie, $key, $sous_categorie, $luxury_only)
     {
-        if($luxury_only == true){
-            $this->luxury_only=true;
+        if ($luxury_only == true) {
+            $this->luxury_only = true;
         }
         $this->categorie = $categorie;
         $this->sous_categorie = $sous_categorie;
@@ -36,7 +36,8 @@ class Shop extends Component
         $this->resetPage();
     }
 
-    public function set_key($value){
+    public function set_key($value)
+    {
         $this->key2 = $value;
         $this->resetPage();
     }
@@ -83,29 +84,31 @@ class Shop extends Component
 
     //filtre des element des sous categories
     public function filtre_sous_cat($id)
-{
-    $this->sous_categorie = $id;
-    $sous_cat = sous_categories::select("proprietes")->find($id);
-    if ($sous_cat) {
-        $Array = [];
-        foreach ($sous_cat->proprietes as $propriete) {
-            $proprietes = proprietes::select("options", "nom")->find($propriete);
-            if ($proprietes) {
-                $optionsArray = [];
-                foreach ($proprietes->options ?? [] as $pro) {
-                    $optionsArray[] = [
-                        "nom" => $pro
-                    ];
+    {
+        $this->sous_categorie = $id;
+        $sous_cat = sous_categories::select("proprietes")->find($id);
+        if ($sous_cat) {
+            $Array = [];
+            foreach ($sous_cat->proprietes as $propriete) {
+                $proprietes = proprietes::select("options", "nom")->find($propriete);
+                if ($proprietes) {
+                    $optionsArray = [];
+                    foreach ($proprietes->options ?? [] as $pro) {
+                        $optionsArray[] = [
+                            "nom" => $pro
+                        ];
+                    }
+                    if (!empty($optionsArray)) {
+                        $Array[] = [
+                            "nom" => $proprietes->nom,
+                            "options" => $optionsArray
+                        ];
+                    }
                 }
-                $Array[] = [
-                    "nom" => $proprietes->nom,
-                    "options" => $optionsArray
-                ];
             }
+            $this->proprietes_sous_cat = $Array;
         }
-        $this->proprietes_sous_cat = $Array;
     }
-}
 
 
 
@@ -162,7 +165,7 @@ class Shop extends Component
 
         if (!empty($this->sous_categorie)) {
             //si on fais une recherche internet danbs une sous actegorie pour les proprietes du produits
-            if(!empty($this->key2)){
+            if (!empty($this->key2)) {
                 $u = $this->key2;
                 $query->where(function ($query) use ($u) {
                     $query->WhereRaw('proprietes LIKE ?', ['%' . $u . '%']);
@@ -197,7 +200,4 @@ class Shop extends Component
     {
         return redirect()->route("shop");
     }
-
-
-   
 }

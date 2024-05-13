@@ -737,8 +737,8 @@
                                         <b> {{ $tarif->titre }}</b>
                                         <span class="small color">
                                             @if ($tarif->luxury == 1)
-                                                Luxury
                                                 <i class="bi bi-gem" style="font-weight: 800;"></i>
+                                                Luxury
                                             @endif
                                         </span>
                                     </td>

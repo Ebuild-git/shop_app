@@ -182,7 +182,7 @@
                     <label>Prix d'achat de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control " placeholder="Prix D'achat : {{ $titre }}"
+                        <input type="number" class="form-control " placeholder="Prix iniital"
                             wire:model.live="prix_achat">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
