@@ -26,18 +26,18 @@ class HomeController extends Controller
     {
         $categories = categories::all();
         $configuration = configurations::firstorCreate();
-        $posts = posts::where('verified_at', '!=', null)->orderByDesc('created_at')->paginate(50);
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
-            ->get();
+            ->take(12)->get();
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
+            ->orderby("posts.created_at","Desc")
             ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
-            ->get();
-        return view("User.index", compact("categories", "posts", "configuration", "last_post", "luxurys"));
+            ->take(8)->get();
+        return view("User.index", compact("categories","configuration", "last_post", "luxurys"));
     }
 
     public function index_post(Request $request)
