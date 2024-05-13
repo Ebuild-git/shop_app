@@ -41,7 +41,8 @@ class Connexion extends Component
             $this->error = $this->error + 1;
             $this->password="";
             if ($this->error == 5) {
-                return redirect("/forget")->with("error", "Tentatives dépassées veuillez réessayer plus tard ou réinitialiser votre mot de passe si vous avez oublié !");
+                return redirect("/forget")
+                ->with("error", "Tentatives dépassées veuillez réessayer plus tard ou réinitialiser votre mot de passe si vous avez oublié !");
             }
             return;
         };

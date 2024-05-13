@@ -18,11 +18,15 @@
     @else
         <!-- Champ pour entrer l'email -->
         <form wire:submit="reset_password">
+            
+            @include('components.alert-livewire')
+
+
             <p class="text-center alert alert-info">
                 Veuillez entrer votre adresse mail lier à votre compte pour réinitialiser votre mot de passe
             </p>
 
-            @include('components.alert-livewire')
+         
 
             <div class="form-group">
                 <label for="email">Email</label>
