@@ -35,6 +35,9 @@
         function change_principal_image(url) {
             document.getElementById("imgPrincipale").src = url;
             document.getElementById("figure").style.backgroundImage = "url('" + url + "')";
+            //change data-url attibut value on figure
+            document.getElementById("figure").setAttribute("data-url", url);
+
         }
     </script>
 
@@ -89,12 +92,13 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="col-10 p-1">
-                                <figure class="zoom w-100 position-relative" id="figure" onmousemove="zoom(event)"
+                            <div class="col-10 p-1 ">
+                                <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
+                                    data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
                                     @livewire('User.ButtonAddLike', ['post' => $post])
-                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale" class="w-100"
-                                        alt="image">
+                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale"
+                                        class="w-100 sp-current-big" alt="image">
                                 </figure>
                             </div>
                         </div>
@@ -104,7 +108,7 @@
 
                     <hr>
                     <h5>
-                        <b>Voilà le SHOP<span class="color">IN</span>ER!</b>
+                        <b>Voilà le SHOP<span class="color">IN</span>ER </b>
                     </h5>
                     <div>
                         @include('components.CardShopinner', [
@@ -379,6 +383,15 @@
     @endauth
 
 
+    <!-- Modal view-->
+    <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg login-pop-form" role="document">
+            <img src="" id="modal-view" alt="image" class="zoom-in w-100">
+        </div>
+    </div>
+    <!-- End Modal -->
+
     <style>
         .sp-current-big {
             width: 100% !important;
@@ -386,8 +399,13 @@
     </style>
     <script>
         $(document).ready(function() {
-            $("#sp-loading--s").on('click', function() {
-                $("#close-modal-preview").show();
+            $("#imgPrincipale").on('click', function() {
+                //get url in src on this
+                var url = $(this).attr("src");
+                //add image on modal-view
+                $('#modal-view').attr("src", url);
+                //open modal
+                $('#login').modal("show");
             });
         });
     </script>
