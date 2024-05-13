@@ -10,7 +10,7 @@
                 <form wire:submit="filtrer">
                     <div class="d-flex justify-content-start mb-3">
                         @if ($filter === true)
-                            <select class="form-control sm" wire:model="statut">
+                            <select class="form-control sm  cusor" wire:model="statut">
                                 <option value=""></option>
                                 <option value="validation">En validation</option>
                                 <option value="vente">En cour de vente</option>
@@ -19,7 +19,7 @@
                                 <option value="livré">Déja livré</option>
                             </select>
                         @endif
-                        <input type="month" class="form-control sm" wire:model="date" placeholder="Mois / Année">
+                        <input type="month" class="form-control sm cusor" wire:model="date" placeholder="Mois / Année">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
