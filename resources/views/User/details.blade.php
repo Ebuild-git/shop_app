@@ -140,7 +140,7 @@
                                         {{ $post->titre }}
                                     </h2>
                                     @auth
-                                        <div class="p-5">
+                                        <div class="pt-3">
                                             @if (Auth::id() != $post->id_user)
                                                 <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
                                                     <i class="bi bi-exclamation-octagon"></i>
@@ -169,11 +169,11 @@
                                     </div>
                                     <br>
                                     <span style="background-color: #ecedf1;border-bottom:solid 2px #008080; "
-                                        class="p-2">
+                                        class="p-1">
                                         <b>
                                             <img width="25" height="25"
                                                 src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
-                                            + {{ $post->getFraisLivraison() }} DH de Frais de Livraison
+                                            + Frais de Livraison
                                         </b>
                                     </span>
                                 </div>
