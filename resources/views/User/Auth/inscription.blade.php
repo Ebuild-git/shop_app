@@ -9,7 +9,7 @@
                 <div class="p-3 ">
                     <div class="p-3 ">
                         <h4>
-                            Connectez-vous pour vendre et acheter sur SHOP<span class="color">IN</span>.
+                            Connectez-vous pour vendre et acheter sur SHOP<span class="color">IN</span>
                         </h4>
                         <img style="width: 80%;" src="/icons/illus-register.png" alt="" srcset="">
                     </div>
@@ -72,9 +72,9 @@
                                     style="bottom:30px;left: 30px;border-radius: 100%;">
                                 <span for="small">Numéro de téléphone</span>
                                 <span class="text-danger">*</span>
-                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="13"
+                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="14"
                                     value="{{ old('telephone') }}" oninput="formatTelephone(this)" id="telephone"
-                                    placeholder="0 00 00 00 00" name="telephone" required>
+                                    placeholder="00 00 00 00 00" name="telephone" required>
                                 @error('telephone')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
@@ -188,7 +188,7 @@
                                 <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" minlength="8" required>
                                 <button class="password_show" type="button" onclick="showPassword(1)">
-                                    <span class="input-group-text" >
+                                    <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -205,7 +205,7 @@
                                     value="{{ old('password_confirmation') }}" minlength="8" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
-                                    <span class="input-group-text" >
+                                    <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
@@ -246,22 +246,20 @@
 
 
     <script>
-
-        
         //formatage du numero de telephone
         function formatTelephone(input) {
-            var phoneNumber = input.value.replace(/\D/g, '');
-            phoneNumber = phoneNumber.replace(/\s/g, '');
-            // puis chaque groupe de deux chiffres
-            var formattedPhoneNumber = phoneNumber[0] ? phoneNumber[0] + ' ' : '';
-            for (var i = 1; i < phoneNumber.length; i++) {
+            var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques
+            phoneNumber = phoneNumber.substring(0, 10); // S'assure que le numéro a au plus 10 chiffres
+            var formattedPhoneNumber = '';
+            for (var i = 0; i < phoneNumber.length; i++) {
                 formattedPhoneNumber += phoneNumber[i];
-                if (i % 2 === 0 && i < phoneNumber.length - 1) {
+                if ((i + 1) % 2 === 0 && i < phoneNumber.length - 1) {
                     formattedPhoneNumber += ' ';
                 }
             }
             input.value = formattedPhoneNumber;
         }
+
 
 
 
