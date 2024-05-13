@@ -83,24 +83,30 @@ class Shop extends Component
 
     //filtre des element des sous categories
     public function filtre_sous_cat($id)
-    {
-        $this->sous_categorie = $id;
-        $sous_cat = sous_categories::select("proprietes")->find($id);
-        if($sous_cat){
-            $Array=[];
-            foreach ($sous_cat->proprietes as $propriete) {
-                $proprietes = proprietes::select("options")->find($propriete);
-                if($proprietes){
-                    foreach ($proprietes->options ?? [] as $pro) {
-                        $Array[]=[
-                            "nom" => $pro
-                        ];
-                    }
+{
+    $this->sous_categorie = $id;
+    $sous_cat = sous_categories::select("proprietes")->find($id);
+    if ($sous_cat) {
+        $Array = [];
+        foreach ($sous_cat->proprietes as $propriete) {
+            $proprietes = proprietes::select("options", "nom")->find($propriete);
+            if ($proprietes) {
+                $optionsArray = [];
+                foreach ($proprietes->options ?? [] as $pro) {
+                    $optionsArray[] = [
+                        "nom" => $pro
+                    ];
                 }
+                $Array[] = [
+                    "nom" => $proprietes->nom,
+                    "options" => $optionsArray
+                ];
             }
-            $this->proprietes_sous_cat = $Array;
         }
+        $this->proprietes_sous_cat = $Array;
     }
+}
+
 
 
     public function render()
