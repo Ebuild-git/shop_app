@@ -54,11 +54,15 @@
                 <b>
                     @php
                         $count = number_format($user->averageRating->average_rating ?? 1);
+                        $avis = $user->getReviewsAttribute->count();
                     @endphp
-                    @for ($i = 0; $i < $count; $i++)
-                        <i class="bi bi-star-fill" style="color:#018d8d;"></i>
-                    @endfor
-                    {{ $count }}
+                    @if ($avis > 0)
+                        @for ($i = 0; $i < $count; $i++)
+                            <i class="bi bi-star-fill" style="color:#018d8d;"></i>
+                        @endfor
+                    @endif
+
+                    {{ $avis }}
                     Avis
                 </b>
             </div>

@@ -70,10 +70,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(posts::class, 'id_user', 'id');
     }
 
+
+
+
+
     public function region()
     {
         return $this->belongsTo(regions::class, 'id', 'region');
     }
+
+
+
 
 
     public function getAvatar()
@@ -126,6 +133,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function pings(){
         return $this->hasMany(pings::class, 'id_user', 'id');
+    }
+
+    
+
+    //recuperer les avis de l'utilisateur
+    public function getReviewsAttribute(){
+        return $this->hasMany(ratings::class, 'id_user_rated','id');
     }
 
 }
