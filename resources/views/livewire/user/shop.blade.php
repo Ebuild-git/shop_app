@@ -227,6 +227,11 @@
                     </div>
                 </div>
 
+                @if ()
+                <div class="card p-2">
+                   
+                </div>
+                @endif
                 <!-- row -->
                 <div class="row align-items-center rows-products">
 

@@ -4,7 +4,9 @@ namespace App\Livewire\User;
 
 use App\Models\categories;
 use App\Models\posts;
+use App\Models\proprietes;
 use App\Models\regions;
+use App\Models\sous_categories;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,7 +17,7 @@ class Shop extends Component
 
     public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat, $filtre, $ordre2;
     public $luxury_only = false;
-
+    public $proprietes_sous_cat =[];
 
     public function mount($categorie, $key, $sous_categorie)
     {
@@ -71,6 +73,22 @@ class Shop extends Component
         $this->resetPage();
     }
 
+    //filtre des element des sous categories
+    public function filtre_sous_cat($id)
+    {
+        $this->sous_categorie = $id;
+        $sous_cat = sous_categories::select("proprietes")->find($id);
+        if($sous_cat){
+            foreach ($sous_cat->proprietes as $propriete) {
+                $proprietes= proprietes::select("options")->find($propriete);
+                if($proprietes){
+                    foreach ($proprietes->options as $pro) {
+                        $this->proprietes_sous_cat[]=[$pro];
+                    }
+                }
+            }
+        }
+    }
 
 
     public function render()
@@ -156,8 +174,5 @@ class Shop extends Component
     }
 
 
-    public function filtre_sous_cat($id)
-    {
-        $this->sous_categorie = $id;
-    }
+   
 }
