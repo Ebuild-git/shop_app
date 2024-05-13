@@ -31,9 +31,10 @@
             y = offsetY / zoomer.offsetHeight * 100
             zoomer.style.backgroundPosition = x + '% ' + y + '%';
         }
-        function change_principal_image(url){
-            document.getElementById("imgPrincipale").src= url ;
-            document.getElementById("figure").style.backgroundImage = "url('"+url+"')";
+
+        function change_principal_image(url) {
+            document.getElementById("imgPrincipale").src = url;
+            document.getElementById("figure").style.backgroundImage = "url('" + url + "')";
         }
     </script>
 
@@ -81,7 +82,8 @@
                         <div class="row">
                             <div class="col-2 p-1">
                                 @foreach ($post->photos as $photo)
-                                    <div class="gallery-image-details" onclick="change_principal_image('{{ Storage::url($photo) }}')">
+                                    <div class="gallery-image-details"
+                                        onclick="change_principal_image('{{ Storage::url($photo) }}')">
                                         <img src="{{ Storage::url($photo) }}" alt=""
                                             style="width: 100% !important;">
                                     </div>
@@ -91,7 +93,8 @@
                                 <figure class="zoom w-100 position-relative" id="figure" onmousemove="zoom(event)"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
                                     @livewire('User.ButtonAddLike', ['post' => $post])
-                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale" class="w-100" alt="image">
+                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale" class="w-100"
+                                        alt="image">
                                 </figure>
                             </div>
                         </div>
@@ -104,7 +107,10 @@
                         <b>Voilà le SHOP<span class="color">IN</span>ER!</b>
                     </h5>
                     <div>
-                        @include('components.CardShopinner',["user"=>$post->user_info,"page"=>"details"])
+                        @include('components.CardShopinner', [
+                            'user' => $post->user_info,
+                            'page' => 'details',
+                        ])
                     </div>
                 </div>
 
@@ -134,12 +140,14 @@
                                         {{ $post->titre }}
                                     </h2>
                                     @auth
-                                        @if (Auth::id() != $post->id_user)
-                                            <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
-                                                <i class="bi bi-exclamation-octagon"></i>
-                                                Signaler
-                                            </h1>
-                                        @endif
+                                        <div>
+                                            @if (Auth::id() != $post->id_user)
+                                                <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                                    <i class="bi bi-exclamation-octagon"></i>
+                                                    Signaler
+                                                </h1>
+                                            @endif
+                                        </div>
                                     @endauth
                                 </div>
 
@@ -163,7 +171,8 @@
                                     <span style="background-color: #ecedf1;border-bottom:solid 2px #008080; "
                                         class="p-2">
                                         <b>
-                                            <img width="25" height="25" src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery"/>
+                                            <img width="25" height="25"
+                                                src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
                                             + {{ $post->getFraisLivraison() }} DH de Frais de Livraison
                                         </b>
                                     </span>
@@ -199,11 +208,11 @@
                                             <td>
                                                 @if ($key = 'couleur' || ($key = 'Couleur'))
                                                     @if ($value == '#000000')
-                                                        <img src="/icons/color-wheel.png" height="20" width="20" alt="multicolor" title="Multi color" srcset="">
+                                                        <img src="/icons/color-wheel.png" height="20" width="20"
+                                                            alt="multicolor" title="Multi color" srcset="">
                                                     @else
                                                         <span
-                                                            style="background-color: {{ $value }} ;color:{{ $value }};"
->
+                                                            style="background-color: {{ $value }} ;color:{{ $value }};">
                                                             {{ $value }}
                                                         </span>
                                                     @endif
@@ -230,8 +239,7 @@
                                                 <div class="col-12 col-lg">
                                                     <span>
                                                         @auth
-                                                            <button type="button"
-                                                                class="btn btn-block custom-height bg-dark mb-2 "
+                                                            <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
                                                                 onclick="add_cart({{ $post->id }})">
                                                                 <i class="lni lni-shopping-basket mr-2"></i>
                                                                 Ajouter au panier
