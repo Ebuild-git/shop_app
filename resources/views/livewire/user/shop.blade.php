@@ -247,16 +247,18 @@
                     <div class="card p-2 mb-3">
                         <div class="d-flex align-content-start flex-wrap">
                             @forelse ($proprietes_sous_cat as $item)
-                                <div class="card p-1 m-1 card-hover-titre cusor"
-                                    wire:click="set_key('{{ $item['nom'] }}')">
-                                    {{ $item['nom'] }}
-                                </div>
-                                @foreach ($item['options'] ?? [] as $option)
-                                    <div class="card p-1 m-1 card-hover-prroposition cusor"
-                                        wire:click="set_key('{{ $option['nom'] }}')">
-                                        {{ $option['nom'] }}
+                                @if ($item['options'] != '')
+                                    <div class="card p-1 m-1 card-hover-titre cusor"
+                                        wire:click="set_key('{{ $item['nom'] }}')">
+                                        {{ $item['nom'] }} >
                                     </div>
-                                @endforeach
+                                    @foreach ($item['options'] ?? [] as $option)
+                                        <div class="card p-1 m-1 card-hover-prroposition cusor"
+                                            wire:click="set_key('{{ $option['nom'] }}')">
+                                            {{ $option['nom'] }}
+                                        </div>
+                                    @endforeach
+                                @endif
                             @empty
                             @endforelse
                         </div>
