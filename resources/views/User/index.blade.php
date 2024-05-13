@@ -183,7 +183,10 @@
                         <div class="position-relative text-center">
                             <a href="/shop?categorie={{ $luxurys->first()->id_categorie }}"
                                 class="btn stretched-link borders">
-                                Voir Plus
+                                <span class="voir-plus-home-texte">
+                                    Voir Plus
+                                    Sur SHOP<span class="color">IN</span>
+                                </span>
                                 <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
@@ -278,7 +281,9 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="position-relative text-center">
                         <a href="/shop" class="btn stretched-link borders">
-                            Voir Plus
+                            <span class="voir-plus-home-texte">
+                                Voir Plus
+                            </span>
                             <i class="lni lni-arrow-right ml-2"></i></a>
                     </div>
                 </div>
