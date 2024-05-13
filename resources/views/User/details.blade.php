@@ -97,6 +97,9 @@
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
                                     @livewire('User.ButtonAddLike', ['post' => $post])
+                                    <span class="zoom-up-details">
+                                        <img src="/icons/icons8-dézoomer-58.png" alt="" srcset="">
+                                    </span>
                                     <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale"
                                         class="w-100 sp-current-big" alt="image">
                                 </figure>
