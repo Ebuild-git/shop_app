@@ -21,6 +21,21 @@
             display: block;
             width: 100%;
         }
+
+        .zoom-up-details {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: rgba(255, 255, 255, 0.616);
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer !important;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .zoom-up-details img {
+            width: 30px !important;
+        }
     </style>
     <script>
         function zoom(e) {
