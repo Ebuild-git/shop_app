@@ -79,14 +79,18 @@ class Shop extends Component
         $this->sous_categorie = $id;
         $sous_cat = sous_categories::select("proprietes")->find($id);
         if($sous_cat){
+            $Array=[];
             foreach ($sous_cat->proprietes as $propriete) {
                 $proprietes= proprietes::select("options")->find($propriete);
                 if($proprietes){
                     foreach ($proprietes->options as $pro) {
-                        $this->proprietes_sous_cat[]=[$pro];
+                        $Array[]=[
+                            "nom" => $pro
+                        ];
                     }
                 }
             }
+            $this->proprietes_sous_cat = $Array;
         }
     }
 

@@ -18,7 +18,8 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-                                            <div class="single_filter_card cusor color" wire:click="check_luxury_only()">
+                                            <div class="single_filter_card cusor color"
+                                                wire:click="check_luxury_only()">
                                                 <b>
                                                     Uniquement Luxury <i class="bi bi-gem"></i>
                                                 </b>
@@ -56,7 +57,7 @@
                                                                         <button class="btn-btn-shop-style"
                                                                             type="button"
                                                                             wire:click="filtre_cat({{ $categorie->id }})">
-                                                                            Tous -   {{ $categorie->titre }}
+                                                                            Tous - {{ $categorie->titre }}
                                                                         </button>
                                                                     </li>
                                                                     @foreach ($categorie->getSousCategories as $SousCategorie)
@@ -188,7 +189,8 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <button type="button" wire:click="reset_form()" class="btn btn-md  bg-danger text-light fs-md ft-medium">
+                                <button type="button" wire:click="reset_form()"
+                                    class="btn btn-md  bg-danger text-light fs-md ft-medium">
                                     Vider
                                     <i class="bi bi-x-lg"></i>
                                 </button>
@@ -211,7 +213,7 @@
                             <div class="d-flex justify-content-between p-2 m-0">
                                 <div>
                                     <h6 class="mb-0">
-                                       {{ $posts->count()}} sur {{ $total }} éléments publiés.
+                                        {{ $posts->count() }} sur {{ $total }} éléments publiés.
                                     </h6>
                                 </div>
 
@@ -227,10 +229,17 @@
                     </div>
                 </div>
 
-                @if ()
-                <div class="card p-2">
-                   
-                </div>
+                @if ($proprietes_sous_cat)
+                    <div class="card p-2 mb-3">
+                        <div class="d-flex align-content-start flex-wrap">
+                            @forelse ($proprietes_sous_cat as $item)
+                                <div class="card p-1 m-1 card-hover-prroposition">
+                                    {{ $item['nom'] }}
+                                </div>
+                            @empty
+                            @endforelse
+                        </div>
+                    </div>
                 @endif
                 <!-- row -->
                 <div class="row align-items-center rows-products">
