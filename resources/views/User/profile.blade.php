@@ -3,6 +3,18 @@
 @section('content')
 @section('body')
 
+    <style>
+        .card-ps {
+            border: solid 1px #00808065;
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-end {
+            text-align: right !important;
+        }
+    </style>
     <!-- ======================= Filter Wrap Style 1 ======================== -->
     <section class="py-3 gray br-bottom br-top">
         <div class="container">
