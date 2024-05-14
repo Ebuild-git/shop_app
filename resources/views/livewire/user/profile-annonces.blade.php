@@ -19,7 +19,7 @@
         </form>
     </div> --}}
     @forelse ($posts as $post)
-    <div class="col-xl-4 col-sm-4 col-lg-4 col-md-6 col-6">
+    <div class="col-xl-3 col-sm-3 col-lg-3 col-md-6 col-6">
         <div class="product_grid card b-0">
             <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
                 <i class="bi bi-gem"></i> LUXURY

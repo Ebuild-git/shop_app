@@ -1,10 +1,10 @@
 @extends('User.fixe')
-@section('titre', $user->name)
+@section('titre', $user->username)
 @section('content')
 @section('body')
 
     <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <section class="py-3 br-bottom br-top">
+    <section class="py-3 gray br-bottom br-top">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -13,8 +13,7 @@
                             <li class="breadcrumb-item">
                                 <a href="/">Accueil</a>
                             </li>
-                            <li class="breadcrumb-item " aria-current="page">Utilisateur</li>
-                            <li class="breadcrumb-item active" aria-current="page">   {{ '@'.$user->username }} </li>
+                            <li class="breadcrumb-item active" aria-current="page"> {{ $user->username }} </li>
                         </ol>
                     </nav>
                 </div>
@@ -25,41 +24,67 @@
 
 
     <div class="container pb-3 pt-3">
-        <div class="row">
-            <div class="col-sm-3 ">
-                <div class="card p-3">
-                    <div class="position-relative">
-                        <button class="btn-start-profile" type="button" data-toggle="modal" data-target="#noter">
-                            <img width="24" height="24"
-                                src="https://img.icons8.com/external-zen-filled-royyan-wijaya/24/FAB005/external-stars-astronomy-zen-filled-royyan-wijaya.png"
-                                alt="external-stars-astronomy-zen-filled-royyan-wijaya" />
-                            <b>Noter</b>
-                        </button>
-                        <div class="pt-1 pb-1">
-                            <span class="h5 text-capitalize">
-                                {{ '@'.$user->username }}
-                            </span>
-                        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>
+                        {{ $user->username }}
+                    </h2>
+                    <div data-toggle="modal" data-target="#noter">
+                        @php
+                            $count = number_format($user->averageRating->average_rating ?? 1);
+                            $avis = $user->getReviewsAttribute->count();
+                        @endphp
+                        @if ($avis > 0)
+                            <!-- Étoiles notées -->
+                            @for ($i = 0; $i < $count; $i++)
+                                <i class="bi bi-star-fill" style="color:#018d8d;"></i>
+                            @endfor
+                            <!-- Étoiles non notées -->
+                            @for ($i = $count; $i < 5; $i++)
+                                <i class="bi bi-star-fill" style="color:#828282;"></i>
+                            @endfor
+                        @else
+                            <!-- 5 étoiles grises si pas d'avis -->
+                            @for ($i = 0; $i < 5; $i++)
+                                <i class="bi bi-star-fill" style="color:#828282;"></i>
+                            @endfor
+                        @endif
+                        {{ $avis }} Avis
                     </div>
-                    <div>
-                        <i class="bi bi-card-list"></i>
-                        {{ $user->GetPosts->count() }} Annonces <br>
-                        <i class="bi bi-geo-alt"></i>
-                        {{ $user->adress ?? 'N/A' }} <br>
-                        <i class="bi bi-house"></i>
-                        {{ $user->region->nom ?? 'N/A' }}<br>
-                        <div style="text-align: right;" style="background-color: #018d8d;">
-                            <b>Note :</b>
-                            {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
-                            <i class="bi bi-star-fill" style="color: #fab005;"></i>
+                </div>
+                <div class="col-sm-6 text-end">
+
+                    <div class="card-ps text-center p-2">
+                        <b> {{ $user->GetPosts->count() }} </b>
+                        <div>
+                            <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
+                        Annonces
+                    </div>
+                    <div class="card-ps text-center p-2">
+                        <b> {{ $user->total_sales ?? 0 }} </b>
+                        <div>
+                            <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
+                        </div>
+                        Ventes
+                    </div>
+                    <div class="card-ps text-center p-2">
+
+                        <b> {{ $user->categoriesWhereUserPosted->count() }} </b>
+                        <div>
+                            <img width="20" height="20" src="/icons/menu.svg" alt="category" />
+                        </div>
+                        Catégories
                     </div>
                 </div>
             </div>
-            <div class="col-sm-9">
-                @livewire('User.ProfileAnnonces', ['user' => $user])
-            </div>
         </div>
+
+        <br>
+        <hr>
+        @livewire('User.ProfileAnnonces', ['user' => $user])
     </div>
 
 
