@@ -93,7 +93,7 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="subnav-content">
-                    @foreach ($categories as $item)
+                    @foreach ($cat->getSousCategories as $item)
                         <a href="#bring">
                             {{ $item->titre }}
                         </a>
