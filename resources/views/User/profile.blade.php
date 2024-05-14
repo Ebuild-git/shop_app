@@ -8,7 +8,6 @@
             border: solid 1px #00808065;
             border-radius: 5px;
             display: inline-block;
-            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .text-end {
@@ -16,14 +15,14 @@
         }
     </style>
     <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <section class="py-3 gray br-bottom br-top">
+    <section class="py-3 ">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="/">Accueil</a>
+                               <b> <a href="/">Accueil</a></b>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page"> {{ $user->username }} </li>
                         </ol>
@@ -37,7 +36,7 @@
 
     <div class="container pb-3 pt-3">
 
-        <div>
+        <div class="">
             <div class="row">
                 <div class="col-sm-6">
                     <h2>
@@ -68,34 +67,42 @@
                 </div>
                 <div class="col-sm-6 text-end">
 
-                    <div class="card-ps text-center p-2">
-                        <b> {{ $user->GetPosts->count() }} </b>
-                        <div>
-                            <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
+                    <div >
+                        <div class="card-ps text-center p-2">
+                            <div>
+                                <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
+                            </div>
+                            <b> {{ $user->GetPosts->count() }} </b> 
+                            Annonces
                         </div>
-                        Annonces
-                    </div>
-                    <div class="card-ps text-center p-2">
-                        <b> {{ $user->total_sales ?? 0 }} </b>
-                        <div>
-                            <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
+                        <div class="card-ps text-center p-2">
+                            <div>
+                                <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
+                            </div>
+                            <b> {{ $user->total_sales ?? 0 }} </b>
+                            Ventes
                         </div>
-                        Ventes
-                    </div>
-                    <div class="card-ps text-center p-2">
-
-                        <b> {{ $user->categoriesWhereUserPosted->count() }} </b>
-                        <div>
-                            <img width="20" height="20" src="/icons/menu.svg" alt="category" />
+                        <div class="card-ps text-center p-2">
+                            <div>
+                                <img width="20" height="20" src="/icons/menu.svg" alt="category" />
+                            </div>
+                            <b> {{ $user->categoriesWhereUserPosted->count() }} </b>
+                            Catégories
                         </div>
-                        Catégories
                     </div>
                 </div>
             </div>
         </div>
 
         <br>
+       
         <hr>
+        <div>
+            <h4>
+                {{ $user->GetPosts->count() }}  publications
+            </h4>
+        </div>
+        <br>
         @livewire('User.ProfileAnnonces', ['user' => $user])
     </div>
 
