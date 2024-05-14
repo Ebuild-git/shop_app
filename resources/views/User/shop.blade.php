@@ -34,7 +34,6 @@
         }
 
         .subnav {
-            float: left;
             overflow: hidden;
         }
 
@@ -62,15 +61,15 @@
         }
 
         .subnav-content a {
-            float: left;
+            text-align: left !important;
             color: white;
             font-size: 12px;
             text-decoration: none;
         }
 
         .subnav-content a:hover {
-            background-color: #eee;
-            color: black;
+            color: rgb(255, 255, 255);
+            font-weight: bold;
         }
 
         .subnav:hover .subnav-content {
