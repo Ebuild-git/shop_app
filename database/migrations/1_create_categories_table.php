@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean("luxury")->default(false);
             $table->integer('order')->default(0);
             $table->string("icon");
+            $table->string("small_icon")->nullable();
             $table->timestamps();
             
         });

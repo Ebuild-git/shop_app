@@ -50,6 +50,15 @@
                     </div>
                 @enderror
             </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <label for="">Icône</label>
+                    <input type="file" class="form-control" wire:model="small_icon">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <img src="{{ Storage::url($apercu_small_icon) ?? '' }}" alt=".." height="70">
+                </div>
+            </div>
         </div>
         <div class="col-sm-4">
             <h5>

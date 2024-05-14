@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $icon, $description, $photo,$actu_photo, $id, $pourcentage_gain, $proprietes,$list_regions;
+    public $categorie, $titre, $icon, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon;
     public $region_prix = [];
 
     public function mount($id)
@@ -31,6 +31,7 @@ class FormUpdateCategorie extends Component
         $this->pourcentage_gain = $this->categorie->pourcentage_gain ?? 0;
         $this->description = $this->categorie->description;
         $this->actu_photo = $this->categorie->icon;
+        $this->apercu_small_icon = $this->categorie->small_icon;
         $this->proprietes = ModelsProprietes::all();
         $this->list_regions = regions::all('id', 'nom');
 
@@ -46,7 +47,7 @@ class FormUpdateCategorie extends Component
             ];
         }
 
-       
+
         return view('livewire.form-update-categorie');
     }
 
@@ -56,6 +57,7 @@ class FormUpdateCategorie extends Component
             'titre' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
+            'small_icon' => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:1048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
         ]);
 
@@ -77,6 +79,13 @@ class FormUpdateCategorie extends Component
                 Storage::disk('public')->delete($categorie->icon);
                 $newName = $this->photo->store('uploads/categories', 'public');
                 $categorie->icon = $newName;
+            }
+            if ($this->small_icon) {
+                if ($categorie->small_icon) {
+                    Storage::disk('public')->delete($categorie->small_icon);
+                }
+                $newName = $this->small_icon->store('uploads/categories', 'public');
+                $categorie->small_icon = $newName;
             }
             $categorie->titre = $this->titre;
             $categorie->description = $this->description;

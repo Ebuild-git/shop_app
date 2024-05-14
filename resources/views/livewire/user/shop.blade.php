@@ -51,7 +51,8 @@
                                                                 @if ($categorie->luxury == 1)
                                                                     <span class="color small">
                                                                         <b>
-                                                                            Luxury <i class="bi bi-gem"></i>
+                                                                            <i class="bi bi-gem"></i>
+                                                                            Luxury 
                                                                         </b>
                                                                     </span>
                                                                     &nbsp;
@@ -71,7 +72,7 @@
                                                                         <button class="btn-btn-shop-style"
                                                                             type="button"
                                                                             wire:click="filtre_cat({{ $categorie->id }})">
-                                                                            Tous - {{ $categorie->titre }}
+                                                                            Tout - {{ $categorie->titre }}
                                                                         </button>
                                                                     </li>
                                                                     @foreach ($categorie->getSousCategories as $SousCategorie)

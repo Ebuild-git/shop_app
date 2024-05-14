@@ -27,6 +27,16 @@ class CategoriesController extends Controller
     }
 
 
+    public function update_categorie($id)
+    {
+        $categorie = categories::find($id);
+        if (!$categorie) {
+            abort(404);
+        }
+        return view("Admin.categories.update_categorie")->with('categorie', $categorie);
+    }
+
+
     public function update_sous_categorie($id)
     {
         $sous_categorie = sous_categories::find($id);
