@@ -64,6 +64,14 @@
                         @endif
                         {{ $avis }} Avis
                     </div>
+                    <br>
+                    <div>
+                        <p>
+                            <i class="bi bi-calendar-check"></i> Membre dépuis les {{ $user->created_at }}
+                        <br>
+                            <i class="bi bi-envelope"></i> Email vérifié <b>{{ $user->photo_verified_at ? "Oui" : "Non"}} </b>
+                        </p>
+                    </div>
                 </div>
                 <div class="col-sm-6 text-end">
 
