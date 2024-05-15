@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Rating extends Component
 {
-    public $user,$notes,$ma_note =0 ;
+    public $user, $notes, $ma_note = 0;
 
     public function mount($user)
     {
@@ -19,13 +19,14 @@ class Rating extends Component
     {
         $this->notes = ratings::where('id_user_rated', $this->user->id)->avg('etoiles');
         $ma_note = ratings::where('id_user_rating', Auth::user()->id)
-        ->where("id_user_rated", $this->user->id)
-        ->first();
-        if($ma_note){
+            ->where("id_user_rated", $this->user->id)
+            ->first();
+        if ($ma_note) {
             $this->ma_note = $ma_note->etoiles;
         }
-
-        return view('livewire.user.rating');
+        $count = number_format($this->user->averageRating->average_rating ?? 1);
+        $avis = $this->user->getReviewsAttribute->count();
+        return view('livewire.user.rating', compact("count", "avis"));
     }
 
     public function rate($value)

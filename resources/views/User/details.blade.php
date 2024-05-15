@@ -156,9 +156,9 @@
                             <span class=" rounded px-2 py-1 mr-2" style="background-color: #ecedf1">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
-                            <div class="prt_02 mb-3">
+                            <div class="prt_02 mb-5 mt-3">
                                 <div class="d-flex justify-content-between">
-                                    <h2 class="ft-bold mb-1 mt-2 text-capitalize">
+                                    <h2 class=" mb-1 mt-2 text-capitalize">
                                         {{ $post->titre }}
                                     </h2>
                                     @auth
@@ -176,7 +176,7 @@
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
                                         @if ($post->old_prix)
-                                            <span class="ft-bold color fs-lg">
+                                            <span class=" color fs-lg">
                                                 {{ $post->getPrix() }} DH
                                             </span>
                                             <br>
@@ -188,22 +188,23 @@
                                                 {{ $post->getPrix() }} DH
                                             </span>
                                         @endif
+
+                                        <span style="background-color: #ecedf1;" class="p-1 rounded-pill ml-5">
+                                            <b>
+                                                <img width="25" height="25"
+                                                    src="https://img.icons8.com/laces/25/018d8d/delivery.png"
+                                                    alt="delivery" />
+                                                + Frais de Livraison
+                                            </b>
+                                        </span>
                                     </div>
-                                    <br>
-                                    <span style="background-color: #ecedf1;border-bottom:solid 2px #008080; "
-                                        class="p-1">
-                                        <b>
-                                            <img width="25" height="25"
-                                                src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
-                                            + Frais de Livraison
-                                        </b>
-                                    </span>
+
                                 </div>
                             </div>
                             <br>
                             <hr>
                             <div class="prt_03 mb-4">
-                                <b class="text-black">Détails</b>
+                                <b class="text-black h5">Détails</b>
                                 <p>
                                 <table>
                                     <tr>
@@ -247,7 +248,7 @@
                                     @endforelse
                                 </table>
                                 </p>
-                                <b class="text-black">Description</b>
+                                <b class="text-black h5">Description</b>
                                 <p>
                                     {!! $post->description !!}
                                 </p>

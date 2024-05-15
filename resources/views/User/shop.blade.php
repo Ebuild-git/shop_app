@@ -6,8 +6,7 @@
 
 
     <style>
-        .navbar {
-        }
+        .navbar {}
 
         .navbar .icon {
             height: 30px;
@@ -87,6 +86,9 @@
                         <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
                     </div>
                     <span class="titre">
+                        @if ($cat->luxury == true)
+                            <i class="bi bi-gem color"></i>
+                        @endif
                         {{ $cat->titre }}
                     </span>
                     <i class="fa fa-caret-down"></i>

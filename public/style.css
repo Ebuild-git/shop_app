@@ -532,7 +532,7 @@ body {
 }
 
 .rating-yellow-color {
-    color: #fab005;
+    color: #008080;
 }
 
 .avatar-profil-user {
@@ -815,6 +815,7 @@ input[type="month"]:active::before {
     bottom: 20px;
     z-index: 13;
     cursor: pointer;
+    width: 60px !important;
 }
 
 .modal-dialog-scrollable {

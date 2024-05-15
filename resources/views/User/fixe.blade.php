@@ -65,10 +65,11 @@
 
                 Swal.fire({
                     position: "center",
-                    icon: type,
+                    icon: false,
                     title: message,
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 2000,
+                    customClass: "swal-wide",
                 });
             });
         });

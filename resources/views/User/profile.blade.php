@@ -42,27 +42,8 @@
                     <h2>
                         {{ $user->username }}
                     </h2>
-                    <div data-toggle="modal" data-target="#noter">
-                        @php
-                            $count = number_format($user->averageRating->average_rating ?? 1);
-                            $avis = $user->getReviewsAttribute->count();
-                        @endphp
-                        @if ($avis > 0)
-                            <!-- Étoiles notées -->
-                            @for ($i = 0; $i < $count; $i++)
-                                <i class="bi bi-star-fill" style="color:#018d8d;"></i>
-                            @endfor
-                            <!-- Étoiles non notées -->
-                            @for ($i = $count; $i < 5; $i++)
-                                <i class="bi bi-star-fill" style="color:#828282;"></i>
-                            @endfor
-                        @else
-                            <!-- 5 étoiles grises si pas d'avis -->
-                            @for ($i = 0; $i < 5; $i++)
-                                <i class="bi bi-star-fill" style="color:#828282;"></i>
-                            @endfor
-                        @endif
-                        {{ $avis }} Avis
+                    <div >
+                        @livewire('User.Rating', ['user' => $user])
                     </div>
                     <br>
                     <div>
@@ -114,56 +95,4 @@
         @livewire('User.ProfileAnnonces', ['user' => $user])
     </div>
 
-
-    <!-- Log In Modal -->
-    <div class="modal fade" id="noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="loginmodal">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-
-                <div class="modal-body p-5">
-                    <div class="text-center mb-4">
-                        <h2 class=" h5">
-                            Votre avis compte !
-                        </h2>
-                    </div>
-                    <p>
-                        Votre opinion est précieuse pour nous. Aidez-nous à améliorer notre service en partageant votre
-                        expérience avec d'autres utilisateurs. Veuillez prendre un moment pour évaluer votre interaction
-                        avec {{ $user->username }} en lui attribuant une note de 1 à 5 étoiles.
-                    </p>
-                    <hr>
-                    @auth
-                        @livewire('User.Rating', ['user' => $user])
-                    @endauth
-                    @guest
-                        <div class="alert alert-danger">
-                            Pour ajouter un avis, vous devez être connecté(e).
-                        </div>
-                    @endguest
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal -->
-
-
-    <style>
-        .avatar-profil {
-            height: 100px;
-            width: 100px;
-            border-radius: 100%
-        }
-
-        .couverture {
-            background: url("https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014_640.jpg")no-repeat;
-            background-size: cover;
-            height: 300px;
-        }
-    </style>
-    <br><br><br>
 @endsection
