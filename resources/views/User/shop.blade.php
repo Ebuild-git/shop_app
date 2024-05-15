@@ -105,7 +105,15 @@
     </div>
 
 
-
+<style>
+    .list-proprietes:hover .attribut{
+        display:  block !important;
+        transition: 0.5s !important;
+    }
+    .list-proprietes{
+        transition: 0.5s !important;
+    }
+</style>
 
 
 

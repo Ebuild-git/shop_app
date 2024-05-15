@@ -52,7 +52,7 @@
                                                                     <span class="color small">
                                                                         <b>
                                                                             <i class="bi bi-gem"></i>
-                                                                            Luxury 
+                                                                            Luxury
                                                                         </b>
                                                                     </span>
                                                                     &nbsp;
@@ -244,25 +244,30 @@
                     </div>
                 </div>
 
+                {{-- suggestion des attributs des propriétés --}}
                 @if ($proprietes_sous_cat)
                     <div class="card p-2 mb-3">
-                        <div class="d-flex align-content-start flex-wrap">
-                            @forelse ($proprietes_sous_cat as $item)
-                                <div class="card p-1 m-1 card-hover-titre cusor"
+                        <div class="d-flex align-content-start flex-wrap ">
+                            @foreach ($proprietes_sous_cat as $key => $item)
+                                <div class="d-flex align-content-start flex-wrap list-proprietes">
+                                    <button type="button" class="card p-1 m-1 card-hover-titre cusor"
+                                    onclick="show_attribut({{ $key }})"
                                     wire:click="set_key('{{ $item['nom'] }}')">
-                                    {{ $item['nom'] }} >
-                                </div>
+                                    {{ $item['nom'] }}
+                                </button>
                                 @foreach ($item['options'] ?? [] as $option)
-                                    <div class="card p-1 m-1 card-hover-prroposition cusor"
+                                    <div class="card p-1 m-1 card-hover-prroposition cusor d-none attribut"
                                         wire:click="set_key('{{ $option['nom'] }}')">
                                         {{ $option['nom'] }}
                                     </div>
                                 @endforeach
-                            @empty
-                            @endforelse
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 @endif
+
+
                 <!-- row -->
                 <div class="row align-items-center rows-products">
 

@@ -36,6 +36,9 @@
         .zoom-up-details img {
             width: 30px !important;
         }
+        .modal-view-img{
+            max-height: 80vh !important;
+        }
     </style>
     <script>
         function zoom(e) {
@@ -410,7 +413,7 @@
     <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
         aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form" role="document">
-            <img src="" id="modal-view" alt="image" class="zoom-in w-100">
+            <img src="" id="modal-view" alt="image" class="zoom-in w-100 modal-view-img">
         </div>
     </div>
     <!-- End Modal -->
