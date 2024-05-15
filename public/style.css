@@ -817,6 +817,9 @@ input[type="month"]:active::before {
     cursor: pointer;
     width: 60px !important;
 }
+.btn-like-details:hover{
+    background-color: #ececec;
+}
 
 .modal-dialog-scrollable {
     overflow-y: auto;

@@ -198,10 +198,8 @@
                                             </b>
                                         </span>
                                     </div>
-
                                 </div>
                             </div>
-                            <br>
                             <hr>
                             <div class="prt_03 mb-4">
                                 <b class="text-black h5">Détails</b>
@@ -282,6 +280,12 @@
                                     </div>
                                 @endif
                             @endauth
+                            <div>
+                                <p class="text-center">
+                                    En poursuivant votre commande, vous acceptez les
+                                    <a href="{{ route('conditions') }}"><b>Conditions générales</b></a> de SHOPIN.
+                                </p>
+                            </div>
 
                         </div>
                     </div>

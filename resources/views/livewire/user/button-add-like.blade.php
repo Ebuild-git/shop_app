@@ -7,9 +7,9 @@
                 </span>
                 <span class="my-auto">
                     @if ($liked === true)
-                    <i class="bi bi-envelope-fill"></i>
+                    <i class="bi bi-heart-fill color"></i>
                     @else
-                    <i class="lni lni-heart mr-2 "></i>
+                    <i class="bi bi-heart"></i>
                     @endif
                 </span>
             </div>
