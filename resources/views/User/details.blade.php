@@ -113,7 +113,7 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    <button type="button" class="btn-like-details btn-like-post"
+                                    <button type="button" class="btn-like-details btn-like-post @if ($isLiked) btn-favoris-added @endif"
                                         @guest data-toggle="modal" data-target="#login" @endguest
                                         data-id="{{ $post->id }}">
                                         <div class="d-flex justify-content-between">
