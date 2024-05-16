@@ -98,8 +98,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-
-
                     <div>
                         <div class="row">
                             <div class="col-2 p-1">
@@ -142,14 +140,62 @@
 
                     <hr>
                     <h5>
-                        <b>Voilà le SHOP<span class="color">IN</span>ER </b>
+                        <b>Voilà le SHOP<span class="color">IN</span>ER</b>
                     </h5>
                     <div>
-                        @include('components.CardShopinner', [
-                            'user' => $post->user_info,
-                            'page' => 'details',
-                        ])
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="avatar-shopinner-details">
+                                    <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
+                                </div>
+                                </td>
+                                <td>
+                                    <h4 class="h6">
+                                            <a href="/user/{{ $user->id }}" class="h4">
+                                                {{ $user->username }}
+                                            </a>
+                                    </h4>
+                                    <div>
+                                        @php
+                                            $count = number_format($user->averageRating->average_rating ?? 1);
+                                            $avis = $user->getReviewsAttribute->count();
+                                        @endphp
+                                        @if ($avis > 0)
+                                            <!-- Étoiles notées -->
+                                            @for ($i = 0; $i < $count; $i++)
+                                                <i class="bi bi-star-fill" style="color:#018d8d;"></i>
+                                            @endfor
+                                            <!-- Étoiles non notées -->
+                                            @for ($i = $count; $i < 5; $i++)
+                                                <i class="bi bi-star-fill" style="color:#828282;"></i>
+                                            @endfor
+                                        @else
+                                            <!-- 5 étoiles grises si pas d'avis -->
+                                            @for ($i = 0; $i < 5; $i++)
+                                                <i class="bi bi-star-fill" style="color:#828282;"></i>
+                                            @endfor
+                                        @endif
+
+                                        <div>
+                                            <span>
+                                                <b> {{ $avis }} </b> avis
+                                            </span>
+                                            |
+                                            <span>
+                                                <b>{{ $user->total_sales ?? 0 }}</b> Ventes
+                                            </span>
+                                            |
+                                            <span>
+                                                <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
+                    <br><br>
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
@@ -235,7 +281,9 @@
                             <div>
                                 <p class="text-center pr-5 pl-5">
                                     En poursuivant votre commande, vous acceptez les
-                                    <a href="{{ route('conditions') }}"><b>Conditions générales</b></a> de SHOPIN.
+                                    <a href="{{ route('conditions') }}" class="color">
+                                        <b>Conditions générales</b>
+                                    </a> de SHOPIN.
                                 </p>
                             </div>
 
@@ -265,12 +313,13 @@
                                     </tr>
                                     @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
-                                            <td class="text-black">{{ ucfirst($key) }} </td>
+                                            <td>{{ ucfirst($key) }} </td>
                                             <td>
                                                 @if ($key = 'couleur' || ($key = 'Couleur'))
                                                     @if ($value == '#000000')
-                                                        <img src="/icons/color-wheel.png" height="20" width="20"
-                                                            alt="multicolor" title="Multi color" srcset="">
+                                                        <img src="/icons/color-wheel.png" height="20"
+                                                            width="20" alt="multicolor" title="Multi color"
+                                                            srcset="">
                                                     @else
                                                         <span
                                                             style="background-color: {{ $value }} ;color:{{ $value }};">
@@ -288,7 +337,17 @@
                                 </p>
                                 <b class="text-black h5">Description</b>
                                 <p>
-                                    {!! $post->description !!}
+                                    @if ($post->description)
+                                        {!! $post->description !!}
+                                    @else
+                                        <div class="text-muted text-center">
+                                            <i>
+                                                <i class="bi bi-info-circle color"></i>
+                                                Aucune description disponible !
+                                            </i>
+                                        </div>
+                                    @endif
+
                                 </p>
                             </div>
 

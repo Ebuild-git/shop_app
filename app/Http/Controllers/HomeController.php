@@ -58,6 +58,7 @@ class HomeController extends Controller
         if (!$post) {
             abort(404);
         }
+        $user = $post->user_info;
 
         //si un user est connecter verifier si ce post est dans ses favoris
         if (Auth::check()) {
@@ -74,6 +75,7 @@ class HomeController extends Controller
             ->get();
         return view('User.details')
             ->with("post", $post)
+            ->with("user",$user)
             ->with("isFavorited",$isFavorited)
             ->with("other_products", $other_product);
     }
