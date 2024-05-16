@@ -479,4 +479,29 @@ class HomeController extends Controller
             "total" => $user->categoriesWhereUserPosted->count()
         ]);
     }
+
+
+
+    public function liked(){
+        return view("User.likes");
+    }
+
+
+
+    public function remove_liked(Request $request){
+        $id_like = $request->get("id_like");
+        $like = likes::where("id",$id_like)->where("id_user",Auth::user()->id)->first();
+        if($like){
+            $like->delete();
+            return response()->json(
+                [
+                    "status" => true,
+                    "message"=> "Annonce rétiré !"
+                ]
+            );
+        }
+
+    }
+
+
 }

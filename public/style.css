@@ -864,8 +864,21 @@ input[type="month"]:active::before {
 
 
 .zoom-in {cursor: zoom-in;}
-
-
+.text-end{
+    text-align: right !important;
+}
+.avatar-post-like{
+    height: 50px !important;
+    width: 50px !important;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 5px;
+}
+.avatar-post-like img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
 
 
 

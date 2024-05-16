@@ -58,11 +58,17 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
     Route::get('/favoris', [ControllersHomeController::class, 'favoris'])->name('favoris');
+   
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
     Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
     Route::get('/user-notifications', [ControllersHomeController::class, 'user_notifications'])->name('user-notifications');
+
+
+    // gestion des like des posts
+    Route::get('/liked', [ControllersHomeController::class, 'liked'])->name('liked');
+    Route::get('remove_liked', [ControllersHomeController::class, 'remove_liked'])->name('remove_liked');
 
 
     Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');

@@ -236,11 +236,15 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
+                                        <a href="{{ route('liked') }}" class=" medium link-red text-medium">
                                             Mes coups de coeur
                                         </a>
                                     </li>
-
+                                    <li>
+                                        <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
+                                            Mes favoris
+                                        </a>
+                                    </li>
 
                                     <li>
                                         <a href="/informations" class=" medium link-red text-medium">

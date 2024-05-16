@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class posts extends Model
 {
@@ -91,6 +92,11 @@ class posts extends Model
 
     public function signalements(){
         return $this->hasMany(signalements::class, 'id_post', 'id');
+    }
+
+    public function FirstImage(){
+       $url = Storage::url($this->photos[0] ?? '');
+       return $url;
     }
 
 
