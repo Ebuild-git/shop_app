@@ -51,28 +51,22 @@
                                      {{ $post->description }}
                                  </p>
                              </div>
-
-
-
+                             
                              <div class="prt_05 mb-4">
-                                 <div class="form-row mb-7">
-                                     <div class="col-12 col-lg">
-                                         <!-- Submit -->
-                                         <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
-                                             onclick="add_cart({{ $post->id }})">
-                                             <i class="lni lni-shopping-basket mr-2"></i>
-                                             Ajouter au panier
-                                         </button>
-                                     </div>
-                                     <div class="col-12 col-lg-auto">
-                                         <!-- Wishlist -->
-                                         @livewire('User.ButtonAddLike', ['post' => $post])
-                                     </div>
-                                 </div>
+                                 <!-- Submit -->
+                                 <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                     onclick="add_cart({{ $post->id }})">
+                                     <i class="lni lni-shopping-basket mr-2"></i>
+                                     Ajouter au panier
+                                 </button>
+                                 <button
+                                     class="btn btn-default btn-block btn-add-favoris"
+                                     type="button" @guest data-toggle="modal" data-target="#login" @endguest
+                                     data-id="{{ $post->id }}">
+                                     <i class="lni lni-heart mr-2"></i>
+                                     Ajouter aux favoris
+                                 </button>
                              </div>
-
-
-
                          </div>
                      </div>
                  </div>

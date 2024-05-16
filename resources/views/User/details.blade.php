@@ -39,6 +39,7 @@
 
         .modal-view-img {
             max-height: 80vh !important;
+            height: auto !important;
         }
     </style>
     <script>
@@ -57,8 +58,6 @@
             //change data-url attibut value on figure
             document.getElementById("figure").setAttribute("data-url", url);
         }
-
-        
     </script>
 
 
@@ -116,7 +115,17 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    @livewire('User.ButtonAddLike', ['post' => $post])
+                                    <button type="button" class="btn-like-details btn-like-post"  @guest data-toggle="modal" data-target="#login" @endguest data-id="{{ $post->id }}">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="my-auto count">
+                                                {{ $post->getLike->count() }}
+                                            </span>
+                                            <span class="my-auto">
+                                                    <i class="bi bi-heart"></i>
+                                            </span>
+                                        </div>
+                                    </button>
+
                                     <span class="zoom-up-details">
                                         <img src="/icons/icons8-dézoomer-58.png" alt="" srcset="">
                                     </span>
@@ -216,7 +225,9 @@
                                     @endauth
                                 @endif
                             @endauth
-                            <button class="btn btn-default btn-block btn-add-favoris @if($isFavorited) btn-favoris-added @endif " type="button" @guest data-toggle="modal" data-target="#login" @endguest
+                            <button
+                                class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif "
+                                type="button" @guest data-toggle="modal" data-target="#login" @endguest
                                 data-id="{{ $post->id }}">
                                 <i class="lni lni-heart mr-2"></i>
                                 Ajouter aux favoris
@@ -404,8 +415,8 @@
 <!-- Modal view-->
 <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg login-pop-form" role="document">
-        <img src="" id="modal-view-image" alt="image" class="zoom-in w-100 modal-view-img">
+    <div class="modal-dialog modal-lg login-pop-form text-center" role="document" >
+        <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
     </div>
 </div>
 <!-- End Modal -->

@@ -21,27 +21,6 @@ function add_cart(id) {
     );
 }
 
-function add_like(id) {
-    $.get(
-        "/like",
-        {
-            id_post: id,
-        },
-        function (data, status) {
-            if (status) {
-                CountPanier();
-                Swal.fire({
-                    position: "center",
-                    icon: false,
-                    text: data.message,
-                    showConfirmButton: false,
-                    timer: 2500,
-                    customClass: "swal-wide",
-                });
-            }
-        }
-    );
-}
 
 //retiitrer une publication liker de ma liste de like
 function remove_liked(id) {
@@ -101,6 +80,46 @@ $(document).ready(function () {
             },
             function (data, status) {
                 if (status === "success") {
+                    if (data.action == "ajouté") {
+                        button.addClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            customClass: "swal-wide",
+                        });
+                    } else {
+                        button.removeClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+                    }
+                   
+                }
+            }
+        );
+    });
+
+
+    //ajouter un like a un post
+    $(".btn-like-post").on("click", function () {
+        var button = $(this);
+        var id_post = button.data("id");
+        var span = button.find('span.count');
+        $.get(
+            "/like_post",
+            {
+                id_post: id_post,
+            },
+            function (data, status) {
+                if (status === "success") {
+                    span.text(data.count);
                     if (data.action == "ajouté") {
                         button.addClass("btn-favoris-added");
                         Swal.fire({

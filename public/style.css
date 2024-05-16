@@ -879,7 +879,9 @@ input[type="month"]:active::before {
     height: 100%;
     width: 100%;
 }
-
+.modal{
+    background-color: #0080806c !important;
+}
 
 
 
