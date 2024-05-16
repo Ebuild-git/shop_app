@@ -115,13 +115,15 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    <button type="button" class="btn-like-details btn-like-post"  @guest data-toggle="modal" data-target="#login" @endguest data-id="{{ $post->id }}">
+                                    <button type="button" class="btn-like-details btn-like-post"
+                                        @guest data-toggle="modal" data-target="#login" @endguest
+                                        data-id="{{ $post->id }}">
                                         <div class="d-flex justify-content-between">
                                             <span class="my-auto count">
                                                 {{ $post->getLike->count() }}
                                             </span>
                                             <span class="my-auto">
-                                                    <i class="bi bi-heart"></i>
+                                                <i class="bi bi-heart"></i>
                                             </span>
                                         </div>
                                     </button>
@@ -203,13 +205,10 @@
                                             </span>
                                         @endif
 
-                                        <span style="background-color: #ecedf1;" class="p-1 rounded-pill ml-5">
-                                            <b>
-                                                <img width="25" height="25"
-                                                    src="https://img.icons8.com/laces/25/018d8d/delivery.png"
-                                                    alt="delivery" />
-                                                + Frais de Livraison
-                                            </b>
+                                        <span class="badge-frais-details">
+                                            <img width="25" height="25"
+                                                src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
+                                            + Frais de Livraison
                                         </span>
                                     </div>
                                 </div>
@@ -415,7 +414,7 @@
 <!-- Modal view-->
 <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg login-pop-form text-center" role="document" >
+    <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
         <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
     </div>
 </div>

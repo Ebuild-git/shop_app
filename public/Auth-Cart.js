@@ -1,3 +1,6 @@
+
+
+
 function add_cart(id) {
     $.get(
         "/add_panier",
