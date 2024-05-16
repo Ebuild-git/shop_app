@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/like_post', [LikesController::class, 'like_post'])->name('like_post');
 
     //gestion des favoris
-    Route::get('/favoris', [FavorisController::class, 'like_post'])->name('favoris');
+    Route::get('/favoris', [FavorisController::class, 'index'])->name('favoris');
     Route::get('/remove_favoris', [FavorisController::class, 'remove_favoris'])->name('remove_favoris');
     Route::get('/ajouter_favoris', [FavorisController::class, 'ajouter_favoris'])->name('ajouter_favoris');
 
