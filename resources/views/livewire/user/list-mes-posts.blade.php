@@ -84,7 +84,7 @@
                                 </button>
                             </a>
                         @endif
-                        @if ($item->sell_at == null && $item->verified_at == null)
+                        @if ($item->sell_at == null )
                             <button class="btn btn-sm btn-info" data-toggle="modal"
                                 data-target="#exampleModal-{{ $item->id }}">
                                 <i class="bi bi-pencil-square"></i>

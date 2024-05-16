@@ -27,7 +27,7 @@ class UpdatePrix extends Component
 
            // $this->dispatch('update-price');
 
-           return redirect()->route('details_post',['id' => $post->id]);
+           return redirect()->route('details_post_single',['id' => $post->id]);
 
         }
     }
