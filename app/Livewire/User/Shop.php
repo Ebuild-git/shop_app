@@ -15,7 +15,7 @@ class Shop extends Component
 {
     use WithPagination;
 
-    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $total, $etat, $filtre, $ordre2;
+    public $gouvernorat, $liste_categories, $key, $categorie, $ordre, $prix_minimun, $prix_maximun, $sous_categorie, $etat, $filtre, $ordre2;
     public $luxury_only = false;
     public $proprietes_sous_cat = [];
     public $key2;
@@ -114,10 +114,10 @@ class Shop extends Component
 
     public function render()
     {
-        $this->total = posts::count();
+        $total = posts::whereNotNull('verified_at')->count();
         $this->liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury"]);
 
-        $query = posts::where('statut', 'vente');
+        $query = posts::whereNotNull('verified_at')->where('statut', 'vente');
 
         if (!empty($this->ordre2)) {
             $query->orderBy('prix', ($this->ordre2 == "Desc") ? 'DESC' : 'ASC');
@@ -184,7 +184,7 @@ class Shop extends Component
 
 
 
-        return view('livewire.user.shop', ['posts' => $query->paginate(30), "regions" => $regions]);
+        return view('livewire.user.shop', ['posts' => $query->paginate(30), "regions" => $regions, "total"=>$total]);
     }
 
 
