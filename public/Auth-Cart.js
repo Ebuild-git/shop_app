@@ -89,12 +89,10 @@ function remove_favoris(id) {
     );
 }
 
-
 $(document).ready(function () {
-
     // Ajouter un post à mes favoris
     $(".btn-add-favoris").on("click", function () {
-        var button = $(this); 
+        var button = $(this);
         var id_post = button.data("id");
         $.get(
             "/ajouter_favoris",
@@ -103,15 +101,27 @@ $(document).ready(function () {
             },
             function (data, status) {
                 if (status === "success") {
-                    button.addClass("btn-favoris-added");
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        text: data.message,
-                        showConfirmButton: false,
-                        timer: 2500,
-                        customClass: "swal-wide",
-                    });
+                    if (data.action == "ajouté") {
+                        button.addClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            customClass: "swal-wide",
+                        });
+                    } else {
+                        button.removeClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+                    }
+                   
                 }
             }
         );

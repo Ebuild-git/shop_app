@@ -47,17 +47,18 @@ class FavorisController extends Controller
                     return response()->json(
                         [
                             "status" => true,
-                            "ajouter" => true,
+                            "action" => "ajouté",
                             "message" => "Annonce Ajouté aux favoris !"
                         ]
                     );
                 }
             } else {
+                $favoris->delete();
                 return response()->json(
                     [
                         "status" => true,
-                        "ajouter" => true,
-                        "message" => "Annonce deja ajouté aux favoris !"
+                        "action" => "retiré",
+                        "message" => "Annonce retiré des favoris !"
                     ]
                 );
             }
@@ -65,7 +66,7 @@ class FavorisController extends Controller
             return response()->json(
                 [
                     "status" => false,
-                    "ajouter" => false,
+                    "action" => false,
                     "message" => "Annonce introuvable !"
                 ]
             );

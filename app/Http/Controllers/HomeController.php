@@ -58,6 +58,14 @@ class HomeController extends Controller
         if (!$post) {
             abort(404);
         }
+
+        //si un user est connecter verifier si ce post est dans ses favoris
+        if (Auth::check()) {
+            $isFavorited =  favoris::where('id_post', $post->id)->where('id_user',Auth::user()->id)->exists();
+        }else{
+            $isFavorited = false;
+        }
+
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
             ->select("titre", "photos", "prix", "id", "statut", "id_sous_categorie")
             ->where("verified_at", '!=', null)
@@ -66,8 +74,14 @@ class HomeController extends Controller
             ->get();
         return view('User.details')
             ->with("post", $post)
+            ->with("isFavorited",$isFavorited)
             ->with("other_products", $other_product);
     }
+
+
+
+
+
 
     public function user_profile($id)
     {
