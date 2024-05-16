@@ -25,6 +25,7 @@ class FormUpdateCategorie extends Component
 
     public function render()
     {
+        $this->region_prix = [];
         $this->categorie = categories::find($this->id);
         $this->titre = $this->categorie->titre;
         $this->icon = $this->categorie->icon;

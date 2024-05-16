@@ -36,7 +36,8 @@
         .zoom-up-details img {
             width: 30px !important;
         }
-        .modal-view-img{
+
+        .modal-view-img {
             max-height: 80vh !important;
         }
     </style>
@@ -203,6 +204,41 @@
                                     </div>
                                 </div>
                             </div>
+                            <br>
+                            @auth
+                                @if ($post->id_user != Auth::id())
+                                    <div class="prt_05 mb-4">
+                                        <div class="form-row mb-7">
+                                            @if ($post->statut == 'vente')
+                                                <div class="col-12 col-lg">
+                                                    <span>
+                                                        @auth
+                                                            <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                                                onclick="add_cart({{ $post->id }})">
+                                                                <i class="lni lni-shopping-basket mr-2"></i>
+                                                                Ajouter au panier
+                                                            </button>
+                                                        @endauth
+                                                    </span>
+                                                </div>
+                                            @endif
+                                            @auth
+                                                <div class="col-12 col-lg-auto">
+                                                    @if (Auth::id() != $post->id_user)
+                                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
+                                                    @endif
+                                                </div>
+                                            @endauth
+                                        </div>
+                                    </div>
+                                @endif
+                                <div>
+                                    <p class="text-center pr-5 pl-5">
+                                        En poursuivant votre commande, vous acceptez les
+                                        <a href="{{ route('conditions') }}"><b>Conditions générales</b></a> de SHOPIN.
+                                    </p>
+                                </div>
+                            @endauth
                             <hr>
                             <div class="prt_03 mb-4">
                                 <b class="text-black h5">Détails</b>
@@ -252,41 +288,6 @@
                                 <b class="text-black h5">Description</b>
                                 <p>
                                     {!! $post->description !!}
-                                </p>
-                            </div>
-
-                            @auth
-                                @if ($post->id_user != Auth::id())
-                                    <div class="prt_05 mb-4">
-                                        <div class="form-row mb-7">
-                                            @if ($post->statut == 'vente')
-                                                <div class="col-12 col-lg">
-                                                    <span>
-                                                        @auth
-                                                            <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
-                                                                onclick="add_cart({{ $post->id }})">
-                                                                <i class="lni lni-shopping-basket mr-2"></i>
-                                                                Ajouter au panier
-                                                            </button>
-                                                        @endauth
-                                                    </span>
-                                                </div>
-                                            @endif
-                                            @auth
-                                                <div class="col-12 col-lg-auto">
-                                                    @if (Auth::id() != $post->id_user)
-                                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
-                                                    @endif
-                                                </div>
-                                            @endauth
-                                        </div>
-                                    </div>
-                                @endif
-                            @endauth
-                            <div>
-                                <p class="text-center">
-                                    En poursuivant votre commande, vous acceptez les
-                                    <a href="{{ route('conditions') }}"><b>Conditions générales</b></a> de SHOPIN.
                                 </p>
                             </div>
 
@@ -410,10 +411,10 @@
 
 
     <!-- Modal view-->
-    <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+    <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
         aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form" role="document">
-            <img src="" id="modal-view" alt="image" class="zoom-in w-100 modal-view-img">
+            <img src="" id="modal-view-image" alt="image" class="zoom-in w-100 modal-view-img">
         </div>
     </div>
     <!-- End Modal -->
@@ -429,9 +430,9 @@
                 //get url in src on this
                 var url = $(this).attr("src");
                 //add image on modal-view
-                $('#modal-view').attr("src", url);
+                $('#modal-view-image').attr("src", url);
                 //open modal
-                $('#login').modal("show");
+                $('#Modal-view').modal("show");
             });
         });
     </script>

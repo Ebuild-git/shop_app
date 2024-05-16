@@ -6,13 +6,14 @@ use App\Models\categories;
 use App\Models\proprietes;
 use App\Models\regions;
 use App\Models\regions_categories;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo,  $pourcentage_gain, $list_regions;
+    public $titre, $description, $photo,  $pourcentage_gain, $list_regions,$small_icon;
     
     public $regions = [];
     protected $listeners = ['regionCreated' => '$refresh'];
@@ -32,6 +33,7 @@ class FormCreateCategorie extends Component
             'description' => ['nullable', 'string'],
             'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:10048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
+            'small_icon' => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:1048',
         ]);
 
 
@@ -44,6 +46,10 @@ class FormCreateCategorie extends Component
         $categorie->description = $this->description;
         $categorie->icon = $newName;
         $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
+        if ($this->small_icon) {
+            $categorie->small_icon = $this->small_icon->store('uploads/categories', 'public');
+        }
+        
         if ($categorie->save()) {
             foreach ($this->regions as $cle => $valeur) {
                 $regions_categorie = new regions_categories();

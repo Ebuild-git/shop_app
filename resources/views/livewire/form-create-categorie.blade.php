@@ -10,27 +10,17 @@
                     {{ $message }}
                 </div>
             @enderror
-            <div class="row">
-                <div class="col-sm-6">
-                    <label for="">Marge de gain ( % ) </label>
-                    <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1"
-                        class="form-control" requireddd>
-                    @error('pourcentage_gain')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="col-sm-6">
-                    <label for="">Image d'illustration </label>
-                    <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
-                    @error('photo')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
+            <div class="mb-3">
+                <label for="">Marge de gain ( % ) </label>
+                <input type="text" wire:model ="pourcentage_gain" min="0" step="0.1" class="form-control"
+                    requireddd>
+                @error('pourcentage_gain')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
 
             <label for="">description </label>
             <textarea class="form-control" wire:model="description" rows="3" requireddd></textarea>
@@ -51,13 +41,25 @@
                     <img src="https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg" alt="..">
                 </div>
             @endif
-            <label for="">Image d'illustration </label>
-            <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
-            @error('photo')
-                <div class="text-danger">
-                    {{ $message }}
-                </div>
-            @enderror
+            <div class="mb-3">
+                <label for="">Image d'illustration </label>
+                <input type="file" wire:model="photo" wire:target="photo" class="form-control" requireddd>
+                @error('photo')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div>
+                <label for="">Icône</label>
+                <input type="file" class="form-control" wire:model="small_icon">
+                @error('small_icon')
+                    <div class="text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
 
         <div class="col-sm-4">
