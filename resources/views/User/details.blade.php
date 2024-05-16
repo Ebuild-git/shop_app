@@ -147,23 +147,23 @@
                             <tr>
                                 <td>
                                     <div class="avatar-shopinner-details">
-                                    <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
-                                </div>
+                                        <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
+                                    </div>
                                 </td>
                                 <td>
                                     <h4 class="h6">
-                                            <a href="/user/{{ $user->id }}" class="h4">
-                                                {{ $user->username }}
-                                            </a>
+                                        <a href="/user/{{ $user->id }}" class="h4">
+                                            {{ $user->username }}
+                                        </a>
                                     </h4>
                                     <div>
                                         @php
                                             $count = number_format($user->averageRating->average_rating ?? 1);
                                             $avis = $user->getReviewsAttribute->count();
                                         @endphp
-                                        
-                                        <x-Etoiles  :count="$count" :avis="$avis" ></x-Etoiles>
-                                    
+
+                                        <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
+
                                         <div>
                                             <span>
                                                 <b> {{ $avis }} </b> avis
@@ -206,21 +206,9 @@
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                             <div class="prt_02 mb-5 mt-3">
-                                <div class="d-flex justify-content-between">
-                                    <h2 class=" mb-1 mt-2 text-capitalize">
-                                        {{ $post->titre }}
-                                    </h2>
-                                    @auth
-                                        <div class="pt-3">
-                                            @if (Auth::id() != $post->id_user)
-                                                <h1 class="h6 text-danger cursor" data-toggle="modal" data-target="#signaler">
-                                                    <i class="bi bi-exclamation-octagon"></i>
-                                                    Signaler
-                                                </h1>
-                                            @endif
-                                        </div>
-                                    @endauth
-                                </div>
+                                <h2 class=" mb-1 mt-2 text-capitalize">
+                                    {{ $post->titre }}
+                                </h2>
 
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
@@ -265,6 +253,17 @@
                                 Ajouter aux favoris
                             </button>
                             <br>
+                            @auth
+                                <div class="text-center">
+                                    @if (Auth::id() != $post->id_user)
+                                        <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                            <i class="bi bi-exclamation-octagon"></i>
+                                            Signaler cette annonce.
+                                        </span>
+                                        <br><br>
+                                    @endif
+                                </div>
+                            @endauth
                             <div>
                                 <p class="text-center pr-5 pl-5">
                                     En poursuivant votre commande, vous acceptez les
@@ -441,7 +440,7 @@
                         <div class="text-center mb-4">
                             <h1 class="m-0 ft-regular h5 text-danger">
                                 <i class="bi bi-exclamation-octagon"></i>
-                                Signaler une publication.
+                                Signaler une l'annonce.
                             </h1>
                             <span class="text-muted">
                                 " {{ $post->titre }} "
