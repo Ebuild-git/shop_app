@@ -3,8 +3,6 @@
 @section('content')
 @section('body')
 
-
-
     <style>
         .navbar {}
 
@@ -74,9 +72,19 @@
         .subnav:hover .subnav-content {
             display: block;
         }
+
+        .list-proprietes:hover .attribut {
+            display: block !important;
+            transition: 0.5s !important;
+        }
+
+        .list-proprietes {
+            transition: 0.5s !important;
+        }
     </style>
 
-    <!-- ======================= Filter Wrap Style 1 ======================== -->
+
+
 
     <div class="navbar container">
         @foreach ($categories as $cat)
@@ -104,20 +112,6 @@
         @endforeach
     </div>
 
-
-<style>
-    .list-proprietes:hover .attribut{
-        display:  block !important;
-        transition: 0.5s !important;
-    }
-    .list-proprietes{
-        transition: 0.5s !important;
-    }
-</style>
-
-
-
-    <!-- ============================= Filter Wrap ============================== -->
 
 
     <!-- ======================= All Product List ======================== -->

@@ -65,3 +65,26 @@ function remove_liked(id) {
         }
     );
 }
+
+//retiitrer une publication de ma liste de favoris
+function remove_favoris(id) {
+    $.get(
+        "remove_favoris",
+        {
+            id_favoris: id,
+        },
+        function (data, status) {
+            if (status) {
+                $("#tr-"+id).hide("slow");
+                Swal.fire({
+                    position: "center",
+                    icon: false,
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: "swal-wide",
+                });
+            }
+        }
+    );
+}

@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\InformationsController;
+use App\Http\Controllers\LikesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
@@ -57,7 +59,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
-    Route::get('/favoris', [ControllersHomeController::class, 'favoris'])->name('favoris');
+  
    
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
@@ -67,8 +69,12 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
 
     // gestion des like des posts
-    Route::get('/liked', [ControllersHomeController::class, 'liked'])->name('liked');
-    Route::get('remove_liked', [ControllersHomeController::class, 'remove_liked'])->name('remove_liked');
+    Route::get('/liked', [LikesController::class, 'index'])->name('liked');
+    Route::get('/remove_liked', [LikesController::class, 'remove_liked'])->name('remove_liked');
+
+    //gestion des favoris
+    Route::get('/favoris', [FavorisController::class, 'index'])->name('favoris');
+    Route::get('/remove_favoris', [FavorisController::class, 'remove_favoris'])->name('remove_favoris');
 
 
     Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');

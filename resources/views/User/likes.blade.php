@@ -44,9 +44,10 @@
                                                 srcset="">
                                         </div>
                                         <div class="my-auto">
-                                           <div class="h5">
+                                           <a href="{{ route('details_post_single',['id'=> $like->post->id])}}" class="h6">
                                             {{ $like->post->titre }}
-                                           </div>
+                                           </a>
+                                           <br>
                                             <span class="small">
                                                 Publié le   {{ $like->post->created_at }}
                                             </span>

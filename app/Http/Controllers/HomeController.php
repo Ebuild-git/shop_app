@@ -8,6 +8,7 @@ use App\Events\UserEvent;
 use App\Mail\VerifyMail;
 use App\Models\categories;
 use App\Models\configurations;
+use App\Models\favoris;
 use App\Models\likes;
 use App\Models\notifications;
 use App\Models\posts;
@@ -391,10 +392,7 @@ class HomeController extends Controller
     }
 
 
-    public function favoris()
-    {
-        return view("User.favoris");
-    }
+   
 
     public function index_mes_achats()
     {
@@ -482,26 +480,7 @@ class HomeController extends Controller
 
 
 
-    public function liked(){
-        return view("User.likes");
-    }
-
-
-
-    public function remove_liked(Request $request){
-        $id_like = $request->get("id_like");
-        $like = likes::where("id",$id_like)->where("id_user",Auth::user()->id)->first();
-        if($like){
-            $like->delete();
-            return response()->json(
-                [
-                    "status" => true,
-                    "message"=> "Annonce rétiré !"
-                ]
-            );
-        }
-
-    }
+    
 
 
 }
