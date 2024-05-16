@@ -204,7 +204,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
                             @auth
                                 @if ($post->id_user != Auth::id())
                                     <div class="prt_05 mb-4">
@@ -213,7 +212,7 @@
                                                 <div class="col-12 col-lg">
                                                     <span>
                                                         @auth
-                                                            <button type="button" class="btn btn-block custom-height bg-dark mb-2 "
+                                                            <button type="button" class="btn btn-block bg-dark mb-2 "
                                                                 onclick="add_cart({{ $post->id }})">
                                                                 <i class="lni lni-shopping-basket mr-2"></i>
                                                                 Ajouter au panier
@@ -222,13 +221,10 @@
                                                     </span>
                                                 </div>
                                             @endif
-                                            @auth
-                                                <div class="col-12 col-lg-auto">
-                                                    @if (Auth::id() != $post->id_user)
-                                                        @livewire('User.BtnAddFavoris', ['id_post' => $post->id])
-                                                    @endif
-                                                </div>
-                                            @endauth
+                                            <button class="btn btn-default btn-block btn-add-favoris" type="button" data-id="{{ $post->id }}">
+                                                    <i class="lni lni-heart mr-2"></i>
+                                                Ajouter aux favoris
+                                            </button>
                                         </div>
                                     </div>
                                 @endif

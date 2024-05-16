@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     //gestion des favoris
     Route::get('/favoris', [FavorisController::class, 'index'])->name('favoris');
     Route::get('/remove_favoris', [FavorisController::class, 'remove_favoris'])->name('remove_favoris');
+    Route::get('/ajouter_favoris', [FavorisController::class, 'ajouter_favoris'])->name('ajouter_favoris');
 
 
     Route::get('/informations', [ControllersHomeController::class, 'informations'])->name('mes_informations');

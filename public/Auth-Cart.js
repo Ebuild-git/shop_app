@@ -52,7 +52,7 @@ function remove_liked(id) {
         },
         function (data, status) {
             if (status) {
-                $("#tr-"+id).hide("slow");
+                $("#tr-" + id).hide("slow");
                 Swal.fire({
                     position: "center",
                     icon: false,
@@ -69,13 +69,13 @@ function remove_liked(id) {
 //retiitrer une publication de ma liste de favoris
 function remove_favoris(id) {
     $.get(
-        "remove_favoris",
+        "/remove_favoris",
         {
             id_favoris: id,
         },
         function (data, status) {
             if (status) {
-                $("#tr-"+id).hide("slow");
+                $("#tr-" + id).hide("slow");
                 Swal.fire({
                     position: "center",
                     icon: false,
@@ -88,3 +88,32 @@ function remove_favoris(id) {
         }
     );
 }
+
+
+$(document).ready(function () {
+
+    // Ajouter un post à mes favoris
+    $(".btn-add-favoris").on("click", function () {
+        var button = $(this); 
+        var id_post = button.data("id");
+        $.get(
+            "/ajouter_favoris",
+            {
+                id_post: id_post,
+            },
+            function (data, status) {
+                if (status === "success") {
+                    button.addClass("btn-favoris-added");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2500,
+                        customClass: "swal-wide",
+                    });
+                }
+            }
+        );
+    });
+});

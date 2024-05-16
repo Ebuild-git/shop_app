@@ -13,6 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <link rel="stylesheet" href="{{asset('style.css?v=').time()}}">
     <script src="{{asset('Cart.jsv=').time()}}"></script>
     @auth
