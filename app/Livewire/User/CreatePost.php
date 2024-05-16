@@ -43,9 +43,6 @@ class CreatePost extends Component
         if ($value != "x") {
             $c = sous_categories::where("id_categorie", $value)->get();
             $this->sous_categories = $c;
-            if (!is_null($value) && !is_null($this->region) && !is_null($this->prix)) {
-                $this->calcule_estimation($this->region, $value, $this->prix);
-            }
         } else {
             $this->selectedCategory = null;
         }
