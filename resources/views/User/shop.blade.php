@@ -58,7 +58,6 @@
         }
 
         .subnav-content a {
-            text-align: left !important;
             color: white;
             font-size: 12px;
             text-decoration: none;
@@ -68,7 +67,18 @@
             color: rgb(255, 255, 255);
             font-weight: bold;
         }
-
+        .subnav-content button{
+            background-color: unset !important;
+            color: white !important;
+            border: none !important;
+        }
+        .subnav-content button:hover{
+            border-radius: 5px !important;
+            background-color: white !important;
+            color: #008080 !important;
+            font-weight: bold !important;
+            cursor: pointer;
+        }
         .subnav:hover .subnav-content {
             display: block;
         }
@@ -101,12 +111,14 @@
                     </span>
                     <i class="fa fa-caret-down"></i>
                 </button>
-                <div class="subnav-content">
-                    @foreach ($cat->getSousCategories as $item)
-                        <a href="#bring">
-                            {{ $item->titre }}
-                        </a>
-                    @endforeach
+                <div class="subnav-content p-2">
+                    <div class="d-flex flex-row">
+                        @foreach ($cat->getSousCategories as $item)
+                            <button type="button" class="p-1">
+                                {{ $item->titre }}
+                            </button>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         @endforeach
