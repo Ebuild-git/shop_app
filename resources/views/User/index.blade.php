@@ -182,7 +182,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="position-relative text-center">
-                            <a href="/shop"
+                            <a href="/shop?luxury_only=true"
                                 class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
                                     Voir Plus
@@ -281,7 +281,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="position-relative text-center">
-                        <a href="/shop?luxury_only=false" class="btn stretched-link borders">
+                        <a href="/shop" class="btn stretched-link borders">
                             <span class="voir-plus-home-texte">
                                 Voir Plus
                             </span>
