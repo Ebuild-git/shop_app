@@ -375,7 +375,7 @@
                                         @csrf
                                         <div class="input-group mb-3">
                                             <input type="text" id="myInputRecherche"
-                                                class="transition-width myInputRecherche cusor" name="key"
+                                                class="transition-width myInputRecherche zoom-in cusor" name="key"
                                                 placeholder="Recherche un article">
                                             <a class="btn bg-red p-2" href="/publication" type="button">
                                                 <i class="lni lni-circle-plus"></i>
