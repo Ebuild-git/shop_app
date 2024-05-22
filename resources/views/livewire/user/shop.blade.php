@@ -13,6 +13,40 @@
             color: white !important;
         }
     </style>
+
+
+
+
+    <div class="navbar container">
+        @foreach ($liste_categories as $cat)
+            <div class="subnav">
+                <button class="subnavbtn">
+                    <div>
+                        <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
+                    </div>
+                    <span class="titre">
+                        @if ($cat->luxury == true)
+                            <i class="bi bi-gem color"></i>
+                        @endif
+                        {{ $cat->titre }}
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="subnav-content p-2">
+                    <div class="d-flex flex-wrap">
+                        @foreach ($cat->getSousCategories as $item)
+                            <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
+                                {{ $item->titre }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <br><br>
+
     <div class="container">
         <div class="row">
 
