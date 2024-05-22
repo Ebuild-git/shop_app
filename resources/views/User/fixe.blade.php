@@ -320,7 +320,7 @@
 
                             <li>
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown nav-submenu p-0 "
+                                <ul class="nav-dropdown-xxx nav-submenu-xxx p-0 d-none "
                                     style="width: 300px !important;direction: ltr !important">
                                     @forelse ($categories as $item)
                                         <li>
