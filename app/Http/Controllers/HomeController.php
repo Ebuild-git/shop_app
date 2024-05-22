@@ -469,8 +469,8 @@ class HomeController extends Controller
         } else {
             $luxury_only == "true";
         }
-        $categories = categories::Orderby("order")->select("id", "titre", "small_icon", "luxury")->get();
-        return view('User.shop', compact("categorie", "sous_categorie", "key", "luxury_only", "categories"));
+       
+        return view('User.shop', compact("categorie", "sous_categorie", "key", "luxury_only"));
     }
 
 

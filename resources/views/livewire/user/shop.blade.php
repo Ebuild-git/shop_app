@@ -28,7 +28,7 @@
                         @if ($cat->luxury == true)
                             <i class="bi bi-gem color"></i>
                         @endif
-                        {{ $cat->titre }}
+                        {!! str_replace('&', '&<br>', $cat->titre) !!}
                     </span>
                     <i class="fa fa-caret-down"></i>
                 </button>
