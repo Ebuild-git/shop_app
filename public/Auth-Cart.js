@@ -1,4 +1,9 @@
-
+//ouvrir le modal pour modifier le prix du post
+function Update_post_price(id){
+    //envoyer mon id au composant update price
+    Livewire.dispatch('setPostId', {id: id});
+    $("#Modal-Update-Post-Price").modal('toggle');
+}
 
 
 function add_cart(id) {
@@ -148,4 +153,8 @@ $(document).ready(function () {
             }
         );
     });
+
+
+
+    
 });

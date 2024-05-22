@@ -30,15 +30,18 @@ class HomeController extends Controller
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
+            ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
             ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
-            ->take(12)->get();
+            ->take(12)
+            ->get();
+
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
-            ->orderby("posts.created_at","Desc")
+            ->orderby("posts.created_at", "Desc")
             ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
             ->take(8)->get();
-        return view("User.index", compact("categories","configuration", "last_post", "luxurys"));
+        return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
     }
 
     public function index_post(Request $request)
@@ -62,9 +65,9 @@ class HomeController extends Controller
 
         //si un user est connecter verifier si ce post est dans ses favoris
         if (Auth::check()) {
-            $isFavorited =  favoris::where('id_post', $post->id)->where('id_user',Auth::user()->id)->exists();
-            $isLiked = likes::where('id_post', $post->id)->where('id_user',Auth::user()->id)->exists();
-        }else{
+            $isFavorited =  favoris::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
+            $isLiked = likes::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
+        } else {
             $isFavorited = false;
             $isLiked = false;
         }
@@ -77,9 +80,9 @@ class HomeController extends Controller
             ->get();
         return view('User.details')
             ->with("post", $post)
-            ->with("user",$user)
-            ->with("isFavorited",$isFavorited)
-            ->with("isLiked",$isLiked)
+            ->with("user", $user)
+            ->with("isFavorited", $isFavorited)
+            ->with("isLiked", $isLiked)
             ->with("other_products", $other_product);
     }
 
@@ -411,7 +414,7 @@ class HomeController extends Controller
     }
 
 
-   
+
 
     public function index_mes_achats()
     {
@@ -461,13 +464,13 @@ class HomeController extends Controller
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         $key = $request->input("key", '');
         $luxury_only = $request->get('luxury_only') ?? null;
-        if(is_null($luxury_only)){
+        if (is_null($luxury_only)) {
             $luxury_only == "false";
-        }else{
+        } else {
             $luxury_only == "true";
         }
-        $categories = categories::Orderby("order")->select("id","titre","small_icon","luxury")->get();
-        return view('User.shop', compact("categorie", "sous_categorie", "key","luxury_only","categories"));
+        $categories = categories::Orderby("order")->select("id", "titre", "small_icon", "luxury")->get();
+        return view('User.shop', compact("categorie", "sous_categorie", "key", "luxury_only", "categories"));
     }
 
 
@@ -496,10 +499,4 @@ class HomeController extends Controller
             "total" => $user->categoriesWhereUserPosted->count()
         ]);
     }
-
-
-
-    
-
-
 }

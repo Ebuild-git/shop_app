@@ -6,15 +6,22 @@ use App\Models\History_change_price;
 use App\Models\posts;
 use Livewire\Component;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePrix extends Component
 {
-    public $post, $prix;
+    public $post, $prix, $old_price;
+    public $postId;
 
-    public function mount($post)
+    protected $listeners = ['setPostId'];
+
+    public function setPostId($id)
     {
-        $this->post = $post;
+        $post = posts::where('id', $id)->where('id_user', Auth::user()->id)->first();
+        if ($post) {
+            $this->old_price = $post->prix;
+            $this->post = $post;
+        }
     }
 
     public function render()
@@ -26,10 +33,11 @@ class UpdatePrix extends Component
     {
         //vlidation
         $this->validate([
-            'prix' => 'required|numeric',
+            'prix' => 'required|numeric|min:1',
         ], [
             'prix.required' => 'Le prix est obligatoire',
             'prix.numeric' => 'Le prix doit être un nombre',
+            'prix.min' => 'Le prix doit être supérieur a 1 DH',
         ]);
 
         $oneWeekAgo = Carbon::now()->subWeek();
@@ -57,6 +65,7 @@ class UpdatePrix extends Component
                 // Aucun changement de prix n'a été effectué dans les 7 derniers jours
                 $post->old_prix = $post->prix;
                 $post->prix = $this->prix;
+                $post->updated_price_at = now();
                 $post->save();
 
 

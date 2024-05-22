@@ -827,6 +827,39 @@
     <!-- End Modal -->
 
     @auth
+
+
+    <!-- Log In Modal -->
+    <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
+        aria-labelledby="UpdatePrice" aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="UpdatePrice">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h1 class="m-0 ft-regular h6">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Modifier le prix
+                        </h1>
+                        <span class="text-muted">
+                        </span>
+                    </div>
+                    <div style="text-align: left;">
+                        @livewire('User.UpdatePrix') 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+
+
         <!-- Condition Modal -->
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
             aria-hidden="true">

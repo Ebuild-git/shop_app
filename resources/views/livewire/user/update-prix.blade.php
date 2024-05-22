@@ -1,12 +1,12 @@
 <div>
     <b>Prix actuel :</b>
-    {{ $post->prix }} DH
+    {{ $old_price }} DH
     <br><br>
     <form wire:submit='form_update_prix'>
         <label for="">
             Nouveau prix
         </label>
-        <input type="number" class="form-control" placeholder="{{ $post->prix }} DH" required step="0.1"
+        <input type="number" class="form-control" placeholder="{{ $old_price }} DH" required step="0.1"
             wire:model='prix'>
         @error('prix')
             <span class="small text-danger">

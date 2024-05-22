@@ -28,6 +28,7 @@ return new class extends Migration
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
             $table->timestamp("delivered_at")->nullable()->default(null);
+            $table->timestamp("updated_price_at")->nullable()->default(null);
             $table->enum("statut",["validation","vente","vendu","livraison","livré","refusé"])->default("validation");
             $table->timestamps();
             $table->softDeletes();

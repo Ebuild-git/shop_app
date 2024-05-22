@@ -250,11 +250,11 @@
                             @endauth
                             @auth
                                 @if (Auth::id() == $post->id_user)
-                                    <a href="{{ route('mes-publication') }}" class="btn btn-default btn-block mb-2"
+                                    <button type="button" onclick="Update_post_price({{ $post->id }})" class="btn btn-default btn-block mb-2"
                                         type="button">
                                         <i class="bi bi-pencil-square"></i>
                                         Modifier le prix
-                                    </a>
+                                    </button>
                                 @endif
                                 @if (Auth::id() != $post->id_user)
                                     <button

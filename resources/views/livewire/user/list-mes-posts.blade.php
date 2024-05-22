@@ -85,40 +85,10 @@
                             </a>
                         @endif
                         @if ($item->sell_at == null )
-                            <button class="btn btn-sm btn-info" data-toggle="modal"
-                                data-target="#exampleModal-{{ $item->id }}">
+                            <button class="btn btn-sm btn-info" onclick="Update_post_price({{ $item->id }})">
                                 <i class="bi bi-pencil-square"></i>
                                 Modifer le prix
                             </button>
-
-                            <!-- Log In Modal -->
-                            <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="1" role="dialog"
-                                aria-labelledby="loginmodal" aria-hidden="true">
-                                <div class="modal-dialog modal-xl login-pop-form" role="document">
-                                    <div class="modal-content" id="loginmodal">
-                                        <div class="modal-headers">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span class="ti-close"></span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body p-5">
-                                            <div class="text-center mb-4">
-                                                <h1 class="m-0 ft-regular h6">
-                                                    <i class="bi bi-exclamation-octagon"></i>
-                                                    Modifier le prix
-                                                </h1>
-                                                <span class="text-muted">
-                                                </span>
-                                            </div>
-                                            <div style="text-align: left;">
-                                                @livewire('User.UpdatePrix', ['post' => $item])
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Modal -->
                         @endif
                         @if ($item->statut == 'validation' || $item->statut == 'vente')
                             <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"
