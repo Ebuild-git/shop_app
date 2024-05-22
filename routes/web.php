@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account'])->name('verify_account');
-Route::get('/reset/{token}', [Security::class, 'reset_password']);
+Route::get('/reset/{token}', [Security::class, 'reset_password'])->name('reset_password');
 Route::get('/shop', [ControllersHomeController::class, 'shop'])->name('shop');
 Route::get('/about', [ControllersHomeController::class, 'about'])->name('about');
 Route::get('/how_buy', [ControllersHomeController::class, 'how_buy'])->name('how_buy');

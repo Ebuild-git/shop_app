@@ -22,7 +22,7 @@ class Shop extends Component
 
     public function mount($categorie, $key, $sous_categorie, $luxury_only)
     {
-        if ($luxury_only == true) {
+        if ($luxury_only == "true") {
             $this->luxury_only = true;
         }
         $this->categorie = $categorie;

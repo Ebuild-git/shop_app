@@ -6,9 +6,15 @@
         <label for="">
             Nouveau prix
         </label>
-        <input type="number" class="form-control" step="0.1" wire:model='prix'>
+        <input type="number" class="form-control" placeholder="{{ $post->prix }} DH" required step="0.1"
+            wire:model='prix'>
+        @error('prix')
+            <span class="small text-danger">
+                {{ $message }}
+            </span>
+        @enderror
         <br>
-        
+
         @include('components.alert-livewire')
 
         <div class="modal-footer">
@@ -16,7 +22,7 @@
                 <span wire:loading>
                     <x-Loading></x-Loading>
                 </span>
-                Enregistrer le changement.
+                Enregistrer le changement
             </button>
         </div>
     </form>

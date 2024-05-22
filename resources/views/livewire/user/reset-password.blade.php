@@ -38,7 +38,10 @@
             </div>
             <br>
             <br>
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-between">
+                <div class="my-auto">
+                    <a href="{{ route('connexion') }}" id="#login" class="link">Connexion</a>
+                </div>
                 <div>
                     <button type="submit" class="btn bg-red shadow-none" id="btn-submit">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"

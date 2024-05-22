@@ -12,9 +12,6 @@
                     class="img" alt="" srcset="">
             </div>
             <div class="col-sm-6 ">
-                <h4>
-                    Vendez <span class="color-orange">Maintenant</span>
-                </h4>
                 <hr>
                 <h4>
                     Connexion

@@ -113,7 +113,8 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    <button type="button" class="btn-like-details btn-like-post @if ($isLiked) btn-favoris-added @endif"
+                                    <button type="button"
+                                        class="btn-like-details btn-like-post @if ($isLiked) btn-favoris-added @endif"
                                         @guest data-toggle="modal" data-target="#login" @endguest
                                         data-id="{{ $post->id }}">
                                         <div class="d-flex justify-content-between">
@@ -214,12 +215,14 @@
                                     <div class="elis_rty mt-2">
                                         @if ($post->old_prix)
                                             <span class=" color fs-lg">
-                                                {{ $post->getPrix() }} DH
+                                                <strike>
+                                                    {{ $post->getOldPrix() }}
+                                                </strike> DH
                                             </span>
                                             <br>
-                                            <strike class="text-danger">
-                                                {{ $post->getOldPrix() }} DH
-                                            </strike>
+                                            <span class="text-danger">
+                                                {{ $post->getPrix() }} DH
+                                            </span>
                                         @else
                                             <span class="ft-bold color fs-lg">
                                                 {{ $post->getPrix() }} DH
@@ -245,24 +248,31 @@
                                     @endauth
                                 @endif
                             @endauth
-                            <button
-                                class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif "
-                                type="button" @guest data-toggle="modal" data-target="#login" @endguest
-                                data-id="{{ $post->id }}">
-                                <i class="lni lni-heart mr-2"></i>
-                                Ajouter aux favoris
-                            </button>
-                            <br>
                             @auth
-                                <div class="text-center">
-                                    @if (Auth::id() != $post->id_user)
+                                @if (Auth::id() == $post->id_user)
+                                    <a href="{{ route('mes-publication') }}" class="btn btn-default btn-block mb-2"
+                                        type="button">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Modifier le prix
+                                    </a>
+                                @endif
+                                @if (Auth::id() != $post->id_user)
+                                    <button
+                                        class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif "
+                                        type="button" @guest data-toggle="modal" data-target="#login" @endguest
+                                        data-id="{{ $post->id }}">
+                                        <i class="lni lni-heart mr-2"></i>
+                                        Ajouter aux favoris
+                                    </button>
+                                    <br>
+                                    <div class="text-center">
                                         <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
                                             <i class="bi bi-exclamation-octagon"></i>
                                             Signaler cette annonce.
                                         </span>
                                         <br><br>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             @endauth
                             <div>
                                 <p class="text-center pr-5 pl-5">

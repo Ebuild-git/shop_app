@@ -5,7 +5,7 @@
         @php
             $prix_total = 0;
         @endphp
-        @forelse ($cart as $item)
+        @forelse ($cart ?? [] as $item)
             @php
                 $post = DB::table('posts')
                     ->where('id', $item['id'])

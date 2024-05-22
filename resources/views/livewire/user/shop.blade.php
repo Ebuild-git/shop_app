@@ -9,7 +9,7 @@
         }
 
         .card-hover-titre {
-            background-color: black !important;
+            background-color: #f33066 !important;
             color: white !important;
         }
     </style>
@@ -111,23 +111,24 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor "
                                                 wire:click="choix_etat('Neuf avec étiquettes')">
                                                 Neuf avec étiquettes
                                             </button>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor"
                                                 wire:click="choix_etat('Neuf sans étiquettes')">
                                                 Neuf sans étiquettes
                                             </button>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor"
                                                 wire:click="choix_etat('Très bon état')">
                                                 Très bon état
                                             </button>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor"
                                                 wire:click="choix_etat('Bon état')">
                                                 Bon état
                                             </button>
-                                            <button type="button" class="btn-etat-shop" wire:click="choix_etat('Usé')">
+                                            <button type="button" class="btn-etat-shop cusor"
+                                                wire:click="choix_etat('Usé')">
                                                 Usé
                                             </button>
                                             @error('etat')
@@ -151,11 +152,11 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor"
                                                 wire:click="choix_ordre('Desc')">
                                                 Moins couteux au plus couteux
                                             </button>
-                                            <button type="button" class="btn-etat-shop"
+                                            <button type="button" class="btn-etat-shop cusor"
                                                 wire:click="choix_ordre('Asc')">
                                                 Plus couteux au moins couteux
                                             </button>
@@ -247,20 +248,23 @@
                 {{-- suggestion des attributs des propriétés --}}
                 @if ($proprietes_sous_cat)
                     <div class="card p-2 mb-3">
+                        <p>
+                            Veuillez choisir les propriétés pour une recherche plus exact.
+                        </p>
                         <div class="d-flex align-content-start flex-wrap ">
                             @foreach ($proprietes_sous_cat as $key => $item)
                                 <div class="d-flex align-content-start flex-wrap list-proprietes">
                                     <button type="button" class="card p-1 m-1 card-hover-titre cusor"
-                                    onclick="show_attribut({{ $key }})"
-                                    wire:click="set_key('{{ $item['nom'] }}')">
-                                    {{ $item['nom'] }}
-                                </button>
-                                @foreach ($item['options'] ?? [] as $option)
-                                    <div class="card p-1 m-1 card-hover-prroposition cusor d-none attribut"
-                                        wire:click="set_key('{{ $option['nom'] }}')">
-                                        {{ $option['nom'] }}
-                                    </div>
-                                @endforeach
+                                        data-key="{{ $item['nom'] }}" onclick="show_attribut({{ $key }})"
+                                        wire:click="set_key('{{ $item['nom'] }}')">
+                                        {{ $item['nom'] }}
+                                    </button>
+                                    @foreach ($item['options'] ?? [] as $option)
+                                        <div class="card p-1 m-1 card-hover-prroposition cusor d-none attribut attribut-{{ $item['nom'] }}"
+                                            wire:click="set_key('{{ $option['nom'] }}')">
+                                            {{ $option['nom'] }}
+                                        </div>
+                                    @endforeach
                                 </div>
                             @endforeach
                         </div>
@@ -339,11 +343,12 @@
                     @endforelse
 
 
-                </div><div class="row">
+                </div>
+                <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 text-center">
                         {{ $posts->links('pagination::bootstrap-4') }}
                     </div>
-                </div> 
+                </div>
             </div>
 
         </div>

@@ -777,6 +777,10 @@ body {
     width: 100%;
     text-align: left !important;
 }
+.btn-etat-shop:hover{
+    font-weight: bold;
+    color: #018d8d;
+}
 
 .cusor {
     cursor: pointer;
