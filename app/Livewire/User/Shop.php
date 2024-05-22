@@ -114,10 +114,10 @@ class Shop extends Component
 
     public function render()
     {
-        $total = posts::whereNotNull('verified_at')->count();
+        $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
         $this->liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury"]);
 
-        $query = posts::whereNotNull('verified_at')->where('statut', 'vente');
+        $query = posts::whereNotNull('verified_at')->whereNull('sell_at')->where('statut', 'vente');
 
         if (!empty($this->ordre2)) {
             $query->orderBy('prix', ($this->ordre2 == "Desc") ? 'DESC' : 'ASC');
