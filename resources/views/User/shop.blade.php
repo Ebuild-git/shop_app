@@ -112,7 +112,7 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="subnav-content p-2">
-                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-wrap">
                         @foreach ($cat->getSousCategories as $item)
                             <button type="button" class="p-1">
                                 {{ $item->titre }}
