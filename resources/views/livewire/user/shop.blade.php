@@ -46,12 +46,14 @@
                 <div class="subnav-content p-2">
                     <div class="d-flex flex-wrap">
                         <button class="p-1" type="button" wire:click="filtre_cat({{ $cat->id }})">
-                            Tout
+                            Tout {{ $cat->titre }}
                         </button>
+                        &nbsp;
                         @foreach ($cat->getSousCategories as $item)
                             <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
                                 {{ $item->titre }}
                             </button>
+                            &nbsp;
                         @endforeach
                     </div>
                 </div>
@@ -159,26 +161,36 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop cusor "
-                                                wire:click="choix_etat('Neuf avec étiquettes')">
-                                                Neuf avec étiquettes
-                                            </button>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                wire:click="choix_etat('Neuf sans étiquettes')">
-                                                Neuf sans étiquettes
-                                            </button>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                wire:click="choix_etat('Très bon état')">
-                                                Très bon état
-                                            </button>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                wire:click="choix_etat('Bon état')">
-                                                Bon état
-                                            </button>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                wire:click="choix_etat('Usé')">
-                                                Usé
-                                            </button>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" wire:click="choix_etat('Neuf avec étiquettes')">
+                                                <button type="button" class="btn-etat-shop cusor ">
+                                                    Neuf avec étiquettes
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" wire:click="choix_etat('Neuf sans étiquettes')">
+                                                <button type="button" class="btn-etat-shop cusor" >
+                                                    Neuf sans étiquettes
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" wire:click="choix_etat('Très bon état')">
+                                                <button type="button" class="btn-etat-shop cusor">
+                                                    Très bon état
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" wire:click="choix_etat('Bon état')">
+                                                <button type="button" class="btn-etat-shop cusor">
+                                                    Bon état
+                                                </button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" wire:click="choix_etat('Usé')">
+                                                <button type="button" class="btn-etat-shop cusor">
+                                                    Usé
+                                                </button>
+                                            </div>
                                             @error('etat')
                                                 <small class="form-text text-danger">{{ $message }}</small>
                                             @enderror

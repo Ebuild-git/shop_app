@@ -68,7 +68,7 @@
 
                 Swal.fire({
                     position: "center",
-                    icon: false,
+                    icon: type,
                     title: message,
                     showConfirmButton: false,
                     timer: 2000,

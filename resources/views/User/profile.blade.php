@@ -38,12 +38,45 @@
 
         <div class="">
             <div class="row">
-                <div class="col-sm-6">
-                    <h2>
-                        {{ $user->username }}
-                    </h2>
+                <div class="col-sm-4">
+                    <div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="avatar-shopinner-details">
+                                        <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
+                                    </div>
+                                </td>
+                                <td>
+                                    <h4 class="h6">
+                                        <a href="/user/{{ $user->id }}" class="h4">
+                                            {{ $user->username }}
+                                        </a>
+                                    </h4>
+                                    <div>
+                                        @php
+                                            $count = number_format($user->averageRating->average_rating ?? 1);
+                                            $avis = $user->getReviewsAttribute->count();
+                                        @endphp
+
+                                        
+                                        @livewire('User.Rating', ['user' => $user])
+                                        <div>
+                                            <span>
+                                                <b>{{ $user->total_sales ?? 0 }}</b> Ventes
+                                            </span>
+                                            |
+                                            <span>
+                                                <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     <div >
-                        @livewire('User.Rating', ['user' => $user])
+                       
                     </div>
                     <br>
                     <div>
@@ -54,45 +87,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-sm-6 text-end">
-
-                    <div >
-                        <div class="card-ps text-center p-2">
-                            <div>
-                                <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
-                            </div>
-                            <b> {{ $user->GetPosts->count() }} </b> 
-                            Annonces
-                        </div>
-                        <div class="card-ps text-center p-2">
-                            <div>
-                                <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
-                            </div>
-                            <b> {{ $user->total_sales ?? 0 }} </b>
-                            Ventes
-                        </div>
-                        <div class="card-ps text-center p-2">
-                            <div>
-                                <img width="20" height="20" src="/icons/menu.svg" alt="category" />
-                            </div>
-                            <b> {{ $user->categoriesWhereUserPosted->count() }} </b>
-                            Catégories
-                        </div>
-                    </div>
+                <div class="col-sm-8">
+                    @livewire('User.ProfileAnnonces', ['user' => $user])
                 </div>
             </div>
         </div>
-
-        <br>
        
-        <hr>
-        <div>
-            <h4>
-                {{ $user->GetPosts->count() }}  publications
-            </h4>
-        </div>
-        <br>
-        @livewire('User.ProfileAnnonces', ['user' => $user])
     </div>
 
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Livewire\User;
 
+use App\Models\posts;
 use App\Models\ratings;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -45,16 +47,29 @@ class Rating extends Component
             ->first();
 
         if ($rate) {
-            $rate->etoiles = $value;
-            $rate->save();
-            $this->dispatch('alert', ['message' => "Votre note a été modifié !", 'type' => 'success']);
+            /* $rate->etoiles = $value;
+            $rate->save(); */
+            $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
         } else {
-            $rating = new ratings();
-            $rating->id_user_rating = Auth::user()->id;
-            $rating->id_user_rated = $this->user->id;
-            $rating->etoiles = $value;
-            $rating->save();
-            $this->dispatch('alert', ['message' => "Votre note a été enregistré !", 'type' => 'success']);
+
+            // Compter les posts livrés dans les deux dernières semaines
+            $last_purchases = posts::where('id_user', $this->user->id)
+                ->where('id_user_buy', Auth::user()->id)
+                ->where('delivered_at', '>=', Carbon::now()->subWeeks(2))
+                ->count();
+
+                if( $last_purchases > 0){
+                    $this->dispatch('alert', ['message' => "Impossible de noté  !", 'type' => 'danger']);
+                }else{
+                    $rating = new ratings();
+                    $rating->id_user_rating = Auth::user()->id;
+                    $rating->id_user_rated = $this->user->id;
+                    $rating->etoiles = $value;
+                    $rating->save();
+                    $this->dispatch('alert', ['message' => "Votre note a été enregistré !", 'type' => 'success']);
+                }
+
+           
         }
     }
 }
