@@ -19,9 +19,10 @@
 
     <div class="navbar container">
         <div class="subnav">
-            <a href="/shop" class="subnavbtn cusor" >
+            <a href="/shop" class="subnavbtn cusor">
                 <div>
-                    <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon" srcset="">
+                    <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon"
+                        srcset="">
                 </div>
                 <span class="titre">
                     Tous
@@ -44,6 +45,9 @@
                 </button>
                 <div class="subnav-content p-2">
                     <div class="d-flex flex-wrap">
+                        <button class="p-1" type="button" wire:click="filtre_cat({{ $cat->id }})">
+                            Tout
+                        </button>
                         @foreach ($cat->getSousCategories as $item)
                             <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
                                 {{ $item->titre }}
@@ -187,8 +191,8 @@
                             <!-- Single Option -->
                             <div class="single_search_boxed">
                                 <div class="widget-boxed-header">
-                                    <h4><a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                            role="button">
+                                    <h4><a href="#prixs" data-toggle="collapse" class="collapsed"
+                                            aria-expanded="false" role="button">
                                             Ordre d'affichage des prix
                                         </a></h4>
                                 </div>
