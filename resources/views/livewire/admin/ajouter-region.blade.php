@@ -21,19 +21,19 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($regions as $item)
+                @forelse ($regions as $region)
                     <tr>
-                        <td>{{ $item->nom }}</td>
+                        <td>{{ $region->nom }}</td>
                         <td> {{ $region->getPost->count() }} </td>
-                        <td>{{ $item->created_at }}</td>
+                        <td>{{ $region->created_at }}</td>
                         <td style="text-align: right">
                             <button class="btn btn-sm btn-danger" type="button"
-                                onclick="toggle_confirmation({{ $item->id }})">
+                                onclick="toggle_confirmation({{ $region->id }})">
                                 <i class="bi bi-trash3"></i>
                             </button>
-                            <button class="btn btn-sm btn-success d-none" id="confirmBtn{{ $item->id }}"
+                            <button class="btn btn-sm btn-success d-none" id="confirmBtn{{ $region->id }}"
                                 type="button" wire:confirm="Voulez-vous supprimer ?"
-                                wire:click="delete({{ $item->id }})">
+                                wire:click="delete({{ $region->id }})">
                                 <i class="bi bi-check-circle"></i> &nbsp;
                                 confirmer
                             </button>
