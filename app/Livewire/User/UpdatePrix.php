@@ -63,11 +63,11 @@ class UpdatePrix extends Component
                 session()->flash('warning', "Vous avez déjà fait un changement de prix dans les 7 derniers jours. Vous pourrez effectuer un nouveau changement dans $remainingTime.");
             } else {
                 //verifier que le nouveau prix est inferieur a l'ancien
-                if ($this->prix < $old_price) {
+                if ($this->prix > $old_price) {
                     session()->flash('error', 'Le nouveau prix doit être supérieur ou égal à l\'ancien');
                     return;
                 }
-                
+
                 // Aucun changement de prix n'a été effectué dans les 7 derniers jours
                 $post->old_prix = $post->prix;
                 $post->prix = $this->prix;
