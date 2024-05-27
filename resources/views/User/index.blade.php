@@ -98,7 +98,6 @@
         .carousel-item:first-child {
             display: block;
         }
-        
     </style>
 
 
@@ -120,9 +119,7 @@
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <div class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
-                                <i class="bi bi-gem"></i> LUXURY
-                            </div>
+                           
                             @livewire('LikeCard', ['id' => $lux->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
@@ -142,8 +139,18 @@
                             </div>
                             <div class="card-footer b-0 p-0 pt-2 bg-white">
                                 <div class="">
-                                    <div class="text-left">
-                                        {{ $lux->sous_categorie_info->titre }}
+                                    <div class="d-flex justify-content-between">
+                                        <div class="text-left">
+                                            {{ $lux->sous_categorie_info->titre }}
+                                        </div>
+                                        @if ($lux->sous_categorie_info->categorie->luxury == 1)
+                                            <div>
+                                                <span class="color">
+                                                    <i class="bi bi-gem"></i>
+                                                    LUXURY
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="text-left">
@@ -182,8 +189,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="position-relative text-center">
-                            <a href="/shop?luxury_only=true"
-                                class="btn stretched-link borders">
+                            <a href="/shop?luxury_only=true" class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
                                     Voir Plus
                                     Sur SHOP<span class="color">IN</span>
