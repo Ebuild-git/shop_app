@@ -15,6 +15,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nom</th>
+                    <th>Publictions</th>
                     <th>Date d'ajout</th>
                     <th></th>
                 </tr>
@@ -23,6 +24,7 @@
                 @forelse ($regions as $item)
                     <tr>
                         <td>{{ $item->nom }}</td>
+                        <td> {{ $region->getPost->count() }} </td>
                         <td>{{ $item->created_at }}</td>
                         <td style="text-align: right">
                             <button class="btn btn-sm btn-danger" type="button"
@@ -39,7 +41,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="2">
+                        <td colspan="3">
                             <div class="alert alert-warning">
                                 Aucune région enregistrée pour le moment !
                             </div>
