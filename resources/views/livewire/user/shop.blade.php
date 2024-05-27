@@ -369,20 +369,20 @@
                                             </a>
                                         </h5>
                                         <div class="d-flex justify-content-between">
-                                            <div class="elis_rty color">
-                                                <span class="ft-bold  fs-sm">
-                                                    {{ $post->getPrix() }} DH
-                                                </span>
-                                            </div>
                                             @if ($post->old_prix)
                                                 <div>
                                                     <strike>
-                                                        <span class="text-danger">
+                                                        <span class="elis_rty color">
                                                             {{ $post->getOldPrix() }} DH
                                                         </span>
                                                     </strike>
                                                 </div>
                                             @endif
+                                            <div class="@if($post->old_prix)text-danger @else color @endif">
+                                                <span class="ft-bold  fs-sm">
+                                                    {{ $post->getPrix() }} DH
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

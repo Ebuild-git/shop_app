@@ -119,7 +119,7 @@
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                           
+
                             @livewire('LikeCard', ['id' => $lux->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
@@ -160,20 +160,20 @@
                                         </a>
                                     </h5>
                                     <div class="d-flex justify-content-between">
-                                        <div class="elis_rty color">
-                                            <span class="ft-bold  fs-sm">
-                                                {{ $lux->getPrix() }} DH
-                                            </span>
-                                        </div>
                                         @if ($lux->old_prix)
                                             <div>
                                                 <strike>
-                                                    <span class="text-danger">
+                                                    <span class="elis_rty color">
                                                         {{ $lux->getOldPrix() }} DH
                                                     </span>
                                                 </strike>
                                             </div>
                                         @endif
+                                        <div class="@if($lux->old_prix)text-danger @else color @endif">
+                                            <span class="ft-bold  fs-sm">
+                                                {{ $lux->getPrix() }} DH
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
