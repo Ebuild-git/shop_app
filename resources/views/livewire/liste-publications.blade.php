@@ -116,7 +116,7 @@
                              <i class="bi bi-heart-fill text-danger"></i>
                              {{ $post->getLike->count() }}
                          </td>
-                         <td> {{ $post->prix ?? '0' }} DT</td>
+                         <td> {{ $post->prix ?? '0' }} DH</td>
                          <td> {{ $post->region->nom ?? 'N/A' }} </td>
                          <td>
                              <span class="text-capitalize">

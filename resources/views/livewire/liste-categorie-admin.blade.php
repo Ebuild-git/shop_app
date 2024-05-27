@@ -54,7 +54,7 @@
                             {{ $item->getSousCategories->count() }}
                         </td>
                         <td>
-                            Gain : {{ $item->pourcentage_gain }} DH
+                           Profit : {{ $item->pourcentage_gain }} %   
                         </td>
                         <td>
                             <div class="dropdown">
