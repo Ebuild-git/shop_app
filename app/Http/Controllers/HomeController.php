@@ -73,7 +73,7 @@ class HomeController extends Controller
         }
 
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->select("titre", "photos", "prix", "id", "statut", "id_sous_categorie")
+            ->select("id")
             ->where("verified_at", '!=', null)
             ->inRandomOrder()
             ->take(16)

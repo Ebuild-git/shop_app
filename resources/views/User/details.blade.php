@@ -392,33 +392,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                    <div class="text-left">
-                                        <div class="text-center">
-                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                                <a href="/post/{{ $other->id }}">
-                                                    {{ $other->titre }}
-                                                </a>
-                                            </h5>
-                                            <div class="d-flex justify-content-between">
-                                                <div class="elis_rty color">
-                                                    <span class="ft-bold  fs-sm">
-                                                        {{ $other->getPrix() }} DH
-                                                    </span>
-                                                </div>
-                                                @if ($other->old_prix)
-                                                    <div>
-                                                        <strike>
-                                                            <span class="text-danger">
-                                                                {{ $other->getOldPrix() }} DH
-                                                            </span>
-                                                        </strike>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-SubCardPost :idPost="$other->id"></x-SubCardPost>
                             </div>
                         </div>
                     @empty
