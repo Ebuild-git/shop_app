@@ -3,7 +3,7 @@
     {{ $old_price }} DH
     <br><br>
     <form wire:submit='form_update_prix'>
-        <div class="alert alert-warning">
+        <div class="alert alert-info">
             Vous n'avez pas la possibilité de mettre le nouveau prix supérieur à l'ancien.
         </div>
         <label for="">
