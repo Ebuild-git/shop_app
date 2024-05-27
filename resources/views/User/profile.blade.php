@@ -22,7 +22,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                               <b> <a href="/">Accueil</a></b>
+                               <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page"> {{ $user->username }} </li>
                         </ol>
