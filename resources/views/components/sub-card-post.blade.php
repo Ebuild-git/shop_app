@@ -1,28 +1,18 @@
 <div class="card-footer b-0 p-0 pt-2 bg-white">
     @if ($show)
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mb-2">
             @if ($post->old_prix)
-                <div>
-                    <strike>
-                        <span class="elis_rty color">
-                            {{ $post->getOldPrix() }} DH
-                        </span>
-                    </strike>
-                </div>
+                <strike class="elis_rty color">
+                    {{ $post->getOldPrix() }} DH
+                </strike>
             @endif
-            <div class="@if ($post->old_prix) text-danger @else color @endif">
-                <span class="ft-bold  fs-sm">
-                    {{ $post->getPrix() }} DH
-                </span>
+            <div class="@if ($post->old_prix) text-danger @else color @endif ft-bold fs-sm">
+                {{ $post->getPrix() }} DH
             </div>
             @if ($post->sous_categorie_info->categorie->luxury == 1)
-                <div>
-                    <span class="color">
-                        <b>
-                            <i class="bi bi-gem"></i>
-                            LUXURY
-                        </b>
-                    </span>
+                <div class="color strong">
+                    <i class="bi bi-gem"></i>
+                    LUXURY
                 </div>
             @endif
         </div>
@@ -33,9 +23,7 @@
                         {{ Str::limit($post->titre, 40) }}
                     </a>
                 </h4>
-                <div>
-                    {{ $post->sous_categorie_info->titre }}
-                </div>
+                {{ $post->sous_categorie_info->titre }}
             </div>
         </div>
     @endif

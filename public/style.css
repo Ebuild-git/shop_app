@@ -916,7 +916,9 @@ input[type="month"]:active::before {
     object-fit: cover;
 }
 
-
+.strong{
+    font-weight: bold;
+}
 
 
 
