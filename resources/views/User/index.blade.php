@@ -137,46 +137,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer b-0 p-0 pt-2 bg-white">
-                                <div class="">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-left">
-                                            {{ $lux->sous_categorie_info->titre }}
-                                        </div>
-                                        @if ($lux->sous_categorie_info->categorie->luxury == 1)
-                                            <div>
-                                                <span class="color">
-                                                    <i class="bi bi-gem"></i>
-                                                    LUXURY
-                                                </span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="text-left">
-                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                        <a href="/post/{{ $lux->id }}">
-                                            {{ Str::limit($lux->titre, 40) }}
-                                        </a>
-                                    </h5>
-                                    <div class="d-flex justify-content-between">
-                                        @if ($lux->old_prix)
-                                            <div>
-                                                <strike>
-                                                    <span class="elis_rty color">
-                                                        {{ $lux->getOldPrix() }} DH
-                                                    </span>
-                                                </strike>
-                                            </div>
-                                        @endif
-                                        <div class="@if($lux->old_prix)text-danger @else color @endif">
-                                            <span class="ft-bold  fs-sm">
-                                                {{ $lux->getPrix() }} DH
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-SubCardPost :idPost="$lux->id"></x-SubCardPost>
                         </div>
                     </div>
                     @livewire('User.ProductViewModal', ['id_post' => $lux->id])
@@ -242,36 +203,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer b-0 p-0 pt-2 bg-white">
-                                <div class="">
-                                    <div class="text-left">
-                                        {{ $last->sous_categorie_info->titre }}
-                                    </div>
-                                </div>
-                                <div class="text-left">
-                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                        <a href="/post/{{ $last->id }}">
-                                            {{ Str::limit($last->titre, 40) }}
-                                        </a>
-                                    </h5>
-                                    <div class="d-flex justify-content-between">
-                                        @if ($last->old_prix)
-                                            <div>
-                                                <strike>
-                                                    <span class="elis_rty color">
-                                                        {{ $last->getOldPrix() }} DH
-                                                    </span>
-                                                </strike>
-                                            </div>
-                                        @endif
-                                        <div class="@if($last->old_prix)text-danger @else color @endif">
-                                            <span class="ft-bold  fs-sm">
-                                                {{ $last->getPrix() }} DH
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
                         </div>
                     </div>
                     @livewire('User.ProductViewModal', ['id_post' => $last->id])

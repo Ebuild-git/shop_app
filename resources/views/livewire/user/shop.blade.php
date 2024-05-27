@@ -346,46 +346,7 @@
                                             <img src="{{ Storage::url($post->photos[0] ?? '') }}" alt="..."></a>
                                     </div>
                                 </div>
-                                <div class="card-footer b-0 p-0 pt-2 bg-white">
-                                    <div class="">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="text-left">
-                                                {{ $post->sous_categorie_info->titre }}
-                                            </div>
-                                            @if ($post->sous_categorie_info->categorie->luxury == 1)
-                                                <div>
-                                                    <span class="color">
-                                                        <i class="bi bi-gem"></i>
-                                                        LUXURY
-                                                    </span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="text-left">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                            <a href="/post/{{ $post->id }}">
-                                                {{ Str::limit($post->titre, 40) }}
-                                            </a>
-                                        </h5>
-                                        <div class="d-flex justify-content-between">
-                                            @if ($post->old_prix)
-                                                <div>
-                                                    <strike>
-                                                        <span class="elis_rty color">
-                                                            {{ $post->getOldPrix() }} DH
-                                                        </span>
-                                                    </strike>
-                                                </div>
-                                            @endif
-                                            <div class="@if($post->old_prix)text-danger @else color @endif">
-                                                <span class="ft-bold  fs-sm">
-                                                    {{ $post->getPrix() }} DH
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-SubCardPost :idPost="$post->id"></x-SubCardPost>
                             </div>
                         </div>
                     @empty
