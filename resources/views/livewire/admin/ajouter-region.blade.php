@@ -24,7 +24,12 @@
                 @forelse ($regions as $region)
                     <tr>
                         <td>{{ $region->nom }}</td>
-                        <td> {{ $region->getPost->count() }} </td>
+                        <td>
+                            <span title="{{ $region->getPost->count() }}  publications">
+                                <i class="bi bi-megaphone"></i>
+                                {{ $region->getPost->count() }}
+                            </span>
+                        </td>
                         <td>{{ $region->created_at }}</td>
                         <td style="text-align: right">
                             <button class="btn btn-sm btn-danger" type="button"
