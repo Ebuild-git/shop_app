@@ -1,23 +1,4 @@
 <div class="row">
-   {{--  <div class="col-sm-12">
-        <form wire:submit="filtrer">
-            <div class="input-group mb-3">
-                <input wire:model="key" placeholder="Mot clé" class="form-control">
-                <select wire:model="order" class="form-control">
-                    <option value=""></option>
-                    <option value="Asc">de A à Z</option>
-                    <option value="Des">de Z à A</option>
-                </select>
-                <div class="input-group-prepend">
-                    <button type="submit" class="btn bg-red">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                            wire:loading></span>Filtrer
-                        <i class="bi bi-sort-alpha-up"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div> --}}
     @forelse ($posts as $post)
     <div class="col-xl-3 col-sm-3 col-lg-3 col-md-6 col-6">
         <div class="product_grid card b-0">

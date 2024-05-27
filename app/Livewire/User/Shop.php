@@ -115,7 +115,7 @@ class Shop extends Component
     public function render()
     {
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
-        $this->liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury","small_icon"]);
+        $this->liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon"]);
 
         $query = posts::whereNotNull('verified_at')->whereNull('sell_at')->where('statut', 'vente');
 
@@ -180,11 +180,12 @@ class Shop extends Component
 
         $regions = regions::all();
 
+        $posts = $query->select("id","photos")->paginate(30);
         //recuperer toute les regions qui ont un pots identifier par la colonne id_regions dans la table posts
 
 
 
-        return view('livewire.user.shop', ['posts' => $query->paginate(30), "regions" => $regions, "total"=>$total]);
+        return view('livewire.user.shop', ['posts' => $posts, "regions" => $regions, "total" => $total]);
     }
 
 

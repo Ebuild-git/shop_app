@@ -31,7 +31,7 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
-            ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
+            ->select("posts.id","posts.photos")
             ->take(12)
             ->get();
 
@@ -39,7 +39,7 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
             ->orderby("posts.created_at", "Desc")
-            ->select("posts.id", 'posts.old_prix', "posts.titre", "posts.photos", "posts.prix", "posts.statut", "posts.id_sous_categorie", "categories.id As id_categorie")
+            ->select("posts.id","posts.photos" )
             ->take(8)->get();
         return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
     }
