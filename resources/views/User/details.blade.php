@@ -379,10 +379,6 @@
                         <!-- single Item -->
                         <div class="single_itesm">
                             <div class="product_grid card b-0 mb-0">
-                                <div
-                                    class="badge bg-success-ps text-white position-absolute ft-regular ab-left text-upper">
-                                    {{ $other->statut }}
-                                </div>
                                 @livewire('LikeCard', ['id' => $other->id])
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
