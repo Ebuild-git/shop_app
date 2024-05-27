@@ -83,8 +83,9 @@
                                  <strong>
                                      {{ Str::of($post->titre)->limit(30) }}
                                  </strong> <br>
-                                 <span class="text-primary cusor" onclick="OpenModalMessage('{{ $post->user_info->email }}','{{ $post->user_info->username }}')">
-                                    <i class="bi bi-envelope-fill"></i> écrire
+                                 <span class="text-primary cusor" onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
+                                    <i class="bi bi-envelope-fill"></i> 
+                                    écrire
                                  </span>
                                  | 
                                  @if ($post->deleted_at)

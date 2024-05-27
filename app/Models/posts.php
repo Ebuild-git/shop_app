@@ -18,7 +18,8 @@ class posts extends Model
     protected $fillable = [
         'sell_at',
         'id_user_buy',
-        'prix'
+        'prix',
+        'id_motif'
     ];
 
     protected $casts = [
@@ -99,5 +100,14 @@ class posts extends Model
        return $url;
     }
 
+
+    public function motif(){
+        return $this->belongsTo(motifs::class, 'id_motif', 'id');
+    }
+
+    public function motifs(){
+        //many
+        return $this->hasMany(motifs::class, 'id', 'id_motif');
+    }
 
 }

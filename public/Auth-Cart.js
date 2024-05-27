@@ -76,6 +76,48 @@ function remove_favoris(id) {
     );
 }
 
+
+//recuperer la liste des motifs de refus d'un post
+function get_posts_motifs(id) {
+    $.get(
+        "/list_motifs",
+        {
+            id_post: id,
+        },
+        function (response, status) {
+            if (status === 'success' && response.statut) {
+                console.log(response); // Affiche la réponse complète
+                console.log(response.data); // Affiche la propriété 'data' de la réponse
+                
+                // Vérifiez si 'response.data' est défini et est un tableau
+                if (Array.isArray(response.data)) {
+                    // Ouvrir la modal Motifs-des-refus
+                    $("#modal_motifs_des_refus").modal('toggle');
+                    // Vider le contenu du tbody du tableau
+                    $("#modal_motifs_des_refus-table tbody").html("");
+                    
+                    // Ajouter les motifs de refus au tbody du tableau
+                    $.each(response.data, function (index, value) {
+                        
+                        $("#modal_motifs_des_refus-table tbody").append(
+                            "<tr>" +
+                            "<td>" + (value.motif || '') + "</td>" +
+                            "<td>" + (value.created_at || '') + "</td>" +
+                            "</tr>"
+                        );
+                    });
+                } else {
+                    console.error("Data is not an array:", response.data);
+                }
+            } else {
+                console.error("Request failed with status or invalid 'statut':", status, response.statut);
+            }
+        }
+    );
+}
+
+
+
 $(document).ready(function () {
     // Ajouter un post à mes favoris
     $(".btn-add-favoris").on("click", function () {
@@ -113,6 +155,8 @@ $(document).ready(function () {
             }
         );
     });
+
+
 
 
     //ajouter un like a un post

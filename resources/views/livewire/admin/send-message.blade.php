@@ -1,6 +1,10 @@
 <div>
     @include('components.alert-livewire')
     <form wire:submit ="envoyer">
+        <div class="alert alert-dark my-auto mb-3">
+            <img width="24" height="24" src="https://img.icons8.com/external-tanah-basah-basic-outline-tanah-basah/24/FFFFFF/external-attache-file-tanah-basah-basic-outline-tanah-basah.png" alt="external-attache-file-tanah-basah-basic-outline-tanah-basah"/>
+            {{ $titre }}
+        </div>
         <table class="w-100">
             <tr>
                 <td>

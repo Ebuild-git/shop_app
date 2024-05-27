@@ -406,10 +406,10 @@
     </div>
 
     <script>
-        function OpenModalMessage(email, username) {
+        function OpenModalMessage(id_post, username) {
             Livewire.dispatch('sendDataUser', {
                 username: username,
-                email: email
+                id_post: id_post
             });
             $("#destinataire").html(username);
             $('#MessageModal').modal('show');

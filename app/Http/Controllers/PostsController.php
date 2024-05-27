@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\motifs;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\User;
@@ -40,21 +41,24 @@ class PostsController extends Controller
         return view("Admin.publications.index");
     }
 
-    public function liste_publications_supprimer(){
-        $deleted = "oui" ;
+    public function liste_publications_supprimer()
+    {
+        $deleted = "oui";
         return view("Admin.publications.index", compact("deleted"));
     }
 
 
-    public function liste_publications_signaler(){
+    public function liste_publications_signaler()
+    {
         return view("Admin.publications.signalements");
     }
 
-    public function liste_signalement_publications($id_post){
+    public function liste_signalement_publications($id_post)
+    {
         $post = posts::find($id_post);
-        if($post){
+        if ($post) {
             return view("Admin.publications.liste-signalement")->with("post", $post);
-        }else{
+        } else {
             return redirect()->route('post_signalers');
         }
 
@@ -67,7 +71,7 @@ class PostsController extends Controller
         $id = $request->id;
         $post = posts::find($id);
         if (!$post) {
-            return redirect("/admin/publications")->with("error","Publication introuvable !");
+            return redirect("/admin/publications")->with("error", "Publication introuvable !");
         }
         if ($statut == "unread") {
             notifications::where("id_post", $id)->where("destination", "admin")->update(
@@ -98,7 +102,7 @@ class PostsController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' =>  "Impossible de trouver le post"
+                    'message' => "Impossible de trouver le post"
                 ]
             );
         }
@@ -107,11 +111,40 @@ class PostsController extends Controller
 
 
 
+    public function list_motifs(Request $request)
+    {
+        $id_post = $request->input('id_post' ?? null);
+        if ($id_post) {
+            $motifs = motifs::where("id_post", $id_post)
+                ->where('id_user', Auth::user()->id)
+                ->select("motif", "created_at")
+                ->get()
+                ->toArray();
+
+            if ($motifs) {
+                return response()->json(
+                    [
+                        'data' => $motifs,
+                        'statut' => true
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        'statut' => false
+                    ]
+                );
+            }
+        }
+    }
+
+
+
 
     public function create_post(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titre'    => 'required|string',
+            'titre' => 'required|string',
             'description' => 'required|string',
             'ville' => 'required|string',
             'prix' => 'required|numeric',
@@ -140,14 +173,14 @@ class PostsController extends Controller
             }
         }
         $post = new posts();
-        $post->titre  = $request->input("titre");
-        $post->description   = $request->input("description");
-        $post->ville     = $request->input("ville");
-        $post->prix       = $request->input("prix");
-        $post->id_user     = Auth::User()->id;
+        $post->titre = $request->input("titre");
+        $post->description = $request->input("description");
+        $post->ville = $request->input("ville");
+        $post->prix = $request->input("prix");
+        $post->id_user = Auth::User()->id;
         $post->photos = json_encode($images);
         $post->gouvernorat = $request->input("gouvernorat");
-        $post->id_categorie  = $request->input("categorie");
+        $post->id_categorie = $request->input("categorie");
         $post->save();
 
         return response()->json(
@@ -160,16 +193,17 @@ class PostsController extends Controller
     }
 
 
-    public function username(Request $request){
+    public function username(Request $request)
+    {
         $username = $request->input("username");
         // if username is empty
-        if(is_null($username)){
+        if (is_null($username)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Veuillez vous rassurer que le username a été entrer',
             ]);
         }
-        $count = User::where('username',$username)->count();
+        $count = User::where('username', $username)->count();
         return response()->json([
             'success' => true,
             'message' => '',
@@ -184,7 +218,7 @@ class PostsController extends Controller
     public function update_post(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titre'    => 'required|string',
+            'titre' => 'required|string',
             'description' => 'required|string',
             'ville' => 'required|string',
             'prix' => 'required|numeric',
@@ -205,11 +239,11 @@ class PostsController extends Controller
         }
 
         $post = posts::findOrFail($request->input("id_post"));
-        $post->titre  = $request->input("titre");
-        $post->description   = $request->input("description");
-        $post->ville     = $request->input("ville");
-        $post->prix       = $request->input("prix");
-        $post->user_id      = Auth::User()->id;
+        $post->titre = $request->input("titre");
+        $post->description = $request->input("description");
+        $post->ville = $request->input("ville");
+        $post->prix = $request->input("prix");
+        $post->user_id = Auth::User()->id;
         $post->gouvernorat = $request->input("gouvernorat");
         $post->category_id = $request->input("categorie");
 

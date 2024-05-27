@@ -19,7 +19,8 @@
                                 <option value="livré">Déja livré</option>
                             </select>
                         @endif
-                        <input type="month" class="form-control sm cusor" wire:model="date" placeholder="Mois / Année">
+                        <input type="month" class="form-control sm cusor" wire:model="date"
+                            placeholder="Mois / Année">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -40,6 +41,7 @@
                 <th scope="col">titre</th>
                 <th scope="col">Statut</th>
                 <th scope="col">Prix</th>
+                <th scope="col">Décision</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -75,6 +77,16 @@
                             {{ $item->prix }} DH
                         @endif
                     </td>
+                    <td>
+                        @if ( $item->id_motif != null)
+                            <span class="text-secondary cusor" onclick="get_posts_motifs({{ $item->id }})">
+                                <b>
+                                    <i class="bi bi-eye"></i>
+                                    Voir les motifs
+                                </b>
+                            </span>
+                        @endif
+                    </td>
                     <td style="text-align: right;">
                         @if ($item->propositions->count() > 0)
                             <a href="/publication/{{ $item->id }}/propositions">
@@ -84,10 +96,10 @@
                                 </button>
                             </a>
                         @endif
-                        @if ($item->sell_at == null )
+                        @if ($item->sell_at == null)
                             <button class="btn btn-sm btn-info" onclick="Update_post_price({{ $item->id }})">
                                 <i class="bi bi-pencil-square"></i>
-                                Modifer le prix
+                                Réduire le prix
                             </button>
                         @endif
                         @if ($item->statut == 'validation' || $item->statut == 'vente')

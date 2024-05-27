@@ -49,7 +49,8 @@ class MigrationOrder extends Command
             "2024_03_25_124212_create_ratings_tables.php",
             "2024_04_04_152640_create_favoris_table.php",
             "2024_04_10_095736_create_pings_table.php",
-            "2024_05_22_080714_create_history_change_prices_table.php"
+            "2024_05_22_080714_create_history_change_prices_table.php",
+            '2024_05_27_170350_create_motifs_table.php'
         ];
 
         foreach ($migrations as $migration) {

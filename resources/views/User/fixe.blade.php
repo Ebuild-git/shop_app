@@ -829,7 +829,7 @@
     @auth
 
 
-    <!-- Log In Modal -->
+    <!-- Modal pour modifier le prix -->
     <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
         aria-labelledby="UpdatePrice" aria-hidden="true">
         <div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -856,7 +856,47 @@
             </div>
         </div>
     </div>
-    <!-- End Modal -->
+    <!-- End Modal pour modifier le prix -->
+
+
+    <!-- Modal pour voir la liste des motifs d'un post réfuser -->
+    <div class="modal fade" id="modal_motifs_des_refus" tabindex="1" role="dialog"
+        aria-labelledby="UpdatePrice" aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="UpdatePrice">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h1 class="m-0 ft-regular h6">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Liste des motifs
+                        </h1>
+                        <span class="text-muted">
+                        </span>
+                    </div>
+                    <div style="text-align: left;">
+                        <div>
+                            <table class="table" id="modal_motifs_des_refus-table">
+                                <thead>
+                                    <tr>
+                                        <th>Motif</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
 
 
 
