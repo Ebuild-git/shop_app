@@ -15,7 +15,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nom</th>
-                    <th>Publictions</th>
+                    <th>Annonce</th>
                     <th>Date d'ajout</th>
                     <th></th>
                 </tr>
@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ $region->nom }}</td>
                         <td>
-                            <span title="{{ $region->getPost->count() }}  publications">
+                            <span title="{{ $region->getPost->count() }}  Annonces">
                                 <i class="bi bi-megaphone"></i>
                                 {{ $region->getPost->count() }}
                             </span>
