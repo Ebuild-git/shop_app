@@ -32,7 +32,7 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
-            ->select("posts.id","posts.photos")
+            ->select("posts.id", "posts.photos")
             ->take(12)
             ->get();
 
@@ -40,7 +40,7 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
             ->orderby("posts.created_at", "Desc")
-            ->select("posts.id","posts.photos" )
+            ->select("posts.id", "posts.photos")
             ->take(8)->get();
         return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
     }
@@ -74,7 +74,7 @@ class HomeController extends Controller
         }
 
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->select("photos","id")
+            ->select("photos", "id")
             ->where("verified_at", '!=', null)
             ->inRandomOrder()
             ->take(16)
@@ -220,36 +220,64 @@ class HomeController extends Controller
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
         $produits = [];
         $montant = 0;
+        $html = '';
         foreach ($cart ?? [] as $item) {
             $produit = posts::find($item['id']);
             if ($produit) {
-                $produits[]=[
-                    'id'=>$produit->id,
-                    'titre'=>$produit->titre,
+                $produits[] = [
+                    'id' => $produit->id,
+                    'titre' => $produit->titre,
                     'photo' => Storage::url($produit->photos[0] ?? ''),
-                    'prix' => $produit->getPrix()." DH",
+                    'prix' => $produit->getPrix() . " DH",
                 ];
                 $montant += $produit->getPrix();
-            }else{
+                
+                $html .= '<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
+                    <div class="cart_single d-flex align-items-center">
+                        <div class="cart_selected_single_thumb">
+                            <a href="#">
+                                <img src="' . Storage::url($produit->photos[0] ?? '') . '" width="60" class="img-fluid"
+                                    alt="" />
+                            </a>
+                        </div>
+                        <div class="cart_single_caption pl-2">
+                            <h4 class="product_title fs-sm ft-medium mb-0 lh-1">
+                            ' . $produit->titre . '
+                            </h4>
+                            <h4 class="fs-md ft-medium mb-0 lh-1 color">
+                            ' . $produit->getPrix() . ' DH
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="fls_last">
+                        <button class="close_slide gray" type="button">
+                            <i class="ti-close"></i>
+                        </button>
+                    </div>
+                </div>';
+                
+            } else {
                 $this->delete_form_cart($item['id']);
             }
         }
-
+    
         return response()->json(
             [
-                'count' => count($cart ?? []) ,
+                'count' => count($cart ?? []),
                 'produits' => $produits,
-                'montant' => $montant.  " DH",
+                'montant' => $montant . " DH",
+                'html' => $html,
                 'statut' => true,
             ]
         );
     }
-
-
-
-
-
     
+
+
+
+
+
+
     public function add_panier(Request $request)
     {
         $id = $request->input('id') ?? "";
@@ -485,7 +513,7 @@ class HomeController extends Controller
         } else {
             $luxury_only == "true";
         }
-       
+
         return view('User.shop', compact("categorie", "sous_categorie", "key", "luxury_only"));
     }
 

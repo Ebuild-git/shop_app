@@ -14,11 +14,11 @@
 
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <link rel="stylesheet" href="{{asset('style.css?v=').time()}}">
-    <script src="{{asset('Cart.jsv=').time()}}"></script>
+
+    <link rel="stylesheet" href="{{ asset('style.css?v=') . time() }}">
+    <script src="{{ asset('Cart.jsv=') . time() }}"></script>
     @auth
-        <script src="{{asset('Auth-Cart.js?v=').time()}}"></script>
+        <script src="{{ asset('Auth-Cart.js?v=') . time() }}"></script>
     @endauth
     <!-- Custom CSS -->
 
@@ -40,7 +40,7 @@
 
 
 
- 
+
 </head>
 
 <body class="custom-scrollbar">
@@ -670,7 +670,18 @@
             </div>
             <div class="right-ch-sideBar">
                 <div class="cart_select_items py-2">
-                    @livewire('User.Panier')
+                    <div>
+                        <div id="Contenu-panier">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
+                            <h6 class="mb-0">
+                                Prix total
+                            </h6>
+                            <h3 class="mb-0 ft-medium color">
+                                xxxxxxx DH
+                            </h3>
+                        </div>
+                    </div>
                     <div class="cart_action px-3 py-3">
                         <div class="form-group">
                             <a href="/checkout">
@@ -680,7 +691,6 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -829,74 +839,72 @@
     @auth
 
 
-    <!-- Modal pour modifier le prix -->
-    <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
-        aria-labelledby="UpdatePrice" aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="UpdatePrice">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body p-5">
-                    <div class="text-center mb-4">
-                        <h1 class="m-0 ft-regular h6">
-                            <i class="bi bi-exclamation-octagon"></i>
-                            Modifier le prix
-                        </h1>
-                        <span class="text-muted">
-                        </span>
+        <!-- Modal pour modifier le prix -->
+        <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
+            aria-labelledby="UpdatePrice" aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="UpdatePrice">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
                     </div>
-                    <div style="text-align: left;">
-                        @livewire('User.UpdatePrix') 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal pour modifier le prix -->
-
-
-    <!-- Modal pour voir la liste des motifs d'un post réfuser -->
-    <div class="modal fade" id="modal_motifs_des_refus" tabindex="1" role="dialog"
-        aria-labelledby="UpdatePrice" aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="UpdatePrice">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body p-5">
-                    <div class="text-center mb-4">
-                        <h1 class="m-0 ft-regular h6">
-                            <i class="bi bi-exclamation-octagon"></i>
-                            Liste des motifs
-                        </h1>
-                        <span class="text-muted">
-                        </span>
-                    </div>
-                    <div style="text-align: left;">
-                        <div>
-                            <table class="table" id="modal_motifs_des_refus-table">
-                                <thead>
-                                    <tr>
-                                        <th>Motif</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    <div class="modal-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="m-0 ft-regular h6">
+                                <i class="bi bi-exclamation-octagon"></i>
+                                Modifier le prix
+                            </h1>
+                            <span class="text-muted">
+                            </span>
+                        </div>
+                        <div style="text-align: left;">
+                            @livewire('User.UpdatePrix')
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
+        <!-- End Modal pour modifier le prix -->
+
+
+        <!-- Modal pour voir la liste des motifs d'un post réfuser -->
+        <div class="modal fade" id="modal_motifs_des_refus" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="UpdatePrice">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="m-0 ft-regular h6">
+                                <i class="bi bi-exclamation-octagon"></i>
+                                Liste des motifs
+                            </h1>
+                            <span class="text-muted">
+                            </span>
+                        </div>
+                        <div style="text-align: left;">
+                            <div>
+                                <table class="table" id="modal_motifs_des_refus-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Motif</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
 
 
 
@@ -971,7 +979,9 @@
             //open CatégoriesPost modal
             $.ajax({
                 url: "/category/post_user",
-                data :{ id_user: id },
+                data: {
+                    id_user: id
+                },
                 type: "GET",
                 success: function(response) {
                     console.log("Success");

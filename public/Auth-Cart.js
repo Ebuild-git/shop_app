@@ -15,6 +15,7 @@ function CountPanier(){
             if (status === "success") {
                 console.log(data);
                 $("#CountPanier-value").text(data.count);
+                $("#Contenu-panier").html(data.html);
             }
         }
     );
