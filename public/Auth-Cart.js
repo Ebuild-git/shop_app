@@ -64,6 +64,30 @@ function add_cart(id) {
 }
 
 
+
+function delete_notification(id){
+    $.get(
+        "/delete_notification",
+        {
+            id_notification: id,
+        },
+        function (message, status) {
+            if (status) {
+                $('#tr-'+id).hide("slow");
+                Swal.fire({
+                    position: "center",
+                    icon: false,
+                    text: message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: "swal-wide",
+                });
+            }
+        }
+    );
+}
+
+
 //retiitrer une publication liker de ma liste de like
 function remove_liked(id) {
     $.get(

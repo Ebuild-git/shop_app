@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\notifications;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class NotificationsController extends Controller
@@ -42,17 +43,22 @@ class NotificationsController extends Controller
     }
 
 
-    public function delete_notification($id)
+    public function delete_notification(Request $request)
     {
+        $id = $request->input('id' ?? null);
         try {
-            $notification = notifications::findOrFail($id);
-            $notification->delete();
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'notification a été supprimé',
-                ]
-            );
+            $notification = notifications::where("id", $id)
+                ->where("id_user_destination", Auth::user()->id)
+                ->first();
+            if ($notification) {
+                $notification->delete();
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'notification a été supprimé',
+                    ]
+                );
+            }
         } catch (\Exception $exception) {
             return response()->json(
                 [
@@ -65,4 +71,11 @@ class NotificationsController extends Controller
 
 
 
+    public function user_notifications()
+    {
+        $notifications = notifications::where("id_user_destination", Auth::id())
+            ->Orderby("id", "Desc")
+            ->get();
+        return view('User.notifications')->with("notifications", $notifications);
+    }
 }

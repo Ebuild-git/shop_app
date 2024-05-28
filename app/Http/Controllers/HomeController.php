@@ -438,10 +438,7 @@ class HomeController extends Controller
 
 
 
-    public function user_notifications()
-    {
-        return view('User.notifications');
-    }
+  
 
     public function conditions()
     {

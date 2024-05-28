@@ -73,7 +73,11 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
     Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
-    Route::get('/user-notifications', [ControllersHomeController::class, 'user_notifications'])->name('user-notifications');
+
+
+    //gestion des notifications
+    Route::get('/user-notifications', [NotificationsController::class, 'user_notifications'])->name('user-notifications');
+    Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);
 
 
     // gestion des like des posts
@@ -114,6 +118,8 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/proprietes', function () {
         return view('Admin.categories.index_proprietes');
     })->name('gestion_proprietes');
+
+
 
 
 
