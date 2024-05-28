@@ -250,7 +250,7 @@ class HomeController extends Controller
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray" type="button">
+                        <button class="close_slide gray" type="button" onclick="remove_to_card('.$produit->id.')">
                             <i class="ti-close"></i>
                         </button>
                     </div>
@@ -274,6 +274,18 @@ class HomeController extends Controller
     
 
 
+
+    public function remove_to_card(Request $request){
+        $id = $request->input('id') ?? "";
+        if($id){
+            $this->delete_form_cart($id);
+            return response()->json(
+                [
+                    'statut' => true,
+                ]
+            );
+        }
+    }
 
 
 

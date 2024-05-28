@@ -677,8 +677,8 @@
                             <h6 class="mb-0">
                                 Prix total
                             </h6>
-                            <h3 class="mb-0 ft-medium color">
-                                xxxxxxx DH
+                            <h3 class="mb-0 ft-medium color" >
+                                <span id="montant-panier">0</span>
                             </h3>
                         </div>
                     </div>

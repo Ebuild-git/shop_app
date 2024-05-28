@@ -46,6 +46,7 @@ Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_pos
 
 
 //panier
+Route::get('/remove_to_card', [ControllersHomeController::class, 'remove_to_card'])->name('remove_to_card');
 Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
 Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 

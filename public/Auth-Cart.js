@@ -16,6 +16,23 @@ function CountPanier(){
                 console.log(data);
                 $("#CountPanier-value").text(data.count);
                 $("#Contenu-panier").html(data.html);
+                $("#montant-panier").text(data.montant);
+            }
+        }
+    );
+}
+
+
+
+function remove_to_card(id){
+    $.get(
+        "/remove_to_card",
+        {
+            id: id,
+        },
+        function (data, status) {
+            if (status) {
+                CountPanier();
             }
         }
     );
