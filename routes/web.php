@@ -10,6 +10,7 @@ use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security;
+use App\Http\Controllers\SignalementsController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use App\Models\HomeController;
@@ -133,14 +134,22 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     
     Route::get('/admin/update_propriete/{id}', [AdminController::class, 'update_propriete'])->name('update_propriete');
     Route::get('/admin/export-user', [AdminController::class, 'export_users'])->name('export_users');
-    Route::get('/admin/post/{post_id}/signalement', [PostsController::class, 'liste_signalement_publications']);
-    Route::get('/admin/publications/signalements', [PostsController::class, 'liste_publications_signaler'])->name('post_signalers');
+   
 
     Route::get('/admin/changer_ordre_attribus', [CategoriesController::class, 'changer_ordre_attribus'])->name('changer_ordre_attribus');
 
 
     Route::post('/admin/change_picture_statut', [InformationsController::class, 'change_picture_statut'])->name('change_picture_statut');
     Route::post('/admin/update_information_website', [InformationsController::class, 'update_information_website'])->name('update_information_website');
+
+
+
+    //gestion des signalememnts
+    Route::get('/admin/post/{post_id}/signalement', [SignalementsController::class, 'liste_signalement_publications']);
+    Route::post('/admin/signalement/filtre', [SignalementsController::class, 'liste_publications_signaler'])->name('filtre_signalement');
+    Route::get('/admin/signalement/delete/{id}', [SignalementsController::class, 'delete'])->name('delete_signalement');
+    Route::get('/admin/publications/signalements', [SignalementsController::class, 'liste_publications_signaler'])->name('post_signalers');
+
 });
 
 

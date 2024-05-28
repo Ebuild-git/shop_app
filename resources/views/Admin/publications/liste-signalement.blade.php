@@ -8,9 +8,9 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4">
+        <h5 class="py-3 mb-4">
             <span class="text-muted fw-light text-capitalize">{{ $post->titre }}</span>
-        </h4>
+        </h5>
 
         <div class="card p-3">
             <h1 class="h4">
