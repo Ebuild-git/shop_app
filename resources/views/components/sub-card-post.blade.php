@@ -28,9 +28,9 @@
                         {{ $post->sous_categorie_info->titre }}
                     </div>
                     @if ($post->proprietes)
-                        @if ($post->proprietes['taille'] ?? null)
+                        @if ($post->proprietes['Taille'] ?? null)
                             <div>
-                                {{ $post->proprietes['taille'] }}
+                                {{ $post->proprietes['Taille'] }}
                             </div>
                         @endif
                     @endif
