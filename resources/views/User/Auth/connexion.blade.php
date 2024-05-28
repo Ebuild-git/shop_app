@@ -8,7 +8,7 @@
             <div class="col-sm-6 ">
                 <div class="position-absolute">
                 </div>
-                <img src="https://supply-chain.net/wp-content/uploads/2023/01/Screenshot-2023-01-12-at-19-02-17-livreur-recevant-colis-pour-livraison_23-2149371921.jpg-Image-WEBP-626-%C3%97-417-pixels.png"
+                <img src="/icons/login.webp"
                     class="img" alt="" srcset="">
             </div>
             <div class="col-sm-6 ">

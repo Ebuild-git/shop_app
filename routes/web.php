@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\PartenairesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security;
@@ -111,7 +112,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
  
     
-    Route::get('/admin/nos_partenaires', [AdminController::class, 'nos_partenaires'])->name('nos_partenaires');
+  
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
     Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);
@@ -150,7 +151,13 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/signalement/delete/{id}', [SignalementsController::class, 'delete'])->name('delete_signalement');
     Route::get('/admin/publications/signalements', [SignalementsController::class, 'liste_publications_signaler'])->name('post_signalers');
 
+
+    //gestion de nos partenaire
+    Route::get('/admin/nos_partenaires', [PartenairesController::class, 'index'])->name('nos_partenaires');
+    Route::post('/admin/nos_partenaires/create', [PartenairesController::class, 'create'])->name('create_partenaires');
+    Route::post('/admin/nos_partenaires/delete', [PartenairesController::class, 'delete'])->name('delete_partenaires');
 });
+
 
 
 
