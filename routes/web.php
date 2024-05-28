@@ -137,6 +137,9 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/publications/signalements', [PostsController::class, 'liste_publications_signaler'])->name('post_signalers');
 
     Route::get('/admin/changer_ordre_attribus', [CategoriesController::class, 'changer_ordre_attribus'])->name('changer_ordre_attribus');
+
+
+    Route::post('/admin/change_picture_statut', [InformationsController::class, 'change_picture_statut'])->name('change_picture_statut');
 });
 
 

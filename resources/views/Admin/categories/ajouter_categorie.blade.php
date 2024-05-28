@@ -1,5 +1,5 @@
 @extends('Admin.fixe')
-@section('title', 'Catégories')
+@section('titre', 'Catégories')
 @section('content')
 
 

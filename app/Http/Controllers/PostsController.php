@@ -61,7 +61,6 @@ class PostsController extends Controller
         } else {
             return redirect()->route('post_signalers');
         }
-
     }
 
 
@@ -69,9 +68,10 @@ class PostsController extends Controller
     {
         $statut = $request->get("statut") ?? "";
         $id = $request->id;
-        $post = posts::find($id);
+        $post = posts::withTrashed()->find($id);
         if (!$post) {
-            return redirect("/admin/publications")->with("error", "Publication introuvable !");
+            return redirect("/admin/publications")
+                ->with("error", "Publication introuvable !");
         }
         if ($statut == "unread") {
             notifications::where("id_post", $id)->where("destination", "admin")->update(
@@ -80,7 +80,8 @@ class PostsController extends Controller
                 ]
             );
         }
-        return view("Admin.publications.details")->with("post", $post);
+        return view("Admin.publications.details")
+            ->with("post", $post);
     }
 
 
@@ -209,8 +210,6 @@ class PostsController extends Controller
             'message' => '',
             'total' => $count
         ]);
-
-
     }
 
 

@@ -101,6 +101,9 @@ class DetailsPublicationAction extends Component
 
 
 
+    public function refuser(){
+        
+    }
 
 
     public function delete()

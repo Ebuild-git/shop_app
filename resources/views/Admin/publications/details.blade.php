@@ -1,11 +1,13 @@
 @extends('Admin.fixe')
-@section('title', 'Publication |' . $post->titre)
+@section('titre', 'Publication |' . $post->titre)
 
 @section('body')
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Publication /</span> {{ $post->titre }}</h4>
+        <h5 class="py-3 mb-4">
+            <span class="text-muted fw-light">Publication /</span> {{ $post->titre }}
+        </h5>
         <!-- Bootstrap Table with Header - Dark -->
         <div class=" container card">
             <h5 class="card-header">
@@ -102,8 +104,6 @@
             <br><br>
         </div>
         <!--/ Bootstrap Table with Header Dark -->
-
-        <hr class="my-5" />
 
 
     </div>

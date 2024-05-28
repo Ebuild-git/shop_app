@@ -8,7 +8,9 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">User Profile /</span> {{ $user->name }}</h4>
+        <h5 class="py-3 mb-4">
+            <span class="text-muted fw-light">Utilisateur /</span> {{ $user->username }}
+        </h5>
 
         <!-- Header -->
         <div class="row">
@@ -25,7 +27,44 @@
                             </a>
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
-                            @livewire('HeaderUserProfilAdmin', ['id' => $user->id])
+                            <div
+                                class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                <div class="user-profile-info">
+                                    <h4>
+                                        {{ $user->firstname }} {{ $user->lastname }}
+                                    </h4>
+                                    <ul
+                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                        <li class="list-inline-item d-flex gap-1 cusor">
+                                            <i class="ti ti-color-swatch"></i> {{ $user->email }}
+                                        </li>
+                                        <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>
+                                            {{ $user->ville ?? '/' }}</li>
+                                        <li class="list-inline-item d-flex gap-1">
+                                            <i class="ti ti-calendar"></i> Joined {{ $user->created_at }}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <form action="{{ route('change_picture_statut') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id_user" value="{{ $user->id }}">
+                                    @if (is_null($user->photo_verified_at))
+                                        <a href="javascript:void(0)">
+                                            <button class="btn btn-success" type="submit">
+                                                <i class="ti ti-camera me-1"></i> Accepter
+                                            </button>
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0)">
+                                            <button class="btn btn-danger" type="submit">
+                                                <i class="ti ti-camera me-1"></i> Réfuser
+                                            </button>
+                                        </a>
+                                    @endif
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>

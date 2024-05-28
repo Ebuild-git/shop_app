@@ -44,9 +44,9 @@
                          <option value="" selected>Toutes les catégories</option>
                          @foreach ($categories as $item)
                              <option value="{{ $item->id }}">
-                                {{ $item->titre }}
-                                {{ $item->luxury == true ? "(Luxury)" : ""}}
-                            </option>
+                                 {{ $item->titre }}
+                                 {{ $item->luxury == true ? '(Luxury)' : '' }}
+                             </option>
                          @endforeach
                      </select>
                      <button class="btn btn-primary" type="submit" id="button-addon2">
@@ -62,7 +62,7 @@
 
      <div class="table-responsive text-nowrap">
          <table class="datatables-ajax table">
-             <thead class="{{ $deleted ?  'table-red' : 'table-dark'}}">
+             <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}">
                  <tr>
                      <th>Titre</th>
                      <th>Likes</th>
@@ -79,15 +79,10 @@
                      <tr>
                          <td>
                              <span class="small">
-                                
+
                                  <strong>
                                      {{ Str::of($post->titre)->limit(30) }}
                                  </strong> <br>
-                                 <span class="text-primary cusor" onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
-                                    <i class="bi bi-envelope-fill"></i> 
-                                    écrire
-                                 </span>
-                                 | 
                                  @if ($post->deleted_at)
                                      <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
                                          <i>
@@ -96,6 +91,12 @@
                                          </i>
                                      </span>
                                  @else
+                                     <span class="text-primary cusor"
+                                         onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
+                                         <i class="bi bi-envelope-fill"></i>
+                                         écrire
+                                     </span>
+                                     |
                                      <span class="text-warning">
                                          <i>
                                              <i class="bi bi-alarm"></i>
@@ -104,13 +105,13 @@
                                      </span>
                                  @endif
 
-                                 | 
+                                 |
                                  <span title="Auteur"
                                      onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
                                      <i class="bi bi-person"></i>
                                      <b class="cusor">{{ $post->user_info->firstname }}</b>
                                  </span>
-                                
+
                              </span>
                          </td>
                          <td>
