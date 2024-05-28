@@ -95,7 +95,9 @@ class HomeController extends Controller
     public function user_profile($id)
     {
         $user = User::find($id);
-        return view('User.profile')->with("user", $user);
+        $postsQuery = posts::where("id_user", $user->id);
+        $posts = $postsQuery->get();
+        return view('User.profile')->with("user", $user)->with('posts',$posts);
     }
 
 

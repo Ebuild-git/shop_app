@@ -115,7 +115,7 @@
 
             <!-- row -->
             <div class="row align-items-center rows-products">
-                @forelse ($luxurys as $lux)
+                @foreach ($luxurys as $lux)
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
@@ -128,7 +128,8 @@
                                             alt="..."></a>
                                     <div
                                         class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal"
+                                        <div class="edlio">
+                                            <a href="#" data-toggle="modal"
                                                 data-target="#quickview-{{ $lux->id }}"
                                                 class="text-white fs-sm ft-medium">
                                                 <i class="fas fa-eye mr-1"></i>
@@ -140,9 +141,8 @@
                             <x-SubCardPost :idPost="$lux->id"></x-SubCardPost>
                         </div>
                     </div>
-                    @livewire('User.ProductViewModal', ['id_post' => $lux->id])
-                @empty
-                @endforelse
+                    <x-ProductViewModal :idPost="$lux->id"></x-ProductViewModal>
+                @endforeach
 
             </div>
             <!-- row -->
@@ -206,7 +206,7 @@
                             <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
                         </div>
                     </div>
-                    @livewire('User.ProductViewModal', ['id_post' => $last->id])
+                    <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
                 @empty
                 @endforelse
                 <!-- Single -->
