@@ -250,8 +250,8 @@
                             @endauth
                             @auth
                                 @if (Auth::id() == $post->id_user)
-                                    <button type="button" onclick="Update_post_price({{ $post->id }})" class="btn btn-default btn-block mb-2"
-                                        type="button">
+                                    <button type="button" onclick="Update_post_price({{ $post->id }})"
+                                        class="btn btn-default btn-block mb-2" type="button">
                                         <i class="bi bi-pencil-square"></i>
                                         Modifier le prix
                                     </button>
@@ -375,7 +375,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="slide_items">
-                    @forelse ($other_products as $other)
+                    @foreach ($other_products as $other)
                         <!-- single Item -->
                         <div class="single_itesm">
                             <div class="product_grid card b-0 mb-0">
@@ -391,8 +391,7 @@
                                 <x-SubCardPost :idPost="$other->id"></x-SubCardPost>
                             </div>
                         </div>
-                    @empty
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
         </div>
