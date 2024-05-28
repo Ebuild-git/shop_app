@@ -10,7 +10,7 @@ CountNotification();
 
 
 // Ecoute des notificaions en live
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;
 
 var pusher = new Pusher('5b6f7ad6a8cf384098d9', {
     cluster: 'eu'

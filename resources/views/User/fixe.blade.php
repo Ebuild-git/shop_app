@@ -17,9 +17,7 @@
 
     <link rel="stylesheet" href="{{ asset('style.css?v=') . time() }}">
     <script src="{{ asset('Cart.jsv=') . time() }}"></script>
-    @auth
-        <script src="{{ asset('Auth-Cart.js?v=') . time() }}"></script>
-    @endauth
+
     <!-- Custom CSS -->
 
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
@@ -40,7 +38,9 @@
 
 
 
-
+    @auth
+        <script src="{{ asset('Auth-Cart.js?v=') . time() }}"></script>
+    @endauth
 </head>
 
 <body class="custom-scrollbar">
