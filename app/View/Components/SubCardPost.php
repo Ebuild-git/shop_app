@@ -17,7 +17,7 @@ class SubCardPost extends Component
     {
         $this->show=false;
         $this->id_post = $idPost;
-        $post = posts::select('old_prix','titre','id_sous_categorie','prix','proprietes')->find($idPost);
+        $post = posts::select('old_prix','titre','id_sous_categorie','prix','proprietes','id')->find($idPost);
         if($post){
             $this->post = $post;
             $this->show=true;
