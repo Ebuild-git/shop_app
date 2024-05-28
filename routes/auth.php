@@ -34,8 +34,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 }); 
 
-Route::get('login', [AuthenticatedSessionController::class, 'create'])
-->name('login');
+
 
 
 Route::middleware('auth')->group(function () {

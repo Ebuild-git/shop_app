@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -39,12 +41,12 @@ class AdminController extends Controller
         ];
 
         $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
-        $genres=[
-            "homme"=> User::where('gender','male')->count(),
-            'femme'=>User::where('gender','female')->count()
+        $genres = [
+            "homme" => User::where('gender', 'male')->count(),
+            'femme' => User::where('gender', 'female')->count()
         ];
 
-        return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication","genres"));
+        return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication", "genres"));
     }
 
 
@@ -56,39 +58,67 @@ class AdminController extends Controller
         } else {
             abort(404);
         }
-
     }
 
 
-    public function admin_settings(){
+    public function admin_settings()
+    {
         return view('Admin.parametre.index');
     }
 
-    public function admin_settings_security(){
+    public function admin_settings_security()
+    {
         return view('Admin.parametre.security');
     }
 
 
 
-    public function update_propriete($id){
+    public function update_propriete($id)
+    {
         $propriete = proprietes::find($id);
         $proprietes = proprietes::all();
-        if(!$propriete){
+        if (!$propriete) {
             abort(404);
         }
-        return view("Admin.categories.update_propriete", compact('propriete',"proprietes"));
+        return view("Admin.categories.update_propriete", compact('propriete', "proprietes"));
     }
 
 
-    public function export_users(){
+    public function export_users()
+    {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
 
 
 
+    public function index_login()
+    {
+        return view("auth.login");
+    }
 
-  
- 
+
+    public function post_login(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
+        ], [
+            'required' => 'Ce champ est obligatoire.',
+            'email' => 'Veuillez entrer une adresse email valide.',
+            'exists' => "Cette adresse email n'existe pas.",
+        ]);
 
 
+        $user = User::where('email',$request->email)
+            ->where("role", "admin")
+            ->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Cet e-mail n\'existe pas autorisé!');
+        }
+        if (Auth::attempt(['email' =>$request->email, 'password' =>$request->password])) {
+            return redirect('/dashboard');
+        } else {
+            return redirect()->back()->with('error', 'Echec de connexion');
+        }
+    }
 }

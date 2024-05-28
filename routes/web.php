@@ -28,7 +28,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//gestion de la connexion admin
+Route::get('login', [AdminController::class, 'index_login'])->name('login');
+Route::post('login.post', [AdminController::class, 'post_login'])->name('login.post');
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
 Route::get('/verify/{id_user}/{token}', [Security::class, 'verify_account'])->name('verify_account');
@@ -62,8 +64,8 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
     Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
-  
-   
+
+
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
@@ -77,7 +79,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/like_post', [LikesController::class, 'like_post'])->name('like_post');
 
     //gestion des posts
-    Route::get('/list_motifs', [PostsController::class,'list_motifs'])->name('list_motifs');
+    Route::get('/list_motifs', [PostsController::class, 'list_motifs'])->name('list_motifs');
 
     //gestion des favoris
     Route::get('/favoris', [FavorisController::class, 'index'])->name('favoris');
@@ -90,14 +92,14 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/checkout', [ControllersHomeController::class, 'checkout'])->name('checkout');
     Route::get('/category/post_user', [ControllersHomeController::class, 'get_user_categorie_post'])->name('get_user_categorie_post');
-
-    
 });
 
 
 
 
 Route::group(['middleware' => ['auth', 'role']], function () {
+
+
 
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
 
@@ -110,9 +112,9 @@ Route::group(['middleware' => ['auth', 'role']], function () {
         return view('Admin.categories.index_proprietes');
     })->name('gestion_proprietes');
 
- 
-    
-  
+
+
+
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
     Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);
@@ -132,10 +134,10 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/grille_prix', [CategoriesController::class, 'grille_prix'])->name('grille_prix');
     Route::get('/admin/settings', [AdminController::class, 'admin_settings'])->name('admin_settings');
     Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
-    
+
     Route::get('/admin/update_propriete/{id}', [AdminController::class, 'update_propriete'])->name('update_propriete');
     Route::get('/admin/export-user', [AdminController::class, 'export_users'])->name('export_users');
-   
+
 
     Route::get('/admin/changer_ordre_attribus', [CategoriesController::class, 'changer_ordre_attribus'])->name('changer_ordre_attribus');
 
@@ -172,7 +174,3 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
 
 require __DIR__ . '/auth.php';
-
-
-
-
