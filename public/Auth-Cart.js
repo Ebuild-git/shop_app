@@ -5,6 +5,22 @@ function Update_post_price(id){
     $("#Modal-Update-Post-Price").modal('toggle');
 }
 
+CountPanier();
+
+
+function CountPanier(){
+    $.get(
+        "/count_panier",
+        function (data, status) {
+            if (status === "success") {
+                console.log(data);
+                $("#CountPanier-value").text(data.count);
+            }
+        }
+    );
+}
+
+
 
 function add_cart(id) {
     $.get(
@@ -14,6 +30,7 @@ function add_cart(id) {
         },
         function (data, status) {
             if (status) {
+                CountPanier();
                 Swal.fire({
                     position: "center",
                     icon: false,

@@ -222,30 +222,34 @@ class HomeController extends Controller
         $montant = 0;
         foreach ($cart ?? [] as $item) {
             $produit = posts::find($item['id']);
-            if (!$produit) {
-                $this->delete_form_cart($item['id']);
+            if ($produit) {
                 $produits[]=[
                     'id'=>$produit->id,
                     'titre'=>$produit->titre,
                     'photo' => Storage::url($produit->photos[0] ?? ''),
-                    'prix' => $produit->getPrix(),
+                    'prix' => $produit->getPrix()." DH",
                 ];
                 $montant += $produit->getPrix();
+            }else{
+                $this->delete_form_cart($item['id']);
             }
         }
 
-        $cart2 = json_decode($_COOKIE['cart'] ?? '[]', true);
         return response()->json(
             [
-                'count' => count($cart2 ?? []) ,
-                'cart' => $cart2,
+                'count' => count($cart ?? []) ,
                 'produits' => $produits,
-                'montant' => $montant
+                'montant' => $montant.  " DH",
+                'statut' => true,
             ]
         );
     }
 
 
+
+
+
+    
     public function add_panier(Request $request)
     {
         $id = $request->input('id') ?? "";
@@ -271,7 +275,7 @@ class HomeController extends Controller
 
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
         $productExists = false;
-        foreach ($cart as $item) {
+        foreach ($cart ?? [] as $item) {
             if ($item['id'] == $post->id) {
                 $productExists = true;
                 break;
