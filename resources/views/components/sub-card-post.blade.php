@@ -23,7 +23,19 @@
                         {{ Str::limit($post->titre, 40) }}
                     </a>
                 </h4>
-                {{ $post->sous_categorie_info->titre }}
+                <div class="d-flex justify-content-between">
+                    <div>
+                        {{ $post->sous_categorie_info->titre }}
+                    </div>
+                    @if ($post->proprietes)
+                        @if ($post->proprietes['taille'] ?? null)
+                            <div>
+                                {{ $post->proprietes['taille'] }}
+                            </div>
+                        @endif
+                    @endif
+                </div>
+                
             </div>
         </div>
     @endif
