@@ -14,7 +14,6 @@ function add_cart(id) {
         },
         function (data, status) {
             if (status) {
-                CountPanier();
                 Swal.fire({
                     position: "center",
                     icon: false,

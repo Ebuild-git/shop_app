@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -217,18 +218,29 @@ class HomeController extends Controller
     public function count_panier()
     {
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        foreach ($cart as $item) {
+        $produits = [];
+        $montant = 0;
+        foreach ($cart ?? [] as $item) {
             $produit = posts::find($item['id']);
             if (!$produit) {
                 $this->delete_form_cart($item['id']);
+                $produits[]=[
+                    'id'=>$produit->id,
+                    'titre'=>$produit->titre,
+                    'photo' => Storage::url($produit->photos[0] ?? ''),
+                    'prix' => $produit->getPrix(),
+                ];
+                $montant += $produit->getPrix();
             }
         }
 
         $cart2 = json_decode($_COOKIE['cart'] ?? '[]', true);
         return response()->json(
             [
-                'count' => count($cart2),
+                'count' => count($cart2 ?? []) ,
                 'cart' => $cart2,
+                'produits' => $produits,
+                'montant' => $montant
             ]
         );
     }
