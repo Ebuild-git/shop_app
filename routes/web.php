@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     //gestion des notifications
     Route::get('/user-notifications', [NotificationsController::class, 'user_notifications'])->name('user-notifications');
     Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);
-
+    Route::get('/count_notification', [NotificationsController::class, 'count_notification']);
 
     // gestion des like des posts
     Route::get('/liked', [LikesController::class, 'index'])->name('liked');

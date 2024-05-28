@@ -6,17 +6,44 @@ function Update_post_price(id){
 }
 
 CountPanier();
+CountNotification();
+
+
+// Ecoute des notificaions en live
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('5b6f7ad6a8cf384098d9', {
+    cluster: 'eu'
+});
+
+var channel = pusher.subscribe('my-channel-user-admin-{{ Auth::user()->id }}');
+channel.bind('my-event', function(data) {
+    CountNotification();
+});
+
+
 
 
 function CountPanier(){
     $.get(
         "/count_panier",
         function (data, status) {
-            if (status === "success") {
-                console.log(data);
+            if (status === "success") { 
                 $("#CountPanier-value").text(data.count);
                 $("#Contenu-panier").html(data.html);
                 $("#montant-panier").text(data.montant);
+            }
+        }
+    );
+}
+
+
+function CountNotification(){
+    $.get(
+        "/count_notification",
+        function (data, status) {
+            if (status === "success") {
+                $("#CountNotification-value").text(data.count);
             }
         }
     );
@@ -71,13 +98,14 @@ function delete_notification(id){
         {
             id_notification: id,
         },
-        function (message, status) {
+        function (data, status) {
             if (status) {
                 $('#tr-'+id).hide("slow");
+                CountNotification();
                 Swal.fire({
                     position: "center",
                     icon: false,
-                    text: message,
+                    text: data.message,
                     showConfirmButton: false,
                     timer: 2500,
                     customClass: "swal-wide",

@@ -409,7 +409,11 @@
                                     </a>
                                 @endguest
                                 @auth
-                                    @livewire('User.NotificationsUser')
+                                    <a href="{{ route('user-notifications') }}" style="color: black !important;">
+                                        <i class="lni bi bi-bell icon-icon-header"></i>
+                                        <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                                        <span class="hide-desktop">Notifications</span>
+                                    </a>
                                 @endauth
                             </li>
                             <li class="text-capitalize comment-position" id="comment_position">
@@ -677,7 +681,7 @@
                             <h6 class="mb-0">
                                 Prix total
                             </h6>
-                            <h3 class="mb-0 ft-medium color" >
+                            <h3 class="mb-0 ft-medium color">
                                 <span id="montant-panier">0</span>
                             </h3>
                         </div>

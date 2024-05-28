@@ -45,7 +45,7 @@ class NotificationsController extends Controller
 
     public function delete_notification(Request $request)
     {
-        $id = $request->input('id' ?? null);
+        $id = $request->input('id_notification' ?? null);
         try {
             $notification = notifications::where("id", $id)
                 ->where("id_user_destination", Auth::user()->id)
@@ -55,7 +55,7 @@ class NotificationsController extends Controller
                 return response()->json(
                     [
                         'success' => true,
-                        'message' => 'notification a été supprimé',
+                        'message' => 'Notification a été supprimé',
                     ]
                 );
             }
@@ -77,5 +77,16 @@ class NotificationsController extends Controller
             ->Orderby("id", "Desc")
             ->get();
         return view('User.notifications')->with("notifications", $notifications);
+    }
+
+
+    public function count_notification(){
+        $count =  notifications::where("id_user_destination", Auth::id())->count();
+        return response()->json(
+            [
+                'statut' => true,
+                'count' => $count
+            ]
+        );
     }
 }
