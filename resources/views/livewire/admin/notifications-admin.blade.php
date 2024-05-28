@@ -26,10 +26,10 @@
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
                                     @if ($item->type == 'new_post')
-                                        <img src="{{ Storage::url($item->getUser->avatar ?? '') }}" alt
+                                        <img src="{{ $item->getUser->getAvatar() }}" alt
                                             class="h-auto rounded-circle" />
                                     @elseif($item->type == 'photo')
-                                        <img src="{{ Storage::url($item->getUser->avatar ?? '') }}" alt
+                                        <img src="{{ $item->getUser->getAvatar() }}" alt
                                             class="h-auto rounded-circle" />
                                     @else
                                         <img src="/assets-admin/img/avatars/1.png" alt class="h-auto rounded-circle" />

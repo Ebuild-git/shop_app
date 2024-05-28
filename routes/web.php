@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
 
     Route::post('/admin/change_picture_statut', [InformationsController::class, 'change_picture_statut'])->name('change_picture_statut');
+    Route::post('/admin/update_information_website', [InformationsController::class, 'update_information_website'])->name('update_information_website');
 });
 
 
