@@ -17,7 +17,7 @@ class ProductViewModal extends Component
     {
         $this->show=false;
         $this->id_post = $idPost;
-        $post = posts::select('old_prix','titre','id_sous_categorie','prix','proprietes','id','photos')->find($idPost);
+        $post = posts::select('old_prix','titre','id_sous_categorie','prix','proprietes','id','photos',"description")->find($idPost);
         if($post){
             $this->post = $post;
             $this->show=true;

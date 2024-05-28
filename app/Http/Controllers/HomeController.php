@@ -97,7 +97,7 @@ class HomeController extends Controller
         $user = User::find($id);
         $postsQuery = posts::where("id_user", $user->id);
         $posts = $postsQuery->get();
-        return view('User.profile')->with("user", $user)->with('posts',$posts);
+        return view('User.profile')->with("user", $user)->with('posts', $posts);
     }
 
 
@@ -233,7 +233,7 @@ class HomeController extends Controller
                     'prix' => $produit->getPrix() . " DH",
                 ];
                 $montant += $produit->getPrix();
-                
+
                 $html .= '<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
@@ -252,17 +252,16 @@ class HomeController extends Controller
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray" type="button" onclick="remove_to_card('.$produit->id.')">
+                        <button class="close_slide gray" type="button" onclick="remove_to_card(' . $produit->id . ')">
                             <i class="ti-close"></i>
                         </button>
                     </div>
                 </div>';
-                
             } else {
                 $this->delete_form_cart($item['id']);
             }
         }
-    
+
         return response()->json(
             [
                 'count' => count($cart ?? []),
@@ -273,13 +272,14 @@ class HomeController extends Controller
             ]
         );
     }
-    
 
 
 
-    public function remove_to_card(Request $request){
+
+    public function remove_to_card(Request $request)
+    {
         $id = $request->input('id') ?? "";
-        if($id){
+        if ($id) {
             $this->delete_form_cart($id);
             return response()->json(
                 [
@@ -474,9 +474,19 @@ class HomeController extends Controller
 
 
 
-    public function index_mes_achats()
+    public function index_mes_achats(Request $request)
     {
-        return view("User.mes-achats");
+        $date = $request->input('date' ?? null);
+        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "prix", "sell_at", "id");
+        if (!empty($date)) {
+            $Query->whereDate('sell_at', $date);
+        }
+        $achats = $Query->paginate(30);
+        $total = posts::where("id_user_buy", Auth::id())->count();
+        return view("User.mes-achats")
+            ->with("achats", $achats)
+            ->with('date',$date)
+            ->with("total", $total);
     }
 
 
