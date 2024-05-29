@@ -79,6 +79,11 @@ class Shop extends Component
     public function filtre_cat($id_categorie)
     {
         $this->categorie = $id_categorie;
+       
+        //on annuller tout les osus filtre
+        $this->sous_categorie = null;
+        $this->luxury_only = false;
+
         $this->resetPage();
     }
 

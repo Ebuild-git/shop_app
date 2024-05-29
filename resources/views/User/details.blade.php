@@ -197,7 +197,7 @@
                                 </span>
                                 &nbsp;
                             @endif
-                            <span class="text-success bg-light-info rounded px-2 py-1">
+                            <span class=" bg-light-info rounded color px-2 py-1">
                                 {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                             </span>
                             <span class="text-muted">

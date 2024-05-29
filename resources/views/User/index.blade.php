@@ -126,22 +126,11 @@
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
                                         <img class="card-img-top" src="{{ Storage::url($lux->photos[0] ?? '') }}"
                                             alt="..."></a>
-                                    <div
-                                        class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio">
-                                            <a href="#" data-toggle="modal"
-                                                data-target="#quickview-{{ $lux->id }}"
-                                                class="text-white fs-sm ft-medium">
-                                                <i class="fas fa-eye mr-1"></i>
-                                                vue rapide </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <x-SubCardPost :idPost="$lux->id"></x-SubCardPost>
                         </div>
                     </div>
-                    <x-ProductViewModal :idPost="$lux->id"></x-ProductViewModal>
                 @endforeach
 
             </div>
@@ -152,7 +141,7 @@
                         <div class="position-relative text-center">
                             <a href="/shop?luxury_only=true" class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
-                                    Voir Plus 
+                                    Voir Plus
                                 </span>
                                 <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -189,17 +178,6 @@
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
                                         <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="...">
                                     </a>
-                                    <div
-                                        class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio">
-                                            <a href="#" data-toggle="modal"
-                                                data-target="#quickview-{{ $last->id }}"
-                                                class="text-white fs-sm ft-medium">
-                                                <i class="fas fa-eye mr-1"></i>
-                                                Vue rapide
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
