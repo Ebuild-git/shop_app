@@ -479,7 +479,7 @@
         }
 
         function fetchProducts() {
-            $.get(
+            $.post(
                 "/recherche", {
                     key: key,
                     region: region,
@@ -487,6 +487,7 @@
                     check_luxury: check_luxury_only,
                     categorie: categorie,
                     sous_categorie: sous_categorie,
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
                     if (status === "success") {

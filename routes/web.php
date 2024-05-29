@@ -49,7 +49,7 @@ Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forge
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 
-Route::get('/recherche', [ShopController::class, 'index'])->name('recherche');
+Route::post('/recherche', [ShopController::class, 'index'])->name('recherche');
 
 //panier
 Route::get('/remove_to_card', [ControllersHomeController::class, 'remove_to_card'])->name('remove_to_card');
