@@ -35,7 +35,7 @@
                     </div>
                     Ventes : {{ $user->total_sales ?? 0 }}
                 </div>
-                <div class="col text-center" onclick="ShowPostsCatgorie({{ $user->id }})">
+                <div class="col text-center cusor" onclick="ShowPostsCatgorie({{ $user->id }})">
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>

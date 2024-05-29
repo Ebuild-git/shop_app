@@ -368,20 +368,14 @@
                             </li>
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                 <div class="div-sroll-recherche">
-                                    <form action="/shop" method="get" class="position-relative">
-                                        <button type="submit" class="span-icon-recherche cusor">
-                                            <i class="bi bi-search"></i>
-                                        </button>
+                                    <form action="/shop" method="get" class="container-search">
                                         @csrf
-                                        <div class="input-group mb-3">
-                                            <input type="text" id="myInputRecherche"
-                                                class="transition-width myInputRecherche zoom-in cusor" name="key"
-                                                placeholder="Recherche un article">
-                                            <a class="btn bg-red p-2" href="/publication" type="button">
-                                                <i class="lni lni-circle-plus"></i>
-                                            </a>
+                                        <div class="container-search">
+                                            <input type="text" placeholder="Recherche..." name="key">
+                                            <button type="submit" class="search-search">
+                                                <i class="bi bi-search"></i>
+                                            </button>
                                         </div>
-
                                     </form>
                                 </div>
                             </li>
