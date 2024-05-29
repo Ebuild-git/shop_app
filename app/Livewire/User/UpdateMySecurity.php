@@ -24,7 +24,7 @@ class UpdateMySecurity extends Component
         ],[
             'old_password.required' => 'Veuillez saisir votre ancien mot de passe',
             'password.required' => 'Veuillez saisir votre nouveau mot de passe',
-            'password.confirmed' => 'Veuillez confirmer votre nouveau mot de passe',
+            'password.confirmed' => 'La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe',
             'password.min' => 'Votre nouveau mot de passe doit contenir au moins 8 caractères'
         ]);
 

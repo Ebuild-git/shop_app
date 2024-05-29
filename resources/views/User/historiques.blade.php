@@ -7,19 +7,14 @@
 
         <div class="card p-3">
             <div class="d-flex justify-content-between">
-                <div>
+                <div class="h4 my-auto">
                     @if ($count == 0)
-                        <span class="h4">
-                            Créer Votre Première publication
-                            <span class="text-red">Maintenant </span> !
-                        </span>
+                        Créer Votre Première publication
+                        <span class="text-red">Maintenant </span> !
                     @else
-                        <span class="h4">
-                            Créer une publication
-                            <span class="text-red">Maintenant </span> !
-                        </span>
+                        Créer une publication
+                        <span class="text-red">Maintenant </span> !
                     @endif
-
                 </div>
                 <div style="text-align: right">
                     <a href="/publication">
@@ -47,22 +42,23 @@
                     Mes annonces
                 </button>
             </div>
+            <br>
             <div class="border border-1 p-3 rounded card">
                 <div class="div-data" id="div-achat">
-                    @livewire('User.ListeAchat')
+                 @livewire('User.ListeAchat') 
                 </div>
                 <div class="div-data" id="div-vente" style="display: none">
-                    @livewire('User.ListMesPosts', ["titre"=>"Mes ventes","filter"=>false,"statut"=>"vendu"])
+                    @livewire('User.ListMesPosts', ['titre' => 'Mes ventes', 'filter' => false, 'statut' => 'vendu'])
                 </div>
                 <div class="div-data" id="div-pub" style="display: none">
-                    @livewire('User.ListMesPosts', ["titre"=>"Mes publications","filter"=>true,"statut"=>null])
+                    @livewire('User.ListMesPosts', ['titre' => 'Mes publications', 'filter' => true, 'statut' => null])
                 </div>
             </div>
         </div>
     </div>
     <script>
         function change(type) {
-            
+
             if (type == "vente") {
                 document.getElementById("div-vente").style.display = "none";
                 document.getElementById("div-achat").style.display = "none";
