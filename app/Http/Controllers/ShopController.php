@@ -68,10 +68,12 @@ class ShopController extends Controller
         }
 
         if ($categorie) {
-            $query->whereHas('sous_categorie_info.categorie', function ($query) {
-                $query->where('id', $query);
+            $id_categorie = $categorie;
+            $query->whereHas('sous_categorie_info.categorie', function ($query) use ($id_categorie) {
+                $query->where('id', $id_categorie);
             });
         }
+        
 
         if ($sous_categorie) {
             $query->where('id_sous_categorie', $sous_categorie);
