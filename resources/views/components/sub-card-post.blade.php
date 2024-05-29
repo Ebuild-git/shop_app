@@ -6,6 +6,7 @@
                     <strike class="elis_rty color">
                         {{ $post->getOldPrix() }} DH
                     </strike>
+                    &nbsp;&nbsp;&nbsp;
                 @endif
                 <div class="@if ($post->old_prix) text-danger @else color @endif ft-bold fs-sm">
                     {{ $post->getPrix() }} DH
