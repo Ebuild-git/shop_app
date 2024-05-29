@@ -37,6 +37,12 @@
                                     {{ $post->proprietes['Taille'] }}
                                 </b>
                             </div>
+                        @elseif($post->proprietes['Pointure'] ?? null)
+                            <div>
+                                <b>
+                                    {{ $post->proprietes['Pointure'] }}
+                                </b>
+                            </div>
                         @endif
                     @endif
                 </div>
