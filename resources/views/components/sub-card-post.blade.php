@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between mb-1">
             <div class="d-flex justify-content-between mb-1">
                 @if ($post->old_prix)
-                    <strike class="elis_rty color">
+                    <strike class="elis_rty color strong">
                         {{ $post->getOldPrix() }} DH
                     </strike>
                     &nbsp;&nbsp;&nbsp;
