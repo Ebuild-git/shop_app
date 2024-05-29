@@ -355,9 +355,10 @@
                     @empty
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1 color">
-                                        <i class="bi bi-info-circle"></i>
+                                        <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/disappointed--v1.png" alt="disappointed--v1"/>
+                                        <br>
                                         Aucun résultat trouvé
                                     </h5>
                                 </div>
