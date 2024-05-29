@@ -538,6 +538,9 @@ class HomeController extends Controller
         } else {
             $luxury_only == "true";
         }   
+        if(!$luxury_only){
+            $luxury_only == "false";
+        }
 
         
         return view('User.shop')
