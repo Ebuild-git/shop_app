@@ -177,12 +177,10 @@
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
-                            <form wire:submit="filtrer">
                                 <div>
                                     <input type="text" class="form-control" id="key" name="key"
                                         placeholder="Mot clé de recherche">
                                 </div>
-
                                 <!-- Single Option -->
                                 <div class="single_search_boxed">
                                     <div class="widget-boxed-header px-3">
@@ -366,8 +364,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                            <br>
                             <a href="/shop" class="btn btn-sm btn-dark btn-block" type="reset">
                                 <i class="fas fa-sync-alt"></i>
                                 Réinitialiser la recherche 
