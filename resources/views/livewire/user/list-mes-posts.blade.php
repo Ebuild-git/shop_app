@@ -19,9 +19,8 @@
                                 <option value="livré">Déja livré</option>
                             </select>
                         @endif
-                        <input type="month" class="form-controlsm cusor " id="month-btn" wire:model="date"
-                            >
-                            <input type="text" readonly placeholder="Mois / Année" class="month-input d-none">
+                        <input type="month" class="form-controlsm cusor " id="month-btn" wire:model="date">
+                        <input type="text" readonly placeholder="Mois / Année" class="month-input ">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -63,7 +62,7 @@
                         </span>
                     </td>
                     <td class="text-capitalize">
-                        <x-AnnonceStatut :statut="$item->statut" ></x-AnnonceStatut>
+                        <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
                     </td>
                     <td>
                         @if ($item->old_prix)
@@ -79,7 +78,7 @@
                         @endif
                     </td>
                     <td>
-                        @if ( $item->id_motif != null)
+                        @if ($item->id_motif != null)
                             <span class="text-secondary cusor" onclick="get_posts_motifs({{ $item->id }})">
                                 <b>
                                     <i class="bi bi-eye"></i>
@@ -116,7 +115,8 @@
                 <tr>
                     <th colspan="6">
                         <div class="alert alert-info text-center">
-                            <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/empty-box.png" alt="empty-box"/>
+                            <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/empty-box.png"
+                                alt="empty-box" />
                             <br>
                             Aucun article trouvé pour ces critères de recherche.
                         </div>
@@ -128,12 +128,15 @@
 
 
 
-<script>
-    $(".month-input").on('click',function(){
-        //make click on month-btn
-        $('#month-btn').trigger("click");
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+            $(".month-input").on('click', function() {
+                //make click on month-btn
+                $('#month-btn').trigger("click");
+                alert('dd');
+            });
+        });
+    </script>
 
 
 

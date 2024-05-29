@@ -46,8 +46,9 @@
                 <div class="subnav-content p-2">
                     <div class="row">
                         <div class="col-sm-2">
-                            <button class="button w-100 text-left" type="button" wire:click="filtre_cat({{ $cat->id }})">
-                                {{ Str::limit("Tout " .$cat->titre, 18) }}
+                            <button class="button w-100 text-left" type="button"
+                                wire:click="filtre_cat({{ $cat->id }})">
+                                {{ Str::limit('Tout ' . $cat->titre, 18) }}
                             </button>
                         </div>
                         @foreach ($cat->getSousCategories as $item)
@@ -74,7 +75,8 @@
                     <div class="search-sidebar-body">
                         <form wire:submit="filtrer">
                             <div>
-                                <input type="text" class="form-control" wire:model.live="key" placeholder="Mot clé">
+                                <input type="text" class="form-control" id="key" name="key"
+                                    placeholder="Mot clé de recherche">
                             </div>
 
                             <!-- Single Option -->
@@ -85,8 +87,7 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-                                            <div class="single_filter_card cusor color"
-                                                wire:click="check_luxury_only()">
+                                            <div class="single_filter_card cusor color" onclick="check_luxury()">
                                                 <b>
                                                     Uniquement Luxury <i class="bi bi-gem"></i>
                                                 </b>
@@ -337,41 +338,6 @@
 
                 <!-- row -->
                 <div class="row align-items-center rows-products">
-
-                    @forelse ($posts as $post)
-                        <!-- Single -->
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-6">
-                            <div class="product_grid card b-0">
-                                <div class="card-body p-0">
-                                    <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden"
-                                            href="/post/{{ $post->id }}">
-                                            <img src="{{ Storage::url($post->photos[0] ?? '') }}" alt="..."></a>
-                                    </div>
-                                </div>
-                                <x-SubCardPost :idPost="$post->id"></x-SubCardPost>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1 color">
-                                        <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/disappointed--v1.png" alt="disappointed--v1"/>
-                                        <br>
-                                        Aucun résultat trouvé
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                    @endforelse
-
-
-                </div>
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 text-center">
-                        {{ $posts->links('pagination::bootstrap-4') }}
-                    </div>
                 </div>
             </div>
 
@@ -379,3 +345,44 @@
     </div>
 
 </section>
+
+<script>
+    //initialisation
+    var check_luxury_only = false;
+    var key = "";
+    var categorie = "";
+
+
+    $(document).ready(function() {
+        // Faire la requête initiale au chargement de la page
+        fetchProducts();
+
+        // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
+        $('#key').on('input', function() {
+            key = $('#key').val();
+            fetchProducts();
+        });
+    });
+
+
+    function check_luxury() {
+        check_luxury_only = "true";
+        fetchProducts();
+    }
+
+    function fetchProducts() {
+        $.get(
+            "/recherche", {
+                key: key,
+                check_luxury: check_luxury_only,
+                categorie: categorie,
+            }, // Passer la valeur de la recherche comme paramètre
+            function(data, status) {
+                if (status === "success") {
+                    $(".rows-products").empty();
+                    $(".rows-products").html(data.html);
+                }
+            }
+        );
+    }
+</script>

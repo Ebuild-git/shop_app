@@ -604,7 +604,7 @@
                                     <ul class="footer-menu">
                                         <li><a href="/contact">Contactez-nous</a></li>
                                         <li><a href="#">Page FAQs</a></li>
-                                        <li><a href="#">Abonnez-vous</a></li>
+                                        <li><a href="/inscription">Abonnez-vous</a></li>
                                         <li><a href="/connexion">Connexion</a></li>
                                     </ul>
                                 </div>

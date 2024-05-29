@@ -28,7 +28,7 @@
                 <table class="table">
                     <thead style="background-color: #008080;color: white !important;">
                         <tr>
-                            <td>Publication</td>
+                            <td>Annonces</td>
                             <td>Prix</td>
                             <td>Statut</td>
                             <td></td>
