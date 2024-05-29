@@ -191,19 +191,19 @@
 
                         <div class="prt_01 mb-2">
                             @if ($post->sous_categorie_info->categorie->luxury == 1)
-                                <span class="text-success bg-light-success rounded px-2 py-1">
+                                <span class="text-success bg-light-success rounded strong px-2 py-1">
                                     <i class="bi bi-gem"></i>
                                     SHOPIN LUXURY
                                 </span>
                                 &nbsp;
                             @endif
-                            <span class=" bg-light-info rounded color px-2 py-1">
+                            <span class=" bg-light-info rounded color px-2 py-1 strong" style="background-color: #0080802d">
                                 {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                             </span>
                             <span class="text-muted">
                                 &nbsp;
                             </span>
-                            <span class=" rounded px-2 py-1 mr-2" style="background-color: #ecedf1">
+                            <span class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
                                 {{ $post->sous_categorie_info->titre }}
                             </span>
                             <div class="prt_02 mb-5 mt-3">
@@ -214,17 +214,17 @@
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
                                         @if ($post->old_prix)
-                                            <span class=" color fs-lg">
+                                            <span class="strong color fs-lg">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
                                                 </strike> DH
                                             </span>
                                             <br>
-                                            <span class="text-danger">
+                                            <span class="text-danger h5 strong">
                                                 {{ $post->getPrix() }} DH
                                             </span>
                                         @else
-                                            <span class="ft-bold color fs-lg">
+                                            <span class="ft-bold color strong fs-lg">
                                                 {{ $post->getPrix() }} DH
                                             </span>
                                         @endif

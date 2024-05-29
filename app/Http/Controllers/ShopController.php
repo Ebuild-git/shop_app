@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\posts;
+use App\Models\proprietes;
+use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,6 +24,8 @@ class ShopController extends Controller
         $etat = $request->input('etat' ?? null);
         $luxury_only = $request->input('check_luxury' ?? null);
         $html = "";
+        $html_sous_cat = "";
+        $ArrayProprietes = [];
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
@@ -71,10 +75,32 @@ class ShopController extends Controller
                 $query->where('id', $id_categorie);
             });
         }
-        
+
 
         if ($sous_categorie) {
             $query->where('id_sous_categorie', $sous_categorie);
+
+            $sous_cat = sous_categories::select("proprietes")->find($sous_categorie);
+            if ($sous_cat) {
+                foreach ($sous_cat->proprietes as $propriete) {
+                    $proprietes = proprietes::select("options", "nom")->find($propriete);
+                    if ($proprietes) {
+                        $optionsArray = [];
+                        foreach ($proprietes->options ?? [] as $pro) {
+                            $optionsArray[] = [
+                                "nom" => $pro
+                            ];
+                        }
+                        $html_sous_cat .= '';
+                        if (!empty($optionsArray)) {
+                            $ArrayProprietes[] = [
+                                "nom" => $proprietes->nom,
+                                "options" => $optionsArray
+                            ];
+                        }
+                    }
+                }
+            }
         }
 
         if (!empty($etat)) {
@@ -84,7 +110,7 @@ class ShopController extends Controller
         $posts = $query->paginate(30);
         foreach ($posts as $post) {
             $photo = Storage::url($post->photos[0] ?? '');
-            $subCardPostHtml = view('components.sub-card-post', ['post' => $post,'show'=>true])->render();
+            $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
 
             $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
@@ -107,7 +133,9 @@ class ShopController extends Controller
                 [
                     'count_resultat' => $posts->count(),
                     "total" => $total,
-                    "html" => $html
+                    "html" => $html,
+                    "proprietes_sous_cat" => $ArrayProprietes,
+                    "html_sous_cat" =>  $html_sous_cat,
                 ]
             );
     }
