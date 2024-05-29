@@ -81,8 +81,6 @@ class ShopController extends Controller
             $query->where('etat', $etat);
         }
 
-        $regions = regions::all();
-
         $posts = $query->paginate(30);
         foreach ($posts as $post) {
             $photo = Storage::url($post->photos[0] ?? '');
@@ -108,7 +106,6 @@ class ShopController extends Controller
             ->json(
                 [
                     'count_resultat' => $posts->count(),
-                    "regions" => $regions,
                     "total" => $total,
                     "html" => $html
                 ]
