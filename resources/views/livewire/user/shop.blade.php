@@ -47,8 +47,8 @@
                     <div class="row">
                         @foreach ($cat->getSousCategories as $item)
                             <div class="col-sm-2">
-                                <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
-                                    {{ $item->titre }}
+                                <button type="button w-100" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
+                                    {{ Str::limit($item->titre , 18) }}
                                 </button>
                             </div>
                         @endforeach
