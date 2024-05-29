@@ -44,16 +44,13 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="subnav-content p-2">
-                    <div class="d-flex flex-wrap">
-                        <button class="p-1" type="button" wire:click="filtre_cat({{ $cat->id }})">
-                            Tout {{ $cat->titre }}
-                        </button>
-                        &nbsp;
+                    <div class="row">
                         @foreach ($cat->getSousCategories as $item)
-                            <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
-                                {{ $item->titre }}
-                            </button>
-                            &nbsp;
+                            <div class="col-sm-2">
+                                <button type="button" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
+                                    {{ $item->titre }}
+                                </button>
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -169,7 +166,7 @@
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="checkbox" wire:click="choix_etat('Neuf sans étiquettes')">
-                                                <button type="button" class="btn-etat-shop cusor" >
+                                                <button type="button" class="btn-etat-shop cusor">
                                                     Neuf sans étiquettes
                                                 </button>
                                             </div>
