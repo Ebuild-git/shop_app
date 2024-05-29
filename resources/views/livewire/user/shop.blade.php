@@ -45,10 +45,17 @@
                 </button>
                 <div class="subnav-content p-2">
                     <div class="row">
+                        <div class="col-sm-2">
+                            <button class="p-1 w-100" type="button" wire:click="filtre_cat({{ $cat->id }})">
+                                Tout {{ $cat->titre }}
+                            </button>
+                            &nbsp;
+                        </div>
                         @foreach ($cat->getSousCategories as $item)
                             <div class="col-sm-2">
-                                <button type="button w-100" class="p-1" wire:click="filtre_sous_cat({{ $item->id }})">
-                                    {{ Str::limit($item->titre , 18) }}
+                                <button type="button w-100" class="p-1"
+                                    wire:click="filtre_sous_cat({{ $item->id }})">
+                                    {{ Str::limit($item->titre, 18) }}
                                 </button>
                             </div>
                         @endforeach
