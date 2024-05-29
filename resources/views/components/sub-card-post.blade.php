@@ -1,7 +1,7 @@
 <div class="card-footer b-0 p-0 pt-2 bg-white">
     @if ($show)
-        <div class="d-flex justify-content-between mb-2">
-            <div class="d-flex justify-content-between mb-2">
+        <div class="d-flex justify-content-between mb-1">
+            <div class="d-flex justify-content-between mb-1">
                 @if ($post->old_prix)
                     <strike class="elis_rty color">
                         {{ $post->getOldPrix() }} DH
