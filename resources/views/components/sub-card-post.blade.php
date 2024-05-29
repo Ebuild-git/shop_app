@@ -1,13 +1,15 @@
 <div class="card-footer b-0 p-0 pt-2 bg-white">
     @if ($show)
         <div class="d-flex justify-content-between mb-2">
-            @if ($post->old_prix)
-                <strike class="elis_rty color">
-                    {{ $post->getOldPrix() }} DH
-                </strike>
-            @endif
-            <div class="@if ($post->old_prix) text-danger @else color @endif ft-bold fs-sm">
-                {{ $post->getPrix() }} DH
+            <div class="d-flex justify-content-between mb-2">
+                @if ($post->old_prix)
+                    <strike class="elis_rty color">
+                        {{ $post->getOldPrix() }} DH
+                    </strike>
+                @endif
+                <div class="@if ($post->old_prix) text-danger @else color @endif ft-bold fs-sm">
+                    {{ $post->getPrix() }} DH
+                </div>
             </div>
             @if ($post->sous_categorie_info->categorie->luxury == 1)
                 <div class="color strong">
@@ -30,9 +32,9 @@
                     @if ($post->proprietes)
                         @if ($post->proprietes['Taille'] ?? null)
                             <div>
-                               <b>
-                                {{ $post->proprietes['Taille'] }}
-                               </b>
+                                <b>
+                                    {{ $post->proprietes['Taille'] }}
+                                </b>
                             </div>
                         @endif
                     @endif
