@@ -24,8 +24,8 @@ class ShopController extends Controller
         $etat = $request->input('etat' ?? null);
         $luxury_only = $request->input('check_luxury' ?? null);
         $html = "";
-        $html_sous_cat = "";
-        $ArrayProprietes = [];
+        $SugestionProprietes = "";
+        
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
@@ -82,6 +82,7 @@ class ShopController extends Controller
 
             $sous_cat = sous_categories::select("proprietes")->find($sous_categorie);
             if ($sous_cat) {
+                $ArrayProprietes = [];
                 foreach ($sous_cat->proprietes as $propriete) {
                     $proprietes = proprietes::select("options", "nom")->find($propriete);
                     if ($proprietes) {
@@ -91,7 +92,6 @@ class ShopController extends Controller
                                 "nom" => $pro
                             ];
                         }
-                        $html_sous_cat .= '';
                         if (!empty($optionsArray)) {
                             $ArrayProprietes[] = [
                                 "nom" => $proprietes->nom,
@@ -100,6 +100,7 @@ class ShopController extends Controller
                         }
                     }
                 }
+                $SugestionProprietes = view('components.sugestion-proprietes', ['optionsArray' => $optionsArray ?? [], 'ArrayProprietes' => $ArrayProprietes ?? []])->render();
             }
         }
 
@@ -134,8 +135,7 @@ class ShopController extends Controller
                     'count_resultat' => $posts->count(),
                     "total" => $total,
                     "html" => $html,
-                    "proprietes_sous_cat" => $ArrayProprietes,
-                    "html_sous_cat" =>  $html_sous_cat,
+                    "SugestionProprietes" =>  $SugestionProprietes,
                 ]
             );
     }
