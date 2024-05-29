@@ -31,19 +31,13 @@
                         {{ $post->sous_categorie_info->titre }}
                     </div>
                     @if ($post->proprietes)
-                        @if ($post->proprietes['Taille'] ?? null)
-                            <div>
-                                <b>
-                                    {{ $post->proprietes['Taille'] }}
-                                </b>
-                            </div>
-                        @elseif($post->proprietes['Pointure'] ?? null)
-                            <div>
-                                <b>
-                                    {{ $post->proprietes['Pointure'] }}
-                                </b>
-                            </div>
-                        @endif
+                        <div class="strong">
+                            @if ($post->proprietes['Taille'] ?? null)
+                                {{ $post->proprietes['Taille'] }}
+                            @elseif($post->proprietes['Pointure'] ?? null)
+                                {{ $post->proprietes['Pointure'] }}
+                            @endif
+                        </div>
                     @endif
                 </div>
             </div>
