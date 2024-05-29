@@ -321,11 +321,11 @@
                                             <!-- Single Filter Card -->
                                             <div>
                                                 <button type="button" class="btn-etat-shop cusor"
-                                                    wire:click="choix_ordre('Desc')">
+                                                    onclick="choix_ordre_prix('Desc')">
                                                     Moins couteux au plus couteux
                                                 </button>
                                                 <button type="button" class="btn-etat-shop cusor"
-                                                    wire:click="choix_ordre('Asc')">
+                                                    onclick="choix_ordre_prix('Asc')">
                                                     Plus couteux au moins couteux
                                                 </button>
                                                 @error('ordre')
@@ -439,6 +439,7 @@
         var categorie = "";
         var sous_categorie = "";
         var region = "";
+        var ordre_prix ="";
 
 
         $(document).ready(function() {
@@ -452,6 +453,10 @@
             });
         });
 
+        function choix_ordre_prix(ordre){
+            ordre_prix = ordre;
+            fetchProducts();
+        }
 
         function check_luxury() {
             check_luxury_only = "true";
@@ -478,6 +483,7 @@
                 "/recherche", {
                     key: key,
                     region: region,
+                    ordre_prix:ordre_prix,
                     check_luxury: check_luxury_only,
                     categorie: categorie,
                     sous_categorie: sous_categorie,
