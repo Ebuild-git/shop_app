@@ -179,7 +179,7 @@
             <!-- row -->
             <div class="row align-items-center rows-products">
 
-                @forelse ($last_post as $last)
+                @foreach ($last_post as $last)
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
@@ -205,9 +205,7 @@
                             <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
                         </div>
                     </div>
-                    <x-SubCardPost :idPost="$last->id"></x-SubCardPost>
-                @empty
-                @endforelse
+                @endforeach
                 <!-- Single -->
 
 

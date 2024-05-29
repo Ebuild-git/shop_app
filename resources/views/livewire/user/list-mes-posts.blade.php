@@ -1,12 +1,12 @@
 <div class=" p-3">
     <div>
-        <div class="d-flex justify-content-between">
-            <div>
+        <div class="row">
+            <div class="col-sm-4">
                 <h5>
                     {{ $titre }}
                 </h5>
             </div>
-            <div>
+            <div class="col-sm-8">
                 <form wire:submit="filtrer">
                     <div class="d-flex justify-content-start mb-3">
                         @if ($filter === true)
@@ -19,8 +19,9 @@
                                 <option value="livré">Déja livré</option>
                             </select>
                         @endif
-                        <input type="month" class="form-control sm cusor" wire:model="date"
-                            placeholder="Mois / Année">
+                        <input type="month" class="form-controlsm cusor " id="month-btn" wire:model="date"
+                            >
+                            <input type="text" readonly placeholder="Mois / Année" class="month-input d-none">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -37,8 +38,8 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col" style="width: 51px;">#</th>
-                <th scope="col">titre</th>
+                <th scope="col" style="width: 51px;"></th>
+                <th scope="col">Article</th>
                 <th scope="col">Statut</th>
                 <th scope="col">Prix</th>
                 <th scope="col">Décision</th>
@@ -62,15 +63,15 @@
                         </span>
                     </td>
                     <td class="text-capitalize">
-                        {{ $item->statut }}
+                        <x-AnnonceStatut :statut="$item->statut" ></x-AnnonceStatut>
                     </td>
                     <td>
                         @if ($item->old_prix)
-                            <b>
+                            <b class="text-danger">
                                 {{ $item->prix }} DH
                             </b>
                             <br>
-                            <strike class="text-danger">
+                            <strike class="color strong">
                                 {{ $item->old_prix }} DH
                             </strike>
                         @else
@@ -113,8 +114,10 @@
                 </tr>
             @empty
                 <tr>
-                    <th colspan="5">
-                        <div class="alert alert-warning">
+                    <th colspan="6">
+                        <div class="alert alert-info text-center">
+                            <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/empty-box.png" alt="empty-box"/>
+                            <br>
                             Aucun article trouvé pour ces critères de recherche.
                         </div>
                     </th>
@@ -125,7 +128,12 @@
 
 
 
-
+<script>
+    $(".month-input").on('click',function(){
+        //make click on month-btn
+        $('#month-btn').trigger("click");
+    });
+</script>
 
 
 

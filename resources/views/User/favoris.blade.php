@@ -28,7 +28,7 @@
                 <table class="table">
                     <thead style="background-color: #008080;color: white !important;">
                         <tr>
-                            <td>Publication</td>
+                            <td>Annonces</td>
                             <td>Prix</td>
                             <td>Statut</td>
                             <td></td>
@@ -40,16 +40,16 @@
                                 <td>
                                     <div class="d-flex justify-content-start">
                                         <div class="avatar-post-like">
-                                            <img src="{{ $favoris->post->FirstImage() }}" alt="" 
-                                                srcset="">
+                                            <img src="{{ $favoris->post->FirstImage() }}" alt="" srcset="">
                                         </div>
                                         <div class="my-auto">
-                                           <a href="{{ route('details_post_single',['id'=> $favoris->post->id])}}" class="h6">
-                                            {{ $favoris->post->titre }}
-                                           </a>
-                                           <br>
+                                            <a href="{{ route('details_post_single', ['id' => $favoris->post->id]) }}"
+                                                class="h6">
+                                                {{ $favoris->post->titre }}
+                                            </a>
+                                            <br>
                                             <span class="small">
-                                                Publié le   {{ $favoris->post->created_at }}
+                                                Publié le {{ $favoris->post->created_at }}
                                             </span>
                                         </div>
                                     </div>
@@ -58,21 +58,23 @@
                                     {{ $favoris->post->getPrix() }} DH
                                 </td>
                                 <td>
-                                    {{ $favoris->post->statut }}
+                                    <x-AnnonceStatut :statut="$favoris->post->statut" ></x-AnnonceStatut>
                                 </td>
                                 <td class="text-end">
-                                    <span class="text-danger cusor" type="button" onclick="remove_favoris({{ $favoris->id }})">
+                                    <button class="text-danger btn btn-sm cusor" type="button"
+                                        onclick="remove_favoris({{ $favoris->id }})">
                                         <b>
                                             <i class="bi bi-x"></i> Rétirer
                                         </b>
-                                    </span>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="4">
-                                    <div class="alert text-center">
-                                        <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/favorites.png" alt="favorites"/>
+                                    <div class="alert alert-info text-center">
+                                        <img width="100" height="100"
+                                            src="https://img.icons8.com/ios/100/008080/favorites.png" alt="favorites" />
                                         <br>
                                         <i class="color">
                                             Vous n'avez pas encore de favoris !
