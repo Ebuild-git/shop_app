@@ -367,6 +367,11 @@
                                     </div>
                                 </div>
                             </form>
+                            <br>
+                            <a href="/shop" class="btn btn-sm btn-dark btn-block" type="reset">
+                                <i class="fas fa-sync-alt"></i>
+                                Réinitialiser la recherche 
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -434,7 +439,7 @@
 
     <script>
         //initialisation
-        var check_luxury_only = false;
+        var check_luxury_only = {{ $luxury_only }};
         var key = "";
         var categorie = "";
         var sous_categorie = "";
