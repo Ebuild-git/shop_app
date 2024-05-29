@@ -152,8 +152,7 @@
                         <div class="position-relative text-center">
                             <a href="/shop?luxury_only=true" class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
-                                    Voir Plus
-                                    Sur SHOP<span class="color">IN</span>
+                                    Voir Plus 
                                 </span>
                                 <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
