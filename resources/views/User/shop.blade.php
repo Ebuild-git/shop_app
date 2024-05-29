@@ -151,7 +151,7 @@
                         <div class="row">
                             <div class="col-sm-2">
                                 <button class="button w-100 text-left" type="button"
-                                    wire:click="filtre_cat({{ $cat->id }})">
+                                    onclick="select_categorie({{ $cat->id }})">
                                     {{ Str::limit('Tout ' . $cat->titre, 18) }}
                                 </button>
                             </div>
@@ -229,7 +229,7 @@
                                                                         <li class="d-flex justify-content-between">
                                                                             <button class="btn-btn-shop-style"
                                                                                 type="button"
-                                                                                wire:click="filtre_cat({{ $categorie->id }})">
+                                                                                onclick="select_categorie({{ $categorie->id }})">
                                                                                 Tout - {{ $categorie->titre }}
                                                                             </button>
                                                                         </li>
@@ -465,6 +465,11 @@
 
         function select_sous_categorie(id) {
             sous_categorie = id;
+            fetchProducts();
+        }
+
+        function select_categorie(id) {
+            categorie = id;
             fetchProducts();
         }
 
