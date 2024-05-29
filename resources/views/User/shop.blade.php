@@ -321,11 +321,11 @@
                                             <!-- Single Filter Card -->
                                             <div>
                                                 <button type="button" class="btn-etat-shop cusor"
-                                                    onclick="choix_ordre_prix('Desc')">
+                                                    onclick="choix_ordre_prix('Asc')">
                                                     Moins couteux au plus couteux
                                                 </button>
                                                 <button type="button" class="btn-etat-shop cusor"
-                                                    onclick="choix_ordre_prix('Asc')">
+                                                    onclick="choix_ordre_prix('Desc')">
                                                     Plus couteux au moins couteux
                                                 </button>
                                                 @error('ordre')
