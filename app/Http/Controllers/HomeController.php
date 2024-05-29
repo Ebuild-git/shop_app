@@ -525,7 +525,7 @@ class HomeController extends Controller
 
     public function shop(Request $request)
     {
-        $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
+        /* $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         $key = $request->input("key", '');
         $luxury_only = $request->get('luxury_only') ?? null;
@@ -533,9 +533,15 @@ class HomeController extends Controller
             $luxury_only == "false";
         } else {
             $luxury_only == "true";
-        }
+        } */
+        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon"]);
+        $regions = regions::all();
 
-        return view('User.shop', compact("categorie", "sous_categorie", "key", "luxury_only"));
+        
+        return view('User.shop')
+        ->with('liste_categories',$liste_categories)
+        ->with('regions',$regions);
+        ;
     }
 
 

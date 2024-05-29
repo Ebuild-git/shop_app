@@ -15,6 +15,7 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         $gouvernorat = $request->input('gouvernorat' ?? null);
+        $region = $request->input('region' ?? null);
         $sous_categorie = $request->input('sous_categorie' ?? null);
         $ordre_prix = $request->input('ordre_prix' ?? null);
         $ordre_creation = $request->input('ordre_creation' ?? null);
@@ -40,6 +41,9 @@ class ShopController extends Controller
             $query->orderBy('created_at', ($ordre_creation == "Desc") ? 'DESC' : 'ASC');
         }
 
+        if ($region) {
+            $query->where('id_region', $region);
+        }
 
         if ($ordre_prix) {
             $query->orderBy('prix', ($ordre_prix == "Desc") ? 'DESC' : 'ASC');
