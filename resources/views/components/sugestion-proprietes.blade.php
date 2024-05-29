@@ -12,7 +12,7 @@
                     </button>
                     @foreach ($item['options'] ?? [] as $option)
                         <div class="card p-1 m-1 card-hover-prroposition cusor d-none attribut attribut-{{ $item['nom'] }}"
-                            wire:click="set_key('{{ $option['nom'] }}')">
+                            onclick="filtre_propriete('{{ $option['nom'] }}')">
                             {{ $option['nom'] }}
                         </div>
                     @endforeach

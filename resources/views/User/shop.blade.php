@@ -418,6 +418,7 @@
         var sous_categorie = "";
         var region = "";
         var ordre_prix ="";
+        var proprietes = "";
 
 
         $(document).ready(function() {
@@ -451,6 +452,11 @@
             fetchProducts();
         }
 
+        function filtre_propriete(nom){
+            proprietes = nom;
+            fetchProducts();
+        }
+
         function select_categorie(id) {
             categorie = id;
             fetchProducts();
@@ -464,6 +470,7 @@
                     ordre_prix:ordre_prix,
                     check_luxury: check_luxury_only,
                     categorie: categorie,
+                    proprietes: proprietes,
                     sous_categorie: sous_categorie,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre

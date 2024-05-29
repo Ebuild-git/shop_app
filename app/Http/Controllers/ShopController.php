@@ -16,6 +16,7 @@ class ShopController extends Controller
     {
         $gouvernorat = $request->input('gouvernorat' ?? null);
         $region = $request->input('region' ?? null);
+        $proprietes = $request->input('proprietes' ?? null);
         $sous_categorie = $request->input('sous_categorie' ?? null);
         $ordre_prix = $request->input('ordre_prix' ?? null);
         $ordre_creation = $request->input('ordre_creation' ?? null);
@@ -53,6 +54,13 @@ class ShopController extends Controller
 
         if ($gouvernorat) {
             $query->where('gouvernorat', $gouvernorat);
+        }
+
+        if ($proprietes) {
+            $q = strtolower($proprietes);
+            $query->where(function ($query) use ($q) {
+                $query->WhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']); 
+            });
         }
 
         if ($key) {
