@@ -107,7 +107,7 @@ class ShopController extends Controller
             $query->where('etat', $etat);
         }
 
-        $posts = $query->paginate(30);
+        $posts = $query->paginate(200);
         foreach ($posts as $post) {
             $photo = Storage::url($post->photos[0] ?? '');
             $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
