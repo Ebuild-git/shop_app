@@ -49,7 +49,6 @@
                             <button class="button w-100 text-left" type="button" wire:click="filtre_cat({{ $cat->id }})">
                                 {{ Str::limit("Tout " .$cat->titre, 18) }}
                             </button>
-                            &nbsp;
                         </div>
                         @foreach ($cat->getSousCategories as $item)
                             <div class="col-sm-2">
