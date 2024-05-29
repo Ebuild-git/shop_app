@@ -39,13 +39,15 @@
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>
-                    Catégories : {{ $user->categoriesWhereUserPosted->count() }}
+                    Catégories : {{ $user->categoriesWhereUserSell->count() }}
                 </div>
                 <div class="col text-center">
-                    <div>
-                        <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
-                    </div>
-                    Annonces : {{ $user->GetPosts->count() }}
+                    <a href="/user/{{ $user->id }}">
+                        <div>
+                            <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
+                        </div>
+                        Annonces : {{ $user->GetPosts->count() }}
+                    </a>
                 </div>
             </div>
         </div>

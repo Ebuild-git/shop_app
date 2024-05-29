@@ -12,9 +12,8 @@
     <div class="row">
         @forelse ($shopiners as $key=>$shopiner)
             <div class="col-sm-4">
-                @include('components.CardShopinner',["user"=>$shopiner,"page"=>"shopiners"])
+                @include('components.CardShopinner', ['user' => $shopiner, 'page' => 'shopiners'])
             </div>
-
         @empty
             <p class="color text-center p-5">
                 Aucun shopiner trouvé pour le moment
