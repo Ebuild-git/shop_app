@@ -14,7 +14,7 @@ class posts extends Model
 
 
 
-    
+
     protected $fillable = [
         'sell_at',
         'id_user_buy',
@@ -35,8 +35,9 @@ class posts extends Model
         return $prix ?? "N/A";
     }
 
-    
-    public function getOldPrix(){
+
+    public function getOldPrix()
+    {
 
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
         $prix = round($this->attributes['old_prix'] + (($pourcentage_gain * $this->attributes['old_prix']) / 100), 3);
@@ -91,23 +92,31 @@ class posts extends Model
     }
 
 
-    public function signalements(){
+    public function signalements()
+    {
         return $this->hasMany(signalements::class, 'id_post', 'id');
     }
 
-    public function FirstImage(){
-       $url = Storage::url($this->photos[0] ?? '');
-       return $url;
+    public function FirstImage()
+    {
+        if (!empty($this->photos) && isset($this->photos[0])) {
+            $url = Storage::url($this->photos[0]);
+        } else {
+            $url = url('path/to/default/image.jpg');
+        }
+        return $url;
     }
 
 
-    public function motif(){
+
+    public function motif()
+    {
         return $this->belongsTo(motifs::class, 'id_motif', 'id');
     }
 
-    public function motifs(){
+    public function motifs()
+    {
         //many
         return $this->hasMany(motifs::class, 'id', 'id_motif');
     }
-
 }

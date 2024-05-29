@@ -36,42 +36,50 @@
                     </thead>
                     <tbody>
                         @forelse (Auth::user()->likes as $like)
-                            <tr id="tr-{{ $like->id }}">
-                                <td>
-                                    <div class="d-flex justify-content-start">
-                                        <div class="avatar-post-like">
-                                            <img src="{{ $like->post->FirstImage() }}" alt="" 
-                                                srcset="">
+                            @if ($like->post)
+                                <tr id="tr-{{ $like->id }}">
+                                    <td>
+                                        <div class="d-flex justify-content-start">
+                                            <div class="avatar-post-like">
+                                                <img src="{{ $like->post->FirstImage() }}" alt="" srcset="">
+                                            </div>
+                                            <div class="my-auto">
+                                                <a href="{{ route('details_post_single', ['id' => $like->post->id]) }}"
+                                                    class="h6">
+                                                    {{ $like->post->titre }}
+                                                </a>
+                                                <br>
+                                                <span class="small">
+                                                    Publié le {{ $like->post->created_at }}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="my-auto">
-                                           <a href="{{ route('details_post_single',['id'=> $like->post->id])}}" class="h6">
-                                            {{ $like->post->titre }}
-                                           </a>
-                                           <br>
-                                            <span class="small">
-                                                Publié le   {{ $like->post->created_at }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ $like->post->getPrix() }} DH
-                                </td>
-                                <td>
-                                    {{ $like->post->statut }}
-                                </td>
-                                <td class="text-end">
-                                    <span class="text-danger cusor" type="button" onclick="remove_liked({{ $like->id }})">
-                                        <b>
-                                            <i class="bi bi-heartbreak"></i> Rétirer
-                                        </b>
-                                    </span>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        {{ $like->post->getPrix() }} DH
+                                    </td>
+                                    <td>
+                                        <x-AnnonceStatut :statut="$like->post->statut" ></x-AnnonceStatut>
+                                    </td>
+                                    <td class="text-end">
+                                        <button button class="text-danger btn btn-sm cusor" type="button"
+                                            onclick="remove_liked({{ $like->id }})">
+                                            <b>
+                                                <i class="bi bi-heartbreak"></i> Rétirer
+                                            </b>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @else
+                                @php
+                                    //delete
+                                    $like->delete();
+                                @endphp
+                            @endif
                         @empty
                             <tr>
                                 <td colspan="4">
-                                    <div class="alert text-center">
+                                    <div class="alert alert-info text-center">
                                         <img width="100" height="100"
                                             src="https://img.icons8.com/ios/100/008080/filled-like.png" alt="filled-like" />
                                         <br>
