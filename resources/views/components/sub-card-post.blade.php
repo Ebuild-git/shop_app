@@ -30,7 +30,9 @@
                     @if ($post->proprietes)
                         @if ($post->proprietes['Taille'] ?? null)
                             <div>
+                               <b>
                                 {{ $post->proprietes['Taille'] }}
+                               </b>
                             </div>
                         @endif
                     @endif
