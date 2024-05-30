@@ -80,6 +80,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(regions::class, 'id', 'region');
     }
 
+    public function total_sales(){
+        return $this->hasMany(posts::class, 'id_user', 'id')->whereNotNull("sell_at");
+    }
+
 
 
 
@@ -130,9 +134,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function averageRating()
     {
-        return $this->hasOne(ratings::class, 'id_user_rated')
+        return $this->hasOne(ratings::class, 'id_user_sell')
             ->selectRaw('AVG(etoiles) as average_rating')
-            ->groupBy('id_user_rated');
+            ->groupBy('id_user_sell');
     }
 
 
@@ -153,7 +157,7 @@ class User extends Authenticatable implements JWTSubject
 
     //recuperer les avis de l'utilisateur
     public function getReviewsAttribute(){
-        return $this->hasMany(ratings::class, 'id_user_rated','id');
+        return $this->hasMany(ratings::class, 'id_user_sell','id');
     }
 
     public function likes(){

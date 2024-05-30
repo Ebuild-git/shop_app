@@ -171,7 +171,7 @@
                                             </span>
                                             |
                                             <span>
-                                                <b>{{ $user->total_sales ?? 0 }}</b> Ventes
+                                                <b>{{ $user->total_sales->count() }}</b> Ventes
                                             </span>
                                             |
                                             <span>

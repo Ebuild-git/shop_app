@@ -60,13 +60,13 @@
                     <tr>
                         <th scope="row" style="width: 51px">
                             <div class="avatar-small-product">
-                                <img src="{{ Storage::url($item->acheteur->avatar) }}" alt="avtar">
+                                <img src="{{ $item->acheteur->getAvatar() }}" alt="avtar">
                             </div>
                         </th>
                         <td>
                             <b>
                                 <a href="/user/{{ $item->acheteur->id }}"
-                                    class="link">{{ $item->acheteur->name }}
+                                    class="link">{{ $item->acheteur->username }}
                                 </a>
                                 @if ($item->id_acheteur == $item->acheteur->id && $item->etat == 'accepté')
                                     <b class="text-success">

@@ -31,6 +31,7 @@ class HomeController extends Controller
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
+            ->whereNull('posts.sell_at')
             ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
             ->select("posts.id", "posts.photos")
             ->take(12)
@@ -39,6 +40,7 @@ class HomeController extends Controller
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
+            ->whereNull('posts.sell_at')
             ->orderby("posts.created_at", "Desc")
             ->select("posts.id", "posts.photos")
             ->take(8)->get();

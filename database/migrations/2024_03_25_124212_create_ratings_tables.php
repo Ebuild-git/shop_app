@@ -13,22 +13,20 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->integer("etoiles");
-            $table->unsignedBigInteger("id_user_rating");
-            $table->unsignedBigInteger("id_user_rated");
+            $table->integer("etoiles")->nullable();
+            $table->unsignedBigInteger("id_user_sell");
+            $table->unsignedBigInteger("id_user_buy");
+            $table->unsignedBigInteger("id_post");
+            $table->timestamp("date_buy")->default(now());
             $table->timestamps();
 
 
-            //relation
-            $table->foreign("id_user_rating")
-                ->references("id")
-                ->on("users")
-                ->cascadeOnDelete();
+            //relations
+            $table->foreign("id_user_sell")->references("id")->on("users")->onDelete("Cascade");
+            $table->foreign("id_user_buy")->references("id")->on("users")->onDelete("Cascade");
+            $table->foreign("id_post")->references("id")->on("posts")->onDelete("Cascade");
 
-            $table->foreign("id_user_rated")
-                ->references("id")
-                ->on("users")
-                ->cascadeOnDelete();
+            
         });
     }
 

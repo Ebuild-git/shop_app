@@ -59,7 +59,7 @@
                                     @livewire('User.Rating', ['user' => $user])
                                     <div>
                                         <span>
-                                            <b>{{ $user->total_sales ?? 0 }}</b> Ventes
+                                            <b>{{ $user->total_sales->count() }}</b> Ventes
                                         </span>
                                         |
                                         <span>
@@ -86,6 +86,11 @@
                     @forelse ($posts as $post)
                         <div class="col-xl-4 col-sm-4 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
+                                @if ($post->sell_at)
+                                    <div class="badge badge-danger position-absolute ab-left text-upper">
+                                        Vendu !
+                                    </div>
+                                @endif
                                 <div class="badge badge-like-post-count position-absolute ab-right text-upper">
                                     <i class="far fa-heart"></i>
                                     {{ $post->getLike->count() }}

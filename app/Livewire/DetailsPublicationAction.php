@@ -6,6 +6,7 @@ use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\propositions;
+use App\Models\ratings;
 use Livewire\Component;
 
 class DetailsPublicationAction extends Component
@@ -105,6 +106,27 @@ class DetailsPublicationAction extends Component
         
     }
 
+    public function mark_as_livrer(){
+        $post = posts::find($this->post->id);
+        if ($post) {
+            //update post
+            $post->statut = "livré";
+            $post->update();
+
+            //ouvrir la possibilite de noter en creer un enregistrement rating
+            $rating = new ratings();
+            $rating->id_user_sell = $post->id_user;
+            $rating->id_user_buy = $post->id_user_buy;
+            $rating->id_post = $post->id;
+            $rating->date_buy = now();
+            $rating->save();
+
+            //creer la notification pour informer l'acheteru quil peut desormais noter ce vendeur
+
+            //flash message
+            session()->flash('success', 'La publication à bien été livré');
+        }
+    }
 
     public function delete()
     {

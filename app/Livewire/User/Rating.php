@@ -19,9 +19,9 @@ class Rating extends Component
 
     public function render()
     {
-        $this->notes = ratings::where('id_user_rated', $this->user->id)->avg('etoiles');
-        $ma_note = ratings::where('id_user_rating', Auth::user()->id)
-            ->where("id_user_rated", $this->user->id)
+        $this->notes = ratings::where('id_user_sell', $this->user->id)->avg('etoiles');
+        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+            ->where("id_user_sell", $this->user->id)
             ->first();
         if ($ma_note) {
             $this->ma_note = $ma_note->etoiles;
@@ -42,34 +42,34 @@ class Rating extends Component
         // verified ist integer
         $value = intval($value);
 
-        $rate = ratings::where('id_user_rating', Auth::user()->id)
-            ->where("id_user_rated", $this->user->id)
+        $rate = ratings::where('id_user_buy', Auth::user()->id)
+            ->where("id_user_sell", $this->user->id)
+            ->Orderby("created_at","Asc")
             ->first();
 
-        if ($rate) {
-            /* $rate->etoiles = $value;
-            $rate->save(); */
-            $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
-        } else {
-
-            // Compter les posts livrés dans les deux dernières semaines
-            $last_purchases = posts::where('id_user', $this->user->id)
-                ->where('id_user_buy', Auth::user()->id)
-                ->where('delivered_at', '>=', Carbon::now()->subWeeks(2))
-                ->count();
-
-                if( $last_purchases > 0){
-                    $this->dispatch('alert', ['message' => "Impossible de noté  !", 'type' => 'danger']);
-                }else{
-                    $rating = new ratings();
-                    $rating->id_user_rating = Auth::user()->id;
-                    $rating->id_user_rated = $this->user->id;
-                    $rating->etoiles = $value;
-                    $rating->save();
-                    $this->dispatch('alert', ['message' => "Votre note a été enregistré !", 'type' => 'success']);
-                }
-
-           
+        if(!$rate){
+            $this->dispatch('alert', ['message' => "Vous n'avez pas d'achat en attente de note!", 'type' => 'warning']);
+            return;
         }
+
+        // veridier que il n'a pas encore donner une note
+        if ($rate->etoiles != null) {
+            $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
+            return;
+        } 
+
+        //on verifie que sa fais moins de 2 semaine qu'il a fait cet achat
+        $date = Carbon::now();
+        $date = $date->subDays(14);
+        if ($rate->created_at < $date) {
+            $this->dispatch('alert', ['message' => "Vous ne pouvez pas donner une note plus de 2 semaine après votre achat!", 'type' => 'warning']);
+            return;
+        }
+
+        //tout est ok on enregistre la note
+        $rate->etoiles = $value;
+        $rate->save();
+        $this->dispatch('alert', ['message' => "Votre note a été enregistré !", 'type' => 'success']);
+        
     }
 }
