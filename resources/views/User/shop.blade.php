@@ -185,7 +185,7 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                                 <div>
-                                    <input type="text" class="form-control" id="key" name="key"
+                                    <input type="text" class="form-control key-input" id="key" name="key"
                                         placeholder="Mot clé de recherche">
                                 </div>
                                 <!-- Single Option -->
@@ -433,7 +433,7 @@
             fetchProducts();
 
             // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
-            $('#key').on('input', function() {
+            $('.key-input').on('input', function() {
                 key = $('#key').val();
                 fetchProducts();
             });

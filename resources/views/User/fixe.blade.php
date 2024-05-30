@@ -181,8 +181,8 @@
                         <div class="col-8 ">
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
-                                <input type="text" class="form-control sm input cusor"
-                                    style="padding-left: 40px !important" name="key"
+                                <input type="text" class="form-control sm input cusor key-input"
+                                    style="padding-left: 40px !important" name="key" 
                                     placeholder="recherche un article">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
