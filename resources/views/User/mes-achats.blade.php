@@ -34,7 +34,8 @@
                 <div>
                     <div class="input-group mb-3">
                         @csrf
-                        <input type="month" class="form-control cusor sm" name="date"
+                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"  onfocus="(this.type='month')"
+                        onblur="(this.type='text')" name="date"
                             value="{{ $date ? $date : null }}">
                         <button type="submit" class="btn p-2 bg-red  ">
                             Filtrer par date

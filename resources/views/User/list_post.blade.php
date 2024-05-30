@@ -37,7 +37,8 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="month" class="form-controlsm cusor " id="month-btn"
+                        <input type="text" class="form-control sm cusor" placeholder="Année / Mois"  onfocus="(this.type='month')"
+                        onblur="(this.type='text')" id="monthInput" 
                             value="{{ $date ? $date : null }}" name="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
@@ -151,6 +152,7 @@
                     });
                 });
             </script>
+           
 
         </div>
 
