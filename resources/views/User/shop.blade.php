@@ -94,6 +94,13 @@
         .list-proprietes {
             transition: 0.5s !important;
         }
+        .button-list {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+        }
     </style>
 
 
@@ -150,16 +157,16 @@
                     <div class="subnav-content p-2">
                         <div class="row">
                             <div class="col-sm-2">
-                                <button class="button w-100 text-left" type="button"
+                                <button class="button button-list text-left" type="button"
                                     onclick="select_categorie({{ $cat->id }})">
-                                    {{ Str::limit('Tout ' . $cat->titre, 18) }}
+                                    Tout {{ $cat->titre }}
                                 </button>
                             </div>
                             @foreach ($cat->getSousCategories as $item)
                                 <div class="col-sm-2">
-                                    <button type="button" class="p-1  w-100 text-left"
+                                    <button type="button" class="p-1 button-list  text-left"
                                         onclick="select_sous_categorie({{ $item->id }})">
-                                        {{ Str::limit($item->titre, 18) }}
+                                        {{ $item->titre }}
                                     </button>
                                 </div>
                             @endforeach
