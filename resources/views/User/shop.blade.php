@@ -420,7 +420,7 @@
     <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? "false" }};
-        var key = "";
+        var key = "{{ $key ?? ""}}";
         var categorie = "";
         var sous_categorie = "";
         var region = "";

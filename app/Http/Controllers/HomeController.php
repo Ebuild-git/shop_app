@@ -562,8 +562,9 @@ class HomeController extends Controller
     {
         /* $categorie = $request->get('categorie') ?? $request->input('categorie') ?? '';
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
-        $key = $request->input("key", '');
+        
         */
+        $key = $request->input("key" ?? null);
         $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon"]);
         $regions = regions::all();
 
@@ -576,6 +577,7 @@ class HomeController extends Controller
 
 
         return view('User.shop')
+            ->with("key", $key)
             ->with("luxury_only", $luxury_only)
             ->with('liste_categories', $liste_categories)
             ->with('regions', $regions);;
