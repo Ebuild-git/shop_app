@@ -143,7 +143,7 @@ function remove_liked(id) {
     );
 }
 
-//retiitrer une publication de ma liste de favoris
+//retitrer une publication de ma liste de favoris
 function remove_favoris(id) {
     $.get(
         "/remove_favoris",
@@ -234,6 +234,8 @@ $(document).ready(function () {
                             timer: 2500,
                             customClass: "swal-wide",
                         });
+                        //change value of .text span in this bouton
+                        button.find(".text").text("Retirer de mes favoris");
                     } else {
                         button.removeClass("btn-favoris-added");
                         Swal.fire({
@@ -243,6 +245,7 @@ $(document).ready(function () {
                             showConfirmButton: false,
                             timer: 2500,
                         });
+                        button.find(".text").text("Ajouter aux favoris");
                     }
                    
                 }

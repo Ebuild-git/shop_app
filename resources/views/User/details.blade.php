@@ -262,7 +262,9 @@
                                         type="button" @guest data-toggle="modal" data-target="#login" @endguest
                                         data-id="{{ $post->id }}">
                                         <i class="lni lni-heart mr-2"></i>
-                                        Ajouter aux favoris
+                                        <span class="text">
+                                            {{ $isFavorited ? "Retirer des favoris" : "Ajouter aux favoris" }}
+                                        </span>
                                     </button>
                                     <br>
                                     <div class="text-center">
