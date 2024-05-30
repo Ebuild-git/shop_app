@@ -270,7 +270,7 @@
                                     <div class="text-center">
                                         <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
                                             <i class="bi bi-exclamation-octagon"></i>
-                                            Signaler cette annonce.
+                                            Signaler cette annonce
                                         </span>
                                         <br><br>
                                     </div>
@@ -281,7 +281,7 @@
                                     En poursuivant votre commande, vous acceptez les
                                     <a href="{{ route('conditions') }}" class="color">
                                         <b>Conditions générales</b>
-                                    </a> de SHOPIN.
+                                    </a> de SHOPIN
                                 </p>
                             </div>
 
