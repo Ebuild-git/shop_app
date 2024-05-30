@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
     <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <section class="py-3 ">
+    <section class="gray py-3">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

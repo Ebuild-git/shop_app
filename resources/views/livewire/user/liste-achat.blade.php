@@ -39,47 +39,47 @@
                         </form>
                     </div>
                 </div>
-                <table class="table">
-                    @forelse ($achats as $achat)
-                        <tr>
-                            <td style="width: 41px;">
-                                <div class="avatar-small-product">
-                                    <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avtar">
-                                </div>
-                            </td>
-                            <td>
-                                <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }} </a>
+                    <table class="table">
+                        @forelse ($achats as $achat)
+                            <tr>
+                                <td style="width: 41px;">
+                                    <div class="avatar-small-product">
+                                        <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avtar">
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }} </a>
+                                    <br>
+                                    <span class="small text-muted">
+                                        <i class="bi bi-calendar3"></i>
+                                        Acheter le {{ $achat->sell_at }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="link">
+                                        <i class="bi bi-tag"></i>
+                                        {{ $achat->prix }}
+                                        DH
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/post/{{ $achat->id }}" class="link h6">
+                                        <button class="btn btn-dark btn-sm">
+                                            <i class="bi bi-bookmark-check"></i>
+                                            Voir
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <div class="alert alert-info text-center">
+                                <img width="100" height="100"
+                                    src="https://img.icons8.com/pastel-glyph/100/008080/fast-cart.png" alt="fast-cart" />
                                 <br>
-                                <span class="small text-muted">
-                                    <i class="bi bi-calendar3"></i>
-                                    Acheter le {{ $achat->sell_at }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="link">
-                                    <i class="bi bi-tag"></i>
-                                    {{ $achat->prix }}
-                                    DH
-                                </span>
-                            </td>
-                            <td>
-                                <a href="/post/{{ $achat->id }}" class="link h6">
-                                    <button class="btn btn-dark btn-sm">
-                                        <i class="bi bi-bookmark-check"></i>
-                                        Voir
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <div class="alert alert-info text-center">
-                            <img width="100" height="100"
-                                src="https://img.icons8.com/pastel-glyph/100/008080/fast-cart.png" alt="fast-cart" />
-                            <br>
-                            vous n'avez pas d'achat actuellement.
-                        </div>
-                    @endforelse
-                </table>
+                                vous n'avez pas d'achat actuellement.
+                            </div>
+                        @endforelse
+                    </table>
             </div>
             <br>
 

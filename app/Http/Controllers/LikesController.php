@@ -22,10 +22,12 @@ class LikesController extends Controller
         $like = likes::where("id", $id_like)->where("id_user", Auth::user()->id)->first();
         if ($like) {
             $like->delete();
+            $count = likes::where("id_user", Auth::user()->id)->count();
             return response()->json(
                 [
                     "status" => true,
-                    "message" => "Annonce rétiré !"
+                    "message" => "Annonce rétiré !",
+                    "count" => $count
                 ]
             );
         }

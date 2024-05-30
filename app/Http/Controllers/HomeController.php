@@ -51,9 +51,44 @@ class HomeController extends Controller
         return view('User.post', compact("id"));
     }
 
-    public function index_mes_post()
+    public function index_mes_post(Request $request)
     {
-        return view('User.list_post');
+        $date_post = $request->input('date' ?? null);
+        $statut = $request->input('statut' ?? null);
+        $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
+
+
+        if ($date_post) {
+            $date = $date_post . '-01';
+            $Query->whereYear('Created_at', date('Y', strtotime($date)))
+                ->whereMonth('Created_at', date('m', strtotime($date)));
+        }
+
+
+        if (!empty($statut)) {
+            switch ($statut) {
+                case 'validation':
+                    $postsQuery = $Query->where('statut', "validation");
+                    break;
+                case 'vente':
+                    $postsQuery = $Query->where('statut', "vente");
+                    break;
+                case 'vendu':
+                    $postsQuery = $Query->where('statut', "vendu");
+                    break;
+                case 'livraison':
+                    $postsQuery = $Query->where('statut', "livraison");
+                    break;
+                case 'livré':
+                    $postsQuery = $Query->where('statut', "livré");
+                    break;
+            }
+        }
+        $posts =  $Query->paginate("30");
+        return view('User.list_post')
+            ->with("posts", $posts)
+            ->with("date", $date_post)
+            ->with("statut", $statut);
     }
 
     public function details_post($id)
@@ -438,7 +473,7 @@ class HomeController extends Controller
 
 
 
-  
+
 
     public function conditions()
     {
@@ -482,7 +517,7 @@ class HomeController extends Controller
         $total = posts::where("id_user_buy", Auth::id())->count();
         return view("User.mes-achats")
             ->with("achats", $achats)
-            ->with('date',$date)
+            ->with('date', $date)
             ->with("total", $total);
     }
 
@@ -537,14 +572,13 @@ class HomeController extends Controller
             $luxury_only == "false";
         } else {
             $luxury_only == "true";
-        } 
+        }
 
-        
+
         return view('User.shop')
-        ->with("luxury_only",$luxury_only)
-        ->with('liste_categories',$liste_categories)
-        ->with('regions',$regions);
-        ;
+            ->with("luxury_only", $luxury_only)
+            ->with('liste_categories', $liste_categories)
+            ->with('regions', $regions);;
     }
 
 

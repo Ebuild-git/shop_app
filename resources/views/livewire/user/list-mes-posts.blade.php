@@ -20,7 +20,6 @@
                             </select>
                         @endif
                         <input type="month" class="form-controlsm cusor " id="month-btn" wire:model="date">
-                        <input type="text" readonly placeholder="Mois / Année" class="month-input ">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -35,7 +34,7 @@
         </div>
     </div>
     <table class="table">
-        <thead class="thead-dark">
+        <thead style="background-color: #008080;color: white !important;">
             <tr>
                 <th scope="col" style="width: 51px;"></th>
                 <th scope="col">Article</th>

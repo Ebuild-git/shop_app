@@ -134,6 +134,10 @@ function remove_liked(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
+                if(data.count == 0){
+                    //reload page
+                    location.reload();
+                }
             }
         }
     );
@@ -157,6 +161,10 @@ function remove_favoris(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
+                if(data.count == 0){
+                    //reload page
+                    location.reload();
+                }
             }
         }
     );

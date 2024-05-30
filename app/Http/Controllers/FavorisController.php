@@ -20,10 +20,12 @@ class FavorisController extends Controller
         $favoris = favoris::where("id", $id_favoris)->where("id_user", Auth::user()->id)->first();
         if ($favoris) {
             $favoris->delete();
+            $count = favoris::where("id_user", Auth::user()->id)->count();
             return response()->json(
                 [
                     "status" => true,
-                    "message" => "Annonce rétiré !"
+                    "message" => "Annonce rétiré !",
+                    "count" => $count,
                 ]
             );
         }
