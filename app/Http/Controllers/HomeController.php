@@ -34,6 +34,7 @@ class HomeController extends Controller
             ->whereNull('posts.sell_at')
             ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
             ->select("posts.id", "posts.photos")
+            ->Orderby("posts.id","Desc")
             ->take(12)
             ->get();
 
