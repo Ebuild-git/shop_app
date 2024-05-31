@@ -26,11 +26,14 @@ class ShopController extends Controller
         $luxury_only = $request->input('check_luxury' ?? null);
         $html = "";
         $SugestionProprietes = "";
-        
+
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
-        $query = posts::whereNotNull('verified_at')->whereNull('sell_at')->where('statut', 'vente');
+        $query = posts::whereNotNull('verified_at')
+            ->orderby("id", "Desc")
+            ->whereNull('sell_at')
+            ->where('statut', 'vente');
 
 
         if ($luxury_only == "true") {
@@ -59,7 +62,7 @@ class ShopController extends Controller
         if ($proprietes) {
             $q = strtolower($proprietes);
             $query->where(function ($query) use ($q) {
-                $query->WhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']); 
+                $query->WhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']);
             });
         }
 
