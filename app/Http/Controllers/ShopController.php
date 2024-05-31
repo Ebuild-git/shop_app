@@ -121,7 +121,7 @@ class ShopController extends Controller
 
         $posts = $query->paginate(200);
         foreach ($posts as $post) {
-            $photo = Storage::url($post->photos[0] ?? '');
+            $photo = Storage::url($post->photos[0]) ?? "/icons/no-image.jpg";
             $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
 
             $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
