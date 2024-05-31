@@ -119,7 +119,7 @@ class ShopController extends Controller
             $query->where('etat', $etat);
         }
 
-        $posts = $query->paginate(200);
+        $posts = $query->paginate(24);
         foreach ($posts as $post) {
             // Vérifie si la première photo existe, sinon utilise une image par défaut
             $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
@@ -149,6 +149,7 @@ class ShopController extends Controller
                     "total" => $total,
                     "html" => $html,
                     "SugestionProprietes" =>  $SugestionProprietes,
+                    "data" => $posts,
                 ]
             );
     }
