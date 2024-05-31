@@ -173,6 +173,12 @@ class CreatePost extends Component
         ]);
         // Vous validez les données soumises
 
+        //verifier que l'utilisateur a ajouter au moins une photo
+        if ($this->photo1 == null && $this->photo2 == null && $this->photo3 == null && $this->photo4 == null) {
+            $this->addError('errorphoto', 'Vous devez ajouter au moins une photo');
+            return;
+        }
+
 
         $config = configurations::first();
         $sous_categorie = sous_categories::find($this->selectedSubcategory);

@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     //gestion des posts
     Route::get('/list_motifs', [PostsController::class, 'list_motifs'])->name('list_motifs');
+    Route::post('/delete_my_post', [UserController::class, 'delete_my_post'])->name('delete_my_post');
 
     //gestion des favoris
     Route::get('/favoris', [FavorisController::class, 'index'])->name('favoris');

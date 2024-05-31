@@ -37,8 +37,8 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="text" class="form-control sm cusor" placeholder="Année / Mois"  onfocus="(this.type='month')"
-                        onblur="(this.type='text')" id="monthInput" 
+                        <input type="text" class="form-control sm cusor" placeholder="Année / Mois"
+                            onfocus="(this.type='month')" onblur="(this.type='text')" id="monthInput"
                             value="{{ $date ? $date : null }}" name="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
@@ -62,7 +62,7 @@
                 </thead>
                 <tbody>
                     @forelse ($posts as $item)
-                        <tr>
+                        <tr id="tr-post-{{ $item->id }}">
                             <th scope="row">
                                 <div class="avatar-small-product">
                                     <img src="{{ Storage::url($item->photos[0] ?? '') }}" alt="avtar">
@@ -103,27 +103,28 @@
                                 @endif
                             </td>
                             <td style="text-align: right;">
-                                @if ($item->propositions->count() > 0)
-                                    <a href="/publication/{{ $item->id }}/propositions">
-                                        <button class="btn btn-sm btn-dark">
+                                <div class="btn-group sm" role="group">
+                                    @if ($item->propositions->count() > 0)
+                                        <a class="btn btn-sm btn-dark"
+                                            href="/publication/{{ $item->id }}/propositions">
                                             <i class="bi bi-plug-fill"></i>
                                             Propositions ( {{ $item->propositions->count() }} )
+                                        </a>
+                                    @endif
+                                    @if ($item->sell_at == null)
+                                        <button class="btn btn-sm btn-info"
+                                            onclick="Update_post_price({{ $item->id }})">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Réduire le prix
                                         </button>
-                                    </a>
-                                @endif
-                                @if ($item->sell_at == null)
-                                    <button class="btn btn-sm btn-info" onclick="Update_post_price({{ $item->id }})">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Réduire le prix
-                                    </button>
-                                @endif
-                                @if ($item->statut == 'validation' || $item->statut == 'vente')
-                                    <button class="btn btn-sm bg-red" wire:click="delete({{ $item->id }})"
-                                        wire:confirm="Voulez-vous supprimer cette publication ?">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                @endif
-
+                                    @endif
+                                    @if ($item->statut == 'validation' || $item->statut == 'vente')
+                                        <button class="btn btn-sm bg-red" type="button"
+                                            onclick="delete_my_post({{ $item->id }})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -152,7 +153,7 @@
                     });
                 });
             </script>
-           
+
 
         </div>
 

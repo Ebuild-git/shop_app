@@ -73,30 +73,5 @@ class ListMesPosts extends Component
     }
 
 
-    public function delete($id)
-    {
-        //verifier que le poost existe et et l'oeuvre de luser connecter
-        $post = Posts::findOrFail($id);
-        if (!$post) {
-            session()->flash('error', __('Oups! La publication n\'existe pas .'));
-            return;
-        }
-        if (Auth::user()->id != $post->id_user) {
-            session()->flash('error', __('Cette action est interdite ! Vous ne pouvez supprimer une publication qui ne vous appartient pas.'));
-            return;
-        }
-
-        if ($post->sell_at != null) {
-            session()->flash('error', __('Cette publication a été vendue !'));
-            return;
-        }
-
-        // supprimer toutes les images du post dans le serveurs
-        $photos = $post->photos;
-        foreach ($photos as $photo) {
-            Storage::delete('/public/img/' . $photo);
-        }
-        $post->delete();
-        session()->flash('success', __('La publication a bien été supprimée !'));
-    }
+    
 }

@@ -1,57 +1,83 @@
 //ouvrir le modal pour modifier le prix du post
-function Update_post_price(id){
+function Update_post_price(id) {
     //envoyer mon id au composant update price
-    Livewire.dispatch('setPostId', {id: id});
-    $("#Modal-Update-Post-Price").modal('toggle');
+    Livewire.dispatch("setPostId", { id: id });
+    $("#Modal-Update-Post-Price").modal("toggle");
 }
 
 CountPanier();
 CountNotification();
 
-
 // Ecoute des notificaions en live
 Pusher.logToConsole = false;
 
-var pusher = new Pusher('5b6f7ad6a8cf384098d9', {
-    cluster: 'eu'
+var pusher = new Pusher("5b6f7ad6a8cf384098d9", {
+    cluster: "eu",
 });
 
-var channel = pusher.subscribe('my-channel-user-admin-{{ Auth::user()->id }}');
-channel.bind('my-event', function(data) {
+var channel = pusher.subscribe("my-channel-user-admin-{{ Auth::user()->id }}");
+channel.bind("my-event", function (data) {
     CountNotification();
 });
 
-
-
-
-function CountPanier(){
-    $.get(
-        "/count_panier",
-        function (data, status) {
-            if (status === "success") { 
-                $("#CountPanier-value").text(data.count);
-                $("#Contenu-panier").html(data.html);
-                $("#montant-panier").text(data.montant);
-            }
+//supprimer mon post
+function delete_my_post(id) {
+    Swal.fire({
+        title: "Voulez-vous supprimer ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui, supprimer",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post(
+                "/delete_my_post",
+                {
+                    id_post: id,
+                    _token: $('meta[name="csrf-token"]').attr("content"),
+                },
+                function (data, status) {
+                    if (data.success) {
+                        $("#tr-post-" + id).hide("slow");
+                        Swal.fire({
+                            title: "Supprime !",
+                            text: "Votre annonce a été supprimé.",
+                            icon: "success",
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Erreur !",
+                            text: "Une erreur est survenue.",
+                            icon: "error",
+                        });
+                    }
+                }
+            );
         }
-    );
+    });
 }
 
-
-function CountNotification(){
-    $.get(
-        "/count_notification",
-        function (data, status) {
-            if (status === "success") {
-                $("#CountNotification-value").text(data.count);
-            }
+function CountPanier() {
+    $.get("/count_panier", function (data, status) {
+        if (status === "success") {
+            $("#CountPanier-value").text(data.count);
+            $("#Contenu-panier").html(data.html);
+            $("#montant-panier").text(data.montant);
         }
-    );
+    });
 }
 
+function CountNotification() {
+    $.get("/count_notification", function (data, status) {
+        if (status === "success") {
+            $("#CountNotification-value").text(data.count);
+        }
+    });
+}
 
-
-function remove_to_card(id){
+function remove_to_card(id) {
     $.get(
         "/remove_to_card",
         {
@@ -64,8 +90,6 @@ function remove_to_card(id){
         }
     );
 }
-
-
 
 function add_cart(id) {
     $.get(
@@ -90,9 +114,7 @@ function add_cart(id) {
     );
 }
 
-
-
-function delete_notification(id){
+function delete_notification(id) {
     $.get(
         "/delete_notification",
         {
@@ -100,7 +122,7 @@ function delete_notification(id){
         },
         function (data, status) {
             if (status) {
-                $('#tr-'+id).hide("slow");
+                $("#tr-" + id).hide("slow");
                 CountNotification();
                 Swal.fire({
                     position: "center",
@@ -114,7 +136,6 @@ function delete_notification(id){
         }
     );
 }
-
 
 //retiitrer une publication liker de ma liste de like
 function remove_liked(id) {
@@ -134,7 +155,7 @@ function remove_liked(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
-                if(data.count == 0){
+                if (data.count == 0) {
                     //reload page
                     location.reload();
                 }
@@ -161,7 +182,7 @@ function remove_favoris(id) {
                     timer: 2500,
                     customClass: "swal-wide",
                 });
-                if(data.count == 0){
+                if (data.count == 0) {
                     //reload page
                     location.reload();
                 }
@@ -169,7 +190,6 @@ function remove_favoris(id) {
         }
     );
 }
-
 
 //recuperer la liste des motifs de refus d'un post
 function get_posts_motifs(id) {
@@ -179,38 +199,43 @@ function get_posts_motifs(id) {
             id_post: id,
         },
         function (response, status) {
-            if (status === 'success' && response.statut) {
+            if (status === "success" && response.statut) {
                 console.log(response); // Affiche la réponse complète
                 console.log(response.data); // Affiche la propriété 'data' de la réponse
-                
+
                 // Vérifiez si 'response.data' est défini et est un tableau
                 if (Array.isArray(response.data)) {
                     // Ouvrir la modal Motifs-des-refus
-                    $("#modal_motifs_des_refus").modal('toggle');
+                    $("#modal_motifs_des_refus").modal("toggle");
                     // Vider le contenu du tbody du tableau
                     $("#modal_motifs_des_refus-table tbody").html("");
-                    
+
                     // Ajouter les motifs de refus au tbody du tableau
                     $.each(response.data, function (index, value) {
-                        
                         $("#modal_motifs_des_refus-table tbody").append(
                             "<tr>" +
-                            "<td>" + (value.motif || '') + "</td>" +
-                            "<td>" + (value.created_at || '') + "</td>" +
-                            "</tr>"
+                                "<td>" +
+                                (value.motif || "") +
+                                "</td>" +
+                                "<td>" +
+                                (value.created_at || "") +
+                                "</td>" +
+                                "</tr>"
                         );
                     });
                 } else {
                     console.error("Data is not an array:", response.data);
                 }
             } else {
-                console.error("Request failed with status or invalid 'statut':", status, response.statut);
+                console.error(
+                    "Request failed with status or invalid 'statut':",
+                    status,
+                    response.statut
+                );
             }
         }
     );
 }
-
-
 
 $(document).ready(function () {
     // Ajouter un post à mes favoris
@@ -247,20 +272,16 @@ $(document).ready(function () {
                         });
                         button.find(".text").text("Ajouter aux favoris");
                     }
-                   
                 }
             }
         );
     });
 
-
-
-
     //ajouter un like a un post
     $(".btn-like-post").on("click", function () {
         var button = $(this);
         var id_post = button.data("id");
-        var span = button.find('span.count');
+        var span = button.find("span.count");
         $.get(
             "/like_post",
             {
@@ -289,13 +310,8 @@ $(document).ready(function () {
                             timer: 2500,
                         });
                     }
-                   
                 }
             }
         );
     });
-
-
-
-    
 });

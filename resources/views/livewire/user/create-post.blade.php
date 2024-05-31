@@ -120,7 +120,11 @@
     </div>
 
 
-    <br><br>
+    <br>
+    @error('errorphoto')
+        <small class="form-text text-danger">{{ $message }}</small>
+    @enderror
+    <br>
 
 
 
