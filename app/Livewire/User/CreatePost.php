@@ -75,9 +75,6 @@ class CreatePost extends Component
     public function updatedRegion($value)
     {
         $this->region = $value;
-        if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
-            $this->calcule_estimation($value, $this->selectedCategory, $this->prix);
-        }
     }
 
 
@@ -85,9 +82,6 @@ class CreatePost extends Component
     public function updatedPrix($value)
     {
         $this->prix = $value;
-        if (!is_null($value) && !is_null($this->selectedCategory) && !is_null($this->prix)) {
-            $this->calcule_estimation($this->region, $this->selectedCategory, $value);
-        }
     }
 
 
