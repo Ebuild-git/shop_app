@@ -313,8 +313,8 @@
                                         <tr>
                                             <td>{{ ucfirst($key) }} </td>
                                             <td>
-                                                @if ($key = 'couleur' || ($key = 'Couleur'))
-                                                    @if ($value == '#000000')
+                                                @if ($key = 'Couleur')
+                                                    @if ($value == '#000000000')
                                                         <img src="/icons/color-wheel.png" height="20"
                                                             width="20" alt="multicolor" title="Multi color"
                                                             srcset="">

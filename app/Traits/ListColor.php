@@ -37,7 +37,7 @@ trait ListColor
             ["nom" => "Taupe", "code" => "#483C32"],
             ["nom" => "Vert", "code" => "#008000"],
             ["nom" => "Violet", "code" => "#800080"],
-            ["nom" => "Multicolore", "code" => "#000000"],
+            ["nom" => "Multicolore", "code" => "#000000000"],
         ];
 
         return collect($colors);
