@@ -234,7 +234,7 @@ class CreatePost extends Component
         $post->etat = $this->etat;
         $post->proprietes = $jsonProprietes ?? [];
         $post->id_sous_categorie = $this->selectedSubcategory;
-        $post->prix_achat = $this->prix_achat;
+        $post->prix_achat = $this->prix_achat ?? null;
         $post->prix = $this->prix;
         $post->id_user = Auth::user()->id;
         if ($config->valider_publication == 0) {
