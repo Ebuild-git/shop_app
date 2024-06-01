@@ -283,6 +283,8 @@
                                     @endphp
                                     @if ($requi)
                                         <span class="bold text-danger">*</span>
+                                        @else
+                                        no
                                     @endif
 
                                     @if ($propriete_info->type == 'option')
