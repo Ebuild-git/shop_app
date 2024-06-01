@@ -156,7 +156,7 @@
                     <label>Prix de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control " placeholder="prix" required
+                        <input type="number" class="form-control" placeholder="prix" required
                             wire:model.live="prix">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -169,7 +169,7 @@
                     <label>Etat de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <select name="etat" wire:model="etat" class="form-control ">
+                        <select name="etat" wire:model="etat" class="form-control" required>
                             <option value="">Veuillez selectionner l'état*</option>
                             <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
                             <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
@@ -184,7 +184,6 @@
                 </div>
                 <div class="col-sm-6">
                     <label>Prix d'achat initial de votre article</label>
-                    <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <input type="number" class="form-control " placeholder="Prix initial"
                             wire:model.live="prix_achat">

@@ -182,7 +182,7 @@
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
                                 <input type="text" class="form-control sm input cusor key-input"
-                                    style="padding-left: 40px !important" name="key" 
+                                    style="padding-left: 40px !important" name="key"
                                     placeholder="recherche un article">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
@@ -368,7 +368,8 @@
                             </li>
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                 <div class="div-sroll-recherche">
-                                    <form action="/shop" method="get" class="container-search">
+                                    <form action="/shop" method="get" class="container-search"
+                                        style="margin-right: 150px !important;">
                                         @csrf
                                         <div class="container-search">
                                             <input type="text" placeholder="Recherche..." name="key">
@@ -378,6 +379,11 @@
                                         </div>
                                     </form>
                                 </div>
+                                <a href="/pulbier" class=" btn-publier-header cusor p-1 ">
+                                    <span class="color small">
+                                        Publier
+                                    </span>
+                                </a>
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
