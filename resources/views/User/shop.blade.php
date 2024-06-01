@@ -186,7 +186,7 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                             <div>
-                                <input type="text" class="form-control key-input" id="key" name="key"
+                                <input type="text" class="form-control key-input" id="key" value="{{ $key ?? "" }}" name="key"
                                     placeholder="Mot clé de recherche">
                             </div>
                             <!-- Single Option -->
