@@ -267,7 +267,6 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="text-capitalize">
-                                        <i class="bi bi-info-circle"></i>
                                         {{ $propriete_info->nom }}
                                     </label>
 
@@ -282,6 +281,10 @@
                                             }
                                         }
                                     @endphp
+                                    @if ($requi)
+                                        <span class="bold text-danger">*</span>
+                                    @endif
+
                                     @if ($propriete_info->type == 'option')
                                         @if ($propriete_info->affichage == 'case')
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
