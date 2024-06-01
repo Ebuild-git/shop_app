@@ -422,7 +422,7 @@
     <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
-        var key = "{{ $key ?? '' }}";
+        var key = $("#key").val();
         var categorie = "";
         var sous_categorie = "";
         var region = "";
