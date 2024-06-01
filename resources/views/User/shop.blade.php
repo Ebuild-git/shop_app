@@ -453,7 +453,6 @@
 
         function select_region(id) {
             region = id;
-            sous_categorie="";
             fetchProducts();
         }
 
@@ -469,6 +468,7 @@
 
         function select_categorie(id) {
             categorie = id;
+            sous_categorie="";
             fetchProducts();
         }
 
