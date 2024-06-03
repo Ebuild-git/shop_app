@@ -103,20 +103,22 @@
             text-overflow: ellipsis;
             display: inline-block;
         }
-        .card-hover-prroposition:hover {
-                background-color: #018d8d;
-                color: white !important;
-                font-weight: bold;
-                cursor: pointer;
-            }
 
-            .card-hover-titre {
-                background-color: #f33066 !important;
-                color: white !important;
-            }
-            .middle{
-                padding-top: 0px !important;
-            }
+        .card-hover-prroposition:hover {
+            background-color: #018d8d;
+            color: white !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card-hover-titre {
+            background-color: #f33066 !important;
+            color: white !important;
+        }
+
+        .middle {
+            padding-top: 0px !important;
+        }
     </style>
 
 
@@ -128,7 +130,7 @@
     <section class="middle">
 
         <div class="navbar container">
-            <div class="subnav" >
+            <div class="subnav">
                 <a href="/shop" class="subnavbtn cusor">
                     <div>
                         <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon"
@@ -140,7 +142,7 @@
                 </a>
             </div>
             @foreach ($liste_categories as $cat)
-                <div class="subnav" >
+                <div class="subnav">
                     <button class="subnavbtn cusor">
                         <div>
                             <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
@@ -441,8 +443,10 @@
             });
         });
 
-        function ancre(){
-            $('html,body').animate({scrollTop: $("#SugestionProprietes").offset().top}, 'slow');
+        function ancre() {
+            $('html,body').animate({
+                scrollTop: $("#SugestionProprietes").offset().top
+            }, 'slow');
         }
 
         function choix_ordre_prix(ordre) {
@@ -512,19 +516,23 @@
         function renderPagination(data) {
             const paginationControls = $('#pagination-controls');
             paginationControls.empty();
+            
+            //lancer la pagination uniquement si on a minimun un article
+            if (data.data.length > 0) {
+                if (data.current_page > 1) {
+                    paginationControls.append('<li data-page="' + (data.current_page - 1) + '">Précédent</li>');
+                }
 
-            if (data.current_page > 1) {
-                paginationControls.append('<li data-page="' + (data.current_page - 1) + '">Précédent</li>');
+                for (let i = 1; i <= data.last_page; i++) {
+                    const activeClass = data.current_page === i ? 'active' : '';
+                    paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+                }
+
+                if (data.current_page < data.last_page) {
+                    paginationControls.append('<li data-page="' + (data.current_page + 1) + '">Suivant</li>');
+                }
             }
 
-            for (let i = 1; i <= data.last_page; i++) {
-                const activeClass = data.current_page === i ? 'active' : '';
-                paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
-            }
-
-            if (data.current_page < data.last_page) {
-                paginationControls.append('<li data-page="' + (data.current_page + 1) + '">Suivant</li>');
-            }
         }
 
 
@@ -545,8 +553,8 @@
         .pagination li {
             margin: 0 5px;
             cursor: pointer;
-            border: solid 3px #008080;
-            padding: 5px;
+            border: solid 2px #008080;
+            padding: 0px 10px 0px 10px;
             border-radius: 5px;
         }
 
