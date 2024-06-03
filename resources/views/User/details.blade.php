@@ -311,7 +311,7 @@
                                     @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
                                             <td>{{ ucfirst($key) }} </td>
-                                            <td>
+                                            <td class="text-black">
                                                 @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
                                                         <img src="/icons/color-wheel.png" height="20"
