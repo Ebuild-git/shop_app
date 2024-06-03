@@ -62,7 +62,7 @@ class ShopController extends Controller
         if ($proprietes) {
             $q = strtolower($proprietes);
             $query->where(function ($query) use ($q) {
-                $query->WhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']);
+                $query->whereRaw("JSON_CONTAINS(LOWER(proprietes->'$[*]'), ?, '$')", [$q]);
             });
         }
 
