@@ -1,4 +1,4 @@
-<button type="button" wire:click="like()" class="badge badge-like-post-count position-absolute ab-right text-upper">
+<button type="button" wire:click="like()" class="badge badge-like-post-count position-absolute ab-right cusor text-upper">
     @if ($liked)
         <i class="bi bi-suit-heart-fill color-red"></i>
     @else
