@@ -356,7 +356,12 @@
                     cb.checked = false;
                 }
             });
-            ordre_prix = checkbox.value;
+            _ordre_prix = checkbox.value;
+            if(_ordre_prix == ordre_prix){
+                ordre_prix ="";
+            }else{
+                ordre_prix = _ordre_prix;
+            }
             fetchProducts();
         }
 
@@ -372,7 +377,12 @@
                     cb.checked = false;
                 }
             });
-            region = checkbox.value;
+            _region = checkbox.value;
+            if(_region == region){
+                region = "";
+            }else{
+                region = _region;
+            }
             fetchProducts();
         }
 
@@ -383,7 +393,12 @@
                     cb.checked = false;
                 }
             });
-            etat = checkbox.value;
+            _etat = checkbox.value;
+            if(_etat == etat){
+                etat = "";
+            }else{
+                etat = _etat;
+            }
             fetchProducts();
         }
 
