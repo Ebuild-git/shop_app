@@ -939,7 +939,9 @@ input[type="month"]:active::before {
     font-weight: bold;
 }
 
-
+.border-r{
+    border-radius: 5px !important;
+}
 
 
 

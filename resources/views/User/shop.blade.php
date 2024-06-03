@@ -1,130 +1,6 @@
 @extends('User.fixe')
 @section('titre', 'Marketplace')
-@section('content')
 @section('body')
-
-    <style>
-        .navbar {}
-
-        .navbar .icon {
-            height: 30px;
-        }
-
-        .navbar .titre {
-            font-size: 12px !important;
-            height: 30px !important;
-        }
-
-        .navbar .fa-caret-down {
-            display: none;
-        }
-
-        .navbar a {
-            float: left;
-            font-size: 16px;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .navbar .subnav:hover .fa-caret-down {
-            display: block;
-        }
-
-        .subnav {
-            overflow: hidden;
-        }
-
-        .subnav .subnavbtn {
-            font-size: 16px;
-            border: none;
-            outline: none;
-            background-color: inherit;
-            font-family: inherit;
-            margin: 0;
-        }
-
-        .navbar a:hover,
-        .subnav:hover .subnavbtn {
-            border-bottom: solid 2px #008080;
-        }
-
-        .subnav-content {
-            display: none;
-            position: absolute;
-            left: 0;
-            background-color: #008080;
-            width: 100%;
-            z-index: 1;
-        }
-
-        .subnav-content a {
-            color: white;
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        .subnav-content a:hover {
-            color: rgb(255, 255, 255);
-            font-weight: bold;
-        }
-
-        .subnav-content button {
-            background-color: unset !important;
-            color: white !important;
-            border: none !important;
-        }
-
-        .subnav-content button:hover {
-            border-radius: 5px !important;
-            background-color: white !important;
-            color: #008080 !important;
-            font-weight: bold !important;
-            cursor: pointer;
-        }
-
-        .subnav:hover .subnav-content {
-            display: block;
-        }
-
-        .list-proprietes:hover .attribut {
-            display: block !important;
-            transition: 0.5s !important;
-        }
-
-        .list-proprietes {
-            transition: 0.5s !important;
-        }
-
-        .button-list {
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: inline-block;
-        }
-
-        .card-hover-prroposition:hover {
-            background-color: #018d8d;
-            color: white !important;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .card-hover-titre {
-            background-color: #f33066 !important;
-            color: white !important;
-        }
-
-        .middle {
-            padding-top: 0px !important;
-        }
-    </style>
-
-
-
-
-
 
 
     <section class="middle">
@@ -186,7 +62,7 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                             <div>
-                                <input type="text" class="form-control key-input" id="key"
+                                <input type="text" class="form-control border-r key-input" id="key"
                                     value="{{ $key ?? '' }}" name="key" placeholder="Mot clé de recherche">
                             </div>
                             <!-- Single Option -->
@@ -516,7 +392,7 @@
         function renderPagination(data) {
             const paginationControls = $('#pagination-controls');
             paginationControls.empty();
-            
+
             //lancer la pagination uniquement si on a minimun un article
             if (data.data.length > 0) {
                 if (data.current_page > 1) {
@@ -545,6 +421,122 @@
 
 
     <style>
+        .navbar {}
+
+        .navbar .icon {
+            height: 30px;
+        }
+
+        .navbar .titre {
+            font-size: 12px !important;
+            height: 30px !important;
+        }
+
+        .navbar .fa-caret-down {
+            display: none;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar .subnav:hover .fa-caret-down {
+            display: block;
+        }
+
+        .subnav {
+            overflow: hidden;
+        }
+
+        .subnav .subnavbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+        }
+
+        .navbar a:hover,
+        .subnav:hover .subnavbtn {
+            border-bottom: solid 2px #008080;
+        }
+
+        .subnav-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: #008080;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .subnav-content a {
+            color: white;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .subnav-content a:hover {
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+        }
+
+        .subnav-content button {
+            background-color: unset !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .subnav-content button:hover {
+            border-radius: 5px !important;
+            background-color: white !important;
+            color: #008080 !important;
+            font-weight: bold !important;
+            cursor: pointer;
+        }
+
+        .subnav:hover .subnav-content {
+            display: block;
+        }
+
+        .list-proprietes:hover .attribut {
+            display: block !important;
+            transition: 0.5s !important;
+        }
+
+        .list-proprietes {
+            transition: 0.5s !important;
+        }
+
+        .button-list {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+        }
+
+        .card-hover-prroposition:hover {
+            background-color: #018d8d;
+            color: white !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card-hover-titre {
+            background-color: #f33066 !important;
+            color: white !important;
+        }
+
+        .middle {
+            padding-top: 0px !important;
+        }
+
         .pagination {
             display: flex;
             list-style: none;

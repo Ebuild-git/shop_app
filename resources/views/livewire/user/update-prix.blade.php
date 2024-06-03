@@ -6,7 +6,7 @@
         <label for="" class="strong color">
             Nouveau prix réduis :
         </label>
-        <input type="number" class="form-control" placeholder="Max {{ $old_price }} DH" required step="0.1"
+        <input type="number" class="form-control border-r" placeholder="Max {{ $old_price }} DH" required step="0.1"
             wire:model='prix'>
         @error('prix')
             <span class="small text-danger">

@@ -28,7 +28,7 @@
           <small class="form-text text-danger">{{ $message }}</small>
       @enderror
       <b>Message</b>
-      <textarea wire:model="message" class="form-control shadow-none" rows="6"></textarea>
+      <textarea wire:model="message" class="form-control border-r shadow-none" rows="6"></textarea>
       @error('message')
           <small class="form-text text-danger">{{ $message }}</small>
       @enderror

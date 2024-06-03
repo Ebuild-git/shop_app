@@ -16,7 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('style.css?v=') . time() }}">
-    <script src="{{ asset('Cart.js?v=') . time() }}"></script>
+    <script src="{{ asset('js/Cart.js?v=') . time() }}"></script>
 
     <!-- Custom CSS -->
 
@@ -39,7 +39,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @auth
-        <script src="{{ asset('Auth-Cart.js?v=') . time() }}"></script>
+        <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
 </head>
 
@@ -181,8 +181,7 @@
                         <div class="col-8 ">
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
-                                <input type="text" class="form-control sm input cusor key-input"
-                                    style="padding-left: 40px !important;border-radius: 5px;" name="key"
+                                <input type="text" class="form-control sm input cusor border-r" name="key"
                                     placeholder="rechercher un article">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>

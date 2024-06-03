@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label>Nom </label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control shadow-none" @error('lastname') is-invalid @enderror
+                <input type="text" class="form-control border-r shadow-none" @error('lastname') is-invalid @enderror
                     wire:model="lastname" required>
                 @error('lastname')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -36,7 +36,7 @@
             <div class="form-group">
                 <label>Prénom </label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control shadow-none" @error('firstname') is-invalid @enderror
+                <input type="text" class="form-control border-r shadow-none" @error('firstname') is-invalid @enderror
                     wire:model="firstname" required>
                 @error('firstname')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label>Pseudonyme </label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control shadow-none"
+                <input type="text" class="form-control border-r shadow-none"
                     @error('username') is-invalid @enderror wire:model="username" required>
                 @error('username')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label>Numéro de téléphone</label>
                 <span class="text-danger">*</span>
-                <input type="tel" class="form-control shadow-none" oninput="formatTelephone(this)"
+                <input type="tel" class="form-control border-r shadow-none" oninput="formatTelephone(this)"
                     @error('phone_number') is-invalid @enderror wire:model="phone_number" required>
                 @error('phone_number')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -69,7 +69,7 @@
             <div class="form-group">
                 <label>Région</label>
                 <span class="text-danger">*</span>
-                <select class="form-control shadow-none" wire:model="region" >
+                <select class="form-control border-r shadow-none" wire:model="region" >
                     <option value=""></option>
                     @foreach ($regions as $item)
                         <option value="{{ $item->id }}">{{ $item->nom }}</option>
@@ -83,7 +83,7 @@
         <div class="col-sm-4">
             <div class="form-group">
                 <label>Adresse</label>
-                <input type="test" class="form-control shadow-none" @error('address') is-invalid @enderror
+                <input type="test" class="form-control border-r shadow-none" @error('address') is-invalid @enderror
                     wire:model="address">
                 @error('address')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -94,7 +94,7 @@
             <div class="form-group">
                 <label>Adresse email</label>
                 <span class="text-danger">*</span>
-                <input type="email" class="form-control shadow-none" @error('email') is-invalid @enderror
+                <input type="email" class="form-control border-r shadow-none" @error('email') is-invalid @enderror
                     wire:model="email" required>
                 @error('email')
                     <small class="form-text text-danger">{{ $message }}</small>
