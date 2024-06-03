@@ -14,7 +14,7 @@ function getColorName(colorCode) {
         type: "GET",
         data: { color: colorCode },
         success: function (response) {
-            $("#colorName").text(`Color Name: ${response.name}`);
+            $("#colorName").text(`${response.name}`);
         },
         error: function (error) {
             console.error("Error:", error);

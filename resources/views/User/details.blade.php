@@ -324,10 +324,11 @@
                                                             {{ $value }}
                                                         </span>
                                                     @endif
+                                                    <span id="colorName"></span>
                                                     <script>
                                                         getColorName('{{ $value  }}');
                                                     </script>
-                                                    <span id="colorName"></span>
+                                                   
                                                 @else
                                                     {{ $value }}
                                                 @endif
