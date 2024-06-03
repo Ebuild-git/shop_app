@@ -86,7 +86,7 @@ class ShopController extends Controller
         if ($sous_categorie) {
             $query->where('id_sous_categorie', $sous_categorie);
 
-            $sous_cat = sous_categories::select("proprietes")->find($sous_categorie);
+            $sous_cat = sous_categories::select("proprietes","id_categorie")->find($sous_categorie);
             if ($sous_cat) {
                 $categorie = $sous_cat->categorie->id;
                 $ArrayProprietes = [];
