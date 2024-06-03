@@ -31,7 +31,7 @@ class posts extends Model
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-        $prix = round($this->attributes['prix'] + (($pourcentage_gain * $this->attributes['prix']) / 100), 3);
+        $prix = round($this->attributes['prix'] + (($pourcentage_gain * $this->attributes['prix']) / 100), 2);
         return $prix ?? "N/A";
     }
 
@@ -40,7 +40,7 @@ class posts extends Model
     {
 
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-        $prix = round($this->attributes['old_prix'] + (($pourcentage_gain * $this->attributes['old_prix']) / 100), 3);
+        $prix = round($this->attributes['old_prix'] + (($pourcentage_gain * $this->attributes['old_prix']) / 100), 2);
         return $prix ?? "N/A";
     }
 
