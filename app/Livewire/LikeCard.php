@@ -36,7 +36,7 @@ class LikeCard extends Component
         if (Auth::check()) {
 
             //on se rassure que c'est pas le createur su post que veux liker sa publication
-            if (Auth::user()->id == $this->post->user_id) {
+            if (Auth::user()->id == $this->post->id_user) {
                 return;
             }
 
