@@ -3,7 +3,7 @@
 @section('body')
 
 
-    <section class="middle">
+    <section class="middle" id="ancre">
 
         <div class="navbar container">
             <div class="subnav">
@@ -276,7 +276,7 @@
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
 
-                    <div class="row" id="ancre">
+                    <div class="row" >
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="border mb-3 mfliud">
                                 <div class="d-flex justify-content-between p-2 m-0">
