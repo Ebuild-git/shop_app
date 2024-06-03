@@ -52,7 +52,11 @@ class ShopController extends Controller
         }
 
         if ($ordre_prix) {
-            $query->orderBy('prix', ($ordre_prix == "Desc") ? 'DESC' : 'ASC');
+            if ($ordre_prix == "Desc") {
+                $query->orderBy('prix', 'DESC');
+            } else {
+                $query->orderBy('prix', 'ASC');
+            }
         }
 
         if ($gouvernorat) {
@@ -80,13 +84,13 @@ class ShopController extends Controller
             });
         }
 
-      
+
 
 
         if ($sous_categorie) {
             $query->where('id_sous_categorie', $sous_categorie);
 
-            $sous_cat = sous_categories::select("proprietes","id_categorie")->find($sous_categorie);
+            $sous_cat = sous_categories::select("proprietes", "id_categorie")->find($sous_categorie);
             if ($sous_cat) {
                 $categorie = $sous_cat->categorie->id;
                 $ArrayProprietes = [];
