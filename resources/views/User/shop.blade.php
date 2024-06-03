@@ -12,7 +12,7 @@
 
         .navbar .titre {
             font-size: 12px !important;
-            height: 100px !important;
+            height: 50px !important;
         }
 
         .navbar .fa-caret-down {
