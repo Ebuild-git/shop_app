@@ -319,7 +319,7 @@
                                                             width="20" alt="multicolor" title="Multi color"
                                                             srcset="">
                                                     @else
-                                                        <span
+                                                        <span class="card"
                                                             style="background-color: {{ $value }} ;color:{{ $value }};">
                                                             {{ $value }}
                                                         </span>
