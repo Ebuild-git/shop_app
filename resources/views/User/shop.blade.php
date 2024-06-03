@@ -246,7 +246,9 @@
                                                                                 {{ $SousCategorie->titre }}
                                                                             </button>
                                                                             <span>
-                                                                                {{ $SousCategorie->getPost->count() }}
+                                                                                <b>
+                                                                                    {{ $SousCategorie->getPost->count() }}
+                                                                                </b>
                                                                             </span>
                                                                         </li>
                                                                     @endforeach
