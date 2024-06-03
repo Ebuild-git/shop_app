@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class LikeCard extends Component
 {
-    public $post;
+    public $post,$total=0;
     public $liked = false;
 
     public function mount($id)
@@ -34,6 +34,12 @@ class LikeCard extends Component
     public function like()
     {
         if (Auth::check()) {
+
+            //on se rassure que c'est pas le createur su post que veux liker sa publication
+            if (Auth::user()->id == $this->post->user_id) {
+                return;
+            }
+
             if ($this->liked === true) {
                 likes::where("id_post", $this->post->id)
                     ->where('id_user', Auth::user()->id)
