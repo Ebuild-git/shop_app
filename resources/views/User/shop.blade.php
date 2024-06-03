@@ -130,7 +130,7 @@
 
 
         <div class="navbar container" style="padding-bottom: 1px !important;">
-            <div class="subnav">
+            <div class="subnav" style="height: 100;padding-top: 0px;">
                 <a href="/shop" class="subnavbtn cusor">
                     <div>
                         <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon"
@@ -142,7 +142,7 @@
                 </a>
             </div>
             @foreach ($liste_categories as $cat)
-                <div class="subnav">
+                <div class="subnav" style="height: 100;padding-top: 0px;">
                     <button class="subnavbtn cusor">
                         <div>
                             <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
