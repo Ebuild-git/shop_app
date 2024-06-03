@@ -151,31 +151,31 @@
                                         <!-- Single Filter Card -->
                                         <div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" wire:click="choix_etat('Neuf avec étiquettes')">
+                                                <input type="checkbox" name="etat" value="Neuf avec étiquettes" onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor ">
                                                     Neuf avec étiquettes
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" wire:click="choix_etat('Neuf sans étiquettes')">
+                                                <input type="checkbox" name="etat" value="Neuf sans étiquettes" onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Neuf sans étiquettes
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" wire:click="choix_etat('Très bon état')">
+                                                <input type="checkbox" name="etat" value="Très bon état" onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Très bon état
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" wire:click="choix_etat('Bon état')">
+                                                <input type="checkbox" name="etat" value="Bon état" onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Bon état
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" wire:click="choix_etat('Usé')">
+                                                <input type="checkbox" name="etat" value="Usé" onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Usé
                                                 </button>
@@ -284,6 +284,13 @@
 
                     {{-- suggestion des attributs des propriétés --}}
                     <div id="SugestionProprietes"></div>
+                    <div class="text-center p-5" id="loading" >
+                        <img src="/icons/kOnzy.gif" alt="gif" height="50" width="50" srcset="">
+                        <br>
+                        <span class="color">
+                            Recherche d'annonces...
+                        </span>
+                    </div>
 
 
                     <!-- row -->
@@ -304,9 +311,9 @@
         var categorie = "";
         var sous_categorie = "";
         var region = "";
+        var etat = "";
         var ordre_prix = "";
         var proprietes = "";
-
 
         $(document).ready(function() {
             // Faire la requête initiale au chargement de la page
@@ -340,6 +347,17 @@
             fetchProducts();
         }
 
+        function choix_etat(checkbox) {
+            var checkboxes = document.getElementsByName('etat');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            etat = checkbox.value;
+            fetchProducts();
+        }
+
         function select_sous_categorie(id) {
             sous_categorie = id;
             fetchProducts();
@@ -358,8 +376,10 @@
         }
 
         function fetchProducts(page = 1) {
+            $("#loading").show("show");
             $.post(
                 "/recherche?page=" + page, {
+                    etat : etat,
                     key: key,
                     region: region,
                     ordre_prix: ordre_prix,
@@ -380,6 +400,7 @@
                         if (data.SugestionProprietes) {
                             $("#SugestionProprietes").html(data.SugestionProprietes);
                         }
+                        $("#loading").hide("show");
                     }
                 }
             );

@@ -121,7 +121,7 @@ class ShopController extends Controller
 
 
 
-        if (!empty($etat)) {
+        if ($etat) {
             $query->where('etat', $etat);
         }
 
