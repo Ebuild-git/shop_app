@@ -80,12 +80,7 @@ class ShopController extends Controller
             });
         }
 
-        if ($categorie) {
-            $id_categorie = $categorie;
-            $query->whereHas('sous_categorie_info.categorie', function ($query) use ($id_categorie) {
-                $query->where('id', $id_categorie);
-            });
-        }
+      
 
 
         if ($sous_categorie) {
@@ -93,6 +88,7 @@ class ShopController extends Controller
 
             $sous_cat = sous_categories::select("proprietes")->find($sous_categorie);
             if ($sous_cat) {
+                $categorie = $sous_cat->categorie->id;
                 $ArrayProprietes = [];
                 foreach ($sous_cat->proprietes as $propriete) {
                     $proprietes = proprietes::select("options", "nom")->find($propriete);
@@ -114,6 +110,16 @@ class ShopController extends Controller
                 $SugestionProprietes = view('components.sugestion-proprietes', ['optionsArray' => $optionsArray ?? [], 'ArrayProprietes' => $ArrayProprietes ?? []])->render();
             }
         }
+
+
+        if ($categorie) {
+            $id_categorie = $categorie;
+            $query->whereHas('sous_categorie_info.categorie', function ($query) use ($id_categorie) {
+                $query->where('id', $id_categorie);
+            });
+        }
+
+
 
         if (!empty($etat)) {
             $query->where('etat', $etat);
