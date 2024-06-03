@@ -22,9 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger("id_sous_categorie");
             $table->json("proprietes")->nullable();
             $table->enum('etat',['Neuf avec étiquettes','Neuf sans étiquettes','Très bon état','Bon état','Usé']);
-            $table->decimal("prix", 13, 3);
-            $table->decimal("prix_achat", 13, 3)->nullable()->default(null);
-            $table->decimal("old_prix", 13, 3)->nullable()->default(null);
+            $table->decimal("prix", 13, 2);
+            $table->decimal("prix_achat", 13, 2)->nullable()->default(null);
+            $table->decimal("old_prix", 13, 2)->nullable()->default(null);
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->timestamp('sell_at')->nullable()->default(null);
             $table->timestamp("delivered_at")->nullable()->default(null);

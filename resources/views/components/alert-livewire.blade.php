@@ -9,7 +9,7 @@
 
 
 @if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible" style="background-color: #0080805b !important;color: white !important;" role="alert">
+    <div class="alert alert-success alert-dismissible" style="background-color: #008080ea !important;color: white !important;" role="alert">
         {{ session('success') }}
     </div>
 @enderror

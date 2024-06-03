@@ -866,7 +866,7 @@
                         <div class="text-center mb-4">
                             <h1 class="m-0 ft-regular h6">
                                 <i class="bi bi-exclamation-octagon"></i>
-                                Modifier le prix
+                                Réduire le prix
                             </h1>
                             <span class="text-muted">
                             </span>

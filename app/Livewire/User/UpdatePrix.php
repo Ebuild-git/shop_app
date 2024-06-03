@@ -12,6 +12,7 @@ class UpdatePrix extends Component
 {
     public $post, $prix, $old_price;
     public $postId;
+    public $show = true;
 
     protected $listeners = ['setPostId'];
 
@@ -84,7 +85,8 @@ class UpdatePrix extends Component
 
 
                 // Message de succès flash
-                session()->flash('success', 'Le prix a été mis à jour avec succès');
+                session()->flash('success', 'Le prix a été mis à jour avec succès !');
+                $this->show = false;
                 //$this->dispatch('update-price');
             }
         }

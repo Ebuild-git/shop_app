@@ -186,8 +186,8 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                             <div>
-                                <input type="text" class="form-control key-input" id="key" value="{{ $key ?? "" }}" name="key"
-                                    placeholder="Mot clé de recherche">
+                                <input type="text" class="form-control key-input" id="key"
+                                    value="{{ $key ?? '' }}" name="key" placeholder="Mot clé de recherche">
                             </div>
                             <!-- Single Option -->
                             <div class="single_search_boxed">
@@ -197,12 +197,8 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-                                            <div class="single_filter_card cusor color" onclick="check_luxury()">
-                                                <b>
-                                                    Uniquement Luxury <i class="bi bi-gem"></i>
-                                                </b>
-                                            </div>
-                                            @forelse ($liste_categories as $categorie)
+
+                                            @foreach ($liste_categories as $categorie)
                                                 <!-- Single Filter Card -->
                                                 <div class="single_filter_card">
                                                     <h5>
@@ -233,7 +229,8 @@
                                                             <div class="inner_widget_link">
                                                                 <ul>
                                                                     <li class="d-flex justify-content-between">
-                                                                        <button class="btn-btn-shop-style text-muted" type="button"
+                                                                        <button class="btn-btn-shop-style text-muted"
+                                                                            type="button"
                                                                             onclick="select_categorie({{ $categorie->id }})">
                                                                             Tout - {{ $categorie->titre }}
                                                                         </button>
@@ -257,9 +254,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @empty
-                                            @endforelse
-
+                                            @endforeach
+                                            <div class="single_filter_card text-black cusor" onclick="check_luxury()">
+                                                Uniquement Luxury <i class="bi bi-gem"></i>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -318,10 +316,12 @@
                             <!-- Single Option -->
                             <div class="single_search_boxed">
                                 <div class="widget-boxed-header">
-                                    <h4><a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                    <h4>
+                                        <a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
                                             role="button">
-                                            Ordre d'affichage des prix
-                                        </a></h4>
+                                            prix
+                                        </a>
+                                    </h4>
                                 </div>
                                 <div class="widget-boxed-body collapse" id="prixs" data-parent="#prixs">
                                     <div class="side-list no-border">
@@ -470,7 +470,7 @@
 
         function select_categorie(id) {
             categorie = id;
-            sous_categorie="";
+            sous_categorie = "";
             fetchProducts();
         }
 
@@ -533,22 +533,24 @@
     </script>
 
 
-<style>
-    .pagination {
-        display: flex;
-        list-style: none;
-    }
-    .pagination li {
-        margin: 0 5px;
-        cursor: pointer;
-        border:solid 3px #008080 ;
-        padding: 5px;
-        border-radius: 5px;
-    }
-    .pagination .active {
-        font-weight: bold;
-        background-color: #008080;
-        color: white;
-    }
-</style>
+    <style>
+        .pagination {
+            display: flex;
+            list-style: none;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+            cursor: pointer;
+            border: solid 3px #008080;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .pagination .active {
+            font-weight: bold;
+            background-color: #008080;
+            color: white;
+        }
+    </style>
 @endsection

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('history_change_prices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("id_post");
-            $table->decimal("old_price", 13, 3);
-            $table->decimal("new_price", 13, 3);
+            $table->decimal("old_price", 13, 2);
+            $table->decimal("new_price", 13, 2);
             $table->timestamps();
         });
     }

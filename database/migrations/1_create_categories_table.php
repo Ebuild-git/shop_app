@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("titre");
             $table->text("description")->nullable()->default(null);
-            $table->decimal("pourcentage_gain", 13, 3)->nullable()->default(null);
+            $table->decimal("pourcentage_gain", 13, 2)->nullable()->default(null);
             $table->boolean("luxury")->default(false);
             $table->integer('order')->default(0);
             $table->string("icon");
