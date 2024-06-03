@@ -186,7 +186,7 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                             <div>
-                                <input type="text" class="form-control key-input" id="key" name="key"
+                                <input type="text" class="form-control key-input" id="key" value="{{ $key ?? "" }}" name="key"
                                     placeholder="Mot clé de recherche">
                             </div>
                             <!-- Single Option -->
@@ -422,7 +422,7 @@
     <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
-        var key = "{{ $key ?? '' }}";
+        var key = $("#key").val();
         var categorie = "";
         var sous_categorie = "";
         var region = "";
@@ -468,6 +468,7 @@
 
         function select_categorie(id) {
             categorie = id;
+            sous_categorie="";
             fetchProducts();
         }
 
