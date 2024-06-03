@@ -18,10 +18,14 @@ class UpdatePrix extends Component
 
     public function setPostId($id)
     {
-        $post = posts::where('id', $id)->where('id_user', Auth::user()->id)->first();
+        $post = posts::where('id', $id)
+        ->select("id","prix","old_prix")
+        ->where('id_user', Auth::user()->id)
+        ->first();
         if ($post) {
             $this->old_price = $post->prix;
             $this->post = $post;
+            $this->show = true;
         }
     }
 
@@ -43,6 +47,8 @@ class UpdatePrix extends Component
 
         $oneWeekAgo = Carbon::now()->subWeek();
         $post = posts::find($this->post->id);
+        $now = Carbon::now();
+
         if ($post) {
             $old_price = $post->prix;
 
@@ -54,7 +60,7 @@ class UpdatePrix extends Component
             if ($lastChange && $lastChange->created_at >= $oneWeekAgo) {
                 // Calculer le temps restant avant de pouvoir effectuer un nouveau changement
                 $nextChangeAllowed = $lastChange->created_at->addWeek();
-                $now = Carbon::now();
+               
 
                 // Calculer la différence en jours et en heures
                 $daysRemaining = $now->diffInDays($nextChangeAllowed);
@@ -88,7 +94,6 @@ class UpdatePrix extends Component
                 // Message de succès flash
                 session()->flash('success', "Le nouveau prix de $this->prix DH est accpeté . Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h .");
                 $this->show = false;
-                //$this->dispatch('update-price');
             }
         }
     }

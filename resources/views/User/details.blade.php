@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                             @if ($post->statut == 'vente')
-                                <button type="button" class="btn btn-block bg-dark mb-2 "
+                                <button type="button" class="btn btn-block bg-dark mb-2 p-3 "
                                 @guest
                                 data-toggle="modal" data-target="#login"
                                 @endguest

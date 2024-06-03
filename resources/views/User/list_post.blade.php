@@ -116,7 +116,7 @@
                                     </button>
                                 @endif
                                 @if ($item->statut == 'validation' || $item->statut == 'vente')
-                                    <button class="btn btn-sm bg-red" type="button"
+                                    <button class="btn btn-sm btn-danger" type="button"
                                         onclick="delete_my_post({{ $item->id }})">
                                         <i class="bi bi-trash"></i>
                                     </button>

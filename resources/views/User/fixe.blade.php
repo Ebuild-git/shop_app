@@ -33,7 +33,7 @@
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="/assets/css/styles.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/styles.css?v=') . time() }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">

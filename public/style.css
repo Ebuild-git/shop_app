@@ -184,13 +184,17 @@ body {
 .avatar-small-product {
     height: 50px;
     width: 50px;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
-    border: solid 1px #e85b0479;
+    border: solid 1px #008080;
 }
-
+.avatar-small-product:hover{
+    box-shadow: 15px 17px 15px -3px rgba(0,0,0,0.1);
+}
 .avatar-small-product img {
     height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .avatar-small-product img:hover {
