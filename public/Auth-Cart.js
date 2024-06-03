@@ -69,6 +69,20 @@ function CountPanier() {
     });
 }
 
+function getColorName(colorCode) {
+    $.ajax({
+        url: "/color-name",
+        type: "GET",
+        data: { color: colorCode },
+        success: function (response) {
+            $("#colorName").text(`Color Name: ${response.name}`);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        },
+    });
+}
+
 function CountNotification() {
     $.get("/count_notification", function (data, status) {
         if (status === "success") {

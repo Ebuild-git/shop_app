@@ -253,7 +253,7 @@
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"
                                         class="btn btn-default btn-block mb-2" type="button">
                                         <i class="bi bi-pencil-square"></i>
-                                        Modifier le prix
+                                        Réduire le prix
                                     </button>
                                 @endif
                                 @if (Auth::id() != $post->id_user)
@@ -324,6 +324,10 @@
                                                             {{ $value }}
                                                         </span>
                                                     @endif
+                                                    <script>
+                                                        getColorName({{ $value  }});
+                                                    </script>
+                                                    <span id="colorName"></span>
                                                 @else
                                                     {{ $value }}
                                                 @endif
@@ -356,9 +360,7 @@
 </section>
 <!-- ======================= Product Detail End ======================== -->
 
-<div class="container">
-    <hr>
-</div>
+
 
 <!-- ======================= Similar Products Start ============================ -->
 <section class="middle pt-0">

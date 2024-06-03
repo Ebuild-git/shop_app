@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\InformationsController;
@@ -48,6 +49,8 @@ Route::get('/connexion', [ControllersHomeController::class, 'connexion'])->name(
 Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forget');
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
+Route::get('/color-name', [ColorController::class, 'getColorName']);
+
 
 Route::post('/recherche', [ShopController::class, 'index'])->name('recherche');
 
