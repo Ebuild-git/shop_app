@@ -182,8 +182,8 @@
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
                                 <input type="text" class="form-control sm input cusor key-input"
-                                    style="padding-left: 40px !important" name="key"
-                                    placeholder="recherche un article">
+                                    style="padding-left: 40px !important;border-radius: 5px;" name="key"
+                                    placeholder="rechercher un article">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -386,6 +386,7 @@
                                             data-target="#login">
                                         @endauth
                                         <span class="color small">
+                                            <i class="lni lni-circle-plus"></i>
                                             Publier
                                         </span>
                                     </a>

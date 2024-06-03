@@ -237,16 +237,15 @@
                                     </div>
                                 </div>
                             </div>
-                            @auth
-                                @if ($post->id_user != Auth::id())
-                                    @if ($post->statut == 'vente')
-                                        <button type="button" class="btn btn-block bg-dark mb-2 "
-                                            onclick="add_cart({{ $post->id }})">
-                                            <i class="lni lni-shopping-basket mr-2"></i>
-                                            Ajouter au panier
-                                        </button>
-                                    @endauth
-                                @endif
+                            @if ($post->statut == 'vente')
+                                <button type="button" class="btn btn-block bg-dark mb-2 "
+                                @guest
+                                data-toggle="modal" data-target="#login"
+                                @endguest
+                                    onclick="add_cart({{ $post->id }})">
+                                    <i class="lni lni-shopping-basket mr-2"></i>
+                                    Ajouter au panier
+                                </button>
                             @endauth
                             @auth
                                 @if (Auth::id() == $post->id_user)
@@ -263,7 +262,7 @@
                                         data-id="{{ $post->id }}">
                                         <i class="lni lni-heart mr-2"></i>
                                         <span class="text">
-                                            {{ $isFavorited ? "Retirer des favoris" : "Ajouter aux favoris" }}
+                                            {{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
                                         </span>
                                     </button>
                                     <br>
@@ -313,7 +312,7 @@
                                         <tr>
                                             <td>{{ ucfirst($key) }} </td>
                                             <td>
-                                                @if ($key == 'Couleur' )
+                                                @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
                                                         <img src="/icons/color-wheel.png" height="20"
                                                             width="20" alt="multicolor" title="Multi color"
@@ -326,9 +325,8 @@
                                                     @endif
                                                     <span id="colorName"></span>
                                                     <script>
-                                                        getColorName('{{ $value  }}');
+                                                        getColorName('{{ $value }}');
                                                     </script>
-                                                   
                                                 @else
                                                     {{ $value }}
                                                 @endif

@@ -698,9 +698,10 @@ body {
     padding: 7px;
     position: absolute;
     top: 3px;
-    left: 3px;
+    right: 3px;
     border-radius: 1px;
     border: none;
+    border-radius: 5px;;
 }
 
 
