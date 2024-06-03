@@ -325,7 +325,7 @@
                                                         </span>
                                                     @endif
                                                     <script>
-                                                        getColorName({{ $value  }});
+                                                        getColorName('{{ $value  }}');
                                                     </script>
                                                     <span id="colorName"></span>
                                                 @else
