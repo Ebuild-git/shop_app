@@ -379,11 +379,16 @@
                                         </div>
                                     </form>
                                 </div>
-                                <a href="/pulbier" class=" btn-publier-header cusor p-1 ">
-                                    <span class="color small">
-                                        Publier
-                                    </span>
-                                </a>
+                                @auth
+                                    <a href="/publication" class=" btn-publier-header cusor p-1 ">
+                                    @else
+                                        <a href="#" class=" btn-publier-header cusor p-1" data-toggle="modal"
+                                            data-target="#login">
+                                        @endauth
+                                        <span class="color small">
+                                            Publier
+                                        </span>
+                                    </a>
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
