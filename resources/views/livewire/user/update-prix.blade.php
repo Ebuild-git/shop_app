@@ -3,7 +3,7 @@
     {{ $old_price }} DH
     <br><br>
     <form wire:submit='form_update_prix'>
-        <label for="">
+        <label for="" class="strong color">
             Nouveau prix réduis :
         </label>
         <input type="number" class="form-control" placeholder="Max {{ $old_price }} DH" required step="0.1"
@@ -17,7 +17,7 @@
 
         @include('components.alert-livewire')
         @if ($show)
-            <div class="modal-footer">
+            <div class="text-end mt-3">
                 <button type="submit" class="btn btn-sm bg-red">
                     <span wire:loading>
                         <x-Loading></x-Loading>

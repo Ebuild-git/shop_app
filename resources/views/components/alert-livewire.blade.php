@@ -9,7 +9,8 @@
 
 
 @if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible" style="background-color: #008080ea !important;color: white !important;" role="alert">
+    <div class="alert alert-success alert-dismissible text-center" style="background-color: #008080a8 !important;color: white !important;" role="alert">
+        <img width="50" height="50" src="https://img.icons8.com/ios/50/008080/ok--v1.png" alt="ok--v1"/> <br>
         {{ session('success') }}
     </div>
 @enderror

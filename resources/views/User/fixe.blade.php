@@ -865,7 +865,7 @@
                     </div>
                     <div class="modal-body p-5">
                         <div class="text-center mb-4">
-                            <h1 class="m-0 ft-regular h6">
+                            <h1 class="m-0 ft-regular text-danger h6">
                                 <i class="bi bi-exclamation-octagon"></i>
                                 Réduire le prix
                             </h1>

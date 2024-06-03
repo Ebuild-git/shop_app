@@ -103,28 +103,24 @@
                                 @endif
                             </td>
                             <td style="text-align: right;">
-                                <div class="btn-group sm" role="group">
-                                    @if ($item->propositions->count() > 0)
-                                        <a class="btn btn-sm btn-dark"
-                                            href="/publication/{{ $item->id }}/propositions">
-                                            <i class="bi bi-plug-fill"></i>
-                                            Propositions ( {{ $item->propositions->count() }} )
-                                        </a>
-                                    @endif
-                                    @if ($item->sell_at == null)
-                                        <button class="btn btn-sm btn-info"
-                                            onclick="Update_post_price({{ $item->id }})">
-                                            <i class="bi bi-pencil-square"></i>
-                                            Réduire le prix
-                                        </button>
-                                    @endif
-                                    @if ($item->statut == 'validation' || $item->statut == 'vente')
-                                        <button class="btn btn-sm bg-red" type="button"
-                                            onclick="delete_my_post({{ $item->id }})">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    @endif
-                                </div>
+                                @if ($item->propositions->count() > 0)
+                                    <a class="btn btn-sm btn-dark" href="/publication/{{ $item->id }}/propositions">
+                                        <i class="bi bi-plug-fill"></i>
+                                        Propositions ( {{ $item->propositions->count() }} )
+                                    </a>
+                                @endif
+                                @if ($item->sell_at == null)
+                                    <button class="btn btn-sm btn-info" onclick="Update_post_price({{ $item->id }})">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Réduire le prix
+                                    </button>
+                                @endif
+                                @if ($item->statut == 'validation' || $item->statut == 'vente')
+                                    <button class="btn btn-sm bg-red" type="button"
+                                        onclick="delete_my_post({{ $item->id }})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty

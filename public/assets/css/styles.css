@@ -900,7 +900,7 @@ table.table tr th {
 }
 /*------------- GLobal Settings: Buttons ----------------*/
 .btn {
-	padding: 12px 25px;
+	padding: 10px 20px;
 	cursor: pointer;
 	-webkit-transition: 0s;
 	-o-transition: 0s;
@@ -908,7 +908,7 @@ table.table tr th {
 	border-radius:0.1rem;
 }
 .btn.btn-sm{
-    padding:10px 15px;
+    padding:5px 10px;
 }
 .btn.btn-md {
     padding:14px 30px;

@@ -66,7 +66,7 @@ class UpdatePrix extends Component
             } else {
                 //verifier que le nouveau prix est inferieur a l'ancien
                 if ($this->prix > $old_price) {
-                    session()->flash('error', 'Le nouveau prix doit être supérieur ou égal à l\'ancien');
+                    session()->flash('error', "Veuillez entrer un prix inférieur à votre prix actuel .");
                     return;
                 }
 
@@ -86,7 +86,7 @@ class UpdatePrix extends Component
 
 
                 // Message de succès flash
-                session()->flash('success', 'Le prix a été mis à jour avec succès !');
+                session()->flash('success', "Le nouveau prix de $this->prix DH est accpeté . Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h .");
                 $this->show = false;
                 //$this->dispatch('update-price');
             }
