@@ -55,13 +55,14 @@ class UpdatePrix extends Component
                 // Calculer le temps restant avant de pouvoir effectuer un nouveau changement
                 $nextChangeAllowed = $lastChange->created_at->addWeek();
                 $now = Carbon::now();
-                $remainingTime = $now->diffForHumans($nextChangeAllowed, [
-                    'parts' => 3, // Afficher les 3 parties les plus significatives (ex: 6 days 23 hours 59 minutes)
-                    'short' => true, // Utiliser le format court
-                ]);
 
+                // Calculer la différence en jours et en heures
+                $daysRemaining = $now->diffInDays($nextChangeAllowed);
+                $hoursRemaining = $now->copy()->addDays($daysRemaining)->diffInHours($nextChangeAllowed);
+                
                 // Flash message pour informer du temps restant
-                session()->flash('warning', "Vous avez déjà fait un changement de prix dans les 7 derniers jours. Vous pourrez effectuer un nouveau changement dans $remainingTime.");
+                $this->show = false;
+                session()->flash('warning', "Vous avez déjà fait un changement de prix dans les 7 derniers jours. Vous pourrez effectuer un nouveau changement dans $daysRemaining jours et $hoursRemaining heures.");
             } else {
                 //verifier que le nouveau prix est inferieur a l'ancien
                 if ($this->prix > $old_price) {
