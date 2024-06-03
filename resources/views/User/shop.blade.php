@@ -233,14 +233,14 @@
                                                             <div class="inner_widget_link">
                                                                 <ul>
                                                                     <li class="d-flex justify-content-between">
-                                                                        <button class="btn-btn-shop-style" type="button"
+                                                                        <button class="btn-btn-shop-style text-muted" type="button"
                                                                             onclick="select_categorie({{ $categorie->id }})">
                                                                             Tout - {{ $categorie->titre }}
                                                                         </button>
                                                                     </li>
                                                                     @foreach ($categorie->getSousCategories as $SousCategorie)
-                                                                        <li class="d-flex justify-content-between">
-                                                                            <button class="btn-btn-shop-style"
+                                                                        <li class="d-flex justify-content-between ">
+                                                                            <button class="btn-btn-shop-style text-muted"
                                                                                 type="button"
                                                                                 onclick="select_sous_categorie({{ $SousCategorie->id }})">
                                                                                 {{ $SousCategorie->titre }}
