@@ -259,7 +259,7 @@
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
 
-                    <div class="row">
+                    <div class="row" id="ancre">
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="border mb-3 mfliud">
                                 <div class="d-flex justify-content-between p-2 m-0">
@@ -328,7 +328,7 @@
 
         function ancre() {
             $('html,body').animate({
-                scrollTop: $("#SugestionProprietes").offset().top
+                scrollTop: $("#ancre").offset().top
             }, 'slow');
         }
 
@@ -361,7 +361,6 @@
         function select_sous_categorie(id) {
             sous_categorie = id;
             fetchProducts();
-            ancre();
         }
 
         function filtre_propriete(nom) {
@@ -377,6 +376,7 @@
 
         function fetchProducts(page = 1) {
             $("#loading").show("show");
+            ancre();
             $.post(
                 "/recherche?page=" + page, {
                     etat : etat,
