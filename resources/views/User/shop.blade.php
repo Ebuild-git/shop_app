@@ -103,18 +103,7 @@
             text-overflow: ellipsis;
             display: inline-block;
         }
-    </style>
-
-
-
-
-
-
-
-    <section class="middle">
-
-        <style>
-            .card-hover-prroposition:hover {
+        .card-hover-prroposition:hover {
                 background-color: #018d8d;
                 color: white !important;
                 font-weight: bold;
@@ -125,10 +114,18 @@
                 background-color: #f33066 !important;
                 color: white !important;
             }
-        </style>
+            .middle{
+                padding-top: 0px !important;
+            }
+    </style>
 
 
 
+
+
+
+
+    <section class="middle">
 
         <div class="navbar container">
             <div class="subnav" >
@@ -461,6 +458,7 @@
 
         function select_sous_categorie(id) {
             sous_categorie = id;
+            
             fetchProducts();
         }
 

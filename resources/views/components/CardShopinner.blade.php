@@ -33,7 +33,7 @@
                     <div>
                         <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
                     </div>
-                    Ventes : {{ $user->total_sales ?? 0 }}
+                    Ventes : {{ $user->total_sales->count() }}
                 </div>
                 <div class="col text-center cusor" onclick="ShowPostsCatgorie({{ $user->id }})">
                     <div>

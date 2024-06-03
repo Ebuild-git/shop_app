@@ -35,7 +35,7 @@ class Shopinners extends Component
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts')
             )
-                ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
+                ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->leftJoin('pings', function ($join) use ($userId) {
                     $join->on('users.id', '=', 'pings.pined')
