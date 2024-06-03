@@ -12,7 +12,7 @@
 
         .navbar .titre {
             font-size: 12px !important;
-            height: 50px !important;
+            height: 100px !important;
         }
 
         .navbar .fa-caret-down {
@@ -137,9 +137,9 @@
                         <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon"
                             srcset="">
                     </div>
-                    <span class="titre">
+                    <div class="titre">
                         Tous
-                    </span>
+                    </div>
                 </a>
             </div>
             @foreach ($liste_categories as $cat)
@@ -148,12 +148,12 @@
                         <div>
                             <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
                         </div>
-                        <span class="titre">
+                        <div class="titre">
                             @if ($cat->luxury == true)
                                 <i class="bi bi-gem color"></i>
                             @endif
                             {!! str_replace('&', '&<br>', $cat->titre) !!}
-                        </span>
+                        </div>
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="subnav-content p-2">
