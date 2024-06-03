@@ -129,7 +129,7 @@
 
 
 
-        <div class="navbar container">
+        <div class="navbar container" style="padding-bottom: 1px !important;">
             <div class="subnav">
                 <a href="/shop" class="subnavbtn cusor">
                     <div>
