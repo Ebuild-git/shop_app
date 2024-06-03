@@ -151,31 +151,36 @@
                                         <!-- Single Filter Card -->
                                         <div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Neuf avec étiquettes" onclick="choix_etat(this)">
+                                                <input type="checkbox" name="etat" value="Neuf avec étiquettes"
+                                                    onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor ">
                                                     Neuf avec étiquettes
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Neuf sans étiquettes" onclick="choix_etat(this)">
+                                                <input type="checkbox" name="etat" value="Neuf sans étiquettes"
+                                                    onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Neuf sans étiquettes
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Très bon état" onclick="choix_etat(this)">
+                                                <input type="checkbox" name="etat" value="Très bon état"
+                                                    onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Très bon état
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Bon état" onclick="choix_etat(this)">
+                                                <input type="checkbox" name="etat" value="Bon état"
+                                                    onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Bon état
                                                 </button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Usé" onclick="choix_etat(this)">
+                                                <input type="checkbox" name="etat" value="Usé"
+                                                    onclick="choix_etat(this)">
                                                 <button type="button" class="btn-etat-shop cusor">
                                                     Usé
                                                 </button>
@@ -203,14 +208,22 @@
                                     <div class="side-list no-border">
                                         <!-- Single Filter Card -->
                                         <div>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                onclick="choix_ordre_prix('Asc')">
-                                                Moins couteux au plus couteux
-                                            </button>
-                                            <button type="button" class="btn-etat-shop cusor"
-                                                onclick="choix_ordre_prix('Desc')">
-                                                Plus couteux au moins couteux
-                                            </button>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" name="ordre_prix" value="Asc"
+                                                    onclick="choix_ordre_prix(this)">
+                                                <span>
+                                                    &nbsp;
+                                                    Moins couteux au plus couteux
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" name="ordre_prix" value="Desc"
+                                                    onclick="choix_ordre_prix(this)">
+                                                <span>
+                                                    &nbsp;
+                                                    Plus couteux au moins couteux
+                                                </span>
+                                            </div>
                                             @error('ordre')
                                                 <small class="form-text text-danger">{{ $message }}</small>
                                             @enderror
@@ -234,10 +247,14 @@
                                                     <ul class="cusor">
                                                         @foreach ($regions as $region)
                                                             <li class="d-flex justify-content-between cusor">
-                                                                <button class="btn-btn-shop-style" type="button"
-                                                                    onclick="select_region({{ $region->id }})">
-                                                                    {{ $region->nom }}
-                                                                </button>
+                                                                <div class="d-flex justify-content-start">
+                                                                    <input type="checkbox" name="region"
+                                                                        value="{{ $region->id }}"
+                                                                        onclick="select_region(this)">
+                                                                    <span>
+                                                                        &nbsp; {{ $region->nom }}
+                                                                    </span>
+                                                                </div>
                                                                 <span>
                                                                     {{ $region->getPost->count() }}
                                                                 </span>
@@ -284,7 +301,7 @@
 
                     {{-- suggestion des attributs des propriétés --}}
                     <div id="SugestionProprietes"></div>
-                    <div class="text-center p-5" id="loading" >
+                    <div class="text-center p-5" id="loading">
                         <img src="/icons/kOnzy.gif" alt="gif" height="50" width="50" srcset="">
                         <br>
                         <span class="color">
@@ -332,8 +349,14 @@
             }, 'slow');
         }
 
-        function choix_ordre_prix(ordre) {
-            ordre_prix = ordre;
+        function choix_ordre_prix(checkbox) {
+            var checkboxes = document.getElementsByName('ordre_prix');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            ordre_prix = checkbox.value;
             fetchProducts();
         }
 
@@ -342,8 +365,14 @@
             fetchProducts();
         }
 
-        function select_region(id) {
-            region = id;
+        function select_region(checkbox) {
+            var checkboxes = document.getElementsByName('region');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            region = checkbox.value;
             fetchProducts();
         }
 
@@ -379,7 +408,7 @@
             ancre();
             $.post(
                 "/recherche?page=" + page, {
-                    etat : etat,
+                    etat: etat,
                     key: key,
                     region: region,
                     ordre_prix: ordre_prix,
