@@ -441,6 +441,10 @@
             });
         });
 
+        function ancre(){
+            $('html,body').animate({scrollTop: $("#SugestionProprietes").offset().top}, 'slow');
+        }
+
         function choix_ordre_prix(ordre) {
             ordre_prix = ordre;
             fetchProducts();
@@ -458,8 +462,8 @@
 
         function select_sous_categorie(id) {
             sous_categorie = id;
-            
             fetchProducts();
+            ancre();
         }
 
         function filtre_propriete(nom) {
