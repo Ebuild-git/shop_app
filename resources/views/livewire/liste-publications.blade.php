@@ -25,7 +25,8 @@
          <div class="col-sm-12 my-auto">
              <form wire:submit="filtre">
                  <div class="input-group mb-3">
-                     <input type="text" class="form-control" wire:model="mot_key" placeholder="Titre,Auteur,Description">
+                     <input type="text" class="form-control" wire:model="mot_key"
+                         placeholder="Titre,Auteur,Description">
                      <select wire:model ="type" class="form-control">
                          <option value="" selected>Toutes les publications</option>
                          <option value="validation">En cour de validation</option>
@@ -50,9 +51,9 @@
                          @endforeach
                      </select>
                      <select wire:model="signalement" class="form-control">
-                        <option value="">Signalements</option>
-                        <option value="Asc">Plus signaler au moins</option>
-                        <option value="Des">Moins signaler au plus</option>
+                         <option value="">Signalements</option>
+                         <option value="Asc">Plus signaler au moins</option>
+                         <option value="Des">Moins signaler au plus</option>
                      </select>
                      <input type="month" name="date" wire:model="date" class="form-control" id="">
                      <button class="btn btn-primary" type="submit" id="button-addon2">
@@ -71,6 +72,7 @@
              <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}">
                  <tr>
                      <th>Titre</th>
+                     <th>Catégorie </th>
                      <th>Likes</th>
                      <th title="Signalements">
                          <i class="bi bi-exclamation-triangle"></i> Alert
@@ -97,8 +99,14 @@
                                              <i class="bi bi-trash3"></i>
                                              {{ \Carbon\Carbon::parse($post->deleted_at)->diffForHumans() }}
                                          </i>
-                                     </span>
+                                     </span> |
                                  @else
+                                     <span title="Auteur"
+                                         onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
+                                         <i class="bi bi-person"></i>
+                                         <b class="cusor">{{ $post->user_info->firstname }}</b>
+                                     </span>
+                                     |
                                      <span class="text-primary cusor"
                                          onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
                                          <i class="bi bi-envelope-fill"></i>
@@ -112,23 +120,19 @@
                                          </i>
                                      </span>
                                  @endif
-                                 @if ($post->uupdated_price_at)
-                                     |
-                                     <span class="text-warning">
+                                 @if ($post->updated_price_at)
+                                     <div class="text-primary">
                                          <i>
-                                             <i class="bi bi-pencil-square"></i>
-                                             {{ $post->updated_price_at}}
+                                             <i class="bi bi-pencil-square"></i> Modifié le :
+                                             {{ $post->updated_price_at }}
                                          </i>
-                                     </span>
+                                     </div>
                                  @endif
-
-                                 |
-                                 <span title="Auteur"
-                                     onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                     <i class="bi bi-person"></i>
-                                     <b class="cusor">{{ $post->user_info->firstname }}</b>
-                                 </span>
-
+                             </span>
+                         </td>
+                         <td>
+                             <span class="small text-muted">
+                                 {{ $post->sous_categorie_info->categorie->titre }}
                              </span>
                          </td>
                          <td>
@@ -209,7 +213,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="9">
+                         <td colspan="10">
                              <div class="p-3 text-center">
                                  Aucune publication trouvé!
                              </div>

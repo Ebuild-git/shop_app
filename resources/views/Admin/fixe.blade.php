@@ -449,7 +449,14 @@
     </div>
 
     <script>
-        
+        function OpenModalMessage(id_post, username) {
+            Livewire.dispatch('sendDataUser', {
+                username: username,
+                id_post: id_post
+            });
+            $("#destinataire").html(username);
+            $('#MessageModal').modal('show');
+        }
         
         function OpenModalDeletePost(id_post,titre) {
             $("#id_delete_post").val(id_post);
