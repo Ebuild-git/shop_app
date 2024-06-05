@@ -405,14 +405,56 @@
         </div>
     </div>
 
+
+    <!-- Modal delete post -->
+    <div class="modal fade" id="DeletePostModal" aria-labelledby="modalToggleLabel" tabindex="-1"
+        style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content ">
+                <div class="modal-header text-danger">
+                    <h5 class="modal-title" id="modalToggleLabel">
+                        Supprimer cette annonce
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-primary" id="titre-delete-post"></div>
+                    <form action="{{ route('delete_annonce') }}" method="post">
+                        <input type="hidden" id="id_delete_post" name="id_delete_post">
+                        @csrf
+                        <label for="">
+                            Selectionner le motif de suppression
+                        </label>
+                        <select name="motif" class="form-control" required>
+                            <option value=""></option>
+                            <option>Contenu inapproprié</option>
+                            <option>Produit contrefait ou non authentique</option>
+                            <option>Description trompeuse de l'état de l'article</option>
+                            <option>Annonce multiple du même article</option>
+                            <option>Annonce de produits interdits ou illégaux</option>
+                            <option>Fraude ou activité suspecte</option>
+                            <option>Publicité non autorisée ou spam</option>
+                            <option>Information incorrecte sur la taille, la couleur, etc.</option>
+                            <option>Violation des droits d'auteur ou de la propriété intellectuelle</option>
+                            <option>Autres violations des politiques du site</option>
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-danger">
+                            Effectuer la suppression
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function OpenModalMessage(id_post, username) {
-            Livewire.dispatch('sendDataUser', {
-                username: username,
-                id_post: id_post
-            });
-            $("#destinataire").html(username);
-            $('#MessageModal').modal('show');
+        
+        
+        function OpenModalDeletePost(id_post,titre) {
+            $("#id_delete_post").val(id_post);
+            $("#titre-delete-post").html(titre);
+            $('#DeletePostModal').modal('show');
         }
     </script>
 

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->timestamp("delivered_at")->nullable()->default(null);
             $table->timestamp("updated_price_at")->nullable()->default(null);
             $table->unsignedBigInteger("id_motif")->nullable()->default(null);
+            $table->text("motif_suppression")->nullable();
             $table->enum("statut",["validation","vente","vendu","livraison","livré","refusé"])->default("validation");
             $table->timestamps();
             $table->softDeletes();

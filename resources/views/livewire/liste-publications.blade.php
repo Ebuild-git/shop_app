@@ -72,7 +72,6 @@
                      <th>Prix</th>
                      <th>Régions</th>
                      <th>Statut</th>
-                     <th>Actions</th>
                      <td></td>
                  </tr>
              </thead>
@@ -137,19 +136,19 @@
                                  {{ $post->signalements->count() }}
                              </a>
                          </th>
-                         <td>
+                         <td class="small ">
                              @if ($post->old_prix)
-                                 <span class="strong color fs-lg">
+                                 <span class="strong color strong">
                                      <strike>
                                          {{ $post->getOldPrix() }}
                                      </strike> DH
                                  </span>
                                  <br>
-                                 <span class="text-danger h5 strong">
+                                 <span class="text-danger strong">
                                      {{ $post->getPrix() }} DH
                                  </span>
                              @else
-                                 <span class="ft-bold color strong fs-lg">
+                                 <span class=" color strong ">
                                      {{ $post->getPrix() }} DH
                                  </span>
                              @endif
@@ -160,54 +159,45 @@
                                  {{ $post->statut }}
                              </span>
                          </td>
-                         <td>
-                             <button class="btn btn-sm btn-secondary"
-                                 onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
-                                 <i class="bi bi-eye"></i> &nbsp; Voir
-                             </button>
-                             @if ($post->deleted_at)
-                                 <button class="btn btn-sm btn-success" wire:click="restore({{ $post->id }})">
-                                     <i class="bi bi-upload"></i> &nbsp; Restorer
-                                 </button>
-                             @endif
-                             @if ($type == 'attente')
-                                 <button type="button" class="btn btn-sm btn-success"
-                                     wire:click="valider({{ $post->id }})">
-                                     <i class="bi bi-check-all"></i> &nbsp; Valider
-                                 </button>
-                                 <button type="button" class="btn btn-sm btn-danger"
-                                     wire:click="delete({{ $post->id }})">
-                                     <i class="bi bi-x-lg"></i> &nbsp; Réfuser
-                                 </button>
-                             @endif
-                             @if ($type == 'publiés')
-                                 <button class="btn btn-sm btn-warning" wire:click="vendu({{ $post->id }})">
-                                     <i class="bi bi-cart-check"></i> &nbsp; vendu
-                                 </button>
-                             @endif
-                         </td>
-                         <td>
-                             <div class="dropdown">
-                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                     data-bs-toggle="dropdown">
-                                     <i class="ti ti-dots-vertical"></i>
-                                 </button>
-                                 <div class="dropdown-menu">
-                                     @if ($post->deleted_at)
-                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                             wire:click="delete_definitivement({{ $post->id }})">
-                                             <i class="ti ti-trash me-1"></i>
-                                             &nbsp; Supprimer définitivement
-                                         </a>
-                                     @else
-                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                             wire:click="delete({{ $post->id }})">
-                                             <i class="ti ti-trash me-1"></i>
-                                             &nbsp; Supprimer
-                                         </a>
-                                     @endif
+                         <td class="text-end">
+                             <div class="btn-group">
+                                 @if ($post->deleted_at)
+                                     <button class="btn btn-sm btn-success" wire:click="restore({{ $post->id }})">
+                                         <i class="bi bi-upload"></i> &nbsp; Restorer
+                                     </button>
+                                 @endif
+                                 @if ($type == 'attente')
+                                     <button type="button" class="btn btn-sm btn-success"
+                                         wire:click="valider({{ $post->id }})">
+                                         <i class="bi bi-check-all"></i> &nbsp; Valider
+                                     </button>
+                                     <button type="button" class="btn btn-sm btn-danger"
+                                         wire:click="delete({{ $post->id }})">
+                                         <i class="bi bi-x-lg"></i> &nbsp; Réfuser
+                                     </button>
+                                 @endif
+                                 @if ($type == 'publiés')
+                                     <button class="btn btn-sm btn-warning" wire:click="vendu({{ $post->id }})">
+                                         <i class="bi bi-cart-check"></i> &nbsp; vendu
+                                     </button>
+                                 @endif
 
-                                 </div>
+                                 <button class="btn btn-sm btn-dark"
+                                     onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
+                                     <i class="bi bi-eye"></i>
+                                 </button>
+                                 @if ($post->deleted_at)
+                                     <button type="button" class="btn btn-sm btn-danger "
+                                         wire:click="delete_definitivement({{ $post->id }})">
+                                         <i class="ti ti-trash me-1"></i>
+                                         &nbsp; Définitivement
+                                     </button>
+                                 @else
+                                     <button type="button" class="btn btn-sm btn-danger"
+                                         onclick="OpenModalDeletePost({{ $post->id }},'{{ $post->titre }}')">
+                                         <i class="ti ti-trash me-1"></i>
+                                     </button>
+                                 @endif
                              </div>
                          </td>
                      </tr>

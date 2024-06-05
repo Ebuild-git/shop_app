@@ -48,6 +48,18 @@ class PostsController extends Controller
     }
 
 
+    public function delete_annonce(Request $request){
+        $id_delete_post = $request->input("id_delete_post");
+        $motif = $request->input("motif");
+
+        $post = posts::findOrFail($id_delete_post);
+        if($post){
+            $post->update(['motif_suppression'=>$motif]);
+            $post->delete();
+            return redirect()->back()->with('success',"L'annonce a été supprimé !");
+        }
+        return redirect()->back();
+    }
    
 
 
