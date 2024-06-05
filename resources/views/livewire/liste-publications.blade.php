@@ -66,6 +66,9 @@
                  <tr>
                      <th>Titre</th>
                      <th>Likes</th>
+                     <th title="Signalements">
+                         <i class="bi bi-exclamation-triangle"></i> Alert
+                     </th>
                      <th>Prix</th>
                      <th>Régions</th>
                      <th>Statut</th>
@@ -118,6 +121,13 @@
                              <i class="bi bi-heart-fill text-danger"></i>
                              {{ $post->getLike->count() }}
                          </td>
+                         <th>
+                             <a href="{{ route('liste_signalement_publications', ['post_id' => $post->id]) }}"
+                                 class="text-warning">
+                                 <i class="bi bi-exclamation-triangle "></i>
+                                 {{ $post->signalements->count() }}
+                             </a>
+                         </th>
                          <td> {{ $post->prix ?? '0' }} DH</td>
                          <td> {{ $post->region->nom ?? 'N/A' }} </td>
                          <td>
@@ -178,7 +188,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="8">
+                         <td colspan="9">
                              <div class="p-3 text-center">
                                  Aucune publication trouvé!
                              </div>

@@ -83,7 +83,7 @@ class posts extends Model
 
     public function getLike()
     {
-        return $this->hasMany(likes::class, 'id_post', 'id');
+        return $this->hasMany(likes::class,  'id','id_post');
     }
 
     public function region()

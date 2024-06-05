@@ -1,23 +1,6 @@
   <form wire:submit="signaler">
-      @if (session()->has('error'))
-          <div class="alert alert-danger small text-center">
-              {{ session('error') }}
-          </div>
-          <br>
-      @enderror
-      @if (session()->has('info'))
-          <div class="alert alert-info small text-center">
-              {{ session('info') }}
-          </div>
-          <br>
-      @enderror
-      @if (session()->has('success'))
-          <div class="alert alert-success small text-center">
-              {{ session('success') }}
-          </div>
-          <br>
-      @enderror
 
+    @include('components.alert-livewire')
       <b>Motif</b>
       <select required wire:model="type" class="form-control shadow-none">
           <option value="">Choisir un motif</option>

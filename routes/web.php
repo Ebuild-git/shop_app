@@ -164,7 +164,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
 
     //gestion des signalememnts
-    Route::get('/admin/post/{post_id}/signalement', [SignalementsController::class, 'liste_signalement_publications']);
+    Route::get('/admin/post/{post_id}/signalement', [SignalementsController::class, 'liste_signalement_publications'])->name('liste_signalement_publications');
     Route::post('/admin/signalement/filtre', [SignalementsController::class, 'liste_publications_signaler'])->name('filtre_signalement');
     Route::get('/admin/signalement/delete/{id}', [SignalementsController::class, 'delete'])->name('delete_signalement');
     Route::get('/admin/publications/signalements', [SignalementsController::class, 'liste_publications_signaler'])->name('post_signalers');

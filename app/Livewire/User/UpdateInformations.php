@@ -17,19 +17,16 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $lastname, $email, $phone_number, $ville, $region, $avatar, $address, $username, $firstname, $jour, $mois, $annee;
+    public  $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee;
 
 
     public function mount()
     {
         $user = User::find(Auth::id());
         $this->email = $user->email;
-        $this->lastname = $user->lastname;
         $this->ville = $user->ville;
         $this->region = $user->region;
         $this->address = $user->address;
-        $this->username = $user->username;
-        $this->firstname = $user->firstname;
         $this->phone_number = $user->phone_number;
         $date = Carbon::parse($user->birthdate);
         $this->jour = $date->day;
@@ -44,21 +41,14 @@ class UpdateInformations extends Component
         return view('livewire.user.update-informations', compact('regions'));
     }
 
-    public function updatedUsername($value)
-    {
-        $cleanedUsername = preg_replace('/[^A-Za-z0-9\-#]/', '', $value);
-        $this->username = $cleanedUsername;
-    }
+
 
 
     public function update()
     {
         $this->validate([
-            'lastname' => 'required|string|max:100',
-            'firstname' => 'required|string|max:100',
-            'username' => 'required|string|max:100',
             'email' => 'required|email|max:100',
-            'phone_number' => ['nullable', 'string'],
+            'phone_number' => 'nullable|string|max:14',
             'region' => 'nullable|integer|exists:regions,id',
             'address' => 'string|nullable|max:255',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
@@ -66,7 +56,7 @@ class UpdateInformations extends Component
             "required" => "Veuillez rensigner ce champs",
             "veuillez entrer une valeur de type texte",
             "string" => "Veuillez entrer une valeur de type texte",
-            "max" => "Veuillez choisir une image de maximnu 2048",
+            "avatar.max" => "Veuillez choisir une image de maximnu 2048",
             "mimes" => "Veuillez choisir une image de type jpg, png, jpeg, webp",
             "email" => "Veuillez entrer une adresse email",
         ]);
@@ -119,16 +109,13 @@ class UpdateInformations extends Component
             }
         }
 
-        $user->lastname = $this->lastname;
-        $user->firstname = $this->firstname;
-        $user->username = $this->username;
         $user->phone_number =  str_replace(' ', '', $this->phone_number);
         $user->region = $this->region;
         $user->address = $this->address;
         $user->birthdate = $date;
         $user->save();
 
-        session()->flash('info', 'Informations mises à jour avec succès !');
+        $this->dispatch('alert', ['message' => "Informations mises à jour avec succès !", 'type' => 'info']);
 
         $this->dispatch('refreshAlluser-information');
     }
