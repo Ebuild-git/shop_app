@@ -11,7 +11,8 @@
         </div>
         <hr>
     @enderror
-    @if ($post->verified_at)
+
+    @if ($post->verified_at )
         <div class="alert alert-light" role="alert">
             <i class="bi bi-check2-square"></i> &nbsp;
             Validé le {{ $post->verified_at }}

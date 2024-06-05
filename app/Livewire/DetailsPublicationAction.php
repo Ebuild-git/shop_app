@@ -18,7 +18,7 @@ class DetailsPublicationAction extends Component
     }
     public function render()
     {
-        $this->post = posts::find($this->id);
+        $this->post = posts::withTrashed()->find($this->id);
         return view('livewire.details-publication-action');
     }
 
