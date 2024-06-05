@@ -316,4 +316,41 @@ $(document).ready(function () {
             }
         );
     });
+
+   
 });
+function btn_like_post(id_post){
+   var button = $(this);
+        var span = button.find("span.count");
+        $.get(
+            "/like_post",
+            {
+                id_post: id_post,
+            },
+            function (data, status) {
+                if (status === "success") {
+                    span.text(data.count);
+                    if (data.action == "ajouté") {
+                        button.addClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            customClass: "swal-wide",
+                        });
+                    } else {
+                        button.removeClass("btn-favoris-added");
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+                    }
+                }
+            }
+        );
+}

@@ -140,6 +140,12 @@ class ShopController extends Controller
                 <div class="product_grid card b-0">
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
+                        <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor " onclick="btn_like_post('.$post->id.')">
+                                <i class="bi bi-suit-heart-fill "></i>
+                            <span class="count">
+                                '.$post->getLike->count().'
+                            </span>
+                        </button>
                             <a class="card-img-top d-block overflow-hidden" href="/post/' . $post->id . '">
                                 <img src="' . $photo . '" alt="..."></a>
                         </div>
