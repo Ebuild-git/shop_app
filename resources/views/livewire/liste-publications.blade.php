@@ -49,6 +49,12 @@
                              </option>
                          @endforeach
                      </select>
+                     <select wire:model="signalement" class="form-control">
+                        <option value="">Signalements</option>
+                        <option value="Asc">Plus signaler au moins</option>
+                        <option value="Des">Moins signaler au plus</option>
+                     </select>
+                     <input type="month" name="date" wire:model="date" class="form-control" id="">
                      <button class="btn btn-primary" type="submit" id="button-addon2">
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer

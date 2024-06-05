@@ -7,6 +7,7 @@ use App\Models\categories;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\regions;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,7 +16,7 @@ class ListePublications extends Component
 {
     use WithPagination;
 
-    public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted;
+    public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted, $date, $signalement;
 
     public function mount($deleted)
     {
@@ -27,15 +28,31 @@ class ListePublications extends Component
         $this->categories = categories::all();
 
 
-        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user","deleted_at", "created_at", "id_sous_categorie","old_prix", "statut", "prix", "id_region");
+        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user", "deleted_at", "created_at", "id_sous_categorie", "old_prix", "statut", "prix", "id_region");
 
-        if($this->deleted == 'oui'){
+        if ($this->deleted == 'oui') {
             $publications = $postsQuery->onlyTrashed();
         }
         if (strlen($this->type) > 0) {
             $postsQuery->where('statut',  $this->type);
         }
 
+
+        //filtre rn fonction de l'ordre des post les plus signaler
+        if (strlen($this->signalement) > 0) {
+            $order = $this->signalement == "Asc" ? 'asc' : 'desc';
+            $postsQuery->withCount('signalements')
+                ->orderBy('signalements_count', $order);
+        }
+
+        if (strlen($this->date) > 0) {
+            $date = $this->date;
+            $year = Carbon::createFromFormat('Y-m', $date)->year;
+            $month = Carbon::createFromFormat('Y-m', $date)->month;
+
+            $postsQuery->whereYear('created_at', $year)
+                ->whereMonth('created_at', $month);
+        }
         // Filtrage par mot-clé
         if (strlen($this->mot_key) > 0) {
             $postsQuery->where('titre', 'like', '%' . $this->mot_key . "%")
@@ -51,7 +68,7 @@ class ListePublications extends Component
                 });
             }
         }
-        
+
 
         // Filtrage par region
         if (strlen($this->region_key) > 0) {
@@ -114,24 +131,26 @@ class ListePublications extends Component
         }
     }
 
-    public function restore($id){
-        $post=posts::withTrashed()->where('id',$id)->first();
+    public function restore($id)
+    {
+        $post = posts::withTrashed()->where('id', $id)->first();
         if ($post) {
-            $post->update(['motif_suppression'=>null]);
+            $post->update(['motif_suppression' => null]);
             $post->restore();
-            session()->flash("success","La publication à été restaurer!");
+            session()->flash("success", "La publication à été restaurer!");
         } else {
-            session()->flash("error","Cette publication n'existe pas.");
+            session()->flash("error", "Cette publication n'existe pas.");
         }
     }
 
-    public function delete_definitivement($id){
-        $post=posts::withTrashed()->findOrFail($id);
+    public function delete_definitivement($id)
+    {
+        $post = posts::withTrashed()->findOrFail($id);
         foreach ($post->photos as $img) {
             Storage::disk('public')->delete($img);
         }
         $post->forceDelete();
-        session()->flash("success","La publication a été définitivement supprimée !");
+        session()->flash("success", "La publication a été définitivement supprimée !");
     }
 
 

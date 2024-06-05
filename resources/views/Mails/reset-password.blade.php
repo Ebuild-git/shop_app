@@ -48,13 +48,6 @@
         <div class="text-center">
             <img src="{{ config('app.url') }}/icons/logo.png" height="20" alt srcset>
         </div>
-
-        <div class="text-center mt-3">
-            <h3>
-                Bienvenue sur <b class="color">{{ config('app.name') }}</b> !
-            </h3>
-        </div>
-        <br>
         <div class="row">
             <div class="col-sm-6 mx-auto bg-white p-1">
 
