@@ -25,7 +25,7 @@
          <div class="col-sm-12 my-auto">
              <form wire:submit="filtre">
                  <div class="input-group mb-3">
-                     <input type="text" class="form-control" wire:model="mot_key" placeholder="titre">
+                     <input type="text" class="form-control" wire:model="mot_key" placeholder="Titre,Auteur,Description">
                      <select wire:model ="type" class="form-control">
                          <option value="" selected>Toutes les publications</option>
                          <option value="validation">En cour de validation</option>
@@ -112,12 +112,12 @@
                                          </i>
                                      </span>
                                  @endif
-                                 @if ($post->updated_at)
+                                 @if ($post->uupdated_price_at)
                                      |
                                      <span class="text-warning">
                                          <i>
                                              <i class="bi bi-pencil-square"></i>
-                                             {{ $post->updated_at }}
+                                             {{ $post->updated_price_at}}
                                          </i>
                                      </span>
                                  @endif

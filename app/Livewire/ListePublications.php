@@ -28,7 +28,7 @@ class ListePublications extends Component
         $this->categories = categories::all();
 
 
-        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user", "deleted_at", "created_at", "id_sous_categorie", "old_prix", "statut", "prix", "id_region");
+        $postsQuery = posts::Orderby("id", "Desc");
 
         if ($this->deleted == 'oui') {
             $publications = $postsQuery->onlyTrashed();
@@ -41,8 +41,9 @@ class ListePublications extends Component
         //filtre rn fonction de l'ordre des post les plus signaler
         if (strlen($this->signalement) > 0) {
             $order = $this->signalement == "Asc" ? 'asc' : 'desc';
+
             $postsQuery->withCount('signalements')
-                ->orderBy('signalements_count', $order);
+            ->orderBy('signalements_count', $order);
         }
 
         if (strlen($this->date) > 0) {
