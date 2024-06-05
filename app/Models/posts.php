@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -107,6 +108,25 @@ class posts extends Model
         return $url;
     }
 
+    public function next_time_to_edit_price()
+    {
+        if ($this->updated_price_at) {
+            $updatedPriceDate = Carbon::parse($this->updated_price_at);
+            $expiryDate = $updatedPriceDate->addWeeks(2);
+            $now = Carbon::now();
+
+            // Calculer la différence en jours, heures et minutes
+            $diffInDays = $now->diffInDays($expiryDate);
+            $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
+            $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
+
+            // Formater le temps restant
+            $remainingTime = sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
+        } else {
+            $remainingTime = '-';
+        }
+        return $remainingTime;
+    }
 
 
     public function motif()

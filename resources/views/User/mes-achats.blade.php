@@ -34,8 +34,8 @@
                 <div>
                     <div class="input-group mb-3">
                         @csrf
-                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"  onfocus="(this.type='month')"
-                        onblur="(this.type='text')" name="date"
+                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"
+                            onfocus="(this.type='month')" onblur="(this.type='text')" name="date"
                             value="{{ $date ? $date : null }}">
                         <button type="submit" class="btn p-2 bg-red  ">
                             Filtrer par date
@@ -48,9 +48,11 @@
             <thead style="background-color: #008080;color: white !important;">
                 <tr>
                     <th scope="col" style="width: 51px;"></th>
-                    <th scope="col">Article</th>
-                    <th scope="col">Prix</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Nom de l'article</th>
+                    <th scope="col">Date d'achat</th>
+                    <th scope="col">Prix d'achat</th>
+                    <th scope="col">Vendeur</th>
+                    <th scope="col" class="text-end">Satut de l'xpedition</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,31 +65,31 @@
                         </td>
                         <td>
                             <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }} </a>
-                            <br>
-                            <span class="small text-muted">
-                                <i class="bi bi-calendar3"></i>
-                                Acheter le {{ $achat->sell_at }}
-                            </span>
                         </td>
                         <td>
-                            <span class="link">
+                            {{ $achat->sell_at }}
+                        </td>
+                        <td>
+                            <span class="strong color">
                                 <i class="bi bi-tag"></i>
-                                {{ $achat->prix }}
+                                {{ $achat->getPrix() }}
                                 DH
                             </span>
                         </td>
                         <td>
-                            <a href="/post/{{ $achat->id }}" class="link h6">
-                                <button class="btn btn-dark btn-sm">
-                                    <i class="bi bi-bookmark-check"></i>
-                                    Voir
-                                </button>
-                            </a>
+                            @if ($achat->user_info)
+                                <a href="{{ route('user_profile', ['id' => $achat->user_info->id]) }}">
+                                    {{ $achat->user_info->username }}
+                                </a>
+                            @endif
+                        </td>
+                        <td class="text-end">
+                            <x-StatutLivraison :statut="$achat->statut"></x-StatutLivraison>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">
+                        <td colspan="6">
                             <div class="alert alert-info text-center">
                                 <div>
                                     <img width="100" height="100"

@@ -54,9 +54,12 @@
                     <tr>
                         <th scope="col" style="width: 51px;"></th>
                         <th scope="col">Article</th>
-                        <th scope="col">Statut</th>
-                        <th scope="col">Prix</th>
-                        <th scope="col">Décision</th>
+                        <th scope="col">Prix actuel</th>
+                        <th scope="col">Prix initial</th>
+                        <th scope="col">Dernière modification de prix</th>
+                        <th scope="col">Temps restant pour une nouvelle modification</th>
+                        <th scope="col">Statut del'annonce</th>
+                        <th scope="col">Raison de suppression</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -76,56 +79,60 @@
                                     <i>Publié le {{ $item->created_at }}</i>
                                 </span>
                             </td>
+                            <td class="strong">
+                                {{ $item->getPrix() }} DH
+                            </td>
+                            <td class="strong">
+                                {{ $item->old_prix ? $item->old_prix : '-' }} DH
+                            </td>
+                            <td>
+                                {{ $item->updated_price_at ? $item->updated_price_at : '-' }}
+                            </td>
+                            <td>
+                                {{ $item->next_time_to_edit_price() }}
+                            </td>
                             <td class="text-capitalize">
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
                             </td>
                             <td>
-                                @if ($item->old_prix)
-                                    <b class="text-danger">
-                                        {{ $item->prix }} DH
-                                    </b>
-                                    <br>
-                                    <strike class="color strong">
-                                        {{ $item->old_prix }} DH
-                                    </strike>
-                                @else
-                                    {{ $item->prix }} DH
-                                @endif
-                            </td>
-                            <td>
+                                {{ $item->id_motif ? '' : 'Active' }}
                                 @if ($item->id_motif != null)
                                     <span class="text-secondary cusor" onclick="get_posts_motifs({{ $item->id }})">
                                         <b>
                                             <i class="bi bi-eye"></i>
-                                            Voir les motifs
+                                            Retirée par l’équipe de SHOPIN
                                         </b>
                                     </span>
                                 @endif
                             </td>
                             <td style="text-align: right;">
-                                @if ($item->propositions->count() > 0)
-                                    <a class="btn btn-sm btn-dark" href="/publication/{{ $item->id }}/propositions">
-                                        <i class="bi bi-plug-fill"></i>
-                                        Propositions ( {{ $item->propositions->count() }} )
-                                    </a>
-                                @endif
-                                @if ($item->sell_at == null)
-                                    <button class="btn btn-sm btn-info" onclick="Update_post_price({{ $item->id }})">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Réduire le prix
-                                    </button>
-                                @endif
-                                @if ($item->statut == 'validation' || $item->statut == 'vente')
-                                    <button class="btn btn-sm btn-danger" type="button"
-                                        onclick="delete_my_post({{ $item->id }})">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                @endif
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    @if ($item->propositions->count() > 0)
+                                        <a class="btn btn-sm btn-dark"
+                                            href="/publication/{{ $item->id }}/propositions">
+                                            <i class="bi bi-bag"></i>
+                                            {{ $item->propositions->count() }}
+                                        </a> &nbsp;
+                                    @endif
+                                    @if ($item->sell_at == null)
+                                        <button class="btn btn-sm btn-info"
+                                            onclick="Update_post_price({{ $item->id }})">
+                                            <i class="bi bi-graph-down-arrow"></i>
+                                            Réduire le prix
+                                        </button> &nbsp;
+                                    @endif
+                                    @if ($item->statut == 'validation' || $item->statut == 'vente')
+                                        <button class="btn btn-sm btn-danger" type="button"
+                                            onclick="delete_my_post({{ $item->id }})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="6">
+                            <th colspan="9">
                                 <div class="alert alert-info text-center">
                                     <img width="100" height="100"
                                         src="https://img.icons8.com/ios/100/008080/empty-box.png" alt="empty-box" />

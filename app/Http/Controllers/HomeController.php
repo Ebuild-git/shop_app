@@ -512,7 +512,7 @@ class HomeController extends Controller
     public function index_mes_achats(Request $request)
     {
         $date = $request->input('date' ?? null);
-        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "prix", "sell_at", "id");
+        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos","id_sous_categorie",'id_user','statut', "prix", "sell_at", "id");
         if (!empty($date)) {
             $Query->whereDate('sell_at', $date);
         }

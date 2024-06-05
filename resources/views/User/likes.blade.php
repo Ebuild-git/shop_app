@@ -29,8 +29,10 @@
                     <thead style="background-color: #008080;color: white !important;">
                         <tr>
                             <td>Annonces</td>
+                            <td>Catégories</td>
                             <td>Prix</td>
-                            <td>Statut</td>
+                            <td>Vendeur</td>
+                            <td>Popularité</td>
                             <td></td>
                         </tr>
                     </thead>
@@ -56,10 +58,22 @@
                                         </div>
                                     </td>
                                     <td>
+                                        <span class="text-muted">
+                                            {{ $like->post->sous_categorie_info->categorie->titre }}
+                                        </span>
+                                    </td>
+                                    <td>
                                         {{ $like->post->getPrix() }} DH
                                     </td>
                                     <td>
-                                        <x-AnnonceStatut :statut="$like->post->statut" ></x-AnnonceStatut>
+                                        <a href="{{ route('user_profile', ['id' => $like->post->user_info->id]) }}"
+                                            class="strong">
+                                            {{ $like->post->user_info->username }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ $like->post->getLike->count()}} j'aimes
+                                        <i class="bi bi-heart-fill text-danger"></i>
                                     </td>
                                     <td class="text-end">
                                         <button button class="text-danger btn btn-sm cusor" type="button"
@@ -78,7 +92,7 @@
                             @endif
                         @empty
                             <tr>
-                                <td colspan="4">
+                                <td colspan="6">
                                     <div class="alert alert-info text-center">
                                         <img width="100" height="100"
                                             src="https://img.icons8.com/ios/100/008080/filled-like.png" alt="filled-like" />

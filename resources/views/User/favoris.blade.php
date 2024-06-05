@@ -29,8 +29,10 @@
                     <thead style="background-color: #008080;color: white !important;">
                         <tr>
                             <td>Annonces</td>
+                            <td>Catégorie</td>
                             <td>Prix</td>
-                            <td>Statut</td>
+                            <td>Vendeur</td>
+                            <td>Statut de l’article</td>
                             <td></td>
                         </tr>
                     </thead>
@@ -55,10 +57,29 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <span class="text-muted">
+                                        {{ $favoris->post->sous_categorie_info->categorie->titre }}
+                                    </span>
+                                </td>
+                                <td class="strong">
                                     {{ $favoris->post->getPrix() }} DH
                                 </td>
                                 <td>
-                                    <x-AnnonceStatut :statut="$favoris->post->statut" ></x-AnnonceStatut>
+                                    <a href="{{ route('user_profile', ['id' => $favoris->post->user_info->id]) }}"
+                                        class="strong">
+                                        {{ $favoris->post->user_info->username }}
+                                    </a>
+                                </td>
+                                <td class="strong">
+                                    @if ($favoris->post->sell_at)
+                                        <span class="text-danger">
+                                            Indisponible
+                                        </span>
+                                    @else
+                                        <span class="text-success">
+                                            Disponible
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="text-end">
                                     <button class="text-danger btn btn-sm cusor" type="button"
@@ -71,7 +92,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">
+                                <td colspan="6">
                                     <div class="alert alert-info text-center">
                                         <img width="100" height="100"
                                             src="https://img.icons8.com/ios/100/008080/favorites.png" alt="favorites" />

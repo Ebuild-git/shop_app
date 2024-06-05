@@ -63,7 +63,7 @@ Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 
 Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
-    Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile']);
+    Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile'])->name('user_profile');
     Route::get('/add_panier', [ControllersHomeController::class, 'add_panier'])->name('add_panier');
 
 
