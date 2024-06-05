@@ -27,6 +27,7 @@ class CreatePost extends Component
     public $photo1, $photo2, $photo3, $photo4, $photo5;
     public $colors, $required = [];
     public $selected_color = null;
+    public $text_name_color ;
     public $article_propriete = [];
     public $proprietes, $quantite;
     protected $listeners = ['suggestionSelected'];
@@ -52,6 +53,7 @@ class CreatePost extends Component
     public function choose($nom, $code, $propriete_nom)
     {
         $this->selected_color = $nom;
+        $this->text_name_color =$nom;
         $this->article_propriete[$propriete_nom] = $code;
     }
 
