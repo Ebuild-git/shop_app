@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Stichoza\GoogleTranslate\GoogleTranslate;
 class ColorController extends Controller
 {
     private $googleTranslateApiKey = 'YOUR_GOOGLE_TRANSLATE_API_KEY';
@@ -19,6 +20,8 @@ class ColorController extends Controller
 
             // Traduire le nom de la couleur en français
             $translatedName = $this->translateColorName($colorNameEn, 'fr');
+
+
             return response()->json([
                 'name' => $translatedName,
                 'hex' => $colorData['hex']['value']
@@ -30,17 +33,11 @@ class ColorController extends Controller
 
     private function translateColorName($text, $targetLanguage)
     {
-        $response = Http::get("https://translation.googleapis.com/language/translate/v2", [
-            'q' => $text,
-            'target' => $targetLanguage,
-            'key' => $this->googleTranslateApiKey
-        ]);
+        $tr = new GoogleTranslate();
+        $tr->setSource('en'); // Translate from English
+        $tr->setTarget($targetLanguage);
 
-        if ($response->successful()) {
-            $translation = $response->json();
-            return $translation['data']['translations'][0]['translatedText'];
-        }
-
-        return $text; // Retourne le texte original en cas d'échec de la traduction
+        // Output the translated text
+        return $tr->translate($text);;
     }
 }

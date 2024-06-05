@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-2 p-1">
                                 @foreach ($post->photos as $photo)
-                                    <div class="gallery-image-details"
+                                    <div class="gallery-image-details cusor"
                                         onclick="change_principal_image('{{ Storage::url($photo) }}')">
                                         <img src="{{ Storage::url($photo) }}" alt=""
                                             style="width: 100% !important;">
@@ -239,9 +239,8 @@
                             </div>
                             @if ($post->statut == 'vente')
                                 <button type="button" class="btn btn-block bg-dark mb-2 p-3 "
-                                @guest
-                                data-toggle="modal" data-target="#login"
-                                @endguest
+                                    @guest
+data-toggle="modal" data-target="#login" @endguest
                                     onclick="add_cart({{ $post->id }})">
                                     <i class="lni lni-shopping-basket mr-2"></i>
                                     Ajouter au panier
@@ -318,15 +317,15 @@
                                                             width="20" alt="multicolor" title="Multi color"
                                                             srcset="">
                                                     @else
+                                                        <script>
+                                                            getColorName('{{ $value }}');
+                                                        </script>
                                                         <span class="card"
                                                             style="background-color: {{ $value }} ;color:{{ $value }};">
                                                             {{ $value }}
                                                         </span>
                                                     @endif
                                                     <span id="colorName"></span>
-                                                    <script>
-                                                        getColorName('{{ $value }}');
-                                                    </script>
                                                 @else
                                                     {{ $value }}
                                                 @endif

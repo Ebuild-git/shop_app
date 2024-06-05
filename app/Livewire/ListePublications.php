@@ -27,7 +27,7 @@ class ListePublications extends Component
         $this->categories = categories::all();
 
 
-        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user","deleted_at", "created_at", "id_sous_categorie", "statut", "prix", "id_region");
+        $postsQuery = posts::Orderby("id", "Desc")->select("id", "titre", "photos", "id_user","deleted_at", "created_at", "id_sous_categorie","old_prix", "statut", "prix", "id_region");
 
         if($this->deleted == 'oui'){
             $publications = $postsQuery->onlyTrashed();

@@ -175,7 +175,7 @@ class CreatePost extends Component
 
         //verifier que l'utilisateur a ajouter au moins une photo
         if ($this->photo1 == null && $this->photo2 == null && $this->photo3 == null && $this->photo4 == null) {
-            $this->addError('errorphoto', 'Vous devez ajouter au moins une photo');
+            $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
             return;
         }
 
