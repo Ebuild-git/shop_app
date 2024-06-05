@@ -204,7 +204,7 @@
                                      </button>
                                  @else
                                      <button type="button" class="btn btn-sm btn-danger"
-                                         onclick="OpenModalDeletePost({{ $post->id }},'{{ $post->titre }}')">
+                                         onclick="OpenModalDeletePost({{ $post->id }})">
                                          <i class="ti ti-trash me-1"></i>
                                      </button>
                                  @endif

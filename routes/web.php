@@ -129,8 +129,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
 
 
-    //gestion des posts/annonce
-    Route::post('/admin/delete_annonce', [PostsController::class, 'delete_annonce'])->name('delete_annonce');
+
 
 
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);

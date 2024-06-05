@@ -16,6 +16,8 @@ class ListePublications extends Component
 {
     use WithPagination;
 
+    protected $listeners = ['annonce-delete' => '$refresh'];
+
     public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted, $date, $signalement;
 
     public function mount($deleted)
@@ -115,11 +117,9 @@ class ListePublications extends Component
             $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
             $notification->save();
             event(new UserEvent($post->id_user));
-
-
-            session()->flash("success", "Le publication a été validée");
+            $this->dispatch('alert', ['message' => "Le publication a été validée",'type'=>'success']);
         } else {
-            session()->flash("error", "Une erreur est survenue lors de la validation de la publication, veuillez réessayer plus tard.");
+            $this->dispatch('alert', ['message' => "Une erreur est survenue",'type'=>'error']);
         }
     }
 
@@ -137,9 +137,9 @@ class ListePublications extends Component
         if ($post) {
             //update verified_at date
             $post->delete();
-            session()->flash("success", "La publication a été supprimé !");
+            $this->dispatch('alert', ['message' => "La publication a été supprimé !",'type'=>'success']);
         } else {
-            session()->flash("error", "Une erreur est survenue lors de la suppression");
+            $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la suppression !",'type'=>'error']);
         }
     }
 
@@ -149,9 +149,9 @@ class ListePublications extends Component
         if ($post) {
             $post->update(['motif_suppression' => null]);
             $post->restore();
-            session()->flash("success", "La publication à été restaurer!");
+            $this->dispatch('alert', ['message' => "La publication à été restaurer !",'type'=>'success']);
         } else {
-            session()->flash("error", "Cette publication n'existe pas.");
+            $this->dispatch('alert', ['message' => "Cette publication n'existe pas.",'type'=>'error']);
         }
     }
 
@@ -162,7 +162,7 @@ class ListePublications extends Component
             Storage::disk('public')->delete($img);
         }
         $post->forceDelete();
-        session()->flash("success", "La publication a été définitivement supprimée !");
+        $this->dispatch('alert', ['message' => "La publication a été définitivement supprimée !",'type'=>'success']);
     }
 
 

@@ -19,7 +19,7 @@ class SendMessage extends Component
 
     public function sendDataUser($id_post, $username)
     {
-        $post = posts::where('id',$id_post)->first() ;
+        $post = posts::where('id',$id_post)->first();
         $this->post = $post;
         $this->titre = $post->titre;
         $this->email = $post->user_info->email;

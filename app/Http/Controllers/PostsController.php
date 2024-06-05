@@ -49,33 +49,7 @@ class PostsController extends Controller
     }
 
 
-    public function delete_annonce(Request $request)
-    {
-        $id_delete_post = $request->input("id_delete_post");
-        $motif = $request->input("motif");
-
-        $post = posts::findOrFail($id_delete_post);
-        if ($post) {
-            $post->update(['motif_suppression' => $motif]);
-
-
-            //generer une notification
-            $notification = new notifications();
-            $notification->titre = "Cher(e) " . $post->user_info->username;
-            $notification->id_user_destination  =  $post->id_user;
-            $notification->type = "alerte";
-            $notification->url = "#";
-            $notification->message = "Votre annonce pour  " . $post->titre . " aa été retirée par l'équipe de SHOPIN La raison de la suppression est la suivante: <b>" . $motif . "</b> <br/> Merci de votre compréhension. ";
-            $notification->save();
-            event(new UserEvent($post->id_user));
-
-            $post->delete();
-
-            return redirect()->back()->with('success', "L'annonce a été supprimé !");
-        }
-        return redirect()->back();
-    }
-
+  
 
 
     public function details_publication(Request $request)
