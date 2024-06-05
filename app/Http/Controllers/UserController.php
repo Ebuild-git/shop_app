@@ -46,7 +46,7 @@ class UserController extends Controller
             foreach ($post->photos ?? [] as $img) {
                 Storage::disk('public')->delete($img);
             }
-            $post->delete();
+            $post->forceDelete();
             return response()->json(
                 [
                     'success' => true,
