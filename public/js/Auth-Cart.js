@@ -319,9 +319,10 @@ $(document).ready(function () {
 
    
 });
-function btn_like_post(id_post){
-   var button = $(this);
-        var span = button.find("span.count");
+function btn_like_post(id_post) {
+    var button = $("#post-" + id_post);
+    var span = button.find("span.count");
+    
         $.get(
             "/like_post",
             {
