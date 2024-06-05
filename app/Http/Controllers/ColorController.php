@@ -38,6 +38,6 @@ class ColorController extends Controller
         $tr->setTarget($targetLanguage);
 
         // Output the translated text
-        return $tr->translate($text);;
+        return $tr->translate($text);
     }
 }
