@@ -43,7 +43,7 @@ class ListePublications extends Component
             $order = $this->signalement == "Asc" ? 'asc' : 'desc';
 
             $postsQuery->withCount('signalements')
-            ->orderBy('signalements_count', $order);
+                ->orderBy('signalements_count', $order);
         }
 
         if (strlen($this->date) > 0) {
@@ -56,9 +56,20 @@ class ListePublications extends Component
         }
         // Filtrage par mot-clé
         if (strlen($this->mot_key) > 0) {
-            $postsQuery->where('titre', 'like', '%' . $this->mot_key . "%")
-                ->OrWhere('description', 'like', '%' . $this->mot_key . "%");
+            $mot_key = $this->mot_key;
+            
+            $postsQuery->where(function($query) use ($mot_key) {
+                $query->whereHas('user_info', function($q) use ($mot_key) {
+                    $q->where('username', 'like', '%' . $mot_key . '%')
+                      ->orWhere('firstname', 'like', '%' . $mot_key . '%')
+                      ->orWhere('lastname', 'like', '%' . $mot_key . '%');
+                });
+                
+                $query->orWhere('titre', 'like', '%' . $mot_key . '%')
+                      ->orWhere('description', 'like', '%' . $mot_key . '%');
+            });
         }
+        
 
         // Filtrage par catégories
         if (strlen($this->categorie_key) > 0) {
