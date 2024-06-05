@@ -87,7 +87,7 @@ class HomeController extends Controller
                     break;
             }
         }
-        $posts =  $Query->paginate("30");
+        $posts =  $Query->withTrashed()->paginate("30");
         return view('User.list_post')
             ->with("posts", $posts)
             ->with("date", $date_post)

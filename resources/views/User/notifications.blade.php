@@ -42,9 +42,12 @@
                                             </a>
                                         </b>
                                     </h6>
-                                    <i>{{ $item->message }}</i>
+                                    <i>{!! $item->message !!}</i>
                                     <div style="text-align: right">
                                         <span class="small">
+                                           <span class="text-danger cusor" onclick="delete_notification({{ $item->id }})">
+                                            <i class="bi bi-x-lg text-danger" ></i> Supprimer
+                                           </span>
                                             <i class="bi bi-app-indicator"></i>
                                             il y'a de cela
                                             {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
@@ -52,7 +55,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="bi bi-x-lg text-danger" onclick="delete_notification({{ $item->id }})"></i>
+                                    
                                 </td>
                             </tr>
                         @empty

@@ -67,14 +67,10 @@ class SendMessage extends Component
             $motifs->id_post = $this->post->id;
             $motifs->motif = $this->message;
             $motifs->id_user = $this->post->id_user;
-            if($motifs->save()){
-                $this->post->update(['id_motif'=>$motifs->id]);
-            }else{
+            if(!$motifs->save()){
                 session()->flash("error", "Une erreur s'est produite lors de l'envoi du message.");
                 return;
             }
-
-            
 
             // Envoyer le message par mail
             Mail::to($this->post->user_info->email)->send(new MailSendMessage($message));

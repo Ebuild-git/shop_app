@@ -117,6 +117,7 @@ class ListePublications extends Component
     public function restore($id){
         $post=posts::withTrashed()->where('id',$id)->first();
         if ($post) {
+            $post->update(['motif_suppression'=>null]);
             $post->restore();
             session()->flash("success","La publication à été restaurer!");
         } else {

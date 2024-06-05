@@ -83,7 +83,7 @@
                                 {{ $item->getPrix() }} DH
                             </td>
                             <td class="strong">
-                                {{ $item->old_prix ? $item->old_prix : '-' }} DH
+                                {{ $item->old_prix ? $item->old_prix . ' DH' : '-' }}
                             </td>
                             <td>
                                 {{ $item->updated_price_at ? $item->updated_price_at : '-' }}
@@ -95,14 +95,10 @@
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
                             </td>
                             <td>
-                                {{ $item->id_motif ? '' : 'Active' }}
-                                @if ($item->id_motif != null)
-                                    <span class="text-secondary cusor" onclick="get_posts_motifs({{ $item->id }})">
-                                        <b>
-                                            <i class="bi bi-eye"></i>
-                                            Retirée par l’équipe de SHOPIN
-                                        </b>
-                                    </span>
+                                @if ($item->motif_suppression)
+                                    {{ $item->motif_suppression }}
+                                @else
+                                    -
                                 @endif
                             </td>
                             <td style="text-align: right;">
