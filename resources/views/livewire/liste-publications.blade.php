@@ -103,7 +103,16 @@
                                      <span class="text-warning">
                                          <i>
                                              <i class="bi bi-alarm"></i>
-                                             {{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}
+                                             {{ $post->created_at }}
+                                         </i>
+                                     </span>
+                                 @endif
+                                 @if ($post->updated_at)
+                                     |
+                                     <span class="text-warning">
+                                         <i>
+                                             <i class="bi bi-pencil-square"></i>
+                                             {{ $post->updated_at }}
                                          </i>
                                      </span>
                                  @endif
@@ -128,7 +137,23 @@
                                  {{ $post->signalements->count() }}
                              </a>
                          </th>
-                         <td> {{ $post->prix ?? '0' }} DH</td>
+                         <td>
+                             @if ($post->old_prix)
+                                 <span class="strong color fs-lg">
+                                     <strike>
+                                         {{ $post->getOldPrix() }}
+                                     </strike> DH
+                                 </span>
+                                 <br>
+                                 <span class="text-danger h5 strong">
+                                     {{ $post->getPrix() }} DH
+                                 </span>
+                             @else
+                                 <span class="ft-bold color strong fs-lg">
+                                     {{ $post->getPrix() }} DH
+                                 </span>
+                             @endif
+                         </td>
                          <td> {{ $post->region->nom ?? 'N/A' }} </td>
                          <td>
                              <span class="text-capitalize">
