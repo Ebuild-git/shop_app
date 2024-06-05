@@ -32,9 +32,9 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->whereNull('posts.sell_at')
-            ->orderByRaw('GREATEST(posts.created_at, posts.updated_price_at) DESC')
             ->select("posts.id", "posts.photos")
-            ->Orderby("posts.id","Desc")
+            ->Orderby("posts.created_at","Desc")
+            ->Orderby("posts.updated_price_at","Desc")
             ->take(12)
             ->get();
 
