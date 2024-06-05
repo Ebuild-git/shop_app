@@ -145,7 +145,7 @@
                     <label>Titre de la publication</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control border-r " placeholder="titre" wire:model.live="titre"
+                        <input type="text" class="form-control cusor border-r " placeholder="titre" wire:model.live="titre"
                             required>
                         @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -156,7 +156,7 @@
                     <label>Prix de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control border-r" placeholder="prix" required
+                        <input type="number" class="form-control cusor border-r" placeholder="prix" required
                             wire:model.live="prix">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -169,7 +169,7 @@
                     <label>Etat de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <select name="etat" wire:model="etat" class="form-control border-r" required>
+                        <select name="etat" wire:model="etat" class="form-control cusor border-r" required>
                             <option value="">Veuillez selectionner l'état*</option>
                             <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
                             <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
@@ -185,7 +185,7 @@
                 <div class="col-sm-6">
                     <label>Prix d'achat initial de votre article</label>
                     <div class="form-group">
-                        <input type="number" class="form-control border-r " placeholder="Prix initial"
+                        <input type="number" class="form-control cusor border-r " placeholder="Prix initial"
                             wire:model.live="prix_achat">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -201,7 +201,7 @@
                 <span class="bold text-danger">*</span>
                 <div class="position-relative">
                     <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
-                    <select class="form-control border-r pl-4" wire:model.live="region" required style="">
+                    <select class="form-control cusor border-r pl-4" wire:model.live="region" required style="">
                         <option value="">Veuillez selectionner la region</option>
                         @foreach ($regions as $item)
                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
@@ -216,7 +216,7 @@
             <div class="form-group">
                 <label>Catégorie</label>
                 <span class="bold text-danger">*</span>
-                <select class="form-control border-r" id="select2-dropdown" wire:model.live="selectedCategory">
+                <select class="form-control cusor border-r" id="select2-dropdown" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
@@ -239,7 +239,7 @@
                 <div class="form-group">
                     <label>Sous-catégorie</label>
                     <span class="bold text-danger">*</span>
-                    <select class="form-control border-r" wire:model.live="selectedSubcategory">
+                    <select class="form-control cusor border-r" wire:model.live="selectedSubcategory">
                         <option selected value="x">Veuilez selectionner une sous-catégorie</option>
                         @foreach ($sous_categories as $sous)
                             <option value="{{ $sous->id }}">
@@ -287,14 +287,14 @@
                                     @if ($propriete_info->type == 'option')
                                         @if ($propriete_info->affichage == 'case')
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                @required($requi) class="form-control border-r ">
+                                                @required($requi) class="form-control cusor border-r ">
                                                 <option value=""></option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @else
-                                            <input type="text" class="form-control border-r liste" @required($requi)
+                                            <input type="text" class="form-control cusor border-r liste" @required($requi)
                                                 placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
@@ -307,19 +307,19 @@
                                         <br>
                                         @foreach ($colors as $item)
                                             @if ($item['nom'] == 'Multicolore')
-                                                <button type="button" class="btn-color-create multi-color-btn"
+                                                <button type="button" class="btn-color-create multi-color-btn cusor"
                                                     wire:click = "choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
                                                 </button>
                                             @else
                                                 <button style="background-color: {{ $item['code'] }};" type="button"
-                                                    class="btn-color-create"
+                                                    class="btn-color-create cusor"
                                                     wire:click = "choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
                                                 </button>
                                             @endif
                                         @endforeach
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
-                                            placeholder="{{ $propriete_info->nom }}" class="form-control border-r"
+                                            placeholder="{{ $propriete_info->nom }}" class="form-control cusor border-r"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
                                     @endif
                                 </div>
@@ -348,7 +348,7 @@
         </div>
     </div>
     <div class="form-group">
-        <textarea wire:model="description" class="form-control border-r " rows="7"
+        <textarea wire:model="description" class="form-control cusor border-r " rows="7"
             placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
             
         </textarea>
