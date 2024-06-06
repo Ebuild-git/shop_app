@@ -92,7 +92,7 @@ class UpdatePrix extends Component
 
 
                 // Message de succès flash
-                session()->flash('success', "Le nouveau prix de $this->prix DH est accpeté . Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h .");
+                session()->flash('success-special', "Le nouveau prix de $this->prix DH est accpeté . <br/> Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h et 59 min.");
                 $this->show = false;
             }
         }

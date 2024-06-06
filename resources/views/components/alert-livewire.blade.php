@@ -8,10 +8,16 @@
 
 
 
-@if (session()->has('success'))
+@if (session()->has('success-special'))
     <div class="alert alert-success alert-dismissible text-center" style="background-color: #008080a8 !important;color: white !important;" role="alert">
         <img width="50" height="50" src="https://img.icons8.com/ios/50/008080/ok--v1.png" alt="ok--v1"/> <br>
-        {{ session('success') }}
+        {!! session('success-special') !!}
+    </div>
+@enderror
+
+@if (session()->has('success'))
+<div class="alert alert-success alert-dismissible text-center" style="background-color: #008080a8 !important;color: white !important;" role="alert">
+        {{ session('warning') }}
     </div>
 @enderror
 
