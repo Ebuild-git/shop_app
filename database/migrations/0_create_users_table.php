@@ -28,6 +28,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable(true)->default(null);
             $table->timestamp('validate_at')->nullable()->default(null);
             $table->timestamp('first_login_at')->nullable()->default(null);
+            $table->timestamp('last_login_at')->nullable()->default(null);
             $table->timestamp('photo_verified_at')->nullable()->default(null);
             $table->string('matricule')->nullable()->default(null);
             $table->dateTime('birthdate');

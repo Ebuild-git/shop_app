@@ -65,6 +65,9 @@ class Connexion extends Component
         }
 
 
+        //enregistrer la derniere date de connexion
+        $user->update(['last_login_at'=>now()]);
+
         //connecter l'utilisateur
         auth()->login($user);
 

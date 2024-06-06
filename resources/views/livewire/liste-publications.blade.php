@@ -71,15 +71,22 @@
          <table class="datatables-ajax table">
              <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}">
                  <tr>
+                     <th>ID</th>
+                     <th style="width: 30px;"></th>
                      <th>Titre</th>
+                     <th>État</th>
+                     <th>Auteur</th>
                      <th>Catégorie </th>
                      <th>Likes</th>
                      <th title="Signalements">
                          <i class="bi bi-exclamation-triangle"></i> Alert
                      </th>
                      <th>Prix</th>
-                     <th>Régions</th>
+                     <th>Localisation</th>
                      <th>Statut</th>
+                     <th>
+                         mise à jour
+                     </th>
                      <td></td>
                  </tr>
              </thead>
@@ -88,11 +95,19 @@
                  @forelse ($posts as $post)
                      <tr>
                          <td>
+                             {{ $post->id }}
+                         </td>
+                         <td>
+                             <div class="avatar me-2">
+                                 <img src="{{ $post->FirstImage() }}" alt="Avatar" class="rounded">
+                             </div>
+                         </td>
+                         <td>
+                            <strong>
+                                {{ Str::of($post->titre)->limit(30) }}
+                            </strong>
+                            <br>
                              <span class="small">
-
-                                 <strong>
-                                     {{ Str::of($post->titre)->limit(30) }}
-                                 </strong> <br>
                                  @if ($post->deleted_at)
                                      <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
                                          <i>
@@ -101,18 +116,6 @@
                                          </i>
                                      </span> |
                                  @else
-                                     <span title="Auteur"
-                                         onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                         <i class="bi bi-person"></i>
-                                         <b class="cusor">{{ $post->user_info->firstname }}</b>
-                                     </span>
-                                     |
-                                     <span class="text-primary cusor"
-                                         onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
-                                         <i class="bi bi-envelope-fill"></i>
-                                         écrire
-                                     </span>
-                                     |
                                      <span class="text-warning">
                                          <i>
                                              <i class="bi bi-alarm"></i>
@@ -132,9 +135,28 @@
                          </td>
                          <td>
                              <span class="small text-muted">
+                                 {{ $post->etat }}
+                             </span>
+                         </td>
+                         <td>
+                             <span title="Auteur"
+                                 onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
+                                 <i class="bi bi-person"></i>
+                                 <b class="cusor">{{ $post->user_info->username}}</b>
+                             </span>
+                             <br>
+                             <span class="text-primary cusor small"
+                                 onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
+                                 <i class="bi bi-envelope-fill"></i>
+                                 écrire
+                             </span>
+                         </td>
+                         <td>
+                             <span class="small text-muted">
                                  {{ $post->sous_categorie_info->categorie->titre }}
                              </span>
                          </td>
+
                          <td>
                              <i class="bi bi-heart-fill text-danger"></i>
                              {{ $post->getLike->count() }}
@@ -168,6 +190,9 @@
                              <span class="text-capitalize">
                                  {{ $post->statut }}
                              </span>
+                         </td>
+                         <td>
+                             {{ $post->updated_price_at ?? '-' }}
                          </td>
                          <td class="text-end">
                              <div class="btn-group">
