@@ -48,7 +48,9 @@
                             <td>
                                 <h4 class="h6">
                                     <a href="/user/{{ $user->id }}" class="h4">
-                                        {{ $user->username }}
+                                        <span class="color">
+                                            {{ $user->username }}
+                                        </span>
                                     </a>
                                 </h4>
                                 <div>
@@ -65,6 +67,10 @@
                                         <span>
                                             <b>{{ $user->GetPosts->count() }}</b> Annonces
                                         </span>
+                                        |
+                                        <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
+                                            <b>{{ $user->categoriesWhereUserSell->count() }}</b> Catégories
+                                        </span>
                                     </div>
                                 </div>
                             </td>
@@ -76,12 +82,17 @@
                     <p>
                         <i class="bi bi-calendar-check"></i> Membre dépuis les {{ $user->created_at }}
                         <br>
-                        <i class="bi bi-envelope"></i> Email vérifié <b>{{ $user->photo_verified_at ? 'Oui' : 'Non' }}
+                        <i class="bi bi-envelope"></i> Email vérifié <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
                         </b>
                     </p>
                 </div>
             </div>
             <div class="col-sm-8">
+                <div>
+                    <b class="text-black">
+                        {{ $posts->count() }} Annonces
+                    </b>
+                </div>
                 <div class="row">
                     @forelse ($posts as $post)
                         <div class="col-xl-4 col-sm-4 col-lg-4 col-md-6 col-6">
