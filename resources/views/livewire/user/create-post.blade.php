@@ -343,7 +343,7 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Descrivez en vos mot l'article.</b>
+                <b>Décrivez en vos mots l'article.</b>
             </span>
         </div>
     </div>

@@ -452,9 +452,10 @@
                                                             {{ $tarif->titre }}
                                                             <span class="small color">
                                                                 @if ($tarif->luxury == 1)
+                                                                <i class="bi bi-gem"
+                                                                        style="font-weight: 800;">
+                                                                    </i>
                                                                     Luxury
-                                                                    <i class="bi bi-gem"
-                                                                        style="font-weight: 800;"></i>
                                                                 @endif
                                                         </div>
                                                         <div>

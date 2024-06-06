@@ -91,11 +91,12 @@ class UpdatePrix extends Component
                 $history->save();
 
 
-                $this->prix = "";
+                
 
                 // Message de succès flash
                 session()->flash('success-special', "Le nouveau prix de $this->prix DH est accpeté . <br/> Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h et 59 min");
                 $this->show = false;
+                $this->prix = "";
             }
         }
     }

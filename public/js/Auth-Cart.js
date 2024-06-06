@@ -69,8 +69,6 @@ function CountPanier() {
     });
 }
 
-
-
 function CountNotification() {
     $.get("/count_notification", function (data, status) {
         if (status === "success") {
@@ -316,42 +314,69 @@ $(document).ready(function () {
             }
         );
     });
-
-   
 });
 function btn_like_post(id_post) {
     var button = $("#post-" + id_post);
     var span = button.find("span.count");
-    
-        $.get(
-            "/like_post",
-            {
-                id_post: id_post,
-            },
-            function (data, status) {
-                if (status === "success") {
-                    span.text(data.count);
-                    if (data.action == "ajouté") {
-                        button.addClass("btn-favoris-added");
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 2500,
-                            customClass: "swal-wide",
-                        });
-                    } else {
-                        button.removeClass("btn-favoris-added");
-                        Swal.fire({
-                            position: "center",
-                            icon: "warning",
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 2500,
-                        });
-                    }
+
+    $.get(
+        "/like_post",
+        {
+            id_post: id_post,
+        },
+        function (data, status) {
+            if (status === "success") {
+                span.text(data.count);
+                if (data.action == "ajouté") {
+                    button.addClass("btn-favoris-added");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2500,
+                        customClass: "swal-wide",
+                    });
+                } else {
+                    button.removeClass("btn-favoris-added");
+                    Swal.fire({
+                        position: "center",
+                        icon: "warning",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
                 }
             }
-        );
+        }
+    );
+}
+
+//supprimer toute les notification
+function delete_all_notification() {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+        .fire({
+            title: "Es-tu sûr?",
+            text: "Vous ne pourrez pas revenir en arrière !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Oui, supprimer !",
+            cancelButtonText: "Non",
+            reverseButtons: true,
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                //go to url
+                window.location.href="/delete/all_notifications";
+            } {
+                result.dismiss === Swal.DismissReason.cancel
+            }
+        });
 }

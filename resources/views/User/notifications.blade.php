@@ -24,6 +24,14 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card p-2">
+                    @if ($notifications->count() > 0)
+                        <div class="text-end">
+                            <button class="btn btn-sm btn-danger" onclick="delete_all_notification()">
+                                <i class="bi bi-x-lg " ></i>
+                                Tout supprimer
+                            </button>
+                        </div>
+                    @endif
                     <table>
                         @forelse ($notifications as $item)
                             <tr class="border-bottom" id="tr-{{$item->id }}">

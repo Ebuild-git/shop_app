@@ -70,6 +70,14 @@ class NotificationsController extends Controller
     }
 
 
+    public function delete_all(){
+        $notification = notifications::where("id_user_destination", Auth::user()->id)
+                ->delete();
+                return redirect()->route('user-notifications');
+
+    }
+
+
 
     public function user_notifications()
     {
