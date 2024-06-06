@@ -112,9 +112,9 @@
                                      <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
                                          <i>
                                              <i class="bi bi-trash3"></i>
-                                             {{ \Carbon\Carbon::parse($post->deleted_at)->diffForHumans() }}
+                                             {{$post->deleted_at }}
                                          </i>
-                                     </span> |
+                                     </span> 
                                  @else
                                      <span class="text-warning">
                                          <i>
