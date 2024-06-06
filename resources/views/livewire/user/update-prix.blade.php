@@ -25,6 +25,12 @@
                     Enregistrer le changement
                 </button>
             </div>
+            <br>
+            <div class="text-center">
+                <a href="/mes-publication" class="link color">
+                    Voir les changements
+                </a>
+            </div>
         @endif
     </form>
 </div>
