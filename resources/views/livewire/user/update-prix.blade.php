@@ -16,6 +16,14 @@
         <br>
 
         @include('components.alert-livewire')
+        @if (!$show)
+            <br>
+            <div class="text-center">
+                <a href="/mes-publication" class="link color">
+                    Voir les changements
+                </a>
+            </div>
+        @endif
         @if ($show)
             <div class="text-end mt-3">
                 <button type="submit" class="btn btn-sm bg-red">
@@ -24,12 +32,6 @@
                     </span>
                     Enregistrer le changement
                 </button>
-            </div>
-            <br>
-            <div class="text-center">
-                <a href="/mes-publication" class="link color">
-                    Voir les changements
-                </a>
             </div>
         @endif
     </form>
