@@ -21,7 +21,7 @@
             <br>
 
             @include('components.alert-livewire')
-            @if (!$show)
+            @if ($changed)
                 <br>
                 <div class="text-center">
                     <a href="/mes-publication" class="link color">

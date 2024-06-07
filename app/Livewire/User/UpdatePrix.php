@@ -13,6 +13,7 @@ class UpdatePrix extends Component
     public $post, $prix, $old_price,$titre;
     public $postId;
     public $show = true;
+    public $changed = false;
 
     protected $listeners = ['setPostId'];
 
@@ -98,6 +99,7 @@ class UpdatePrix extends Component
                 // Message de succès flash
                 session()->flash('success-special', "Le nouveau prix de $this->prix DH est accpeté . <br/> Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h et 59 min");
                 $this->show = false;
+                $this->changed = true;
                 $this->prix = "";
             }
         }
