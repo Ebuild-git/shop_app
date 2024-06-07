@@ -78,7 +78,7 @@
                                                     <!-- Single Filter Card categorie -->
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
-                                                        <button class="d-flex no-bg p-0 justify-content-between btn w-100">
+                                                        <button class="d-flex no-bg p-0 btn-etat-shop justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -121,10 +121,10 @@
                                                     @if ($selected_sous_categorie)
                                                     @else
                                                         <hr>
-                                                        <div class="p-1">
+                                                        <div>
                                                             @foreach ($selected_categorie->getSousCategories as $sous_categorie)
                                                                 <button
-                                                                    class="btn w-100 mb-1 d-flex btn-sm justify-content-between"
+                                                                    class="btn w-100 mb-1 d-flex btn-etat-shop btn-sm no-bg justify-content-between"
                                                                     onclick="select_sous_categorie({{ $sous_categorie->id }})">
                                                                     <span>
                                                                         {{ $sous_categorie->titre }}
@@ -328,8 +328,7 @@
                                             <a href="/shop" class="color">
                                                 Catégories
                                             </a>
-                                            >
-                                            @if ($selected_categorie)
+                                            @if ($selected_categorie) >
                                                 <a href="shop?id_categorie={{ $selected_categorie->id }}" class="color">
                                                     {{ $selected_categorie->titre }}
                                                 </a>
