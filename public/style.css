@@ -782,7 +782,7 @@ body {
 }
 
 .btn-etat-shop:hover {
-    font-weight: bold;
+    font-weight: bold !important;
     color: #018d8d;
 }
 
@@ -939,6 +939,25 @@ input[type="month"]:active::before {
 .border-r{
     border-radius: 5px !important;
 }
+
+.tb-head{
+    background-color: #008080;
+    color: white !important;
+}
+
+.table tbody td{
+    vertical-align: top !important;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

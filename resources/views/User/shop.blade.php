@@ -130,10 +130,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @endforeach{{-- 
                                             <div class="single_filter_card text-black cusor" onclick="check_luxury()">
-                                                Uniquement Luxury <i class="bi bi-gem"></i>
-                                            </div>
+                                               
+                                            </div> --}}
 
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@
                                             <div class="d-flex justify-content-start">
                                                 <input type="checkbox" name="ordre_prix" value="Asc"
                                                     onclick="choix_ordre_prix(this)">
-                                                <span>
+                                                <span class="btn-etat-shop cusor">
                                                     &nbsp;
                                                     Moins couteux au plus couteux
                                                 </span>
@@ -219,9 +219,25 @@
                                             <div class="d-flex justify-content-start">
                                                 <input type="checkbox" name="ordre_prix" value="Desc"
                                                     onclick="choix_ordre_prix(this)">
-                                                <span>
+                                                <span class="btn-etat-shop cusor">
                                                     &nbsp;
                                                     Plus couteux au moins couteux
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" name="ordre_prix" value="Soldé"
+                                                    onclick="choix_ordre_prix(this)">
+                                                <span class="btn-etat-shop cusor">
+                                                    &nbsp;
+                                                    Articles soldés
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="checkbox" name="ordre_prix" value="Desc"
+                                                    onclick="check_luxury()">
+                                                <span class="btn-etat-shop cusor color">
+                                                    &nbsp;
+                                                    Uniquement <b><i class="bi bi-gem"></i> Luxury  </b>
                                                 </span>
                                             </div>
                                             @error('ordre')
@@ -246,7 +262,7 @@
                                                 <div class="inner_widget_link">
                                                     <ul class="cusor">
                                                         @foreach ($regions as $region)
-                                                            <li class="d-flex justify-content-between cusor">
+                                                            <li class="d-flex justify-content-between btn-etat-shop cusor">
                                                                 <div class="d-flex justify-content-start">
                                                                     <input type="checkbox" name="region"
                                                                         value="{{ $region->id }}"
@@ -276,7 +292,7 @@
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
 
-                    <div class="row" >
+                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="border mb-3 mfliud">
                                 <div class="d-flex justify-content-between p-2 m-0">
@@ -357,9 +373,9 @@
                 }
             });
             _ordre_prix = checkbox.value;
-            if(_ordre_prix == ordre_prix){
-                ordre_prix ="";
-            }else{
+            if (_ordre_prix == ordre_prix) {
+                ordre_prix = "";
+            } else {
                 ordre_prix = _ordre_prix;
             }
             fetchProducts();
@@ -378,9 +394,9 @@
                 }
             });
             _region = checkbox.value;
-            if(_region == region){
+            if (_region == region) {
                 region = "";
-            }else{
+            } else {
                 region = _region;
             }
             fetchProducts();
@@ -394,9 +410,9 @@
                 }
             });
             _etat = checkbox.value;
-            if(_etat == etat){
+            if (_etat == etat) {
                 etat = "";
-            }else{
+            } else {
                 etat = _etat;
             }
             fetchProducts();

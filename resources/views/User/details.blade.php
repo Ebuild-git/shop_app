@@ -213,7 +213,7 @@
 
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
-                                        @if ($post->old_prix)
+                                        @if ($post->changements_prix->count())
                                             <span class="strong color fs-lg">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
@@ -237,15 +237,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($post->statut == 'vente')
-                                <button type="button" class="btn btn-block bg-dark mb-2 p-3 "
-                                    @guest
-data-toggle="modal" data-target="#login" @endguest
-                                    onclick="add_cart({{ $post->id }})">
-                                    <i class="lni lni-shopping-basket mr-2"></i>
-                                    Ajouter au panier
-                                </button>
-                            @endauth
+                            <x-BtnAddPanier :post="$post" ></x-BtnAddPanier>
+                           
                             @auth
                                 @if (Auth::id() == $post->id_user)
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"

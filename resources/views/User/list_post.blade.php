@@ -24,21 +24,21 @@
 
 
     <div class="container">
-        <div class="p-3">
-            <div>
+        <div class="p-3 row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
                 <form method="POST" action="{{ route('post.mes-post') }}">
                     <div class="input-group mb-3">
                         @csrf
                         <select class="form-control sm  cusor" name="statut">
-                            <option value=""></option>
+                            <option value="">Tous les statuts</option>
                             <option value="validation">En validation</option>
                             <option value="vente">En cour de vente</option>
                             <option value="vendu">Vendu</option>
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="text" class="form-control sm cusor" placeholder="Année / Mois"
-                            onfocus="(this.type='month')" onblur="(this.type='text')" id="monthInput"
+                        <input type="month" class="form-control sm cusor" 
                             value="{{ $date ? $date : null }}" name="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
@@ -50,7 +50,7 @@
                 </form>
             </div>
             <table class="table">
-                <thead style="background-color: #008080;color: white !important;">
+                <thead class="tb-head">
                     <tr>
                         <th scope="col" style="width: 51px;"></th>
                         <th scope="col">Article</th>
@@ -73,10 +73,11 @@
                             </th>
                             <td>
                                 <b>
-                                    <a href="/post/{{ $item->id }}" class="link">{{ $item->titre }}</a>
-                                </b> <br>
+                                    <a href="/post/{{ $item->id }}" class="link h6" >{{ $item->titre }}</a>
+                                </b>
+                                <br>
                                 <span class="small">
-                                    <i>Publié le {{ $item->created_at }}</i>
+                                    <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m')  }}</i>
                                 </span>
                             </td>
                             <td class="strong">
@@ -86,10 +87,14 @@
                                 {{ $item->changements_prix->count() ? $item->getOldPrix() . ' DH' : '-' }}
                             </td>
                             <td>
-                                {{ $item->updated_price_at ? $item->updated_price_at : '-' }}
+                                <span class="small">
+                                    {{ $item->updated_price_at ? \Carbon\Carbon::parse($item->updated_price_at)->format('d-m-Y \à H:m') : '-' }}
+                                </span>
                             </td>
                             <td>
+                                <span class="small">
                                 {{ $item->next_time_to_edit_price() }}
+                                </span>
                             </td>
                             <td class="text-capitalize">
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
@@ -111,7 +116,7 @@
                                         </a> &nbsp;
                                     @endif
                                     @if ($item->sell_at == null)
-                                        <button class="btn btn-sm btn-info"
+                                        <button class="btn btn-sm  bg-red"
                                             onclick="Update_post_price({{ $item->id }})">
                                             <i class="bi bi-graph-down-arrow"></i>
                                             Réduire le prix
@@ -140,19 +145,6 @@
                     @endforelse
                 </tbody>
             </table>
-
-
-
-            <script>
-                $(document).ready(function() {
-                    $(".month-input").on('click', function() {
-                        //make click on month-btn
-                        $('#month-btn').trigger("click");
-                        alert('dd');
-                    });
-                });
-            </script>
-
 
         </div>
 

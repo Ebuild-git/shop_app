@@ -452,10 +452,12 @@
                                                             {{ $tarif->titre }}
                                                             <span class="small color">
                                                                 @if ($tarif->luxury == 1)
-                                                                <i class="bi bi-gem"
-                                                                        style="font-weight: 800;">
-                                                                    </i>
-                                                                    Luxury
+                                                                    <b>
+                                                                        <i class="bi bi-gem"
+                                                                            style="font-weight: 800;">
+                                                                        </i>
+                                                                        Luxury
+                                                                    </b>
                                                                 @endif
                                                         </div>
                                                         <div>
@@ -757,7 +759,7 @@
                             <img width="20" height="20"
                                 src="https://img.icons8.com/ios/20/008080/ticket--v1.png" alt="ticket--v1" />
                             <b>
-                                Politique tarifaire.
+                                Nos Politiques Tarifaires
                             </b>
                         </h5>
                     </div>
@@ -769,8 +771,10 @@
                                         <b> {{ $tarif->titre }}</b>
                                         <span class="small color">
                                             @if ($tarif->luxury == 1)
-                                                <i class="bi bi-gem" style="font-weight: 800;"></i>
-                                                Luxury
+                                                <b>
+                                                    <i class="bi bi-gem" style="font-weight: 800;"></i>
+                                                    Luxury
+                                                </b>
                                             @endif
                                         </span>
                                     </td>
@@ -782,7 +786,7 @@
                         </table>
                         <hr>
                         <p class="text-center">
-                            Le montant de la comission est prélécé au moment du aiement par l'acheteur.
+                            Le montant de la comission est prélécé au moment du paiement par l'acheteur
                         </p>
                     </div>
                 </div>

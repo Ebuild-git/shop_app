@@ -1,3 +1,3 @@
-<span class="badge badge-dark">
+<span class="badge" style="background-color:#808080; ">
     {{ $statut }}
 </span>

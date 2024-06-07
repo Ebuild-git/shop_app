@@ -29,30 +29,38 @@ class posts extends Model
         'proprietes' => 'json'
     ];
 
+    protected $dates = [
+        'updated_price_at',
+        // d'autres colonnes de date
+    ];
+
 
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-        $prix = round($this->attributes['prix'] + (($pourcentage_gain * $this->attributes['prix']) / 100), 2);
-        return $prix ?? "N/A";
+        $prix = $this->attributes['prix'];
+        $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
+
+        return number_format($prix_calculé, 2, '.', '') ?? "N/A";
     }
+
 
 
     public function getOldPrix()
-{
-    if ($this->changements_prix->isNotEmpty()) {
-        $lastChangementPrix = $this->changements_prix->last();
-        $old_prix = $lastChangementPrix ? $lastChangementPrix->old_price : null;
-        
-        if ($old_prix !== null) {
-            $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-            $prix = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
-            return $prix;
-        }
-    }
+    {
+        if ($this->changements_prix->isNotEmpty()) {
+            $lastChangementPrix = $this->changements_prix->last();
+            $old_prix = $lastChangementPrix ? $lastChangementPrix->old_price : null;
 
-    return null;
-}
+            if ($old_prix !== null) {
+                $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
+                $prix = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
+                return number_format($prix, 2, '.', '') ?? "N/A";
+            }
+        }
+
+        return null;
+    }
 
 
     public function getFraisLivraison()
@@ -113,7 +121,7 @@ class posts extends Model
         if (!empty($this->photos) && isset($this->photos[0])) {
             $url = Storage::url($this->photos[0]);
         } else {
-            $url ="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+            $url = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
         }
         return $url;
     }
@@ -154,6 +162,6 @@ class posts extends Model
     public function changements_prix()
     {
         //relation
-        return $this->hasMany(History_change_price::class, 'id_post','id');
+        return $this->hasMany(History_change_price::class, 'id_post', 'id');
     }
 }
