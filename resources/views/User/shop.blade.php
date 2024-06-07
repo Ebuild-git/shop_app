@@ -78,7 +78,7 @@
                                                     <!-- Single Filter Card categorie -->
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
-                                                        <button class="d-flex justify-content-between btn w-100">
+                                                        <button class="d-flex no-bg justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -95,12 +95,11 @@
                                                                         <span class="color small">
                                                                             <b>
                                                                                 <i class="bi bi-gem"></i>
-                                                                                {{--  Luxury --}}
+                                                                                 Luxury 
                                                                             </b>
                                                                         </span>
                                                                         &nbsp;
                                                                     @endif
-                                                                    <i class="accordion-indicator ti-angle-down"></i>
                                                                 </span>
                                                             </div>
                                                         </button>
@@ -149,7 +148,7 @@
                                                             <div class="p-1">
                                                                 @if ($propriete->options)
                                                                     @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                        <button class="btn btn-sm m-1">
+                                                                        <button class="btn btn-sm m-1" onclick="filtre_propriete(' {{ $option }}')">
                                                                             {{ $option }}
                                                                         </button>
                                                                     @endforeach
