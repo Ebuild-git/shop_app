@@ -82,8 +82,7 @@
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
-                                                                        src="{{ Storage::url($categorie->small_icon) }}"
-                                                                         />
+                                                                        src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
                                                                 <span class="small">
@@ -119,16 +118,38 @@
                                                         Tous les produits - {{ $selected_categorie->titre }}
                                                     </div>
                                                     <hr>
-                                                    @foreach ($selected_categorie->getSousCategories as $sous_categorie)
-                                                        <button class="btn w-100 mb-1 d-flex justify-content-between"
-                                                            onclick="select_sous_categorie( {{ $sous_categorie->id }})">
-                                                            <span>
-                                                                {{ $sous_categorie->titre }}
-                                                            </span>
-                                                            <span>
-                                                                <i class="accordion-indicator ti-angle-down"></i>
-                                                            </span>
-                                                        </button>
+                                                    @if ($selected_sous_categorie)
+
+                                                    @else
+                                                        @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                                            <button class="btn w-100 mb-1 d-flex justify-content-between"
+                                                                onclick="select_sous_categorie({{ $sous_categorie->id }})">
+                                                                <span>
+                                                                    {{ $sous_categorie->titre }}
+                                                                </span>
+                                                                <span>
+                                                                    {{ $sous_categorie->getPost->count() }}
+                                                                </span>
+                                                            </button>
+                                                        @endforeach
+                                                    @endif
+                                                @endif
+                                            </div>
+                                            <div>
+                                                @if ($selected_sous_categorie)
+                                                    <hr>
+                                                    @foreach ($selected_sous_categorie->proprietes as $id_propriete)
+                                                        @php
+                                                            $propriete = DB::table('proprietes')->find($id_propriete);
+                                                        @endphp
+                                                        @if ($propriete)
+                                                            {{ $propriete->nom }} <br>
+                                                            @foreach ( json_decode($propriete->options ?? [])  as $option)
+                                                                <button class="btn btn-sm">
+                                                                    {{ $option }}
+                                                                </button>
+                                                            @endforeach
+                                                        @endif
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -297,8 +318,14 @@
                                         <h6 class="mb-0">
                                             <span class="color">Catégories ></span>
                                             @if ($selected_categorie)
-                                            <span class="color" id="path-categorie">
-                                                {{ $selected_categorie->titre }} ></span>
+                                                <span class="color">
+                                                    {{ $selected_categorie->titre }} >
+                                                </span>
+                                            @endif
+                                            @if ($selected_sous_categorie)
+                                                <span class="text-back">
+                                                    {{ $selected_sous_categorie->titre }}
+                                                </span>
                                             @endif
                                         </h6>
                                     </div>
@@ -316,7 +343,7 @@
                     </div>
 
                     {{-- suggestion des attributs des propriétés --}}
-                    <div id="SugestionProprietes"></div>
+
                     <div class="text-center p-5" id="loading">
                         <img src="/icons/kOnzy.gif" alt="gif" height="50" width="50" srcset="">
                         <br>
@@ -342,7 +369,7 @@
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
         var key = $("#key").val();
         var categorie = {{ $selected_categorie->id ?? 'null' }};
-        var sous_categorie = "";
+        var sous_categorie = {{ $selected_sous_categorie->id ?? 'null' }};
         var region = "";
         var etat = "";
         var ordre_prix = "";
@@ -419,6 +446,7 @@
         }
 
         function select_sous_categorie(id) {
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
             sous_categorie = id;
             fetchProducts();
         }
@@ -458,9 +486,6 @@
                         $("#total_post").text(data.total);
                         renderPagination(data.data);
                         $("#total_show_post").text(data.count_resultat);
-                        if (data.SugestionProprietes) {
-                            $("#SugestionProprietes").html(data.SugestionProprietes);
-                        }
                         $("#loading").hide("show");
                     }
                 }

@@ -13,6 +13,7 @@ use App\Models\likes;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\regions;
+use App\Models\sous_categories;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -568,10 +569,14 @@ class HomeController extends Controller
         
         */
         $id_selected_categorie = $request->get("id_categorie") ?? null;
+        $id_selected_sous_categorie = $request->get("selected_sous_categorie") ?? null;
         if($id_selected_categorie){
             $selected_categorie = categories::where('id',$id_selected_categorie)
             ->select("titre", "id", "luxury", "small_icon","icon")
             ->first();
+        }
+        if($id_selected_sous_categorie){
+            $selected_sous_categorie = sous_categories::find($id_selected_sous_categorie);
         }
         $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon","icon"]);
         $key = $request->input("key" ?? null);
@@ -591,6 +596,7 @@ class HomeController extends Controller
             ->with("luxury_only", $luxury_only)
             ->with('liste_categories', $liste_categories)
             ->with("selected_categorie",$selected_categorie ?? null)
+            ->with('selected_sous_categorie',$selected_sous_categorie ?? null)
             ->with('regions', $regions);
     }
 

@@ -116,7 +116,6 @@ class ShopController extends Controller
                         }
                     }
                 }
-                $SugestionProprietes = view('components.sugestion-proprietes', ['optionsArray' => $optionsArray ?? [], 'ArrayProprietes' => $ArrayProprietes ?? []])->render();
             }
         }
 
@@ -169,7 +168,6 @@ class ShopController extends Controller
                     'count_resultat' => $posts->count(),
                     "total" => $total,
                     "html" => $html,
-                    "SugestionProprietes" =>  $SugestionProprietes,
                     "data" => $posts,
                 ]
             );
