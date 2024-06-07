@@ -144,7 +144,7 @@
                                                         @endphp
                                                         @if ($propriete)
                                                             {{ $propriete->nom }} <br>
-                                                            @foreach ( json_decode($propriete->options ?? [])  as $option)
+                                                            @foreach ( $propriete->options   as $option)
                                                                 <button class="btn btn-sm">
                                                                     {{ $option }}
                                                                 </button>
