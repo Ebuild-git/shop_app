@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json("options")->nullable(true);
             $table->boolean("required")->default(false);
             $table->integer('order')->default(0);
+            $table->boolean("show_in_filter")->default(true);
             $table->timestamps();
         });
     }

@@ -567,8 +567,14 @@ class HomeController extends Controller
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         
         */
+        $id_selected_categorie = $request->get("id_categorie") ?? "";
+        if($id_selected_categorie){
+            $liste_categories = categories::orderBy('order')->where('id',$id_selected_categorie)->get(["titre", "id", "luxury", "small_icon","icon"]);
+        }else{
+            $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon","icon"]);
+        }
         $key = $request->input("key" ?? null);
-        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon"]);
+        
         $regions = regions::all();
 
         $luxury_only = $request->get('luxury_only');
@@ -583,7 +589,8 @@ class HomeController extends Controller
             ->with("key", $key)
             ->with("luxury_only", $luxury_only)
             ->with('liste_categories', $liste_categories)
-            ->with('regions', $regions);;
+            ->with("id_selected_categorie",$id_selected_categorie)
+            ->with('regions', $regions);
     }
 
 
