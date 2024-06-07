@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UpdatePrix extends Component
 {
-    public $post, $prix, $old_price;
+    public $post, $prix, $old_price,$titre;
     public $postId;
     public $show = true;
 
@@ -18,12 +18,14 @@ class UpdatePrix extends Component
 
     public function setPostId($id)
     {
+        $this->reset();
         $post = posts::where('id', $id)
-        ->select("id","prix","old_prix")
+        ->select("id","prix","old_prix","titre")
         ->where('id_user', Auth::user()->id)
         ->first();
         if ($post) {
             $this->old_price = $post->prix;
+            $this->titre = $post->titre;
             $this->post = $post;
             $this->show = true;
         }

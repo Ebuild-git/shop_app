@@ -84,7 +84,7 @@
                                 {{ $item->getPrix() }} DH
                             </td>
                             <td class="strong">
-                                {{ $item->changements_prix->count() ? $item->getOldPrix() . ' DH' : '-' }}
+                                {{ $item->changements_prix->count() ? $item->changements_prix->first()->old_price  . ' DH' : '-' }}
                             </td>
                             <td>
                                 <span class="small">
@@ -115,7 +115,7 @@
                                             {{ $item->propositions->count() }}
                                         </a> &nbsp;
                                     @endif
-                                    @if ($item->sell_at == null)
+                                    @if (!$item->id_user_buy )
                                         <button class="btn btn-sm  bg-red"
                                             onclick="Update_post_price({{ $item->id }})">
                                             <i class="bi bi-graph-down-arrow"></i>
