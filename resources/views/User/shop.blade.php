@@ -78,7 +78,7 @@
                                                     <!-- Single Filter Card categorie -->
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
-                                                        <button class="d-flex no-bg justify-content-between btn w-100">
+                                                        <button class="d-flex no-bg p-0 justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -95,7 +95,7 @@
                                                                         <span class="color small">
                                                                             <b>
                                                                                 <i class="bi bi-gem"></i>
-                                                                                 Luxury 
+                                                                                Luxury
                                                                             </b>
                                                                         </span>
                                                                         &nbsp;
@@ -113,7 +113,9 @@
                                                             alt="{{ $selected_categorie->icon }}" class="w-100"
                                                             srcset="">
                                                     </div>
-                                                    <div class="color  strong">
+                                                    <div class="color p-2 strong">
+                                                        <img width="20" height="20"
+                                                            src="{{ Storage::url($selected_categorie->small_icon) }}" />
                                                         {{ $selected_categorie->titre }}
                                                     </div>
                                                     @if ($selected_sous_categorie)
@@ -148,7 +150,8 @@
                                                             <div class="p-1">
                                                                 @if ($propriete->options)
                                                                     @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                        <button class="btn btn-sm m-1" onclick="filtre_propriete(' {{ $option }}')">
+                                                                        <button class="btn btn-sm m-1"
+                                                                            onclick="filtre_propriete(' {{ $option }}')">
                                                                             {{ $option }}
                                                                         </button>
                                                                     @endforeach
