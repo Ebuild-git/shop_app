@@ -61,14 +61,12 @@
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
-                            <div>
-                                <input type="text" class="form-control border-r key-input" id="key"
-                                    value="{{ $key ?? '' }}" name="key" placeholder="Mot clé de recherche">
-                            </div>
                             <!-- Single Option -->
                             <div class="single_search_boxed">
                                 <div class="widget-boxed-header px-3">
-                                    <h4 class="mt-3">Categories</h4>
+                                    <h4 class="mt-3">
+                                        Categories
+                                    </h4>
                                 </div>
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
@@ -78,7 +76,8 @@
                                                     <!-- Single Filter Card categorie -->
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
-                                                        <button class="d-flex no-bg p-0 btn-etat-shop justify-content-between btn w-100">
+                                                        <button
+                                                            class="d-flex no-bg p-0 btn-etat-shop justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -114,8 +113,9 @@
                                                             srcset="">
                                                     </div>
                                                     <div class="color p-2 strong">
-                                                        <img width="20" height="20"
-                                                            src="{{ Storage::url($selected_categorie->small_icon) }}" />
+                                                        <a href="/shop" class="p-1 btn btn-sm">
+                                                            <i class="bi bi-arrow-left"></i>
+                                                        </a>
                                                         {{ $selected_categorie->titre }}
                                                     </div>
                                                     @if ($selected_sous_categorie)
@@ -150,8 +150,9 @@
                                                             <div class="p-1">
                                                                 @if ($propriete->options)
                                                                     @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                        <button class="btn btn-sm m-1"
-                                                                            onclick="filtre_propriete(' {{ $option }}')">
+                                                                        <button class="btn btn-sm m-1 p-1"
+                                                                            id="btn-option-{{ $option }}"
+                                                                            onclick="filtre_propriete('{{ $option }}')">
                                                                             {{ $option }}
                                                                         </button>
                                                                     @endforeach
@@ -328,7 +329,8 @@
                                             <a href="/shop" class="color">
                                                 Catégories
                                             </a>
-                                            @if ($selected_categorie) >
+                                            @if ($selected_categorie)
+                                                >
                                                 <a href="shop?id_categorie={{ $selected_categorie->id }}" class="color">
                                                     {{ $selected_categorie->titre }}
                                                 </a>
@@ -463,10 +465,22 @@
             fetchProducts();
         }
 
+        var proprietes = '';
         function filtre_propriete(nom) {
-            proprietes = nom;
+            var button = $("#btn-option-" + nom);
+
+            if (button.hasClass("bg-red")) {
+                button.removeClass("bg-red");
+                proprietes = ''; 
+            } else {
+                $("button[id^='btn-option-']").removeClass("bg-red");
+                button.addClass("bg-red");
+                proprietes = nom;
+            }
+
             fetchProducts();
         }
+
 
         function select_categorie(id) {
             categorie = id;
