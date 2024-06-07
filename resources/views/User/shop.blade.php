@@ -77,7 +77,7 @@
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
                                                         <button
-                                                            class="d-flex no-bg p-0 btn-etat-shop justify-content-between btn w-100">
+                                                            class="d-flex  p-1  justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -124,7 +124,7 @@
                                                         <div>
                                                             @foreach ($selected_categorie->getSousCategories as $sous_categorie)
                                                                 <button
-                                                                    class="btn w-100 mb-1 d-flex btn-etat-shop btn-sm no-bg justify-content-between"
+                                                                    class="btn w-100 mb-1 d-flex btn-sm  justify-content-between"
                                                                     onclick="select_sous_categorie({{ $sous_categorie->id }})">
                                                                     <span>
                                                                         {{ $sous_categorie->titre }}
@@ -152,7 +152,7 @@
                                                                     @foreach (json_decode($propriete->options ?? []) as $option)
                                                                         <button class="btn btn-sm m-1 p-1"
                                                                             id="btn-option-{{ $option }}"
-                                                                            onclick="filtre_propriete('{{ $option }}')">
+                                                                            onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
                                                                             {{ $option }}
                                                                         </button>
                                                                     @endforeach
@@ -465,17 +465,20 @@
             fetchProducts();
         }
 
-        var proprietes = '';
-        function filtre_propriete(nom) {
+        function filtre_propriete(type, nom) {
             var button = $("#btn-option-" + nom);
 
             if (button.hasClass("bg-red")) {
                 button.removeClass("bg-red");
-                proprietes = ''; 
+                proprietes = '';
             } else {
                 $("button[id^='btn-option-']").removeClass("bg-red");
                 button.addClass("bg-red");
-                proprietes = nom;
+                _proprietes = {
+                    type: type,
+                    valeur: nom
+                };
+                proprietes = JSON.stringify(_proprietes);
             }
 
             fetchProducts();

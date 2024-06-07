@@ -16,7 +16,7 @@ class ShopController extends Controller
     {
         $gouvernorat = $request->input('gouvernorat' ?? null);
         $region = $request->input('region' ?? null);
-        $proprietes = $request->input('proprietes' ?? null);
+        $proprietes = json_decode($request->input('proprietes' ?? null, true));
         $sous_categorie = $request->input('sous_categorie' ?? null);
         $ordre_prix = $request->input('ordre_prix' ?? null);
         $ordre_creation = $request->input('ordre_creation' ?? null);
@@ -62,18 +62,33 @@ class ShopController extends Controller
                 });
             }
         }
-        
+
 
         if ($gouvernorat) {
             $query->where('gouvernorat', $gouvernorat);
         }
 
-        if ($proprietes) {
-            $q = strtolower($proprietes);
-            $query->where(function ($query) use ($q) {
-                $query->WhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']);
+
+
+
+
+        /* if ($proprietes) {
+            if (!is_array($proprietes) || !isset($proprietes['type']) || !isset($proprietes['valeur'])) {
+                return response()->json(['error' => 'Invalid JSON data'], 400);
+            }
+
+            // Conversion en minuscules pour la recherche insensible à la casse
+            $type = strtolower($proprietes['type']);
+            $valeur = strtolower($proprietes['valeur']);
+
+            // Ajouter la condition de recherche
+            $query->where(function ($query) use ($type, $valeur) {
+                $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"'))) LIKE ?", ['%' . $valeur . '%']);
             });
-        }
+        } */
+
+
+
 
         if ($key) {
             $q = strtolower($key); // Convertir la recherche en minuscules
