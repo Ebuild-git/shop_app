@@ -83,7 +83,7 @@ class ShopController extends Controller
 
             // Ajouter la condition de recherche
             $query->where(function ($query) use ($type, $valeur) {
-                $query->whereRaw("LOWER(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"')), ' ', '')) LIKE ?", ['%' . str_replace(' ', '', strtolower($valeur)) . '%']);
+                $query->whereRaw('LOWER(proprietes) LIKE ?', ['%' . $valeur . '\"%']);
             });
         }
 
