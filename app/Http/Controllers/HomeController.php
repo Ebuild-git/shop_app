@@ -567,7 +567,7 @@ class HomeController extends Controller
         $sous_categorie = $request->get('sous_categorie') ?? $request->input('sous_categorie') ?? '';
         
         */
-        $id_selected_categorie = $request->get("id_categorie") ?? "";
+        $id_selected_categorie = $request->get("id_categorie") ?? null;
         if($id_selected_categorie){
             $liste_categories = categories::orderBy('order')->where('id',$id_selected_categorie)->get(["titre", "id", "luxury", "small_icon","icon"]);
         }else{

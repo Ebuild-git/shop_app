@@ -336,7 +336,7 @@
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
         var key = $("#key").val();
-        var categorie = "";
+        var categorie = {{ $id_selected_categorie ?? "" }} ;
         var sous_categorie = "";
         var region = "";
         var etat = "";
