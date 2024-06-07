@@ -16,7 +16,7 @@ class ShopController extends Controller
     {
         $gouvernorat = $request->input('gouvernorat' ?? null);
         $region = $request->input('region' ?? null);
-        $proprietes = json_decode($request->input('proprietes' ?? null, true));
+        $proprietes = json_decode($request->input('proprietes'), true);
         $sous_categorie = $request->input('sous_categorie' ?? null);
         $ordre_prix = $request->input('ordre_prix' ?? null);
         $ordre_creation = $request->input('ordre_creation' ?? null);
@@ -25,7 +25,6 @@ class ShopController extends Controller
         $etat = $request->input('etat' ?? null);
         $luxury_only = $request->input('check_luxury' ?? null);
         $html = "";
-        $SugestionProprietes = "";
 
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
@@ -72,7 +71,7 @@ class ShopController extends Controller
 
 
 
-        /* if ($proprietes) {
+        if ($proprietes) {
             if (!is_array($proprietes) || !isset($proprietes['type']) || !isset($proprietes['valeur'])) {
                 return response()->json(['error' => 'Invalid JSON data'], 400);
             }
@@ -85,7 +84,7 @@ class ShopController extends Controller
             $query->where(function ($query) use ($type, $valeur) {
                 $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"'))) LIKE ?", ['%' . $valeur . '%']);
             });
-        } */
+        }
 
 
 
