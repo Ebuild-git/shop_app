@@ -149,7 +149,7 @@
                                                             <div class="p-1">
                                                                 @if ($propriete->options)
                                                                     @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                        <button class="btn btn-sm">
+                                                                        <button class="btn btn-sm m-1">
                                                                             {{ $option }}
                                                                         </button>
                                                                     @endforeach
