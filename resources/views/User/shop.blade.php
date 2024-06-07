@@ -73,51 +73,55 @@
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
                                         <div class="filter-card" id="shop-categories">
-
-                                            @foreach ($liste_categories as $categorie)
-                                                <!-- Single Filter Card categorie -->
-                                                <div class="single_filter_card my-auto" id="list-categorie"
-                                                    onclick="select_categorie({{ $categorie->id }})">
-                                                    <button class="d-flex justify-content-between btn w-100">
-                                                        <div class="d-flex justify-content-start">
-                                                            <span>
-                                                                <img width="20" height="20"
-                                                                    src="https://img.icons8.com/dotty/20/008080/controller.png"
-                                                                    alt="controller" />
-                                                                &nbsp;
-                                                            </span>
-                                                            <span class="small">
-                                                                {{ $categorie->titre }}
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <span>
-                                                                @if ($categorie->luxury == 1)
-                                                                    <span class="color small">
-                                                                        <b>
-                                                                            <i class="bi bi-gem"></i>
-                                                                            {{--  Luxury --}}
-                                                                        </b>
-                                                                    </span>
+                                            @if (!$selected_categorie)
+                                                @foreach ($liste_categories as $categorie)
+                                                    <!-- Single Filter Card categorie -->
+                                                    <div class="single_filter_card my-auto" id="list-categorie"
+                                                        onclick="select_categorie({{ $categorie->id }})">
+                                                        <button class="d-flex justify-content-between btn w-100">
+                                                            <div class="d-flex justify-content-start">
+                                                                <span>
+                                                                    <img width="20" height="20"
+                                                                        src="{{ Storage::url($categorie->small_icon) }}"
+                                                                         />
                                                                     &nbsp;
-                                                                @endif
-                                                                <i class="accordion-indicator ti-angle-down"></i>
-                                                            </span>
-                                                        </div>
-                                                    </button>
-                                                </div>
-
-                                                @if ($id_selected_categorie)
+                                                                </span>
+                                                                <span class="small">
+                                                                    {{ $categorie->titre }}
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span>
+                                                                    @if ($categorie->luxury == 1)
+                                                                        <span class="color small">
+                                                                            <b>
+                                                                                <i class="bi bi-gem"></i>
+                                                                                {{--  Luxury --}}
+                                                                            </b>
+                                                                        </span>
+                                                                        &nbsp;
+                                                                    @endif
+                                                                    <i class="accordion-indicator ti-angle-down"></i>
+                                                                </span>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                            <div>
+                                                @if ($selected_categorie)
                                                     <div class="card card-image-shop-categorie">
-                                                        <img src="{{ Storage::url($categorie->icon) }}"
-                                                            alt="{{ $categorie->icon }}" class="w-100" srcset="">
+                                                        <img src="{{ Storage::url($selected_categorie->icon) }}"
+                                                            alt="{{ $selected_categorie->icon }}" class="w-100"
+                                                            srcset="">
                                                     </div>
                                                     <div class="color  strong">
-                                                        Tous les produits - {{ $categorie->titre }}
+                                                        Tous les produits - {{ $selected_categorie->titre }}
                                                     </div>
                                                     <hr>
-                                                    @foreach ($categorie->getSousCategories as $sous_categorie)
-                                                        <button class="btn w-100 mb-1 d-flex justify-content-between" onclick="select_sous_categorie( {{ $sous_categorie->id }})">
+                                                    @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                                        <button class="btn w-100 mb-1 d-flex justify-content-between"
+                                                            onclick="select_sous_categorie( {{ $sous_categorie->id }})">
                                                             <span>
                                                                 {{ $sous_categorie->titre }}
                                                             </span>
@@ -127,8 +131,7 @@
                                                         </button>
                                                     @endforeach
                                                 @endif
-                                            @endforeach
-
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -336,7 +339,7 @@
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
         var key = $("#key").val();
-        var categorie = {{ $id_selected_categorie ?? "null" }} ;
+        var categorie = {{ $selected_categorie->id ?? 'null' }};
         var sous_categorie = "";
         var region = "";
         var etat = "";

@@ -569,10 +569,11 @@ class HomeController extends Controller
         */
         $id_selected_categorie = $request->get("id_categorie") ?? null;
         if($id_selected_categorie){
-            $liste_categories = categories::orderBy('order')->where('id',$id_selected_categorie)->get(["titre", "id", "luxury", "small_icon","icon"]);
-        }else{
-            $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon","icon"]);
+            $selected_categorie = categories::where('id',$id_selected_categorie)
+            ->select("titre", "id", "luxury", "small_icon","icon")
+            ->first();
         }
+        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon","icon"]);
         $key = $request->input("key" ?? null);
         
         $regions = regions::all();
@@ -589,7 +590,7 @@ class HomeController extends Controller
             ->with("key", $key)
             ->with("luxury_only", $luxury_only)
             ->with('liste_categories', $liste_categories)
-            ->with("id_selected_categorie",$id_selected_categorie)
+            ->with("selected_categorie",$selected_categorie ?? null)
             ->with('regions', $regions);
     }
 
