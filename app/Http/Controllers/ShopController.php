@@ -80,10 +80,10 @@ class ShopController extends Controller
             $type = strtolower($proprietes['type']);
             $valeur = strtolower($proprietes['valeur']);
 
-            
+
             // Ajouter la condition de recherche
             $query->where(function ($query) use ($type, $valeur) {
-                $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"'))) LIKE ?", ['%' . $valeur . '%']);
+                $query->whereRaw("LOWER(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"')), ' ', '')) LIKE ?", ['%' . str_replace(' ', '', strtolower($valeur)) . '%']);
             });
         }
 
