@@ -296,8 +296,10 @@
                                     <div>
                                         <h6 class="mb-0">
                                             <span class="color">Catégories ></span>
-                                            <span class="color" id="path-categorie">Sacs & Accessoires ></span>
-                                            <span class="text-black">Étui de téléphone</span>
+                                            @if ($selected_categorie)
+                                            <span class="color" id="path-categorie">
+                                                {{ $selected_categorie->titre }} ></span>
+                                            @endif
                                         </h6>
                                     </div>
 
