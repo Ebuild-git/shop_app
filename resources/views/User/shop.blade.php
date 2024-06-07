@@ -115,22 +115,25 @@
                                                             srcset="">
                                                     </div>
                                                     <div class="color  strong">
-                                                        Tous les produits - {{ $selected_categorie->titre }}
+                                                        {{ $selected_categorie->titre }}
                                                     </div>
-                                                    <hr>
                                                     @if ($selected_sous_categorie)
                                                     @else
-                                                        @foreach ($selected_categorie->getSousCategories as $sous_categorie)
-                                                            <button class="btn w-100 mb-1 d-flex justify-content-between"
-                                                                onclick="select_sous_categorie({{ $sous_categorie->id }})">
-                                                                <span>
-                                                                    {{ $sous_categorie->titre }}
-                                                                </span>
-                                                                <span>
-                                                                    {{ $sous_categorie->getPost->count() }}
-                                                                </span>
-                                                            </button>
-                                                        @endforeach
+                                                        <hr>
+                                                        <div class="p-1">
+                                                            @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                                                <button
+                                                                    class="btn w-100 mb-1 d-flex btn-sm justify-content-between"
+                                                                    onclick="select_sous_categorie({{ $sous_categorie->id }})">
+                                                                    <span>
+                                                                        {{ $sous_categorie->titre }}
+                                                                    </span>
+                                                                    <span>
+                                                                        {{ $sous_categorie->getPost->count() }}
+                                                                    </span>
+                                                                </button>
+                                                            @endforeach
+                                                        </div>
                                                     @endif
                                                 @endif
                                             </div>
@@ -142,16 +145,19 @@
                                                             $propriete = DB::table('proprietes')->find($id_propriete);
                                                         @endphp
                                                         @if ($propriete)
-                                                            {{ $propriete->nom }} <br>
-                                                            @if ($propriete->options)
-                                                                @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                    <button class="btn btn-sm">
-                                                                        {{ $option }}
-                                                                    </button>
-                                                                @endforeach
-                                                            @endif
+                                                            <b> {{ $propriete->nom }}</b> <br>
+                                                            <div class="p-1">
+                                                                @if ($propriete->options)
+                                                                    @foreach (json_decode($propriete->options ?? []) as $option)
+                                                                        <button class="btn btn-sm">
+                                                                            {{ $option }}
+                                                                        </button>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
                                                         @endif
                                                     @endforeach
+
                                                 @endif
                                             </div>
                                         </div>
@@ -317,13 +323,17 @@
                                 <div class="d-flex justify-content-between p-2 m-0">
                                     <div>
                                         <h6 class="mb-0">
-                                            <span class="color">Catégories ></span>
+                                            <a href="/shop" class="color">
+                                                Catégories
+                                            </a>
+                                            >
                                             @if ($selected_categorie)
-                                                <span class="color">
-                                                    {{ $selected_categorie->titre }} >
-                                                </span>
+                                                <a href="shop?id_categorie={{ $selected_categorie->id }}" class="color">
+                                                    {{ $selected_categorie->titre }}
+                                                </a>
                                             @endif
                                             @if ($selected_sous_categorie)
+                                                >
                                                 <span class="text-back">
                                                     {{ $selected_sous_categorie->titre }}
                                                 </span>
