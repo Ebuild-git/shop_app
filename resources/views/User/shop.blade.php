@@ -119,7 +119,6 @@
                                                     </div>
                                                     <hr>
                                                     @if ($selected_sous_categorie)
-
                                                     @else
                                                         @foreach ($selected_categorie->getSousCategories as $sous_categorie)
                                                             <button class="btn w-100 mb-1 d-flex justify-content-between"
@@ -144,11 +143,13 @@
                                                         @endphp
                                                         @if ($propriete)
                                                             {{ $propriete->nom }} <br>
-                                                            @foreach ( $propriete->options   as $option)
-                                                                <button class="btn btn-sm">
-                                                                    {{ $option }}
-                                                                </button>
-                                                            @endforeach
+                                                            @if ($propriete->options)
+                                                                @foreach (json_decode($propriete->options ?? []) as $option)
+                                                                    <button class="btn btn-sm">
+                                                                        {{ $option }}
+                                                                    </button>
+                                                                @endforeach
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                 @endif
