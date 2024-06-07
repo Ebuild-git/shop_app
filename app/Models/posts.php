@@ -39,12 +39,21 @@ class posts extends Model
 
 
     public function getOldPrix()
-    {
-
-        $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-        $prix = round($this->attributes['old_prix'] + (($pourcentage_gain * $this->attributes['old_prix']) / 100), 2);
-        return $prix ?? "N/A";
+{
+    if ($this->changements_prix->isNotEmpty()) {
+        $lastChangementPrix = $this->changements_prix->last();
+        $old_prix = $lastChangementPrix ? $lastChangementPrix->old_price : null;
+        
+        if ($old_prix !== null) {
+            $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
+            $prix = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
+            return $prix;
+        }
     }
+
+    return null;
+}
+
 
     public function getFraisLivraison()
     {
@@ -104,7 +113,7 @@ class posts extends Model
         if (!empty($this->photos) && isset($this->photos[0])) {
             $url = Storage::url($this->photos[0]);
         } else {
-            $url = url('path/to/default/image.jpg');
+            $url ="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
         }
         return $url;
     }
@@ -139,5 +148,12 @@ class posts extends Model
     {
         //many
         return $this->hasMany(motifs::class, 'id', 'id_motif');
+    }
+
+
+    public function changements_prix()
+    {
+        //relation
+        return $this->hasMany(History_change_price::class, 'id_post','id');
     }
 }

@@ -2,13 +2,13 @@
     @if ($show)
         <div class="d-flex justify-content-between mb-1">
             <div class="d-flex justify-content-between mb-1">
-                @if ($post->old_prix)
+                @if ($post->changements_prix->count())
                     <strike class="elis_rty color strong">
                         {{ $post->getOldPrix() }} DH
                     </strike>
                     &nbsp;&nbsp;&nbsp;
                 @endif
-                <div class="@if ($post->old_prix) text-danger @else color @endif ft-bold fs-sm">
+                <div class="@if ($post->changements_prix->count() ) text-danger @else color @endif ft-bold fs-sm">
                     {{ $post->getPrix() }} DH
                 </div>
             </div>

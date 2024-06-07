@@ -68,7 +68,7 @@
                         <tr id="tr-post-{{ $item->id }}">
                             <th scope="row">
                                 <div class="avatar-small-product">
-                                    <img src="{{ Storage::url($item->photos[0] ?? '') }}" alt="avtar">
+                                    <img src="{{ $item->FirstImage() }}" alt="avatar">
                                 </div>
                             </th>
                             <td>
@@ -83,7 +83,7 @@
                                 {{ $item->getPrix() }} DH
                             </td>
                             <td class="strong">
-                                {{ $item->old_prix ? $item->old_prix . ' DH' : '-' }}
+                                {{ $item->changements_prix->count() ? $item->getOldPrix() . ' DH' : '-' }}
                             </td>
                             <td>
                                 {{ $item->updated_price_at ? $item->updated_price_at : '-' }}
