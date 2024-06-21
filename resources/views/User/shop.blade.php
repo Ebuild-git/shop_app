@@ -76,8 +76,7 @@
                                                     <!-- Single Filter Card categorie -->
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
-                                                        <button
-                                                            class="d-flex  p-1  justify-content-between btn w-100">
+                                                        <button class="d-flex  p-1  justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
                                                                     <img width="20" height="20"
@@ -138,182 +137,213 @@
                                                     @endif
                                                 @endif
                                             </div>
-                                            <div>
-                                                @if ($selected_sous_categorie)
-                                                    <hr>
-                                                    @foreach ($selected_sous_categorie->proprietes as $id_propriete)
-                                                        @php
-                                                            $propriete = DB::table('proprietes')->find($id_propriete);
-                                                        @endphp
-                                                        @if ($propriete)
-                                                            <b> {{ $propriete->nom }}</b> <br>
-                                                            <div class="p-1">
-                                                                @if ($propriete->options)
-                                                                    @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                        <button class="btn btn-sm m-1 p-1"
-                                                                            id="btn-option-{{ $option }}"
-                                                                            onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
-                                                                            {{ $option }}
-                                                                        </button>
-                                                                    @endforeach
-                                                                @endif
-                                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                @if ($selected_sous_categorie)
+                                    @foreach ($selected_sous_categorie->proprietes as $id_propriete)
+                                        @php
+                                            $propriete = DB::table('proprietes')->find($id_propriete);
+                                        @endphp
+                                        @if ($propriete)
+                                            <!-- Single Option -->
+                                            <div class="single_search_boxed">
+                                                <div class="widget-boxed-header">
+                                                    <h4>
+                                                        <a href="#types{{ $propriete->nom }}" data-toggle="collapse"
+                                                            class="collapsed" aria-expanded="false"
+                                                            role="button">
+                                                            {{ $propriete->nom }}
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div class="widget-boxed-body collapse" id="types{{ $propriete->nom }}"
+                                                    data-parent="#types{{ $propriete->nom }}">
+                                                    <div class="side-list no-border">
+                                                        <!-- Single Filter Card -->
+                                                        <div>
+                                                            @if ($propriete->options)
+                                                            @foreach (json_decode($propriete->options ?? []) as $option)
+                                                                <button class="btn btn-sm w-1"
+                                                                    id="btn-option-{{ $option }}"
+                                                                    onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
+                                                                    {{ $option }}
+                                                                </button>
+                                                            @endforeach
                                                         @endif
-                                                    @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
 
-                                                @endif
+                                @endif
+                            </div>
+
+
+                            @if ($selected_sous_categorie)
+                                <!-- Single Option -->
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <a href="#types" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                                role="button">
+                                                état
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="widget-boxed-body collapse" id="types" data-parent="#types">
+                                        <div class="side-list no-border">
+                                            <!-- Single Filter Card -->
+                                            <div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="etat" value="Neuf avec étiquettes"
+                                                        onclick="choix_etat(this)">
+                                                    <button type="button" class="btn-etat-shop cusor ">
+                                                        Neuf avec étiquettes
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="etat" value="Neuf sans étiquettes"
+                                                        onclick="choix_etat(this)">
+                                                    <button type="button" class="btn-etat-shop cusor">
+                                                        Neuf sans étiquettes
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="etat" value="Très bon état"
+                                                        onclick="choix_etat(this)">
+                                                    <button type="button" class="btn-etat-shop cusor">
+                                                        Très bon état
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="etat" value="Bon état"
+                                                        onclick="choix_etat(this)">
+                                                    <button type="button" class="btn-etat-shop cusor">
+                                                        Bon état
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="etat" value="Usé"
+                                                        onclick="choix_etat(this)">
+                                                    <button type="button" class="btn-etat-shop cusor">
+                                                        Usé
+                                                    </button>
+                                                </div>
+                                                @error('etat')
+                                                    <small class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Single Option -->
-                            <div class="single_search_boxed">
-                                <div class="widget-boxed-header">
-                                    <h4><a href="#types" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                            role="button">état</a></h4>
-                                </div>
-                                <div class="widget-boxed-body collapse" id="types" data-parent="#types">
-                                    <div class="side-list no-border">
-                                        <!-- Single Filter Card -->
-                                        <div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Neuf avec étiquettes"
-                                                    onclick="choix_etat(this)">
-                                                <button type="button" class="btn-etat-shop cusor ">
-                                                    Neuf avec étiquettes
-                                                </button>
+
+                                <!-- Single Option -->
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <a href="#prixs" data-toggle="collapse" class="collapsed"
+                                                aria-expanded="false" role="button">
+                                                prix
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="widget-boxed-body collapse" id="prixs" data-parent="#prixs">
+                                        <div class="side-list no-border">
+                                            <!-- Single Filter Card -->
+                                            <div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="Asc"
+                                                        onclick="choix_ordre_prix(this)">
+                                                    <span class="btn-etat-shop cusor">
+                                                        &nbsp;
+                                                        Moins couteux au plus couteux
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="Desc"
+                                                        onclick="choix_ordre_prix(this)">
+                                                    <span class="btn-etat-shop cusor">
+                                                        &nbsp;
+                                                        Plus couteux au moins couteux
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="Soldé"
+                                                        onclick="choix_ordre_prix(this)">
+                                                    <span class="btn-etat-shop cusor">
+                                                        &nbsp;
+                                                        Articles soldés
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="Desc"
+                                                        onclick="check_luxury()">
+                                                    <span class="btn-etat-shop cusor color">
+                                                        &nbsp;
+                                                        Uniquement <b><i class="bi bi-gem"></i> Luxury </b>
+                                                    </span>
+                                                </div>
+                                                @error('ordre')
+                                                    <small class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
                                             </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Neuf sans étiquettes"
-                                                    onclick="choix_etat(this)">
-                                                <button type="button" class="btn-etat-shop cusor">
-                                                    Neuf sans étiquettes
-                                                </button>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Très bon état"
-                                                    onclick="choix_etat(this)">
-                                                <button type="button" class="btn-etat-shop cusor">
-                                                    Très bon état
-                                                </button>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Bon état"
-                                                    onclick="choix_etat(this)">
-                                                <button type="button" class="btn-etat-shop cusor">
-                                                    Bon état
-                                                </button>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="etat" value="Usé"
-                                                    onclick="choix_etat(this)">
-                                                <button type="button" class="btn-etat-shop cusor">
-                                                    Usé
-                                                </button>
-                                            </div>
-                                            @error('etat')
-                                                <small class="form-text text-danger">{{ $message }}</small>
-                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-
-                            <!-- Single Option -->
-                            <div class="single_search_boxed">
-                                <div class="widget-boxed-header">
-                                    <h4>
-                                        <a href="#prixs" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                            role="button">
-                                            prix
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div class="widget-boxed-body collapse" id="prixs" data-parent="#prixs">
-                                    <div class="side-list no-border">
-                                        <!-- Single Filter Card -->
-                                        <div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="ordre_prix" value="Asc"
-                                                    onclick="choix_ordre_prix(this)">
-                                                <span class="btn-etat-shop cusor">
-                                                    &nbsp;
-                                                    Moins couteux au plus couteux
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="ordre_prix" value="Desc"
-                                                    onclick="choix_ordre_prix(this)">
-                                                <span class="btn-etat-shop cusor">
-                                                    &nbsp;
-                                                    Plus couteux au moins couteux
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="ordre_prix" value="Soldé"
-                                                    onclick="choix_ordre_prix(this)">
-                                                <span class="btn-etat-shop cusor">
-                                                    &nbsp;
-                                                    Articles soldés
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-start">
-                                                <input type="checkbox" name="ordre_prix" value="Desc"
-                                                    onclick="check_luxury()">
-                                                <span class="btn-etat-shop cusor color">
-                                                    &nbsp;
-                                                    Uniquement <b><i class="bi bi-gem"></i> Luxury </b>
-                                                </span>
-                                            </div>
-                                            @error('ordre')
-                                                <small class="form-text text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                                <!-- Single Option -->
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <a href="#occation" data-toggle="collapse" class="collapsed"
+                                                aria-expanded="false" role="button">
+                                                Localisation
+                                            </a>
+                                        </h4>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- Single Option -->
-                            <div class="single_search_boxed">
-                                <div class="widget-boxed-header">
-                                    <h4><a href="#occation" data-toggle="collapse" class="collapsed"
-                                            aria-expanded="false" role="button">Localisation</a></h4>
-                                </div>
-                                <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
-                                    <div class="side-list no-border">
-                                        <!-- Single Filter Card -->
-                                        <div class="single_filter_card">
-                                            <div class="card-body pt-0">
-                                                <div class="inner_widget_link">
-                                                    <ul class="cusor">
-                                                        @foreach ($regions as $region)
-                                                            <li class="d-flex justify-content-between btn-etat-shop cusor">
-                                                                <div class="d-flex justify-content-start">
-                                                                    <input type="checkbox" name="region"
-                                                                        value="{{ $region->id }}"
-                                                                        onclick="select_region(this)">
+                                    <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
+                                        <div class="side-list no-border">
+                                            <!-- Single Filter Card -->
+                                            <div class="single_filter_card">
+                                                <div class="card-body pt-0">
+                                                    <div class="inner_widget_link">
+                                                        <ul class="cusor">
+                                                            @foreach ($regions as $region)
+                                                                <li
+                                                                    class="d-flex justify-content-between btn-etat-shop cusor">
+                                                                    <div class="d-flex justify-content-start">
+                                                                        <input type="checkbox" name="region"
+                                                                            value="{{ $region->id }}"
+                                                                            onclick="select_region(this)">
+                                                                        <span>
+                                                                            &nbsp; {{ $region->nom }}
+                                                                        </span>
+                                                                    </div>
                                                                     <span>
-                                                                        &nbsp; {{ $region->nom }}
+                                                                        {{ $region->getPost->count() }}
                                                                     </span>
-                                                                </div>
-                                                                <span>
-                                                                    {{ $region->getPost->count() }}
-                                                                </span>
-                                                        @endforeach
-                                                    </ul>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <a href="/shop" class="btn btn-sm btn-dark btn-block" type="reset">
-                                <i class="fas fa-sync-alt"></i>
-                                Réinitialiser la recherche
-                            </a>
+
+                                <a href="/shop" class="btn btn-sm btn-dark btn-block" type="reset">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Réinitialiser la recherche
+                                </a>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -326,10 +356,10 @@
                                 <div class="d-flex justify-content-between p-2 m-0">
                                     <div>
                                         <h6 class="mb-0">
-                                            <a href="/shop" class="color">
-                                                Catégories
-                                            </a>
                                             @if ($selected_categorie)
+                                                <a href="/shop" class="color">
+                                                    Catégories
+                                                </a>
                                                 >
                                                 <a href="shop?id_categorie={{ $selected_categorie->id }}" class="color">
                                                     {{ $selected_categorie->titre }}
