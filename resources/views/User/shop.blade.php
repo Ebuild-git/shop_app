@@ -153,15 +153,15 @@
                                             <div class="single_search_boxed">
                                                 <div class="widget-boxed-header">
                                                     <h4>
-                                                        <a href="#types{{ $propriete->nom }}" data-toggle="collapse"
+                                                        <a href="#types{{ $propriete->id }}" data-toggle="collapse"
                                                             class="collapsed" aria-expanded="false"
                                                             role="button">
                                                             {{ $propriete->nom }}
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div class="widget-boxed-body collapse" id="types{{ $propriete->nom }}"
-                                                    data-parent="#types{{ $propriete->nom }}">
+                                                <div class="widget-boxed-body collapse" id="types{{ $propriete->id }}"
+                                                    data-parent="#types{{ $propriete->id }}">
                                                     <div class="side-list no-border">
                                                         <!-- Single Filter Card -->
                                                         <div>
