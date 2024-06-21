@@ -1089,6 +1089,33 @@ input[type="month"]:active::before {
     background: unset !important;
     background-color: unset !important;
 }
+.bg-color{
+    background-color: #008080!important;
+    color: white!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -63,10 +63,24 @@
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
                             <div class="single_search_boxed">
-                                <div class="widget-boxed-header px-3">
-                                    <h4 class="mt-3">
-                                        Categories
-                                    </h4>
+                                <div class="widget-boxed-header px-3 pt-3">
+                                    @if ($selected_categorie)
+                                        <div class="bg-color p-1">
+                                            <h4 class="text-white">
+                                                Toutes les catégories
+                                            </h4>
+                                        </div>
+                                        <div class="p-1 strong">
+                                            <a href="/shop" class="p-1 btn btn-sm">
+                                                <i class="bi bi-arrow-left"></i>
+                                            </a>
+                                            {{ $selected_categorie->titre }}
+                                        </div>
+                                    @else
+                                        <h4 class="color">
+                                            Categories
+                                        </h4>
+                                    @endif
                                 </div>
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
@@ -111,10 +125,8 @@
                                                             alt="{{ $selected_categorie->icon }}" class="w-100"
                                                             srcset="">
                                                     </div>
-                                                    <div class="color p-2 strong">
-                                                        <a href="/shop" class="p-1 btn btn-sm">
-                                                            <i class="bi bi-arrow-left"></i>
-                                                        </a>
+                                                    <div class="color p-1 strong">
+                                                        Tous les articles de 
                                                         {{ $selected_categorie->titre }}
                                                     </div>
                                                     @if ($selected_sous_categorie)
@@ -154,8 +166,7 @@
                                                 <div class="widget-boxed-header">
                                                     <h4>
                                                         <a href="#types{{ $propriete->id }}" data-toggle="collapse"
-                                                            class="collapsed" aria-expanded="false"
-                                                            role="button">
+                                                            class="collapsed" aria-expanded="false" role="button">
                                                             {{ $propriete->nom }}
                                                         </a>
                                                     </h4>
@@ -166,14 +177,14 @@
                                                         <!-- Single Filter Card -->
                                                         <div>
                                                             @if ($propriete->options)
-                                                            @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                <button class="btn btn-sm w-1"
-                                                                    id="btn-option-{{ $option }}"
-                                                                    onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
-                                                                    {{ $option }}
-                                                                </button>
-                                                            @endforeach
-                                                        @endif
+                                                                @foreach (json_decode($propriete->options ?? []) as $option)
+                                                                    <button class="btn btn-sm w-1"
+                                                                        id="btn-option-{{ $option }}"
+                                                                        onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
+                                                                        {{ $option }}
+                                                                    </button>
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
