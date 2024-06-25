@@ -3,57 +3,9 @@
 @section('body')
 
 
+    <br>
+
     <section class="middle" id="ancre">
-
-        <div class="navbar container">
-            <div class="subnav">
-                <a href="/shop" class="subnavbtn cusor">
-                    <div>
-                        <img src="https://img.icons8.com/ios/100/008080/select-all.png" alt="i" class="icon"
-                            srcset="">
-                    </div>
-                    <div class="titre">
-                        Tous
-                    </div>
-                </a>
-            </div>
-            @foreach ($liste_categories as $cat)
-                <div class="subnav">
-                    <button class="subnavbtn cusor">
-                        <div>
-                            <img src="{{ Storage::url($cat->small_icon) }}" alt="i" class="icon" srcset="">
-                        </div>
-                        <div class="titre">
-                            @if ($cat->luxury == true)
-                                <i class="bi bi-gem color"></i>
-                            @endif
-                            {!! str_replace('&', '&<br>', $cat->titre) !!}
-                        </div>
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="subnav-content p-2">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <button class="button button-list text-left" type="button"
-                                    onclick="select_categorie({{ $cat->id }})">
-                                    Tout {{ $cat->titre }}
-                                </button>
-                            </div>
-                            @foreach ($cat->getSousCategories as $item)
-                                <div class="col-sm-2">
-                                    <button type="button" class="p-1 button-list  text-left"
-                                        onclick="select_sous_categorie({{ $item->id }})">
-                                        {{ $item->titre }}
-                                    </button>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <br><br>
 
         <div class="container">
             <div class="row">
@@ -66,15 +18,18 @@
                                 <div class="widget-boxed-header px-3 pt-3">
                                     @if ($selected_categorie)
                                         <div class="bg-color p-1">
-                                            <h4 class="text-white">
+                                            <a href="/shop" class="h6 text-white">
                                                 Toutes les catégories
-                                            </h4>
+                                            </a>
                                         </div>
                                         <div class="p-1 strong">
                                             <a href="/shop" class="p-1 btn btn-sm">
                                                 <i class="bi bi-arrow-left"></i>
                                             </a>
                                             {{ $selected_categorie->titre }}
+                                            @if ($selected_categorie->luxury == 1)
+                                                <i class="bi bi-gem small color"></i>
+                                            @endif
                                         </div>
                                     @else
                                         <h4 class="color">
@@ -126,8 +81,11 @@
                                                             srcset="">
                                                     </div>
                                                     <div class="color p-1 strong">
-                                                        Tous les articles de 
+                                                        Tout les articles de
                                                         {{ $selected_categorie->titre }}
+                                                        @if ($selected_categorie->luxury == 1)
+                                                            <i class="bi bi-gem small color"></i>
+                                                        @endif
                                                     </div>
                                                     @if ($selected_sous_categorie)
                                                     @else
@@ -139,6 +97,9 @@
                                                                     onclick="select_sous_categorie({{ $sous_categorie->id }})">
                                                                     <span>
                                                                         {{ $sous_categorie->titre }}
+                                                                        @if ($selected_categorie->luxury == 1)
+                                                                            <i class="bi bi-gem small color"></i>
+                                                                        @endif
                                                                     </span>
                                                                     <span>
                                                                         {{ $sous_categorie->getPost->count() }}
@@ -374,12 +335,16 @@
                                                 >
                                                 <a href="shop?id_categorie={{ $selected_categorie->id }}" class="color">
                                                     {{ $selected_categorie->titre }}
+                                                    @if ($selected_categorie->luxury == 1)
+                                                        <i class="bi bi-gem small color"></i>
+                                                    @endif
                                                 </a>
                                             @endif
                                             @if ($selected_sous_categorie)
                                                 >
                                                 <span class="text-back">
                                                     {{ $selected_sous_categorie->titre }}
+
                                                 </span>
                                             @endif
                                         </h6>
