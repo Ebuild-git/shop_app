@@ -62,8 +62,22 @@
                                             {{ $like->post->sous_categorie_info->categorie->titre }}
                                         </span>
                                     </td>
-                                    <td>
-                                        {{ $like->post->getPrix() }} DH
+                                    <td class="strong">
+                                        @if ($like->post->changements_prix->count())
+                                            <span class=" color">
+                                                <strike>
+                                                    {{ $like->post->getOldPrix() }}
+                                                </strike> DH
+                                            </span>
+                                            <br>
+                                            <span class="text-danger  ">
+                                                {{ $like->post->getPrix() }} DH
+                                            </span>
+                                        @else
+                                            <span class="ft-bold color ">
+                                                {{ $like->post->getPrix() }} DH
+                                            </span>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('user_profile', ['id' => $like->post->user_info->id]) }}"
@@ -72,7 +86,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ $like->post->getLike->count()}} j'aimes
+                                        {{ $like->post->getLike->count() }} j'aimes
                                         <i class="bi bi-heart-fill text-danger"></i>
                                     </td>
                                     <td class="text-end">
@@ -84,7 +98,7 @@
                                         </button>
                                     </td>
                                 </tr>
-                                @else
+                            @else
                                 @php
                                     //delete
                                     $like->delete();

@@ -130,7 +130,7 @@ class posts extends Model
     {
         if ($this->updated_price_at) {
             $updatedPriceDate = Carbon::parse($this->updated_price_at);
-            $expiryDate = $updatedPriceDate->addWeeks(2);
+            $expiryDate = $updatedPriceDate->addWeeks(1);
             $now = Carbon::now();
 
             // Calculer la différence en jours, heures et minutes

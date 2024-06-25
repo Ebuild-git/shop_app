@@ -21,7 +21,7 @@ class UpdatePrix extends Component
     {
         $this->reset();
         $post = posts::where('id', $id)
-        ->select("id","prix","old_prix","titre")
+        ->select("id","prix","old_prix","titre","id_sous_categorie")
         ->where('id_user', Auth::user()->id)
         ->first();
         if ($post) {

@@ -27,16 +27,16 @@
                     @if ($notifications->count() > 0)
                         <div class="text-end">
                             <button class="btn btn-sm btn-danger" onclick="delete_all_notification()">
-                                <i class="bi bi-x-lg " ></i>
+                                <i class="bi bi-x-lg "></i>
                                 Tout supprimer
                             </button>
                         </div>
                     @endif
                     <table>
                         @forelse ($notifications as $item)
-                            <tr class="border-bottom" id="tr-{{$item->id }}">
+                            <tr class="border-bottom" id="tr-{{ $item->id }}">
                                 <td style="width: 60px;" class="my-auto">
-                                    <img width="45" height="45" src="/icons/alarm--v1.png" alt="alarm--v1"/>
+                                    <img width="45" height="45" src="/icons/alarm--v1.png" alt="alarm--v1" />
                                 </td>
                                 <td>
                                     <h6>
@@ -52,18 +52,23 @@
                                     </h6>
                                     <i>{!! $item->message !!}</i>
                                     <div style="text-align: right">
-                                        <span class="small">
-                                           <span class="text-danger cusor" onclick="delete_notification({{ $item->id }})">
-                                            <i class="bi bi-x-lg text-danger" ></i> Supprimer
-                                           </span>
-                                            <i class="bi bi-app-indicator"></i>
-                                            il y'a de cela
-                                            {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
-                                        </span>
+                                        <div class="small">
+                                            <div>
+                                                <i class="bi bi-app-indicator"></i>
+                                                il y'a de cela
+                                                {{ \Carbon\Carbon::parse($item->created_at)->locale('fr')->diffForHumans() }}
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-sm -btn-danger"
+                                                    onclick="delete_notification({{ $item->id }})">
+                                                    <i class="bi bi-x-lg text-danger"></i> Supprimer
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr>
                         @empty

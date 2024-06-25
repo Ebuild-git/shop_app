@@ -62,7 +62,21 @@
                                     </span>
                                 </td>
                                 <td class="strong">
-                                    {{ $favoris->post->getPrix() }} DH
+                                    @if ($favoris->post->changements_prix->count())
+                                            <span class=" color">
+                                                <strike>
+                                                    {{ $favoris->post->getOldPrix() }}
+                                                </strike> DH
+                                            </span>
+                                            <br>
+                                            <span class="text-danger  ">
+                                                {{ $favoris->post->getPrix() }} DH
+                                            </span>
+                                        @else
+                                            <span class="ft-bold color ">
+                                                {{ $favoris->post->getPrix() }} DH
+                                            </span>
+                                        @endif
                                 </td>
                                 <td>
                                     <a href="{{ route('user_profile', ['id' => $favoris->post->user_info->id]) }}"

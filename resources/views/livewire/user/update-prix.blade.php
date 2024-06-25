@@ -3,6 +3,9 @@
         <form wire:submit='form_update_prix'>
             <b>Prix actuel :</b>
             {{ $old_price }} DH
+            (
+                + {{ $post->getPrix() - $old_price }} DH Frais de <b class="color">Shopin</b>
+            )
             <br><br>
             <label for="" class="strong color">
                 Annonce :
