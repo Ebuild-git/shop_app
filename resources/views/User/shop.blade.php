@@ -15,26 +15,28 @@
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
                             <div class="single_search_boxed">
-                                <div class="widget-boxed-header px-3 pt-3">
+                                <div class="widget-boxed-header ">
                                     @if ($selected_categorie)
-                                        <div class="bg-color p-1">
+                                        <div class="bg-color p-2">
                                             <a href="/shop" class="h6 text-white">
                                                 Toutes les catégories
                                             </a>
                                         </div>
-                                        <div class="p-1 strong">
+                                        <div class="strong">
                                             <a href="/shop" class="p-1 btn btn-sm">
                                                 <i class="bi bi-arrow-left"></i>
+                                                {{ $selected_categorie->titre }}
+                                                @if ($selected_categorie->luxury == 1)
+                                                    <i class="bi bi-gem small color"></i>
+                                                @endif
                                             </a>
-                                            {{ $selected_categorie->titre }}
-                                            @if ($selected_categorie->luxury == 1)
-                                                <i class="bi bi-gem small color"></i>
-                                            @endif
                                         </div>
                                     @else
-                                        <h4 class="color">
-                                            Categories
-                                        </h4>
+                                        <div class="bg-color p-2">
+                                            <div class="h6 text-white">
+                                                Categories
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="widget-boxed-body">
@@ -81,11 +83,13 @@
                                                             srcset="">
                                                     </div>
                                                     <div class="color p-1 strong">
-                                                        Tout les articles de
-                                                        {{ $selected_categorie->titre }}
-                                                        @if ($selected_categorie->luxury == 1)
-                                                            <i class="bi bi-gem small color"></i>
-                                                        @endif
+                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}">
+                                                            Tout les articles de
+                                                            {{ $selected_categorie->titre }}
+                                                            @if ($selected_categorie->luxury == 1)
+                                                                <i class="bi bi-gem small color"></i>
+                                                            @endif
+                                                        </a>
                                                     </div>
                                                     @if ($selected_sous_categorie)
                                                     @else
@@ -349,20 +353,18 @@
                                             @endif
                                         </h6>
                                     </div>
-
                                     <div>
-                                        <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
-                                            <a href="/">
-                                                <img src="/icons/logo.png" alt="" height="20">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <select name="" id="" class="form-control-sm">
-                                            <option value="">Du plus couteux au moins couteux</option>
-                                            <option value="">Du moins couteux au plus couteux</option>
+                                        <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
+                                            <option value="">Du plus chère au moins chère</option>
+                                            <option value="">Du moins chère au plus chère</option>
                                             <option value="">Soldé</option>
-                                            <option value="">Luxury uniquement</option>
+                                            @if ($selected_categorie)
+                                                @if ($selected_categorie->luxury == 0)
+                                                    <option value="">Luxury uniquement</option>
+                                                @endif
+                                            @else
+                                                <option value="">Luxury uniquement</option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
@@ -508,7 +510,7 @@
 
         function fetchProducts(page = 1) {
             $("#loading").show("show");
-            ancre();
+            //ancre();
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
@@ -536,6 +538,10 @@
         }
 
 
+        $("#filtre-ordre").on("change", function() {
+            let ordre = $(this).val();
+            alert(ordre);
+        });
 
 
 

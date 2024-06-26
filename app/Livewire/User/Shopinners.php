@@ -81,7 +81,7 @@ class Shopinners extends Component
             $user = pings::where('id_user', Auth::id())->where('pined', $id_user)->first();
             if ($user) {
                 $user->delete();
-                $this->dispatch('alert', ['message' => "Votre ping a été retiré !", 'type' => 'warning']);
+                $this->dispatch('alert', ['message' => "Epingle retiré !", 'type' => 'warning']);
             } else {
                 pings::firstOrCreate(
                     [
@@ -89,7 +89,11 @@ class Shopinners extends Component
                         'pined' => $id_user
                     ]
                 );
-                $this->dispatch('alert', ['message' => "Votre ping a été ajouté !", 'type' => 'success']);
+                $this->dispatch('alert', 
+                [
+                    'message' => "SHOPINER épinglé a votre TOPLISTE de SHOPINERS !",
+                     'type' => 'success'
+            ]);
             }
         }
     }

@@ -1,7 +1,7 @@
 @if ($post->statut == 'vente')
     @auth
         @if ($post->id_user != Auth::id())
-            <button type="button" class="btn btn-block bg-dark mb-2 p-3 " data-toggle="modal" data-target="#login"
+            <button type="button" class="btn btn-block bg-dark mb-2 p-3 " 
                 onclick="add_cart({{ $post->id }})">
                 <i class="lni lni-shopping-basket mr-2"></i>
                 Ajouter au panier

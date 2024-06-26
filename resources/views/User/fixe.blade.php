@@ -678,33 +678,43 @@
         <div class="rightMenu-scroll">
             <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
                 <h4 class="cart_heading fs-md ft-medium mb-0">
-                    Contenu du panier
+                    Mon panier
                 </h4>
                 <button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
             </div>
             <div class="right-ch-sideBar">
-                <div class="cart_select_items py-2">
+                <div class="cart_select_items py-2" id="cart_select_items">
                     <div>
                         <div id="Contenu-panier">
                         </div>
                         <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
-                            <h6 class="mb-0">
-                                Prix total
-                            </h6>
-                            <h3 class="mb-0 ft-medium color">
-                                <span id="montant-panier">0</span>
-                            </h3>
+                            <div>
+                                <span>
+                                    <span class="CountPanier-value strong">-</span>
+                                </span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">
+                                    Sous-total du panier
+                                </h6>
+                                <h6 class=" color">
+                                    <span id="montant-panier" class="strong">0</span>
+                                </h6>
+                            </div>
                         </div>
                     </div>
                     <div class="cart_action px-3 py-3">
                         <div class="form-group">
-                            <a href="/checkout">
-                                <button type="button" class="btn d-block full-width btn-dark">
-                                    Finaliser les achats
-                                </button>
+                            <a href="/checkout" class="btn d-block full-width btn-dark">
+                                Voir le panier
                             </a>
                         </div>
                     </div>
+                </div>
+                <div class="text-center p-3" id="empty-card-div">
+                    <b>
+                        Aucun article dans votre panier !
+                    </b>
                 </div>
             </div>
         </div>

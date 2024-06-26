@@ -292,7 +292,7 @@ class HomeController extends Controller
                     </div>
                     <div class="fls_last">
                         <button class="close_slide gray" type="button" onclick="remove_to_card(' . $produit->id . ')">
-                            <i class="ti-close"></i>
+                            <i class="ti-trash text-danger"></i>
                         </button>
                     </div>
                 </div>';

@@ -65,6 +65,21 @@ function CountPanier() {
             $("#CountPanier-value").text(data.count);
             $("#Contenu-panier").html(data.html);
             $("#montant-panier").text(data.montant);
+
+            if(data.count > 1){
+                $(".CountPanier-value").text(data.count + " articles");
+            }else{
+                $(".CountPanier-value").text(data.count + " article");
+            }
+
+            if (data.count > 0) {
+                $("#empty-card-div").hide();
+                $("#cart_select_items").show();
+            } else {
+                //si il ya aucun element dans le panier on cache les options
+                $("#cart_select_items").hide();
+                $("#empty-card-div").show();
+            }
         }
     });
 }
@@ -78,17 +93,29 @@ function CountNotification() {
 }
 
 function remove_to_card(id) {
-    $.get(
-        "/remove_to_card",
-        {
-            id: id,
-        },
-        function (data, status) {
-            if (status) {
-                CountPanier();
-            }
+    Swal.fire({
+        title: "Es-tu sûr?",
+        text: "Voulez vous rttiré ceci de votre panier ?",
+        showCancelButton: true,
+        confirmButtonColor: "#008080",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Valider ",
+        cancelButtonText: "Annuler ",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.get(
+                "/remove_to_card",
+                {
+                    id: id,
+                },
+                function (data, status) {
+                    if (status) {
+                        CountPanier();
+                    }
+                }
+            );
         }
-    );
+    });
 }
 
 function add_cart(id) {
@@ -374,9 +401,10 @@ function delete_all_notification() {
         .then((result) => {
             if (result.isConfirmed) {
                 //go to url
-                window.location.href="/delete/all_notifications";
-            } {
-                result.dismiss === Swal.DismissReason.cancel
+                window.location.href = "/delete/all_notifications";
+            }
+            {
+                result.dismiss === Swal.DismissReason.cancel;
             }
         });
 }

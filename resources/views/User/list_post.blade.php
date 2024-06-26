@@ -25,8 +25,10 @@
 
     <div class="container">
         <div class="p-3 row">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6">
+            <div class="col-sm-4 my-auto">
+                <b>Total :</b> {{ $posts->count() }}
+            </div>
+            <div class="col-sm-8">
                 <form method="POST" action="{{ route('post.mes-post') }}">
                     <div class="input-group mb-3">
                         @csrf
