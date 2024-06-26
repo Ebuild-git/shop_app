@@ -683,6 +683,7 @@
                 <button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
             </div>
             <div class="right-ch-sideBar">
+                @auth
                 <div class="cart_select_items py-2" id="cart_select_items">
                     <div>
                         <div id="Contenu-panier">
@@ -711,6 +712,7 @@
                         </div>
                     </div>
                 </div>
+                @endauth
                 <div class="text-center p-3" id="empty-card-div">
                     <b>
                         Aucun article dans votre panier !
