@@ -1094,8 +1094,18 @@ input[type="month"]:active::before {
     color: white!important;
 }
 
-
-
+.cart_selected_single_thumb{
+    height: 70px;
+    width: 70px;
+    overflow: hidden;
+    border-radius: 10px ;
+    border:solid 1px #018d8d;
+}
+.cart_selected_single_thumb img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
 
 
 

@@ -5,9 +5,19 @@
 
     <br>
 
-    <section class="middle" id="ancre">
 
+    <section class="middle" id="ancre">
         <div class="container">
+
+
+            @if ($key)
+                <h5>
+                    <b>
+                        Résultat de recherche pour : '{{ $key }}'
+                    </b>
+                </h5>
+            @endif
+
             <div class="row">
 
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
@@ -56,7 +66,7 @@
                                                                         src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
-                                                                <span >
+                                                                <span>
                                                                     {{ $categorie->titre }}
                                                                 </span>
                                                             </div>
@@ -85,7 +95,8 @@
                                                             srcset="">
                                                     </div>
                                                     <div class="color p-1 ">
-                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="color">
+                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}"
+                                                            class="color">
                                                             Tout les articles de
                                                             {{ $selected_categorie->titre }}
                                                             @if ($selected_categorie->luxury == 1)
@@ -588,10 +599,12 @@
             padding: 0px 10px 0px 10px;
             border-radius: 5px;
         }
-        .pagination li:hover{
+
+        .pagination li:hover {
             background-color: #008080;
             color: white;
         }
+
         .pagination .active {
             font-weight: bold;
             background-color: #008080;

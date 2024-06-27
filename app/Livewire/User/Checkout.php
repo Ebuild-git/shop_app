@@ -26,7 +26,7 @@ class Checkout extends Component
         foreach ($cart as $item) {
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-                ->select("categories.pourcentage_gain", "posts.prix","posts.id_user","posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos")
+                ->select("categories.pourcentage_gain", "posts.prix","posts.id_user","posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
                 ->where("posts.id", $item)
                 ->first();
             if ($post) {
@@ -36,6 +36,8 @@ class Checkout extends Component
                     "prix" => $post->getPrix(),
                     "photo" => $post->photos[0],
                     "vendeur" => $post->user_info->username,
+                    "is_solder" => $post->old_prix ? true : false,
+                    "old_prix" => $post->old_prix
                 ];
                 $total += round($post->getPrix(), 3);
                 $nbre_article++;

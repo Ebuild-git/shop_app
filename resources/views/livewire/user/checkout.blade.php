@@ -27,12 +27,17 @@
                                             Livraison entre le x et le y
                                         </b>
                                     </div>
-                                    <div>
-                                        
-                                        <b class="h5 strong">
+                                    <div class="text-end">
+                                        <b class="h6 strong">
                                             <strong class="color">
                                                 {{ $item['prix'] }} DH
                                             </strong>
+                                            @if ($item['is_solder'])
+                                            <br>
+                                                <strike class="text-danger small">
+                                                    {{ $item['old_prix'] }} DH
+                                                </strike>
+                                            @endif
                                         </b>
                                     </div>
                                 </div>

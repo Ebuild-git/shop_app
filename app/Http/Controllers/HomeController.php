@@ -34,8 +34,8 @@ class HomeController extends Controller
             ->where('categories.luxury', false)
             ->whereNull('posts.sell_at')
             ->select("posts.id", "posts.photos")
-            ->Orderby("posts.created_at","Desc")
-            ->Orderby("posts.updated_price_at","Desc")
+            ->Orderby("posts.created_at", "Desc")
+            ->Orderby("posts.updated_price_at", "Desc")
             ->take(12)
             ->get();
 
@@ -276,10 +276,8 @@ class HomeController extends Controller
                 $html .= '<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
-                            <a href="#">
-                                <img src="' . Storage::url($produit->photos[0] ?? '') . '" width="60" class="img-fluid"
+                                <img src="' . Storage::url($produit->photos[0] ?? '') . '" class="img-fluid"
                                     alt="" />
-                            </a>
                         </div>
                         <div class="cart_single_caption pl-2">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1">
@@ -513,7 +511,7 @@ class HomeController extends Controller
     public function index_mes_achats(Request $request)
     {
         $date = $request->input('date' ?? null);
-        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos","id_sous_categorie",'id_user','statut', "prix", "sell_at", "id");
+        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
         if (!empty($date)) {
             $Query->whereDate('sell_at', $date);
         }
@@ -570,17 +568,17 @@ class HomeController extends Controller
         */
         $id_selected_categorie = $request->get("id_categorie") ?? null;
         $id_selected_sous_categorie = $request->get("selected_sous_categorie") ?? null;
-        if($id_selected_categorie){
-            $selected_categorie = categories::where('id',$id_selected_categorie)
-            ->select("titre", "id", "luxury", "small_icon","icon")
-            ->first();
+        if ($id_selected_categorie) {
+            $selected_categorie = categories::where('id', $id_selected_categorie)
+                ->select("titre", "id", "luxury", "small_icon", "icon")
+                ->first();
         }
-        if($id_selected_sous_categorie){
+        if ($id_selected_sous_categorie) {
             $selected_sous_categorie = sous_categories::find($id_selected_sous_categorie);
         }
-        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon","icon"]);
+        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon", "icon"]);
         $key = $request->input("key" ?? null);
-        
+
         $regions = regions::all();
 
         $luxury_only = $request->get('luxury_only');
@@ -595,8 +593,8 @@ class HomeController extends Controller
             ->with("key", $key)
             ->with("luxury_only", $luxury_only)
             ->with('liste_categories', $liste_categories)
-            ->with("selected_categorie",$selected_categorie ?? null)
-            ->with('selected_sous_categorie',$selected_sous_categorie ?? null)
+            ->with("selected_categorie", $selected_categorie ?? null)
+            ->with('selected_sous_categorie', $selected_sous_categorie ?? null)
             ->with('regions', $regions);
     }
 
