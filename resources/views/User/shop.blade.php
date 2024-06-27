@@ -134,15 +134,15 @@
 
                             <div>
                                 @if ($selected_sous_categorie)
-                                
+
                                     @foreach ($selected_sous_categorie->proprietes as $id_propriete)
                                         @php
                                             $propriete = DB::table('proprietes')->find($id_propriete);
                                         @endphp
                                         @if ($propriete)
-                                        <div class="container mb-2">
-                                            <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
-                                        </div>
+                                            <div class="container mb-2">
+                                                <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
+                                            </div>
                                             <!-- Single Option -->
                                             <div class="single_search_boxed">
                                                 <div class="widget-boxed-header">
@@ -420,24 +420,27 @@
         var proprietes = "";
         var options = [];
         show_selected_options();
-        
+
 
         //afficher les options selectionner qui sont dans options dans la div Selected_options
         function show_selected_options() {
             var selected_options_div = document.getElementById("Selected_options");
-            selected_options_div.innerHTML ="";
-            options.forEach((element, index) => {
-                selected_options_div.innerHTML += "<div onclick='remove_selected_option("+index+")'>"+element+" <i class='ti-close small text-danger'></i> </div>";
-            });
+            if (options.length > 0) {
+                selected_options_div.innerHTML = "";
+                options.forEach((element, index) => {
+                    selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
+                        element + " <i class='ti-close small text-danger'></i> </div>";
+                });
+            }
         }
 
 
-        function remove_selected_option(index){
+        function remove_selected_option(index) {
             options.splice(index, 1);
             show_selected_options();
         }
 
-        function add_selected_option(element){
+        function add_selected_option(element) {
             options.push(element);
             show_selected_options();
         }
@@ -579,20 +582,20 @@
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();
 
-            if(ordre == "prix_asc"){
+            if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
                 fetchProducts();
             }
-            if(ordre == "prix_desc"){
+            if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
                 fetchProducts();
             }
-            if(ordre == "soldé"){
+            if (ordre == "soldé") {
                 ordre_prix = "Soldé";
                 add_selected_option("Soldé");
                 fetchProducts();
             }
-            if(ordre == "luxury"){
+            if (ordre == "luxury") {
                 check_luxury_only = "true";
                 fetchProducts();
             }
