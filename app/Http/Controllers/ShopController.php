@@ -51,9 +51,9 @@ class ShopController extends Controller
 
         if ($ordre_prix) {
             if ($ordre_prix == "Desc") {
-                $query->orderBy('prix', 'desc');
+                $query->orderBy('prix', 'Desc');
             } elseif ($ordre_prix == "Asc") {
-                $query->orderBy('prix', 'asc');
+                $query->orderBy('prix', 'Asc');
             } elseif ($ordre_prix == "Soldé") {
                 $query->whereHas('changements_prix', function ($q) {
                     $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
