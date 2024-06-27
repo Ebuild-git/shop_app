@@ -30,7 +30,6 @@ class ShopController extends Controller
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
         $query = posts::whereNotNull('verified_at')
-            ->orderby("id", "Desc")
             ->whereNull('sell_at')
             ->where('statut', 'vente');
 
@@ -52,9 +51,9 @@ class ShopController extends Controller
 
         if ($ordre_prix) {
             if ($ordre_prix == "Desc") {
-                $query->orderBy('prix', 'DESC');
+                $query->orderBy('prix', 'desc');
             } elseif ($ordre_prix == "Asc") {
-                $query->orderBy('prix', 'ASC');
+                $query->orderBy('prix', 'asc');
             } elseif ($ordre_prix == "Soldé") {
                 $query->whereHas('changements_prix', function ($q) {
                     $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
