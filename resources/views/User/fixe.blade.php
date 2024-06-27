@@ -680,38 +680,44 @@
                 <h4 class="cart_heading fs-md ft-medium mb-0">
                     Mon panier
                 </h4>
-                <button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
+                <button onclick="closeCart()" class="close_slide">
+                    <i class="ti-close"></i>
+                </button>
             </div>
             <div class="right-ch-sideBar">
                 @auth
-                <div class="cart_select_items py-2" id="cart_select_items">
-                    <div>
-                        <div id="Contenu-panier">
+                    <div class="container">
+                        <div class="alert bg-red" style="display: none;" id="div-success-add-card">
                         </div>
-                        <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
-                            <div>
-                                <span>
-                                    <span class="CountPanier-value strong">-</span>
-                                </span>
+                    </div>
+                    <div class="cart_select_items py-2" id="cart_select_items">
+                        <div>
+                            <div id="Contenu-panier">
                             </div>
-                            <div>
-                                <h6 class="mb-0">
-                                    Sous-total du panier
-                                </h6>
-                                <h6 class=" color">
-                                    <span id="montant-panier" class="strong">0</span>
-                                </h6>
+                            <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
+                                <div>
+                                    <span>
+                                        <span class="CountPanier-value strong">-</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">
+                                        Sous-total du panier
+                                    </h6>
+                                    <h6 class=" color">
+                                        <span id="montant-panier" class="strong">0</span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart_action px-3 py-3">
+                            <div class="form-group">
+                                <a href="/checkout" class="btn d-block full-width btn-dark">
+                                    Voir le panier
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="cart_action px-3 py-3">
-                        <div class="form-group">
-                            <a href="/checkout" class="btn d-block full-width btn-dark">
-                                Voir le panier
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 @endauth
                 <div class="text-center p-3" id="empty-card-div">
                     <b>

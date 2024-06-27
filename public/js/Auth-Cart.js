@@ -8,6 +8,7 @@ function Update_post_price(id) {
 CountPanier();
 CountNotification();
 
+
 // Ecoute des notificaions en live
 Pusher.logToConsole = false;
 
@@ -60,6 +61,7 @@ function delete_my_post(id) {
 }
 
 function CountPanier() {
+   
     $.get("/count_panier", function (data, status) {
         if (status === "success") {
             $("#CountPanier-value").text(data.count);
@@ -133,9 +135,15 @@ function add_cart(id) {
                     text: data.message,
                     showConfirmButton: false,
                     timer: 2500,
-                    customClass: "swal-wide",
                 });
                 Livewire.dispatch("PostAdded");
+                document.getElementById("Cart").style.display = "block";
+                // affichier le message de success ajouter pour 10 secondes
+                $("#div-success-add-card").show("slow");
+                $("#div-success-add-card").html("L'article a été ajouté a votre panier !");
+                setTimeout(function () {
+                    $("#div-success-add-card").hide("slow");
+                }, 7000);
             }
         }
     );
