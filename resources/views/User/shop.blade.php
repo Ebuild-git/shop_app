@@ -13,7 +13,7 @@
             @if ($key)
                 <h5>
                     <b>
-                        Résultat de recherche pour : '{{ $key }}'
+                        Résultats de recherche pour : '{{ $key }}'
                     </b>
                 </h5>
             @endif
@@ -369,11 +369,11 @@
                                     <div>
                                         <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
                                             <option value="">Trier par</option>
-                                            <option value="">Du moins chère au plus chère</option>
-                                            <option value="">Du plus chère au moins chère</option>
-                                            <option value="">Articles Soldés</option>
+                                            <option value="prix_asc">Du moins chère au plus chère</option>
+                                            <option value="prix_desc">Du plus chère au moins chère</option>
+                                            <option value="soldé">Articles Soldés</option>
                                             @if (!$selected_categorie)
-                                                <option value="">Luxury uniquement</option>
+                                                <option value="luxury">Luxury uniquement</option>
                                             @endif
                                         </select>
                                     </div>
@@ -550,7 +550,23 @@
 
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();
-            alert(ordre);
+
+            if(ordre == "prix_asc"){
+                ordre_prix = "Asc";
+                fetchProducts();
+            }
+            if(ordre == "prix_desc"){
+                ordre_prix = "Desc";
+                fetchProducts();
+            }
+            if(ordre == "soldé"){
+                ordre_prix = "Soldé";
+                fetchProducts();
+            }
+            if(ordre == "luxury"){
+                check_luxury_only = "true";
+                fetchProducts();
+            }
         });
 
 
