@@ -283,14 +283,14 @@ class HomeController extends Controller
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1">
                             ' . $produit->titre . '
                             </h4>
-                            <div class="text-muted small">
+                            <div class="text-muted ">
                             Vendeur : '.$produit->user_info->username.'
                             </div>
                         </div>
-                    </div>
-                    <div class="fs-md ft-medium mb-0 lh-1 color">
+                         <div class="fs-md ft-medium mb-0 lh-1 color">
                             ' . $produit->getPrix() . ' DH
                             </div>
+                    </div>
                     <div class="fls_last">
                         <button class="close_slide gray" type="button" onclick="remove_to_card(' . $produit->id . ')">
                             <i class="ti-trash text-danger"></i>
