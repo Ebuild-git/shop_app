@@ -89,21 +89,23 @@
                                             @endif
                                             <div>
                                                 @if ($selected_categorie)
-                                                    <div class="card card-image-shop-categorie">
-                                                        <img src="{{ Storage::url($selected_categorie->icon) }}"
-                                                            alt="{{ $selected_categorie->icon }}" class="w-100"
-                                                            srcset="">
-                                                    </div>
-                                                    <div class="color p-1 ">
-                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}"
-                                                            class="color">
-                                                            Tout les articles de
-                                                            {{ $selected_categorie->titre }}
-                                                            @if ($selected_categorie->luxury == 1)
-                                                                <i class="bi bi-gem small color"></i>
-                                                            @endif
-                                                        </a>
-                                                    </div>
+                                                    @if (!$selected_sous_categorie)
+                                                        <div class="card card-image-shop-categorie">
+                                                            <img src="{{ Storage::url($selected_categorie->icon) }}"
+                                                                alt="{{ $selected_categorie->icon }}" class="w-100"
+                                                                srcset="">
+                                                        </div>
+                                                        <div class="color p-1 ">
+                                                            <a href="/shop?id_categorie={{ $selected_categorie->id }}"
+                                                                class="color">
+                                                                Tout les articles de
+                                                                {{ $selected_categorie->titre }}
+                                                                @if ($selected_categorie->luxury == 1)
+                                                                    <i class="bi bi-gem small color"></i>
+                                                                @endif
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                                     @if ($selected_sous_categorie)
                                                     @else
                                                         <hr>
@@ -419,7 +421,10 @@
         var ordre_prix = "";
         var proprietes = "";
         var options = [];
-        show_selected_options();
+
+        if (options.length > 0) {
+            show_selected_options();
+        }
 
 
         //afficher les options selectionner qui sont dans options dans la div Selected_options
@@ -431,208 +436,206 @@
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         element + " <i class='ti-close small text-danger'></i> </div>";
                 });
-            }else{
-                selected_options_div.innerHTML = "";
             }
         }
 
 
-        function remove_selected_option(index) {
-            options.splice(index, 1);
-            show_selected_options();
-        }
+            function remove_selected_option(index) {
+                options.splice(index, 1);
+                show_selected_options();
+            }
 
-        function add_selected_option(element) {
-            options.push(element);
-            show_selected_options();
-        }
+            function add_selected_option(element) {
+                options.push(element);
+                show_selected_options();
+            }
 
-        $(document).ready(function() {
-            // Faire la requête initiale au chargement de la page
-            fetchProducts();
-
-            // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
-            $('.key-input').on('input', function() {
-                key = $('#key').val();
+            $(document).ready(function() {
+                // Faire la requête initiale au chargement de la page
                 fetchProducts();
+
+                // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
+                $('.key-input').on('input', function() {
+                    key = $('#key').val();
+                    fetchProducts();
+                });
             });
-        });
 
-        function ancre() {
-            $('html,body').animate({
-                scrollTop: $("#ancre").offset().top
-            }, 'slow');
-        }
-
-        function choix_ordre_prix(checkbox) {
-            var checkboxes = document.getElementsByName('ordre_prix');
-            checkboxes.forEach(function(cb) {
-                if (cb !== checkbox) {
-                    cb.checked = false;
-                }
-            });
-            _ordre_prix = checkbox.value;
-            if (_ordre_prix == ordre_prix) {
-                ordre_prix = "";
-            } else {
-                ordre_prix = _ordre_prix;
-            }
-            fetchProducts();
-        }
-
-        function check_luxury() {
-            check_luxury_only = "true";
-            fetchProducts();
-        }
-
-        function select_region(checkbox) {
-            var checkboxes = document.getElementsByName('region');
-            checkboxes.forEach(function(cb) {
-                if (cb !== checkbox) {
-                    cb.checked = false;
-                }
-            });
-            _region = checkbox.value;
-            if (_region == region) {
-                region = "";
-            } else {
-                region = _region;
-            }
-            fetchProducts();
-        }
-
-        function choix_etat(checkbox) {
-            var checkboxes = document.getElementsByName('etat');
-            checkboxes.forEach(function(cb) {
-                if (cb !== checkbox) {
-                    cb.checked = false;
-                }
-            });
-            _etat = checkbox.value;
-            if (_etat == etat) {
-                etat = "";
-            } else {
-                etat = _etat;
-            }
-            fetchProducts();
-        }
-
-        function select_sous_categorie(id) {
-            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
-            sous_categorie = id;
-            fetchProducts();
-        }
-
-        function filtre_propriete(type, nom) {
-            add_selected_option(nom);
-            var button = $("#btn-option-" + nom);
-
-            if (button.hasClass("bg-red")) {
-                button.removeClass("bg-red");
-                proprietes = '';
-            } else {
-                $("button[id^='btn-option-']").removeClass("bg-red");
-                button.addClass("bg-red");
-                _proprietes = {
-                    type: type,
-                    valeur: nom
-                };
-                proprietes = JSON.stringify(_proprietes);
+            function ancre() {
+                $('html,body').animate({
+                    scrollTop: $("#ancre").offset().top
+                }, 'slow');
             }
 
-            fetchProducts();
-        }
-
-
-        function select_categorie(id) {
-            categorie = id;
-            sous_categorie = "";
-            window.location.href = "/shop?id_categorie=" + id;
-            fetchProducts();
-        }
-
-        function fetchProducts(page = 1) {
-            $("#loading").show("show");
-            //ancre();
-            $.post(
-                "/recherche?page=" + page, {
-                    etat: etat,
-                    key: key,
-                    region: region,
-                    ordre_prix: ordre_prix,
-                    check_luxury: check_luxury_only,
-                    categorie: categorie,
-                    proprietes: proprietes,
-                    sous_categorie: sous_categorie,
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                }, // Passer la valeur de la recherche comme paramètre
-                function(data, status) {
-                    if (status === "success") {
-                        $(".rows-products").empty();
-                        $("#SugestionProprietes").empty();
-                        $(".rows-products").html(data.html);
-                        $("#total_post").text(data.total);
-                        renderPagination(data.data);
-                        $("#total_show_post").text(data.count_resultat);
-                        $("#loading").hide("show");
+            function choix_ordre_prix(checkbox) {
+                var checkboxes = document.getElementsByName('ordre_prix');
+                checkboxes.forEach(function(cb) {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
                     }
+                });
+                _ordre_prix = checkbox.value;
+                if (_ordre_prix == ordre_prix) {
+                    ordre_prix = "";
+                } else {
+                    ordre_prix = _ordre_prix;
                 }
-            );
-        }
-
-
-        $("#filtre-ordre").on("change", function() {
-            let ordre = $(this).val();
-
-            if (ordre == "prix_asc") {
-                ordre_prix = "Asc";
                 fetchProducts();
             }
-            if (ordre == "prix_desc") {
-                ordre_prix = "Desc";
-                fetchProducts();
-            }
-            if (ordre == "soldé") {
-                ordre_prix = "Soldé";
-                add_selected_option("Soldé");
-                fetchProducts();
-            }
-            if (ordre == "luxury") {
+
+            function check_luxury() {
                 check_luxury_only = "true";
                 fetchProducts();
             }
-        });
 
-
-
-        function renderPagination(data) {
-            const paginationControls = $('#pagination-controls');
-            paginationControls.empty();
-
-            //lancer la pagination uniquement si on a minimun un article
-            if (data.data.length > 0) {
-                if (data.current_page > 1) {
-                    paginationControls.append('<li data-page="' + (data.current_page - 1) + '">Précédent</li>');
+            function select_region(checkbox) {
+                var checkboxes = document.getElementsByName('region');
+                checkboxes.forEach(function(cb) {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+                _region = checkbox.value;
+                if (_region == region) {
+                    region = "";
+                } else {
+                    region = _region;
                 }
-
-                for (let i = 1; i <= data.last_page; i++) {
-                    const activeClass = data.current_page === i ? 'active' : '';
-                    paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
-                }
-
-                if (data.current_page < data.last_page) {
-                    paginationControls.append('<li data-page="' + (data.current_page + 1) + '">Suivant</li>');
-                }
+                fetchProducts();
             }
 
-        }
+            function choix_etat(checkbox) {
+                var checkboxes = document.getElementsByName('etat');
+                checkboxes.forEach(function(cb) {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+                _etat = checkbox.value;
+                if (_etat == etat) {
+                    etat = "";
+                } else {
+                    etat = _etat;
+                }
+                fetchProducts();
+            }
+
+            function select_sous_categorie(id) {
+                window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+                sous_categorie = id;
+                fetchProducts();
+            }
+
+            function filtre_propriete(type, nom) {
+                add_selected_option(nom);
+                var button = $("#btn-option-" + nom);
+
+                if (button.hasClass("bg-red")) {
+                    button.removeClass("bg-red");
+                    proprietes = '';
+                } else {
+                    $("button[id^='btn-option-']").removeClass("bg-red");
+                    button.addClass("bg-red");
+                    _proprietes = {
+                        type: type,
+                        valeur: nom
+                    };
+                    proprietes = JSON.stringify(_proprietes);
+                }
+
+                fetchProducts();
+            }
+
+
+            function select_categorie(id) {
+                categorie = id;
+                sous_categorie = "";
+                window.location.href = "/shop?id_categorie=" + id;
+                fetchProducts();
+            }
+
+            function fetchProducts(page = 1) {
+                $("#loading").show("show");
+                //ancre();
+                $.post(
+                    "/recherche?page=" + page, {
+                        etat: etat,
+                        key: key,
+                        region: region,
+                        ordre_prix: ordre_prix,
+                        check_luxury: check_luxury_only,
+                        categorie: categorie,
+                        proprietes: proprietes,
+                        sous_categorie: sous_categorie,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    }, // Passer la valeur de la recherche comme paramètre
+                    function(data, status) {
+                        if (status === "success") {
+                            $(".rows-products").empty();
+                            $("#SugestionProprietes").empty();
+                            $(".rows-products").html(data.html);
+                            $("#total_post").text(data.total);
+                            renderPagination(data.data);
+                            $("#total_show_post").text(data.count_resultat);
+                            $("#loading").hide("show");
+                        }
+                    }
+                );
+            }
+
+
+            $("#filtre-ordre").on("change", function() {
+                let ordre = $(this).val();
+
+                if (ordre == "prix_asc") {
+                    ordre_prix = "Asc";
+                    fetchProducts();
+                }
+                if (ordre == "prix_desc") {
+                    ordre_prix = "Desc";
+                    fetchProducts();
+                }
+                if (ordre == "soldé") {
+                    ordre_prix = "Soldé";
+                    add_selected_option("Soldé");
+                    fetchProducts();
+                }
+                if (ordre == "luxury") {
+                    check_luxury_only = "true";
+                    fetchProducts();
+                }
+            });
 
 
 
-        $(document).on('click', '.pagination li', function() {
-            const page = $(this).data('page');
-            fetchProducts(page);
-        });
+            function renderPagination(data) {
+                const paginationControls = $('#pagination-controls');
+                paginationControls.empty();
+
+                //lancer la pagination uniquement si on a minimun un article
+                if (data.data.length > 0) {
+                    if (data.current_page > 1) {
+                        paginationControls.append('<li data-page="' + (data.current_page - 1) + '">Précédent</li>');
+                    }
+
+                    for (let i = 1; i <= data.last_page; i++) {
+                        const activeClass = data.current_page === i ? 'active' : '';
+                        paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+                    }
+
+                    if (data.current_page < data.last_page) {
+                        paginationControls.append('<li data-page="' + (data.current_page + 1) + '">Suivant</li>');
+                    }
+                }
+
+            }
+
+
+
+            $(document).on('click', '.pagination li', function() {
+                const page = $(this).data('page');
+                fetchProducts(page);
+            });
     </script>
 
 
