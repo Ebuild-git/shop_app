@@ -431,6 +431,8 @@
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         element + " <i class='ti-close small text-danger'></i> </div>";
                 });
+            }else{
+                selected_options_div.innerHTML = "";
             }
         }
 
