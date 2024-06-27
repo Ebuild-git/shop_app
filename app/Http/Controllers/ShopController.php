@@ -59,6 +59,8 @@ class ShopController extends Controller
                     $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
                 });
             }
+        }else{
+            $query->orderBy('id', 'Desc');
         }
 
 
