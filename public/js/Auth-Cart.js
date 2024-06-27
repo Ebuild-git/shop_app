@@ -95,7 +95,7 @@ function CountNotification() {
 function remove_to_card(id) {
     Swal.fire({
         title: "Es-tu sûr?",
-        text: "Voulez vous rttiré ceci de votre panier ?",
+        text: "Voulez vous réttiré ceci de votre panier ?",
         showCancelButton: true,
         confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",

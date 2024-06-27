@@ -19,13 +19,15 @@
                                     @if ($selected_categorie)
                                         <div class="bg-color p-2">
                                             <a href="/shop" class="h6 text-white">
-                                                Toutes les catégories
+                                                Catégories
                                             </a>
                                         </div>
                                         <div class="strong">
-                                            <a href="/shop" class="p-1 btn btn-sm">
+                                            <a href="/shop" class="p-1 btn ">
                                                 <i class="bi bi-arrow-left"></i>
-                                                {{ $selected_categorie->titre }}
+                                                <span class="strong">
+                                                    {{ $selected_categorie->titre }}
+                                                </span>
                                                 @if ($selected_categorie->luxury == 1)
                                                     <i class="bi bi-gem small color"></i>
                                                 @endif
@@ -34,7 +36,7 @@
                                     @else
                                         <div class="bg-color p-2">
                                             <div class="h6 text-white">
-                                                Categories
+                                                Catégories
                                             </div>
                                         </div>
                                     @endif
@@ -54,7 +56,7 @@
                                                                         src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
-                                                                <span class="small">
+                                                                <span >
                                                                     {{ $categorie->titre }}
                                                                 </span>
                                                             </div>
@@ -82,8 +84,8 @@
                                                             alt="{{ $selected_categorie->icon }}" class="w-100"
                                                             srcset="">
                                                     </div>
-                                                    <div class="color p-1 strong">
-                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}">
+                                                    <div class="color p-1 ">
+                                                        <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="color">
                                                             Tout les articles de
                                                             {{ $selected_categorie->titre }}
                                                             @if ($selected_categorie->luxury == 1)
@@ -355,14 +357,11 @@
                                     </div>
                                     <div>
                                         <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
-                                            <option value="">Du plus chère au moins chère</option>
+                                            <option value="">Trier par</option>
                                             <option value="">Du moins chère au plus chère</option>
-                                            <option value="">Soldé</option>
-                                            @if ($selected_categorie)
-                                                @if ($selected_categorie->luxury == 0)
-                                                    <option value="">Luxury uniquement</option>
-                                                @endif
-                                            @else
+                                            <option value="">Du plus chère au moins chère</option>
+                                            <option value="">Articles Soldés</option>
+                                            @if (!$selected_categorie)
                                                 <option value="">Luxury uniquement</option>
                                             @endif
                                         </select>
@@ -397,7 +396,7 @@
     <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
-        var key = $("#key").val();
+        var key = "{{ $key ?? '' }}";
         var categorie = {{ $selected_categorie->id ?? 'null' }};
         var sous_categorie = {{ $selected_sous_categorie->id ?? 'null' }};
         var region = "";
@@ -589,7 +588,10 @@
             padding: 0px 10px 0px 10px;
             border-radius: 5px;
         }
-
+        .pagination li:hover{
+            background-color: #008080;
+            color: white;
+        }
         .pagination .active {
             font-weight: bold;
             background-color: #008080;
