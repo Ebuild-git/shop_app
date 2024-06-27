@@ -24,7 +24,7 @@
                     <div class="search-sidebar sm-sidebar border">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
-                            <div class="single_search_boxed">
+                            <div class="single_search_boxed ">
                                 <div class="widget-boxed-header ">
                                     @if ($selected_categorie)
                                         <div class="bg-color p-2">
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="widget-boxed-body">
                                     <div class="side-list no-border">
-                                        <div class="filter-card" id="shop-categories">
+                                        <div class="filter-card " id="shop-categories">
                                             @if (!$selected_categorie)
                                                 @foreach ($liste_categories as $categorie)
                                                     <!-- Single Filter Card categorie -->
@@ -134,11 +134,15 @@
 
                             <div>
                                 @if ($selected_sous_categorie)
+                                
                                     @foreach ($selected_sous_categorie->proprietes as $id_propriete)
                                         @php
                                             $propriete = DB::table('proprietes')->find($id_propriete);
                                         @endphp
                                         @if ($propriete)
+                                        <div class="container mb-2">
+                                            <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
+                                        </div>
                                             <!-- Single Option -->
                                             <div class="single_search_boxed">
                                                 <div class="widget-boxed-header">
@@ -414,6 +418,29 @@
         var etat = "";
         var ordre_prix = "";
         var proprietes = "";
+        var options = [];
+        show_selected_options();
+        
+
+        //afficher les options selectionner qui sont dans options dans la div Selected_options
+        function show_selected_options() {
+            var selected_options_div = document.getElementById("Selected_options");
+            selected_options_div.innerHTML ="";
+            options.forEach((element, index) => {
+                selected_options_div.innerHTML += "<div onclick='remove_selected_option("+index+")'>"+element+" <i class='ti-close small text-danger'></i> </div>";
+            });
+        }
+
+
+        function remove_selected_option(index){
+            options.splice(index, 1);
+            show_selected_options();
+        }
+
+        function add_selected_option(element){
+            options.push(element);
+            show_selected_options();
+        }
 
         $(document).ready(function() {
             // Faire la requête initiale au chargement de la page
@@ -492,6 +519,7 @@
         }
 
         function filtre_propriete(type, nom) {
+            add_selected_option(nom);
             var button = $("#btn-option-" + nom);
 
             if (button.hasClass("bg-red")) {
@@ -561,6 +589,7 @@
             }
             if(ordre == "soldé"){
                 ordre_prix = "Soldé";
+                add_selected_option("Soldé");
                 fetchProducts();
             }
             if(ordre == "luxury"){

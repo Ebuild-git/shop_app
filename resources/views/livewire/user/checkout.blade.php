@@ -63,7 +63,7 @@
                     <td>
                         Total des articles :
                     </td>
-                    <td>
+                    <td class="text-end">
                         {{ count($articles_panier) }}
                     </td>
                 </tr>
@@ -71,7 +71,7 @@
                     <td>
                         <b>Sous-total</b>
                     </td>
-                    <td>
+                    <td class="text-end">
                         {{ $total }} DH
                     </td>
                 </tr>
@@ -79,7 +79,7 @@
                     <td>
                         <b class="color">TOTAL</b>
                     </td>
-                    <td>
+                    <td class="text-end">
                         <b class="color">
                             {{ $total }} DH
                         </b>
