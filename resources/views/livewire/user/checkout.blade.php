@@ -4,7 +4,7 @@
             <div class="cart-checkout p-2 card">
                 <br>
                 @forelse ($articles_panier as $item)
-                    <div class="card p-1 mb-1">
+                    <div class="card p-1 mb-2">
                         <div class="d-flex align-items-center">
                             <div class="card-img-checkout flex-shrink-0">
                                 <img src="{{ Storage::url($item['photo']) }}" alt="..." >

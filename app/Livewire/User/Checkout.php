@@ -37,7 +37,7 @@ class Checkout extends Component
                     "photo" => $post->photos[0],
                     "vendeur" => $post->user_info->username,
                 ];
-                $total += $post->getPrix();
+                $total += round($post->getPrix(), 3);
                 $nbre_article++;
             }
         }
