@@ -414,7 +414,7 @@
                         <div class="text-center mb-4">
                             <h1 class="m-0 ft-regular h5 text-danger">
                                 <i class="bi bi-exclamation-octagon"></i>
-                                Signaler une l'annonce.
+                                Signaler l'annonce.
                             </h1>
                             <span class="text-muted">
                                 " {{ $post->titre }} "
