@@ -375,8 +375,8 @@
                                     <div>
                                         <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
                                             <option value="">Trier par</option>
-                                            <option value="prix_asc">Du moins chère au plus chère</option>
-                                            <option value="prix_desc">Du plus chère au moins chère</option>
+                                            <option value="prix_asc">Prix croissant</option>
+                                            <option value="prix_desc">Prix décroisant</option>
                                             <option value="soldé">Articles Soldés</option>
                                             @if (!$selected_categorie)
                                                 <option value="luxury">Luxury uniquement</option>
@@ -595,7 +595,7 @@
                     ordre_prix = "Desc";
                     fetchProducts();
                 }
-                if (ordre == "soldé") {
+                if (ordre == "Soldé") {
                     ordre_prix = "Soldé";
                     add_selected_option("Soldé");
                     fetchProducts();
