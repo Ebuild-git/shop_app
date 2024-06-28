@@ -55,13 +55,12 @@
                                         <div class="small">
                                             <div>
                                                 <i class="bi bi-app-indicator"></i>
-                                                il y'a de cela
                                                 {{ \Carbon\Carbon::parse($item->created_at)->locale('fr')->diffForHumans() }}
                                             </div>
                                             <div>
                                                 <button type="button" class="btn btn-sm -btn-danger"
                                                     onclick="delete_notification({{ $item->id }})">
-                                                    <i class="bi bi-x-lg text-danger"></i> Supprimer
+                                                    <i class="bi bi-trash3 text-danger"></i> Supprimer
                                                 </button>
                                             </div>
                                         </div>
