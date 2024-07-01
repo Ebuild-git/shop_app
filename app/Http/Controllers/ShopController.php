@@ -7,7 +7,6 @@ use App\Models\proprietes;
 use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Js;
 
 class ShopController extends Controller
 {
@@ -60,7 +59,7 @@ class ShopController extends Controller
                     $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
                 });
             }
-        } else {
+        }else{
             $query->orderBy('id', 'Desc');
         }
 
@@ -77,18 +76,19 @@ class ShopController extends Controller
             if (!is_array($proprietes) || !isset($proprietes['type']) || !isset($proprietes['valeur'])) {
                 return response()->json(['error' => 'Invalid JSON data'], 400);
             }
-        
+            
+
             // Conversion en minuscules pour la recherche insensible à la casse
             $type = strtolower($proprietes['type']);
             $valeur = strtolower($proprietes['valeur']);
-        
+
+
             // Ajouter la condition de recherche
             $query->where(function ($query) use ($type, $valeur) {
-                // Utiliser JSON_EXTRACT pour extraire la valeur spécifique du JSON et la convertir en minuscule
-                $query->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, "$.'.$type.'"))) = ?', [$valeur]);
+                $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
             });
         }
-        
+
 
 
 
