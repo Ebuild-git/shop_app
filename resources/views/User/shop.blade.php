@@ -67,7 +67,7 @@
                                     @if ($selected_categorie)
                                         @if ($selected_sous_categorie)
                                             <h3 class="p-2">
-                                                <b>{{ $selected_sous_categorie->titre}}</b>
+                                                <b>{{ $selected_sous_categorie->titre }}</b>
                                             </h3>
                                         @else
                                             <div class="bg-color p-2">
@@ -75,8 +75,8 @@
                                                     Catégories
                                                 </a>
                                             </div>
-                                            <div class="strong">
-                                                <a href="/shop" class="p-1 btn ">
+                                            <div class="strong p-2 pl-3">
+                                                <a href="/shop" class="h6">
                                                     <i class="bi bi-arrow-left"></i>
                                                     <span class="strong">
                                                         {{ $selected_categorie->titre }}
@@ -292,14 +292,16 @@
                                                         Articles soldés
                                                     </span>
                                                 </div>
-                                                <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="ordre_prix" value="Desc"
-                                                        onclick="check_luxury()">
-                                                    <span class="btn-etat-shop cusor color">
-                                                        &nbsp;
-                                                        Uniquement <b><i class="bi bi-gem"></i> Luxury </b>
-                                                    </span>
-                                                </div>
+                                                @if (!$selected_categorie)
+                                                    <div class="d-flex justify-content-start">
+                                                        <input type="checkbox" name="ordre_prix" value="Desc"
+                                                            onclick="check_luxury()">
+                                                        <span class="btn-etat-shop cusor color">
+                                                            &nbsp;
+                                                            Uniquement <b><i class="bi bi-gem"></i> Luxury </b>
+                                                        </span>
+                                                    </div>
+                                                @endif
                                                 @error('ordre')
                                                     <small class="form-text text-danger">{{ $message }}</small>
                                                 @enderror
@@ -331,6 +333,7 @@
                                                                     <div class="d-flex justify-content-start">
                                                                         <input type="checkbox" name="region"
                                                                             value="{{ $region->id }}"
+                                                                            data-nom="{{ $region->nom }}"
                                                                             onclick="select_region(this)">
                                                                         <span>
                                                                             &nbsp; {{ $region->nom }}
@@ -347,11 +350,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <a href="/shop" class="btn btn-sm btn-dark btn-block" type="reset">
-                                    <i class="fas fa-sync-alt"></i>
-                                    Réinitialiser la recherche
-                                </a>
                             @endif
 
                         </div>
@@ -426,9 +424,10 @@
             var selected_options_div = document.getElementById("Selected_options");
             if (options.length > 0) {
                 selected_options_div.innerHTML = "";
-                options.forEach((element, index) => {
+                console.log(options);
+                options.forEach((options, index) => {
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
-                        element + " <i class='ti-close small text-danger'></i> </div>";
+                        options[1] + " <i class='ti-close small text-danger'></i> </div>";
                 });
             }
         }
@@ -439,8 +438,8 @@
             show_selected_options();
         }
 
-        function add_selected_option(element) {
-            options.push(element);
+        function add_selected_option(type, nom) {
+            options.push([type, nom]);
             show_selected_options();
         }
 
@@ -511,7 +510,7 @@
             } else {
                 etat = _etat;
             }
-            add_selected_option(etat);
+            add_selected_option("etat",etat);
             fetchProducts();
         }
 
@@ -522,7 +521,15 @@
         }
 
         function filtre_propriete(type, nom) {
-            add_selected_option(nom);
+
+            if (type = "couleur") {
+                var name = getDirectColorName(nom);
+                //alert(name);
+                add_selected_option(type, nom);
+            } else {
+                add_selected_option(type, nom);
+            }
+
             var button = $("#btn-option-" + nom);
 
             if (button.hasClass("bg-red")) {
@@ -560,7 +567,7 @@
                     ordre_prix: ordre_prix,
                     check_luxury: check_luxury_only,
                     categorie: categorie,
-                    proprietes: proprietes,
+                    proprietes: options,
                     sous_categorie: sous_categorie,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre

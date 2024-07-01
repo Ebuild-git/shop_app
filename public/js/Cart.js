@@ -20,3 +20,18 @@ function getColorName(colorCode) {
         },
     });
 }
+
+
+function getDirectColorName(colorCode){
+    $.ajax({
+        url: "/color-name",
+        type: "GET",
+        data: { color: colorCode },
+        success: function (response) {
+            return response.name;
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        },
+    });
+}
