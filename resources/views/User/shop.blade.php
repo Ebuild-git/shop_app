@@ -438,9 +438,30 @@
             show_selected_options();
         }
 
-        function add_selected_proprietes(type, nom){
-            proprietes.push([type, nom]);
+        function add_selected_proprietes(type, nom) {
+            // Vérifier si la paire type et nom existe déjà
+            var existeDeja = false;
+            for (var i = 0; i < proprietes.length; i++) {
+                if (proprietes[i][0] === type ) {
+                    existeDeja = true;
+                    break;
+                }
+            }
+
+            // Ajouter seulement si la paire n'existe pas
+            if (!existeDeja) {
+                proprietes.push([type, nom]);
+            }else{
+                //erase nom value
+                for (var i = 0; i < proprietes.length; i++) {
+                    if (proprietes[i][0] === type) {
+                        proprietes[i][1] = nom;
+                        break;
+                    }
+                }
+            }
         }
+
 
         function add_selected_option(type, nom) {
             options.push([type, nom]);
@@ -514,7 +535,7 @@
             } else {
                 etat = _etat;
             }
-            add_selected_option("etat",etat);
+            add_selected_option("etat", etat);
             fetchProducts();
         }
 
@@ -541,7 +562,7 @@
                     type: type,
                     valeur: nom
                 };
-                proprietes = JSON.stringify(_proprietes);
+                proprietes = proprietes
             }
 
             fetchProducts();

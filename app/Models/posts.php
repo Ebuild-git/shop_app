@@ -35,6 +35,8 @@ class posts extends Model
     ];
 
 
+
+  
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
