@@ -411,7 +411,7 @@
         var region = "";
         var etat = "";
         var ordre_prix = "";
-        var proprietes = "";
+        var proprietes = [];
         var options = [];
 
         if (options.length > 0) {
@@ -436,6 +436,10 @@
         function remove_selected_option(index) {
             options.splice(index, 1);
             show_selected_options();
+        }
+
+        function add_selected_proprietes(type, nom){
+            proprietes.push([type, nom]);
         }
 
         function add_selected_option(type, nom) {
@@ -521,8 +525,9 @@
         }
 
         function filtre_propriete(type, nom) {
-            
+
             add_selected_option(type, nom);
+            add_selected_proprietes(type, nom);
 
             var button = $("#btn-option-" + nom);
 
@@ -561,7 +566,7 @@
                     ordre_prix: ordre_prix,
                     check_luxury: check_luxury_only,
                     categorie: categorie,
-                    proprietes: options,
+                    proprietes: proprietes,
                     sous_categorie: sous_categorie,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre

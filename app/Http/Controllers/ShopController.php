@@ -16,7 +16,7 @@ class ShopController extends Controller
     {
         $gouvernorat = $request->input('gouvernorat' ?? null);
         $region = $request->input('region' ?? null);
-        $proprietes = $request->input('proprietes' ?? []);
+        $proprietes = json_decode($request->input('proprietes'), true);
         $sous_categorie = $request->input('sous_categorie' ?? null);
         $ordre_prix = $request->input('ordre_prix' ?? null);
         $ordre_creation = $request->input('ordre_creation' ?? null);
@@ -73,15 +73,19 @@ class ShopController extends Controller
 
 
         if ($proprietes) {
-            foreach ($proprietes as $key=>$propriete) {
+            if (!is_array($proprietes) || !isset($proprietes['type']) || !isset($proprietes['valeur'])) {
+                return response()->json(['error' => 'Invalid JSON data'], 400);
+            }
+
+            foreach ($proprietes as $propriete) {
                 // Conversion en minuscules pour la recherche insensible à la casse
-                $type = strtolower($propriete[0]);
-                $valeur = strtolower($propriete[1]);
+                $type = strtolower($propriete['type']);
+                $valeur = strtolower($propriete['valeur']);
 
 
                 // Ajouter la condition de recherche
                 $query->where(function ($query) use ($type, $valeur) {
-                    $query->OrwhereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
+                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
                 });
             }
         }
