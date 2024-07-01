@@ -75,12 +75,12 @@ class ShopController extends Controller
         if ($proprietes) {
 
             foreach ($proprietes as $key => $propriete) {
-                $type = strtolower($propriete[0]);
-                $valeur = strtolower($propriete[1]);
+                $type = $propriete[0];
+                $valeur = $propriete[1];
 
                 // Ajouter la condition de recherche
                 $query->where(function ($query) use ($type, $valeur) {
-                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
+                    $query->whereRaw('proprietes LIKE ?', ['%\"' . $valeur . '\"%']);
                 });
             }
         }
