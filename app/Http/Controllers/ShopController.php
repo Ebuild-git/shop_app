@@ -85,7 +85,7 @@ class ShopController extends Controller
             // Ajouter la condition de recherche
             $query->where(function ($query) use ($type, $valeur) {
                 // Utiliser JSON_EXTRACT pour extraire la valeur spécifique du JSON et la convertir en minuscule
-                $query->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, "$.'.$type.'"))) = ?', [$valeur]);
+                $query ->whereJsonContains('proprietes->'.$type, $valeur);
             });
         }
         
