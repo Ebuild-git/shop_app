@@ -80,7 +80,7 @@ class ShopController extends Controller
 
                 // Ajouter la condition de recherche
                 $query->where(function ($query) use ($type, $valeur) {
-                    $query->OrwhereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
+                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
                 });
             }
         }
