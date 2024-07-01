@@ -67,7 +67,7 @@
                                     @if ($selected_categorie)
                                         @if ($selected_sous_categorie)
                                             <h3 class="p-2">
-                                                <b>{{ $selected_categorie->titre }}</b>
+                                                <b>{{ $selected_sous_categorie->titre}}</b>
                                             </h3>
                                         @else
                                             <div class="bg-color p-2">
