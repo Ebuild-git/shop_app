@@ -198,14 +198,27 @@
                                                     <div class="side-list no-border">
                                                         <!-- Single Filter Card -->
                                                         <div>
-                                                            @if ($propriete->options)
-                                                                @foreach (json_decode($propriete->options ?? []) as $option)
-                                                                    <button class="btn btn-sm w-1"
-                                                                        id="btn-option-{{ $option }}"
-                                                                        onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
-                                                                        {{ $option }}
+                                                            @if (Str::lower($propriete->type) == 'color')
+                                                                <div class="row">
+                                                                    @foreach ($colors as $color)
+                                                                    <button 
+                                                                    onclick="filtre_propriete('{{ $propriete->nom }}','{{ $color['code'] }}')"
+                                                                    class="btn btn-sm m-1 col-5 mx-auto d-flex justify-content-start">
+                                                                        <div class="color-shop-filtre" style="background-color: {{ $color['code'] }};"></div>
+                                                                        {{ $color['nom'] }}
                                                                     </button>
                                                                 @endforeach
+                                                                </div>
+                                                            @else
+                                                                @if ($propriete->options)
+                                                                    @foreach (json_decode($propriete->options ?? []) as $option)
+                                                                        <button class="btn btn-sm w-1"
+                                                                            id="btn-option-{{ $option }}"
+                                                                            onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
+                                                                            {{ $option }}
+                                                                        </button>
+                                                                    @endforeach
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>

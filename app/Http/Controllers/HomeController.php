@@ -22,9 +22,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\ListColor;
 
 class HomeController extends Controller
 {
+    use ListColor;
     public function index()
     {
         $categories = categories::all();
@@ -591,6 +593,7 @@ class HomeController extends Controller
             $luxury_only == "true";
         }
 
+        $colors = $this->get_list_color();
 
         return view('User.shop')
             ->with("key", $key)
@@ -598,6 +601,7 @@ class HomeController extends Controller
             ->with('liste_categories', $liste_categories)
             ->with("selected_categorie", $selected_categorie ?? null)
             ->with('selected_sous_categorie', $selected_sous_categorie ?? null)
+            ->with('colors', $colors)
             ->with('regions', $regions);
     }
 

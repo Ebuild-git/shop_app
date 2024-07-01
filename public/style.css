@@ -1114,7 +1114,12 @@ input[type="month"]:active::before {
     margin-right: 3px;
     border:solid 1px #dadadaad;
 }
-
+.color-shop-filtre{
+    height: 20px;
+    width: 10px;
+    border-radius: 2px;
+    margin-right: 10px;
+}
 
 
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean("required")->default(false);
             $table->integer('order')->default(0);
             $table->boolean("show_in_filter")->default(true);
+            $table->boolean("show_in_front")->default(true);
             $table->timestamps();
         });
     }
