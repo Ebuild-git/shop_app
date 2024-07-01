@@ -7,6 +7,7 @@ use App\Models\proprietes;
 use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Js;
 
 class ShopController extends Controller
 {
@@ -77,17 +78,15 @@ class ShopController extends Controller
                 return response()->json(['error' => 'Invalid JSON data'], 400);
             }
 
-            foreach ($proprietes as $propriete) {
                 // Conversion en minuscules pour la recherche insensible à la casse
-                $type = strtolower($propriete['type']);
-                $valeur = strtolower($propriete['valeur']);
+                $type = strtolower($proprietes['type']);
+                $valeur = strtolower($proprietes['valeur']);
 
 
                 // Ajouter la condition de recherche
                 $query->where(function ($query) use ($type, $valeur) {
-                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
+                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\" ' . $type . '\":\"' . $valeur . '\"%']);
                 });
-            }
         }
 
 
