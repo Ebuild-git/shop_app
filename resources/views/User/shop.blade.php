@@ -65,22 +65,28 @@
                             <div class="single_search_boxed ">
                                 <div class="widget-boxed-header ">
                                     @if ($selected_categorie)
-                                        <div class="bg-color p-2">
-                                            <a href="/shop" class="h6 text-white">
-                                                Catégories
-                                            </a>
-                                        </div>
-                                        <div class="strong">
-                                            <a href="/shop" class="p-1 btn ">
-                                                <i class="bi bi-arrow-left"></i>
-                                                <span class="strong">
-                                                    {{ $selected_categorie->titre }}
-                                                </span>
-                                                @if ($selected_categorie->luxury == 1)
-                                                    <i class="bi bi-gem small color"></i>
-                                                @endif
-                                            </a>
-                                        </div>
+                                        @if ($selected_sous_categorie)
+                                            <h3 class="p-2">
+                                                <b>{{ $selected_categorie->titre }}</b>
+                                            </h3>
+                                        @else
+                                            <div class="bg-color p-2">
+                                                <a href="/shop" class="h6 text-white">
+                                                    Catégories
+                                                </a>
+                                            </div>
+                                            <div class="strong">
+                                                <a href="/shop" class="p-1 btn ">
+                                                    <i class="bi bi-arrow-left"></i>
+                                                    <span class="strong">
+                                                        {{ $selected_categorie->titre }}
+                                                    </span>
+                                                    @if ($selected_categorie->luxury == 1)
+                                                        <i class="bi bi-gem small color"></i>
+                                                    @endif
+                                                </a>
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="bg-color p-2">
                                             <div class="h6 text-white">
@@ -125,6 +131,9 @@
                                                     </div>
                                                 @endforeach
                                             @endif
+
+
+
                                             <div>
                                                 @if ($selected_categorie)
                                                     @if (!$selected_sous_categorie)
@@ -144,6 +153,8 @@
                                                             </a>
                                                         </div>
                                                     @endif
+
+
                                                     @if ($selected_sous_categorie)
                                                     @else
                                                         <hr>
@@ -155,7 +166,12 @@
                                                                     <span>
                                                                         {{ $sous_categorie->titre }}
                                                                         @if ($selected_categorie->luxury == 1)
-                                                                            <i class="bi bi-gem small color"></i>
+                                                                            <span class="color">
+                                                                                <b>
+                                                                                    <i class="bi bi-gem"></i>
+                                                                                    Luxury
+                                                                                </b>
+                                                                            </span>
                                                                         @endif
                                                                     </span>
                                                                     <span>
@@ -174,7 +190,7 @@
 
                             <div>
                                 @if ($selected_sous_categorie)
-                                <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
+                                    <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
                                 @endif
                             </div>
 
