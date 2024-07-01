@@ -77,18 +77,18 @@ class ShopController extends Controller
             if (!is_array($proprietes) || !isset($proprietes['type']) || !isset($proprietes['valeur'])) {
                 return response()->json(['error' => 'Invalid JSON data'], 400);
             }
-
-                // Conversion en minuscules pour la recherche insensible à la casse
-                $type = strtolower($proprietes['type']);
-                $valeur = strtolower($proprietes['valeur']);
-
-
-                // Ajouter la condition de recherche
-                $query->where(function ($query) use ($type, $valeur) {
-                    $query->whereRaw('LOWER(proprietes) LIKE ?', ['%\"' . $valeur . '\"%']);
-                });
+        
+            // Conversion en minuscules pour la recherche insensible à la casse
+            $type = strtolower($proprietes['type']);
+            $valeur = strtolower($proprietes['valeur']);
+        
+            // Ajouter la condition de recherche
+            $query->where(function ($query) use ($type, $valeur) {
+                // Utiliser JSON_EXTRACT pour extraire la valeur spécifique du JSON et la convertir en minuscule
+                $query->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, "$.'.$type.'"))) = ?', [$valeur]);
+            });
         }
-
+        
 
 
 

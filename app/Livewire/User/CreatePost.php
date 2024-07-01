@@ -193,7 +193,8 @@ class CreatePost extends Component
         }
 
 
-        $jsonProprietes = $this->article_propriete;
+
+        $jsonProprietes = $this->article_propriete ?? [];
 
 
         $post = posts::find($this->post->id ?? "d"); // Vous cherchez le post existant par son ID
@@ -234,7 +235,7 @@ class CreatePost extends Component
         $post->description = $this->description;
         $post->id_region = $this->region;
         $post->etat = $this->etat;
-        $post->proprietes = $jsonProprietes ?? [];
+        $post->proprietes = $jsonProprietes ;
         $post->id_sous_categorie = $this->selectedSubcategory;
         if ($this->prix_achat > 0) {
             $post->prix_achat = $this->prix_achat;
