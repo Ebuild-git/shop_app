@@ -521,14 +521,8 @@
         }
 
         function filtre_propriete(type, nom) {
-
-            if (type = "couleur") {
-                var name = getDirectColorName(nom);
-                //alert(name);
-                add_selected_option(type, nom);
-            } else {
-                add_selected_option(type, nom);
-            }
+            
+            add_selected_option(type, nom);
 
             var button = $("#btn-option-" + nom);
 
