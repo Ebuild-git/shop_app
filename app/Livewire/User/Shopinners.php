@@ -81,7 +81,12 @@ class Shopinners extends Component
             $user = pings::where('id_user', Auth::id())->where('pined', $id_user)->first();
             if ($user) {
                 $user->delete();
-                $this->dispatch('alert', ['message' => "Epingle retiré !", 'type' => 'warning']);
+                $this->dispatch('alert', 
+                [
+                    'message' => "SHOPINER retiré de votre TOPLISTE de SHOPINERS",
+                 'type' => 'warning'
+                 ]
+            );
             } else {
                 pings::firstOrCreate(
                     [

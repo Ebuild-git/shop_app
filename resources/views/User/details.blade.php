@@ -237,8 +237,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <x-BtnAddPanier :post="$post" ></x-BtnAddPanier>
-                           
+                            <x-BtnAddPanier :post="$post"></x-BtnAddPanier>
+
                             @auth
                                 @if (Auth::id() == $post->id_user)
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"
@@ -265,17 +265,16 @@
                                         </span>
                                         <br><br>
                                     </div>
+                                <div>
+                                    <p class="text-center pr-5 pl-5">
+                                        En poursuivant votre commande, vous acceptez les
+                                        <a href="{{ route('conditions') }}" class="color">
+                                            <b>Conditions générales</b>
+                                        </a> de SHOPIN
+                                    </p>
+                                </div>
                                 @endif
                             @endauth
-                            <div>
-                                <p class="text-center pr-5 pl-5">
-                                    En poursuivant votre commande, vous acceptez les
-                                    <a href="{{ route('conditions') }}" class="color">
-                                        <b>Conditions générales</b>
-                                    </a> de SHOPIN
-                                </p>
-                            </div>
-
                             <hr>
                             <div class="prt_03 mb-4">
                                 <b class="text-black h5">Détails</b>
@@ -306,9 +305,8 @@
                                             <td class="text-black">
                                                 @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
-                                                        <img src="/icons/color-wheel.png" height="20"
-                                                            width="20" alt="multicolor" title="Multi color"
-                                                            srcset="">
+                                                        <img src="/icons/color-wheel.png" height="20" width="20"
+                                                            alt="multicolor" title="Multi color" srcset="">
                                                     @else
                                                         <script>
                                                             getColorName('{{ $value }}');
@@ -344,117 +342,117 @@
                                 </p>
                             </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-</section>
-<!-- ======================= Product Detail End ======================== -->
+    </section>
+    <!-- ======================= Product Detail End ======================== -->
 
 
 
-<!-- ======================= Similar Products Start ============================ -->
-<section class="middle pt-0">
-    <div class="container">
+    <!-- ======================= Similar Products Start ============================ -->
+    <section class="middle pt-0">
+        <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative ">
-                    <h3 class="ft-bold pt-3">
-                        Articles similaires
-                    </h3>
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative ">
+                        <h3 class="ft-bold pt-3">
+                            Articles similaires
+                        </h3>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="slide_items">
-                    @foreach ($other_products as $other)
-                        <!-- single Item -->
-                        <div class="single_itesm">
-                            <div class="product_grid card b-0 mb-0">
-                                @livewire('LikeCard', ['id' => $other->id])
-                                <div class="card-body p-0">
-                                    <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden"
-                                            href="/post/{{ $other->id }}"><img class="card-img-top"
-                                                src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
-                                        </a>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="slide_items">
+                        @foreach ($other_products as $other)
+                            <!-- single Item -->
+                            <div class="single_itesm">
+                                <div class="product_grid card b-0 mb-0">
+                                    @livewire('LikeCard', ['id' => $other->id])
+                                    <div class="card-body p-0">
+                                        <div class="shop_thumb position-relative">
+                                            <a class="card-img-top d-block overflow-hidden"
+                                                href="/post/{{ $other->id }}"><img class="card-img-top"
+                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
+                                            </a>
+                                        </div>
                                     </div>
+                                    <x-SubCardPost :idPost="$other->id"></x-SubCardPost>
                                 </div>
-                                <x-SubCardPost :idPost="$other->id"></x-SubCardPost>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-<!-- ======================= Similar Products Start ============================ -->
-
-
-
-
-@auth
-    @if (Auth::id() != $post->id_user)
-        <!-- Log In Modal -->
-        <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl login-pop-form" role="document">
-                <div class="modal-content" id="loginmodal">
-                    <div class="modal-headers">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="ti-close"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-5">
-                        <div class="text-center mb-4">
-                            <h1 class="m-0 ft-regular h5 text-danger">
-                                <i class="bi bi-exclamation-octagon"></i>
-                                Signaler l'annonce.
-                            </h1>
-                            <span class="text-muted">
-                                " {{ $post->titre }} "
-                            </span>
-                        </div>
-                        @livewire('User.Signalement', ['post' => $post])
+                        @endforeach
                     </div>
                 </div>
             </div>
+
         </div>
-        <!-- End Modal -->
-    @endif
-@endauth
+    </section>
+    <!-- ======================= Similar Products Start ============================ -->
 
 
-<!-- Modal view-->
-<div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
-        <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
+
+
+    @auth
+        @if (Auth::id() != $post->id_user)
+            <!-- Log In Modal -->
+            <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl login-pop-form" role="document">
+                    <div class="modal-content" id="loginmodal">
+                        <div class="modal-headers">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span class="ti-close"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-5">
+                            <div class="text-center mb-4">
+                                <h1 class="m-0 ft-regular h5 text-danger">
+                                    <i class="bi bi-exclamation-octagon"></i>
+                                    Signaler l'annonce.
+                                </h1>
+                                <span class="text-muted">
+                                    " {{ $post->titre }} "
+                                </span>
+                            </div>
+                            @livewire('User.Signalement', ['post' => $post])
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+        @endif
+    @endauth
+
+
+    <!-- Modal view-->
+    <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
+            <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
+        </div>
     </div>
-</div>
-<!-- End Modal -->
+    <!-- End Modal -->
 
-<style>
-    .sp-current-big {
-        width: 100% !important;
-    }
-</style>
-<script>
-    $(document).ready(function() {
-        $("#imgPrincipale").on('click', function() {
-            //get url in src on this
-            var url = $(this).attr("src");
-            //add image on modal-view
-            $('#modal-view-image').attr("src", url);
-            //open modal
-            $('#Modal-view').modal("show");
+    <style>
+        .sp-current-big {
+            width: 100% !important;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#imgPrincipale").on('click', function() {
+                //get url in src on this
+                var url = $(this).attr("src");
+                //add image on modal-view
+                $('#modal-view-image').attr("src", url);
+                //open modal
+                $('#Modal-view').modal("show");
+            });
         });
-    });
-</script>
+    </script>
 
 @endsection

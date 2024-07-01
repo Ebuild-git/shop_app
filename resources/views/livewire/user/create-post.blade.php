@@ -5,7 +5,7 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-1-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Veuillez choisir les images de votre article.</b>
+                <b>Veuillez choisir les images de votre article</b>
             </span>
         </div>
     </div>
@@ -132,7 +132,7 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-2-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Renseigner plus de détails sur votre article.</b>
+                <b>Renseigner plus de détails sur votre article</b>
             </span>
         </div>
     </div>
@@ -145,7 +145,7 @@
                     <label>Titre de la publication</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control cusor border-r " placeholder="titre" wire:model.live="titre"
+                        <input type="text" class="form-control cusor border-r " placeholder="Titre" wire:model="titre"
                             required>
                         @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -156,7 +156,7 @@
                     <label>Prix de votre article</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control cusor border-r" placeholder="prix" required
+                        <input type="number" class="form-control cusor border-r" placeholder="Prix" required
                             wire:model.live="prix">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -343,13 +343,12 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Décrivez en vos mots l'article.</b>
+                <b>Entrez une description  de votre article ci-dessous</b>
             </span>
         </div>
     </div>
     <div class="form-group">
-        <textarea wire:model="description" class="form-control cusor border-r " rows="7"
-            placeholder="Veuilez entrer la description de votre article : {{ $titre }}">
+        <textarea wire:model="description" class="form-control cusor border-r " placeholder="veuillez entrer la description de votre article" rows="7">
             
         </textarea>
         @error('description')
