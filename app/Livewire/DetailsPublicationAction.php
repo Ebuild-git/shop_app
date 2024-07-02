@@ -67,6 +67,7 @@ class DetailsPublicationAction extends Component
                 [
                     'sell_at' => null,
                     'id_user_buy' => null,
+                    'statut' => 'vente'
                 ]
             );
 
