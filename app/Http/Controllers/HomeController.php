@@ -532,6 +532,11 @@ class HomeController extends Controller
     public function checkout(Request $request)
     {
         $step = $request->get('step') ?? 1 ;
+
+        if($step < 1 || $step > 4 ){
+            return redirect()->route('checkout');
+        }
+
         return view("User.checkout")
         ->with('step', $step);
     }

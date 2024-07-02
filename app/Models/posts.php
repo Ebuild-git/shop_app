@@ -21,7 +21,8 @@ class posts extends Model
         'id_user_buy',
         'prix',
         'id_motif',
-        'motif_suppression'
+        'statut',
+        'motif_suppression',
     ];
 
     protected $casts = [

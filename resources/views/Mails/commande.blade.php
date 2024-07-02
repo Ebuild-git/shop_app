@@ -34,8 +34,8 @@
         }
 
         .cad-img {
-            height: 50px;
-            width: 50px;
+            height: 60px;
+            width: 60px;
             border-radius: 5px;
             overflow: hidden;
         }
@@ -52,7 +52,7 @@
         }
 
         .td-img {
-            width: 60px;
+            width: 70px;
         }
     </style>
 </head>
@@ -80,6 +80,9 @@
             <b>Récapitulatif</b>
         </h3>
         <table>
+            @php
+                $total = 0;
+            @endphp
             @foreach ($articles_panier as $article)
                 <tr>
                     <td class="td-img">
@@ -99,8 +102,15 @@
                         </p>
                     </td>
                 </tr>
+                @php
+                    $total += $article['prix'];
+                @endphp
             @endforeach
         </table>
+        <div>
+            <h4>Frais de livraison : 0 DH</h4>
+            <h3>Total : {{  $total }} DH </h3>
+        </div>
         <br><br>
         <div>
             <b>Mode de paiement : </b> Paiement a la livraison. <br>

@@ -5,6 +5,7 @@ namespace App\Livewire\User\Checkout;
 use App\Mail\commande;
 use App\Models\posts;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -59,8 +60,33 @@ class Mode extends Component
     public function confirm(){
 
 
-        //send mail=
+        //validation des commandes de chaque produit
+        foreach($this->articles_panier as $article){
+          $post= posts::find($article['id']);
+          if($post){
+            $post->update(
+                [
+                    'statut' => 'vendu',
+                    'sell_at' => Now(),
+                    'id_user_buy' => $this->user->id
+                ]
+            );
+          }
+        }
+
+
+        //send mail
         Mail::to("kevingassam23@gmail.com")->send(new commande($this->user,$this->articles_panier));
+
+        //generate random token
+        $token = md5(uniqid(rand(), true));
+
+        //delete cart cookies
+        Cookie::queue(Cookie::forget('cart'));
+
+   
+
+        return Redirect("/checkout?step=4&action=$token");
     }
 
 }

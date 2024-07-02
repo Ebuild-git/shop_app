@@ -54,10 +54,8 @@
                                     </h6>
                                     <small class="text-muted">
                                         {{ $post->acheteur->GetPosts->count() }} publications. <br>
-                                        Numéro de Téléphone : {{ $post->acheteur->phone_number ?? '/' }} <br>
-                                        Adresse : {{ $post->acheteur->adress ?? '/' }} <br>
-                                        Ville : {{ $post->acheteur->ville ?? '/' }} <br>
-                                        Gouvernorat : {{ $post->acheteur->gouvernorat ?? '/' }}
+                                       <b> Numéro de Téléphone :</b> {{ $post->acheteur->phone_number ?? '/' }} <br>
+                                       <b> Adresse :</b> {{ $post->acheteur->address ?? '/' }} <br>
                                     </small>
                                 </div>
                             </div>

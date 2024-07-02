@@ -24,10 +24,11 @@
                 </div>
                 <br>
                 <b>
-                    Adresse de facturation
+                    <i class="bi bi-geo-alt"></i> Adresse de facturation
                 </b>
                 <div>
                     <div class="alert alert-dark">
+                        <i class="bi bi-geo-alt"></i> 
                         {{ $user->address }}
                     </div>
                 </div>
@@ -36,13 +37,13 @@
         <div class="col-sm-4 mx-auto">
             <div class="alert alert-dark">
                 <div class="d-flex justify-content-between mb-3">
-                    <b>Total des produits</b>
+                    <b>Total des produits : </b>
                     <b>{{ $nbre_article }}</b>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">
                     <p>
-                        Frais de livraison
+                        Frais de livraison : 
                     </p>
                     <b>
                         0 DH
@@ -50,7 +51,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <h4 class="color">
-                        <b>TOTAL</b>
+                        <b>TOTAL : </b>
                     </h4>
                     <h4 class="h5">
                         <b>{{ $total }} DH</b>

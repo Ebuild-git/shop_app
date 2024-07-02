@@ -133,7 +133,7 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-file-description text-heading"></i><span
                                     class="fw-medium mx-2 text-heading">Adresse :</span>
-                                <span>{{ $user->adress ?? '/' }}</span>
+                                <span>{{ $user->address ?? '/' }}</span>
                             </li>
                         </ul>
                         <small class="card-text text-uppercase">Contacts</small>
