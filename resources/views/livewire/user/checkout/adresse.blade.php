@@ -9,7 +9,7 @@
     <br>
     <div class="row">
         <div class="col-sm-6 mx-auto">
-            <a href="{{ route('informations') }}" class="btn btn-outline-dark w-100">
+            <a href="{{ route('mes_informations') }}" class="btn btn-outline-dark w-100">
                 <i class="bi bi-pencil-square"></i>
                 Modifier mon adresse de livraison
             </a>
