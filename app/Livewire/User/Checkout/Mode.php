@@ -36,7 +36,7 @@ class Mode extends Component
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
-                    "photo" => Storage::url($post->photos[0]),
+                    "photo" => config('app.url').Storage::url($post->photos[0]),
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->old_prix
@@ -60,6 +60,7 @@ class Mode extends Component
 
 
         //send mail
+        dd($this->articles_panier);
         Mail::to("kevingassam23@gmail.com")->send(new commande($this->user,$this->articles_panier));
     }
 
