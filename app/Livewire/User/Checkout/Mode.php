@@ -59,8 +59,7 @@ class Mode extends Component
     public function confirm(){
 
 
-        //send mail
-        dd($this->articles_panier);
+        //send mail=
         Mail::to("kevingassam23@gmail.com")->send(new commande($this->user,$this->articles_panier));
     }
 
