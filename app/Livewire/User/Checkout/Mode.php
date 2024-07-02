@@ -36,7 +36,7 @@ class Mode extends Component
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
-                    "photo" => $post->photos[0],
+                    "photo" => Storage::url($post->photos[0]),
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->old_prix
