@@ -59,7 +59,7 @@
 
 <body>
     <div class="text-center">
-        <img src="https://shopin.solution-ebuild.com/icons/logo.png" alt="logo" class="logo" srcset="">
+        <img src="{{ config('app.url') }}/icons/logo.png" alt="logo" class="logo" srcset="">
     </div>
     <div>
         <h2 class="color">
@@ -84,7 +84,7 @@
                 <tr>
                     <td class="td-img">
                         <div class="cad-img">
-                            <img src="{{ $article['photo'] }}"
+                            <img src="{{ config('app.url') }}{{ $article['photo'] }}"
                                 alt="{{ $article['titre'] }}" srcset="">
                         </div>
                     </td>
