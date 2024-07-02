@@ -110,13 +110,6 @@
                             </td>
                             <td style="text-align: right;">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    @if ($item->propositions->count() > 0)
-                                        <a class="btn btn-sm btn-dark"
-                                            href="/publication/{{ $item->id }}/propositions">
-                                            <i class="bi bi-bag"></i>
-                                            {{ $item->propositions->count() }}
-                                        </a> &nbsp;
-                                    @endif
                                     @if (!$item->id_user_buy )
                                         <button class="btn btn-sm  bg-red"
                                             onclick="Update_post_price({{ $item->id }})">

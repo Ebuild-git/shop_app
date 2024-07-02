@@ -78,7 +78,6 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
-    Route::get('/publication/{id_post}/propositions', [ControllersHomeController::class, 'list_proposition'])->name('list_propositions_publication');
 
 
     //gestion des notifications

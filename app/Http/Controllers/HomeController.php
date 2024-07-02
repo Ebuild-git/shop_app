@@ -153,15 +153,6 @@ class HomeController extends Controller
         return view('User.historiques', compact("count"));
     }
 
-    public function list_proposition($id_post)
-    {
-        $post = posts::where('id', $id_post)->where("id_user", Auth::id())->first();
-        if ($post) {
-            return view("User.propositions", compact("post"));
-        } else {
-            echo "erro";
-        }
-    }
 
 
 

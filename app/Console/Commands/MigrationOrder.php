@@ -36,7 +36,6 @@ class MigrationOrder extends Command
             '5_create_signalements_table.php',
             '6_create_commandes_table.php',
             '7_create_notifications_table.php',
-            '20_create_propositions_table.php',
             '25_create_permission_tables.php',
             '26_create_configurations_table.php',
             '27_create_personal_access_tokens_table.php',
