@@ -7,18 +7,18 @@
             <fiv class="row">
                 <div class="col-sm-10 mx-auto p-3">
                     <div class="d-flex justify-content-around timeline">
-                        <div class="step @if ($step == 1) active @endif ">
+                        <a href="{{ route('checkout') }}?step=1" class="step @if ($step == 1) active @endif ">
                             <i class="bi bi-cart"></i>
-                            Etape 1
-                        </div>
-                        <div class="step @if ($step == 2) active @endif">
+                            Panier
+                        </a>
+                        <a href="{{ route('checkout') }}?step=2" class="step @if ($step == 2) active @endif">
                             <i class="bi bi-geo-alt"></i>
-                            Etape 2
-                        </div>
-                        <div class="step @if ($step == 3) active @endif">
+                            Adresse de livraison
+                        </a>
+                        <a href="{{ route('checkout') }}?step=3" class="step @if ($step == 3) active @endif">
                             <i class="bi bi-wallet2"></i>
-                            Etape 3
-                        </div>
+                            Paiement
+                        </a>
                     </div>
                 </div>
             </fiv>
@@ -46,13 +46,18 @@
     <style>
         .timeline .step {
             cursor: pointer;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .timeline .step:hover{
+            border: solid 1px white;
         }
 
         .timeline .active {
             font-weight: bold;
             border: solid 1px white;
-            padding: 5px 10px;
-            border-radius: 5px;
             color: #018d8d;
             background-color: white;
 

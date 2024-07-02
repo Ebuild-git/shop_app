@@ -11,7 +11,7 @@
         <div class="col-sm-6 mx-auto">
             <a href="{{ route('informations') }}" class="btn btn-outline-dark w-100">
                 <i class="bi bi-pencil-square"></i>
-                Mofifier mon adresse de livraison
+                Modifier mon adresse de livraison
             </a>
             <br><br>
             <hr>
@@ -20,7 +20,7 @@
                 J'utilise cette adresse enregistrée
             </h4>
             <div>
-                <div class="alert alert-info">
+                <div class="alert alert-dark">
                     <div class="text-black">
                         <b class="h6">
                             @if ($user->gender == 'male')

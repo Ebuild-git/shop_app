@@ -1,10 +1,10 @@
 <div>
-    <h3>
+    <h3 class="text-center">
         <b class="color">
             Mon panier
         </b>
     </h3>
-    <hr>
+    <br>
     <div class="row">
         <div class="col-sm-8">
             <div class="cart-checkout p-2 card">

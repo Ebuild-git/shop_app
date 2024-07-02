@@ -26,13 +26,18 @@
                 <b>
                     Adresse de facturation
                 </b>
+                <div>
+                    <div class="alert alert-dark">
+                        {{ $user->address }}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-sm-4 mx-auto">
-            <div class="alert alert-info">
+            <div class="alert alert-dark">
                 <div class="d-flex justify-content-between mb-3">
                     <b>Total des produits</b>
-                    <b>5</b>
+                    <b>{{ $nbre_article }}</b>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">
@@ -48,7 +53,7 @@
                         <b>TOTAL</b>
                     </h4>
                     <h4 class="h5">
-                        <b>100 DH</b>
+                        <b>{{ $total }} DH</b>
                     </h4>
                 </div>
                 <hr>
