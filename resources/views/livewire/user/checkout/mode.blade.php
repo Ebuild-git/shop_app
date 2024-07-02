@@ -63,7 +63,10 @@
                             J'accepte les condition générale de ventes
                         </a>
                     </div>
-                    <button type="button" class="btn btn-info w-100 bg-red">
+                    <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()">
+                        <span wire:loading>
+                            <x-Loading></x-Loading>
+                        </span>
                         Passer la commande
                     </button>
                     <div class="mt-3">

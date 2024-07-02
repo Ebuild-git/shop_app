@@ -2,13 +2,16 @@
 
 namespace App\Livewire\User\Checkout;
 
+use App\Mail\commande;
 use App\Models\posts;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Mode extends Component
 {
-    public $user;
+    public $user,$articles_panier;
 
 
     public function mount(){
@@ -17,7 +20,6 @@ class Mode extends Component
 
     public function render()
     {
-        $articles_panier = [];
         $total = 0;
         $nbre_article = 0;
 
@@ -30,11 +32,11 @@ class Mode extends Component
                 ->where("posts.id", $item)
                 ->first();
             if ($post) {
-                $articles_panier[] = [
+                $this->articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
-                    "photo" => $post->photos[0],
+                    "photo" => Storage::url($post->photos[0]),
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->old_prix
@@ -45,8 +47,20 @@ class Mode extends Component
         }
         
         return view('livewire.user.checkout.mode')
-        ->with("articles_panier", $articles_panier)
         ->with("total", $total)
         ->with("nbre_article", $nbre_article);
     }
+
+
+
+
+
+
+    public function confirm(){
+
+
+        //send mail
+        Mail::to("kevingassam23@gmail.com")->send(new commande($this->user,$this->articles_panier));
+    }
+
 }
