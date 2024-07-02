@@ -82,7 +82,10 @@
                                                         {{ $selected_categorie->titre }}
                                                     </span>
                                                     @if ($selected_categorie->luxury == 1)
-                                                        <i class="bi bi-gem small color"></i>
+                                                        <span class="small color">
+                                                            <i class="bi bi-gem "></i>
+                                                            Luxury
+                                                        </span>
                                                     @endif
                                                 </a>
                                             </div>
@@ -442,7 +445,7 @@
             // Vérifier si la paire type et nom existe déjà
             var existeDeja = false;
             for (var i = 0; i < proprietes.length; i++) {
-                if (proprietes[i][0] === type ) {
+                if (proprietes[i][0] === type) {
                     existeDeja = true;
                     break;
                 }
@@ -451,7 +454,7 @@
             // Ajouter seulement si la paire n'existe pas
             if (!existeDeja) {
                 proprietes.push([type, nom]);
-            }else{
+            } else {
                 //erase nom value
                 for (var i = 0; i < proprietes.length; i++) {
                     if (proprietes[i][0] === type) {

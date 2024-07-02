@@ -106,7 +106,7 @@
                     </span>
 
                     <span wire:loading.remove>
-                        étape suivante
+                        Valider ma commande
                     </span>
 
                 </button>

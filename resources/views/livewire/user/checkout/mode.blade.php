@@ -28,7 +28,7 @@
                 </b>
                 <div>
                     <div class="alert alert-dark">
-                        <i class="bi bi-geo-alt"></i> 
+                        <i class="bi bi-geo-alt"></i>
                         {{ $user->address }}
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <hr>
                 <div class="d-flex justify-content-between">
                     <p>
-                        Frais de livraison : 
+                        Frais de livraison :
                     </p>
                     <b>
                         0 DH
@@ -57,25 +57,27 @@
                         <b>{{ $total }} DH</b>
                     </h4>
                 </div>
-                <hr>
-                <div class="text-center">
-                    <div class="mb-3">
-                        <a href="{{ route('conditions') }}" class="color">
-                            J'accepte les condition générale de ventes
-                        </a>
+                @if ($total > 0)
+                    <hr>
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <a href="{{ route('conditions') }}" class="color">
+                                J'accepte les condition générale de ventes
+                            </a>
+                        </div>
+                        <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()">
+                            <span wire:loading>
+                                <x-Loading></x-Loading>
+                            </span>
+                            Passer la commande
+                        </button>
+                        <div class="mt-3">
+                            <a href="{{ route('checkout') }}?step=2" class="color">
+                                Retour aux adresses de livraison
+                            </a>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()">
-                        <span wire:loading>
-                            <x-Loading></x-Loading>
-                        </span>
-                        Passer la commande
-                    </button>
-                    <div class="mt-3">
-                        <a href="{{ route('checkout') }}?step=2" class="color">
-                            Retour aux adresses de livraison
-                        </a>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>

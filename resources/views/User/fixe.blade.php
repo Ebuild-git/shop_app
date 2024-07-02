@@ -358,7 +358,7 @@
                             <li>
                                 <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
                                     @guest data-toggle="modal" data-target="#login" @endguest>
-                                    Shop<span class="color">in</span>ers
+                                    Shop<span class="color strong">in</span>ers
                                 </a>
 
                             </li>
