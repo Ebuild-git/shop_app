@@ -529,9 +529,11 @@ class HomeController extends Controller
     }
 
 
-    public function checkout()
+    public function checkout(Request $request)
     {
-        return view("User.checkout");
+        $step = $request->get('step') ?? 1 ;
+        return view("User.checkout")
+        ->with('step', $step);
     }
 
 

@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Livewire\User;
+namespace App\Livewire\User\Checkout;
 
-use App\Events\UserEvent;
-use App\Models\notifications;
 use App\Models\posts;
-use App\Models\propositions;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
-class Checkout extends Component
+class Panier extends Component
 {
+
     public  $success = 0;
     protected $listeners = ['PostAdded' => '$refresh'];
 
+
+
     public function render()
     {
-
         $articles_panier = [];
         $total = 0;
         $nbre_article = 0;
@@ -26,7 +25,7 @@ class Checkout extends Component
         foreach ($cart as $item) {
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-                ->select("categories.pourcentage_gain", "posts.prix","posts.id_user","posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
+                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
                 ->where("posts.id", $item)
                 ->first();
             if ($post) {
@@ -43,13 +42,13 @@ class Checkout extends Component
                 $nbre_article++;
             }
         }
-
-        return view('livewire.user.checkout')
+        return view('livewire.user.checkout.panier')
             ->with("articles_panier", $articles_panier)
             ->with("total", $total)
             ->with("cart", $cart)
             ->with("nbre_article", $nbre_article);
     }
+
 
 
     public function delete($id)
@@ -88,64 +87,11 @@ class Checkout extends Component
 
 
 
-
-
-
-
-
-
     public function valider()
     {
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        foreach ($cart as $item) {
-            $this->make_proposition($item["id"]);
-        }
-        $this->vider();
-        
-        $this->dispatch('alert', ['message' => "Vos commandes ont été envoyés aux differents vendeurs",'type'=>'success']);
-        session()->flash('success', 'Vos commandes ont été envoyés aux differents vendeurs !');
+        return Redirect("/checkout?step=2");
     }
 
 
 
-
-
-
-
-
-
-
-
-    public function make_proposition($id_post)
-    {
-        $this->delete($id_post);
-
-        $post = posts::find($id_post);
-        if (!$post) {
-            return;
-        }
-
-        //verifier si cet utilisateur n'a jamais fais de proposition pour ce pots
-        $proposition = propositions::where('id_acheteur', Auth::id())->where('id_post', $post->id)->first();
-        if ($proposition) {
-            return;
-        }
-
-        //faire une proposition
-        $proposition = new propositions();
-        $proposition->id_post = $post->id;
-        $proposition->id_acheteur = Auth::user()->id;
-        $proposition->save();
-
-        //make notification
-        $notification = new notifications();
-        $notification->titre = "Une nouvelle commande !";
-        $notification->id_user_destination  =  $post->id_user;
-        $notification->type = "alerte";
-        $notification->url = "/publication/" . $post->id . "/propositions";
-        $notification->message = "Nous vous informons que votre publication  " . $post->titre . " vient de recevoir une nouvelle demande de commande";
-        $notification->save();
-        event(new UserEvent($post->id_user));
-        $this->success++;
-    }
 }

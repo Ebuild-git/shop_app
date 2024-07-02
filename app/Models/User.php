@@ -81,6 +81,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(regions::class, 'id', 'region');
     }
 
+    public function region_info()
+    {
+        return $this->belongsTo(regions::class,'region', 'id');
+    }
+
     public function total_sales(){
         return $this->hasMany(posts::class, 'id_user', 'id')->whereNotNull("sell_at");
     }
