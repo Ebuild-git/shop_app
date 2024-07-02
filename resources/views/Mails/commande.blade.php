@@ -84,7 +84,7 @@
                 <tr>
                     <td class="td-img">
                         <div class="cad-img">
-                            <img src="{{ config('app.url') }}/{{ $article['photo'] }}"
+                            <img src="{{ $article['photo'] }}"
                                 alt="{{ $article['titre'] }}" srcset="">
                         </div>
                     </td>
