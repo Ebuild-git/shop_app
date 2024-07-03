@@ -80,9 +80,7 @@ class ShopController extends Controller
                 $valeur = strtolower($propriete[1]);
 
                 if ($type == "taille") {
-                    $query->whereHas('proprietes', function ($query) use ($valeur) {
-                        $query->whereJsonContains('proprietes->Taille', $valeur);
-                    });
+                    $query->whereJsonContains('proprietes->Taille', $valeur);
                 }
             }
         }
