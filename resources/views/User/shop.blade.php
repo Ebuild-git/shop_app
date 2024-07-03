@@ -273,23 +273,23 @@
                                             <div>
                                                 <div class="d-flex justify-content-start">
                                                     <input type="checkbox" name="ordre_prix" value="Asc"
-                                                        onclick="choix_ordre_prix(this)">
+                                                        onclick="choix_ordre_prix('prix_asc')">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
-                                                        Moins couteux au plus couteux
+                                                        Ordre croissant
                                                     </span>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
                                                     <input type="checkbox" name="ordre_prix" value="Desc"
-                                                        onclick="choix_ordre_prix(this)">
+                                                        onclick="choix_ordre_prix('prix_desc')">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
-                                                        Plus couteux au moins couteux
+                                                        Ordre d'croissant
                                                     </span>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
                                                     <input type="checkbox" name="ordre_prix" value="Soldé"
-                                                        onclick="choix_ordre_prix(this)">
+                                                        onclick="choix_ordre_prix('Soldé')">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
                                                         Articles soldés
@@ -298,7 +298,7 @@
                                                 @if (!$selected_categorie)
                                                     <div class="d-flex justify-content-start">
                                                         <input type="checkbox" name="ordre_prix" value="Desc"
-                                                            onclick="check_luxury()">
+                                                            onclick="choix_ordre_prix('luxury')">
                                                         <span class="btn-etat-shop cusor color">
                                                             &nbsp;
                                                             Uniquement <b><i class="bi bi-gem"></i> Luxury </b>
@@ -449,8 +449,8 @@
             total_option = options.length;
             options.splice(index, 1);
             show_selected_options();
-            if(total_option == 1){
-                document.getElementById("Selected_options").innerHTML="";
+            if (total_option == 1) {
+                document.getElementById("Selected_options").innerHTML = "";
             }
         }
 
@@ -483,32 +483,43 @@
             });
         });
 
+
+
         function ancre() {
             $('html,body').animate({
                 scrollTop: $("#ancre").offset().top
             }, 'slow');
         }
 
-        function choix_ordre_prix(checkbox) {
-            var checkboxes = document.getElementsByName('ordre_prix');
-            checkboxes.forEach(function(cb) {
-                if (cb !== checkbox) {
-                    cb.checked = false;
-                }
-            });
-            _ordre_prix = checkbox.value;
-            if (_ordre_prix == ordre_prix) {
-                ordre_prix = "";
-            } else {
-                ordre_prix = _ordre_prix;
+
+
+        function choix_ordre_prix(ordre) {
+           
+            if (ordre == "prix_asc") {
+                ordre_prix = "Asc";
+                fetchProducts();
             }
-            fetchProducts();
+            if (ordre == "prix_desc") {
+                ordre_prix = "Desc";
+                fetchProducts();
+            }
+            if (ordre == "Soldé") {
+                ordre_prix = "Soldé";
+                add_selected_option(ordre_prix , "Soldé");
+                fetchProducts();
+            }
+            if (ordre == "luxury") {
+                check_luxury_only = "true";
+                fetchProducts();
+            }
         }
 
-        function check_luxury() {
-            check_luxury_only = "true";
-            fetchProducts();
-        }
+
+
+
+       
+
+
 
         function select_region(checkbox) {
             var checkboxes = document.getElementsByName('region');
@@ -525,6 +536,8 @@
             }
             fetchProducts();
         }
+
+
 
         function choix_etat(checkbox) {
             var checkboxes = document.getElementsByName('etat');
@@ -543,14 +556,20 @@
             fetchProducts();
         }
 
+
+
+
         function select_sous_categorie(id) {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
             sous_categorie = id;
             fetchProducts();
         }
 
+
+
+
         function filtre_propriete(type, nom) {
-            type = type.replace(/^\s+|\s+$/gm,'');
+            type = type.replace(/^\s+|\s+$/gm, '');
             //debut brouillons
             if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
@@ -592,11 +611,35 @@
             }
 
 
-
-
-
             fetchProducts();
         }
+
+
+
+        $("#filtre-ordre").on("change", function() {
+            let ordre = $(this).val();
+
+            if (ordre == "prix_asc") {
+                ordre_prix = "Asc";
+                fetchProducts();
+            }
+            if (ordre == "prix_desc") {
+                ordre_prix = "Desc";
+                fetchProducts();
+            }
+            if (ordre == "Soldé") {
+                ordre_prix = "Soldé";
+                add_selected_option(ordre_prix , "Soldé");
+                fetchProducts();
+            }
+            if (ordre == "luxury") {
+                check_luxury_only = "true";
+                fetchProducts();
+            }
+        });
+
+
+
 
 
         function select_categorie(id) {
@@ -639,28 +682,6 @@
             );
         }
 
-
-        $("#filtre-ordre").on("change", function() {
-            let ordre = $(this).val();
-
-            if (ordre == "prix_asc") {
-                ordre_prix = "Asc";
-                fetchProducts();
-            }
-            if (ordre == "prix_desc") {
-                ordre_prix = "Desc";
-                fetchProducts();
-            }
-            if (ordre == "Soldé") {
-                ordre_prix = "Soldé";
-                //add_selected_option("Soldé");
-                fetchProducts();
-            }
-            if (ordre == "luxury") {
-                check_luxury_only = "true";
-                fetchProducts();
-            }
-        });
 
 
 
