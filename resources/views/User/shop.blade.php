@@ -543,7 +543,7 @@
             if (type == 'Taille') {
                 Taille = nom;
             }
-            if (type == 'Articlepour') {
+            if (type == 'Article pour') {
                 ArticlePour = nom;
             }
             if (type == 'Langue') {
