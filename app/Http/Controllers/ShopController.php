@@ -77,7 +77,7 @@ class ShopController extends Controller
            
             foreach ($proprietes as $key => $propriete) {
                 if (is_array($propriete) && count($propriete) == 2) {
-                    $type = strtolower($propriete[0]);
+                    $type = $propriete[0];
                     $valeur = strtolower($propriete[1]);
         
                     // Ajouter la condition de recherche insensible à la casse
