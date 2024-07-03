@@ -14,16 +14,26 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
-        $gouvernorat = $request->input('gouvernorat' ?? null);
-        $region = $request->input('region' ?? null);
+
+
+        ///////////- blog brouillons
+        $Taille = $request->input('Taille') ?? null;
+        $Couleur = $request->input('Couleur') ?? null;
+        $ArticlePour = $request->input('ArticlePour') ?? null;
+        $Pointure = $request->input('Pointure') ?? null;
+        $Langue = $request->input('Langue') ?? null;
+        ///// fin du blog
+
+        $gouvernorat = $request->input('gouvernorat') ?? null;
+        $region = $request->input('region') ?? null;
         $proprietes = $request->input('proprietes' ?? []);
-        $sous_categorie = $request->input('sous_categorie' ?? null);
-        $ordre_prix = $request->input('ordre_prix' ?? null);
-        $ordre_creation = $request->input('ordre_creation' ?? null);
-        $categorie = $request->input('categorie' ?? null);
-        $key = $request->input('key' ?? null);
-        $etat = $request->input('etat' ?? null);
-        $luxury_only = $request->input('check_luxury' ?? null);
+        $sous_categorie = $request->input('sous_categorie') ?? null;
+        $ordre_prix = $request->input('ordre_prix') ?? null;
+        $ordre_creation = $request->input('ordre_creation') ?? null;
+        $categorie = $request->input('categorie') ?? null;
+        $key = $request->input('key') ?? null;
+        $etat = $request->input('etat') ?? null;
+        $luxury_only = $request->input('check_luxury') ?? null;
         $html = "";
 
 
@@ -74,7 +84,7 @@ class ShopController extends Controller
             foreach ($proprietes as $key => $propriete) {
                 $type = strtolower($propriete[0]);
                 $valeur = strtolower($propriete[1]);
-        
+
                 if ($type == "taille") {
                     $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$valeur]);
                 } elseif ($type == "couleur") {
@@ -82,7 +92,26 @@ class ShopController extends Controller
                 }
             }
         }
-        
+
+
+        ///////////- blog brouillons
+        if ($Taille) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$Taille]);
+        }
+        if ($Couleur) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$Couleur]);
+        }
+        if ($ArticlePour) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Article pour'))) = ?", [$ArticlePour]);
+        }
+        if ($Pointure) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
+        }
+        if ($Langue) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Langue du livre'))) = ?", [$Langue]);
+        }
+
+        ///// fin du blog
 
 
 

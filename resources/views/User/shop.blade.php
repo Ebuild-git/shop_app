@@ -416,10 +416,18 @@
         var ordre_prix = "";
         var proprietes = [];
         var options = [];
+        var Taille = "";
+        var Couleur = "";
+        var Pointure = "";
+        var ArticlePour = "";
+        var Langue = "";
 
         if (options.length > 0) {
             show_selected_options();
         }
+
+
+
 
 
         //afficher les options selectionner qui sont dans options dans la div Selected_options
@@ -441,29 +449,6 @@
             show_selected_options();
         }
 
-        function add_selected_proprietes(type, nom) {
-            // Vérifier si la paire type et nom existe déjà
-            var existeDeja = false;
-            for (var i = 0; i < proprietes.length; i++) {
-                if (proprietes[i][0] === type) {
-                    existeDeja = true;
-                    break;
-                }
-            }
-
-            // Ajouter seulement si la paire n'existe pas
-            if (!existeDeja) {
-                proprietes.push([type, nom]);
-            } else {
-                //erase nom value
-                for (var i = 0; i < proprietes.length; i++) {
-                    if (proprietes[i][0] === type) {
-                        proprietes[i][1] = nom;
-                        break;
-                    }
-                }
-            }
-        }
 
 
         function add_selected_option(type, nom) {
@@ -549,9 +534,28 @@
         }
 
         function filtre_propriete(type, nom) {
+            type = type.replace(/^\s+|\s+$/gm,'');
+            //debut brouillons
+            if (type == 'couleur') {
+                Couleur = nom;
+            }
+            if (type == 'taille') {
+                Taille = nom;
+            }
+            if (type == 'articlepour') {
+                ArticlePour = nom;
+            }
+            if (type == 'langue') {
+                Langue = nom;
+            }
+            if (type == 'pointure') {
+                Pointure = nom;
+            }
+            //fin brouillons
+
+
 
             add_selected_option(type, nom);
-            add_selected_proprietes(type, nom);
 
             var button = $("#btn-option-" + nom);
 
@@ -567,6 +571,10 @@
                 };
                 proprietes = proprietes
             }
+
+
+
+
 
             fetchProducts();
         }
@@ -590,8 +598,11 @@
                     ordre_prix: ordre_prix,
                     check_luxury: check_luxury_only,
                     categorie: categorie,
-                    proprietes: proprietes,
                     sous_categorie: sous_categorie,
+                    Taille: Taille,
+                    Couleur: Couleur,
+                    Pointure: Pointure,
+                    ArticlePour: ArticlePour,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
