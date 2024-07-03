@@ -537,19 +537,19 @@
             type = type.replace(/^\s+|\s+$/gm,'');
             console.log(type);
             //debut brouillons
-            if (type == 'Couleur') {
+            if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
             }
-            if (type == 'Taille') {
+            if (type == 'Taille' || type == 'taille') {
                 Taille = nom;
             }
-            if (type == 'Article pour') {
+            if (type == 'Article pour' || type == 'article pour') {
                 ArticlePour = nom;
             }
-            if (type == 'Langue') {
+            if (type == 'Langue' || type == 'langue') {
                 Langue = nom;
             }
-            if (type == 'Pointure') {
+            if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
             }
             //fin brouillons
