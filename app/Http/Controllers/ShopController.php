@@ -17,8 +17,8 @@ class ShopController extends Controller
 
 
         ///////////- blog brouillons
-        $Taille = "M";
-        $Couleur = $request->input('Couleur') ?? null;
+        $Taille = strtolower($request->input('Taille')) ?? null;
+        $Couleur = strtolower($request->input('Couleur')) ?? null;
         $ArticlePour = $request->input('ArticlePour') ?? null;
         $Pointure = $request->input('Pointure') ?? null;
         $Langue = $request->input('Langue') ?? null;
