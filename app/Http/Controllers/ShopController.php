@@ -73,12 +73,12 @@ class ShopController extends Controller
 
 
         if ($proprietes) {
-            
-            foreach ($proprietes as $key => $propriete) {
-                $type = strtolower($propriete[0]);
-                $valeur = strtolower($propriete[1]);
 
-                $query->whereJsonContains("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"$type\"'))) = ?", [$valeur]);
+            foreach ($proprietes as $key => $propriete) {
+                $type = $propriete[0];
+                $valeur = $propriete[1];
+                
+                $query->whereJsonContains('proprietes->' . $type, $valeur);
             }
         }
 
