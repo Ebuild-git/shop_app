@@ -78,7 +78,7 @@ class ShopController extends Controller
             foreach ($proprietes as $key => $propriete) {
                 if (is_array($propriete) && count($propriete) == 2) {
                     $type = $propriete[0];
-                    $valeur = strtolower($propriete[1]);
+                    $valeur = $propriete[1];
 
                     // Ajouter la condition de recherche insensible à la casse
                     $query->where(function ($query) use ($type, $valeur) {
