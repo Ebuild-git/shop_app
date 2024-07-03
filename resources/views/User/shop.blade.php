@@ -536,19 +536,19 @@
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm,'');
             //debut brouillons
-            if (type == 'couleur') {
+            if (type == 'Couleur') {
                 Couleur = nom;
             }
-            if (type == 'taille') {
+            if (type == 'Taille') {
                 Taille = nom;
             }
-            if (type == 'articlepour') {
+            if (type == 'Articlepour') {
                 ArticlePour = nom;
             }
-            if (type == 'langue') {
+            if (type == 'Langue') {
                 Langue = nom;
             }
-            if (type == 'pointure') {
+            if (type == 'Pointure') {
                 Pointure = nom;
             }
             //fin brouillons
