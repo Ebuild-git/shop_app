@@ -80,8 +80,13 @@ class ShopController extends Controller
                 if ($type == "taille") {
                     $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$valeur]);
                 }
+
                 if ($type == "couleur") {
-                    $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) =?", [$valeur]);
+                    if ($type == "taille") {
+                        $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$valeur]);
+                    } else {
+                        $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$valeur]);
+                    }
                 }
             }
         }
