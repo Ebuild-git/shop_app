@@ -42,6 +42,7 @@ class ShopController extends Controller
 
         $query = posts::whereNotNull('verified_at')
             ->whereNull('sell_at')
+            ->select('titre','description','id_sous_categorie','prix','proprietes','photos')
             ->where('statut', 'vente');
 
 
