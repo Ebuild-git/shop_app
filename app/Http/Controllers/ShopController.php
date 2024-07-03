@@ -7,6 +7,7 @@ use App\Models\proprietes;
 use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
@@ -173,6 +174,7 @@ class ShopController extends Controller
 
             $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
 
+            $url = "/post/". $post->id ."/".Str::slug($post->titre);
             $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
                     <div class="card-body p-0">
@@ -183,7 +185,7 @@ class ShopController extends Controller
                                 ' . $post->getLike->count() . '
                             </span>
                         </button>
-                            <a class="card-img-top d-block overflow-hidden" href="/post/' . $post->id . '">
+                            <a class="card-img-top d-block overflow-hidden" href="'.$url.'">
                                 <img src="' . $photo . '" alt="..."></a>
                         </div>
                     </div>
