@@ -535,6 +535,7 @@
 
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm,'');
+            console.log(type);
             //debut brouillons
             if (type == 'Couleur') {
                 Couleur = nom;
