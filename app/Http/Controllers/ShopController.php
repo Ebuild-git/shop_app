@@ -80,7 +80,7 @@ class ShopController extends Controller
                 $valeur = strtolower($propriete[1]);
 
                 if ($type == "taille") {
-                    $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes->Taille)))", $valeur);
+                    $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes->Taille)))", [$valeur]);
                 }
             }
         }
