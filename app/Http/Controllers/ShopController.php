@@ -79,9 +79,7 @@ class ShopController extends Controller
                 $valeur = $propriete[1];
 
                 // Ajouter la condition de recherche
-                $query->where(function ($query) use ($type, $valeur) {
-                    $query->whereRaw('proprietes LIKE ?', ['%\"' . $valeur . '\"%']);
-                });
+                $query->whereJsonContains('proprietes->' . $type, $valeur);
             }
         }
 
