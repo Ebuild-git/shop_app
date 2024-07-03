@@ -70,26 +70,19 @@ class ShopController extends Controller
 
 
 
-
-
         if ($proprietes) {
             foreach ($proprietes as $key => $propriete) {
                 $type = strtolower($propriete[0]);
                 $valeur = strtolower($propriete[1]);
-
+        
                 if ($type == "taille") {
                     $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$valeur]);
-                }
-
-                if ($type == "couleur") {
-                    if ($type == "taille") {
-                        $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$valeur]);
-                    } else {
-                        $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$valeur]);
-                    }
+                } elseif ($type == "couleur") {
+                    $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$valeur]);
                 }
             }
         }
+        
 
 
 
