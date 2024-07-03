@@ -446,14 +446,29 @@
 
 
         function remove_selected_option(index) {
+            total_option = options.length;
             options.splice(index, 1);
             show_selected_options();
+            if(total_option == 1){
+                document.getElementById("Selected_options").innerHTML="";
+            }
         }
 
 
 
         function add_selected_option(type, nom) {
-            options.push([type, nom]);
+            // Vérifier si la paire type et nom existe déjà si ty type existe on change le nom
+            var existeDeja = false;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i][0] === type) {
+                    options[i][1] = nom;
+                    existeDeja = true;
+                    break;
+                }
+            }
+            if (!existeDeja) {
+                options.push([type, nom]);
+            }
             show_selected_options();
         }
 
