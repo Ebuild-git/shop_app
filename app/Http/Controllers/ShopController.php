@@ -20,8 +20,9 @@ class ShopController extends Controller
         $Taille = strtolower($request->input('Taille')) ?? null;
         $Couleur = strtolower($request->input('Couleur')) ?? null;
         $ArticlePour = strtolower($request->input('ArticlePour')) ?? null;
-        $Pointure = $request->input('Pointure') ?? null;
-        $Langue = $request->input('Langue') ?? null;
+        $Tailleenchiffre = strtolower($request->input('Tailleenchiffre')) ?? null;
+        $Pointure = strtolower($request->input('Pointure')) ?? null;
+        $Langue = strtolower($request->input('Langue')) ?? null;
         ///// fin du brouillons
 
         $gouvernorat = $request->input('gouvernorat') ?? null;
@@ -89,13 +90,17 @@ class ShopController extends Controller
         if ($ArticlePour) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Article pour\"'))) = ?", [$ArticlePour]);
         }
+        if ($Tailleenchiffre) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille en chiffre\"'))) = ?", [$Tailleenchiffre]);
+        }
         if ($Pointure) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
         }
         if ($Langue) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);
-
         }
+
+
 
         ///// fin du blog
 

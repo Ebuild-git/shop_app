@@ -421,6 +421,7 @@
         var Pointure = "";
         var ArticlePour = "";
         var Langue = "";
+        var Tailleenchiffre = "";
 
         if (options.length > 0) {
             show_selected_options();
@@ -552,6 +553,9 @@
             if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
             }
+            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
+                Tailleenchiffre = nom;
+            }
             //fin brouillons
 
 
@@ -604,6 +608,7 @@
                     Couleur: Couleur,
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
+                    Tailleenchiffre: Tailleenchiffre,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
