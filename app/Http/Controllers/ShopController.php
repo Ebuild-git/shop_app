@@ -17,12 +17,12 @@ class ShopController extends Controller
 
 
         ///////////- blog brouillons
-        $Taille = $request->input('Taille') ?? null;
+        $Taille = "M";
         $Couleur = $request->input('Couleur') ?? null;
         $ArticlePour = $request->input('ArticlePour') ?? null;
         $Pointure = $request->input('Pointure') ?? null;
         $Langue = $request->input('Langue') ?? null;
-        ///// fin du blog
+        ///// fin du brouillons
 
         $gouvernorat = $request->input('gouvernorat') ?? null;
         $region = $request->input('region') ?? null;
