@@ -76,7 +76,7 @@ class Mode extends Component
 
 
         //send mail
-        Mail::to("kevingassam23@gmail.com")->send(new commande($this->user,$this->articles_panier));
+        Mail::to(Auth::user()->email)->send(new commande($this->user,$this->articles_panier));
 
         //generate random token
         $token = md5(uniqid(rand(), true));
