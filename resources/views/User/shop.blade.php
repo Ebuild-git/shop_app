@@ -177,7 +177,7 @@
                                                                         @endif
                                                                     </span>
                                                                     <span>
-                                                                        {{ $sous_categorie->getPost->count() }}
+                                                                        {{ $sous_categorie->getPost->where('statut','vente')->count() }}
                                                                     </span>
                                                                 </button>
                                                             @endforeach
