@@ -36,7 +36,7 @@
                                 <div class="row">
                                     @foreach ($colors as $color)
                                         <button
-                                            onclick="filtre_propriete('{{ $propriete->nom }}','{{ $color['code'] }}')"
+                                            onclick="filtre_propriete_color('{{ $propriete->nom }}','{{ $color['code'] }}','{{ $color['nom'] }}')"
                                             class="btn btn-sm m-1 col-5 mx-auto d-flex justify-content-start">
                                             <div class="color-shop-filtre"
                                                 style="background-color: {{ $color['code'] }};"></div>

@@ -528,6 +528,11 @@
 
 
 
+        function filtre_propriete_color(type, code, nom) {
+            add_selected_option(type, nom);
+            filtre_propriete(type, code);
+        }
+
 
 
 
