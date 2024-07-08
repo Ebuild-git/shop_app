@@ -273,9 +273,11 @@ class HomeController extends Controller
                                     alt="" />
                         </div>
                         <div class="cart_single_caption pl-2">
+                        <a href="/post/'.$produit->id.'">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
                             ' . $produit->titre . '
                             </h4>
+                            </a>
                             <div class="text-muted ">
                             Vendeur : '.$produit->user_info->username.'
                             </div>

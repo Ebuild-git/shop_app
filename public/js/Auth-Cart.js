@@ -479,6 +479,7 @@ function get_location() {
             },
             function (error) {
                 // En cas d'erreur
+                $("#location-modal").modal("toggle");
                 console.error(
                     "Erreur lors de la récupération de la localisation :",
                     error
