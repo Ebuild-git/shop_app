@@ -506,17 +506,17 @@
 
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
-                add_selected_option(ordre_prix, "Croissant");
+                add_selected_option("ordre_prix", "Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
-                add_selected_option(ordre_prix, "Décroissant");
+                add_selected_option("ordre_prix", "Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
-                add_selected_option(ordre_prix, "Soldé");
+                add_selected_option("ordre_prix", "Soldé");
                 fetchProducts();
             }
             if (ordre == "luxury") {
