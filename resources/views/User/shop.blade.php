@@ -547,9 +547,11 @@
 
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
+            var show = true;
             //debut brouillons
             if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
+                show = false;
             }
             if (type == 'Taille' || type == 'taille') {
                 Taille = nom;
@@ -567,10 +569,10 @@
                 Tailleenchiffre = nom;
             }
             //fin brouillons
+            if (show) {
+                add_selected_option(type, nom);
+            }
 
-
-
-            add_selected_option(type, nom);
 
             var button = $("#btn-option-" + nom);
 
