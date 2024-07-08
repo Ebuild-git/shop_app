@@ -14,7 +14,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Accueil</a></li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/shop">
+                                <a href="{{ route('shop')}}">
                                     Catégories
                                 </a>
                             </li>
@@ -172,7 +172,6 @@
                                                                             <span class="color">
                                                                                 <b>
                                                                                     <i class="bi bi-gem"></i>
-                                                                                    Luxury
                                                                                 </b>
                                                                             </span>
                                                                         @endif
@@ -214,35 +213,35 @@
                                             <!-- Single Filter Card -->
                                             <div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="etat" value="Neuf avec étiquettes"
+                                                    <input type="radio" name="etat" value="Neuf avec étiquettes"
                                                         onclick="choix_etat(this)">
                                                     <button type="button" class="btn-etat-shop cusor ">
                                                         Neuf avec étiquettes
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="etat" value="Neuf sans étiquettes"
+                                                    <input type="radio" name="etat" value="Neuf sans étiquettes"
                                                         onclick="choix_etat(this)">
                                                     <button type="button" class="btn-etat-shop cusor">
                                                         Neuf sans étiquettes
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="etat" value="Très bon état"
+                                                    <input type="radio" name="etat" value="Très bon état"
                                                         onclick="choix_etat(this)">
                                                     <button type="button" class="btn-etat-shop cusor">
                                                         Très bon état
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="etat" value="Bon état"
+                                                    <input type="radio" name="etat" value="Bon état"
                                                         onclick="choix_etat(this)">
                                                     <button type="button" class="btn-etat-shop cusor">
                                                         Bon état
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="etat" value="Usé"
+                                                    <input type="radio" name="etat" value="Usé"
                                                         onclick="choix_etat(this)">
                                                     <button type="button" class="btn-etat-shop cusor">
                                                         Usé
@@ -272,24 +271,24 @@
                                             <!-- Single Filter Card -->
                                             <div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="ordre_prix" value="Asc"
-                                                        onclick="choix_ordre_prix('prix_asc')">
+                                                    <input type="radio" name="ordre_prix" value="Asc"
+                                                        onclick="choix_ordre_prix('prix_asc')" id="prix_asc">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
                                                         Ordre croissant
                                                     </span>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="ordre_prix" value="Desc"
-                                                        onclick="choix_ordre_prix('prix_desc')">
+                                                    <input type="radio" name="ordre_prix" value="Desc"
+                                                        onclick="choix_ordre_prix('prix_desc')" id="prix_desc">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
-                                                        Ordre d'croissant
+                                                        Ordre d'ecroissant
                                                     </span>
                                                 </div>
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="ordre_prix" value="Soldé"
-                                                        onclick="choix_ordre_prix('Soldé')">
+                                                    <input type="radio" name="ordre_prix" value="Soldé"
+                                                        onclick="choix_ordre_prix('Soldé')" id="solder">
                                                     <span class="btn-etat-shop cusor">
                                                         &nbsp;
                                                         Articles soldés
@@ -334,7 +333,7 @@
                                                                 <li
                                                                     class="d-flex justify-content-between btn-etat-shop cusor">
                                                                     <div class="d-flex justify-content-start">
-                                                                        <input type="checkbox" name="region"
+                                                                        <input type="radio" name="region"
                                                                             value="{{ $region->id }}"
                                                                             data-nom="{{ $region->nom }}"
                                                                             onclick="select_region(this)">
@@ -371,7 +370,7 @@
                                         <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
                                             <option value="">Trier par</option>
                                             <option value="prix_asc">Prix croissant</option>
-                                            <option value="prix_desc">Prix décroisant</option>
+                                            <option value="prix_desc">Prix décroissant</option>
                                             <option value="Soldé">Articles Soldés</option>
                                             @if (!$selected_categorie)
                                                 <option value="luxury">Luxury uniquement</option>
@@ -441,6 +440,7 @@
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         options[1] + " <i class='ti-close small text-danger'></i> </div>";
                 });
+                selected_options_div.innerHTML += "<div class='reset_select_option' onclick='reset()'>Réinitialiser <i class='ti-close small'></i> </div>";
             }
         }
 
@@ -492,15 +492,22 @@
         }
 
 
+        function reset(){
+            //reload page
+            window.location.reload();
+        }
+
 
         function choix_ordre_prix(ordre) {
            
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
+                add_selected_option(ordre_prix , "Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
+                add_selected_option(ordre_prix , "Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
@@ -621,14 +628,19 @@
 
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
+                $("#prix_asc").prop('checked', true);
+                add_selected_option(ordre_prix , "Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
+                $("#prix_desc").prop('checked', true);
+                add_selected_option(ordre_prix , "Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
+                $("#solder").prop('checked', true);
                 add_selected_option(ordre_prix , "Soldé");
                 fetchProducts();
             }

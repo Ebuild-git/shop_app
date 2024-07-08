@@ -36,15 +36,17 @@
                                     </div>
                                     <div class="text-end">
                                         <b class="h6 strong">
-                                            <strong class="color">
-                                                {{ $item['prix'] }} DH
-                                            </strong>
                                             @if ($item['is_solder'])
-                                                <br>
-                                                <strike class="text-danger small">
-                                                    {{ $item['old_prix'] }} DH
+                                                <strike class="color">
+                                                    <b>
+                                                        {{ $item['old_prix'] }} DH
+                                                    </b>
                                                 </strike>
+                                                <br>
                                             @endif
+                                            <span class="text-danger small">
+                                                {{ $item['prix'] }} DH
+                                            </span>
                                         </b>
                                     </div>
                                 </div>

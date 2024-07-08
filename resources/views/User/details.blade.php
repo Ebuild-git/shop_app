@@ -73,17 +73,14 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">
+                                <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
                                     {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">
-                                    {{ $post->sous_categorie_info->titre }}
+                                   <b class="color"> {{ $post->sous_categorie_info->titre }}</b>
                                 </a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                {{ $post->titre }}
                             </li>
                         </ol>
                     </nav>
