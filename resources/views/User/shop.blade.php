@@ -635,6 +635,7 @@
                 fetchProducts();
             }
             if (ordre == "luxury") {
+                ordre_prix = "";
                 check_luxury_only = "true";
                 fetchProducts();
             }
