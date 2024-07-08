@@ -495,4 +495,6 @@ function get_location() {
 function btn_accept_location() {
     Livewire.dispatch("UpdateUserAdresse", { adresse: result_location });
     sweet("Adresse accepté !");
+    //close modal location-modal
+    $("#location-modal").modal("toggle");
 }
