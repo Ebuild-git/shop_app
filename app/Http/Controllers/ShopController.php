@@ -173,7 +173,7 @@ class ShopController extends Controller
 
 
         foreach ($posts as $post) {
-            if ($post->statu == "vente") {
+            if ($post->statut == "vente") {
                 // Vérifie si la première photo existe, sinon utilise une image par défaut
                 $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
 
