@@ -36,8 +36,8 @@
                                 {{ $post->proprietes['Taille'] }}
                             @elseif($post->proprietes['Pointure'] ?? null)
                                 {{ $post->proprietes['Pointure'] }}
-                            @elseif($post->proprietes['Pointure - bébé'] ?? null)
-                                {{ $post->proprietes['Pointure - bébé'] }}
+                            @elseif($post->proprietes['Pointure- bébé'] ?? null)
+                                {{ $post->proprietes['Pointure- bébé'] }}
                             @elseif($post->proprietes['Taille - bébé'] ?? null)
                                 {{ $post->proprietes['Taille - bébé'] }}
                             @else
