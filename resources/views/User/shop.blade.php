@@ -191,10 +191,12 @@
                             </div>
 
                             <div>
-                                @if ($selected_sous_categorie)
+                                <div class="@if (!$selected_sous_categorie) d-none @endif">
                                     <div class="container mb-2">
                                         <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
                                     </div>
+                                </div>
+                                @if ($selected_sous_categorie)
                                     <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
                                 @endif
                             </div>
