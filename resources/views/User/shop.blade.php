@@ -561,7 +561,7 @@
             }
             if (type == 'Taille' || type == 'taille') {
                 if(Tailleenchiffre != ""){
-                    alert("impossible");
+                    sweet("Opération impossible");
                     return;
                  }
                 Taille = nom;
@@ -578,7 +578,7 @@
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
                  if(Taille != ""){
-                    alert("impossible");
+                    sweet("Opération impossible");
                     return;
                  }
                 Tailleenchiffre = nom;
@@ -707,6 +707,17 @@
         }
 
 
+
+        function sweet(message){
+            Swal.fire({
+                    position: "center",
+                    icon: false,
+                    text: message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: "swal-wide",
+                });
+        }
 
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');
