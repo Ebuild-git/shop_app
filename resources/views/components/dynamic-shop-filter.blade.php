@@ -47,7 +47,7 @@
                             @else
                                 @if ($propriete->options)
                                     @foreach (json_decode($propriete->options ?? []) as $option)
-                                        <button class="btn btn-sm w-1" id="btn-option-{{ $option }}"
+                                        <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
                                             onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
                                             {{ $option }}
                                         </button>

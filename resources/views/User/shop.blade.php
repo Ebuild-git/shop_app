@@ -573,8 +573,8 @@
                 add_selected_option(type, nom);
             }
 
-
-            var button = $("#btn-option-" + nom);
+            let modifiedName = nom.replace(/\s/g, '');
+            var button = $("#btn-option-" + modifiedName);
 
             if (button.hasClass("bg-red")) {
                 button.removeClass("bg-red");
