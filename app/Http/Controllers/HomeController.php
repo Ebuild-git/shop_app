@@ -280,14 +280,16 @@ class HomeController extends Controller
                             Vendeur : '.$produit->user_info->username.'
                             </div>
                         </div>
-                         <div class="fs-md ft-medium mb-0 lh-1 color">
-                            ' . $produit->getPrix() . ' DH
-                            </div>
+                         
                     </div>
-                    <div class="fls_last">
-                        <button class="close_slide gray" type="button" onclick="remove_to_card(' . $produit->id . ')">
+                    <div class="fls_last text-end">
+                        <button class="close_slide gray mb-2" type="button" onclick="remove_to_card(' . $produit->id . ')">
                             <i class="ti-trash text-danger"></i>
                         </button>
+                        <br>
+                        <div class="fs-md ft-medium mb-0 lh-1 color">
+                            ' . $produit->getPrix() . ' DH
+                            </div>
                     </div>
                 </div>';
             } else {

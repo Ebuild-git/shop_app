@@ -694,7 +694,7 @@
                         <div>
                             <div id="Contenu-panier">
                             </div>
-                            <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
+                            <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3 gray">
                                 <div>
                                     <span>
                                         <span class="CountPanier-value strong">-</span>

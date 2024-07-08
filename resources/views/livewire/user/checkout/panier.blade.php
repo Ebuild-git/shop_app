@@ -109,7 +109,7 @@
                     </span>
 
                     <span wire:loading.remove>
-                        Valider ma commande
+                        Valider mon panier
                     </span>
 
                 </button>
