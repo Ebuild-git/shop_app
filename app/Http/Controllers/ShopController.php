@@ -41,12 +41,12 @@ class ShopController extends Controller
 
         $total = posts::where('statut', 'vente')->count();
 
-        
+
 
         $query = posts::whereNotNull('verified_at')
-            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id','statut')
+            ->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
             ->where('statut', 'vente')
-            ->whereNotIn('statut', ['vendu','validation','livraison','livré','refusé']);
+            ->whereNotIn('statut', ['vendu', 'validation', 'livraison', 'livré', 'refusé']);
 
 
         if ($luxury_only == "true") {
@@ -173,13 +173,14 @@ class ShopController extends Controller
 
 
         foreach ($posts as $post) {
-            // Vérifie si la première photo existe, sinon utilise une image par défaut
-            $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
+            if ($post->statu == "vente") {
+                // Vérifie si la première photo existe, sinon utilise une image par défaut
+                $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
 
-            $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
+                $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
 
-            $url = "/post/". $post->id ."/".Str::slug($post->titre);
-            $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
+                $url = "/post/" . $post->id . "/" . Str::slug($post->titre);
+                $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
@@ -189,13 +190,14 @@ class ShopController extends Controller
                                 ' . $post->getLike->count() . '
                             </span>
                         </button>
-                            <a class="card-img-top d-block overflow-hidden" href="'.$url.'">
+                            <a class="card-img-top d-block overflow-hidden" href="' . $url . '">
                                 <img src="' . $photo . '" alt="..."></a>
                         </div>
                     </div>
                     ' . $subCardPostHtml . '
                 </div>
             </div>';
+            }
         }
 
 
