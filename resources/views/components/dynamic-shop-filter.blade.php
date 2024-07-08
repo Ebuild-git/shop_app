@@ -15,9 +15,7 @@
 
 
         @if ($propriete)
-            <div class="container mb-2">
-                <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
-            </div>
+           
             <!-- Single Option -->
             <div class="single_search_boxed">
                 <div class="widget-boxed-header">

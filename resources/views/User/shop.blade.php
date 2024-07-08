@@ -14,7 +14,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Accueil</a></li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="{{ route('shop')}}">
+                                <a href="{{ route('shop') }}">
                                     Catégories
                                 </a>
                             </li>
@@ -192,6 +192,9 @@
 
                             <div>
                                 @if ($selected_sous_categorie)
+                                    <div class="container mb-2">
+                                        <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
+                                    </div>
                                     <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
                                 @endif
                             </div>
@@ -440,7 +443,8 @@
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         options[1] + " <i class='ti-close small text-danger'></i> </div>";
                 });
-                selected_options_div.innerHTML += "<div class='reset_select_option' onclick='reset()'>Réinitialiser <i class='ti-close small'></i> </div>";
+                selected_options_div.innerHTML +=
+                    "<div class='reset_select_option' onclick='reset()'>Réinitialiser <i class='ti-close small'></i> </div>";
             }
         }
 
@@ -492,27 +496,27 @@
         }
 
 
-        function reset(){
+        function reset() {
             //reload page
             window.location.reload();
         }
 
 
         function choix_ordre_prix(ordre) {
-           
+
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
-                add_selected_option(ordre_prix , "Croissant");
+                add_selected_option(ordre_prix, "Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
-                add_selected_option(ordre_prix , "Décroissant");
+                add_selected_option(ordre_prix, "Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
-                add_selected_option(ordre_prix , "Soldé");
+                add_selected_option(ordre_prix, "Soldé");
                 fetchProducts();
             }
             if (ordre == "luxury") {
@@ -524,7 +528,7 @@
 
 
 
-       
+
 
 
 
@@ -629,19 +633,19 @@
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
                 $("#prix_asc").prop('checked', true);
-                add_selected_option(ordre_prix , "Croissant");
+                add_selected_option(ordre_prix, "Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
                 $("#prix_desc").prop('checked', true);
-                add_selected_option(ordre_prix , "Décroissant");
+                add_selected_option(ordre_prix, "Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
                 $("#solder").prop('checked', true);
-                add_selected_option(ordre_prix , "Soldé");
+                add_selected_option(ordre_prix, "Soldé");
                 fetchProducts();
             }
             if (ordre == "luxury") {
