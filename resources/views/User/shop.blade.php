@@ -548,12 +548,22 @@
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
             var show = true;
+
+
+           
+
+
+
             //debut brouillons
             if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
                 show = false;
             }
             if (type == 'Taille' || type == 'taille') {
+                if(Tailleenchiffre != ""){
+                    alert("impossible");
+                    return;
+                 }
                 Taille = nom;
             }
             if (type == 'Article pour' || type == 'article pour') {
@@ -566,6 +576,11 @@
                 Pointure = nom;
             }
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
+                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
+                 if(Taille != ""){
+                    alert("impossible");
+                    return;
+                 }
                 Tailleenchiffre = nom;
             }
             //fin brouillons
