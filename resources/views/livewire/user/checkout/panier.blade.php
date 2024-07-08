@@ -22,18 +22,6 @@
                                             {{ Str::limit($item['titre'], 30) }}
                                         </b>
                                     </a>
-                                    <i class="bi bi-trash3 text-danger btn btn-sm cusor"
-                                        wire:click="delete( {{ $item['id'] }} )"></i>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="text-muted">
-                                            Vendeur : {{ $item['vendeur'] }}
-                                        </span> <br>
-                                        <b>
-                                            Livraison entre le x et le y
-                                        </b>
-                                    </div>
                                     <div class="text-end">
                                         <b class="h6 strong">
                                             @if ($item['is_solder'])
@@ -49,6 +37,19 @@
                                             </span>
                                         </b>
                                     </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="text-muted">
+                                            Vendeur : {{ $item['vendeur'] }}
+                                        </span> <br>
+                                        <b>
+                                            Livraison entre le x et le y
+                                        </b>
+                                    </div>
+                                    
+                                    <i class="bi bi-trash3 text-danger btn btn-sm cusor"
+                                        wire:click="delete( {{ $item['id'] }} )"></i>
                                 </div>
                             </div>
                         </div>
