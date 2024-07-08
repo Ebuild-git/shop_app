@@ -1,4 +1,4 @@
-@section('header')
+@section('head')
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 @endsection
@@ -20,6 +20,12 @@
                 Modifier mon adresse de livraison
             </a>
             <br><br>
+            <button type="button" class="btn btn-dark w-100" onclick="get_location()">
+                <i class="bi bi-geo-alt"></i>
+                Utiliser ma localisation
+            </button>
+            <br>
+            <br>
             <hr>
             <br>
             <h4 class="color">

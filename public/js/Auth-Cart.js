@@ -5,9 +5,19 @@ function Update_post_price(id) {
     $("#Modal-Update-Post-Price").modal("toggle");
 }
 
+function sweet(message) {
+    Swal.fire({
+        position: "center",
+        icon: false,
+        text: message,
+        showConfirmButton: false,
+        timer: 2500,
+        customClass: "swal-wide",
+    });
+}
+
 CountPanier();
 CountNotification();
-
 
 // Ecoute des notificaions en live
 Pusher.logToConsole = false;
@@ -61,16 +71,15 @@ function delete_my_post(id) {
 }
 
 function CountPanier() {
-   
     $.get("/count_panier", function (data, status) {
         if (status === "success") {
             $("#CountPanier-value").text(data.count);
             $("#Contenu-panier").html(data.html);
             $("#montant-panier").text(data.montant);
 
-            if(data.count > 1){
+            if (data.count > 1) {
                 $(".CountPanier-value").text(data.count + " articles");
-            }else{
+            } else {
                 $(".CountPanier-value").text(data.count + " article");
             }
 
@@ -140,7 +149,9 @@ function add_cart(id) {
                 document.getElementById("Cart").style.display = "block";
                 // affichier le message de success ajouter pour 10 secondes
                 $("#div-success-add-card").show("slow");
-                $("#div-success-add-card").html("L'article a été ajouté a votre panier !");
+                $("#div-success-add-card").html(
+                    "L'article a été ajouté a votre panier !"
+                );
                 setTimeout(function () {
                     $("#div-success-add-card").hide("slow");
                 }, 7000);
@@ -415,4 +426,73 @@ function delete_all_notification() {
                 result.dismiss === Swal.DismissReason.cancel;
             }
         });
+}
+
+/////////////////////////// localisation
+var result_location = "";
+function get_location() {
+    if (navigator.geolocation) {
+        $("#location-modal").modal("toggle");
+        // Demander la localisation à l'utilisateur
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                // Récupérer les coordonnées de la position
+                let latitude = position.coords.latitude;
+                let longitude = position.coords.longitude;
+
+                // Initialiser la carte Leaflet
+                let map = L.map("map-adresse").setView(
+                    [latitude, longitude],
+                    13
+                );
+
+                // Ajouter une couche de tuile (Mapbox Streets est gratuite)
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        maxZoom: 19,
+                        attribution: "SHOPIN",
+                    }
+                ).addTo(map);
+
+                // Ajouter un marqueur à la position
+                L.marker([latitude, longitude])
+                    .addTo(map)
+                    .bindPopup("Votre position")
+                    .openPopup();
+
+                // Récupérer l'adresse textuelle à partir des coordonnées
+                fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+                )
+                    .then((response) => response.json())
+                    .then((data) => {
+                        result_location = data.display_name;
+                        $("#val-adresse").text(result_location);
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Erreur lors de la récupération de l'adresse :",
+                            error
+                        );
+                    });
+            },
+            function (error) {
+                // En cas d'erreur
+                console.error(
+                    "Erreur lors de la récupération de la localisation :",
+                    error
+                );
+            }
+        );
+    } else {
+        console.error(
+            "La géolocalisation n'est pas prise en charge par ce navigateur."
+        );
+    }
+}
+
+function btn_accept_location() {
+    Livewire.dispatch("UpdateUserAdresse", { adresse: result_location });
+    sweet("Adresse accepté !");
 }

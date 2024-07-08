@@ -12,6 +12,12 @@ class Adresse extends Component
     public function mount(){
         $this->user = Auth::user();
     }
+    protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
+
+    public function UpdateUserAdresse($adresse){
+        $this->user->address = $adresse;
+        $this->user->save();
+    }
 
     public function render()
     {

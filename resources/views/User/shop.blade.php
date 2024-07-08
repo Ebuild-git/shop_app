@@ -708,16 +708,7 @@
 
 
 
-        function sweet(message){
-            Swal.fire({
-                    position: "center",
-                    icon: false,
-                    text: message,
-                    showConfirmButton: false,
-                    timer: 2500,
-                    customClass: "swal-wide",
-                });
-        }
+       
 
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');

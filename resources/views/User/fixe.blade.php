@@ -674,8 +674,8 @@
 
 
     <!-- Cart -->
-    <div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Cart" >
-        <div class="rightMenu-scroll" >
+    <div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Cart">
+        <div class="rightMenu-scroll">
             <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
                 <h4 class="cart_heading fs-md ft-medium mb-0">
                     Mon panier
@@ -979,6 +979,45 @@
             </div>
         </div>
         <!-- End Modal -->
+
+
+        <!-- location-modal Modal -->
+        <div class="modal fade" id="location-modal" tabindex="-1" role="dialog" aria-labelledby="location-modal"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content" id="location-modal">
+                    <div class="modal-headers">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <h5>
+                                <b class="color">
+                                    <i class="bi bi-geo-alt"></i>
+                                    Votre localisation
+                                </b>
+                            </h5>
+                        </center>
+                        <br>
+                        <div id="map-adresse" class="map-adresse"></div>
+                        <br>
+                        <div id="val-adresse"></div>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn bg-red" id="btn-accept-location" onclick="btn_accept_location()">
+                                <i class="bi bi-check2-square"></i>
+                                Accepter cette localisation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
+
 
 
         @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
