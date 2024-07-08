@@ -316,47 +316,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Single Option -->
-                                <div class="single_search_boxed">
-                                    <div class="widget-boxed-header">
-                                        <h4>
-                                            <a href="#occation" data-toggle="collapse" class="collapsed"
-                                                aria-expanded="false" role="button">
-                                                Localisation
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div class="widget-boxed-body collapse" id="occation" data-parent="#occation">
-                                        <div class="side-list no-border">
-                                            <!-- Single Filter Card -->
-                                            <div class="single_filter_card">
-                                                <div class="card-body pt-0">
-                                                    <div class="inner_widget_link">
-                                                        <ul class="cusor">
-                                                            @foreach ($regions as $region)
-                                                                <li
-                                                                    class="d-flex justify-content-between btn-etat-shop cusor">
-                                                                    <div class="d-flex justify-content-start">
-                                                                        <input type="radio" name="region"
-                                                                            value="{{ $region->id }}"
-                                                                            data-nom="{{ $region->nom }}"
-                                                                            onclick="select_region(this)">
-                                                                        <span>
-                                                                            &nbsp; {{ $region->nom }}
-                                                                        </span>
-                                                                    </div>
-                                                                    <span>
-                                                                        {{ $region->getPost->count() }}
-                                                                    </span>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endif
 
                         </div>
