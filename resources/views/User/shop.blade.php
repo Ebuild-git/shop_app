@@ -617,18 +617,21 @@
                 ordre_prix = "Asc";
                 $("#prix_asc").prop('checked', true);
                 add_selected_option(ordre_prix, "Croissant");
+                check_luxury_only = null;
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
                 $("#prix_desc").prop('checked', true);
                 add_selected_option(ordre_prix, "Décroissant");
+                check_luxury_only = null;
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
                 $("#solder").prop('checked', true);
                 add_selected_option(ordre_prix, "Soldé");
+                check_luxury_only = null;
                 fetchProducts();
             }
             if (ordre == "luxury") {
