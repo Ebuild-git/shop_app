@@ -31,7 +31,6 @@
                         {{ $post->sous_categorie_info->titre }}
                     </div>
                     @if ($post->proprietes)
-                    {{ $post->proprietes['Pointure- Bébé'] }}
                         <div class="strong">
                             @if ($post->proprietes['Taille'] ?? null)
                                 {{ $post->proprietes['Taille'] }}
