@@ -578,7 +578,7 @@ class HomeController extends Controller
             $selected_sous_categorie = sous_categories::find($id_selected_sous_categorie);
         }
         $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon", "icon"]);
-        $key = $request->input("key" ?? null);
+        $key = $request->input("key") ?? null;
 
         $regions = regions::all();
 
@@ -588,13 +588,6 @@ class HomeController extends Controller
         } else {
             $luxury_only == "true";
         }
-
-
-
-       
-        
-       
-
 
         return view('User.shop')
             ->with("key", $key)
