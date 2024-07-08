@@ -165,6 +165,7 @@ class ShopController extends Controller
         if ($etat) {
             $query->where('etat', $etat);
         }
+        dd($query);
 
         $posts = $query->paginate(24);
         foreach ($posts as $post) {
