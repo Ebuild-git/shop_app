@@ -39,7 +39,7 @@ class ShopController extends Controller
         $html = "";
 
 
-        $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
+        $total = posts::where('statut', 'vente')->count();
 
         
 
@@ -84,6 +84,28 @@ class ShopController extends Controller
         }
 
 
+        ///////////- blog brouillons
+        if ($Taille) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$Taille]);
+        }
+        if ($Couleur) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$Couleur]);
+        }
+        if ($ArticlePour) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Article pour\"'))) = ?", [$ArticlePour]);
+        }
+        if ($Tailleenchiffre) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille en chiffre\"'))) = ?", [$Tailleenchiffre]);
+        }
+        if ($Pointure) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
+        }
+        if ($Langue) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);
+        }
+        ///// fin du blog
+
+
 
 
         if ($key) {
@@ -101,6 +123,48 @@ class ShopController extends Controller
         }
 
 
+
+
+        if ($sous_categorie) {
+            $query->where('id_sous_categorie', $sous_categorie);
+
+            $sous_cat = sous_categories::select("proprietes", "id_categorie")->find($sous_categorie);
+            if ($sous_cat) {
+                $categorie = $sous_cat->categorie->id;
+                $ArrayProprietes = [];
+                foreach ($sous_cat->proprietes as $propriete) {
+                    $proprietes = proprietes::select("options", "nom")->find($propriete);
+                    if ($proprietes) {
+                        $optionsArray = [];
+                        foreach ($proprietes->options ?? [] as $pro) {
+                            $optionsArray[] = [
+                                "nom" => $pro
+                            ];
+                        }
+                        if (!empty($optionsArray)) {
+                            $ArrayProprietes[] = [
+                                "nom" => $proprietes->nom,
+                                "options" => $optionsArray
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if ($categorie) {
+            $id_categorie = $categorie;
+            $query->whereHas('sous_categorie_info.categorie', function ($query) use ($id_categorie) {
+                $query->where('id', $id_categorie);
+            });
+        }
+
+
+
+        if ($etat) {
+            $query->where('etat', $etat);
+        }
 
         $posts = $query->paginate(24);
 
