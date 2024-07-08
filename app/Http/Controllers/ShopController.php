@@ -106,66 +106,6 @@ class ShopController extends Controller
         ///// fin du blog
 
 
-
-
-        if ($key) {
-            $q = strtolower($key); // Convertir la recherche en minuscules
-
-            $query->where(function ($query) use ($q) {
-                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
-                    ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
-            });
-
-            $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
-                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
-            });
-        }
-
-
-
-
-        if ($sous_categorie) {
-            $query->where('id_sous_categorie', $sous_categorie);
-
-            $sous_cat = sous_categories::select("proprietes", "id_categorie")->find($sous_categorie);
-            if ($sous_cat) {
-                $categorie = $sous_cat->categorie->id;
-                $ArrayProprietes = [];
-                foreach ($sous_cat->proprietes as $propriete) {
-                    $proprietes = proprietes::select("options", "nom")->find($propriete);
-                    if ($proprietes) {
-                        $optionsArray = [];
-                        foreach ($proprietes->options ?? [] as $pro) {
-                            $optionsArray[] = [
-                                "nom" => $pro
-                            ];
-                        }
-                        if (!empty($optionsArray)) {
-                            $ArrayProprietes[] = [
-                                "nom" => $proprietes->nom,
-                                "options" => $optionsArray
-                            ];
-                        }
-                    }
-                }
-            }
-        }
-
-
-        if ($categorie) {
-            $id_categorie = $categorie;
-            $query->whereHas('sous_categorie_info.categorie', function ($query) use ($id_categorie) {
-                $query->where('id', $id_categorie);
-            });
-        }
-
-
-
-        if ($etat) {
-            $query->where('etat', $etat);
-        }
-
         $posts = $query->paginate(24);
 
 
