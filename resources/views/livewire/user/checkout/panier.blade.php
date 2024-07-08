@@ -44,8 +44,8 @@
                                                 </strike>
                                                 <br>
                                             @endif
-                                            <span class="text-danger small">
-                                                {{ $item['prix'] }} DH
+                                            <span class="@if($item['is_solder'])text-danger @else color @endif small">
+                                                <b>{{ $item['prix'] }} DH</b>
                                             </span>
                                         </b>
                                     </div>

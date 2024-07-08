@@ -41,7 +41,11 @@ class ShopController extends Controller
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
-        $query = posts::where('statut','vente');
+        
+
+        $query = posts::whereNotNull('verified_at')
+            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id','statut')
+            ->where('statut', 'vente');
 
 
         if ($luxury_only == "true") {
@@ -98,9 +102,6 @@ class ShopController extends Controller
         if ($Langue) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);
         }
-
-
-
         ///// fin du blog
 
 
@@ -165,6 +166,11 @@ class ShopController extends Controller
         }
 
         $posts = $query->paginate(24);
+
+
+
+
+
         foreach ($posts as $post) {
             // Vérifie si la première photo existe, sinon utilise une image par défaut
             $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
