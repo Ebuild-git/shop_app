@@ -84,26 +84,22 @@ class ShopController extends Controller
         }
 
 
-        ///////////- blog brouillons
-        if ($Taille) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Taille'))) = ?", [$Taille]);
+
+
+        if ($key) {
+            $q = strtolower($key); // Convertir la recherche en minuscules
+
+            $query->where(function ($query) use ($q) {
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
+                    ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
+            });
+
+            $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
+            });
         }
-        if ($Couleur) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Couleur'))) = ?", [$Couleur]);
-        }
-        if ($ArticlePour) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Article pour\"'))) = ?", [$ArticlePour]);
-        }
-        if ($Tailleenchiffre) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille en chiffre\"'))) = ?", [$Tailleenchiffre]);
-        }
-        if ($Pointure) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
-        }
-        if ($Langue) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);
-        }
-        ///// fin du blog
+
 
 
         $posts = $query->paginate(24);
