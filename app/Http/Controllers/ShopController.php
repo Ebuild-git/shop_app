@@ -42,7 +42,7 @@ class ShopController extends Controller
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
         $query = posts::whereNotNull('verified_at')
-            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id')
+            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id','statut')
             ->where('statut', 'vente');
 
 
