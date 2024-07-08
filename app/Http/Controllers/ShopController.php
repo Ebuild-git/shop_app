@@ -41,9 +41,8 @@ class ShopController extends Controller
 
         $total = posts::whereNotNull('verified_at')->whereNull('sell_at')->count();
 
-        $query = posts::whereNotNull('verified_at')
-            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id','statut')
-            ->where('statut', 'vente');
+        $query = posts::where('statut', 'vente')->whereNotNull('verified_at')
+            ->select('titre','description','id_sous_categorie','prix','proprietes','photos','id','statut');
 
 
         if ($luxury_only == "true") {
@@ -167,7 +166,6 @@ class ShopController extends Controller
         }
 
         $posts = $query->paginate(24);
-        dd($posts);
         foreach ($posts as $post) {
             // Vérifie si la première photo existe, sinon utilise une image par défaut
             $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
