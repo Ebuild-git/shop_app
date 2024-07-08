@@ -1,3 +1,9 @@
+@section('header')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+@endsection
+
+
 <div>
     <div class="text-center">
         <h3>
