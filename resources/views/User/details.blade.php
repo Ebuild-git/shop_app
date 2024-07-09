@@ -73,13 +73,14 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
+                                <a
+                                    href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
                                     {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">
-                                   <b class="color"> {{ $post->sous_categorie_info->titre }}</b>
+                                    <b class="color"> {{ $post->sous_categorie_info->titre }}</b>
                                 </a>
                             </li>
                         </ol>
@@ -194,15 +195,19 @@
                                 </span>
                                 &nbsp;
                             @endif
-                            <span class=" bg-light-info rounded color px-2 py-1 strong" style="background-color: #0080802d">
-                                {{ $post->sous_categorie_info->categorie->titre ?? '' }}
-                            </span>
+                            <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}"
+                                class=" bg-light-info rounded color px-2 py-1 strong" style="background-color: #0080802d">
+                                <span class="color">
+                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                </span>
+                            </a>
                             <span class="text-muted">
                                 &nbsp;
                             </span>
-                            <span class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
+                            <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}&selected_sous_categorie={{ $post->sous_categorie_info->id }}"
+                                class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
                                 {{ $post->sous_categorie_info->titre }}
-                            </span>
+                            </a>
                             <div class="prt_02 mb-5 mt-3">
                                 <h2 class=" mb-1 mt-2 text-capitalize">
                                     {{ $post->titre }}
@@ -256,20 +261,28 @@
                                     </button>
                                     <br>
                                     <div class="text-center">
-                                        <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
-                                            <i class="bi bi-exclamation-octagon"></i>
-                                            Signaler cette annonce
-                                        </span>
+                                        @if ($is_alredy_signaler)
+                                            <span class=" text-danger cursor" >
+                                                <i class="bi bi-exclamation-octagon"></i>
+                                                Vous avez déjà signalée cette annonce !
+                                            </span>
+                                        @else
+                                            <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                                <i class="bi bi-exclamation-octagon"></i>
+                                                Signaler cette annonce
+                                            </span>
+                                        @endif
+
                                         <br><br>
                                     </div>
-                                <div>
-                                    <p class="text-center pr-5 pl-5">
-                                        En poursuivant votre commande, vous acceptez les
-                                        <a href="{{ route('conditions') }}" class="color">
-                                            <b>Conditions générales</b>
-                                        </a> de SHOPIN
-                                    </p>
-                                </div>
+                                    <div>
+                                        <p class="text-center pr-5 pl-5">
+                                            En poursuivant votre commande, vous acceptez les
+                                            <a href="{{ route('conditions') }}" class="color">
+                                                <b>Conditions générales</b>
+                                            </a> de SHOPIN
+                                        </p>
+                                    </div>
                                 @endif
                             @endauth
                             <hr>
@@ -429,7 +442,14 @@
     <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
         aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
-            <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
+            <div>
+               <button type="button"
+                class="close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+               >
+                <i class="bi bi-x-circle"></i>
+               </button>
+                <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
+            </div>
         </div>
     </div>
     <!-- End Modal -->
@@ -448,6 +468,10 @@
                 $('#modal-view-image').attr("src", url);
                 //open modal
                 $('#Modal-view').modal("show");
+            });
+            //close modal
+            $('#btn-close').click(function() {
+                $('#Modal-view').modal('hide');
             });
         });
     </script>

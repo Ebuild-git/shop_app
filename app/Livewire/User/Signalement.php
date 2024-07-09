@@ -10,6 +10,7 @@ class Signalement extends Component
 {
 
     public $post, $type, $message;
+    public $is_send = false;
     public function mount($post)
     {
         $this->post = $post;
@@ -41,10 +42,10 @@ class Signalement extends Component
         $signalement = new signalements();
         $signalement->id_post = $this->post->id;
         $signalement->id_user_make = Auth::user()->id;
-        $signalement->type = $this->type;
         $signalement->message = $this->message;
         $signalement->save();
         session()->flash("success", "Votre signalement a été enregistré");
+        $this->is_send = true;
 
         //reset form
         $this->reset(['type','message']);

@@ -29,7 +29,12 @@
                 <div>
                     <div class="alert alert-dark">
                         <i class="bi bi-geo-alt"></i>
-                        {{ $user->address }}
+                        {{ $user->address }} 
+                        <br>
+                        <b> <i class="bi bi-geo-alt"></i> {{ $user->region_info->nom }} </b>
+                        <br>
+                        <i class="bi bi-telephone"></i>
+                        {{ $user->phone_number }}
                     </div>
                 </div>
             </div>

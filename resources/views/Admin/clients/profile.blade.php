@@ -110,7 +110,7 @@
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span
-                                    class="fw-medium mx-2 text-heading">verifié:</span>
+                                    class="fw-medium mx-2 text-heading">Email confimé:</span>
                                 @if ($user->email_verified_at == null)
                                     <span class="badge bg-label-danger">
                                         Non

@@ -717,6 +717,7 @@
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');
             fetchProducts(page);
+            ancre();
         });
     </script>
 

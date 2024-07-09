@@ -13,6 +13,7 @@ use App\Models\likes;
 use App\Models\notifications;
 use App\Models\posts;
 use App\Models\regions;
+use App\Models\signalements;
 use App\Models\sous_categories;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    
+
     public function index()
     {
         $categories = categories::all();
@@ -60,9 +61,19 @@ class HomeController extends Controller
     public function index_mes_post(Request $request)
     {
         $date_post = $request->input('date' ?? null);
+        $type = $request->get('type') ?? "annonce";
         $statut = $request->input('statut' ?? null);
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
 
+
+        if ($type != "annonce") {
+            $type = "vente";
+        }
+        if ($type == "vente") {
+            $Query = $Query->where('statut', "vendu");
+        } else {
+            $Query = $Query->where('statut', "vente");
+        }
 
         if ($date_post) {
             $date = $date_post . '-01';
@@ -94,7 +105,8 @@ class HomeController extends Controller
         return view('User.list_post')
             ->with("posts", $posts)
             ->with("date", $date_post)
-            ->with("statut", $statut);
+            ->with("statut", $statut)
+            ->with("type", $type);
     }
 
     public function details_post($id)
@@ -114,6 +126,11 @@ class HomeController extends Controller
             $isLiked = false;
         }
 
+        if (Auth::check()) {
+            $is_alredy_signaler = signalements::where('id_user_make', Auth::user()->id)
+                ->where('id_post', $post->id)->count();
+        }
+
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
@@ -125,7 +142,8 @@ class HomeController extends Controller
             ->with("user", $user)
             ->with("isFavorited", $isFavorited)
             ->with("isLiked", $isLiked)
-            ->with("other_products", $other_product);
+            ->with("other_products", $other_product)
+            ->with("is_alredy_signaler", $is_alredy_signaler ?? false);
     }
 
 
@@ -273,16 +291,15 @@ class HomeController extends Controller
                                     alt="" />
                         </div>
                         <div class="cart_single_caption pl-2">
-                        <a href="/post/'.$produit->id.'">
+                        <a href="/post/' . $produit->id . '">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
                             ' . $produit->titre . '
                             </h4>
                             </a>
                             <div class="text-muted ">
-                            Vendeur : '.$produit->user_info->username.'
+                            Vendeur : ' . $produit->user_info->username . '
                             </div>
                         </div>
-                         
                     </div>
                     <div class="fls_last text-end">
                     <div class="fs-md ft-medium mb-0 lh-1 color  mb-2">
@@ -525,14 +542,14 @@ class HomeController extends Controller
 
     public function checkout(Request $request)
     {
-        $step = $request->get('step') ?? 1 ;
+        $step = $request->get('step') ?? 1;
 
-        if($step < 1 || $step > 4 ){
+        if ($step < 1 || $step > 4) {
             return redirect()->route('checkout');
         }
 
         return view("User.checkout")
-        ->with('step', $step);
+            ->with('step', $step);
     }
 
 

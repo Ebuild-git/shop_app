@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', 'Mes annonces')
+@section('titre', "Mes ". $type."s" )
 @section('body')
 
     <!-- ======================= Top Breadcrubms ======================== -->
@@ -13,7 +13,7 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Mes annonces
+                                Mes {{ $type }}s
                             </li>
                         </ol>
                     </nav>

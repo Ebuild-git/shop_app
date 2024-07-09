@@ -223,12 +223,12 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-publication" class=" medium link-red text-medium">
+                                        <a href="/mes-publication?type=vente" class=" medium link-red text-medium">
                                             Mes ventes
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-publication" class=" medium link-red text-medium">
+                                        <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
                                             Mes annonces
                                         </a>
                                     </li>

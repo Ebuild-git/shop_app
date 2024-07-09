@@ -172,6 +172,8 @@ class CreatePost extends Component
             'prix_achat' => 'nullable|numeric|min:1',
             'etat' => ['required', 'string'],
             'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
+        ],[
+            'required' => "Ce champ est obligatoire"
         ]);
         // Vous validez les données soumises
 
