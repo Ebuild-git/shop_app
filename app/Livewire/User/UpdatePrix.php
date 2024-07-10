@@ -59,7 +59,7 @@ class UpdatePrix extends Component
 
             //on se rassure que il entre pas le meme prix
             if ($this->prix == $old_price) {
-                session()->flash('error', "Veuillez entrer un nouveau prix réduit !.");
+                $this->addError('prix', 'Le nouveau prix doit être different du prix actuel <br> Veuillez réduire le prix.');
                 return;
             }
 
