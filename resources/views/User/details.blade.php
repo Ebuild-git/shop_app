@@ -443,15 +443,6 @@
                             </button>
                         </div>
                         <div class="modal-body p-5">
-                            <div class="text-center mb-4">
-                                <h1 class="m-0 ft-regular h5 text-danger">
-                                    <i class="bi bi-exclamation-octagon"></i>
-                                    Signaler l'annonce.
-                                </h1>
-                                <span class="text-muted">
-                                    " {{ $post->titre }} "
-                                </span>
-                            </div>
                             @livewire('User.Signalement', ['post' => $post])
                         </div>
                     </div>
