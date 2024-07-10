@@ -54,12 +54,4 @@
     @endif
 
     @include('components.alert-livewire')
-    @if ($changed)
-        <br>
-        <div class="text-center">
-            <a href="/mes-publication" class="link color">
-                Appliquer et Voir les changements
-            </a>
-        </div>
-    @endif
 </div>

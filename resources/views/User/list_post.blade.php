@@ -155,7 +155,7 @@
         <div class="modal-dialog modal-xl login-pop-form" role="document">
             <div class="modal-content" id="UpdatePrice">
                 <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" onclick="close_update_price()">
                         <span class="ti-close"></span>
                     </button>
                 </div>
@@ -168,4 +168,10 @@
         </div>
     </div>
     <!-- End Modal pour modifier le prix -->
+    <script>
+        function close_update_price(){
+            //reload page
+            location.reload();
+        }
+    </script>
 @endsection
