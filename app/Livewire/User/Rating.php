@@ -48,7 +48,7 @@ class Rating extends Component
             ->first();
 
         if(!$rate){
-            $this->dispatch('alert', ['message' => "Vous n'avez pas d'achat en attente de note!", 'type' => 'warning']);
+            $this->dispatch('alert2', ['message' => "Vous pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce vendeur !", 'type' => 'warning','time'=>5000]);
             return;
         }
 

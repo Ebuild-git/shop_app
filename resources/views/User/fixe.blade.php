@@ -76,6 +76,24 @@
                 });
             });
         });
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('alert2', (parametres) => {
+                console.log(parametres);
+                const message = parametres[0].message;
+                const type = parametres[0].type;
+                const time = parametres[0].time;
+
+
+                Swal.fire({
+                    position: "center",
+                    icon: type,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: time,
+                    customClass: "swal-wide",
+                });
+            });
+        });
         //formatage du numero de telephone
         function formatTelephone(input) {
             var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques
