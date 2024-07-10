@@ -109,8 +109,8 @@
                                 [ {{ $user->gender }} ]
                             </li>
                             <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-check text-heading"></i><span
-                                    class="fw-medium mx-2 text-heading">Email confimé:</span>
+                                <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">Email
+                                    confimé:</span>
                                 @if ($user->email_verified_at == null)
                                     <span class="badge bg-label-danger">
                                         Non
@@ -168,7 +168,59 @@
                 <!-- Projects table -->
                 <div class="card mb-4">
                     <div class="card-datatable table-responsive">
-                        @livewire('ListPublicaionUserProfil', ['posts' => $user->GetPosts])
+                        <table class="datatables-projects table border-top">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>titre</th>
+                                    <th>Date</th>
+                                    <th>Prix</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            @forelse ($posts as $post)
+                                <tr>
+                                    <td>
+                                        <div class="avatar me-2">
+                                            <img src="{{ $post->FirstImage() }}" alt="{{ $post->titre }}" srcset=""
+                                                class="rounded">
+                                        </div>
+                                    </td>
+                                    <td> {{ $post->titre }} </td>
+                                    <td>{{ $post->created_at }}</td>
+                                    <td>
+                                        @if ($post->old_prix)
+                                            <span class="strong color strong">
+                                                <strike>
+                                                    {{ $post->getOldPrix() }}
+                                                </strike> DH
+                                            </span>
+                                            <br>
+                                            <span class="text-danger strong">
+                                                {{ $post->getPrix() }} DH
+                                            </span>
+                                        @else
+                                            <span class=" color strong ">
+                                                {{ $post->getPrix() }} DH
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-secondary"
+                                            onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
+                                            <i class="bi bi-eye"></i> &nbsp; Voir
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="p-3 text-center">
+                                        Aucune publication pour le moment.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </table>
+
                     </div>
                 </div>
                 <!--/ Projects table -->

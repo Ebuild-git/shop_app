@@ -28,7 +28,10 @@ class UserController extends Controller
         $id = $request->id;
         try {
             $user = User::findOrFail($id);
-            return view("Admin.clients.profile")->with("user", $user);
+            $posts = posts::where('id_user', $user->id)->get();
+            return view("Admin.clients.profile")
+                ->with("user", $user)
+                ->with("posts", $posts);
         } catch (\Throwable $th) {
             //throw $th;
             // 404
