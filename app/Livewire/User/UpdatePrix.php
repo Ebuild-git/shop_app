@@ -14,6 +14,7 @@ class UpdatePrix extends Component
     public $postId;
     public $show = true;
     public $changed = false;
+    public $can_change = false;
 
     protected $listeners = ['setPostId'];
 
@@ -21,7 +22,7 @@ class UpdatePrix extends Component
     {
         $this->reset();
         $post = posts::where('id', $id)
-        ->select("id","prix","old_prix","titre","id_sous_categorie")
+        ->select("id","prix","old_prix","titre","id_sous_categorie","updated_price_at")
         ->where('id_user', Auth::user()->id)
         ->first();
         if ($post) {
@@ -29,6 +30,7 @@ class UpdatePrix extends Component
             $this->titre = $post->titre;
             $this->post = $post;
             $this->show = true;
+            $this->can_change = $post->next_time_to_edit_price();
         }
     }
 
@@ -54,6 +56,12 @@ class UpdatePrix extends Component
 
         if ($post) {
             $old_price = $post->prix;
+
+            //on se rassure que il entre pas le meme prix
+            if ($this->prix == $old_price) {
+                session()->flash('error', "Veuillez entrer un nouveau prix réduit !.");
+                return;
+            }
 
             // Rechercher le dernier changement de prix
             $lastChange = History_change_price::where('id_post', $post->id)

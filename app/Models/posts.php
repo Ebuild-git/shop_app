@@ -133,7 +133,7 @@ class posts extends Model
     
             // Vérifier si la date d'expiration est supérieure à la date actuelle
             if ($expiryDate <= $now) {
-                return '-';
+                return false;
             }
     
             // Calculer la différence en jours, heures et minutes
@@ -144,7 +144,7 @@ class posts extends Model
             // Formater le temps restant
             return sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
         } else {
-            return '-';
+            return false;
         }
     }
     
