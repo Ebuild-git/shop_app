@@ -43,6 +43,7 @@ class Signalement extends Component
         $signalement->id_post = $this->post->id;
         $signalement->id_user_make = Auth::user()->id;
         $signalement->message = $this->message;
+        $signalement->type = $this->type;
         $signalement->save();
         session()->flash("success", "Votre signalement a été enregistré");
         $this->is_send = true;
