@@ -130,20 +130,24 @@ class posts extends Model
             $updatedPriceDate = Carbon::parse($this->updated_price_at);
             $expiryDate = $updatedPriceDate->addWeeks(1);
             $now = Carbon::now();
-
+    
+            // Vérifier si la date d'expiration est supérieure à la date actuelle
+            if ($expiryDate <= $now) {
+                return '-';
+            }
+    
             // Calculer la différence en jours, heures et minutes
             $diffInDays = $now->diffInDays($expiryDate);
             $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
             $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
-
+    
             // Formater le temps restant
-            $remainingTime = sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
+            return sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
         } else {
-            $remainingTime = '-';
+            return '-';
         }
-        return $remainingTime;
     }
-
+    
 
     public function motif()
     {

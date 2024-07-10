@@ -617,6 +617,7 @@ body {
     padding: 0px !important;
 }
 
+
 .popup-content {
     border-radius: 10px !important;
     border: none !important;
@@ -1135,7 +1136,6 @@ input[type="month"]:active::before {
     border-radius: 10px;
     border:solid 1px #008080;
 }
-
 
 
 

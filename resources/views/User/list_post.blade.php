@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', "Mes ". $type."s" )
+@section('titre', 'Mes ' . $type . 's')
 @section('body')
 
     <!-- ======================= Top Breadcrubms ======================== -->
@@ -40,8 +40,8 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="month" class="form-control sm cusor" 
-                            value="{{ $date ? $date : null }}" name="date">
+                        <input type="month" class="form-control sm cusor" value="{{ $date ? $date : null }}"
+                            name="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <i class="bi bi-binoculars"></i>
@@ -75,18 +75,20 @@
                             </th>
                             <td>
                                 <b>
-                                    <a href="/post/{{ $item->id }}" class="link h6" >{{ $item->titre }}</a>
+                                    <a href="/post/{{ $item->id }}" class="link h6">
+                                        {{ Str::limit($item->titre, 20) }}
+                                    </a>
                                 </b>
                                 <br>
                                 <span class="small">
-                                    <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m')  }}</i>
+                                    <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m') }}</i>
                                 </span>
                             </td>
                             <td class="strong">
                                 {{ $item->getPrix() }} DH
                             </td>
                             <td class="strong">
-                                {{ $item->changements_prix->count() ? $item->changements_prix->first()->old_price  . ' DH' : '-' }}
+                                {{ $item->changements_prix->count() ? $item->changements_prix->first()->old_price . ' DH' : '-' }}
                             </td>
                             <td>
                                 <span class="small">
@@ -95,7 +97,7 @@
                             </td>
                             <td>
                                 <span class="small">
-                                {{ $item->next_time_to_edit_price() }}
+                                    {{ $item->next_time_to_edit_price() }}
                                 </span>
                             </td>
                             <td class="text-capitalize">
@@ -110,7 +112,7 @@
                             </td>
                             <td style="text-align: right;">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    @if (!$item->id_user_buy )
+                                    @if (!$item->id_user_buy)
                                         <button class="btn btn-sm  bg-red"
                                             onclick="Update_post_price({{ $item->id }})">
                                             <i class="bi bi-graph-down-arrow"></i>
@@ -144,4 +146,26 @@
         </div>
 
     </div>
+@endsection
+
+@section('modal')
+    <!-- Modal pour modifier le prix -->
+    <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="UpdatePrice">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-5">
+                    <div style="text-align: left;">
+                        @livewire('User.UpdatePrix')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal pour modifier le prix -->
 @endsection
