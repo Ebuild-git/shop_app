@@ -239,7 +239,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <x-BtnAddPanier :post="$post"></x-BtnAddPanier>
+
+
+                            @if ($post->statut == 'vente')
+                                @auth
+                                    @if ($post->id_user != Auth::id())
+                                        <button type="button" class="btn btn-block @if($produit_in_cart) bg-dark @endif mb-2 p-3 " id="btn-add-to-card"
+                                            onclick="add_cart({{ $post->id }})">
+                                            <i class="lni lni-shopping-basket mr-2"></i>
+                                            <span id="add-cart-text-btn">
+                                                {{ $produit_in_cart ? 'Rétiré du panier' : 'Ajouter au panier' }}
+                                            </span>
+                                        </button>
+                                    @endif
+                                @endauth
+
+                                @guest
+                                    <button type="button" class="btn btn-block bg-dark mb-2 p-3 " data-toggle="modal"
+                                        data-target="#login">
+                                        <i class="lni lni-shopping-basket mr-2"></i>
+                                        Ajouter au panier
+                                    </button>
+                                @endguest
+                            @endif
+
+
 
                             @auth
                                 @if (Auth::id() == $post->id_user)
@@ -262,7 +286,7 @@
                                     <br>
                                     <div class="text-center">
                                         @if ($is_alredy_signaler)
-                                            <span class=" text-danger cursor" >
+                                            <span class=" text-danger cursor">
                                                 <i class="bi bi-exclamation-octagon"></i>
                                                 Vous avez déjà signalée cette annonce !
                                             </span>
@@ -443,11 +467,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
             <div>
-               <button type="button"
-                class="close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
-               >
-                <i class="bi bi-x-circle"></i>
-               </button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="btn-close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
                 <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
             </div>
         </div>

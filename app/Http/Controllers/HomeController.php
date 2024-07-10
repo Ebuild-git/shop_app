@@ -131,6 +131,25 @@ class HomeController extends Controller
                 ->where('id_post', $post->id)->count();
         }
 
+
+        //verifier si j'ai cet article dans mon panier
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        $productExists = false;
+        foreach ($cart ?? [] as $item) {
+            if ($item['id'] == $post->id) {
+                $productExists = true;
+                break;
+            }
+        }
+        if($productExists){
+            $produit_in_cart = true;
+        }else{
+            $produit_in_cart = false;
+        }
+
+
+
+
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
@@ -143,7 +162,8 @@ class HomeController extends Controller
             ->with("isFavorited", $isFavorited)
             ->with("isLiked", $isLiked)
             ->with("other_products", $other_product)
-            ->with("is_alredy_signaler", $is_alredy_signaler ?? false);
+            ->with("is_alredy_signaler", $is_alredy_signaler ?? false)
+            ->with("produit_in_cart", $produit_in_cart);
     }
 
 
@@ -344,7 +364,6 @@ class HomeController extends Controller
 
 
 
-
     public function add_panier(Request $request)
     {
         $id = $request->input('id') ?? "";
@@ -355,6 +374,7 @@ class HomeController extends Controller
                 [
                     'status' => true,
                     'message' => "Cet article n'est plus disponible a la vente",
+                    'exist' => false,
                 ]
             );
         }
@@ -364,6 +384,7 @@ class HomeController extends Controller
                 [
                     'status' => true,
                     'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
+                    'exist' => false,
                 ]
             );
         }
@@ -386,13 +407,16 @@ class HomeController extends Controller
                 [
                     'status' => false,
                     'message' => "Article ajouté avec succès",
+                    'exist' => true,
                 ]
             );
         } else {
+            $this->delete_form_cart($id);
             return response()->json(
                 [
                     'status' => true,
-                    'message' => "Cet article est déjà dans votre panier",
+                    'message' => "Article rétiré de votre panier",
+                    'exist' => false,
                 ]
             );
         }

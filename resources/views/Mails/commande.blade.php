@@ -64,7 +64,7 @@
     <div>
         <h2 class="color">
             <b>
-                {{ $user->firstname }}, merci de votre achat !
+                {{ $user->username }}, merci de votre achat !
             </b>
         </h2>
         <p>

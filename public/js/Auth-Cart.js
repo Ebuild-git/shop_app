@@ -149,9 +149,14 @@ function add_cart(id) {
                 document.getElementById("Cart").style.display = "block";
                 // affichier le message de success ajouter pour 10 secondes
                 $("#div-success-add-card").show("slow");
-                $("#div-success-add-card").html(
-                    "L'article a été ajouté a votre panier !"
-                );
+                $("#div-success-add-card").html(data.message);
+                if (data.exist) {
+                    $("#add-cart-text-btn").text("Retirer du panier");
+                    $("#btn-add-to-card").addClass("bg-dark");
+                } else {
+                    $("#add-cart-text-btn").text("Ajouter au panier");
+                    $("#btn-add-to-card").removeClass("bg-dark");
+                }
                 setTimeout(function () {
                     $("#div-success-add-card").hide("slow");
                 }, 7000);
