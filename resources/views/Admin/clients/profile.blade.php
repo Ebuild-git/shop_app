@@ -206,9 +206,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-secondary"
+                                        <button class="btn btn-sm btn-primary"
                                             onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
-                                            <i class="bi bi-eye"></i> &nbsp; Voir
+                                            <i class="bi bi-eye"></i> 
                                         </button>
                                     </td>
                                 </tr>
