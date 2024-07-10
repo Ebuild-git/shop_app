@@ -34,7 +34,7 @@ class DynamicShopFilter extends Component
             "jouets & divertissments"=> ["État","Prix"],
             "univers bébé" => ["Taille-bébé","Pointure-bébé","État","Prix"],
             "univers sport" => ["État","Prix"],
-            "univers Maison" => ["État","Prix"],
+            "univers maison" => ["État","Prix"],
         ];
 
 
