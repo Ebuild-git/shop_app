@@ -145,8 +145,8 @@
                     <label>Titre de la publication</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control cusor border-r " placeholder="Titre" wire:model="titre"
-                            required>
+                        <input type="text" class="form-control cusor border-r " placeholder="Titre"
+                            wire:model="titre" required>
                         @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -201,7 +201,8 @@
                 <span class="bold text-danger">*</span>
                 <div class="position-relative">
                     <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
-                    <select class="form-control cusor border-r pl-4" wire:model.live="region" required style="">
+                    <select class="form-control cusor border-r pl-4" wire:model.live="region" required
+                        style="">
                         <option value="">Veuillez selectionner la region</option>
                         @foreach ($regions as $item)
                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
@@ -294,8 +295,8 @@
                                                 @endforeach
                                             </select>
                                         @else
-                                            <input type="text" class="form-control cusor border-r liste" @required($requi)
-                                                placeholder="{{ $propriete_info->nom }}"
+                                            <input type="text" class="form-control cusor border-r liste"
+                                                @required($requi) placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
                                                 data-model="{{ $propriete_info->nom }}">
@@ -319,7 +320,8 @@
                                         @endforeach
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
-                                            placeholder="{{ $propriete_info->nom }}" class="form-control cusor border-r"
+                                            placeholder="{{ $propriete_info->nom }}"
+                                            class="form-control cusor border-r"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
                                     @endif
                                 </div>
@@ -343,12 +345,13 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Entrez une description  de votre article ci-dessous</b>
+                <b>Entrez une description de votre article ci-dessous</b>
             </span>
         </div>
     </div>
     <div class="form-group">
-        <textarea wire:model="description" class="form-control cusor border-r " placeholder="veuillez entrer la description de votre article" rows="7">
+        <textarea wire:model="description" class="form-control cusor border-r "
+            placeholder="veuillez entrer la description de votre article" rows="7">
             
         </textarea>
         @error('description')
@@ -385,18 +388,18 @@
         <span wire:loading>
             <x-Loading></x-Loading>
         </span>
-        <a href="/publication" class="btn btn-secondary">
+        <a href="/publication" class="btn btn-danger">
+            <i class="bi bi-x-lg"></i>
             Effacer
         </a>
-        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="submitbutton" id="submit-form"
-            wire:loading.attr="disabled">
-            @if ($post)
-                <i class="bi bi-pencil-square"></i>
-                Enregistrer les modifications
-            @else
-                <i class="bi bi-pencil-square"></i>
-                Publier mon article
-            @endif
+        <button type="button" class="btn btn-info" wire:click="preview">
+            <i class="bi bi-eye"></i>
+            Aperçu
+        </button>
+        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="button" wire:click="submit"
+            id="submit-form" wire:loading.attr="disabled">
+            <i class="bi bi-send"></i>
+            Publier
         </button>
     </div>
 
@@ -480,15 +483,6 @@
             border: solid 1px #011d1d8c;
         }
     </style>
-
-
-
-
-
-
-
-    @section('head')
-    @endsection
 
 
     <script>
@@ -588,6 +582,137 @@
 
         });
     </script>
+
+
+
+    <!-- Modal pour voir la liste des motifs d'un post réfuser -->
+    <div class="modal fade" id="modal_motifs_preview_post" tabindex="1" role="dialog"
+        aria-labelledby="UpdatePrice" aria-hidden="true">
+        <div class="modal-dialog modal-lg login-pop-form" role="document">
+            <div class="modal-content" id="UpdatePrice">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-5">
+                    @if ($data_post)
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div>
+                                    <div>
+                                        <div>
+                                            <img src="{{ Storage::url($data_post['photos'][0]) }}" alt=""
+                                                style="width: 100% !important;">
+                                        </div>
+                                        <div>
+                                            @foreach ($data_post['photos'] as $photo)
+                                                <div class="gallery-image-details-preview cusor"
+                                                    onclick="change_principal_image('{{ Storage::url($photo) }}')">
+                                                    <img src="{{ Storage::url($photo) }}" alt=""
+                                                        style="width: 100% !important;">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <h3 class=" mb-1 mt-2 text-capitalize">
+                                        {{ $data_post['titre'] }}
+                                    </h3>
+                                    <div>
+                                        <span class="ft-bold color strong fs-lg">
+                                            {{ $data_post['prix'] }} DH
+                                        </span>
+                                        <span class="badge-frais-details">
+                                            <img width="25" height="25"
+                                                src="https://img.icons8.com/laces/25/018d8d/delivery.png"
+                                                alt="delivery" />
+                                            + Frais de Livraison
+                                        </span>
+                                    </div>
+                                    <div class="mt-3">
+                                        <b class="text-black h6">Détails</b>
+                                        <table>
+                                            <tr>
+                                                <td style="min-width: 130px">Condition </td>
+                                                <td class="text-black"> {{ $data_post['etat'] }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Catégorie </td>
+                                                <td class="text-black">
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Région </td>
+                                                <td class="text-black"> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Publié le </td>
+                                                <td class="text-black">
+                                                    {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
+                                                </td>
+                                            </tr>
+                                            @forelse ($data_post['proprietes'] ?? []  as $key => $value)
+                                                <tr>
+                                                    <td>{{ ucfirst($key) }} </td>
+                                                    <td class="text-black">
+                                                        @if ($key == 'Couleur')
+                                                            @if ($value == '#000000000')
+                                                                <img src="/icons/color-wheel.png" height="20"
+                                                                    width="20" alt="multicolor"
+                                                                    title="Multi color" srcset="">
+                                                            @else
+                                                                <script>
+                                                                    getColorName('{{ $value }}');
+                                                                </script>
+                                                                <span class="card"
+                                                                    style="background-color: {{ $value }} ;color:{{ $value }};">
+                                                                    {{ $value }}
+                                                                </span>
+                                                            @endif
+                                                            <span id="colorName"></span>
+                                                        @else
+                                                            {{ $value }}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                            @endforelse
+                                        </table>
+                                    </div>
+                                    <div class="mt-3">
+                                        <b class="text-black h6">Description</b>
+                                        <p>
+                                            @if ($data_post['description'])
+                                                {!! $data_post['description'] !!}
+                                            @else
+                                                <div class="text-muted text-center">
+                                                    <i>
+                                                        <i class="bi bi-info-circle color"></i>
+                                                        Aucune description disponible !
+                                                    </i>
+                                                </div>
+                                            @endif
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="p-2 text-center">
+                            <img src="/icons/icons8-preview-58.png" alt="" srcset="">
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
 
 
 </form>

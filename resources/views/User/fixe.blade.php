@@ -94,6 +94,17 @@
                 });
             });
         });
+
+
+        //ouverture du modal pour la previsualisation du post
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('openmodalpreview', (data) => {
+                console.log(data);
+                $("#modal_motifs_preview_post").modal("toggle");
+            });
+        });
+
+
         //formatage du numero de telephone
         function formatTelephone(input) {
             var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques

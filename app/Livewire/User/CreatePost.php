@@ -27,10 +27,11 @@ class CreatePost extends Component
     public $photo1, $photo2, $photo3, $photo4, $photo5;
     public $colors, $required = [];
     public $selected_color = null;
-    public $text_name_color ;
+    public $text_name_color;
     public $article_propriete = [];
     public $proprietes, $quantite;
     protected $listeners = ['suggestionSelected'];
+    public $data_post;
 
 
     public function mount($id)
@@ -53,7 +54,7 @@ class CreatePost extends Component
     public function choose($nom, $code, $propriete_nom)
     {
         $this->selected_color = $nom;
-        $this->text_name_color =$nom;
+        $this->text_name_color = $nom;
         $this->article_propriete[$propriete_nom] = $code;
     }
 
@@ -157,7 +158,7 @@ class CreatePost extends Component
 
 
 
-    public function submit()
+    public function before_post()
     {
 
         $this->validate([
@@ -172,24 +173,21 @@ class CreatePost extends Component
             'prix_achat' => 'nullable|numeric|min:1',
             'etat' => ['required', 'string'],
             'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
-        ],[
+        ], [
             'required' => "Ce champ est obligatoire"
         ]);
         // Vous validez les données soumises
 
-        //verifier que l'utilisateur a ajouter au moins une photo
-        if ($this->photo1 == null && $this->photo2 == null && $this->photo3 == null && $this->photo4 == null) {
-            $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
-            return;
-        }
 
 
-        $config = configurations::first();
+
+
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         if ($sous_categorie->categorie->luxury == 1) {
             if ($this->prix < 800) {
                 //le prix doit dépasse 800 DH 
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
+                dd('image');
                 return;
             }
         }
@@ -199,42 +197,107 @@ class CreatePost extends Component
         $jsonProprietes = $this->article_propriete ?? [];
 
 
-        $post = posts::find($this->post->id ?? "d"); // Vous cherchez le post existant par son ID
-        if (!$post) {
-            $post = new posts(); // Si le post n'existe pas, vous en créez un nouveau
-        }
 
-
-
-        // Traitement des photos
-        $data = [];
+        $photos = [];
         if ($this->photo1) {
             $name = $this->photo1->store('uploads/posts', 'public');
-            $data[] = $name;
+            $photos[] = $name;
         }
         if ($this->photo2) {
             $name = $this->photo2->store('uploads/posts', 'public');
-            $data[] = $name;
+            $photos[] = $name;
         }
         if ($this->photo3) {
             $name = $this->photo3->store('uploads/posts', 'public');
-            $data[] = $name;
+            $photos[] = $name;
         }
         if ($this->photo4) {
             $name = $this->photo4->store('uploads/posts', 'public');
-            $data[] = $name;
+            $photos[] = $name;
         }
         if ($this->photo5) {
             $name = $this->photo5->store('uploads/posts', 'public');
-            $data[] = $name;
+            $photos[] = $name;
         }
-        $post->photos = $data;
-        // Mettre à jour les autres données du post
+
+
+
+        $data_post = [
+            "titre" => $this->titre,
+            "description" => $this->description,
+            "photos" => $photos,
+            "etat" => $this->etat,
+            "proprietes" => $jsonProprietes,
+            "id_sous_categorie" => $this->selectedSubcategory,
+            "id_region" => $this->region,
+            "prix" => $this->prix,
+            "id_user" => Auth::user()->id,
+            "statut" => "vente",
+            "prix_achat" => $this->prix_achat ?? 0,
+            "created_at" => now(),
+        ];
+
+
+        $this->data_post = $data_post;
+    }
+
+
+
+
+    public function preview()
+    {
+        $this->before_post();
+        if ($this->data_post) {
+            //verifier que l'utilisateur a ajouter au moins une photo
+            if (empty($this->data_post["photos"])) {
+                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
+                return;
+            } else {
+                $this->dispatch('openmodalpreview', $this->data_post);
+                return;
+            }
+        } else {
+            $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);
+            return;
+        }
+    }
+
+
+
+
+
+
+    public function submit()
+    {
+        $this->before_post();
+        if ($this->data_post) {
+            //verifier que l'utilisateur a ajouter au moins une photo
+            if (empty($this->data_post["photos"])) {
+                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
+                return;
+            } else {
+                dd("on post");
+                $this->make_post($this->data_pos);
+            }
+        } else {
+            $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);
+            return;
+        }
+    }
+
+
+
+
+    public function make_post($data)
+    {
+        $config = configurations::first();
+        $post = new posts();
+        $post->photos = $data["photos"];
         $post->titre = $this->titre;
         $post->description = $this->description;
         $post->id_region = $this->region;
         $post->etat = $this->etat;
-        $post->proprietes = $jsonProprietes ;
+        $post->proprietes = $data["proprietes"];
         $post->id_sous_categorie = $this->selectedSubcategory;
         if ($this->prix_achat > 0) {
             $post->prix_achat = $this->prix_achat;
@@ -245,13 +308,11 @@ class CreatePost extends Component
             $post->verified_at = now();
             $post->statut = 'vente';
         }
-        $post->save(); // Sauvegarder le post
+        $post->save();
 
 
         if ($config->valider_publication == 1) {
-            // Message de succès
             event(new AdminEvent('Un post a été créé avec succès.'));
-            //enregistrer la notification
             $notification = new notifications();
             $notification->type = "new_post";
             $notification->titre = Auth::user()->name . " vient de publier un article ";
@@ -268,6 +329,10 @@ class CreatePost extends Component
         // Réinitialiser le formulaire
         return redirect()->route('details_post_single', ['id' => $post->id]);
     }
+
+
+
+
 
 
     public function RemoveMe($index)
