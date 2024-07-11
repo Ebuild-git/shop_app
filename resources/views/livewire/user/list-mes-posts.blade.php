@@ -19,7 +19,7 @@
                                 <option value="livré">Déja livré</option>
                             </select>
                         @endif
-                        <input type="month" class="form-controlsm cusor " id="month-btn" wire:model="date">
+                        <input type="month" class="form-control cusor " id="month-btn" wire:model="date">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"

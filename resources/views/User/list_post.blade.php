@@ -40,8 +40,17 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="month" class="form-control sm cusor" value="{{ $date ? $date : null }}"
-                            name="date">
+                        <div class="form-control sm" onclick="OpenCalendar()">
+                            <div>
+                                <span id="select_date">
+                                    {{ $date ? $date : 'Mois / Année' }}
+                                </span>
+                            </div>
+                            <div class="data-input">
+                                <input type="month" class="form-control sm cusor " onchange="date_changed()"
+                                    name="date" id="calendar">
+                            </div>
+                        </div>
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <i class="bi bi-binoculars"></i>
@@ -169,9 +178,35 @@
     </div>
     <!-- End Modal pour modifier le prix -->
     <script>
-        function close_update_price(){
+        function close_update_price() {
             //reload page
             location.reload();
         }
+
+        function OpenCalendar() {
+            document.getElementById("calendar").showPicker();
+        }
+
+
+        // if calendar change value
+        function date_changed() {
+            var value = document.getElementById("calendar").value;
+            if (value) {
+                $("#select_date").text(value);
+            } else {
+                $("#select_date").text("Mois / Année");
+            }
+
+        }
     </script>
+
+    </script>
+
+    <style>
+        .data-input {
+            overflow: hidden;
+            width: 5px;
+            height: 5px;
+        }
+    </style>
 @endsection

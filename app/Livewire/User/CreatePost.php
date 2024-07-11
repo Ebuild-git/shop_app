@@ -229,9 +229,6 @@ class CreatePost extends Component
             $data[] = $name;
         }
         $post->photos = $data;
-
-
-
         // Mettre à jour les autres données du post
         $post->titre = $this->titre;
         $post->description = $this->description;
