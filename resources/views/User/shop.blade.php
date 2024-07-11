@@ -467,17 +467,17 @@
 
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
-                add_selected_option("ordre_prix", "Croissant");
+                add_selected_option("ordre_prix", "Ordre Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
-                add_selected_option("ordre_prix", "Décroissant");
+                add_selected_option("ordre_prix", "Ordre Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
-                add_selected_option("ordre_prix", "Soldé");
+                add_selected_option("ordre_prix", "Article Soldé");
                 fetchProducts();
             }
             if (ordre == "luxury") {
@@ -616,21 +616,21 @@
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
                 $("#prix_asc").prop('checked', true);
-                add_selected_option(ordre_prix, "Croissant");
+                add_selected_option("ordre_prix", "Ordre Croissant");
                 check_luxury_only = null;
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
                 $("#prix_desc").prop('checked', true);
-                add_selected_option(ordre_prix, "Décroissant");
+                add_selected_option("ordre_prix", "Ordre Décroissant");
                 check_luxury_only = null;
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
                 $("#solder").prop('checked', true);
-                add_selected_option(ordre_prix, "Soldé");
+                add_selected_option("ordre_prix", "Article Soldé");
                 check_luxury_only = null;
                 fetchProducts();
             }
