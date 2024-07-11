@@ -1,15 +1,15 @@
 <div class="card-footer b-0 p-0 pt-2 bg-white">
     @if ($show)
-        <div class="d-flex justify-content-between mb-1">
+        <div class="d-flex justify-content-between mb-1" style="font-size: 14px;">
             <div class="d-flex justify-content-between mb-1">
                 @if ($post->changements_prix->count())
                     <strike class="elis_rty color strong">
-                        {{ $post->getOldPrix() }} DH
+                        {{ $post->getOldPrix() }} <sup>DH</sup>
                     </strike>
                     &nbsp;&nbsp;&nbsp;
                 @endif
                 <div class="@if ($post->changements_prix->count()) text-danger @else color @endif ft-bold fs-sm">
-                    {{ $post->getPrix() }} DH
+                    {{ $post->getPrix() }} <sup>DH</sup>
                 </div>
             </div>
             @if ($post->sous_categorie_info->categorie->luxury == 1)
