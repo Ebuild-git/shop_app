@@ -15,6 +15,7 @@ class UpdatePrix extends Component
     public $show = true;
     public $changed = false;
     public $can_change = false;
+    public $loading = true;
 
     protected $listeners = ['setPostId'];
 
@@ -31,6 +32,9 @@ class UpdatePrix extends Component
             $this->post = $post;
             $this->show = true;
             $this->can_change = $post->next_time_to_edit_price();
+            $this->loading = false;
+        }else{
+            $this->loading = false;
         }
     }
 
