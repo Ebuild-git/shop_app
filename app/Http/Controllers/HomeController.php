@@ -296,40 +296,11 @@ class HomeController extends Controller
         foreach ($cart ?? [] as $item) {
             $produit = posts::find($item['id']);
             if ($produit) {
-                $produits[] = [
-                    'id' => $produit->id,
-                    'titre' => $produit->titre,
-                    'photo' => Storage::url($produit->photos[0] ?? ''),
-                    'prix' => $produit->getPrix() . " DH",
-                ];
+
+                $CartItem = view('components.cart-item', ['produit' => $produit])->render(); 
                 $montant += $produit->getPrix();
 
-                $html .= '<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-                    <div class="cart_single d-flex align-items-center">
-                        <div class="cart_selected_single_thumb">
-                                <img src="' . Storage::url($produit->photos[0] ?? '') . '" class="img-fluid"
-                                    alt="" />
-                        </div>
-                        <div class="cart_single_caption pl-2">
-                        <a href="/post/' . $produit->id . '">
-                            <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
-                            ' . $produit->titre . '
-                            </h4>
-                            </a>
-                            <div class="text-muted ">
-                            Vendeur : ' . $produit->user_info->username . '
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fls_last text-end">
-                    <div class="fs-md ft-medium mb-0 lh-1 color  mb-2">
-                            ' . $produit->getPrix() . ' DH
-                            </div>
-                        <button class="close_slide gray" type="button" onclick="remove_to_card(' . $produit->id . ')">
-                            <i class="ti-trash text-danger"></i>
-                        </button>
-                    </div>
-                </div>';
+                $html .= $CartItem;
             } else {
                 $this->delete_form_cart($item['id']);
             }

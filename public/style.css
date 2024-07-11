@@ -792,18 +792,7 @@ body {
 }
 
 
-input[type="month"]::before {
-    content: attr(placeholder) !important;
-    color: #aaa;
-    font-size: 10px;
-    width: 100%;
-}
 
-input[type="month"]:focus::before,
-input[type="month"]:active::before {
-    content: "";
-    width: 0%;
-}
 
 .text-bold {
     font-weight: bold;
