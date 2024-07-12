@@ -142,6 +142,7 @@
                         </tr>
                     @endforelse
                 </tbody>
+                {{ $posts->links('pagination::bootstrap-4') }}
             </table>
 
         </div>
