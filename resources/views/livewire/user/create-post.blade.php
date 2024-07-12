@@ -230,7 +230,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('categorie')
+                @error('selectedCategory')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -248,7 +248,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('id_sous_categorie')
+                    @error('selectedSubcategory')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
