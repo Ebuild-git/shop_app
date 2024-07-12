@@ -161,22 +161,28 @@ class CreatePost extends Component
     public function before_post()
     {
 
-        $this->validate([
-            'titre' => 'required|min:2',
-            'description' => 'string|nullable',
-            'photo1' => 'nullable|max:2048|min:1',
-            'photo2' => 'nullable|max:2048|min:1',
-            'photo3' => 'nullable|max:2048|min:1',
-            'photo4' => 'nullable|max:2048|min:1',
-            'region' => 'required|integer|exists:regions,id',
-            'prix' => 'required|numeric|min:1',
-            'prix_achat' => 'nullable|numeric|min:1',
-            'etat' => ['required', 'string'],
-            'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
-        ], [
-            'required' => "Ce champ est obligatoire"
-        ]);
-        // Vous validez les données soumises
+        try {
+            $validatedData = $this->validate([
+                'titre' => 'required|min:2',
+                'description' => 'string|nullable',
+                'photo1' => 'nullable|max:2048|min:1',
+                'photo2' => 'nullable|max:2048|min:1',
+                'photo3' => 'nullable|max:2048|min:1',
+                'photo4' => 'nullable|max:2048|min:1',
+                'region' => 'required|integer|exists:regions,id',
+                'prix' => 'required|numeric|min:1',
+                'prix_achat' => 'nullable|numeric|min:1',
+                'etat' => ['required', 'string'],
+                'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
+            ], [
+                'required' => "Ce champ est obligatoire"
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('alert', ['message' => "Echec de prévisualisation du post !", 'type' => 'warning']);
+            return;
+        }
+        
+
 
 
 
