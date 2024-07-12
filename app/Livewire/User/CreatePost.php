@@ -160,22 +160,38 @@ class CreatePost extends Component
 
     public function before_post()
     {
+        try {
+            $this->validate([
+                'titre' => 'required|min:2',
+                'description' => 'string|nullable',
+                'photo1' => 'nullable|max:2048|min:1',
+                'photo2' => 'nullable|max:2048|min:1',
+                'photo3' => 'nullable|max:2048|min:1',
+                'photo4' => 'nullable|max:2048|min:1',
+                'region' => 'required|integer|exists:regions,id',
+                'prix' => 'required|numeric|min:1',
+                'prix_achat' => 'nullable|numeric|min:1',
+                'etat' => ['required', 'string'],
+                'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
+            ], [
+                'required' => "Ce champ est obligatoire"
+            ]);
 
-        $validatedData = $this->validate([
-            'titre' => 'required|min:2',
-            'description' => 'string|nullable',
-            'photo1' => 'nullable|max:2048|min:1',
-            'photo2' => 'nullable|max:2048|min:1',
-            'photo3' => 'nullable|max:2048|min:1',
-            'photo4' => 'nullable|max:2048|min:1',
-            'region' => 'required|integer|exists:regions,id',
-            'prix' => 'required|numeric|min:1',
-            'prix_achat' => 'nullable|numeric|min:1',
-            'etat' => ['required', 'string'],
-            'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
-        ], [
-            'required' => "Ce champ est obligatoire"
-        ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Les erreurs sont automatiquement sur chaque babge error de chaque input
+            $this->dispatch('alert', ['message' => "", 'type' => 'warning']);
+
+            $errors = $e->validator->getMessageBag();
+            foreach ($errors->keys() as $field) {
+                foreach ($errors->get($field) as $message) {
+                    $this->addError($field, $message);
+                }
+            }
+
+            return;
+
+        }
 
 
 
@@ -256,7 +272,7 @@ class CreatePost extends Component
                 return;
             }
         } else {
-            $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);
+            $this->dispatch('alert2', ['message' => "Veuillez remplir tous les champs obligatoires avant de publier !", 'type' => 'warning','time'=>5000]);
             return;
         }
     }

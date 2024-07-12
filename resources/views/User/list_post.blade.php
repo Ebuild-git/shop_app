@@ -25,13 +25,15 @@
 
     <div class="container">
         <div class="p-3 row">
-            <div class="col-sm-6 my-auto">
+            <div class="col-sm-4 my-auto">
                 <b>Total :</b> {{ $posts->count() }}
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <form method="POST" action="{{ route('post.mes-post') }}">
                     <div class="input-group mb-3">
+                        <input type="hidden" name="type" value="{{ $type }}">
                         @csrf
+                        <input type="text" name="key" class="form-control  sm" value="{{ $key }}" placeholder="Mot clé">
                         <select class="form-control sm  cusor" name="statut">
                             <option value="">Tous les statuts</option>
                             <option value="validation">En validation</option>
@@ -151,41 +153,13 @@
 @endsection
 
 @section('modal')
-    <!-- Modal pour modifier le prix -->
-    <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="UpdatePrice">
-                <div class="modal-headers">
-                    <button type="button" class="close" onclick="close_update_price()">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body p-5">
-                    <div style="text-align: left;">
-                        @livewire('User.UpdatePrix')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal pour modifier le prix -->
-    <script>
-        function close_update_price() {
-            //reload page
-            location.reload();
-        }
+<style>
+    .data-input {
+        overflow: hidden;
+        width: 5px;
+        height: 5px;
+    }
+</style>
 
-  
-    </script>
 
-    </script>
-
-    <style>
-        .data-input {
-            overflow: hidden;
-            width: 5px;
-            height: 5px;
-        }
-    </style>
 @endsection
