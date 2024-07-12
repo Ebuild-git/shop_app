@@ -464,19 +464,21 @@
 
 
         function choix_ordre_prix(ordre) {
-
             if (ordre == "prix_asc") {
                 ordre_prix = "Asc";
+                $("#filtre-ordre").val("prix_asc");
                 add_selected_option("ordre_prix", "Ordre Croissant");
                 fetchProducts();
             }
             if (ordre == "prix_desc") {
                 ordre_prix = "Desc";
+                $("#filtre-ordre").val("prix_desc");
                 add_selected_option("ordre_prix", "Ordre Décroissant");
                 fetchProducts();
             }
             if (ordre == "Soldé") {
                 ordre_prix = "Soldé";
+                $("#filtre-ordre").val("Soldé");
                 add_selected_option("ordre_prix", "Article Soldé");
                 fetchProducts();
             }
@@ -529,6 +531,7 @@
             } else {
                 etat = _etat;
             }
+            
             add_selected_option("etat", etat);
             fetchProducts();
         }
