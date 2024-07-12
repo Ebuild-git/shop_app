@@ -25,10 +25,10 @@
 
     <div class="container">
         <div class="p-3 row">
-            <div class="col-sm-4 my-auto">
+            <div class="col-sm-6 my-auto">
                 <b>Total :</b> {{ $posts->count() }}
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 <form method="POST" action="{{ route('post.mes-post') }}">
                     <div class="input-group mb-3">
                         @csrf
@@ -40,17 +40,9 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <div class="form-control sm" onclick="OpenCalendar()">
-                            <div>
-                                <span id="select_date">
-                                    {{ $date ? $date : 'Mois / Année' }}
-                                </span>
-                            </div>
-                            <div class="data-input">
-                                <input type="month" class="form-control sm cusor " onchange="date_changed()"
-                                    name="date" id="calendar">
-                            </div>
-                        </div>
+                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"
+                        onfocus="(this.type='month')" onblur="(this.type='text')" name="date"
+                        value="{{ $date ? $date : null }}">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <i class="bi bi-binoculars"></i>
@@ -183,21 +175,7 @@
             location.reload();
         }
 
-        function OpenCalendar() {
-            document.getElementById("calendar").showPicker();
-        }
-
-
-        // if calendar change value
-        function date_changed() {
-            var value = document.getElementById("calendar").value;
-            if (value) {
-                $("#select_date").text(value);
-            } else {
-                $("#select_date").text("Mois / Année");
-            }
-
-        }
+  
     </script>
 
     </script>

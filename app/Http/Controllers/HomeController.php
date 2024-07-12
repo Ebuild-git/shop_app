@@ -289,12 +289,13 @@ class HomeController extends Controller
 
     public function count_panier()
     {
+        $user = Auth::user();
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
         $produits = [];
         $montant = 0;
         $html = '';
         foreach ($cart ?? [] as $item) {
-            $produit = posts::find($item['id']);
+            $produit = posts::where('id',$item['id'])->where('id_user','!=',$user->id)->first();
             if ($produit) {
 
                 $CartItem = view('components.cart-item', ['produit' => $produit])->render(); 
