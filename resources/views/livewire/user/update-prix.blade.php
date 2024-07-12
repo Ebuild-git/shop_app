@@ -1,4 +1,5 @@
 <div>
+    @include('components.alert-livewire')
     @if (!$loading)
         @if (!$changed)
             @if ($post)
@@ -70,5 +71,5 @@
 </div>
 @endif
 <br>
-@include('components.alert-livewire')
+
 </div>
