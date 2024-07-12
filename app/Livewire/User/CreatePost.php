@@ -187,7 +187,6 @@ class CreatePost extends Component
             if ($this->prix < 800) {
                 //le prix doit dépasse 800 DH 
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
-                dd('image');
                 return;
             }
         }
@@ -229,6 +228,8 @@ class CreatePost extends Component
             "etat" => $this->etat,
             "proprietes" => $jsonProprietes,
             "id_sous_categorie" => $this->selectedSubcategory,
+            "sous_categorie" => sous_categories::find($this->selectedSubcategory),
+            "categorie" => sous_categories::find($this->selectedSubcategory)->categorie,
             "id_region" => $this->region,
             "prix" => $this->prix,
             "id_user" => Auth::user()->id,
@@ -236,7 +237,6 @@ class CreatePost extends Component
             "prix_achat" => $this->prix_achat ?? 0,
             "created_at" => now(),
         ];
-
 
         $this->data_post = $data_post;
     }
@@ -276,8 +276,7 @@ class CreatePost extends Component
                 $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
                 return;
             } else {
-                dd("on post");
-                $this->make_post($this->data_pos);
+                $this->make_post($this->data_post);
             }
         } else {
             $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);
