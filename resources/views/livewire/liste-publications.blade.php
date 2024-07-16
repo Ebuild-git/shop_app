@@ -74,16 +74,17 @@
                      <th>ID</th>
                      <th style="width: 30px;"></th>
                      <th>Titre</th>
+                     <th>Catégorie </th>
+                     <th>Prix</th>
                      <th>État</th>
                      <th>Auteur</th>
-                     <th>Catégorie </th>
                      <th>Likes</th>
                      <th title="Signalements">
                          <i class="bi bi-exclamation-triangle"></i> Alert
                      </th>
-                     <th>Prix</th>
                      <th>Localisation</th>
                      <th>Statut</th>
+                     <th>Vendu</th>
                      <th>
                          mise à jour
                      </th>
@@ -134,6 +135,28 @@
                              </span>
                          </td>
                          <td>
+                            <span class="small text-muted">
+                                {{ $post->sous_categorie_info->categorie->titre }}
+                            </span>
+                        </td>
+                        <td class="small ">
+                            @if ($post->old_prix)
+                                <span class="strong color strong">
+                                    <strike>
+                                        {{ $post->getOldPrix() }}
+                                    </strike> DH
+                                </span>
+                                <br>
+                                <span class="text-danger strong">
+                                    {{ $post->getPrix() }} DH
+                                </span>
+                            @else
+                                <span class=" color strong ">
+                                    {{ $post->getPrix() }} DH
+                                </span>
+                            @endif
+                        </td>
+                         <td>
                              <span class="small text-muted">
                                  {{ $post->etat }}
                              </span>
@@ -151,11 +174,7 @@
                                  écrire
                              </span>
                          </td>
-                         <td>
-                             <span class="small text-muted">
-                                 {{ $post->sous_categorie_info->categorie->titre }}
-                             </span>
-                         </td>
+                        
 
                          <td>
                              <i class="bi bi-heart-fill text-danger"></i>
@@ -168,29 +187,32 @@
                                  {{ $post->signalements->count() }}
                              </a>
                          </th>
-                         <td class="small ">
-                             @if ($post->old_prix)
-                                 <span class="strong color strong">
-                                     <strike>
-                                         {{ $post->getOldPrix() }}
-                                     </strike> DH
-                                 </span>
-                                 <br>
-                                 <span class="text-danger strong">
-                                     {{ $post->getPrix() }} DH
-                                 </span>
-                             @else
-                                 <span class=" color strong ">
-                                     {{ $post->getPrix() }} DH
-                                 </span>
-                             @endif
-                         </td>
+                        
                          <td> {{ $post->region->nom ?? 'N/A' }} </td>
                          <td>
                              <span class="text-capitalize">
-                                 {{ $post->statut }}
+                                 @if ($post->statut == "réfusé")
+                                    Suspendu
+                                 @elseif ($post->statut == "vente")
+                                    Actif
+                                 @else
+                                    Supprimer
+                                 @endif
                              </span>
                          </td>
+                         <td>
+                            <span class="text-capitalize">
+                                @if ($post->statut  == "vendu")
+                                    <SPAN class="badge bg-success">
+                                        OUI
+                                    </SPAN>
+                                @else
+                                    <SPAN class="badge bg-danger">
+                                        NON
+                                    </SPAN>
+                                @endif
+                            </span>
+                        </td>
                          <td>
                              {{ $post->updated_price_at ?? '-' }}
                          </td>
@@ -238,7 +260,7 @@
                      </tr>
                  @empty
                      <tr>
-                         <td colspan="10">
+                         <td colspan="11">
                              <div class="p-3 text-center">
                                  Aucune publication trouvé!
                              </div>

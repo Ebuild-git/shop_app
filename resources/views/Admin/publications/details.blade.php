@@ -63,6 +63,41 @@
                             </div>
                         </div>
                     </div>
+
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="d-flex align-items-start">
+                                    <div class="avatar me-2">
+                                        <img src="{{ $post->user_info->getAvatar() }}" alt="Avatar"
+                                            class="rounded-circle">
+                                    </div>
+                                    <div class="me-2 ms-1">
+                                        <h6 class="mb-0">
+                                            {{ $post->user_info->username }}
+                                        </h6>
+                                        <small class="text-muted">
+                                            {{ $post->user_info->GetPosts->count() }} publications 
+                                        </small> - 
+                                        <span>
+                                            <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                                            {{ number_format( $post->user_info->averageRating->average_rating ?? 0, 1) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ms-auto">
+                                    <button class="btn btn-label-primary btn-icon btn-sm waves-effect"
+                                        onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
+                                        <i class="ti ti-eye ti-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <b>Nom : </b> {{ $post->user_info->lastname }} <br>
+                    <b>Prénom :</b> {{ $post->user_info->firstname }} <br>
+                    <b>Adresse :</b> {{ $post->user_info->address }} <br>
+                    <hr>
                     <b>Titre : </b> {{ $post->titre }} <br>
                     <b>Prix : </b> {{ $post->prix }} DT <br>
                     <b>Sous-Catégorie :</b> {{ $post->sous_categorie_info->titre ?? "N/A"}} <br>
@@ -71,32 +106,7 @@
                     <b>Etat :</b> {{ $post->etat }}
                     <div class="p-2">
                         <hr>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <div class="d-flex align-items-start">
-                                        <div class="avatar me-2">
-                                            <img src="{{ $post->user_info->getAvatar() }}" alt="Avatar"
-                                                class="rounded-circle">
-                                        </div>
-                                        <div class="me-2 ms-1">
-                                            <h6 class="mb-0">
-                                                {{ $post->user_info->name }}
-                                            </h6>
-                                            <small class="text-muted">
-                                                {{ $post->user_info->GetPosts->count() }} publications.
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <button class="btn btn-label-primary btn-icon btn-sm waves-effect"
-                                            onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                            <i class="ti ti-eye ti-xs"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                       
                     </div>
                     @livewire('DetailsPublicationAction', ['id' => $post->id])
                 </div>

@@ -28,7 +28,7 @@ class UserController extends Controller
         $id = $request->id;
         try {
             $user = User::findOrFail($id);
-            $posts = posts::where('id_user', $user->id)->get();
+            $posts = posts::where('id_user', $user->id)->paginate(30);
             return view("Admin.clients.profile")
                 ->with("user", $user)
                 ->with("posts", $posts);

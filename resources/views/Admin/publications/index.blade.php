@@ -9,12 +9,39 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between">
             <h4 class="py-2 mb-3">
-                <span class="text-muted fw-light">Publications</span> 
+                <span class="text-muted fw-light">Publications</span>
             </h4>
         </div>
-        @livewire('ListePublications',["deleted" => $deleted ?? null])
+        @livewire('ListePublications', ['deleted' => $deleted ?? null])
     </div>
     <!--/ Content -->
+    <style>
+        tbody td:nth-child(1) {
+            position: sticky;
+            left: 0px;
+            background: white;
+            z-index: 1;
+        }
+        tbody td:nth-child(2) {
+            position: sticky;
+            left: 50px;
+            background: white;
+            z-index: 1;
+        }
+        tbody td:nth-child(3) {
+            position: sticky;
+            left: 120px;
+            background: white;
+            z-index: 1;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+    </style>
 @endsection
 
 

@@ -31,7 +31,7 @@
                                 class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                 <div class="user-profile-info">
                                     <h4>
-                                        {{ $user->firstname }} {{ $user->lastname }}
+                                        {{ $user->username }}
                                     </h4>
                                     <ul
                                         class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
@@ -103,10 +103,15 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
                                 <span class="fw-medium mx-2 text-heading">
-                                    Nom :</span> <span>{{ $user->lastname }}</span>
+                                    Nom :</span> <span>{{ $user->lastname }}</span> 
                                 <span>{{ $user->firstname }}</span>
                                 &nbsp;
                                 [ {{ $user->gender }} ]
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-user text-heading"></i>
+                                <span class="fw-medium mx-2 text-heading">
+                                    Prénom : <span>{{ $user->lastname }}</span> 
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">Email
@@ -120,11 +125,7 @@
                                         Oui
                                     </span>
                                 @endif
-                            </li>
-                            <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-crown text-heading"></i><span class="fw-medium mx-2 text-heading">Ville
-                                    :</span> <span>{{ $user->ville ?? '/' }}</span>
-                            </li>
+                            </li>   
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-flag text-heading"></i><span class="fw-medium mx-2 text-heading">
                                     Date de naissance :</span>
@@ -134,6 +135,11 @@
                                 <i class="ti ti-file-description text-heading"></i><span
                                     class="fw-medium mx-2 text-heading">Adresse :</span>
                                 <span>{{ $user->address ?? '/' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-file-description text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">Region :</span>
+                                <span>{{ $user->region_info->nom ?? '/' }}</span>
                             </li>
                         </ul>
                         <small class="card-text text-uppercase">Contacts</small>
@@ -220,7 +226,7 @@
                                 </tr>
                             @endforelse
                         </table>
-
+                        <div class="p-3" {{ $posts->links('pagination::bootstrap-4') }} </div>
                     </div>
                 </div>
                 <!--/ Projects table -->
