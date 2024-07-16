@@ -187,27 +187,30 @@
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
                     <div class="prd_details">
 
-                        <div class="prt_01 mb-2">
-                            @if ($post->sous_categorie_info->categorie->luxury == 1)
-                                <span class="text-success bg-light-success rounded strong px-2 py-1">
-                                    <i class="bi bi-gem"></i>
-                                    SHOPIN LUXURY
+                        <div class="prt_01 mb-2 ">
+                            <div class="d-flex justify-content-start">
+                                @if ($post->sous_categorie_info->categorie->luxury == 1)
+                                    <span class="text-success bg-light-success rounded strong px-2 py-1">
+                                        <i class="bi bi-gem"></i>
+                                        SHOPIN LUXURY
+                                    </span>
+                                    &nbsp;
+                                @endif
+                                <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}"
+                                    class=" bg-light-info rounded color px-2 py-1 strong"
+                                    style="background-color: #0080802d">
+                                    <span class="color">
+                                        {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                    </span>
+                                </a>
+                                <span class="text-muted">
+                                    &nbsp;
                                 </span>
-                                &nbsp;
-                            @endif
-                            <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}"
-                                class=" bg-light-info rounded color px-2 py-1 strong" style="background-color: #0080802d">
-                                <span class="color">
-                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
-                                </span>
-                            </a>
-                            <span class="text-muted">
-                                &nbsp;
-                            </span>
-                            <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}&selected_sous_categorie={{ $post->sous_categorie_info->id }}"
-                                class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
-                                {{ $post->sous_categorie_info->titre }}
-                            </a>
+                                <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}&selected_sous_categorie={{ $post->sous_categorie_info->id }}"
+                                    class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
+                                    {{ $post->sous_categorie_info->titre }}
+                                </a>
+                            </div>
                             <div class="prt_02 mb-5 mt-3">
                                 <h2 class=" mb-1 mt-2 text-capitalize">
                                     {{ $post->titre }}
@@ -244,8 +247,9 @@
                             @if ($post->statut == 'vente')
                                 @auth
                                     @if ($post->id_user != Auth::id())
-                                        <button type="button" class="btn btn-block @if($produit_in_cart) bg-dark @endif mb-2 p-3 " id="btn-add-to-card"
-                                            onclick="add_cart({{ $post->id }})">
+                                        <button type="button"
+                                            class="btn btn-block @if ($produit_in_cart) bg-dark @endif mb-2 p-3 "
+                                            id="btn-add-to-card" onclick="add_cart({{ $post->id }})">
                                             <i class="lni lni-shopping-basket mr-2"></i>
                                             <span id="add-cart-text-btn">
                                                 {{ $produit_in_cart ? 'Rétiré du panier' : 'Ajouter au panier' }}
@@ -299,7 +303,6 @@
 
                                         <br><br>
                                     </div>
-                                    
                                 @endif
                             @endauth
                             <hr>

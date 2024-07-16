@@ -63,8 +63,8 @@
                         <th scope="col">Prix initial</th>
                         <th scope="col">Dernière modification de prix</th>
                         <th scope="col">Temps restant pour une nouvelle modification</th>
-                        <th scope="col">Statut del'annonce</th>
-                        <th scope="col">Raison de suppression</th>
+                        <th scope="col">Statut de l'annonce</th>
+                        <th scope="col">Raison de suppression par SHOPIN</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>

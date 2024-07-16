@@ -53,14 +53,14 @@ function delete_my_post(id) {
                     if (data.success) {
                         $("#tr-post-" + id).hide("slow");
                         Swal.fire({
-                            title: "Supprime !",
-                            text: "Votre annonce a été supprimé.",
+                            title: "Supprimé !",
+                            text: "Votre annonce a été supprimé",
                             icon: "success",
                         });
                     } else {
                         Swal.fire({
                             title: "Erreur !",
-                            text: "Une erreur est survenue.",
+                            text: "Une erreur est survenue",
                             icon: "error",
                         });
                     }
