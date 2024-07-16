@@ -904,7 +904,7 @@
     @auth
 
 
-   
+
 
 
         <!-- Modal pour voir la liste des motifs d'un post réfuser -->
@@ -944,6 +944,40 @@
             </div>
         </div>
         <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
+
+
+
+
+        <!-- Modal pour modifier le prix -->
+        <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
+            aria-labelledby="UpdatePrice" aria-hidden="true">
+            <div class="modal-dialog modal-xl login-pop-form" role="document">
+                <div class="modal-content" id="UpdatePrice">
+                    <div class="modal-headers">
+                        <button type="button" class="close" onclick="close_update_price()">
+                            <span class="ti-close"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-5">
+                        <div style="text-align: left;">
+                            @livewire('User.UpdatePrix')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal pour modifier le prix -->
+        <script>
+            function close_update_price() {
+                //reload page
+                location.reload();
+            }
+        </script>
+
+        </script>
+
+       
+
 
 
 

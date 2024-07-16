@@ -160,23 +160,39 @@ class CreatePost extends Component
 
     public function before_post()
     {
+        try {
+            $this->validate([
+                'titre' => 'required|min:2',
+                'description' => 'string|nullable',
+                'photo1' => 'nullable|max:2048|min:1',
+                'photo2' => 'nullable|max:2048|min:1',
+                'photo3' => 'nullable|max:2048|min:1',
+                'photo4' => 'nullable|max:2048|min:1',
+                'region' => 'required|integer|exists:regions,id',
+                'prix' => 'required|numeric|min:1',
+                'prix_achat' => 'nullable|numeric|min:1',
+                'etat' => ['required', 'string'],
+                'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
+                'selectedCategory'=> 'required|integer|exists:categories,id'
+            ], [
+                'required' => "Ce champ est obligatoire"
+            ]);
 
-        $this->validate([
-            'titre' => 'required|min:2',
-            'description' => 'string|nullable',
-            'photo1' => 'nullable|max:2048|min:1',
-            'photo2' => 'nullable|max:2048|min:1',
-            'photo3' => 'nullable|max:2048|min:1',
-            'photo4' => 'nullable|max:2048|min:1',
-            'region' => 'required|integer|exists:regions,id',
-            'prix' => 'required|numeric|min:1',
-            'prix_achat' => 'nullable|numeric|min:1',
-            'etat' => ['required', 'string'],
-            'selectedSubcategory' => 'required|integer|exists:sous_categories,id'
-        ], [
-            'required' => "Ce champ est obligatoire"
-        ]);
-        // Vous validez les données soumises
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Les erreurs sont automatiquement sur chaque babge error de chaque input
+            $this->dispatch('alert', ['message' => "", 'type' => 'warning']);
+
+            $errors = $e->validator->getMessageBag();
+            foreach ($errors->keys() as $field) {
+                foreach ($errors->get($field) as $message) {
+                    $this->addError($field, $message);
+                }
+            }
+
+            return;
+
+        }
 
 
 
@@ -187,7 +203,6 @@ class CreatePost extends Component
             if ($this->prix < 800) {
                 //le prix doit dépasse 800 DH 
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
-                dd('image');
                 return;
             }
         }
@@ -229,6 +244,8 @@ class CreatePost extends Component
             "etat" => $this->etat,
             "proprietes" => $jsonProprietes,
             "id_sous_categorie" => $this->selectedSubcategory,
+            "sous_categorie" => sous_categories::find($this->selectedSubcategory),
+            "categorie" => sous_categories::find($this->selectedSubcategory)->categorie,
             "id_region" => $this->region,
             "prix" => $this->prix,
             "id_user" => Auth::user()->id,
@@ -236,7 +253,6 @@ class CreatePost extends Component
             "prix_achat" => $this->prix_achat ?? 0,
             "created_at" => now(),
         ];
-
 
         $this->data_post = $data_post;
     }
@@ -257,7 +273,7 @@ class CreatePost extends Component
                 return;
             }
         } else {
-            $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);
+            $this->dispatch('alert2', ['message' => "Veuillez remplir tous les champs obligatoires avant de publier !", 'type' => 'warning','time'=>5000]);
             return;
         }
     }
@@ -276,8 +292,7 @@ class CreatePost extends Component
                 $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
                 return;
             } else {
-                dd("on post");
-                $this->make_post($this->data_pos);
+                $this->make_post($this->data_post);
             }
         } else {
             $this->dispatch('alert', ['message' => "Erreur de prévicualisation !", 'type' => 'warning']);

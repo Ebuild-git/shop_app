@@ -230,7 +230,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('categorie')
+                @error('selectedCategory')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -248,7 +248,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('id_sous_categorie')
+                    @error('selectedSubcategory')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -395,11 +395,6 @@
         <button type="button" class="btn btn-info" wire:click="preview">
             <i class="bi bi-eye"></i>
             Aperçu
-        </button>
-        <button class="btn btn-md bg-dark text-light fs-md ft-medium" type="button" wire:click="submit"
-            id="submit-form" wire:loading.attr="disabled">
-            <i class="bi bi-send"></i>
-            Publier
         </button>
     </div>
 
@@ -605,7 +600,7 @@
                                             <img src="{{ Storage::url($data_post['photos'][0]) }}" alt=""
                                                 style="width: 100% !important;">
                                         </div>
-                                        <div>
+                                        <div class="p-2 d-flex justify-content-start">
                                             @foreach ($data_post['photos'] as $photo)
                                                 <div class="gallery-image-details-preview cusor"
                                                     onclick="change_principal_image('{{ Storage::url($photo) }}')">
@@ -619,6 +614,23 @@
                             </div>
                             <div class="col-sm-6">
                                 <div>
+                                    <div>
+                                        @if ($data_post['categorie'])
+                                            @if ($data_post['categorie']->luxury == 1)
+                                                <span class="text-success bg-light-success rounded strong px-2 py-1">
+                                                    <i class="bi bi-gem"></i>
+                                                    SHOPIN LUXURY
+                                                </span>
+                                                &nbsp;
+                                            @endif
+                                            <span class=" bg-light-info rounded color px-2 py-1 strong"
+                                                style="background-color: #0080802d">
+                                                <span class="color">
+                                                    {{ $data_post['categorie']->titre ?? '' }}
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </div>
                                     <h3 class=" mb-1 mt-2 text-capitalize">
                                         {{ $data_post['titre'] }}
                                     </h3>
@@ -702,6 +714,16 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-md bg-dark btn-sm text-light fs-md ft-medium" type="button"
+                                wire:click="submit" id="submit-form" wire:loading.attr="disabled">
+                                <span wire:loading>
+                                    <x-Loading></x-Loading>
+                                </span>
+                                <i class="bi bi-send"></i>
+                                Publier
+                            </button>
                         </div>
                     @else
                         <div class="p-2 text-center">

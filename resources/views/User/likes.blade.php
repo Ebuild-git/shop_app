@@ -33,6 +33,7 @@
                             <td>Prix</td>
                             <td>Vendeur</td>
                             <td>Popularité</td>
+                            <td>Statut</td>
                             <td></td>
                         </tr>
                     </thead>
@@ -89,6 +90,17 @@
                                         {{ $like->post->getLike->count() }} j'aimes
                                         <i class="bi bi-heart-fill text-danger"></i>
                                     </td>
+                                    <td class="strong">
+                                        @if ($like->post->sell_at)
+                                            <span class="text-danger">
+                                                Indisponible
+                                            </span>
+                                        @else
+                                            <span class="text-success">
+                                                Disponible
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td class="text-end">
                                         <button button class="text-danger btn btn-sm cusor" type="button"
                                             onclick="remove_liked({{ $like->id }})">
@@ -106,7 +118,7 @@
                             @endif
                         @empty
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <div class="alert alert-info text-center">
                                         <img width="100" height="100"
                                             src="https://img.icons8.com/ios/100/008080/filled-like.png" alt="filled-like" />

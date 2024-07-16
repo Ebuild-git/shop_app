@@ -63,8 +63,13 @@ class HomeController extends Controller
         $date_post = $request->input('date' ?? null);
         $type = $request->get('type') ?? "annonce";
         $statut = $request->input('statut' ?? null);
+        $key = $request->input("key") ?? null;
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
 
+        if($key){
+            $Query->where("titre", "LIKE", "%{$key}%")
+                ->orWhere("description", "LIKE", "%{$key}%");
+        }
 
         if ($type != "annonce") {
             $type = "vente";
@@ -106,7 +111,8 @@ class HomeController extends Controller
             ->with("posts", $posts)
             ->with("date", $date_post)
             ->with("statut", $statut)
-            ->with("type", $type);
+            ->with("type", $type)
+            ->with("key", $key);
     }
 
     public function details_post($id)
@@ -289,12 +295,13 @@ class HomeController extends Controller
 
     public function count_panier()
     {
+        $user = Auth::user();
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
         $produits = [];
         $montant = 0;
         $html = '';
         foreach ($cart ?? [] as $item) {
-            $produit = posts::find($item['id']);
+            $produit = posts::where('id',$item['id'])->where('id_user','!=',$user->id)->first();
             if ($produit) {
 
                 $CartItem = view('components.cart-item', ['produit' => $produit])->render(); 

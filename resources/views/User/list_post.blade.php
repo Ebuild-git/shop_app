@@ -31,7 +31,9 @@
             <div class="col-sm-8">
                 <form method="POST" action="{{ route('post.mes-post') }}">
                     <div class="input-group mb-3">
+                        <input type="hidden" name="type" value="{{ $type }}">
                         @csrf
+                        <input type="text" name="key" class="form-control  sm" value="{{ $key }}" placeholder="Mot clé">
                         <select class="form-control sm  cusor" name="statut">
                             <option value="">Tous les statuts</option>
                             <option value="validation">En validation</option>
@@ -40,17 +42,9 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <div class="form-control sm" onclick="OpenCalendar()">
-                            <div>
-                                <span id="select_date">
-                                    {{ $date ? $date : 'Mois / Année' }}
-                                </span>
-                            </div>
-                            <div class="data-input">
-                                <input type="month" class="form-control sm cusor " onchange="date_changed()"
-                                    name="date" id="calendar">
-                            </div>
-                        </div>
+                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"
+                        onfocus="(this.type='month')" onblur="(this.type='text')" name="date"
+                        value="{{ $date ? $date : null }}">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">
                                 <i class="bi bi-binoculars"></i>
@@ -150,6 +144,7 @@
                         </tr>
                     @endforelse
                 </tbody>
+                {{ $posts->links('pagination::bootstrap-4') }}
             </table>
 
         </div>
@@ -158,55 +153,13 @@
 @endsection
 
 @section('modal')
-    <!-- Modal pour modifier le prix -->
-    <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl login-pop-form" role="document">
-            <div class="modal-content" id="UpdatePrice">
-                <div class="modal-headers">
-                    <button type="button" class="close" onclick="close_update_price()">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body p-5">
-                    <div style="text-align: left;">
-                        @livewire('User.UpdatePrix')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal pour modifier le prix -->
-    <script>
-        function close_update_price() {
-            //reload page
-            location.reload();
-        }
-
-        function OpenCalendar() {
-            document.getElementById("calendar").showPicker();
-        }
+<style>
+    .data-input {
+        overflow: hidden;
+        width: 5px;
+        height: 5px;
+    }
+</style>
 
 
-        // if calendar change value
-        function date_changed() {
-            var value = document.getElementById("calendar").value;
-            if (value) {
-                $("#select_date").text(value);
-            } else {
-                $("#select_date").text("Mois / Année");
-            }
-
-        }
-    </script>
-
-    </script>
-
-    <style>
-        .data-input {
-            overflow: hidden;
-            width: 5px;
-            height: 5px;
-        }
-    </style>
 @endsection

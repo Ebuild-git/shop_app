@@ -1129,8 +1129,6 @@ body {
 .gallery-image-details-preview{
     height: 60px;
     width: 60px;
-    border-radius: 10px;
-    border:solid 1px black;
     overflow: hidden;
 }
 
