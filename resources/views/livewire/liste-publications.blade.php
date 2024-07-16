@@ -66,10 +66,9 @@
      </div>
 
      @include('components.alert-livewire')
-
      <div class="table-responsive text-nowrap">
          <table class="datatables-ajax table">
-             <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}">
+             <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}" id="dataTable">
                  <tr>
                      <th>ID</th>
                      <th style="width: 30px;"></th>
@@ -104,18 +103,18 @@
                              </div>
                          </td>
                          <td>
-                            <strong>
-                                {{ Str::of($post->titre)->limit(30) }}
-                            </strong>
-                            <br>
+                             <strong>
+                                 {{ Str::of($post->titre)->limit(30) }}
+                             </strong>
+                             <br>
                              <span class="small">
                                  @if ($post->deleted_at)
                                      <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
                                          <i>
                                              <i class="bi bi-trash3"></i>
-                                             {{$post->deleted_at }}
+                                             {{ $post->deleted_at }}
                                          </i>
-                                     </span> 
+                                     </span>
                                  @else
                                      <span class="text-warning">
                                          <i>
@@ -135,27 +134,27 @@
                              </span>
                          </td>
                          <td>
-                            <span class="small text-muted">
-                                {{ $post->sous_categorie_info->categorie->titre }}
-                            </span>
-                        </td>
-                        <td class="small ">
-                            @if ($post->old_prix)
-                                <span class="strong color strong">
-                                    <strike>
-                                        {{ $post->getOldPrix() }}
-                                    </strike> DH
-                                </span>
-                                <br>
-                                <span class="text-danger strong">
-                                    {{ $post->getPrix() }} DH
-                                </span>
-                            @else
-                                <span class=" color strong ">
-                                    {{ $post->getPrix() }} DH
-                                </span>
-                            @endif
-                        </td>
+                             <span class="small text-muted">
+                                 {{ $post->sous_categorie_info->categorie->titre }}
+                             </span>
+                         </td>
+                         <td class="small ">
+                             @if ($post->old_prix)
+                                 <span class="strong color strong">
+                                     <strike>
+                                         {{ $post->getOldPrix() }}
+                                     </strike> DH
+                                 </span>
+                                 <br>
+                                 <span class="text-danger strong">
+                                     {{ $post->getPrix() }} DH
+                                 </span>
+                             @else
+                                 <span class=" color strong ">
+                                     {{ $post->getPrix() }} DH
+                                 </span>
+                             @endif
+                         </td>
                          <td>
                              <span class="small text-muted">
                                  {{ $post->etat }}
@@ -165,7 +164,7 @@
                              <span title="Auteur"
                                  onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
                                  <i class="bi bi-person"></i>
-                                 <b class="cusor">{{ $post->user_info->username}}</b>
+                                 <b class="cusor">{{ $post->user_info->username }}</b>
                              </span>
                              <br>
                              <span class="text-primary cusor small"
@@ -174,7 +173,7 @@
                                  écrire
                              </span>
                          </td>
-                        
+
 
                          <td>
                              <i class="bi bi-heart-fill text-danger"></i>
@@ -187,32 +186,32 @@
                                  {{ $post->signalements->count() }}
                              </a>
                          </th>
-                        
+
                          <td> {{ $post->region->nom ?? 'N/A' }} </td>
                          <td>
                              <span class="text-capitalize">
-                                 @if ($post->statut == "réfusé")
-                                    Suspendu
-                                 @elseif ($post->statut == "vente")
-                                    Actif
+                                 @if ($post->statut == 'réfusé')
+                                     Suspendu
+                                 @elseif ($post->statut == 'vente')
+                                     Actif
                                  @else
-                                    Supprimer
+                                     Supprimer
                                  @endif
                              </span>
                          </td>
                          <td>
-                            <span class="text-capitalize">
-                                @if ($post->statut  == "vendu")
-                                    <SPAN class="badge bg-success">
-                                        OUI
-                                    </SPAN>
-                                @else
-                                    <SPAN class="badge bg-danger">
-                                        NON
-                                    </SPAN>
-                                @endif
-                            </span>
-                        </td>
+                             <span class="text-capitalize">
+                                 @if ($post->statut == 'vendu')
+                                     <SPAN class="badge bg-success">
+                                         OUI
+                                     </SPAN>
+                                 @else
+                                     <SPAN class="badge bg-danger">
+                                         NON
+                                     </SPAN>
+                                 @endif
+                             </span>
+                         </td>
                          <td>
                              {{ $post->updated_price_at ?? '-' }}
                          </td>
@@ -271,5 +270,45 @@
          </table>
          <div class="p-3" {{ $posts->links('pagination::bootstrap-4') }} </div>
          </div>
+
+
+
+
+
+         <style>
+             tbody td:nth-child(1) {
+                 position: sticky;
+                 left: 0px;
+                 background: white;
+                 z-index: 1;
+             }
+
+             tbody td:nth-child(2) {
+                 position: sticky;
+                 left: 50px;
+                 background: white;
+                 z-index: 1;
+             }
+
+             tbody td:nth-child(3) {
+                 position: sticky;
+                 left: 120px;
+                 background: white;
+                 z-index: 1;
+             }
+
+             thead th {
+                 position: sticky;
+                 top: 0;
+                 background: white;
+                 z-index: 1;
+             }
+             .with-btn{
+                position: fixed;
+                z-index: 999;
+                width: 100%;
+             }
+         </style>
+
      </div>
      <!--/ Ajax Sourced Server-side -->

@@ -654,13 +654,15 @@
                                             </tr>
                                             <tr>
                                                 <td>Catégorie </td>
-                                                <td class="text-black">
-
+                                                <td class="text-black text-capitalize">
+                                                    {{ $data_post['categorie']->titre ?? '' }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Région </td>
-                                                <td class="text-black"> </td>
+                                                <td class="text-black text-capitalize"> 
+                                                    {{ $data_post['region']->nom }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Publié le </td>
@@ -688,7 +690,9 @@
                                                             @endif
                                                             <span id="colorName"></span>
                                                         @else
-                                                            {{ $value }}
+                                                            <span class="text-capitalize">
+                                                                {{ $value }}
+                                                            </span>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -698,7 +702,7 @@
                                     </div>
                                     <div class="mt-3">
                                         <b class="text-black h6">Description</b>
-                                        <p>
+                                        <p class="text-capitalize">
                                             @if ($data_post['description'])
                                                 {!! $data_post['description'] !!}
                                             @else

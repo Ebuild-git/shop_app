@@ -15,39 +15,15 @@
         @livewire('ListePublications', ['deleted' => $deleted ?? null])
     </div>
     <!--/ Content -->
-    <style>
-        tbody td:nth-child(1) {
-            position: sticky;
-            left: 0px;
-            background: white;
-            z-index: 1;
-        }
-        tbody td:nth-child(2) {
-            position: sticky;
-            left: 50px;
-            background: white;
-            z-index: 1;
-        }
-        tbody td:nth-child(3) {
-            position: sticky;
-            left: 120px;
-            background: white;
-            z-index: 1;
-        }
 
-        thead th {
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 1;
-        }
-    </style>
+    
 @endsection
 
 
 
 
 @section('script')
+
     <script src="/assets-admin/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets-admin/vendor/libs/popper/popper.js"></script>
     <script src="/assets-admin/vendor/js/bootstrap.js"></script>

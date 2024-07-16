@@ -173,12 +173,10 @@ class CreatePost extends Component
                 'prix_achat' => 'nullable|numeric|min:1',
                 'etat' => ['required', 'string'],
                 'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
-                'selectedCategory'=> 'required|integer|exists:categories,id'
+                'selectedCategory' => 'required|integer|exists:categories,id'
             ], [
                 'required' => "Ce champ est obligatoire"
             ]);
-
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Les erreurs sont automatiquement sur chaque babge error de chaque input
             $this->dispatch('alert', ['message' => "", 'type' => 'warning']);
@@ -191,7 +189,6 @@ class CreatePost extends Component
             }
 
             return;
-
         }
 
 
@@ -247,7 +244,8 @@ class CreatePost extends Component
             "sous_categorie" => sous_categories::find($this->selectedSubcategory),
             "categorie" => sous_categories::find($this->selectedSubcategory)->categorie,
             "id_region" => $this->region,
-            "prix" => $this->prix,
+            "region" => regions::find($this->region),
+            "prix" => $this->getPrix($this->prix),
             "id_user" => Auth::user()->id,
             "statut" => "vente",
             "prix_achat" => $this->prix_achat ?? 0,
@@ -273,7 +271,7 @@ class CreatePost extends Component
                 return;
             }
         } else {
-            $this->dispatch('alert2', ['message' => "Veuillez remplir tous les champs obligatoires avant de publier !", 'type' => 'warning','time'=>5000]);
+            $this->dispatch('alert2', ['message' => "Veuillez remplir tous les champs obligatoires avant de publier !", 'type' => 'warning', 'time' => 5000]);
             return;
         }
     }
@@ -346,7 +344,19 @@ class CreatePost extends Component
     }
 
 
+    public function getPrix($prix)
+    {
+        $sous_cat = sous_categories::find($this->selectedSubcategory);
+        if ($sous_cat) {
+            $pourcentage_gain = $sous_cat->pourcentage_gain;
+            $prix = $this->prix;
+            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
 
+            return number_format($prix_calculé, 2, '.', '') ?? "N/A";
+        } else {
+            return "N/A";
+        }
+    }
 
 
 
