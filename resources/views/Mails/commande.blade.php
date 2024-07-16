@@ -114,7 +114,9 @@
         <br><br>
         <div>
             <b>Mode de paiement : </b> Paiement a la livraison. <br>
-            <b>Adresse de livraison : </b> {{ $user->address }}
+            <b>Adresse de livraison : </b> {{ $user->address }} <br>
+            <b>Region  : </b> {{ $user->region_info->nom ?? '-'}} <br>
+            <b>Numéro de téléphone : </b> {{ $user->phone_number ?? "-"}}
             <br>
             <br>
         </div>

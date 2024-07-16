@@ -14,10 +14,14 @@
         <div class="text-center mb-4">
             <h1 class="m-0 ft-regular h5 text-danger">
                 <i class="bi bi-exclamation-octagon"></i>
-                Signaler l'annonce.
+                Signaler cet annonce
             </h1>
             <span class="text-muted">
-                " {{ $post->titre }} "
+                " 
+                <span class="color text-capitalize">
+                    {{ $post->titre }}
+                </span>
+                "
             </span>
         </div>
         <form wire:submit="signaler">

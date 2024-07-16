@@ -5,7 +5,7 @@
                 <img src="{{ $produit->FirstImage() }}" class="img-fluid" alt="{{ $produit->titre }}" />
             </div>
             <div class="cart_single_caption pl-2">
-                <a href="/post/' . $produit->id . '">
+                <a href="/post/{{$produit->id}}">
                     <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
                         {{ Str::limit($produit->titre, 30) }}
                     </h4>
@@ -20,7 +20,7 @@
                 <strike class="elis_rty color strong">
                     {{ $produit->getOldPrix() }} <sup>DH</sup>
                 </strike>
-                &nbsp;&nbsp;&nbsp;
+                
             @endif
             <div class="@if ($produit->changements_prix->count()) text-danger @else color @endif ft-bold fs-sm">
                 {{ $produit->getPrix() }} <sup>DH</sup>
@@ -33,4 +33,10 @@
             </button>
         </div>
     </div>
+    <style>
+        .product_title:hover{
+            text-decoration: underline;
+            color: #008080;
+        }
+    </style>
 </div>

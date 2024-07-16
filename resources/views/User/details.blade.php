@@ -299,14 +299,7 @@
 
                                         <br><br>
                                     </div>
-                                    <div>
-                                        <p class="text-center pr-5 pl-5">
-                                            En poursuivant votre commande, vous acceptez les
-                                            <a href="{{ route('conditions') }}" class="color">
-                                                <b>Conditions générales</b>
-                                            </a> de SHOPIN
-                                        </p>
-                                    </div>
+                                    
                                 @endif
                             @endauth
                             <hr>

@@ -42,8 +42,8 @@
                             <option value="livraison">En cour de Livraison</option>
                             <option value="livré">Déja livré</option>
                         </select>
-                        <input type="text" class="form-control cusor sm" placeholder="Année / Mois"
-                        onfocus="(this.type='month')" onblur="(this.type='text')" name="date"
+                        <input type="text" class="form-control cusor sm" placeholder="Mois / Année"
+                        onfocus="(this.type='month')" onblur="(this.type='text')" lang="fr" name="date"
                         value="{{ $date ? $date : null }}">
                         <div class="input-group-append">
                             <button class="btn bg-red p-2" type="submit">

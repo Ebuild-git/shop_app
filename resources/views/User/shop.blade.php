@@ -683,6 +683,9 @@
                         renderPagination(data.data);
                         $("#total_show_post").text(data.count_resultat);
                         $("#loading").hide("show");
+                        if(data.count_resultat == 0){
+                            $(".rows-products").html("<div class='col-sm-6 mx-auto text-center'>Aucun résultat pour vos critères de recherche.</div>");
+                        }
                     }
                 }
             );

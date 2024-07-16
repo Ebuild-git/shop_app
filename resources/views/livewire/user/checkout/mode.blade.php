@@ -66,9 +66,14 @@
                     <hr>
                     <div class="text-center">
                         <div class="mb-3">
-                            <a href="{{ route('conditions') }}" class="color">
-                                J'accepte les condition générale de ventes
-                            </a>
+                            <div>
+                                <p class="text-center pr-5 pl-5">
+                                    En poursuivant votre commande, vous acceptez les
+                                    <a href="{{ route('conditions') }}" class="color">
+                                        <b>Conditions générales</b>
+                                    </a> de SHOPIN
+                                </p>
+                            </div>
                         </div>
                         <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()">
                             <span wire:loading>

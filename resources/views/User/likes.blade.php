@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', 'Annonces Aimés')
+@section('titre', 'Mes coups de coeur')
 @section('content')
 @section('body')
     <!-- ======================= Top Breadcrubms ======================== -->
@@ -13,7 +13,7 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Annonces Aimés
+                                Mes coups de coeur
                             </li>
                         </ol>
                     </nav>
@@ -87,7 +87,11 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ $like->post->getLike->count() }} j'aimes
+                                        @if ($like->post->getLike->count() > 1)
+                                            {{ $like->post->getLike->count() }} j'aimes
+                                        @else
+                                            {{ $like->post->getLike->count() }} j'aime
+                                        @endif
                                         <i class="bi bi-heart-fill text-danger"></i>
                                     </td>
                                     <td class="strong">
