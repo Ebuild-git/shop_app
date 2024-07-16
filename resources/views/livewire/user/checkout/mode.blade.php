@@ -18,8 +18,8 @@
                         </b>
                     </h5>
                     <p>
-                        Choisir cette option pour payer à la livraison ( a l'adresse de votre choix ) et recevoir votre
-                        commande.
+                        Vous payez à la livraison ( à l'adresse de votre choix ) et recevez votre
+                        commande
                     </p>
                 </div>
                 <br>
@@ -79,7 +79,7 @@
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
-                            Passer la commande
+                           Valider mon panier
                         </button>
                         <div class="mt-3">
                             <a href="{{ route('checkout') }}?step=2" class="color">

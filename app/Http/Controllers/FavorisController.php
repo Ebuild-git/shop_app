@@ -24,7 +24,7 @@ class FavorisController extends Controller
             return response()->json(
                 [
                     "status" => true,
-                    "message" => "Annonce rétiré !",
+                    "message" => "Article retiré de mes favoris !",
                     "count" => $count,
                 ]
             );

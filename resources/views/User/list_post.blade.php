@@ -26,7 +26,7 @@
     <div class="container">
         <div class="p-3 row">
             <div class="col-sm-4 my-auto">
-                <b>Total :</b> {{ $posts->count() }}
+                <b>Nombre total de mes annonces :</b> {{ $posts->count() }}
             </div>
             <div class="col-sm-8">
                 <form method="POST" action="{{ route('post.mes-post') }}">
