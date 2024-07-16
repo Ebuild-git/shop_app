@@ -348,7 +348,7 @@ class CreatePost extends Component
     {
         $sous_cat = sous_categories::find($this->selectedSubcategory);
         if ($sous_cat) {
-            $pourcentage_gain = $sous_cat->pourcentage_gain;
+            $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
             $prix = $this->prix;
             $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
 
