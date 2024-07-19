@@ -532,7 +532,8 @@ class HomeController extends Controller
         $date = $request->input('date' ?? null);
         $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
         if (!empty($date)) {
-            $Query->whereDate('sell_at', $date);
+            $Query->whereYear('Created_at', date('Y', strtotime($date)))
+            ->whereMonth('Created_at', date('m', strtotime($date)));
         }
         $achats = $Query->paginate(30);
         $total = posts::where("id_user_buy", Auth::id())->count();
