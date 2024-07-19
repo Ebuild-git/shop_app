@@ -105,6 +105,11 @@
                             </td>
                             <td class="text-capitalize">
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
+                                @if ($item->sell_at)
+                                    <div class="small">
+                                        {{ $item->sell_at->format('d-m-Y \à H:m') }}
+                                    </div>
+                                @endif
                             </td>
                             <td>
                                 @if ($item->motif_suppression)
@@ -144,9 +149,9 @@
                         </tr>
                     @endforelse
                 </tbody>
-                {{ $posts->links('pagination::bootstrap-4') }}
             </table>
 
+            {{ $posts->links('pagination::bootstrap-4') }}
         </div>
 
     </div>

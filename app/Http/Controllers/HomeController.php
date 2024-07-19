@@ -83,7 +83,8 @@ class HomeController extends Controller
         if ($date_post) {
             $date = $date_post . '-01';
             $Query->whereYear('Created_at', date('Y', strtotime($date)))
-                ->whereMonth('Created_at', date('m', strtotime($date)));
+                ->whereMonth('Created_at', date('m', strtotime($date)))
+                ->OrWhereDate('sell_at', date('m', strtotime($date)));
         }
 
 
@@ -106,7 +107,7 @@ class HomeController extends Controller
                     break;
             }
         }
-        $posts =  $Query->withTrashed()->paginate("30");
+        $posts =  $Query->withTrashed()->paginate("20");
         return view('User.list_post')
             ->with("posts", $posts)
             ->with("date", $date_post)

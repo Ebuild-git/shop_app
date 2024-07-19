@@ -7,7 +7,7 @@
             <div class="cart_single_caption pl-2">
                 <a href="/post/{{$produit->id}}">
                     <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
-                        {{ Str::limit($produit->titre, 30) }}
+                        {{ Str::limit($produit->titre, 15) }}
                     </h4>
                 </a>
                 <div class="text-muted ">
