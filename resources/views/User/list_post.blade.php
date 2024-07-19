@@ -118,7 +118,6 @@
                                                     {{ $item->sell_at->format('d-m-Y \à H:m') }}
                                                 </div>
                                             @endif
-                                            @
                                     </td>
                                     <td>
                                         @if ($item->motif_suppression)
