@@ -29,7 +29,7 @@
                 <div>
                     <div class="alert alert-dark">
                         <i class="bi bi-geo-alt"></i>
-                        {{ $user->address }} 
+                        {{ $user->address }}
                         <br>
                         <b> <i class="bi bi-geo-alt"></i> {{ $user->region_info->nom }} </b>
                         <br>
@@ -69,9 +69,9 @@
                             <div>
                                 <p class="text-center pr-5 pl-5">
                                     En poursuivant votre commande, vous acceptez les
-                                    <a href="{{ route('conditions') }}" class="color">
+                                    <span id="show_conditions" class="color">
                                         <b>Conditions générales</b>
-                                    </a> de SHOPIN
+                                    </span> de SHOPIN
                                 </p>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
-                           Valider mon panier
+                            Valider mon panier
                         </button>
                         <div class="mt-3">
                             <a href="{{ route('checkout') }}?step=2" class="color">
@@ -97,4 +97,14 @@
             <i class="bi bi-arrow-left"></i> Adresse de livraison
         </a>
     </div>
+    @section('script')
+        <script>
+            $(document).ready(function() {
+                $("#show_conditions").click(function() {
+                    ('#conditions').modal('show');
+                });
+            });
+        </script>
+    @endsection
+    
 </div>
