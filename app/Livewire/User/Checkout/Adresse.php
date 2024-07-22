@@ -8,6 +8,7 @@ use Livewire\Component;
 class Adresse extends Component
 {
     public $user;
+    public $next = false;
 
     public function mount(){
         $this->user = Auth::user();
@@ -21,6 +22,9 @@ class Adresse extends Component
 
     public function render()
     {
+        if( $this->user->address &&  $this->user->phone_number &&  $this->user->region ){
+            $this->next = true;
+        }
         return view('livewire.user.checkout.adresse');
     }
 

@@ -92,10 +92,16 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-end">
+                    @if ($this->next)
                     <button type="button" wire:click="valider()" @disabled(!$user->address) class="btn btn-dark">
                         <b>Continuer</b>
                         <i class="bi bi-arrow-right"></i>
                     </button>
+                    @else
+                        <div class="alert alert-warning">
+                            Vous devez choisir une adresse de livraison pour poursuivre.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -69,7 +69,7 @@
                             <div>
                                 <p class="text-center pr-5 pl-5">
                                     En poursuivant votre commande, vous acceptez les
-                                    <span id="show_conditions" class="color">
+                                    <span  data-toggle="modal" data-target="#conditions" class="color cusor">
                                         <b>Conditions générales</b>
                                     </span> de SHOPIN
                                 </p>

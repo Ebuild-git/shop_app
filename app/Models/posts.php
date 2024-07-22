@@ -66,6 +66,18 @@ class posts extends Model
     }
 
 
+
+    public function Prix_initial(){
+        if($this->changements_prix->count() > 0){
+            $prix =  $this->changements_prix->first()->old_price;
+            return number_format($prix, 2, '.', '')?? null;
+        }else{
+            return null;
+        }
+    }
+
+
+
     public function getFraisLivraison()
     {
         $id_categorie = $this->sous_categorie_info->categorie->id;

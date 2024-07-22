@@ -16,7 +16,7 @@
                             <i class="bi bi-geo-alt"></i>
                             Adresse de livraison
                         </a>
-                        <a href="{{ route('checkout') }}?step=3"
+                        <a href="#"
                             class="step @if ($step == 3) active @endif">
                             <i class="bi bi-wallet2"></i>
                             Paiement

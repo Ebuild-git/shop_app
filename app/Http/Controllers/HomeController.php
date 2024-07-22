@@ -66,7 +66,7 @@ class HomeController extends Controller
         $key = $request->input("key") ?? null;
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
 
-        if($key){
+        if ($key) {
             $Query->where("titre", "LIKE", "%{$key}%")
                 ->orWhere("description", "LIKE", "%{$key}%");
         }
@@ -82,9 +82,7 @@ class HomeController extends Controller
 
         if ($date_post) {
             $date = $date_post . '-01';
-            $Query->whereYear('Created_at', date('Y', strtotime($date)))
-                ->whereMonth('Created_at', date('m', strtotime($date)))
-                ->OrWhereDate('sell_at', date('m', strtotime($date)));
+            $Query->WhereDate('sell_at', date('m', strtotime($date)));
         }
 
 
@@ -148,9 +146,9 @@ class HomeController extends Controller
                 break;
             }
         }
-        if($productExists){
+        if ($productExists) {
             $produit_in_cart = true;
-        }else{
+        } else {
             $produit_in_cart = false;
         }
 
@@ -195,7 +193,18 @@ class HomeController extends Controller
     public function historiques()
     {
         $count = posts::where("id_user", Auth::user()->id)->count();
-        return view('User.historiques', compact("count"));
+        $annonces = posts::where("id_user", Auth::user()->id)
+            ->Orderby("id", "Desc")
+            ->where('statut', "vente")
+            ->paginate(20);
+        $ventes = posts::where("id_user", Auth::user()->id)
+            ->Orderby("id", "Desc")
+            ->where('statut', "ventu")
+            ->paginate(20);
+        $achats = posts::where("id_user_buy", Auth::id())
+            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
+            ->paginate(30);
+        return view('User.historiques', compact("count", "annonces", "ventes","achats"));
     }
 
 
@@ -302,10 +311,10 @@ class HomeController extends Controller
         $montant = 0;
         $html = '';
         foreach ($cart ?? [] as $item) {
-            $produit = posts::where('id',$item['id'])->where('id_user','!=',$user->id)->first();
+            $produit = posts::where('id', $item['id'])->where('id_user', '!=', $user->id)->first();
             if ($produit) {
 
-                $CartItem = view('components.cart-item', ['produit' => $produit])->render(); 
+                $CartItem = view('components.cart-item', ['produit' => $produit])->render();
                 $montant += $produit->getPrix();
 
                 $html .= $CartItem;
@@ -533,7 +542,7 @@ class HomeController extends Controller
         $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
         if (!empty($date)) {
             $Query->whereYear('Created_at', date('Y', strtotime($date)))
-            ->whereMonth('Created_at', date('m', strtotime($date)));
+                ->whereMonth('Created_at', date('m', strtotime($date)));
         }
         $achats = $Query->paginate(30);
         $total = posts::where("id_user_buy", Auth::id())->count();

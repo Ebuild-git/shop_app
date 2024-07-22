@@ -45,13 +45,13 @@
             <br>
             <div class="border border-1 p-3 rounded card">
                 <div class="div-data" id="div-achat">
-                 @livewire('User.ListeAchat') 
+                    @include('components.Liste-mes-achats',["achats"=>$achats])
                 </div>
                 <div class="div-data" id="div-vente" style="display: none">
-                    @livewire('User.ListMesPosts', ['titre' => 'Mes ventes', 'filter' => false, 'statut' => 'vendu'])
+                    @include('components.Liste-mes-posts', ['posts' => $ventes])
                 </div>
                 <div class="div-data" id="div-pub" style="display: none">
-                    @livewire('User.ListMesPosts', ['titre' => 'Mes publications', 'filter' => true, 'statut' => null])
+                    @include('components.Liste-mes-posts', ['posts' => $annonces])
                 </div>
             </div>
         </div>
