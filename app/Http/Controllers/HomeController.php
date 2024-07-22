@@ -644,14 +644,17 @@ class HomeController extends Controller
             ]);
         }
         $categories = [];
-        $posts = posts::where('id_user',$user->id)->where('statut',['livré','vendu','livraison'])->get();
+        $posts = Posts::where('id_user', $user->id)
+              ->whereIn('statut', ['livré', 'vendu', 'livraison', 'vente'])
+              ->get();
+
         foreach ($posts as $key => $post) {
-            $sous_categorie = sous_categories::where('id_categorie',$post->id_sous_categorie)->first();
+            $sous_categorie = sous_categories::find($post->id_sous_categorie);
             if($sous_categorie){
                 $categorie = categories::find($sous_categorie->id_categorie);
                 if($categorie){
                     $categories[]=[
-                        "nom" => $categorie->nom
+                        "nom" => $categorie->titre
                     ];
                 }
             }

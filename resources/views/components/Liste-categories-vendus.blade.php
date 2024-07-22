@@ -1,7 +1,12 @@
 <div>
     @forelse ($categories as $categorie)
-    <div class="card mb-1">
-        {{ $categorie['nom']}}
+    <div class="mb-3 p-2 my-auto">
+        <h6>
+            <i class="bi bi-chevron-double-right"></i>
+            <b>
+                {{ $categorie['nom']}}
+            </b>
+        </h6>
     </div>
     @empty
     <div class="p-3 text-center">
