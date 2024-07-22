@@ -116,14 +116,20 @@ class User extends Authenticatable implements JWTSubject
 
     public function categoriesWhereUserSell()
     {
-        return $this->hasManyThrough(
-            categories::class,
-            posts::class,
-            'id_user', // clé étrangère dans la table posts
-            'id',      // clé primaire dans la table categories
-            'id',      // clé primaire dans la table users
-            'id_sous_categorie' // clé étrangère dans la table posts vers sous_categories
-        )->whereNotNull('posts.id_user_buy')->distinct();
+        $posts = posts::where('id_user', $this->id)
+                      ->whereIn('statut', ['livré', 'vendu', 'livraison'])
+                      ->get();
+        $total = 0;
+        foreach ($posts as $post) {
+            $sous_categorie = sous_categories::find($post->id_sous_categorie);
+            if ($sous_categorie) {
+                $categorie = categories::find($sous_categorie->id_categorie);
+                if ($categorie) {
+                    $total += 1;
+                }
+            }
+        }
+        return $total;
     }
 
     public function averageRating()

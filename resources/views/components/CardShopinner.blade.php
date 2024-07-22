@@ -39,7 +39,7 @@
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>
-                    Catégories : {{ $user->categoriesWhereUserSell->count() }}
+                    Catégories : {{ $user->categoriesWhereUserSell() }}
                 </div>
                 <div class="col text-center">
                     <a href="/user/{{ $user->id }}">
