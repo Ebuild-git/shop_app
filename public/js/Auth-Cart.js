@@ -525,3 +525,25 @@ function ShowPostsCatgorie(id) {
         },
     });
 }
+
+
+
+$(document).ready(function() {
+    function toggleInputs() {
+        console.log("operation input taille");
+        let optionTailleEnChiffre = $('.option-tailleenchiffre').val();
+        let optionTaille = $('.option-taille').val();
+
+        if (optionTailleEnChiffre) {
+            $('.option-taille').prop('disabled', true);
+        } else if (optionTaille) {
+            $('.option-tailleenchiffre').prop('disabled', true);
+        } else {
+            $('.option-taille, .option-tailleenchiffre').prop('disabled', false);
+        }
+    }
+
+    $('.option-tailleenchiffre, .option-taille').on('input', function() {
+        toggleInputs();
+    });
+});
