@@ -5,7 +5,7 @@
             <th scope="col">Nom de l'article</th>
             <th scope="col">Date d'achat</th>
             <th scope="col">Prix d'achat</th>
-            <th scope="col">Vendeur</th>
+            <th scope="col">Shopiner</th>
             <th scope="col" class="text-end">Satut de l'xpedition</th>
         </tr>
     </thead>
