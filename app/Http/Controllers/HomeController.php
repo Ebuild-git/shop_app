@@ -646,7 +646,7 @@ class HomeController extends Controller
         
         $categories = [];
         $posts = posts::where('id_user', $user->id)
-                      ->whereIn('statut', ['livré', 'vendu', 'livraison', 'vente'])
+                      ->whereIn('statut', ['livré', 'vendu', 'livraison'])
                       ->get();
         
         foreach ($posts as $post) {
