@@ -21,7 +21,7 @@
                     <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }} </a>
                 </td>
                 <td>
-                    {{ $achat->sell_at->fomat("d-m-Y") }}
+                    {{  \Carbon\Carbon::parse($achat->sell_at)->fomat("d-m-Y") }}
                 </td>
                 <td>
                     <span class="strong color">
