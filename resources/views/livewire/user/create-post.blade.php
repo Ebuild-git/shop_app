@@ -288,14 +288,14 @@
                                     @if ($propriete_info->type == 'option')
                                         @if ($propriete_info->affichage == 'case')
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                @required($requi) class="form-control cusor border-r ">
+                                                @required($requi) class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
                                                 <option value=""></option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @else
-                                            <input type="text" class="form-control cusor border-r liste"
+                                            <input type="text" class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
                                                 @required($requi) placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
@@ -670,7 +670,7 @@
                                                     {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
                                                 </td>
                                             </tr>
-                                            @forelse ($data_post['proprietes'] ?? []  as $key => $value)
+                                            @foreach ($data_post['proprietes'] ?? []  as $key => $value)
                                                 <tr>
                                                     <td>{{ ucfirst($key) }} </td>
                                                     <td class="text-black">
@@ -696,8 +696,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                            @empty
-                                            @endforelse
+                                            @endforeach
                                         </table>
                                     </div>
                                     <div class="mt-3">
