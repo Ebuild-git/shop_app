@@ -125,7 +125,9 @@ class User extends Authenticatable implements JWTSubject
             if ($sous_categorie) {
                 $categorie = categories::find($sous_categorie->id_categorie);
                 if ($categorie) {
-                    $total += 1;
+                    if (!isset($categories[$categorie->titre])) {
+                        $total += 1;
+                    }
                 }
             }
         }
