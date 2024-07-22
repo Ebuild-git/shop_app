@@ -13,21 +13,21 @@
 
         <div class="col-sm-2 col-6 mx-auto position-relative">
             @if ($photo1)
-            <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo1()">
-                <i class="bi bi-x-octagon"></i>
-            </button>
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo1()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
             <label for="images" class="drop-container" id="pic1">
                 @if ($photo1)
-                <img src="{{ $photo1->temporaryUrl() }}" class="preview">
+                    <img src="{{ $photo1->temporaryUrl() }}" class="preview">
                 @else
-                <img width="50" height="50" src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png"
-                    alt="add-image" />
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
                 <input type="file" wire:model="photo1" accept="image/*" class="d-none" id="btn-1">
             </label>
             @error('photo1')
-            <small class="form-text text-danger">{{ $message }}</small>
+                <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
 
@@ -35,63 +35,63 @@
 
         <div class="col-sm-2 col-6 mx-auto position-relative">
             @if ($photo2)
-            <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo2()">
-                <i class="bi bi-x-octagon"></i>
-            </button>
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo2()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
             <label for="images" class="drop-container" id="pic2">
                 @if ($photo2)
-                <img src="{{ $photo2->temporaryUrl() }}" class="preview">
+                    <img src="{{ $photo2->temporaryUrl() }}" class="preview">
                 @else
-                <img width="50" height="50" src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png"
-                    alt="add-image" />
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
                 <input type="file" wire:model="photo2" accept="image/*" class="d-none" id="btn-2">
             </label>
             @error('photo2')
-            <small class="form-text text-danger">{{ $message }}</small>
+                <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
 
 
         <div class="col-sm-2 col-6 mx-auto position-relative">
             @if ($photo3)
-            <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo3()">
-                <i class="bi bi-x-octagon"></i>
-            </button>
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo3()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
             <label for="images" class="drop-container" id="pic3">
                 @if ($photo3)
-                <img src="{{ $photo3->temporaryUrl() }}" class="preview">
+                    <img src="{{ $photo3->temporaryUrl() }}" class="preview">
                 @else
-                <img width="50" height="50" src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png"
-                    alt="add-image" />
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
                 <input type="file" wire:model="photo3" accept="image/*" class="d-none" id="btn-3">
             </label>
             @error('photo3')
-            <small class="form-text text-danger">{{ $message }}</small>
+                <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
 
 
         <div class="col-sm-2 col-6 mx-auto position-relative">
             @if ($photo4)
-            <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo4()">
-                <i class="bi bi-x-octagon"></i>
-            </button>
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo4()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
             <label for="images" class="drop-container" id="pic4">
                 @if ($photo4)
-                <img src="{{ $photo4->temporaryUrl() }}" class="preview">
+                    <img src="{{ $photo4->temporaryUrl() }}" class="preview">
                 @else
-                <img width="50" height="50" src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png"
-                    alt="add-image" />
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
                 <input type="file" wire:model="photo4" accept="image/*" class="d-none" id="btn-4">
             </label>
             @error('photo4')
-            <small class="form-text text-danger">{{ $message }}</small>
+                <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
 
@@ -99,21 +99,21 @@
 
         <div class="col-sm-2 col-6 mx-auto position-relative">
             @if ($photo5)
-            <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
-                <i class="bi bi-x-octagon"></i>
-            </button>
+                <button type="button" class="btn-danger btn-cancel-image" wire:click="reset_photo5()">
+                    <i class="bi bi-x-octagon"></i>
+                </button>
             @endif
             <label for="images" class="drop-container" id="pic5">
                 @if ($photo5)
-                <img src="{{ $photo5->temporaryUrl() }}" class="preview">
+                    <img src="{{ $photo5->temporaryUrl() }}" class="preview">
                 @else
-                <img width="50" height="50" src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png"
-                    alt="add-image" />
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
                 <input type="file" wire:model="photo5" accept="image/*" class="d-none" id="btn-5">
             </label>
             @error('photo5')
-            <small class="form-text text-danger">{{ $message }}</small>
+                <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
 
@@ -122,7 +122,7 @@
 
     <br>
     @error('errorphoto')
-    <small class="form-text text-danger">{{ $message }}</small>
+        <small class="form-text text-danger">{{ $message }}</small>
     @enderror
     <br>
 
@@ -145,10 +145,10 @@
                     <label>Titre de la publication</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control cusor border-r " placeholder="Titre" wire:model="titre"
-                            required>
+                        <input type="text" class="form-control cusor border-r " placeholder="Titre"
+                            wire:model="titre" required>
                         @error('titre')
-                        <small class="form-text text-danger">{{ $message }}</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         <input type="number" class="form-control cusor border-r" placeholder="Prix" required
                             wire:model.live="prix">
                         @error('prix')
-                        <small class="form-text text-danger">{{ $message }}</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                             <option value="Usé">Usé</option>
                         </select>
                         @error('etat')
-                        <small class="form-text text-danger">{{ $message }}</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                         <input type="number" class="form-control cusor border-r " placeholder="Prix initial"
                             wire:model.live="prix_achat">
                         @error('prix_achat')
-                        <small class="form-text text-danger">{{ $message }}</small>
+                            <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -201,14 +201,15 @@
                 <span class="bold text-danger">*</span>
                 <div class="position-relative">
                     <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
-                    <select class="form-control cusor border-r pl-4" wire:model.live="region" required style="">
+                    <select class="form-control cusor border-r pl-4" wire:model.live="region" required
+                        style="">
                         <option value="">Veuillez selectionner la region</option>
                         @foreach ($regions as $item)
-                        <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
                         @endforeach
                     </select>
                     @error('region')
-                    <small class="form-text text-danger">{{ $message }}</small>
+                        <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
             </div>
@@ -219,114 +220,117 @@
                 <select class="form-control cusor border-r" id="select2-dropdown" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
                     @foreach ($categories as $category => $categorie)
-                    <option value="{{ $categorie->id }}">
-                        {{ $categorie->titre }}
-                        @if ($categorie->luxury == 1)
-                        <span class="luxury">
-                            (luxury)
-                        </span>
-                        @endif
-                    </option>
+                        <option value="{{ $categorie->id }}">
+                            {{ $categorie->titre }}
+                            @if ($categorie->luxury == 1)
+                                <span class="luxury">
+                                    (luxury)
+                                </span>
+                            @endif
+                        </option>
                     @endforeach
                 </select>
                 @error('selectedCategory')
-                <small class="form-text text-danger">{{ $message }}</small>
+                    <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
 
 
             @if ($selectedCategory)
-            <div class="form-group">
-                <label>Sous-catégorie</label>
-                <span class="bold text-danger">*</span>
-                <select class="form-control cusor border-r" wire:model.live="selectedSubcategory">
-                    <option selected value="x">Veuilez selectionner une sous-catégorie</option>
-                    @foreach ($sous_categories as $sous)
-                    <option value="{{ $sous->id }}">
-                        {{ $sous->titre }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('selectedSubcategory')
-                <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                <div class="form-group">
+                    <label>Sous-catégorie</label>
+                    <span class="bold text-danger">*</span>
+                    <select class="form-control cusor border-r" wire:model.live="selectedSubcategory">
+                        <option selected value="x">Veuilez selectionner une sous-catégorie</option>
+                        @foreach ($sous_categories as $sous)
+                            <option value="{{ $sous->id }}">
+                                {{ $sous->titre }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('selectedSubcategory')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
             @endif
 
 
 
 
             @if ($proprietes && $selectedCategory)
-            <div class="row">
-                @foreach ($proprietes as $propriete)
-                @php
-                $propriete_info = DB::table('proprietes')->find($propriete);
-                @endphp
-                @if ($propriete_info)
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="text-capitalize">
-                            {{ $propriete_info->nom }}
-                        </label>
-
+                <div class="row">
+                    @foreach ($proprietes as $propriete)
                         @php
-                        $requi = false;
-                        if ($required) {
-                        $collection = collect(json_decode($required ?? [], true));
-                        $requiredStatus =
-                        $collection->firstWhere('id', $propriete_info->id) ?? 'null';
-                        if ($requiredStatus['required'] == 'Oui') {
-                        $requi = true;
-                        }
-                        }
+                            $propriete_info = DB::table('proprietes')->find($propriete);
                         @endphp
-                        @if ($requi)
-                        <span class="bold text-danger">*</span>
-                        @endif
+                        @if ($propriete_info)
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="text-capitalize">
+                                        {{ $propriete_info->nom }}
+                                    </label>
 
-                        @if ($propriete_info->type == 'option')
-                        @if ($propriete_info->affichage == 'case')
-                        <select wire:model="article_propriete.{{ $propriete_info->nom }}" @required($requi)
-                            class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
-                            <option value=""></option>
-                            @foreach (json_decode($propriete_info->options) as $option)
-                            <option value="{{ $option }}">{{ $option }}</option>
-                            @endforeach
-                        </select>
-                        @else
-                        <input type="text"
-                            class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
-                            @required($requi) placeholder="{{ $propriete_info->nom }}"
-                            wire:model="article_propriete.{{ $propriete_info->nom }}"
-                            data-suggestions="{{ $propriete_info->options }}" data-model="{{ $propriete_info->nom }}">
+                                    @php
+                                        $requi = false;
+                                        if ($required) {
+                                            $collection = collect(json_decode($required ?? [], true));
+                                            $requiredStatus =
+                                                $collection->firstWhere('id', $propriete_info->id) ?? 'null';
+                                            if ($requiredStatus['required'] == 'Oui') {
+                                                $requi = true;
+                                            }
+                                        }
+                                    @endphp
+                                    @if ($requi)
+                                        <span class="bold text-danger">*</span>
+                                    @endif
+
+                                    @if ($propriete_info->type == 'option')
+                                        @if ($propriete_info->affichage == 'case')
+                                            <select wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                @required($requi)
+                                                class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
+                                                <option value=""></option>
+                                                @foreach (json_decode($propriete_info->options) as $option)
+                                                    <option value="{{ $option }}">{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <input type="text"
+                                                class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
+                                                @required($requi) placeholder="{{ $propriete_info->nom }}"
+                                                wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                data-suggestions="{{ $propriete_info->options }}"
+                                                data-model="{{ $propriete_info->nom }}">
+                                        @endif
+                                    @elseif($propriete_info->type == 'color')
+                                        @if ($selected_color)
+                                            : <b> {{ $selected_color }} </b>
+                                        @endif
+                                        <br>
+                                        @foreach ($colors as $item)
+                                            @if ($item['nom'] == 'Multicolore')
+                                                <button type="button" class="btn-color-create multi-color-btn cusor"
+                                                    wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @else
+                                                <button style="background-color: {{ $item['code'] }};" type="button"
+                                                    class="btn-color-create cusor"
+                                                    wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <input type="{{ $propriete_info->type }}" @required($requi)
+                                            placeholder="{{ $propriete_info->nom }}"
+                                            class="form-control cusor border-r"
+                                            wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                    @endif
+                                </div>
+                            </div>
                         @endif
-                        @elseif($propriete_info->type == 'color')
-                        @if ($selected_color)
-                        : <b> {{ $selected_color }} </b>
-                        @endif
-                        <br>
-                        @foreach ($colors as $item)
-                        @if ($item['nom'] == 'Multicolore')
-                        <button type="button" class="btn-color-create multi-color-btn cusor"
-                            wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
-                        </button>
-                        @else
-                        <button style="background-color: {{ $item['code'] }};" type="button"
-                            class="btn-color-create cusor"
-                            wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
-                        </button>
-                        @endif
-                        @endforeach
-                        @else
-                        <input type="{{ $propriete_info->type }}" @required($requi)
-                            placeholder="{{ $propriete_info->nom }}" class="form-control cusor border-r"
-                            wire:model="article_propriete.{{ $propriete_info->nom }}">
-                        @endif
-                    </div>
+                    @endforeach
                 </div>
-                @endif
-                @endforeach
-            </div>
             @endif
         </div>
         <br>
@@ -353,7 +357,7 @@
 
         </textarea>
         @error('description')
-        <small class="form-text text-danger">{{ $message }}</small>
+            <small class="form-text text-danger">{{ $message }}</small>
         @enderror
     </div>
 
@@ -577,56 +581,56 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        // Fonction pour gérer les changements des inputs
-        function handleInputChange() {
-            const input1 = document.querySelector('.option-tailleenchiffre');
-            const input2 = document.querySelector('.option-taille');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction pour gérer les changements des inputs
+            function handleInputChange() {
+                const input1 = document.querySelector('.option-tailleenchiffre');
+                const input2 = document.querySelector('.option-taille');
 
-            if (input1 && input2) {
-                input1.addEventListener('input', function() {
-                    if (this.value.trim() !== '') {
-                        input2.classList.add('disabled');
-                    } else {
-                        input2.classList.remove('disabled');
-                    }
+                if (input1 && input2) {
+                    input1.addEventListener('input', function() {
+                        if (this.value.trim() !== '') {
+                            input2.disabled = true;
+                        } else {
+                            input2.disabled = false;
+                        }
+                    });
+
+                    input2.addEventListener('input', function() {
+                        if (this.value.trim() !== '') {
+                            input1.disabled = true;
+                        } else {
+                            input1.disabled = false;
+                        }
+                    });
+                }
+            }
+
+            // Fonction pour observer les changements dans le DOM
+            function observeDOM() {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList') {
+                            handleInputChange();
+                        }
+                    });
                 });
 
-                input2.addEventListener('input', function() {
-                    if (this.value.trim() !== '') {
-                        input1.classList.add('disabled');
-                    } else {
-                        input1.classList.remove('disabled');
-                    }
+                // Observer le body pour les ajouts d'éléments
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
                 });
             }
-        }
 
-        // Fonction pour observer les changements dans le DOM
-        function observeDOM() {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.type === 'childList') {
-                        handleInputChange();
-                    }
-                });
-            });
-
-            // Observer le body pour les ajouts d'éléments
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
-
-        observeDOM(); // Démarrer l'observation
-    });
+            observeDOM(); // Démarrer l'observation
+        });
     </script>
 
 
     <!-- Modal pour voir la liste des motifs d'un post réfuser -->
-    <div class="modal fade" id="modal_motifs_preview_post" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
-        aria-hidden="true">
+    <div class="modal fade" id="modal_motifs_preview_post" tabindex="1" role="dialog"
+        aria-labelledby="UpdatePrice" aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form" role="document">
             <div class="modal-content" id="UpdatePrice">
                 <div class="modal-headers">
@@ -636,144 +640,146 @@
                 </div>
                 <div class="modal-body p-5">
                     @if ($data_post)
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div>
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div>
                                     <div>
-                                        <img src="{{ Storage::url($data_post['photos'][0]) }}" alt=""
-                                            style="width: 100% !important;">
-                                    </div>
-                                    <div class="p-2 d-flex justify-content-start">
-                                        @foreach ($data_post['photos'] as $photo)
-                                        <div class="gallery-image-details-preview cusor"
-                                            onclick="change_principal_image('{{ Storage::url($photo) }}')">
-                                            <img src="{{ Storage::url($photo) }}" alt=""
+                                        <div>
+                                            <img src="{{ Storage::url($data_post['photos'][0]) }}" alt=""
                                                 style="width: 100% !important;">
                                         </div>
-                                        @endforeach
+                                        <div class="p-2 d-flex justify-content-start">
+                                            @foreach ($data_post['photos'] as $photo)
+                                                <div class="gallery-image-details-preview cusor"
+                                                    onclick="change_principal_image('{{ Storage::url($photo) }}')">
+                                                    <img src="{{ Storage::url($photo) }}" alt=""
+                                                        style="width: 100% !important;">
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div>
+                            <div class="col-sm-6">
                                 <div>
-                                    @if ($data_post['categorie'])
-                                    @if ($data_post['categorie']->luxury == 1)
-                                    <span class="text-success bg-light-success rounded strong px-2 py-1">
-                                        <i class="bi bi-gem"></i>
-                                        SHOPIN LUXURY
-                                    </span>
-                                    &nbsp;
-                                    @endif
-                                    <span class=" bg-light-info rounded color px-2 py-1 strong"
-                                        style="background-color: #0080802d">
-                                        <span class="color">
-                                            {{ $data_post['categorie']->titre ?? '' }}
+                                    <div>
+                                        @if ($data_post['categorie'])
+                                            @if ($data_post['categorie']->luxury == 1)
+                                                <span class="text-success bg-light-success rounded strong px-2 py-1">
+                                                    <i class="bi bi-gem"></i>
+                                                    SHOPIN LUXURY
+                                                </span>
+                                                &nbsp;
+                                            @endif
+                                            <span class=" bg-light-info rounded color px-2 py-1 strong"
+                                                style="background-color: #0080802d">
+                                                <span class="color">
+                                                    {{ $data_post['categorie']->titre ?? '' }}
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <h3 class=" mb-1 mt-2 text-capitalize">
+                                        {{ $data_post['titre'] }}
+                                    </h3>
+                                    <div>
+                                        <span class="ft-bold color strong fs-lg">
+                                            {{ $data_post['prix'] }} DH
                                         </span>
-                                    </span>
-                                    @endif
-                                </div>
-                                <h3 class=" mb-1 mt-2 text-capitalize">
-                                    {{ $data_post['titre'] }}
-                                </h3>
-                                <div>
-                                    <span class="ft-bold color strong fs-lg">
-                                        {{ $data_post['prix'] }} DH
-                                    </span>
-                                    <span class="badge-frais-details">
-                                        <img width="25" height="25"
-                                            src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
-                                        + Frais de Livraison
-                                    </span>
-                                </div>
-                                <div class="mt-3">
-                                    <b class="text-black h6">Détails</b>
-                                    <table>
-                                        <tr>
-                                            <td style="min-width: 130px">Condition </td>
-                                            <td class="text-black"> {{ $data_post['etat'] }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Catégorie </td>
-                                            <td class="text-black text-capitalize">
-                                                {{ $data_post['categorie']->titre ?? '' }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Région </td>
-                                            <td class="text-black text-capitalize">
-                                                {{ $data_post['region']->nom }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Publié le </td>
-                                            <td class="text-black">
-                                                {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
-                                            </td>
-                                        </tr>
-                                        @foreach ($data_post['proprietes'] ?? [] as $key => $value)
-                                        <tr>
-                                            <td>{{ ucfirst($key) }} </td>
-                                            <td class="text-black">
-                                                @if ($key == 'Couleur')
-                                                @if ($value == '#000000000')
-                                                <img src="/icons/color-wheel.png" height="20" width="20"
-                                                    alt="multicolor" title="Multi color" srcset="">
-                                                @else
-                                                <script>
-                                                    getColorName('{{ $value }}');
-                                                </script>
-                                                <span class="card"
-                                                    style="background-color: {{ $value }} ;color:{{ $value }};">
-                                                    {{ $value }}
-                                                </span>
-                                                @endif
-                                                <span id="colorName"></span>
-                                                @else
-                                                <span class="text-capitalize">
-                                                    {{ $value }}
-                                                </span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                <div class="mt-3">
-                                    <b class="text-black h6">Description</b>
-                                    <p class="text-capitalize">
-                                        @if ($data_post['description'])
-                                        {!! $data_post['description'] !!}
-                                        @else
-                                    <div class="text-muted text-center">
-                                        <i>
-                                            <i class="bi bi-info-circle color"></i>
-                                            Aucune description disponible !
-                                        </i>
+                                        <span class="badge-frais-details">
+                                            <img width="25" height="25"
+                                                src="https://img.icons8.com/laces/25/018d8d/delivery.png"
+                                                alt="delivery" />
+                                            + Frais de Livraison
+                                        </span>
                                     </div>
-                                    @endif
+                                    <div class="mt-3">
+                                        <b class="text-black h6">Détails</b>
+                                        <table>
+                                            <tr>
+                                                <td style="min-width: 130px">Condition </td>
+                                                <td class="text-black"> {{ $data_post['etat'] }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Catégorie </td>
+                                                <td class="text-black text-capitalize">
+                                                    {{ $data_post['categorie']->titre ?? '' }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Région </td>
+                                                <td class="text-black text-capitalize">
+                                                    {{ $data_post['region']->nom }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Publié le </td>
+                                                <td class="text-black">
+                                                    {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
+                                                </td>
+                                            </tr>
+                                            @foreach ($data_post['proprietes'] ?? [] as $key => $value)
+                                                <tr>
+                                                    <td>{{ ucfirst($key) }} </td>
+                                                    <td class="text-black">
+                                                        @if ($key == 'Couleur')
+                                                            @if ($value == '#000000000')
+                                                                <img src="/icons/color-wheel.png" height="20"
+                                                                    width="20" alt="multicolor"
+                                                                    title="Multi color" srcset="">
+                                                            @else
+                                                                <script>
+                                                                    getColorName('{{ $value }}');
+                                                                </script>
+                                                                <span class="card"
+                                                                    style="background-color: {{ $value }} ;color:{{ $value }};">
+                                                                    {{ $value }}
+                                                                </span>
+                                                            @endif
+                                                            <span id="colorName"></span>
+                                                        @else
+                                                            <span class="text-capitalize">
+                                                                {{ $value }}
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                    <div class="mt-3">
+                                        <b class="text-black h6">Description</b>
+                                        <p class="text-capitalize">
+                                            @if ($data_post['description'])
+                                                {!! $data_post['description'] !!}
+                                            @else
+                                                <div class="text-muted text-center">
+                                                    <i>
+                                                        <i class="bi bi-info-circle color"></i>
+                                                        Aucune description disponible !
+                                                    </i>
+                                                </div>
+                                            @endif
 
-                                    </p>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-md bg-dark btn-sm text-light fs-md ft-medium" type="button"
-                            wire:click="submit" id="submit-form" wire:loading.attr="disabled">
-                            <span wire:loading>
-                                <x-Loading></x-Loading>
-                            </span>
-                            <i class="bi bi-send"></i>
-                            Publier
-                        </button>
-                    </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-md bg-dark btn-sm text-light fs-md ft-medium" type="button"
+                                wire:click="submit" id="submit-form" wire:loading.attr="disabled">
+                                <span wire:loading>
+                                    <x-Loading></x-Loading>
+                                </span>
+                                <i class="bi bi-send"></i>
+                                Publier
+                            </button>
+                        </div>
                     @else
-                    <div class="p-2 text-center">
-                        <img src="/icons/icons8-preview-58.png" alt="" srcset="">
-                    </div>
+                        <div class="p-2 text-center">
+                            <img src="/icons/icons8-preview-58.png" alt="" srcset="">
+                        </div>
                     @endif
                 </div>
             </div>
