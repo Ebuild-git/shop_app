@@ -643,16 +643,25 @@ class HomeController extends Controller
                 "message" => "Utilisateur introuvable!"
             ]);
         }
-        foreach ($user->categoriesWhereUserPosted as $item) {
-            $categories[] = [
-                "nom" => $item->nom,
-            ];
+        $categories = [];
+        $posts = posts::where('id_user',$user->id)->where('statut',['livré','vendu','livraison'])->get();
+        foreach ($posts as $key => $post) {
+            $sous_categorie = sous_categories::where('id_categorie',$post->id_sous_categorie)->first();
+            if($sous_categorie){
+                $categorie = categories::find($sous_categorie->id_categorie);
+                if($categorie){
+                    $categories[]=[
+                        "nom" => $categorie->nom
+                    ];
+                }
+            }
         }
+        $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories])->render();
         return response()->json([
             "status" => true,
-            "data" =>  $categories,
+            "html" =>  $ListeHtml,
             "username" => $user->username,
-            "total" => $user->categoriesWhereUserPosted->count()
+            "total" => count($categories)
         ]);
     }
 }

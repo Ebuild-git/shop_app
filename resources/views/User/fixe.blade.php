@@ -891,9 +891,8 @@
                         </h4>
                     </div>
                     <hr>
-                    <div>
-                        <ul class="list-group list-group-flush text-left " id="catelist">
-                        </ul>
+                    <div id="content-liste">
+                       
                     </div>
                 </div>
             </div>
@@ -1053,25 +1052,7 @@
 
 
         // gerer l'ouverture du modal pour l'affichage des categories publier par les shopinners
-        function ShowPostsCatgorie(id) {
-            //open CatégoriesPost modal
-            $.ajax({
-                url: "/category/post_user",
-                data: {
-                    id_user: id
-                },
-                type: "GET",
-                success: function(response) {
-                    console.log("Success");
-                    $('.catgoryPosts').empty().html(response.view);
-                    $('#username_user_modal_categorie').html(response.username)
-                    $('#CategoryPostsModal').modal('toggle');
-                },
-                error: function() {
-                    alert("Error while loading posts of this category !");
-                }
-            });
-        }
+        
     </script>
 
     <!-- end Condition Modal -->

@@ -505,3 +505,23 @@ function btn_accept_location() {
     //close modal location-modal
     $("#location-modal").modal("toggle");
 }
+
+function ShowPostsCatgorie(id) {
+    //open CatégoriesPost modal
+    $.ajax({
+        url: "/category/post_user",
+        data: {
+            id_user: id,
+        },
+        type: "GET",
+        success: function (response) {
+            $("#content-liste").empty();
+            $("#content-liste").html(response.html);
+            $("#username_user_modal_categorie").html(response.username);
+            $("#CategoryPostsModal").modal("toggle");
+        },
+        error: function () {
+            console.log("Error while loading posts of this category !");
+        },
+    });
+}
