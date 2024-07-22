@@ -4,7 +4,7 @@
         <h6>
             <i class="bi bi-chevron-double-right"></i>
             <b>
-                {{ $categorie['nom']}}
+                {{ $categorie['nom'] }} ( {{ $categorie['count'] }} )
             </b>
         </h6>
     </div>

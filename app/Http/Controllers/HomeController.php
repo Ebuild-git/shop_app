@@ -635,31 +635,44 @@ class HomeController extends Controller
     public function get_user_categorie_post(Request $request)
     {
         $id_user = $request->input("id_user");
-        $categories = [];
         $user = User::find($id_user);
+        
         if (!$user) {
             return response()->json([
                 "status" => false,
                 "message" => "Utilisateur introuvable!"
             ]);
         }
+        
         $categories = [];
-        $posts = Posts::where('id_user', $user->id)
-              ->whereIn('statut', ['livré', 'vendu', 'livraison', 'vente'])
-              ->get();
-
-        foreach ($posts as $key => $post) {
+        $posts = posts::where('id_user', $user->id)
+                      ->whereIn('statut', ['livré', 'vendu', 'livraison', 'vente'])
+                      ->get();
+        
+        foreach ($posts as $post) {
             $sous_categorie = sous_categories::find($post->id_sous_categorie);
-            if($sous_categorie){
+            if ($sous_categorie) {
                 $categorie = categories::find($sous_categorie->id_categorie);
-                if($categorie){
-                    $categories[]=[
-                        "nom" => $categorie->titre
-                    ];
+                if ($categorie) {
+                    if (isset($categories[$categorie->titre])) {
+                        $categories[$categorie->titre]++;
+                    } else {
+                        $categories[$categorie->titre] = 1;
+                    }
                 }
             }
         }
-        $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories])->render();
+        
+        // Convertir le tableau associatif en une liste pour la vue
+        $categories_list = [];
+        foreach ($categories as $nom => $count) {
+            $categories_list[] = [
+                "nom" => $nom,
+                "count" => $count
+            ];
+        }
+        
+        $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories_list])->render();
         return response()->json([
             "status" => true,
             "html" =>  $ListeHtml,
@@ -667,4 +680,6 @@ class HomeController extends Controller
             "total" => count($categories)
         ]);
     }
+
+    
 }
