@@ -119,20 +119,23 @@ class User extends Authenticatable implements JWTSubject
         $posts = posts::where('id_user', $this->id)
                       ->whereIn('statut', ['livré', 'vendu'])
                       ->get();
+        $categories = [];
         $total = 0;
+        
         foreach ($posts as $post) {
             $sous_categorie = sous_categories::find($post->id_sous_categorie);
             if ($sous_categorie) {
                 $categorie = categories::find($sous_categorie->id_categorie);
-                if ($categorie) {
-                    if (!isset($categories[$categorie->titre])) {
-                        $total += 1;
-                    }
+                if ($categorie && !isset($categories[$categorie->titre])) {
+                    $categories[$categorie->titre] = true;
+                    $total += 1;
                 }
             }
         }
+        
         return $total;
     }
+    
 
     public function averageRating()
     {
