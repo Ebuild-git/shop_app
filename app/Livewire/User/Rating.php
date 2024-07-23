@@ -56,7 +56,7 @@ class Rating extends Component
          
 
         // veridier que il n'a pas encore donner une note
-        if ($rate->etoiles != null) {
+        if ($rate) {
             $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
             return;
         } 
