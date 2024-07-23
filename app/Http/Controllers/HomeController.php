@@ -327,7 +327,7 @@ class HomeController extends Controller
             [
                 'count' => count($cart ?? []),
                 'produits' => $produits,
-                'montant' => $montant . " DH",
+                'montant' => number_format($montant, 2, '.', '') . " DH",
                 'html' => $html,
                 'statut' => true,
             ]
