@@ -62,3 +62,4 @@
         @endforelse
     </tbody>
 </table>
+{{ $achats->links('pagination::bootstrap-4') }}

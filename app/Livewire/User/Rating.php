@@ -4,31 +4,30 @@ namespace App\Livewire\User;
 
 use App\Models\posts;
 use App\Models\ratings;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Rating extends Component
 {
-    public $user, $notes, $ma_note = 0;
+    public $id_user,$user,$last_buy;
+    public $can_rate = false;
 
-    public function mount($user)
+    public function mount($id_user)
     {
-        $this->user = $user;
+        $this->id_user = $id_user;
+        $this->user = User::find($id_user);
+        $this->last_buy = posts::where('id_user', $id_user)
+        ->where('id_user_buy',Auth::id())
+        ->whereIn('statut', ['livré', 'vendu'])
+        ->Orderby("sell_at","Desc")
+        ->first();
     }
 
     public function render()
     {
-        $this->notes = ratings::where('id_user_sell', $this->user->id)->avg('etoiles');
-        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
-            ->where("id_user_sell", $this->user->id)
-            ->first();
-        if ($ma_note) {
-            $this->ma_note = $ma_note->etoiles;
-        }
-        $count = number_format($this->user->averageRating->average_rating ?? 1);
-        $avis = $this->user->getReviewsAttribute->count();
-        return view('livewire.user.rating', compact("count", "avis"));
+        return view('livewire.user.rating');
     }
 
     public function rate($value)
@@ -44,7 +43,7 @@ class Rating extends Component
 
         $rate = ratings::where('id_user_buy', Auth::user()->id)
             ->where("id_user_sell", $this->user->id)
-            ->Orderby("created_at","Asc")
+            ->Orderby("created_at","Desc")
             ->first();
 
         if(!$rate){

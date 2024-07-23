@@ -121,4 +121,16 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Echec de connexion');
         }
     }
+
+
+
+
+    public function index_logout(){
+        Auth::logout();
+        setcookie('cart', '', time() - 3600, '/', null, null, true);
+        return redirect('/');
+    }
+
+
+
 }

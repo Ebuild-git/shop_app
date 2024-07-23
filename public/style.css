@@ -1137,7 +1137,23 @@ body {
     width: 100%;
     object-fit: cover;
 }
-
+.btn-note-rating{
+    background-color: white;
+    color: #008080;
+    border: solid 1px #008080;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 3px;
+}
+.btn-note-rating .active{
+    background-color: #008080;
+    color: white;
+}
+.btn-note-rating:hover{
+    background-color: #008080;
+    color: white;
+}
 
 
 

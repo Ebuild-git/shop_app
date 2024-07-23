@@ -421,7 +421,7 @@
                             </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
-                                    <a href="{{ route('historique') }}" class="ml-2 icon-icon-header"
+                                    <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
                                         style="color: black !important;">
                                         <i class="bi lni bi-clock-history icon-icon-header"></i>
                                         <span class="hide-desktop">Historique</span>

@@ -12,6 +12,7 @@ use App\Models\favoris;
 use App\Models\likes;
 use App\Models\notifications;
 use App\Models\posts;
+use App\Models\ratings;
 use App\Models\regions;
 use App\Models\signalements;
 use App\Models\sous_categories;
@@ -181,7 +182,22 @@ class HomeController extends Controller
         $user = User::find($id);
         $postsQuery = posts::where("id_user", $user->id);
         $posts = $postsQuery->get();
-        return view('User.profile')->with("user", $user)->with('posts', $posts);
+        $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
+        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+            ->where("id_user_sell", $user->id)
+            ->first();
+        if ($ma_note) {
+            $ma_note = $ma_note->etoiles;
+        }
+        $count = number_format($user->averageRating->average_rating ?? 1);
+        $avis = $user->getReviewsAttribute->count();
+                return view('User.profile')
+                ->with("user", $user)
+                ->with('posts', $posts)
+                ->with('notes', $notes)
+                ->with('ma_note', $ma_note)
+                ->with('count', $count)
+                ->with('avis', $avis);
     }
 
 
@@ -190,21 +206,35 @@ class HomeController extends Controller
         return view('User.infromations');
     }
 
-    public function historiques()
+    public function historiques($type)
     {
+        $AllowedType = ["achats","ventes","annonces"];
+        if (!in_array($type, $AllowedType)) {
+            $type = "acahats";
+        }
+
+    
         $count = posts::where("id_user", Auth::user()->id)->count();
-        $annonces = posts::where("id_user", Auth::user()->id)
-            ->Orderby("id", "Desc")
-            ->where('statut', "vente")
-            ->paginate(20);
-        $ventes = posts::where("id_user", Auth::user()->id)
+        if($type == "achats"){
+            $achats = posts::where("id_user_buy", Auth::id())
+            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
+            ->paginate(1);
+            return view('User.historiques', compact("type","count", "achats"));
+        }
+        if($type == "ventes"){
+            $ventes = posts::where("id_user", Auth::user()->id)
             ->Orderby("id", "Desc")
             ->where('statut', "ventu")
-            ->paginate(20);
-        $achats = posts::where("id_user_buy", Auth::id())
-            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
-            ->paginate(30);
-        return view('User.historiques', compact("count", "annonces", "ventes","achats"));
+            ->paginate(1);
+            return view('User.historiques', compact("type","count", "ventes"));
+        }
+        if($type == "annonces"){
+            $annonces = posts::where("id_user", Auth::user()->id)
+            ->Orderby("id", "Desc")
+            ->where('statut', "vente")
+            ->paginate(1);
+            return view('User.historiques', compact("type","count", "annonces"));
+        }
     }
 
 

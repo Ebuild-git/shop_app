@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 //gestion de la connexion admin
 Route::get('login', [AdminController::class, 'index_login'])->name('login');
+Route::get('logout', [AdminController::class, 'index_logout'])->name('logout');
 Route::post('login.post', [AdminController::class, 'post_login'])->name('login.post');
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home');
@@ -68,7 +69,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
 
     Route::get('/shopiners', [ControllersHomeController::class, 'shopiners'])->name('shopiners');
-    Route::get('/historique', [ControllersHomeController::class, 'historiques'])->name('historique');
+    Route::get('/historique/{type}', [ControllersHomeController::class, 'historiques'])->name('historique');
 
 
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
@@ -189,4 +190,4 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
 
 
-require __DIR__ . '/auth.php';
+//require __DIR__ . '/auth.php';
