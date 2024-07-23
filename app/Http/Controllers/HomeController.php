@@ -60,9 +60,9 @@ class HomeController extends Controller
 
     public function index_mes_post(Request $request)
     {
-        $date_post = $request->input('date' ?? null);
+        $date_post = $request->input('date') ?? null;
         $type = $request->get('type') ?? "annonce";
-        $statut = $request->input('statut' ?? null);
+        $statut = $request->input('statut') ?? null;
         $key = $request->input("key") ?? null;
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
 
@@ -81,8 +81,8 @@ class HomeController extends Controller
         }
 
         if ($date_post) {
-            $date = $date_post . '-01';
-            $Query->WhereDate('sell_at', date('m', strtotime($date)));
+            $Query->whereYear('Created_at', date('Y', strtotime($date_post)))
+            ->whereMonth('Created_at', date('m', strtotime($date_post)));
         }
 
 
