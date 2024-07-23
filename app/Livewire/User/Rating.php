@@ -44,6 +44,11 @@ class Rating extends Component
 
     public function rate_action($value)
     {
+        $old_rate = ratings::where('id_user_buy', Auth::user()->id)
+            ->where("id_user_sell", $this->user->id)
+            ->where('id_post', $this->last_buy->id)
+            ->Orderby("created_at", "Desc")
+            ->first();
 
         $value = intval($value);
         //verified $value est between 1 and 5 and it's integer
@@ -61,7 +66,7 @@ class Rating extends Component
 
 
         // veridier que il n'a pas encore donner une note
-        if ($this->rate) {
+        if ($old_rate) {
             $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
             return;
         }
@@ -82,5 +87,8 @@ class Rating extends Component
         $rate->etoiles = $value;
         $rate->save();
         $this->dispatch('alert', ['message' => "Votre note a été enregistré !", 'type' => 'success']);
+
+        //refresh 
+        $this->mount($this->id_user);
     }
 }
