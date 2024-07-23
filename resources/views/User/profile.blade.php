@@ -69,7 +69,7 @@
                                         </span>
                                         |
                                         <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
-                                            <b>{{ $user->categoriesWhereUserSell->count() }}</b> Catégories
+                                            <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
                                         </span>
                                     </div>
                                 </div>

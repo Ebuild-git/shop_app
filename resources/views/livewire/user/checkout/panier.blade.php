@@ -82,7 +82,7 @@
                             <b>Sous-total</b>
                         </td>
                         <td class="text-end">
-                            {{ $total }} DH
+                            {{ number_format($total, 2, '.', '') }} DH
                         </td>
                     </tr>
                     <tr>
@@ -91,7 +91,7 @@
                         </td>
                         <td class="text-end">
                             <b class="color">
-                                {{ $total }} DH
+                                {{ number_format($total, 2, '.', '') }} DH
                             </b>
                         </td>
                     </tr>

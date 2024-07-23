@@ -117,7 +117,7 @@ class User extends Authenticatable implements JWTSubject
     public function categoriesWhereUserSell()
     {
         $posts = posts::where('id_user', $this->id)
-                      ->whereIn('statut', ['livré', 'vendu', 'livraison'])
+                      ->whereIn('statut', ['livré', 'vendu'])
                       ->get();
         $total = 0;
         foreach ($posts as $post) {
