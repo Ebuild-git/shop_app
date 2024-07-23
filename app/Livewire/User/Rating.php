@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Rating extends Component
 {
-    public $id_user,$user,$last_buy;
+    public $id_user,$user,$last_buy,$rate;
     public $can_rate = false;
 
     public function mount($id_user)
@@ -23,10 +23,31 @@ class Rating extends Component
         ->whereIn('statut', ['livré', 'vendu'])
         ->Orderby("sell_at","Desc")
         ->first();
+        if($this->last_buy ){
+            $this->rate = ratings::where('id_user_buy', Auth::user()->id)
+            ->where("id_user_sell", $this->user->id)
+            ->where('id_post',$this->last_buy->id)
+            ->Orderby("created_at","Desc")
+            ->first();
+        }
+        
     }
 
     public function render()
     {
+
+        $date = Carbon::now();
+        $date = $date->subDays(14);
+        if($this->last_buy){
+            if($this->last_buy->sell_at > $date) {
+                if(!$this->rate){
+                     $this->can_rate = true;
+                }
+            }
+        }
+        
+
+
         return view('livewire.user.rating');
     }
 
@@ -47,16 +68,12 @@ class Rating extends Component
 
 
 
-        $rate = ratings::where('id_user_buy', Auth::user()->id)
-            ->where("id_user_sell", $this->user->id)
-            ->where('id_post',$this->last_buy->id)
-            ->Orderby("created_at","Desc")
-            ->first();
+    
 
          
 
         // veridier que il n'a pas encore donner une note
-        if ($rate) {
+        if ($this->rate) {
             $this->dispatch('alert', ['message' => "Vous ne pouvez pas modifier votre avis!", 'type' => 'warning']);
             return;
         } 
