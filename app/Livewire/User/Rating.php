@@ -23,20 +23,11 @@ class Rating extends Component
             ->whereIn('statut', ['livré', 'vendu'])
             ->Orderby("sell_at", "Desc")
             ->first();
-       
-
         $this->rate = ratings::where('id_user_buy', Auth::user()->id)
             ->where("id_user_sell", $this->user->id)
             ->where('id_post', $this->last_buy->id)
             ->Orderby("created_at", "Desc")
             ->first();
-     
-
-        $date = Carbon::now();
-        $date = $date->subDays(14);
-        if ($this->last_buy->sell_at > $date) {
-            $this->can_rate = false;
-        }
     }
 
     public function render()
@@ -51,8 +42,9 @@ class Rating extends Component
         return view('livewire.user.rating');
     }
 
-    public function rate($value)
+    public function rate_action($value)
     {
+
         $value = intval($value);
         //verified $value est between 1 and 5 and it's integer
         if (!isset($value) || ($value < 1 || $value > 5)) {
