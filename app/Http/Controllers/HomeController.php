@@ -81,8 +81,8 @@ class HomeController extends Controller
         }
 
         if ($date_post) {
-            $Query->whereYear('Created_at', date('Y', strtotime($date_post)))
-            ->whereMonth('Created_at', date('m', strtotime($date_post)));
+            $Query->whereYear('created_at', date('Y', strtotime($date_post)))
+            ->whereMonth('created_at', date('m', strtotime($date_post)));
         }
 
 
