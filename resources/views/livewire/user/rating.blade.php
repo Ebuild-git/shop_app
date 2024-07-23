@@ -7,7 +7,7 @@
             Votre achat le plus récent chez <b>{{ $user->username }}</b> date du : {{ $last_buy->sell_at}}
             <div>
                 <b>
-                    {{ Str::limit( $last_buy->titre , 40)}}
+                    <i class="bi bi-arrow-right"></i>  {{ Str::limit( $last_buy->titre , 40)}}
                 </b>
             </div>
         </div>
