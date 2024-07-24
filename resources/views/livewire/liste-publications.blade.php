@@ -64,251 +64,55 @@
              </form>
          </div>
      </div>
+     <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Scrollable -->
+        <div class="card">
+          <h5 class="card-header">Scrollable Table</h5>
+          <div class="card-datatable text-nowrap">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"><div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label></div></div></div><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 933.25px; padding-right: 0px;"><table class="dt-scrollableTable table dataTable no-footer" style="margin-left: 0px; width: 933.25px;"><thead>
+                <tr><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 39.7375px;" aria-label="Name: activate to sort column ascending">Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 63.2125px;" aria-label="Position: activate to sort column ascending">Position</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 41.3875px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30.1px;" aria-label="City: activate to sort column descending" aria-sort="ascending">City</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 33.5875px;" aria-label="Date: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 52.825px;" aria-label="Salary: activate to sort column ascending">Salary</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 27.175px;" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 83.85px;" aria-label="Experience: activate to sort column ascending">Experience</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 50.4px;" aria-label="Status: activate to sort column ascending">Status</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 58.975px;" aria-label="Actions">Actions</th></tr>
+              </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 300px; height: 300px;"><table class="dt-scrollableTable table dataTable no-footer" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 938px;"><thead>
+                <tr style="height: 0px;"><th class="sorting sorting_asc" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 39.7375px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 63.2125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Position: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 41.3875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Email: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Email</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30.1px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="City: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">City</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 33.5875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Date: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Date</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 52.825px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Salary: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 27.175px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Age: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 83.85px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Experience: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Experience</div></th><th class="sorting" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 50.4px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Status: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Status</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 58.975px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Actions"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Actions</div></th></tr>
+              </thead>
+              <tbody><tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">No data available in table</td></tr></tbody>
+            </table></div></div><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-12 col-md-6"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="previous" tabindex="-1" class="page-link"><i class="ti ti-chevron-left ti-sm"></i></a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="next" tabindex="-1" class="page-link"><i class="ti ti-chevron-right ti-sm"></i></a></li></ul></div></div></div></div>
+          </div>
+        </div>
+        <!--/ Scrollable -->
 
-     @include('components.alert-livewire')
-     <div class="table-responsive text-nowrap">
-         <table class="datatables-ajax table">
-             <thead class="{{ $deleted ? 'table-red' : 'table-dark' }}" id="dataTable">
-                 <tr>
-                     <th>ID</th>
-                     <th style="width: 30px;"></th>
-                     <th>Titre</th>
-                     <th>Catégorie </th>
-                     <th>Prix</th>
-                     <th>État</th>
-                     <th>Auteur</th>
-                     <th>Likes</th>
-                     <th title="Signalements">
-                         <i class="bi bi-exclamation-triangle"></i> Alert
-                     </th>
-                     <th>Localisation</th>
-                     <th>Statut</th>
-                     <th>Vendu</th>
-                     <th>
-                         mise à jour
-                     </th>
-                     <td></td>
-                 </tr>
-             </thead>
+        <hr class="my-12">
 
-             <tbody>
-                 @forelse ($posts as $post)
-                     <tr>
-                         <td>
-                             {{ $post->id }}
-                         </td>
-                         <td>
-                             <div class="avatar me-2">
-                                 <img src="{{ $post->FirstImage() }}" alt="Avatar" class="rounded">
-                             </div>
-                         </td>
-                         <td>
-                             <strong>
-                                 {{ Str::of($post->titre)->limit(30) }}
-                             </strong>
-                             <br>
-                             <span class="small">
-                                 @if ($post->deleted_at)
-                                     <span class="text-danger" title="Suprimé le {{ $post->deleted_at }}">
-                                         <i>
-                                             <i class="bi bi-trash3"></i>
-                                             {{ $post->deleted_at }}
-                                         </i>
-                                     </span>
-                                 @else
-                                     <span class="text-warning">
-                                         <i>
-                                             <i class="bi bi-alarm"></i>
-                                             {{ $post->created_at }}
-                                         </i>
-                                     </span>
-                                 @endif
-                                 @if ($post->updated_price_at)
-                                     <div class="text-primary">
-                                         <i>
-                                             <i class="bi bi-pencil-square"></i> Modifié le :
-                                             {{ $post->updated_price_at }}
-                                         </i>
-                                     </div>
-                                 @endif
-                             </span>
-                         </td>
-                         <td>
-                             <span class="small text-muted">
-                                 {{ $post->sous_categorie_info->categorie->titre }}
-                             </span>
-                         </td>
-                         <td class="small ">
-                             @if ($post->old_prix)
-                                 <span class="strong color strong">
-                                     <strike>
-                                         {{ $post->getOldPrix() }}
-                                     </strike> DH
-                                 </span>
-                                 <br>
-                                 <span class="text-danger strong">
-                                     {{ $post->getPrix() }} DH
-                                 </span>
-                             @else
-                                 <span class=" color strong ">
-                                     {{ $post->getPrix() }} DH
-                                 </span>
-                             @endif
-                         </td>
-                         <td>
-                             <span class="small text-muted">
-                                 {{ $post->etat }}
-                             </span>
-                         </td>
-                         <td>
-                             <span title="Auteur"
-                                 onclick="document.location.href='/admin/client/{{ $post->user_info->id }}/view'">
-                                 <i class="bi bi-person"></i>
-                                 <b class="cusor">{{ $post->user_info->username }}</b>
-                             </span>
-                             <br>
-                             <span class="text-primary cusor small"
-                                 onclick="OpenModalMessage('{{ $post->id }}','{{ $post->user_info->username }}')">
-                                 <i class="bi bi-envelope-fill"></i>
-                                 écrire
-                             </span>
-                         </td>
+        <!-- Fixed Header -->
+        <div class="card">
+          <h5 class="card-header">Fixed Header</h5>
+          <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap5"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_1_length"><label>Show <select name="DataTables_Table_1_length" aria-controls="DataTables_Table_1" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"><div id="DataTables_Table_1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_1"></label></div></div></div><table class="dt-fixedheader table dataTable dtr-column collapsed" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info" style="width: 1396px;"><thead>
+                <tr><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 58px;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 56.025px;" data-col="1" aria-label=""><input type="checkbox" class="form-check-input"></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 159px;" aria-label="Name: activate to sort column ascending">Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 162.25px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 143.913px;" aria-label="Date: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 190.3px;" aria-label="Salary: activate to sort column ascending">Salary</th><th class="sorting dtr-hidden" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" style="width: 183.825px; display: none;" aria-label="Status: activate to sort column ascending">Status</th><th class="sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 190.688px; display: none;" aria-label="Actions">Actions</th></tr>
+              </thead>
+              <tbody><tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">Loading...</td></tr></tbody>
+              <tfoot>
+                <tr><th class="control" rowspan="1" colspan="1" style=""></th><th rowspan="1" colspan="1"></th><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Email</th><th rowspan="1" colspan="1">Date</th><th rowspan="1" colspan="1">Salary</th><th rowspan="1" colspan="1" class="dtr-hidden" style="display: none;">Status</th><th rowspan="1" colspan="1" class="dtr-hidden" style="display: none;">Action</th></tr>
+              </tfoot>
+            </table><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="col-sm-12 col-md-6"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_1_previous"><a aria-controls="DataTables_Table_1" aria-disabled="true" role="link" data-dt-idx="previous" tabindex="-1" class="page-link"><i class="ti ti-chevron-left ti-sm"></i></a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_1_next"><a aria-controls="DataTables_Table_1" aria-disabled="true" role="link" data-dt-idx="next" tabindex="-1" class="page-link"><i class="ti ti-chevron-right ti-sm"></i></a></li></ul></div></div></div></div>
+          </div>
+        </div>
+        <!--/ Fixed Header -->
+
+        <hr class="my-12">
+
+        <!-- Fixed Columns -->
+        <div class="card">
+          <h5 class="card-header">Fixed Columns</h5>
+          <div class="card-datatable text-nowrap">
+            <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="d-flex justify-content-between align-items-center row"><div class="col-sm-12 col-md-2 d-flex"><div id="DataTables_Table_2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_2"></label></div></div><div class="col-sm-12 col-md-10 d-none"></div></div><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 933.25px; padding-right: 14px;"><table class="dt-fixedcolumns table table-bordered dataTable no-footer" style="margin-left: 0px; width: 933.25px;"><thead>
+                <tr><th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 39.7375px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 63.2125px;" aria-label="Position: activate to sort column ascending">Position</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 41.3875px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 30.1px;" aria-label="City: activate to sort column ascending">City</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 33.5875px;" aria-label="Date: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 52.825px;" aria-label="Salary: activate to sort column ascending">Salary</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 27.175px;" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 83.85px;" aria-label="Experience: activate to sort column ascending">Experience</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 50.4px;" aria-label="Status: activate to sort column ascending">Status</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 58.975px;" aria-label="Actions">Actions</th></tr>
+              </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 300px;"><table class="dt-fixedcolumns table table-bordered dataTable no-footer" id="DataTables_Table_2" style="width: 938px;"><thead>
+                <tr style="height: 0px;"><th class="sorting sorting_asc" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 39.7375px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 63.2125px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Position: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 41.3875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Email: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Email</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 30.1px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="City: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">City</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 33.5875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Date: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Date</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 52.825px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Salary: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 27.175px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Age: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 83.85px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Experience: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Experience</div></th><th class="sorting" aria-controls="DataTables_Table_2" rowspan="1" colspan="1" style="width: 50.4px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Status: activate to sort column ascending"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Status</div></th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 58.975px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Actions"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Actions</div></th></tr>
+              </thead>
+              <tbody><tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">Loading...</td></tr></tbody>
+            </table></div></div></div>
+          </div>
+        </div>
+        <!--/ Fixed Columns -->
 
 
-                         <td>
-                             <i class="bi bi-heart-fill text-danger"></i>
-                             {{ $post->getLike->count() }}
-                         </td>
-                         <th>
-                             <a href="{{ route('liste_signalement_publications', ['post_id' => $post->id]) }}"
-                                 class="text-warning">
-                                 <i class="bi bi-exclamation-triangle "></i>
-                                 {{ $post->signalements->count() }}
-                             </a>
-                         </th>
-
-                         <td> {{ $post->region->nom ?? 'N/A' }} </td>
-                         <td>
-                             <span class="text-capitalize">
-                                 @if ($post->statut == 'réfusé')
-                                     Suspendu
-                                 @elseif ($post->statut == 'vente')
-                                     Actif
-                                 @else
-                                     Supprimer
-                                 @endif
-                             </span>
-                         </td>
-                         <td>
-                             <span class="text-capitalize">
-                                 @if ($post->statut == 'vendu')
-                                     <SPAN class="badge bg-success">
-                                         OUI
-                                     </SPAN>
-                                 @else
-                                     <SPAN class="badge bg-danger">
-                                         NON
-                                     </SPAN>
-                                 @endif
-                             </span>
-                         </td>
-                         <td>
-                             {{ $post->updated_price_at ?? '-' }}
-                         </td>
-                         <td class="text-end">
-                             <div class="btn-group">
-                                 @if ($post->deleted_at)
-                                     <button class="btn btn-sm btn-success" wire:click="restore({{ $post->id }})">
-                                         <i class="bi bi-upload"></i> &nbsp; Restorer
-                                     </button>
-                                 @endif
-                                 @if ($type == 'attente')
-                                     <button type="button" class="btn btn-sm btn-success"
-                                         wire:click="valider({{ $post->id }})">
-                                         <i class="bi bi-check-all"></i> &nbsp; Valider
-                                     </button>
-                                     <button type="button" class="btn btn-sm btn-danger"
-                                         wire:click="delete({{ $post->id }})">
-                                         <i class="bi bi-x-lg"></i> &nbsp; Réfuser
-                                     </button>
-                                 @endif
-                                 @if ($type == 'publiés')
-                                     <button class="btn btn-sm btn-warning" wire:click="vendu({{ $post->id }})">
-                                         <i class="bi bi-cart-check"></i> &nbsp; vendu
-                                     </button>
-                                 @endif
-
-                                 <button class="btn btn-sm btn-dark"
-                                     onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
-                                     <i class="bi bi-eye"></i>
-                                 </button>
-                                 @if ($post->deleted_at)
-                                     <button type="button" class="btn btn-sm btn-danger "
-                                         wire:click="delete_definitivement({{ $post->id }})">
-                                         <i class="ti ti-trash me-1"></i>
-                                         &nbsp; Définitivement
-                                     </button>
-                                 @else
-                                     <button type="button" class="btn btn-sm btn-danger"
-                                         onclick="OpenModalDeletePost({{ $post->id }})">
-                                         <i class="ti ti-trash me-1"></i>
-                                     </button>
-                                 @endif
-                             </div>
-                         </td>
-                     </tr>
-                 @empty
-                     <tr>
-                         <td colspan="11">
-                             <div class="p-3 text-center">
-                                 Aucune publication trouvé!
-                             </div>
-                         </td>
-                     </tr>
-                 @endforelse
-             </tbody>
-         </table>
-         <div class="p-3" {{ $posts->links('pagination::bootstrap-4') }} </div>
-         </div>
-
-
-
-
-
-         <style>
-             tbody td:nth-child(1) {
-                 position: sticky;
-                 left: 0px;
-                 background: white;
-                 z-index: 1;
-             }
-
-             tbody td:nth-child(2) {
-                 position: sticky;
-                 left: 50px;
-                 background: white;
-                 z-index: 1;
-             }
-
-             tbody td:nth-child(3) {
-                 position: sticky;
-                 left: 120px;
-                 background: white;
-                 z-index: 1;
-             }
-
-             thead th {
-                 position: sticky;
-                 top: 0;
-                 background: white;
-                 z-index: 1;
-             }
-             .with-btn{
-                position: fixed;
-                z-index: 999;
-                width: 100%;
-             }
-         </style>
-
-     </div>
-     <!--/ Ajax Sourced Server-side -->
