@@ -8,9 +8,7 @@ use App\Models\configurations;
 use App\Models\notifications;
 use Livewire\WithFileUploads;
 use App\Models\posts;
-use App\Models\proprietes;
 use App\Models\regions;
-use App\Models\regions_categories;
 use App\Models\sous_categories;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -43,7 +41,9 @@ class CreatePost extends Component
     public function updatedSelectedCategory($value)
     {
         if ($value != "x") {
-            $c = sous_categories::where("id_categorie", $value)->get();
+            $c = sous_categories::where("id_categorie", $value)
+                ->orderby('order', 'Asc')
+                ->get();
             $this->sous_categories = $c;
         } else {
             $this->selectedCategory = null;
@@ -139,7 +139,7 @@ class CreatePost extends Component
             $this->post = $post;
         }
 
-        $categories = categories::Orderby("order","Asc")->get(['id', 'titre', 'luxury']);
+        $categories = categories::Orderby("order", "Asc")->get(['id', 'titre', 'luxury']);
         $regions = regions::all(['id', 'nom']);
         return view('livewire.user.create-post')
             ->with('regions', $regions)
@@ -204,9 +204,9 @@ class CreatePost extends Component
             }
         }
 
-
-
-        $jsonProprietes = $this->article_propriete ?? [];
+        $jsonProprietes = array_filter($this->article_propriete, function($value) {
+            return !empty($value);
+        });
 
 
 
