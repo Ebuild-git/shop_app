@@ -83,7 +83,7 @@ class HomeController extends Controller
 
         if ($date_post) {
             $Query->whereYear('created_at', date('Y', strtotime($date_post)))
-            ->whereMonth('created_at', date('m', strtotime($date_post)));
+                ->whereMonth('created_at', date('m', strtotime($date_post)));
         }
 
 
@@ -191,13 +191,13 @@ class HomeController extends Controller
         }
         $count = number_format($user->averageRating->average_rating ?? 1);
         $avis = $user->getReviewsAttribute->count();
-                return view('User.profile')
-                ->with("user", $user)
-                ->with('posts', $posts)
-                ->with('notes', $notes)
-                ->with('ma_note', $ma_note)
-                ->with('count', $count)
-                ->with('avis', $avis);
+        return view('User.profile')
+            ->with("user", $user)
+            ->with('posts', $posts)
+            ->with('notes', $notes)
+            ->with('ma_note', $ma_note)
+            ->with('count', $count)
+            ->with('avis', $avis);
     }
 
 
@@ -208,32 +208,32 @@ class HomeController extends Controller
 
     public function historiques($type)
     {
-        $AllowedType = ["achats","ventes","annonces"];
+        $AllowedType = ["achats", "ventes", "annonces"];
         if (!in_array($type, $AllowedType)) {
             $type = "acahats";
         }
 
-    
+
         $count = posts::where("id_user", Auth::user()->id)->count();
-        if($type == "achats"){
+        if ($type == "achats") {
             $achats = posts::where("id_user_buy", Auth::id())
-            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
-            ->paginate(20);
-            return view('User.historiques', compact("type","count", "achats"));
+                ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
+                ->paginate(20);
+            return view('User.historiques', compact("type", "count", "achats"));
         }
-        if($type == "ventes"){
+        if ($type == "ventes") {
             $ventes = posts::where("id_user", Auth::user()->id)
-            ->Orderby("id", "Desc")
-            ->where('statut', "ventu")
-            ->paginate(20);
-            return view('User.historiques', compact("type","count", "ventes"));
+                ->Orderby("id", "Desc")
+                ->where('statut', "ventu")
+                ->paginate(20);
+            return view('User.historiques', compact("type", "count", "ventes"));
         }
-        if($type == "annonces"){
+        if ($type == "annonces") {
             $annonces = posts::where("id_user", Auth::user()->id)
-            ->Orderby("id", "Desc")
-            ->where('statut', "vente")
-            ->paginate(20);
-            return view('User.historiques', compact("type","count", "annonces"));
+                ->Orderby("id", "Desc")
+                ->where('statut', "vente")
+                ->paginate(20);
+            return view('User.historiques', compact("type", "count", "annonces"));
         }
     }
 
@@ -569,7 +569,8 @@ class HomeController extends Controller
     public function index_mes_achats(Request $request)
     {
         $date = $request->input('date' ?? null);
-        $Query = posts::where("id_user_buy", Auth::id())->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
+        $Query = posts::where("id_user_buy", Auth::id())
+            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
         if (!empty($date)) {
             $Query->whereYear('Created_at', date('Y', strtotime($date)))
                 ->whereMonth('Created_at', date('m', strtotime($date)));
@@ -666,19 +667,19 @@ class HomeController extends Controller
     {
         $id_user = $request->input("id_user");
         $user = User::find($id_user);
-        
+
         if (!$user) {
             return response()->json([
                 "status" => false,
                 "message" => "Utilisateur introuvable!"
             ]);
         }
-        
+
         $categories = [];
         $posts = posts::where('id_user', $user->id)
-                      ->whereIn('statut', ['livré', 'vendu', 'livraison'])
-                      ->get();
-        
+            ->whereIn('statut', ['livré', 'vendu', 'livraison'])
+            ->get();
+
         foreach ($posts as $post) {
             $sous_categorie = sous_categories::find($post->id_sous_categorie);
             if ($sous_categorie) {
@@ -692,7 +693,7 @@ class HomeController extends Controller
                 }
             }
         }
-        
+
         // Convertir le tableau associatif en une liste pour la vue
         $categories_list = [];
         foreach ($categories as $nom => $count) {
@@ -701,7 +702,7 @@ class HomeController extends Controller
                 "count" => $count
             ];
         }
-        
+
         $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories_list])->render();
         return response()->json([
             "status" => true,
@@ -710,6 +711,4 @@ class HomeController extends Controller
             "total" => count($categories)
         ]);
     }
-
-    
 }

@@ -26,7 +26,7 @@
 
     <br>
     <div class="container">
-        <form method="POST" action="{{ route('filtre-mes-achats') }}">
+        <form method="get" action="{{ route('mes-achats') }}">
             <div class="d-flex justify-content-between mb-3">
                 <div>
 

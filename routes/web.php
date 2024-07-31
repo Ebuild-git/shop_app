@@ -74,7 +74,6 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/mes-publication', [ControllersHomeController::class, 'index_mes_post'])->name('mes-publication');
     Route::get('/mes-achats', [ControllersHomeController::class, 'index_mes_achats'])->name('mes-achats');
-    Route::post('/mes-achats/filtre', [ControllersHomeController::class, 'index_mes_achats'])->name('filtre-mes-achats');
 
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
