@@ -218,21 +218,21 @@ class HomeController extends Controller
         if($type == "achats"){
             $achats = posts::where("id_user_buy", Auth::id())
             ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
-            ->paginate(1);
+            ->paginate(20);
             return view('User.historiques', compact("type","count", "achats"));
         }
         if($type == "ventes"){
             $ventes = posts::where("id_user", Auth::user()->id)
             ->Orderby("id", "Desc")
             ->where('statut', "ventu")
-            ->paginate(1);
+            ->paginate(20);
             return view('User.historiques', compact("type","count", "ventes"));
         }
         if($type == "annonces"){
             $annonces = posts::where("id_user", Auth::user()->id)
             ->Orderby("id", "Desc")
             ->where('statut', "vente")
-            ->paginate(1);
+            ->paginate(20);
             return view('User.historiques', compact("type","count", "annonces"));
         }
     }
