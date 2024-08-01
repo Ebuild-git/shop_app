@@ -217,7 +217,6 @@ class HomeController extends Controller
         $count = posts::where("id_user", Auth::user()->id)->count();
         if ($type == "achats") {
             $achats = posts::where("id_user_buy", Auth::id())
-                ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
                 ->paginate(20);
             return view('User.historiques', compact("type", "count", "achats"));
         }
