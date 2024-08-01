@@ -23,11 +23,13 @@ class Rating extends Component
             ->whereIn('statut', ['livré', 'vendu'])
             ->Orderby("sell_at", "Desc")
             ->first();
-        $this->rate = ratings::where('id_user_buy', Auth::user()->id)
-            ->where("id_user_sell", $this->user->id)
-            ->where('id_post', $this->last_buy->id)
-            ->Orderby("created_at", "Desc")
-            ->first();
+        if ($this->last_buy) {
+            $this->rate = ratings::where('id_user_buy', Auth::user()->id)
+                ->where("id_user_sell", $this->user->id)
+                ->where('id_post', $this->last_buy->id)
+                ->Orderby("created_at", "Desc")
+                ->first();
+        }
     }
 
     public function render()
