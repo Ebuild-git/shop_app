@@ -33,7 +33,6 @@
                 </div>
                 <div>
                     <div class="input-group mb-3">
-                        @csrf
                         <input type="text" class="form-control cusor sm" placeholder="Mois / Année"
                             onfocus="(this.type='month')" onblur="(this.type='text')" lang="fr" name="date"
                             value="{{ $date ? $date : null }}">

@@ -568,14 +568,15 @@ class HomeController extends Controller
 
     public function index_mes_achats(Request $request)
     {
-        $date = $request->input('date' ?? null);
-        $Query = posts::where("id_user_buy", Auth::id())
+        $date = $request->input('date') ?? null;
+        $query = posts::where("id_user_buy", Auth::id())
             ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
-        if (!empty($date)) {
-            $Query->whereYear('Created_at', date('Y', strtotime($date)))
-                ->whereMonth('Created_at', date('m', strtotime($date)));
+        if ($date) {
+            list($year, $month) = explode('-', $date);
+            $query->whereYear('created_at', $year)
+                ->whereMonth('created_at', $month);
         }
-        $achats = $Query->paginate(30);
+        $achats = $query->paginate(30);
         $total = posts::where("id_user_buy", Auth::id())->count();
         return view("User.mes-achats")
             ->with("achats", $achats)
