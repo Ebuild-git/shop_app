@@ -82,8 +82,11 @@ class HomeController extends Controller
         }
 
         if ($date_post) {
-            $Query->whereYear('created_at', date('Y', strtotime($date_post)))
-                ->whereMonth('created_at', date('m', strtotime($date_post)));
+            if ($date_post) {
+                list($year, $month) = explode('-', $date_post);
+                $Query->whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month);
+            }
         }
 
 
@@ -223,7 +226,7 @@ class HomeController extends Controller
         if ($type == "ventes") {
             $ventes = posts::where("id_user", Auth::user()->id)
                 ->Orderby("id", "Desc")
-                ->where('statut', "ventu")
+                ->where('statut', "vendu")
                 ->paginate(20);
             return view('User.historiques', compact("type", "count", "ventes"));
         }
