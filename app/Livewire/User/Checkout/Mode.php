@@ -13,6 +13,7 @@ use Livewire\Component;
 class Mode extends Component
 {
     public $user,$articles_panier;
+    public $frais  = 25 ;
 
 
     public function mount(){

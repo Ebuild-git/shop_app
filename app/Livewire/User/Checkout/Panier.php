@@ -11,6 +11,7 @@ class Panier extends Component
 
     public  $success = 0;
     protected $listeners = ['PostAdded' => '$refresh'];
+    public $frais  = 25 ;
 
 
 
