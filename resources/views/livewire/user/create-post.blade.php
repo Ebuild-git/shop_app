@@ -624,6 +624,7 @@
             }
 
             observeDOM(); // Démarrer l'observation
+
         });
     </script>
 

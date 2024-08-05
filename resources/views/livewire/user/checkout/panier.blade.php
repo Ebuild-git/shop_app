@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Total de fais :
+                            Total de frais :
                         </td>
                         <td class="text-end">
                             {{ $frais ?? 0  * count($articles_panier) }} DH

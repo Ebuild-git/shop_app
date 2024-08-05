@@ -42,11 +42,12 @@ class CreatePost extends Component
     {
         if ($value != "x") {
             $c = sous_categories::where("id_categorie", $value)
-                ->orderby('order', 'Asc')
+                ->orderby('titre', 'Asc')
                 ->get();
             $this->sous_categories = $c;
         } else {
             $this->selectedCategory = null;
+            $this->sous_categories = [];
         }
     }
 
@@ -141,6 +142,7 @@ class CreatePost extends Component
 
         $categories = categories::Orderby("order", "Asc")->get(['id', 'titre', 'luxury']);
         $regions = regions::all(['id', 'nom']);
+
         return view('livewire.user.create-post')
             ->with('regions', $regions)
             ->with("categories", $categories);
@@ -198,7 +200,7 @@ class CreatePost extends Component
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         if ($sous_categorie->categorie->luxury == 1) {
             if ($this->prix < 800) {
-                //le prix doit dépasse 800 DH 
+                //le prix doit dépasse 800 DH
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
                 return;
             }

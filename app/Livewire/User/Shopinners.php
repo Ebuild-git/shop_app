@@ -31,7 +31,6 @@ class Shopinners extends Component
                 'users.id',
                 'users.lastname',
                 'users.username',
-                'users.certified',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts')
             )
@@ -49,7 +48,7 @@ class Shopinners extends Component
 
             $shopiners =  $Query
                 ->where('users.id', '!=', Auth::id())
-                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.certified', 'pings.id_user')
+                ->groupBy('users.id', 'users.lastname', 'users.username', 'pings.id_user')
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
                 ->orderByDesc('average_rating') // Ensuite, trie par note moyenne
                 ->orderByDesc('total_posts')
@@ -58,7 +57,7 @@ class Shopinners extends Component
             $Query = User::select('users.id', 'users.name', 'users.username', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.certified')
+                ->groupBy('users.id', 'users.lastname', 'users.username')
                 ->where('users.role', '!=', 'admin');
             // Si on a une recherche en
             if (!empty($this->key)) {
@@ -81,7 +80,7 @@ class Shopinners extends Component
             $user = pings::where('id_user', Auth::id())->where('pined', $id_user)->first();
             if ($user) {
                 $user->delete();
-                $this->dispatch('alert', 
+                $this->dispatch('alert',
                 [
                     'message' => "SHOPINER retiré de votre TOPLISTE de SHOPINERS",
                  'type' => 'warning'
@@ -94,7 +93,7 @@ class Shopinners extends Component
                         'pined' => $id_user
                     ]
                 );
-                $this->dispatch('alert', 
+                $this->dispatch('alert',
                 [
                     'message' => "SHOPINER épinglé a votre TOPLISTE de SHOPINERS !",
                      'type' => 'success'

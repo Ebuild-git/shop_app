@@ -11,7 +11,8 @@ class sous_categories extends Model
 
     //filiable
     protected $fillable = [
-        'order'
+        'order',
+        'titre'
     ];
 
 
@@ -19,7 +20,7 @@ class sous_categories extends Model
         'proprietes' => 'json',
     ];
 
-    
+
 
     public function getPost() {
         return $this->hasMany(posts::class, 'id_sous_categorie','id');
