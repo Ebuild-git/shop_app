@@ -55,44 +55,11 @@
         </div>
 
         @include('components.Liste-mes-posts', ['posts' => $posts])
-       
+
     </div>
 
 </div>
 @endsection
 
 @section('modal')
-<style>
-    .data-input {
-        overflow: hidden;
-        width: 5px;
-        height: 5px;
-    }
-
-    #table-wrapper {
-        position: relative;
-    }
-
-    #table-scroll {
-        height: 450px;
-        overflow: auto;
-        margin-top: 20px;
-    }
-
-    #table-wrapper table {
-        width: 100%;
-
-    }
-
-    #table-wrapper table thead th .text {
-        position: absolute;
-        top: -20px;
-        z-index: 2;
-        height: 20px;
-        width: 35%;
-        border: 1px solid red;
-    }
-</style>
-
-
 @endsection

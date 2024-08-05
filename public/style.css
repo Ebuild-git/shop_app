@@ -677,7 +677,7 @@ body {
 
 .div-sroll-recherche {
     margin-top: 15px;
-    
+
 }
 
 .myInputRecherche {
@@ -995,7 +995,7 @@ body {
             cursor: pointer;
         }
 
-        
+
     }
 
     input {
@@ -1155,9 +1155,45 @@ body {
     color: white;
 }
 
+/* table scrolling */
 
+.data-input {
+    overflow: hidden;
+    width: 5px;
+    height: 5px;
+}
 
+#table-wrapper {
+    position: relative;
+}
 
+#table-scroll {
+    height: 450px;
+    overflow: auto;
+    margin-top: 20px;
+}
+
+#table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #008080;
+    color: white !important;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #008080;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+}
+
+tbody td {
+    vertical-align: top !important;
+}
 
 
 
