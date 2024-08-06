@@ -98,7 +98,7 @@
                             </h3>
                         </b>
                         <p class="color">
-                            {{ $article['prix'] }} DH
+                            {{ $article['prix'] }} <sup>DH</sup>
                         </p>
                     </td>
                 </tr>
@@ -108,8 +108,8 @@
             @endforeach
         </table>
         <div>
-            <h4>Frais de livraison : 0 DH</h4>
-            <h3>Total : {{  $total }} DH </h3>
+            <h4>Frais de livraison : 0 <sup>DH</sup></h4>
+            <h3>Total : {{  $total }} <sup>DH</sup> </h3>
         </div>
         <br><br>
         <div>

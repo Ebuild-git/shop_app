@@ -14,7 +14,7 @@
             <div class="d-flex justify-content-between">
                 <div>
                     <span class="text-red small">
-                        <strong>{{ $post->prix }}</strong>  DH
+                        <strong>{{ $post->prix }}</strong> <sup>DH</sup>
                     </span>
                 </div>
                 <div>
@@ -24,7 +24,7 @@
                     </span>
                 </div>
             </div>
-            
+
             <h6 class="card-title text-capitalize" >
                 {!! str_replace(' ', '&nbsp;', str_pad($post->titre, 50, ' ', STR_PAD_RIGHT)) !!}
             </h6>
@@ -36,7 +36,7 @@
                     <i class="bi bi-grid-1x2"></i>
                 </b> : {{ $post->sous_categorie_info->titre }} <br>
                 <i class="bi bi-calendar3"></i> : {{ $post->created_at }}
-                
+
             </p>
 
         </div>

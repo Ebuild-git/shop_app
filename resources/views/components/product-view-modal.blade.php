@@ -33,15 +33,15 @@
                                             <div class="elis_rty mt-2">
                                                 @if ($post->old_prix)
                                                     <span class="ft-bold color fs-lg">
-                                                        {{ $post->getPrix() }} DH
+                                                        {{ $post->getPrix() }} <sup>DH</sup>
                                                     </span>
                                                     <br>
                                                     <strike class="text-danger">
-                                                        {{ $post->getOldPrix() }} DH
+                                                        {{ $post->getOldPrix() }} <sup>DH</sup>
                                                     </strike>
                                                 @else
                                                     <span class="ft-bold color fs-lg">
-                                                        {{ $post->getPrix() }} DH
+                                                        {{ $post->getPrix() }} <sup>DH</sup>
                                                     </span>
                                                 @endif
                                             </div>

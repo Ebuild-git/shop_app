@@ -83,7 +83,7 @@
     <p>
         <i>Un article qui appartient à la catégorie SHOP<span class="color">IN</span> LUXURY doit :</i><br>
 
-        dépasser 800 DH <br>
+        dépasser 800 <sup>DH</sup> <br>
 
         être authentifier avant de le livrer à l’acheteur <br>
 

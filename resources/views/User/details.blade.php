@@ -222,15 +222,15 @@
                                             <span class="strong color fs-lg">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
-                                                </strike> DH
+                                                </strike> <sup>DH</sup>
                                             </span>
                                             <br>
                                             <span class="text-danger h5 strong">
-                                                {{ $post->getPrix() }} DH
+                                                {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @else
                                             <span class="ft-bold color strong fs-lg">
-                                                {{ $post->getPrix() }} DH
+                                                {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @endif
 

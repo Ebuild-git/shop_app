@@ -34,11 +34,11 @@
                         </span>
                     </td>
                     <td class="strong">
-                        {{ $item->getPrix() }} DH
+                        {{ $item->getPrix() }} <sup>DH</sup>
                     </td>
                     <td class="strong">
                         @if ($item->Prix_initial())
-                        {{ $item->Prix_initial( )}} DH
+                        {{ $item->Prix_initial( )}} <sup>DH</sup>
                         @else
                         -
                         @endif
