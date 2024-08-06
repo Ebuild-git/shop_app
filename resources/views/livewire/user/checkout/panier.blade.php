@@ -27,14 +27,14 @@
                                             @if ($item['is_solder'])
                                                 <strike class="color">
                                                     <b>
-                                                        {{ $item['old_prix'] }} DH
+                                                        {{ $item['old_prix'] }} <sup>DH</sup>
                                                     </b>
                                                 </strike>
                                                 <br>
                                             @endif
                                             <span
                                                 class="@if ($item['is_solder']) text-danger @else color @endif small">
-                                                <b>{{ $item['prix'] }} DH</b>
+                                                <b>{{ $item['prix'] }} <sup>DH</sup></b>
                                             </span>
                                         </b>
                                     </div>
@@ -48,7 +48,7 @@
                                             Livraison entre le x et le y
                                         </b> <br>
                                         <span class="color">
-                                            Frais de livraison : <b>{{ $frais ?? 0 }} DH</b>
+                                            Frais de livraison : <b>{{ $frais ?? 0 }} <sup>DH</sup></b>
                                         </span>
 
                                     </div>
@@ -87,7 +87,7 @@
                             Total de frais :
                         </td>
                         <td class="text-end">
-                            {{ $frais ?? 0  * count($articles_panier) }} DH
+                            {{ $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
                         </td>
                     </tr>
                     <tr>
@@ -95,7 +95,7 @@
                             <b>Sous-total</b>
                         </td>
                         <td class="text-end">
-                            {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} DH
+                            {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +104,7 @@
                         </td>
                         <td class="text-end">
                             <b class="color">
-                                {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} DH
+                                {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
                             </b>
                         </td>
                     </tr>

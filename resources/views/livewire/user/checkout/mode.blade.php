@@ -48,10 +48,10 @@
                 <hr>
                 <div class="d-flex justify-content-between">
                     <p>
-                       Total des Frais de livraison : 
+                       Total des Frais de livraison :
                     </p>
                     <b>
-                        {{ $frais * $nbre_article }} DH
+                        {{ $frais * $nbre_article }} <sup>DH</sup>
                     </b>
                 </div>
                 <div class="d-flex justify-content-between">
@@ -59,7 +59,7 @@
                         <b>TOTAL : </b>
                     </h4>
                     <h4 class="h5">
-                        <b>{{ number_format($total, 2, '.', '') + $frais * $nbre_article}} DH</b>
+                        <b>{{ number_format($total, 2, '.', '') + $frais * $nbre_article}} <sup>DH</sup></b>
                     </h4>
                 </div>
                 @if ($total > 0)
@@ -106,5 +106,5 @@
             });
         </script>
     @endsection
-    
+
 </div>

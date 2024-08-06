@@ -68,15 +68,15 @@
                                             <span class=" color">
                                                 <strike>
                                                     {{ $like->post->getOldPrix() }}
-                                                </strike> DH
+                                                </strike> <sup>DH</sup>
                                             </span>
                                             <br>
                                             <span class="text-danger  ">
-                                                {{ $like->post->getPrix() }} DH
+                                                {{ $like->post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @else
                                             <span class="ft-bold color ">
-                                                {{ $like->post->getPrix() }} DH
+                                                {{ $like->post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @endif
                                     </td>

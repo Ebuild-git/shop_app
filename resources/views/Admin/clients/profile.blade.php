@@ -103,7 +103,7 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
                                 <span class="fw-medium mx-2 text-heading">
-                                    Nom :</span> <span>{{ $user->lastname }}</span> 
+                                    Nom :</span> <span>{{ $user->lastname }}</span>
                                 <span>{{ $user->firstname }}</span>
                                 &nbsp;
                                 [ {{ $user->gender }} ]
@@ -111,7 +111,7 @@
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
                                 <span class="fw-medium mx-2 text-heading">
-                                    Prénom : <span>{{ $user->lastname }}</span> 
+                                    Prénom : <span>{{ $user->lastname }}</span>
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">Email
@@ -125,7 +125,7 @@
                                         Oui
                                     </span>
                                 @endif
-                            </li>   
+                            </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-flag text-heading"></i><span class="fw-medium mx-2 text-heading">
                                     Date de naissance :</span>
@@ -199,22 +199,22 @@
                                             <span class="strong color strong">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
-                                                </strike> DH
+                                                </strike> <sup>DH</sup>
                                             </span>
                                             <br>
                                             <span class="text-danger strong">
-                                                {{ $post->getPrix() }} DH
+                                                {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @else
                                             <span class=" color strong ">
-                                                {{ $post->getPrix() }} DH
+                                                {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @endif
                                     </td>
                                     <td>
                                         <button class="btn btn-sm btn-primary"
                                             onclick="document.location.href='/admin/publication/{{ $post->id }}/view'">
-                                            <i class="bi bi-eye"></i> 
+                                            <i class="bi bi-eye"></i>
                                         </button>
                                     </td>
                                 </tr>

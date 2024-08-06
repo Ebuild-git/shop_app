@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-sm-9 my-auto">
                     <b>
-                        Résultats : 
+                        Résultats :
                     </b>
                     {{ $favoris->count() }}
                 </div>
@@ -91,15 +91,15 @@
                             <span class=" color">
                                 <strike>
                                     {{ $favori->post->getOldPrix() }}
-                                </strike> DH
+                                </strike> <sup>DH</sup>
                             </span>
                             <br>
                             <span class="text-danger  ">
-                                {{ $favori->post->getPrix() }} DH
+                                {{ $favori->post->getPrix() }} <sup>DH</sup>
                             </span>
                             @else
                             <span class="ft-bold color ">
-                                {{ $favori->post->getPrix() }} DH
+                                {{ $favori->post->getPrix() }} <sup>DH</sup>
                             </span>
                             @endif
                         </td>
