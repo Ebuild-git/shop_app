@@ -13,6 +13,7 @@ class Shopinners extends Component
 {
     use WithPagination;
     public $key;
+    public $rating;
 
 
     public function updatedKey($value)
@@ -21,6 +22,11 @@ class Shopinners extends Component
         $this->resetPage();
     }
 
+    public function updatedRating($value)
+    {
+        $this->rating = $value;
+        $this->resetPage();
+    }
 
     public function render()
     {
@@ -45,6 +51,10 @@ class Shopinners extends Component
             if (!empty($this->key)) {
                 $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
             }
+            // Filtrer par note
+            if (!empty($this->rating)) {
+                $Query = $Query->having('average_rating', '>=', $this->rating);
+            }
 
             $shopiners =  $Query
                 ->where('users.id', '!=', Auth::id())
@@ -63,12 +73,16 @@ class Shopinners extends Component
             if (!empty($this->key)) {
                 $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
             }
+
+              // Filtrer par note
+            if (!empty($this->rating)) {
+                $Query = $Query->having('average_rating', '>=', $this->rating);
+            }
+
             $shopiners =  $Query->orderByDesc('average_rating')
                 ->orderByDesc('total_posts')
                 ->paginate(50);
         }
-
-
 
         return view('livewire.user.shopinners', compact("shopiners"));
     }

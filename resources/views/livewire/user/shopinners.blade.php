@@ -1,12 +1,23 @@
 <div>
     <div class="row">
-        <div class="col-sm-8 ">
-        </div>
-        <div class="col-sm-4 ">
-            <input type="text" wire:model.live="key" class="form-control" placeholder="Recherche d'un shopiner">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-end">
+                <div class="me-2">
+                    <input type="text" wire:model.live="key" class="form-control" placeholder="Trouvez votre shopiner idéal">
+                </div>
+                <div>
+                    <select wire:model.live="rating" class="form-control custom-select">
+                        <option value="">Filtrer par avis</option>
+                        <option value="1">★ 1 Étoile et plus</option>
+                        <option value="2">★★ 2 Étoiles et plus</option>
+                        <option value="3">★★★ 3 Étoiles et plus</option>
+                        <option value="4">★★★★ 4 Étoiles et plus</option>
+                        <option value="5">★★★★★ 5 Étoiles</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
-
     <br>
 
     <div class="row">
