@@ -43,11 +43,13 @@
     @endauth
     <style>
         #comment_position {
-        z-index: 1000;
+        position: absolute;
+        z-index: 150;
         }
 
         #comment_position .nav-dropdown {
-        z-index: 1001;
+        position: absolute;
+        z-index: 150;
         }
     </style>
 </head>
