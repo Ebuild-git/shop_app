@@ -1,19 +1,19 @@
 <div class="card-footer b-0 p-0 pt-2 bg-white">
     @if ($show)
-    <div class="d-flex justify-content-between mb-1" style="font-size: 14px;">
+    <div class="d-flex justify-content-between mb-1" style="font-size: 12px;">
         <div class="d-flex justify-content-between mb-1">
             @if ($post->changements_prix->count())
-            <strike class="elis_rty color strong">
+            <strike class="elis_rty color strong" style="font-size: 12px;">
                 {{ $post->getOldPrix() }} <sup>DH</sup>
             </strike>
             &nbsp;&nbsp;&nbsp;
             @endif
-            <div class="@if ($post->changements_prix->count()) text-danger @else color @endif ft-bold fs-sm">
+            <div class="@if ($post->changements_prix->count()) text-danger @else color @endif ft-bold"  style="font-size: 12px;">
                 {{ $post->getPrix() }} <sup>DH</sup>
             </div>
         </div>
         @if ($post->sous_categorie_info->categorie->luxury == 1)
-        <div class="color strong">
+        <div class="color strong" style="font-size: 12px;">
             <i class="bi bi-gem"></i>
             LUXURY
         </div>
