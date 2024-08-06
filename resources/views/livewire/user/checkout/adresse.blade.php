@@ -1,6 +1,8 @@
 @section('head')
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 @endsection
 
 @section('modal')
@@ -51,10 +53,39 @@
     <br>
     <div class="row">
         <div class="col-sm-6 mx-auto">
-            <a href="{{ route('mes_informations') }}" class="btn btn-outline-dark w-100">
-                <i class="bi bi-pencil-square"></i>
-                Modifier mon adresse de livraison
-            </a>
+            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                <i class="bi bi-pencil-square"></i> Modifier mon adresse de livraison
+            </button>
+
+            <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAddressModalLabel">Modifier l'adresse de livraison</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form wire:submit.prevent="updateAddress">
+                                <div class="mb-3">
+                                    <label for="region" class="form-label">Région<span class="text-danger">*</span></label>
+                                    <select id="region" wire:model="region" class="custom-select" required>
+                                        <option value="">Sélectionnez une région</option>
+                                        @foreach($regions as $regionItem)
+                                            <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Adresse<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="address" wire:model="address">
+                                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                                <button type="submit" class="btn btn-black">Enregistrer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <br><br>
             <button type="button" class="btn btn-dark w-100" onclick="get_location()">
                 <i class="bi bi-geo-alt"></i>
@@ -107,3 +138,22 @@
         </div>
     </div>
 </div>
+
+
+ <!-- Bootstrap JS and dependencies -->
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ @livewireScripts
+
+ <script>
+     window.addEventListener('addressUpdated', event => {
+         var myModalEl = document.getElementById('editAddressModal');
+         var modal = bootstrap.Modal.getInstance(myModalEl);
+         if (modal) {
+             modal.hide();
+         }
+         alert('Adresse modifiée avec succès.');
+     });
+ </script>
+

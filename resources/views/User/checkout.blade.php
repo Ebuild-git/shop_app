@@ -82,6 +82,44 @@
             background-color: white;
 
         }
+
+        .btn-black {
+        background-color: black;
+        color: white;
+        border: none;
+        }
+
+        .btn-black:hover {
+            background-color: rgb(15, 15, 15);
+        }
+        .form-control:focus {
+        border-color: black;
+        box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+    }
+
+    .custom-select {
+        appearance: none;
+        background-color: #fff;
+        border: 1px solid black;
+        border-radius: 4px;
+        padding: 10px;
+        box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+        transition: box-shadow 0.3s ease;
+        color: rgb(92, 82, 82);
+    }
+
+    .custom-select:focus {
+        border-color: black;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+    .custom-select::-ms-expand {
+        display: none;
+    }
+
     </style>
 
 @endsection
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
