@@ -9,6 +9,9 @@
         <div class="col-sm-8">
             <div class="cart-checkout p-2 card">
                 <br>
+                @php
+                    $processedVendors = [];
+                @endphp
                 @forelse ($articles_panier as $item)
                     <div class="card p-1 mb-2">
                         <div class="d-flex align-items-center">
@@ -48,9 +51,21 @@
                                             Livraison entre le x et le y
                                         </b> <br>
                                         <span class="color">
-                                            Frais de livraison : <b>{{ $frais ?? 0 }} <sup>DH</sup></b>
-                                        </span>
 
+                                            @if (!in_array($item['vendeur'], $processedVendors))
+                                            <img width="17" height="17"
+                                            src="https://img.icons8.com/?size=50&id=43714&format=png&color=008080" alt="delivery" />
+                                                Frais de Livraison : <b>{{ $frais ?? 0 }} <sup>DH</sup></b>
+                                                @php
+                                                    $processedVendors[] = $item['vendeur'];
+                                                @endphp
+                                            @else
+                                            <b>Frais de Livraison déjà inclus pour ce vendeur.*</b>
+                                            <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Les frais de livraison ne sont facturés qu'une seule fois par vendeur.">
+                                                <i class="bi bi-info-circle"></i>
+                                            </span>
+                                            @endif
+                                        </span>
                                     </div>
 
                                     <i class="bi bi-trash3 text-danger btn btn-sm cusor"
@@ -76,7 +91,7 @@
                 <table class="w-100 table-total-checkout">
                     <tr>
                         <td>
-                            Total des articles :
+                            Total des articles
                         </td>
                         <td class="text-end">
                             {{ count($articles_panier) }}
@@ -84,18 +99,18 @@
                     </tr>
                     <tr>
                         <td>
-                            Total de frais :
+                            Sous-total
                         </td>
                         <td class="text-end">
-                            {{ $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
+                            {{ number_format($total, 2, '.', '') }} <sup>DH</sup>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <b>Sous-total</b>
+                            Total de frais
                         </td>
                         <td class="text-end">
-                            {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
+                            {{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>DH</sup>
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +119,7 @@
                         </td>
                         <td class="text-end">
                             <b class="color">
-                                {{ number_format($total, 2, '.', '') + $frais ?? 0  * count($articles_panier) }} <sup>DH</sup>
+                                {{ number_format($totalWithDelivery, 2, '.', '') }} <sup>DH</sup>
                             </b>
                         </td>
                     </tr>
