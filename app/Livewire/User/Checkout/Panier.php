@@ -43,11 +43,18 @@ class Panier extends Component
                 $nbre_article++;
             }
         }
+        $groupedByVendor = collect($articles_panier)->groupBy('vendeur');
+        $uniqueVendorsCount = $groupedByVendor->count();
+        $totalDeliveryFees = $uniqueVendorsCount > 0 ? $this->frais * $uniqueVendorsCount : 0;
+        $totalWithDelivery = $total + $totalDeliveryFees;
+
         return view('livewire.user.checkout.panier')
             ->with("articles_panier", $articles_panier)
             ->with("total", $total)
             ->with("cart", $cart)
-            ->with("nbre_article", $nbre_article);
+            ->with("nbre_article", $nbre_article)
+            ->with("totalDeliveryFees", $totalDeliveryFees)
+            ->with("totalWithDelivery", $totalWithDelivery);
     }
 
 
