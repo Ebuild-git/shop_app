@@ -41,6 +41,15 @@
     @auth
         <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
+    <style>
+        #comment_position {
+        z-index: 1000;
+        }
+
+        #comment_position .nav-dropdown {
+        z-index: 1001;
+        }
+    </style>
 </head>
 
 <body class="custom-scrollbar">
@@ -311,6 +320,7 @@
                     comment_position.removeClass("comment-position").addClass("comment-position-top");
                     elementToHide.removeClass('d-none');
                 }
+
             });
             $(document).ready(function() {
                 var inputField = $('#myInputRecherche');
@@ -892,7 +902,7 @@
                     </div>
                     <hr>
                     <div id="content-liste">
-                       
+
                     </div>
                 </div>
             </div>
@@ -975,7 +985,7 @@
 
         </script>
 
-       
+
 
 
 
@@ -1052,7 +1062,7 @@
 
 
         // gerer l'ouverture du modal pour l'affichage des categories publier par les shopinners
-        
+
     </script>
 
     <!-- end Condition Modal -->
@@ -1099,7 +1109,7 @@
             document.getElementById("Cart").style.display = "none";
         }
     </script>
-   
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
