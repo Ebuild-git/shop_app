@@ -845,7 +845,7 @@
                         </table>
                         <hr>
                         <p class="text-center">
-                            Le montant de la comission est prélécé au moment du paiement par l'acheteur
+                            Le montant de la comission est prélévé au moment du paiement par l'acheteur
                         </p>
                     </div>
                 </div>
@@ -871,7 +871,7 @@
                 </div>
                 <div class="p-2">
                     <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition">
+                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition" wire:click="acceptConditions" disabled>
                             J'accepte les conditions
                         </button>
                     </div>
@@ -1046,27 +1046,33 @@
         @endif
     @endauth
 
-    <script>
-        //verifier si les conditons on ete accepter ou page
-        $(document).ready(function() {
-            var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-            if (!conditionsAccepted) {
-                $('#conditions').modal('show');
-                $("#agree_condition").click(function() {
-                    localStorage.setItem('conditionsAccepted', true);
-                    $('#conditions').modal('hide');
-                });
-            }
-        });
-        document.getElementById('conditiondiv').addEventListener('scroll', function() {
-            document.getElementById('agree_condition').disabled = false;
-        });
+  <script>
+    $(document).ready(function() {
+    @if(session('clearLocalStorage'))
+        localStorage.clear();
+    @endif
+    var storedUserId = localStorage.getItem('userId');
+    var currentUserId = "{{ Auth::id() }}";
+    if (storedUserId !== currentUserId) {
+        localStorage.clear();
+        localStorage.setItem('userId', currentUserId);
+    }
+    var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+    if (conditionsAccepted) {
+        $("#validate_cart").prop('disabled', false);
+    }
+    $("#agree_condition").click(function() {
+        localStorage.setItem('conditionsAccepted', true);
+        $('#conditions').modal('hide');
+        $("#validate_cart").prop('disabled', false);
+        location.reload();
+    });
 
-
-        // gerer l'ouverture du modal pour l'affichage des categories publier par les shopinners
-
-    </script>
-
+    document.getElementById('conditiondiv').addEventListener('scroll', function() {
+        document.getElementById('agree_condition').disabled = false;
+    });
+});
+  </script>
     <!-- end Condition Modal -->
 
 
