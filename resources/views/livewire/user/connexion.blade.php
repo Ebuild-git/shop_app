@@ -52,6 +52,6 @@
         </div>
 
         <!-- Dans votre vue Livewire -->
-        
+
 
 </div>

@@ -128,7 +128,7 @@ class AdminController extends Controller
     public function index_logout(){
         Auth::logout();
         setcookie('cart', '', time() - 3600, '/', null, null, true);
-        return redirect('/');
+        return redirect('/')->with('clearLocalStorage', true);
     }
 
 

@@ -16,6 +16,7 @@ class Mode extends Component
     public $frais  = 25 ;
 
 
+
     public function mount(){
         $this->user = Auth::user();
     }
@@ -47,7 +48,7 @@ class Mode extends Component
                 $nbre_article++;
             }
         }
-        
+
         return view('livewire.user.checkout.mode')
         ->with("total", $total)
         ->with("nbre_article", $nbre_article);
@@ -59,7 +60,6 @@ class Mode extends Component
 
 
     public function confirm(){
-
 
         //validation des commandes de chaque produit
         foreach($this->articles_panier as $article){
@@ -85,9 +85,8 @@ class Mode extends Component
         //delete cart cookies
         Cookie::queue(Cookie::forget('cart'));
 
-   
+
 
         return Redirect("/checkout?step=4&action=$token");
     }
-
 }

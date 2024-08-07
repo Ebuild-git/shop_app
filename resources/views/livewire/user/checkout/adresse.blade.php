@@ -103,7 +103,7 @@
                     <div class="text-black">
                         <b class="h6">
                             @if ($user->gender == 'male')
-                                Mrs.
+                                M.
                             @else
                                 Mme.
                             @endif

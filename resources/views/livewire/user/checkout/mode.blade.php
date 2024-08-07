@@ -1,3 +1,15 @@
+<script>
+    var userId = '{{ $user->id }}';
+</script>
+
+@php
+    $message = '';
+@endphp
+@if ($message)
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+@endif
 <div>
     <div class="text-center">
         <h3>
@@ -75,7 +87,11 @@
                                 </p>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()">
+                        <div id="acceptance-message" class="alert alert-danger" style="display: none;">
+                            <strong>Vous devez accepter les conditions générales pour valider votre panier. Veuillez cliquer ici pour les accepter.</strong>
+
+                        </div>
+                        <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()" id="validate_cart" disabled>
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
@@ -97,6 +113,49 @@
             <i class="bi bi-arrow-left"></i> Adresse de livraison
         </a>
     </div>
+@section('script')
+<script>
+    $(document).ready(function() {
+        var storedUserId = localStorage.getItem('userId');
+        var currentUserId = "{{ Auth::id() }}";
+        if (storedUserId !== currentUserId) {
+            localStorage.clear();
+            localStorage.setItem('userId', currentUserId);
+        }
+
+        var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+        if (conditionsAccepted) {
+            $("#validate_cart").prop('disabled', false);
+            $("#acceptance-message").hide();
+        } else {
+            $("#validate_cart").prop('disabled', true);
+            $("#acceptance-message").show();
+        }
+
+        $("#agree_condition").click(function() {
+            localStorage.setItem('conditionsAccepted', true);
+            $('#conditions').modal('hide');
+            $("#validate_cart").prop('disabled', false);
+            $("#acceptance-message").hide();
+            location.reload();
+        });
+
+        document.getElementById('conditiondiv').addEventListener('scroll', function() {
+            document.getElementById('agree_condition').disabled = false;
+        });
+    });
+</script>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#show_conditions").click(function() {
+                $('#conditions').modal('show'); // Fix the selector
+            });
+        });
+    </script>
+@endsection
     @section('script')
         <script>
             $(document).ready(function() {
@@ -105,6 +164,8 @@
                 });
             });
         </script>
+
+
     @endsection
 
 </div>
