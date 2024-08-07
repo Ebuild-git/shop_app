@@ -1,15 +1,3 @@
-<script>
-    var userId = '{{ $user->id }}';
-</script>
-
-@php
-    $message = '';
-@endphp
-@if ($message)
-    <div class="alert alert-danger">
-        {{ $message }}
-    </div>
-@endif
 <div>
     <div class="text-center">
         <h3>
@@ -87,16 +75,15 @@
                                 </p>
                             </div>
                         </div>
-                        <div id="acceptance-message" class="alert alert-danger" style="display: none;">
-                            <strong>Vous devez accepter les conditions générales pour valider votre panier. Veuillez cliquer ici pour les accepter.</strong>
-
-                        </div>
-                        <button type="button" class="btn btn-info w-100 bg-red" wire:click="confirm()" id="validate_cart" disabled>
+                        <button type="button" class="btn btn-info w-100 bg-red" id="validateCartButton" wire:click="confirm()" disabled>
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
                             Valider mon panier
                         </button>
+                        <div id="acceptConditionsMessage" class="alert alert-warning mt-3" style="display: none;">
+                            Vous devez accepter les conditions générales pour valider votre panier.
+                        </div>
                         <div class="mt-3">
                             <a href="{{ route('checkout') }}?step=2" class="color">
                                 Retour aux adresses de livraison
@@ -113,49 +100,6 @@
             <i class="bi bi-arrow-left"></i> Adresse de livraison
         </a>
     </div>
-@section('script')
-<script>
-    $(document).ready(function() {
-        var storedUserId = localStorage.getItem('userId');
-        var currentUserId = "{{ Auth::id() }}";
-        if (storedUserId !== currentUserId) {
-            localStorage.clear();
-            localStorage.setItem('userId', currentUserId);
-        }
-
-        var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-        if (conditionsAccepted) {
-            $("#validate_cart").prop('disabled', false);
-            $("#acceptance-message").hide();
-        } else {
-            $("#validate_cart").prop('disabled', true);
-            $("#acceptance-message").show();
-        }
-
-        $("#agree_condition").click(function() {
-            localStorage.setItem('conditionsAccepted', true);
-            $('#conditions').modal('hide');
-            $("#validate_cart").prop('disabled', false);
-            $("#acceptance-message").hide();
-            location.reload();
-        });
-
-        document.getElementById('conditiondiv').addEventListener('scroll', function() {
-            document.getElementById('agree_condition').disabled = false;
-        });
-    });
-</script>
-@endsection
-
-@section('script')
-    <script>
-        $(document).ready(function() {
-            $("#show_conditions").click(function() {
-                $('#conditions').modal('show'); // Fix the selector
-            });
-        });
-    </script>
-@endsection
     @section('script')
         <script>
             $(document).ready(function() {
@@ -164,8 +108,27 @@
                 });
             });
         </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const validateCartButton = document.getElementById('validateCartButton');
+            const agreeConditionButton = document.getElementById('agreeConditionButton');
 
+            // Check localStorage for conditionsAccepted
+            if (localStorage.getItem('conditionsAccepted') === 'true') {
+                validateCartButton.disabled = false;
+            } else {
+                validateCartButton.disabled = true;
+            }
 
+            // Handle condition agreement
+            agreeConditionButton.addEventListener('click', function () {
+                localStorage.setItem('conditionsAccepted', 'true');
+                validateCartButton.disabled = false;
+                $('#conditions').modal('hide'); // Close the modal
+                location.reload(); // Reload the page
+            });
+        });
+    </script>
     @endsection
 
 </div>

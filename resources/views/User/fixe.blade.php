@@ -871,7 +871,7 @@
                 </div>
                 <div class="p-2">
                     <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" id="agree_condition" wire:click="acceptConditions" disabled>
+                        <button type="button" class="btn  bg-dark  btn-sm" id="agreeConditionButton">
                             J'accepte les conditions
                         </button>
                     </div>
@@ -1059,17 +1059,17 @@
     }
     var conditionsAccepted = localStorage.getItem('conditionsAccepted');
     if (conditionsAccepted) {
-        $("#validate_cart").prop('disabled', false);
+        $("#validateCartButton").prop('disabled', false);
     }
     $("#agree_condition").click(function() {
         localStorage.setItem('conditionsAccepted', true);
         $('#conditions').modal('hide');
-        $("#validate_cart").prop('disabled', false);
+        $("#validateCartButton").prop('disabled', false);
         location.reload();
     });
 
     document.getElementById('conditiondiv').addEventListener('scroll', function() {
-        document.getElementById('agree_condition').disabled = false;
+        document.getElementById('agreeConditionButton').disabled = false;
     });
 });
   </script>
