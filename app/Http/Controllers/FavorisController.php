@@ -11,16 +11,28 @@ class FavorisController extends Controller
 {
     public function index(Request $request)
     {
-        $date = $request->get('date') ?? null;
+        // $date = $request->get('date') ?? null;
+        // $favoris = favoris::where('id_user',Auth::id());
+        // if($date){
+        //     $favoris->whereYear('Created_at', date('Y', strtotime($date)))
+        //     ->whereMonth('Created_at', date('m', strtotime($date)));
+        // }
+        // $favoris = $favoris->paginate(10);
+        // return view("User.favoris")
+        // ->with("favoris", $favoris)
+        // ->with("date", $date);
+        $month = $request->input('month') ?? null;
+        $year = $request->input('year') ?? null;
         $favoris = favoris::where('id_user',Auth::id());
-        if($date){
-            $favoris->whereYear('Created_at', date('Y', strtotime($date)))
-            ->whereMonth('Created_at', date('m', strtotime($date)));
+        if ($month && $year) {
+            $favoris->whereYear('created_at', $year)
+                  ->whereMonth('created_at', $month);
         }
         $favoris = $favoris->paginate(10);
         return view("User.favoris")
         ->with("favoris", $favoris)
-        ->with("date", $date);
+        ->with("year", $year)
+        ->with("month", $month);
     }
 
     public function remove_favoris(Request $request)

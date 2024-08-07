@@ -61,7 +61,8 @@ class HomeController extends Controller
 
     public function index_mes_post(Request $request)
     {
-        $date_post = $request->input('date') ?? null;
+        $month = $request->input('month') ?? null;
+        $year = $request->input('year') ?? null;
         $type = $request->get('type') ?? "annonce";
         $statut = $request->input('statut') ?? null;
         $key = $request->input("key") ?? null;
@@ -81,12 +82,9 @@ class HomeController extends Controller
             $Query = $Query->where('statut', "vente");
         }
 
-        if ($date_post) {
-            if ($date_post) {
-                list($year, $month) = explode('-', $date_post);
-                $Query->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month);
-            }
+        if ($month && $year) {
+            $Query->whereYear('created_at', $year)
+                  ->whereMonth('created_at', $month);
         }
 
 
@@ -112,7 +110,8 @@ class HomeController extends Controller
         $posts =  $Query->withTrashed()->paginate("20");
         return view('User.list_post')
             ->with("posts", $posts)
-            ->with("date", $date_post)
+            ->with("year", $year)
+            ->with("month", $month)
             ->with("statut", $statut)
             ->with("type", $type)
             ->with("key", $key);
@@ -570,19 +569,25 @@ class HomeController extends Controller
 
     public function index_mes_achats(Request $request)
     {
-        $date = $request->input('date') ?? null;
+
+        $month = $request->input('month') ?? null;
+        $year = $request->input('year') ?? null;
+
         $query = posts::where("id_user_buy", Auth::id())
             ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
-        if ($date) {
-            list($year, $month) = explode('-', $date);
+
+        if ($month && $year) {
             $query->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month);
+                  ->whereMonth('created_at', $month);
         }
+
         $achats = $query->paginate(30);
         $total = posts::where("id_user_buy", Auth::id())->count();
+
         return view("User.mes-achats")
             ->with("achats", $achats)
-            ->with('date', $date)
+            ->with("month", $month)
+            ->with("year", $year)
             ->with("total", $total);
     }
 
