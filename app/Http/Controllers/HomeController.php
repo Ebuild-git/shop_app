@@ -577,8 +577,8 @@ class HomeController extends Controller
             ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
 
         if ($month && $year) {
-            $query->whereYear('created_at', $year)
-                  ->whereMonth('created_at', $month);
+            $query->whereYear('sell_at', $year)
+                ->whereMonth('sell_at', $month);
         }
 
         $achats = $query->paginate(30);
