@@ -14,7 +14,7 @@
                     <h5>
                         <b>
                             <i class="bi bi-house"></i>
-                            Paiement a la livraison
+                            Paiement à la livraison
                         </b>
                     </h5>
                     <p>
@@ -24,7 +24,7 @@
                 </div>
                 <br>
                 <b>
-                    <i class="bi bi-geo-alt"></i> Adresse de facturation
+                    <i class="bi bi-geo-alt"></i> Adresse de livraison
                 </b>
                 <div>
                     <div class="alert alert-dark">
@@ -41,14 +41,24 @@
         </div>
         <div class="col-sm-4 mx-auto">
             <div class="alert alert-dark">
+
                 <div class="d-flex justify-content-between mb-3">
-                    <b>Total des produits : </b>
+                    <b>Total des articles : </b>
                     <b>{{ $nbre_article }}</b>
                 </div>
                 <hr>
+
                 <div class="d-flex justify-content-between">
                     <p>
-                       Total des Frais de livraison :
+                        Sous-total :
+                    </p>
+                    <b>
+                        {{ number_format($total, 2, '.', '') * $nbre_article}} <sup>DH</sup>
+                    </b>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>
+                        Total de frais :
                     </p>
                     <b>
                         {{ $frais * $nbre_article }} <sup>DH</sup>
@@ -95,8 +105,8 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-between">
-        <a href="{{ route('checkout') }}?step=2" class="btn ">
+    <div class="d-flex justify-content-between" style="margin-top: -60px;">
+        <a href="{{ route('checkout') }}?step=2" class="btn btn-dark">
             <i class="bi bi-arrow-left"></i> Adresse de livraison
         </a>
     </div>

@@ -94,7 +94,7 @@
                             Total des articles
                         </td>
                         <td class="text-end">
-                            {{ count($articles_panier) }}
+                            <b> {{ count($articles_panier) }}</b>
                         </td>
                     </tr>
                     <tr>
@@ -102,7 +102,7 @@
                             Sous-total
                         </td>
                         <td class="text-end">
-                            {{ number_format($total, 2, '.', '') }} <sup>DH</sup>
+                            <b> {{ number_format($total, 2, '.', '') }} <sup>DH</sup> </b>
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +110,7 @@
                             Total de frais
                         </td>
                         <td class="text-end">
-                            {{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>DH</sup>
+                            <b> {{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>DH</sup> </b>
                         </td>
                     </tr>
                     <tr>
