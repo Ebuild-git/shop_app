@@ -49,7 +49,7 @@ class Shopinners extends Component
 
             // Si on a une recherche en
             if (!empty($this->key)) {
-                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
+                $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
             }
             // Filtrer par note
             if (!empty($this->rating)) {
@@ -69,11 +69,11 @@ class Shopinners extends Component
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->groupBy('users.id', 'users.lastname', 'users.username')
                 ->where('users.role', '!=', 'admin');
+
             // Si on a une recherche en
             if (!empty($this->key)) {
-                $Query = $Query->where('username', 'like', '%' . $this->key . '%')->Orwhere('lastname', 'like', '%' . $this->key . '%');
+                $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
             }
-
               // Filtrer par note
             if (!empty($this->rating)) {
                 $Query = $Query->having('average_rating', '>=', $this->rating);
