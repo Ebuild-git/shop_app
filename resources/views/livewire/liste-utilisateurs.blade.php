@@ -3,7 +3,7 @@
      <div class="row p-3 card-header">
          <div class="col-sm-4 my-auto">
              <h5 class="">
-                 Liste des utilisateurs du site
+                 Liste des utilisateurs du site ({{ $users->total() }})
              </h5>
          </div>
          <div class="col-sm-8 my-auto">
@@ -44,32 +44,37 @@
 
      </div>
 
-     <div class="card-datatable text-nowrap">
-         <table class="datatables-ajax table">
+     <div class="card">
+        <div class="card-body">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+
+         <table class="table">
              <thead class="table-dark">
                  <tr>
+                    <th>Pseudonyme </th>
+                    <th>Email</th>
                      <th>Nom</th>
                      <th>Prénom</th>
-                     <th>Email</th>
                      <th>Téléphone</th>
                      <th>Publications</th>
                      <th>Inscription</th>
-                     <th>Action</th>
-                     <td></td>
+                     <th>Actions</th>
+                     <th></th>
                  </tr>
              </thead>
 
              <tbody>
                  @forelse ($users as $user)
                      <tr>
+                        <td> {{ $user->username }} </td>
+                        <td>
+                            <span class="cusor"
+                                onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
+                                {{ $user->email }}
+                            </span>
+                        </td>
                          <td> {{ $user->lastname }} </td>
                          <td> {{ $user->firstname }} </td>
-                         <td>
-                             <span class="cusor"
-                                 onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
-                                 {{ $user->email }}
-                             </span>
-                         </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
                          <td> {{ $user->GetPosts->count() }} </td>
                          <td>
@@ -78,6 +83,8 @@
                              </span>
                          </td>
                          <td>
+                            <div class="action-buttons">
+
                              <button class="btn btn-sm btn-dark"
                                  onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
                                  <i class="bi bi-person-circle"></i>
@@ -94,6 +101,7 @@
                                          <i class="bi bi-stop-fill"></i>
                              @endif
                              </button>
+                            </div>
                          </td>
                          <td>
                              <div class="dropdown">
@@ -122,7 +130,49 @@
                  @endforelse
              </tbody>
          </table>
+
+        </div>
+
          <div class="p-3" {{ $users->links('pagination::bootstrap-4') }} </div>
          </div>
      </div>
+ </div>
      <!--/ Ajax Sourced Server-side -->
+
+     <style>
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .table {
+            min-width: 100%;
+        }
+
+        .table th,
+        .table td {
+            white-space: nowrap;
+            text-align: left;
+            padding: 8px 12px;
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #343a40;
+            color: #fff;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table .action-buttons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+     </style>
