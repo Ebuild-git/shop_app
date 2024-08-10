@@ -47,7 +47,7 @@
                     <option value="">Année</option>
                 </select>
                 <button class="btn bg-red p-2" type="submit">
-                    <i class="bi bi-binoculars"></i>
+                    <i class="bi bi-filter"></i>
                     Filtrer
                 </button>
             </div>
@@ -94,7 +94,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const yearSelect = document.getElementById('year-select');
         const currentYear = new Date().getFullYear();
-        for (let year = currentYear; year >= 2000; year--) {
+        for (let year = currentYear; year >= 2024; year--) {
             const option = document.createElement('option');
             option.value = year;
             option.textContent = year;

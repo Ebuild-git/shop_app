@@ -26,23 +26,33 @@
 <div class="container">
     <div class="p-3 row">
         <div class="col-sm-4 my-auto">
-            <b>Nombre total de mes annonces :</b> {{ $posts->count() }}
+            <b>
+                @if($type == 'vente')
+                    Nombre total de mes ventes :
+                @else
+                    Nombre total de mes annonces :
+                @endif
+            </b> {{ $posts->count() }}
         </div>
         <div class="col-sm-8">
             <form method="get" action="{{ route('mes-publication') }}">
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 rounded shadow-sm" style="background-color: #f8f9fa; padding: 10px;">
                     <input type="hidden" name="type" value="{{ $type }}">
-                    <input type="text" name="key" class="form-control  sm" value="{{ $key }}" placeholder="Mot clé">
-                    <select class="form-control sm  cusor" name="statut">
-                        <option value="">Tous les statuts</option>
+
+                    <!-- Icon inside the input field as a placeholder -->
+                    <input type="text" name="key" class="form-control border-0" value="{{ $key }}" placeholder="&#xF002; Mot clé" style="font-family:Arial, FontAwesome; border-radius: 5px; min-width: 180px;">
+
+                    <select class="form-control border-0 mx-2 rounded" name="statut" style="min-width: 185px;">
+                        <option value="">Status</option>
                         <option value="validation">En validation</option>
                         <option value="vente">En cour de vente</option>
                         <option value="vendu">Vendu</option>
                         <option value="livraison">En cour de Livraison</option>
-                        <option value="livré">Déja livré</option>
+                        <option value="livré">Déjà livré</option>
                     </select>
-                    <select class="form-control cusor sm" name="month">
-                        <option value="">Mois</option> <!-- Placeholder option -->
+
+                    <select class="form-control border-0 mx-2 rounded" name="month">
+                        <option value="">Mois</option>
                         <option value="01" {{ $month == '01' ? 'selected' : '' }}>Janvier</option>
                         <option value="02" {{ $month == '02' ? 'selected' : '' }}>Février</option>
                         <option value="03" {{ $month == '03' ? 'selected' : '' }}>Mars</option>
@@ -56,12 +66,14 @@
                         <option value="11" {{ $month == '11' ? 'selected' : '' }}>Novembre</option>
                         <option value="12" {{ $month == '12' ? 'selected' : '' }}>Décembre</option>
                     </select>
-                    <select class="form-control cusor sm" name="year" id="year-select">
-                        <option value="">Année</option> <!-- Placeholder option -->
+
+                    <select class="form-control border-0 mx-2 rounded" name="year" id="year-select">
+                        <option value="">Année</option>
                     </select>
+
                     <script>
                         const yearSelect = document.getElementById('year-select');
-                        const startYear = 2000;
+                        const startYear = 2024;
                         const endYear = new Date().getFullYear();
                         for (let year = startYear; year <= endYear; year++) {
                             const option = document.createElement('option');
@@ -73,16 +85,15 @@
                             yearSelect.appendChild(option);
                         }
                     </script>
+
                     <div class="input-group-append">
-                        <button class="btn bg-red p-2" type="submit">
-                            <i class="bi bi-binoculars"></i>
-                            Filtrer
+                        <button class="btn text-white px-4 rounded" style="background-color: #008080; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" type="submit">
+                            <i class="bi bi-filter"></i> Filtrer
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-
         @include('components.Liste-mes-posts', ['posts' => $posts])
 
     </div>

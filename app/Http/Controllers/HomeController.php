@@ -78,15 +78,19 @@ class HomeController extends Controller
         }
         if ($type == "vente") {
             $Query = $Query->where('statut', "vendu");
+
+            if ($month && $year) {
+                $Query->whereYear('sell_at', $year)
+                      ->whereMonth('sell_at', $month);
+            }
         } else {
             $Query = $Query->where('statut', "vente");
-        }
 
-        if ($month && $year) {
-            $Query->whereYear('created_at', $year)
-                  ->whereMonth('created_at', $month);
+            if ($month && $year) {
+                $Query->whereYear('created_at', $year)
+                      ->whereMonth('created_at', $month);
+            }
         }
-
 
         if (!empty($statut)) {
             switch ($statut) {
