@@ -5,8 +5,8 @@
                 <tr>
                     <th scope="col" style="width: 51px;"></th>
                     <th scope="col">Article</th>
-                    <th scope="col">Prix actuel</th>
-                    <th scope="col">Prix initial</th>
+                    <th scope="col">Prix aprés réduction</th>
+                    <th scope="col">Prix de base</th>
                     <th scope="col">Dernière modification de prix</th>
                     <th scope="col">Temps restant pour une nouvelle modification</th>
                     <th scope="col">Statut de l'annonce</th>
@@ -33,15 +33,15 @@
                             <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m') }}</i>
                         </span>
                     </td>
-                    <td class="strong">
-                        {{ $item->getPrix() }} <sup>DH</sup>
-                    </td>
-                    <td class="strong">
-                        @if ($item->Prix_initial())
-                        {{ $item->Prix_initial( )}} <sup>DH</sup>
+                    <td class="strong" style="color: {{ $item->Prix_initial() && $item->Prix_initial() < $item->getPrix() ? '#008080' : '' }}">
+                        @if ($item->Prix_initial() && $item->Prix_initial() < $item->getPrix())
+                            {{ $item->Prix_initial() }} <sup>DH</sup>
                         @else
-                        -
+                            -
                         @endif
+                    </td>
+                    <td class="strong" style="color: {{ $item->Prix_initial() && $item->Prix_initial() < $item->getPrix() ? '#808080' : '#008080' }}">
+                        {{ $item->getPrix() }} <sup>DH</sup>
                     </td>
                     <td>
                         <span class="small">
