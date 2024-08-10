@@ -101,6 +101,42 @@
         .table-red tr th {
             color: white !important;
         }
+
+        .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 100%;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+        text-align: left;
+        padding: 8px 12px;
+    }
+
+    .table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #343a40;
+        color: #fff;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    }
+
+    .table tbody td {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table .action-buttons {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
     </style>
 
 
