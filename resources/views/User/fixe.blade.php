@@ -51,6 +51,70 @@
         position: absolute;
         z-index: 150;
         }
+
+        .tarifaire-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 400px;
+        padding: 0.5rem 0;
+        margin-top: 5px;
+        font-size: 0.9rem;
+        border-radius: 4px;
+        z-index: 1000;
+        }
+
+        .tarif-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            color: #565656;
+            font-size: bold;
+        }
+
+        .tarif-title {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .luxury-icon, .luxury-text {
+            color: #008080;
+            font-weight: 800;
+            margin-left: 0.5rem;
+        }
+
+
+        .tarif-percentage {
+            font-weight: small;
+            color: #808080;
+        }
+
+        .tarif-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .left-aligned {
+            right: 0;
+            left: auto !important;
+            margin-right: 10px;
+        }
+
+        .tarif-separator {
+            border-top: 1px solid #f0f0f0;
+            margin: 8px 0;
+        }
+
+        .tarif-note {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: #808080;
+            text-align: center;
+            white-space: normal;
+        }
+
     </style>
 </head>
 
@@ -129,6 +193,26 @@
             }
             input.value = formattedPhoneNumber;
         }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const dropdownToggle = document.querySelector('#tarifaireDropdown');
+        const dropdownMenu = document.querySelector('.tarifaire-dropdown');
+
+        dropdownToggle.addEventListener('click', function() {
+            const rect = dropdownToggle.getBoundingClientRect();
+            dropdownMenu.style.top = `${rect.bottom}px`;
+            dropdownMenu.style.right = `${window.innerWidth - rect.right}px`;
+        });
+
+        window.addEventListener('scroll', function() {
+            const rect = dropdownToggle.getBoundingClientRect();
+            dropdownMenu.style.top = `${rect.bottom}px`;
+            dropdownMenu.style.right = `${window.innerWidth - rect.right}px`;
+        });
+    });
+
+
     </script>
     @auth
         <style>
@@ -480,36 +564,31 @@
                                             Conditions générales
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#" data-toggle="modal" data-target="#tarifaire">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="tarifaireDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Nos Politiques Tarifaires
                                         </a>
-                                        <ul class="nav-dropdown nav-submenu p-2 custom-scrollbar-left"
-                                            style="left: -110% !important;">
+                                        <div class="dropdown-menu tarifaire-dropdown" aria-labelledby="tarifaireDropdown">
                                             @foreach ($categories as $tarif)
-                                                <li style="direction: ltr !important">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            {{ $tarif->titre }}
-                                                            <span class="small color">
-                                                                @if ($tarif->luxury == 1)
-                                                                    <b>
-                                                                        <i class="bi bi-gem"
-                                                                            style="font-weight: 800;">
-                                                                        </i>
-                                                                        Luxury
-                                                                    </b>
-                                                                @endif
-                                                        </div>
-                                                        <div>
-                                                            <span>
-                                                                {{ intval($tarif->pourcentage_gain) }} %
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                            <div class="tarif-item">
+                                                <span class="tarif-title">
+                                                    {{ $tarif->titre }}
+                                                    @if ($tarif->luxury == 1)
+                                                    <span class="luxury-text">
+                                                        <i class="bi bi-gem luxury-icon"></i> Luxury
+                                                    </span>
+                                                    @endif
+                                                </span>
+                                                <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
+                                            </div>
                                             @endforeach
-                                        </ul>
+
+                                            <!-- Separator and phrase -->
+                                            <div class="tarif-separator"></div>
+                                            <div class="tarif-note">
+                                                Le montant de la commission est prélévé au moment du paiement par l'acheteur
+                                            </div>
+                                        </div>
                                     </li>
                                 </ul>
                             </li>
@@ -676,7 +755,7 @@
                                         <li><a href="/how_buy">Comment Acheter?</a></li>
                                         <li><a href="/conditions">Conditions Générales</a></li>
                                         <li><a href="#" data-toggle="modal" data-target="#tarifaire">Politiques
-                                                Tarrifaires</a></li>
+                                                Tarifaires</a></li>
                                     </ul>
                                 </div>
                             </div>
