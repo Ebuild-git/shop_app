@@ -107,7 +107,7 @@
                             @else
                                 Mme.
                             @endif
-                            {{ $user->firstname }} {{ $user->lastname }}
+                            {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                         </b>
                         <p>
                             @if ($user->address)
