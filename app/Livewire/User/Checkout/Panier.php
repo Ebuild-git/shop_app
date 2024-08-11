@@ -37,7 +37,7 @@ class Panier extends Component
                     "photo" => $post->photos[0],
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
-                    "old_prix" => $post->old_prix
+                    "old_prix" => $post->getOldPrix()
                 ];
                 $total += round($post->getPrix(), 3);
                 $nbre_article++;

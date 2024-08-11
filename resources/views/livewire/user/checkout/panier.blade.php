@@ -26,21 +26,24 @@
                                         </b>
                                     </a>
                                     <div class="text-end">
-                                        <b class="h6 strong">
-                                            @if ($item['is_solder'])
-                                                <strike class="color">
-                                                    <b>
-                                                        {{ $item['old_prix'] }} <sup>DH</sup>
-                                                    </b>
+                                        @if ($item['is_solder'])
+                                            <b class="h6 strong">
+                                                <strike style="color: grey; font-size: small; margin-right:10px;">
+                                                    <b>{{ $item['old_prix'] }} <sup>DH</sup></b>
                                                 </strike>
-                                                <br>
-                                            @endif
-                                            <span
-                                                class="@if ($item['is_solder']) text-danger @else color @endif small">
-                                                <b>{{ $item['prix'] }} <sup>DH</sup></b>
-                                            </span>
-                                        </b>
+                                                <span style="color: #008080;">
+                                                    <b>{{ $item['prix'] }} <sup>DH</sup></b>
+                                                </span>
+                                            </b>
+                                        @else
+                                            <b class="h6 strong">
+                                                <span style="color: #008080;">
+                                                    <b>{{ $item['prix'] }} <sup>DH</sup></b>
+                                                </span>
+                                            </b>
+                                        @endif
                                     </div>
+
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div>
@@ -67,8 +70,8 @@
                                             @endif
                                         </span>
                                     </div>
-
-                                    <i class="bi bi-trash3 text-danger btn btn-sm cusor"
+                                        <i class="bi bi-trash3 text-danger btn btn-sm cursor"
+                                        style="margin-top: auto;"
                                         wire:click="delete( {{ $item['id'] }} )"></i>
                                 </div>
                             </div>
