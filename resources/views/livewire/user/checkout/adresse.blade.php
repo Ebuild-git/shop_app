@@ -105,7 +105,7 @@
                             @if ($user->gender == 'male')
                                 M.
                             @else
-                                Mme.
+                                Mme
                             @endif
                             {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                         </b>
