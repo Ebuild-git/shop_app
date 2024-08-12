@@ -448,9 +448,16 @@ body {
 
 
 .badge-like-post-count {
-    background-color: #018d8d;
+    /* background-color: #018d8d;
     border: none !important;
-    color: white !important;
+    color: white !important; */
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #008080 !important;
+
 }
 
 .card-img-top img {
