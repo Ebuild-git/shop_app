@@ -37,7 +37,7 @@
                         @if ($item->Prix_initial() && $item->Prix_initial() < $item->getPrix())
                             {{ $item->Prix_initial() }} <sup>DH</sup>
                         @else
-                            -
+                        {{ $item->getPrix() }} <sup>DH</sup>
                         @endif
                     </td>
                     <td class="strong" style="color: {{ $item->Prix_initial() && $item->Prix_initial() < $item->getPrix() ? '#808080' : '#008080' }}">
