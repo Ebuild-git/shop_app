@@ -33,14 +33,14 @@
                             <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m') }}</i>
                         </span>
                     </td>
-                    <td class="strong" style="color: {{ $item->Prix_initial() && $item->Prix_initial() < $item->getPrix() ? '#008080' : '' }}">
-                        @if ($item->Prix_initial() && $item->Prix_initial() < $item->getPrix())
-                            {{ $item->Prix_initial() }} <sup>DH</sup>
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() < $item->getPrix() ? '#008080' : '' }}">
+                        @if ($item->getOldPrix() && $item->getOldPrix() < $item->getPrix())
+                            {{ $item->getOldPrix() }} <sup>DH</sup>
                         @else
                         {{ $item->getPrix() }} <sup>DH</sup>
                         @endif
                     </td>
-                    <td class="strong" style="color: {{ $item->Prix_initial() && $item->Prix_initial() < $item->getPrix() ? '#808080' : '#008080' }}">
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() < $item->getPrix() ? '#808080' : '#008080' }}">
                         {{ $item->getPrix() }} <sup>DH</sup>
                     </td>
                     <td>
