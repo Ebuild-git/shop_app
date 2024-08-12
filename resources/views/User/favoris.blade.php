@@ -103,19 +103,19 @@
                         </td>
                         <td class="strong">
                             @if ($favori->post->changements_prix->count())
-                            <span class=" color">
-                                <strike>
-                                    {{ $favori->post->getOldPrix() }}
-                                </strike> <sup>DH</sup>
-                            </span>
-                            <br>
-                            <span class="text-danger  ">
-                                {{ $favori->post->getPrix() }} <sup>DH</sup>
-                            </span>
+                                <span style="color: grey; font-size: smaller;">
+                                    <strike>
+                                        {{ $favori->post->getOldPrix() }}
+                                    </strike> <sup>DH</sup>
+                                </span>
+                                <br>
+                                <span style="color: #008080;">
+                                    {{ $favori->post->getPrix() }} <sup>DH</sup>
+                                </span>
                             @else
-                            <span class="ft-bold color ">
-                                {{ $favori->post->getPrix() }} <sup>DH</sup>
-                            </span>
+                                <span style="color: #008080;">
+                                    {{ $favori->post->getPrix() }} <sup>DH</sup>
+                                </span>
                             @endif
                         </td>
                         <td>
@@ -139,12 +139,9 @@
                             {{ $favori->created_at->format('d-m-Y') }}
                         <td>
                         <td class="text-end">
-                            <button class="text-danger btn btn-sm cusor" type="button"
-                                onclick="remove_favoris({{ $favori->id }})">
-                                <b>
-                                    <i class="bi bi-x"></i> Rétirer
-                                </b>
-                            </button>
+                            <i class="bi bi-trash3 text-danger btn btn-sm cursor"
+                                style="margin-top: auto;"
+                                onclick="remove_favoris({{ $favori->id }})"></i>
                         </td>
                     </tr>
                     @empty
