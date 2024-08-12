@@ -122,7 +122,7 @@
     .table thead th {
         position: sticky;
         top: 0;
-        z-index: 10;
+        z-index: 5;
         background-color: #343a40;
         color: #fff;
         box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
