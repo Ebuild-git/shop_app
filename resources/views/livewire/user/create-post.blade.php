@@ -678,6 +678,12 @@
                                                     {{ $data_post['categorie']->titre ?? '' }}
                                                 </span>
                                             </span>
+                                            <span class=" bg-light-info rounded color px-2 py-1 ml-2 strong"
+                                            style="background-color: #ecedf1">
+                                            <span style="color: black">
+                                                {{ $data_post['sous_categorie']->titre ?? '' }}
+                                            </span>
+                                        </span>
                                         @endif
                                     </div>
                                     <h3 class=" mb-1 mt-2 text-capitalize">
