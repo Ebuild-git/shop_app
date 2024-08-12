@@ -78,7 +78,7 @@ a:focus {
 a.link {
   color:#324875; }
 a.link:hover, a.link:focus, a:hover, a:focus {
-    color:#111111; 
+    color:#111111;
 }
 a.text-success:focus, a.text-success:hover {
     color:#27b737 !important;
@@ -93,7 +93,7 @@ a.text-danger:focus, a.text-danger:hover {
     color:#f33066 !important;
 }
 a.white-link {
-  color: #ffffff; 
+  color: #ffffff;
 }
 a.white-link:hover, a.white-link:focus {
 	color: #263238;
@@ -117,11 +117,11 @@ section.space.min{
 }
 p {
     line-height:1.8;
-}	
+}
 
 .tbl {
     display: table;
-} 
+}
 .full-height {
     height: 100%;
 }
@@ -157,7 +157,7 @@ p, ul, ol, dl, dt, dd, blockquote, address {
 }
 
 
-/*------------ GLobal Settings: Heading-------------*/ 
+/*------------ GLobal Settings: Heading-------------*/
 h1,
 h2,
 h3,
@@ -589,9 +589,9 @@ div[data-overlay] p{
     color: #fff;
 }
 .gr_bg{
-	background:#006cff; 
+	background:#006cff;
 	background: -webkit-linear-gradient(to right, #12ca86, #006cff);
-	background:linear-gradient(to right, #12ca86, #006cff); 
+	background:linear-gradient(to right, #12ca86, #006cff);
 }
 
 /*-------------- GLobal Settings: Text Colors ----------------*/
@@ -819,19 +819,19 @@ html body .bg-light {
 
 html body .bg-white {
   background-color: #ffffff; }
- 
+
 html body .bg-whites {
   background-color: #f4f5f7; }
-  
+
 html body .bg-red {
   background-color: #e21137; }
-  
+
 html body .bg-green {
   background-color: #4caf50; }
-  
+
 html body .bg-sky {
   background-color: #20b2c1; }
-  
+
 html body .bg-blue {
   background-color: #03a9f4; }
 
@@ -1055,7 +1055,7 @@ button.close {
     color:#ee1c47;
     cursor: pointer;
     background-color:transparent;
-    border-color#ee1c47;
+    border-color: #ee1c47;
 }
 
 .pagination li:first-child a {
@@ -1083,7 +1083,7 @@ button.close {
 /*----------- Global Settings: Custom Checkbox & Radio Button ----------------*/
 .checkbox-custom, .radio-custom {
 opacity: 0;
-position: absolute;   
+position: absolute;
 }
 
 .checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
@@ -1909,7 +1909,7 @@ nav a:hover {
 	background:#ffffff;
 	border-radius: 0.5rem;
     box-shadow: 0px 0px 42px 0px rgba(32, 32, 32, 0.15);
-	-webkit-box-shadow: 0px 0px 42px 0px rgba(32, 32, 32, 0.15);    
+	-webkit-box-shadow: 0px 0px 42px 0px rgba(32, 32, 32, 0.15);
 }
 .nav-menu>li>.nav-dropdown:before {
   background-color: #ffffff;
@@ -1926,7 +1926,7 @@ nav a:hover {
   -o-transition: all 0.2s ease 0s;
   transition: all 0.2s ease 0s;
   -webkit-transition: all 0.2s ease 0s;
-  -moz-transition: all 0.2s ease 0s; 
+  -moz-transition: all 0.2s ease 0s;
 }
 .nav-dropdown>li {
     width: 100%;
@@ -2650,7 +2650,7 @@ nav .menu > li.dropdown  li.dropdown > a:before{
 
 nav .menu li.dropdown.open > a{
     color: #e74c3c;
-	
+
 }
 .top-header {
     background:#232c3d;
@@ -2680,7 +2680,7 @@ nav .menu li.dropdown.open > a{
 .top-social li{
 	list-style:none;
 	display:inline-block;
-	margin-right:15px;	
+	margin-right:15px;
 }
 .top-social li:last-child{
 	margin-right:0;
@@ -3792,6 +3792,10 @@ ul.dahs_navbar li a.active {
     float: right;
 }
 
+
+
+
+
 /*------------------------------------------------------------
 	General Features
 -------------------------------------------------------------*/
@@ -4566,7 +4570,7 @@ button:focus {
 }
 
 /*-------------------------------------------------
-  Footer Start   
+  Footer Start
 --------------------------------------------------*/
 /*---------- Call To Action -------------------*/
 .call_action_wrap-wrap {
@@ -4810,13 +4814,13 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	Responsiveness Start
 ---------------------------------------------------*/
 @media all and (min-height: 600px) and (min-width: 767px) {
- 
+
 }
 @media all and (min-width: 993px) and (max-width: 1024px) {
 
 }
 @media all and (min-width: 993px) and (max-width: 1199px) {
-	
+
 }
 @media (max-height: 600px) {
 
@@ -4826,7 +4830,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	.headd-sty-02 form {
 		max-width: 315px;
 	}
-	
+
 }
 
 @media (min-width: 992px) {
@@ -4900,7 +4904,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 		font-size:45px;
 		line-height: 1.1;
 	}
-}	
+}
 
 @media (max-width: 1023px) {
 	.hide-ipad{
@@ -4924,7 +4928,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	 }
 }
 
-@media (max-width: 992px) {	
+@media (max-width: 992px) {
 	#countdown ul li {
 		margin: 0 0.2rem;
 		padding: 0.5rem 0.6rem;
@@ -4965,7 +4969,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	.header.header-dark .nav-menu>li>a, .headerd.header-dark .nav-menu>li>a {
 		padding: 15px 18px !important;
 	}
-	
+
 	.tri-border {
 		border-bottom: 1px solid #fd4a6f;
 	}
@@ -4973,7 +4977,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 		background-color: #ffffff;
 		box-shadow: 0 0.5em 0 0 #ffffff, 0 1em 0 0 #ffffff;
 	}
-	
+
 }
 
 
@@ -5059,11 +5063,11 @@ footer.skin-dark-footer ul.footer-bottom-social li a:hover, footer.skin-dark-foo
 	.rows-products .col-6 .product_grid h5.fs-md {
 		font-size: 13px !important;
 	}
-	
+
 }
 @media (max-width:360px) {
-	
-	
+
+
 }
 
 /*====================================

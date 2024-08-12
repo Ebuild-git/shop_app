@@ -41,81 +41,72 @@
     @auth
         <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
+
     <style>
-        #comment_position {
+    #comment_position {
         position: absolute;
         z-index: 150;
-        }
+    }
 
-        #comment_position .nav-dropdown {
+    #comment_position .nav-dropdown {
         position: absolute;
         z-index: 150;
-        }
+    }
+    .left-aligned {
+        right: 100%;
+        left: auto !important;
+        top: 0;
+    }
+    .tarif-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.25rem 1rem; /* Reduced padding */
+        background-color: white;
+        color: #565656;
+        font-size: bold;
+        margin-bottom: 0.25rem; /* Reduced margin */
+    }
+    .nav-dropdown.nav-submenu.left-aligned {
+        width: 400px;
+        padding: 0.5rem; /* Reduced padding */
+        background-color: #f8f9fa;
+    }
+    .tarif-title {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
 
-        .tarifaire-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-width: 400px;
-        padding: 0.5rem 0;
-        margin-top: 5px;
-        font-size: 0.9rem;
-        border-radius: 4px;
-        z-index: 1000;
-        }
+    .luxury-icon, .luxury-text {
+        color: #008080;
+        font-weight: 800;
+        margin-left: 0.5rem;
+    }
 
-        .tarif-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background-color: white;
-            color: #565656;
-            font-size: bold;
-        }
+    .tarif-percentage {
+        font-weight: small;
+        color: #808080;
+        margin-left: 1rem; /* Increased space between percentage and other items */
+    }
 
-        .tarif-title {
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-        }
+    .tarif-item:hover {
+        background-color: #f8f9fa;
+    }
 
-        .luxury-icon, .luxury-text {
-            color: #008080;
-            font-weight: 800;
-            margin-left: 0.5rem;
-        }
+    .tarif-separator {
+        border-top: 1px solid #f0f0f0;
+        margin: 4px 0; /* Reduced margin */
+    }
 
-
-        .tarif-percentage {
-            font-weight: small;
-            color: #808080;
-        }
-
-        .tarif-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .left-aligned {
-            right: 0;
-            left: auto !important;
-            margin-right: 10px;
-        }
-
-        .tarif-separator {
-            border-top: 1px solid #f0f0f0;
-            margin: 8px 0;
-        }
-
-        .tarif-note {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            color: #808080;
-            text-align: center;
-            white-space: normal;
-        }
-
-    </style>
+    .tarif-note {
+        padding: 0.5rem 1rem; /* Reduced padding */
+        font-size: 0.85rem;
+        color: #808080;
+        text-align: center;
+        white-space: normal;
+    }
+</style>
 </head>
 
 <body class="custom-scrollbar">
@@ -194,23 +185,6 @@
             input.value = formattedPhoneNumber;
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-        const dropdownToggle = document.querySelector('#tarifaireDropdown');
-        const dropdownMenu = document.querySelector('.tarifaire-dropdown');
-
-        dropdownToggle.addEventListener('click', function() {
-            const rect = dropdownToggle.getBoundingClientRect();
-            dropdownMenu.style.top = `${rect.bottom}px`;
-            dropdownMenu.style.right = `${window.innerWidth - rect.right}px`;
-        });
-
-        window.addEventListener('scroll', function() {
-            const rect = dropdownToggle.getBoundingClientRect();
-            dropdownMenu.style.top = `${rect.bottom}px`;
-            dropdownMenu.style.right = `${window.innerWidth - rect.right}px`;
-        });
-    });
 
 
     </script>
@@ -564,13 +538,12 @@
                                             Conditions générales
                                         </a>
                                     </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="tarifaireDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Nos Politiques Tarifaires
-                                        </a>
-                                        <div class="dropdown-menu tarifaire-dropdown" aria-labelledby="tarifaireDropdown">
+
+                                    <li class="text-capitalize comment-position">
+                                        <a href="#" data-toggle="modal" data-target="#tarifaire">Nos Politiques Tarifaires</a>
+                                        <ul class="nav-dropdown nav-submenu left-aligned">
                                             @foreach ($categories as $tarif)
-                                            <div class="tarif-item">
+                                            <li class="tarif-item">
                                                 <span class="tarif-title">
                                                     {{ $tarif->titre }}
                                                     @if ($tarif->luxury == 1)
@@ -580,15 +553,14 @@
                                                     @endif
                                                 </span>
                                                 <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
-                                            </div>
+                                            </li>
                                             @endforeach
-
                                             <!-- Separator and phrase -->
-                                            <div class="tarif-separator"></div>
-                                            <div class="tarif-note">
+                                            <li class="tarif-separator"></li>
+                                            <li class="tarif-note">
                                                 Le montant de la commission est prélévé au moment du paiement par l'acheteur
-                                            </div>
-                                        </div>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>

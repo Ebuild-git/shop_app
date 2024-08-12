@@ -190,6 +190,8 @@
                                 </div>
                             </div>
 
+
+
                             <div>
                                 <div class="@if (!$selected_sous_categorie) d-none @endif">
                                     <div class="container mb-2">
@@ -531,7 +533,7 @@
             } else {
                 etat = _etat;
             }
-            
+
             add_selected_option("etat", etat);
             fetchProducts();
         }
@@ -553,7 +555,7 @@
             var show = true;
 
 
-           
+
 
 
 
@@ -718,7 +720,7 @@
 
 
 
-       
+
 
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');
