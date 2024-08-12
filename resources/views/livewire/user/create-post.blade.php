@@ -666,26 +666,26 @@
                                     <div>
                                         @if ($data_post['categorie'])
                                             @if ($data_post['categorie']->luxury == 1)
-                                                <span class="text-success bg-light-success rounded strong px-2 py-1">
+                                                <span class="text-success bg-light-success rounded strong px-2 py-1 d-inline-block">
                                                     <i class="bi bi-gem"></i>
                                                     SHOPIN LUXURY
                                                 </span>
-                                                &nbsp;
                                             @endif
-                                            <span class=" bg-light-info rounded color px-2 py-1 strong"
-                                                style="background-color: #0080802d">
+
+                                            <span class="bg-light-info rounded strong px-2 py-1 d-inline-block" style="background-color: #0080802d; margin-left: 5px;">
                                                 <span class="color">
                                                     {{ $data_post['categorie']->titre ?? '' }}
                                                 </span>
                                             </span>
-                                            <span class=" bg-light-info rounded color px-2 py-1 ml-2 strong"
-                                            style="background-color: #ecedf1">
-                                            <span style="color: black">
-                                                {{ $data_post['sous_categorie']->titre ?? '' }}
+
+                                            <span class="bg-light-info rounded strong px-2 py-1 d-inline-block mt-1" style="background-color: #ecedf1; margin-left: 5px;">
+                                                <span style="color: black;">
+                                                    {{ $data_post['sous_categorie']->titre ?? '' }}
+                                                </span>
                                             </span>
-                                        </span>
                                         @endif
                                     </div>
+
                                     <h3 class=" mb-1 mt-2 text-capitalize">
                                         {{ $data_post['titre'] }}
                                     </h3>
