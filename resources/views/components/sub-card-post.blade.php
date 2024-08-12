@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between mb-1" style="font-size: 12px;">
         <div class="d-flex justify-content-between mb-1">
             @if ($post->changements_prix->count())
-            <strike class="elis_rty color strong" style="font-size: 12px;">
+            <strike class="elis_rty strong" style="font-size: 12px; color: 'a19e9e'; ">
                 {{ $post->getOldPrix() }} <sup>DH</sup>
             </strike>
             &nbsp;&nbsp;&nbsp;
             @endif
-            <div class="@if ($post->changements_prix->count()) text-danger @else color @endif ft-bold"  style="font-size: 12px;">
+            <div class="@if ($post->changements_prix->count()) @endif ft-bold"  style="font-size: 12px; color: #008080;">
                 {{ $post->getPrix() }} <sup>DH</sup>
             </div>
         </div>

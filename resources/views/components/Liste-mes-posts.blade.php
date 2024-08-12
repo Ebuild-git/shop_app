@@ -33,15 +33,18 @@
                             <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m') }}</i>
                         </span>
                     </td>
-                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() < $item->getPrix() ? '#008080' : '' }}">
-                        @if ($item->getOldPrix() && $item->getOldPrix() < $item->getPrix())
-                            {{ $item->getOldPrix() }} <sup>DH</sup>
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#008080' : '' }}">
+                        @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
+                            {{ $item->getPrix() }} <sup>DH</sup>
+
+                        @endif
+                    </td>
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#808080' : '#008080' }}">
+                        @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
+                        {{ $item->getOldPrix() }} <sup>D</sup>
                         @else
                         {{ $item->getPrix() }} <sup>DH</sup>
                         @endif
-                    </td>
-                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() < $item->getPrix() ? '#808080' : '#008080' }}">
-                        {{ $item->getPrix() }} <sup>DH</sup>
                     </td>
                     <td>
                         <span class="small">

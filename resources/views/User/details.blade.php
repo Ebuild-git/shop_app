@@ -219,17 +219,17 @@
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
                                         @if ($post->changements_prix->count())
-                                            <span class="strong color fs-lg">
+                                            <span class="strong fs-lg" style="color: ''; font-size: smaller;">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
                                                 </strike> <sup>DH</sup>
                                             </span>
                                             <br>
-                                            <span class="text-danger h5 strong">
+                                            <span class="h5 strong" style="color: #008080;">
                                                 {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @else
-                                            <span class="ft-bold color strong fs-lg">
+                                            <span class="ft-bold color strong fs-lg" style="color: #008080;">
                                                 {{ $post->getPrix() }} <sup>DH</sup>
                                             </span>
                                         @endif

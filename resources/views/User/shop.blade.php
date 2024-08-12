@@ -696,27 +696,58 @@
 
 
 
-        function renderPagination(data) {
-            const paginationControls = $('#pagination-controls');
-            paginationControls.empty();
+    function renderPagination(data) {
+    const paginationControls = $('#pagination-controls');
+    paginationControls.empty();
 
-            //lancer la pagination uniquement si on a minimun un article
-            if (data.data.length > 0) {
-                if (data.current_page > 1) {
-                    paginationControls.append('<li data-page="' + (data.current_page - 1) + '">Précédent</li>');
-                }
+    // Only render pagination if there are items
+    if (data.data.length > 0) {
+        let startPage, endPage;
+        const totalPages = data.last_page;
+        const currentPage = data.current_page;
 
-                for (let i = 1; i <= data.last_page; i++) {
-                    const activeClass = data.current_page === i ? 'active' : '';
-                    paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
-                }
-
-                if (data.current_page < data.last_page) {
-                    paginationControls.append('<li data-page="' + (data.current_page + 1) + '">Suivant</li>');
-                }
+        if (totalPages <= 3) {
+            // Show all pages if there are 3 or fewer
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            // Determine the start and end pages based on the current page
+            if (currentPage <= 2) {
+                startPage = 1;
+                endPage = 3;
+            } else if (currentPage + 1 >= totalPages) {
+                startPage = totalPages - 2;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 1;
+                endPage = currentPage + 1;
             }
-
         }
+
+        // Add "Previous" button if not on the first page
+        if (currentPage > 1) {
+            paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
+        }
+
+        // Add the page numbers within the range
+        for (let i = startPage; i <= endPage; i++) {
+            const activeClass = currentPage === i ? 'active' : '';
+            paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+        }
+
+        // Add "Next" button if not on the last page
+        if (currentPage < totalPages) {
+            paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
+        }
+    }
+}
+
+$(document).on('click', '.pagination li', function() {
+    const page = $(this).data('page');
+    fetchProducts(page);
+    ancre();
+});
+
 
 
 
