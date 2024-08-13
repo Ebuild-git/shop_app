@@ -267,8 +267,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="text-capitalize">
-                                        {{ $propriete_info->nom }}: <span id="colorName"></span>
-
+                                        {{ $propriete_info->nom }}
                                     </label>
 
                                     @php
@@ -305,26 +304,22 @@
                                                 data-model="{{ $propriete_info->nom }}">
                                         @endif
                                     @elseif($propriete_info->type == 'color')
-                                    @if ($selected_color)
-                                    : <b> {{ $text_name_color }} </b>
-                                @endif
-                                <br>
-                                @foreach ($colors as $item)
-                                    @if ($item['nom'] == 'Multicolore')
-                                        <button type="button" class="btn-color-create multi-color-btn cusor"
-                                            data-code="{{ $item['code'] }}"
-                                            onclick="selectColor(this, '{{ $item['code'] }}')">
-                                        </button>
-                                    @else
-                                        <button style="background-color: {{ $item['code'] }};"
-                                            type="button" class="btn-color-create cusor"
-                                            data-code="{{ $item['code'] }}"
-                                            onclick="selectColor(this, '{{ $item['code'] }}')">
-                                        </button>
-                                    @endif
-                                @endforeach
-                                <span id="colorName"></span>
-
+                                        @if ($selected_color)
+                                            : <b> {{ $selected_color }} </b>
+                                        @endif
+                                        <br>
+                                        @foreach ($colors as $item)
+                                            @if ($item['nom'] == 'Multicolore')
+                                                <button type="button" class="btn-color-create multi-color-btn cusor"
+                                                    wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @else
+                                                <button style="background-color: {{ $item['code'] }};" type="button"
+                                                    class="btn-color-create cusor"
+                                                    wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
+                                                </button>
+                                            @endif
+                                        @endforeach
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
                                             placeholder="{{ $propriete_info->nom }}"
@@ -405,92 +400,7 @@
         </button>
     </div>
 
-    <script>
-        // function selectColor(button, colorCode) {
-        //     document.querySelectorAll('.btn-color-create').forEach(btn => {
-        //         btn.classList.remove('selected');
-        //         btn.style.border = '2px solid transparent';
-        //     });
 
-        //     button.classList.add('selected');
-        //     button.style.border = '3px solid #018d8d';
-
-        //     let colorName = '';
-        //     @this.colors.forEach(color => {
-        //         if (color.code === colorCode) {
-        //             colorName = color.nom;
-        //         }
-        //     });
-
-        //     const colorNameSpan = document.getElementById('colorName');
-        //     colorNameSpan.innerText = colorName;
-        // }
-
-        function selectColor(button, colorCode) {
-    document.querySelectorAll('.btn-color-create').forEach(btn => {
-        btn.classList.remove('selected');
-        btn.style.border = '2px solid transparent';
-    });
-
-    button.classList.add('selected');
-
-    // Calculate a contrasting color for the border
-    const borderColor = getContrastingColor(colorCode);
-    button.style.border = 3px solid ${borderColor}; // Highlight selected color with contrasting border
-
-    let colorName = '';
-    @this.colors.forEach(color => {
-        if (color.code === colorCode) {
-            colorName = color.nom;
-        }
-    });
-
-    const colorNameSpan = document.getElementById('colorName');
-    colorNameSpan.innerText = colorName;
-}
-
-// Function to calculate luminance and return a contrasting color (black or white)
-function getContrastingColor(hex) {
-    const r = parseInt(hex.substr(1, 2), 16);
-    const g = parseInt(hex.substr(3, 2), 16);
-    const b = parseInt(hex.substr(5, 2), 16);
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-    return luminance > 0.5 ? '#000000' : '#FFFFFF';
-}
-
-    </script>
-
-<style>
-/* .btn-color-create {
-width: 40px;
-height: 40px;
-border-radius: 50%;
-border: 2px solid transparent;
-cursor: pointer;
-margin: 5px;
-}
-
-.btn-color-create.selected {
-border: 3px solid #018d8d; /* Highlight color */
-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-} */
-
-.btn-color-create {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.btn-color-create.selected {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-
-</style>
 
     <style>
         .drop-container {
@@ -714,6 +624,7 @@ box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             }
 
             observeDOM(); // Démarrer l'observation
+
         });
     </script>
 
@@ -774,12 +685,13 @@ box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
                                             </span>
                                         @endif
                                     </div>
+
                                     <h3 class=" mb-1 mt-2 text-capitalize">
                                         {{ $data_post['titre'] }}
                                     </h3>
                                     <div>
                                         <span class="ft-bold color strong fs-lg">
-                                            {{ $data_post['prix'] }} DH
+                                            {{ $data_post['prix'] }} <sup>DH</sup>
                                         </span>
                                         <span class="badge-frais-details">
                                             <img width="25" height="25"
@@ -814,29 +726,32 @@ box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
                                                 </td>
                                             </tr>
                                             @foreach ($data_post['proprietes'] ?? [] as $key => $value)
-                                            <tr>
-                                                <td>{{ ucfirst($key) }} </td>
-                                                <td class="text-black">
-                                                    @if ($key == 'Couleur')
-                                                        @if ($value == '#000000000')
-                                                            <img src="/icons/color-wheel.png" height="20" width="20" alt="multicolor" title="Multi color" srcset="">
+                                                <tr>
+                                                    <td>{{ ucfirst($key) }} </td>
+                                                    <td class="text-black">
+                                                        @if ($key == 'Couleur')
+                                                            @if ($value == '#000000000')
+                                                                <img src="/icons/color-wheel.png" height="20"
+                                                                    width="20" alt="multicolor"
+                                                                    title="Multi color" srcset="">
+                                                            @else
+                                                                <script>
+                                                                    getColorName('{{ $value }}');
+                                                                </script>
+                                                                <span class="card"
+                                                                    style="background-color: {{ $value }} ;color:{{ $value }};">
+                                                                    {{ $value }}
+                                                                </span>
+                                                            @endif
+                                                            <span id="colorName"></span>
                                                         @else
-                                                            @php
-                                                                $colorName = collect($colors)->firstWhere('code', $value)['nom'] ?? 'Unknown';
-                                                            @endphp
-                                                            <span class="card" style="background-color: {{ $value }}; color: {{ $value }};">
-                                                                {{ $colorName }}
+                                                            <span class="text-capitalize">
+                                                                {{ $value }}
                                                             </span>
                                                         @endif
-                                                    @else
-                                                        <span class="text-capitalize">
-                                                            {{ $value }}
-                                                        </span>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
                                             @endforeach
-
                                         </table>
                                     </div>
                                     <div class="mt-3">
