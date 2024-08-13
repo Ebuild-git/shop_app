@@ -464,7 +464,7 @@
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                            {{-- <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                 <div class="div-sroll-recherche">
                                     <form action="/shop" method="get" class="container-search"
                                         style="margin-right: 150px !important;">
@@ -488,7 +488,36 @@
                                             Publier
                                         </span>
                                     </a>
-                            </li>
+                            </li> --}}
+                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+
+                                <div class="div-sroll-recherche">
+                                    <form action="/shop" method="get" class="container-search">
+                                        @csrf
+                                        <div class="container-search">
+                                            <input type="text" placeholder="Recherche..." name="key">
+                                            <button type="submit" class="search-search">
+                                                <i class="bi bi-search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                        </li>
+                        <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                            <div class="div-scroll-publier">
+                                @auth
+                                <a href="/publication" class="btn-publier-header cusor p-1">
+                            @else
+                                <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
+                            @endauth
+                                <span class="color small">
+                                    <i class="lni lni-circle-plus"></i>
+                                    Publier
+                                </span>
+                            </a>
+                               </div>
+                        </li>
                             <li class="option-icon-header comment-position-top" id="icons_position">
                                 @auth
                                     <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
