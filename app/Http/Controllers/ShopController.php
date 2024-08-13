@@ -169,38 +169,55 @@ class ShopController extends Controller
         $posts = $query->paginate(24);
 
 
-
-
-
         foreach ($posts as $post) {
             if ($post->statut == "vente") {
-                // Vérifie si la première photo existe, sinon utilise une image par défaut
-                $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
+                // Calculate discount percentage if there is a price change
+                $originalPrice = $post->getOldPrix();
+                $currentPrice = $post->getPrix();
+                $discountPercentage = null;
 
-                $subCardPostHtml = view('components.sub-card-post', ['post' => $post, 'show' => true])->render();
+                if ($originalPrice && $originalPrice > $currentPrice) {
+                    $discountPercentage = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
+                }
+
+                // Pass the discount percentage to the view
+                $subCardPostHtml = view('components.sub-card-post', [
+                    'post' => $post,
+                    'show' => true,
+                    'discountPercentage' => $discountPercentage
+                ])->render();
 
                 $url = "/post/" . $post->id . "/" . Str::slug($post->titre);
+                $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
+
                 $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
-                <div class="product_grid card b-0">
-                    <div class="card-body p-0">
-                        <div class="shop_thumb position-relative">
-                        <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor " id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="btn_like_post(' . $post->id . ')">
-                                <i class="bi bi-suit-heart-fill "></i>
-                            <span class="count">
-                                ' . $post->getLike->count() . '
-                            </span>
-                        </button>
-                            <a class="card-img-top d-block overflow-hidden" href="' . $url . '">
-                                <img src="' . $photo . '" alt="..."></a>
-                        </div>
-                    </div>
-                    ' . $subCardPostHtml . '
-                </div>
-            </div>';
+                            <div class="product_grid card b-0">
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                         <!-- Discount Badge -->
+                        ' . ($discountPercentage ? '
+                        <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+                            <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>
+                        </div>' : '') . '
+
+                                        <!-- Like Button -->
+                                        <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
+                                            id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="btn_like_post(' . $post->id . ')">
+                                            <i class="bi bi-suit-heart-fill"></i>
+                                            <span class="count">' . $post->getLike->count() . '</span>
+                                        </button>
+
+                                        <!-- Product Image -->
+                                        <a class="card-img-top d-block overflow-hidden" href="' . $url . '">
+                                            <img src="' . $photo . '" alt="...">
+                                        </a>
+                                    </div>
+                                </div>
+                                ' . $subCardPostHtml . '
+                            </div>
+                        </div>';
             }
         }
-
-
 
 
         return response()

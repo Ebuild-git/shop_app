@@ -123,6 +123,14 @@
                             @livewire('LikeCard', ['id' => $lux->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
+                                    @if($lux->discountPercentage)
+                                    <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+
+                                    <div class="badge-new badge-discount">
+                                        -{{ $lux->discountPercentage }}%
+                                    </div>
+                                    </div>
+                                    @endif
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
                                         <img class="card-img-top" src="{{ Storage::url($lux->photos[0] ?? '') }}"
                                             alt="..."></a>
@@ -175,6 +183,16 @@
                             @livewire('LikeCard', ['id' => $last->id])
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
+
+                                    @if($last->discountPercentage)
+                                    <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+
+                                    <div class="badge-new badge-discount">
+                                        -{{ $last->discountPercentage }}%
+                                    </div>
+                                    </div>
+                                    @endif
+
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
                                         <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="...">
                                     </a>

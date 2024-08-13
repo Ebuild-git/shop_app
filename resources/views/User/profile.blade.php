@@ -60,7 +60,7 @@
                                             {{ $avis }} Avis
                                         </div>
                                         <div data-toggle="modal" data-target="#Noter">
-                                            @for ($i = 1; $i <= 5; $i++) 
+                                            @for ($i = 1; $i <= 5; $i++)
                                             <button type="button"
                                                 class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
                                                 <i class="bi bi-star-fill"></i>
@@ -107,15 +107,23 @@
                 @forelse ($posts as $post)
                 <div class="col-xl-4 col-sm-4 col-lg-4 col-md-6 col-6">
                     <div class="product_grid card b-0">
-                        @if ($post->sell_at)
-                        <div class="badge badge-danger position-absolute ab-left text-upper">
-                            Vendu !
+                        <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+                            @if ($post->sell_at)
+                            <div class="badge-new badge-danger-new mb-4">
+                                Vendu
+                            </div>
+                            @endif
+                            @if ($post->discountPercentage)
+                            <div class="badge-new badge-discount">
+                                -{{ $post->discountPercentage }}%
+                            </div>
+                            @endif
                         </div>
-                        @endif
                         <div class="badge badge-like-post-count position-absolute ab-right text-upper">
                             <i class="far fa-heart"></i>
                             {{ $post->getLike->count() }}
                         </div>
+
                         <div class="card-body p-0">
                             <div class="shop_thumb position-relative">
                                 <a class="card-img-top d-block overflow-hidden" href="/post/{{ $post->id }}"><img

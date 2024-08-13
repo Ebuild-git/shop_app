@@ -29,29 +29,73 @@ use Illuminate\Support\Facades\Validator;
 class HomeController extends Controller
 {
 
+    // public function index()
+    // {
+    //     $categories = categories::all();
+    //     $configuration = configurations::firstorCreate();
+    //     $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
+    //         ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+    //         ->where('categories.luxury', false)
+    //         ->whereNull('posts.sell_at')
+    //         ->select("posts.id", "posts.photos")
+    //         ->Orderby("posts.created_at", "Desc")
+    //         ->Orderby("posts.updated_price_at", "Desc")
+    //         ->take(12)
+    //         ->get();
+
+    //     $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
+    //         ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+    //         ->where('categories.luxury', true)
+    //         ->whereNull('posts.sell_at')
+    //         ->orderby("posts.created_at", "Desc")
+    //         ->select("posts.id", "posts.photos")
+    //         ->take(8)->get();
+    //     return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
+    // }
+
     public function index()
     {
         $categories = categories::all();
-        $configuration = configurations::firstorCreate();
+        $configuration = configurations::firstOrCreate();
+
+        // Fetch non-luxury posts
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->whereNull('posts.sell_at')
-            ->select("posts.id", "posts.photos")
-            ->Orderby("posts.created_at", "Desc")
-            ->Orderby("posts.updated_price_at", "Desc")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
+            ->orderBy("posts.created_at", "Desc")
+            ->orderBy("posts.updated_price_at", "Desc")
             ->take(12)
             ->get();
 
+        // Fetch luxury posts
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
             ->whereNull('posts.sell_at')
-            ->orderby("posts.created_at", "Desc")
-            ->select("posts.id", "posts.photos")
+            ->orderBy("posts.created_at", "Desc")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
             ->take(8)->get();
+
+        // Calculate the discount percentage for each post
+        foreach ($last_post as $post) {
+            $post->discountPercentage = null;
+            if ($post->old_prix && $post->old_prix > $post->prix) {
+                $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+            }
+        }
+
+        foreach ($luxurys as $lux) {
+            $lux->discountPercentage = null;
+            if ($lux->old_prix && $lux->old_prix > $lux->prix) {
+                $lux->discountPercentage = round((($lux->old_prix - $lux->prix) / $lux->old_prix) * 100);
+            }
+        }
+
         return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
     }
+
 
     public function index_post(Request $request)
     {
@@ -180,14 +224,20 @@ class HomeController extends Controller
 
 
 
-
-
-
     public function user_profile($id)
     {
         $user = User::find($id);
         $postsQuery = posts::where("id_user", $user->id);
-        $posts = $postsQuery->get();
+
+        // Fetch posts and calculate the discount percentage
+        $posts = $postsQuery->get()->map(function($post) {
+            $post->discountPercentage = null;
+            if ($post->old_prix && $post->old_prix > $post->prix) {
+                $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+            }
+            return $post;
+        });
+
         $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
         $ma_note = ratings::where('id_user_buy', Auth::user()->id)
             ->where("id_user_sell", $user->id)
@@ -197,6 +247,7 @@ class HomeController extends Controller
         }
         $count = number_format($user->averageRating->average_rating ?? 1);
         $avis = $user->getReviewsAttribute->count();
+
         return view('User.profile')
             ->with("user", $user)
             ->with('posts', $posts)
@@ -205,7 +256,6 @@ class HomeController extends Controller
             ->with('count', $count)
             ->with('avis', $avis);
     }
-
 
     public function informations()
     {

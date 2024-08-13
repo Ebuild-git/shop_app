@@ -448,9 +448,6 @@ body {
 
 
 .badge-like-post-count {
-    /* background-color: #018d8d;
-    border: none !important;
-    color: white !important; */
     background-color: rgba(255, 255, 255, 0.3);
     padding: 5px;
     border-radius: 5px;
@@ -1077,109 +1074,6 @@ body {
     }
 }
 
-
-
-
-
-/* .container-search {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 300px;
-    height: 100px;
-
-    .search-search {
-        position: absolute;
-        margin: auto;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 40px;
-        height: 40px;
-        color: white !important;
-        background: #008080;
-        border: none !important;
-        border-radius: 50%;
-        transition: all 1s;
-        z-index: 4;
-        box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
-
-        &:hover {
-            cursor: pointer;
-        }
-
-
-    }
-
-    input {
-        font-family: 'Inconsolata', monospace;
-        position: absolute;
-        margin: auto;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 50px;
-        outline: none;
-        border: none;
-        background: #008080;
-        color: white;
-        text-shadow: 0 0 10px #008080;
-        padding: 0 80px 0 20px;
-        border-radius: 30px;
-        box-shadow: 0 0 25px 0 #008080;
-        transition: all 1s;
-        opacity: 0;
-        z-index: 5;
-        font-weight: bolder;
-        letter-spacing: 0.1em;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        &:focus {
-            width: 300px;
-            opacity: 1;
-            cursor: text;
-        }
-
-        &:focus~.search-search {
-            right: -250px;
-            background: #151515;
-            z-index: 6;
-
-            &::before {
-                top: 0;
-                left: 0;
-                width: 25px;
-            }
-
-            &::after {
-                top: 0;
-                left: 0;
-                width: 25px;
-                height: 2px;
-                border: none;
-                background: white;
-                border-radius: 0%;
-                transform: rotate(-45deg);
-            }
-        }
-
-        &::placeholder {
-            color: white;
-            opacity: 0.5;
-            font-weight: bolder;
-        }
-    }
-} */
-
 .card-image-shop-categorie{
     height: 120px;
     overflow: hidden;
@@ -1378,3 +1272,29 @@ tbody td {
         right: 0px;
     }
 }
+
+.badge-container {
+    padding: 8px;
+    margin-top: 4px;
+}
+
+.badge-new {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.badge-danger-new {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.badge-discount {
+    background-color: #008080;
+    color: #fff;
+}
+
+
+
