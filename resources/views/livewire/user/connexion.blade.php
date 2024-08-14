@@ -4,10 +4,10 @@
         @include('components.alert-livewire')
 
         <div class="form-group">
-            <label>Adresse E-mail / Nom d'utilisateur</label>
+            <label>Adresse E-mail / Pseudonyme</label>
             <input type="text" name="email" id="email-login" autocomplete="off"
                 class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
-                placeholder="Email / Nom d'utilisateur">
+                placeholder="Email / Pseudonyme">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror

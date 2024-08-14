@@ -287,7 +287,7 @@
 
                 if (!regex.test(input)) {
                     errorMessage =
-                        "Le nom d'utilisateur doit contenir uniquement des lettres minuscules, des chiffres et des tirets (-).";
+                        "Le pseudonyme doit contenir uniquement des lettres minuscules, des chiffres et des tirets (-).";
                 }
 
                 // Afficher le message d'erreur
