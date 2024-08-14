@@ -331,6 +331,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="/checkout" class=" medium link-red text-medium">
+                                            Mon panier
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="/user-notifications" class=" medium link-red text-medium">
                                             Notifications
                                         </a>
