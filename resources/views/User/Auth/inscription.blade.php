@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <span for="small">Pseudonyme</span>
                                 <span class="text-danger">*</span>
-                                <input type="tel"class="form-control" value="{{ old('username') }}" id="username"
+                                <input type="text"class="form-control" value="{{ old('username') }}" id="username"
                                     name="username" required>
                                 <div id="error-message" style="color: red;"></div>
                                 @error('username')
