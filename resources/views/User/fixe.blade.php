@@ -469,31 +469,6 @@
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            {{-- <li class="elementToHideBeforeScroll hide-mobile-version d-none">
-                                <div class="div-sroll-recherche">
-                                    <form action="/shop" method="get" class="container-search"
-                                        style="margin-right: 150px !important;">
-                                        @csrf
-                                        <div class="container-search">
-                                            <input type="text" placeholder="Recherche..." name="key">
-                                            <button type="submit" class="search-search">
-                                                <i class="bi bi-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                @auth
-                                    <a href="/publication" class=" btn-publier-header cusor p-1 ">
-                                    @else
-                                        <a href="#" class=" btn-publier-header cusor p-1" data-toggle="modal"
-                                            data-target="#login">
-                                        @endauth
-                                        <span class="color small">
-                                            <i class="lni lni-circle-plus"></i>
-                                            Publier
-                                        </span>
-                                    </a>
-                            </li> --}}
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
 
                                 <div class="div-sroll-recherche">
@@ -606,6 +581,17 @@
                 </nav>
             </div>
         </div>
+        <script>
+            // Close the navbar when any link is clicked unless it's within a modal
+            document.querySelectorAll('.nav-menu a').forEach(item => {
+                item.addEventListener('click', function (event) {
+                    // Check if the click is outside the modal
+                    if (!event.target.closest('.modal')) {
+                        document.querySelector('.nav-menus-wrapper').classList.remove('nav-menus-wrapper-open');
+                    }
+                });
+            });
+        </script>
         <!-- End Navigation -->
         <div class="clearfix"></div>
         <!-- ============================================================== -->
