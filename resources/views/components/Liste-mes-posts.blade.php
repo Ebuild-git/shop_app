@@ -42,7 +42,7 @@
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                             {{ $item->getOldPrix() }} <sup>DH</sup>
                         @else
-                            {{ $item->Prix_initial() }} <sup>DH</sup>
+                            {{ $item->getPrix() }} <sup>DH</sup>
                         @endif
                     </td>
                     <td>
