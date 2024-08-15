@@ -170,6 +170,7 @@
         display: flex;
         justify-content: flex-end;
         margin-bottom: 20px;
+        position: relative;
     }
     .filter-group {
         display: flex;
@@ -184,11 +185,20 @@
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
+        position: relative;
     }
     .filter-select:focus {
         outline: none;
         border-color: #00a699;
         box-shadow: 0 0 0 2px rgba(0,166,153,0.2);
+    }
+    .filter-select option {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        min-width: 100%;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     .btn.bg-red {
         transition: all 0.3s ease;
@@ -211,4 +221,5 @@
         }
     });
 </script>
+
 @endsection
