@@ -316,8 +316,8 @@
                                 <i class="fa fa-angle-down medium text-light"></i>
                                 <ul class="dropdown-menu popup-content p-3 ">
                                     <li>
-                                        <a href="/mes-achats" class=" medium link-red text-medium">
-                                            Mes achats
+                                        <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
+                                            Mes annonces
                                         </a>
                                     </li>
                                     <li>
@@ -326,18 +326,13 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
-                                            Mes annonces
+                                        <a href="/mes-achats" class=" medium link-red text-medium">
+                                            Mes achats
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/checkout" class=" medium link-red text-medium">
                                             Mon panier
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/user-notifications" class=" medium link-red text-medium">
-                                            Notifications
                                         </a>
                                     </li>
                                     <li>
@@ -350,7 +345,11 @@
                                             Mes favoris
                                         </a>
                                     </li>
-
+                                    <li>
+                                        <a href="/user-notifications" class=" medium link-red text-medium">
+                                            Notifications
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="/informations" class=" medium link-red text-medium">
                                             Mon compte
