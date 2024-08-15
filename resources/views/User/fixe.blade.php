@@ -1214,7 +1214,7 @@
         localStorage.setItem('conditionsAccepted', true);
         $('#conditions').modal('hide');
         $("#validateCartButton").prop('disabled', false);
-        location.reload();
+        window.location.href = '/checkout?step=3'; // Redirect to the specified path
     });
 
     document.getElementById('conditiondiv').addEventListener('scroll', function() {
@@ -1222,6 +1222,8 @@
     });
 });
   </script>
+
+
     <!-- end Condition Modal -->
 
 

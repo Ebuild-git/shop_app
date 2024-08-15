@@ -135,10 +135,12 @@
                 localStorage.setItem('conditionsAccepted', 'true');
                 validateCartButton.disabled = false;
                 $('#conditions').modal('hide'); // Close the modal
-                location.reload(); // Reload the page
+                window.location.href = '/checkout?step=3'; // Redirect to the specified path
             });
         });
     </script>
+
+
     @endsection
 
 </div>
