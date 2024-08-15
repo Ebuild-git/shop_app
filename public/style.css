@@ -1296,8 +1296,3 @@ tbody td {
     color: #fff;
 }
 
-
-
-@media (max-width: 900px) { /* Adjust max-width as needed */
-    * { max-width: 100% !important; height: auto !important; overflow: 100% !important; }
-  }
