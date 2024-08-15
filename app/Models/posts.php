@@ -37,7 +37,6 @@ class posts extends Model
 
 
 
-  
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
@@ -47,8 +46,6 @@ class posts extends Model
         return number_format($prix_calculé, 2, '.', '') ?? "N/A";
     }
 
-
-
     public function getOldPrix()
     {
         if ($this->changements_prix->isNotEmpty()) {
@@ -57,13 +54,14 @@ class posts extends Model
 
             if ($old_prix !== null) {
                 $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
-                $prix = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
-                return number_format($prix, 2, '.', '') ?? "N/A";
+                $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
+                return number_format($prix_calculé, 2, '.', '') ?? "N/A";
             }
         }
 
         return null;
     }
+
 
 
 
@@ -142,24 +140,24 @@ class posts extends Model
             $updatedPriceDate = Carbon::parse($this->updated_price_at);
             $expiryDate = $updatedPriceDate->addWeeks(1);
             $now = Carbon::now();
-    
+
             // Vérifier si la date d'expiration est supérieure à la date actuelle
             if ($expiryDate <= $now) {
                 return false;
             }
-    
+
             // Calculer la différence en jours, heures et minutes
             $diffInDays = $now->diffInDays($expiryDate);
             $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
             $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
-    
+
             // Formater le temps restant
             return sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
         } else {
             return false;
         }
     }
-    
+
 
     public function motif()
     {
