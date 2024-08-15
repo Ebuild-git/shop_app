@@ -106,6 +106,49 @@
         text-align: center;
         white-space: normal;
     }
+
+    #agreeConditionButton {
+    background-color: #008080; /* Green color to attract attention */
+    color: white; /* White text for good contrast */
+    padding: 10px 20px; /* Increase the padding for a larger button */
+    font-size: 1.1rem; /* Slightly larger text */
+    border: none; /* Remove default borders */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow to lift the button */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#agreeConditionButton:hover {
+    background-color: #008080; /* Darker green on hover */
+    transform: scale(1.05); /* Slight scale-up effect on hover */
+}
+
+#agreeConditionButton:active {
+    transform: scale(0.98); /* Slight scale-down effect on click */
+}
+
+#agreeConditionButton::before {
+    content: '\2714'; /* Adds a checkmark symbol before the text */
+    margin-right: 8px; /* Adds space between the checkmark and the text */
+    font-size: 1.2rem; /* Adjust size of the icon */
+}
+
+#agreeConditionButton.pulsing {
+    animation: pulse 1.5s infinite; /* Pulse animation */
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 #008080;
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
 </style>
 </head>
 
@@ -186,6 +229,12 @@
         }
 
 
+
+    </script>
+    <script>
+        window.onload = function() {
+    document.getElementById('agreeConditionButton').classList.add('pulsing');
+}
 
     </script>
     @auth
