@@ -38,7 +38,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @auth
@@ -151,23 +150,7 @@
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
     }
 }
-@media (max-width: 200px) {
-            .modal-dialog {
-                margin: 0;
-                max-width: 50%;
-                height: 50%;
-            }
 
-            .modal-content {
-                height: 50%;
-                border: 0;
-                border-radius: 0;
-            }
-
-            .modal-body {
-                overflow-y: auto;
-            }
-        }
 </style>
 </head>
 
@@ -1018,6 +1001,7 @@
             </div>
         </div>
     </div> --}}
+    <!-- solution 2 -->
     <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditionsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -1039,6 +1023,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- Modal -->
 
 
