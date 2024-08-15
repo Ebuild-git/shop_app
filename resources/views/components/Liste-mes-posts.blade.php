@@ -36,14 +36,13 @@
                     <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#008080' : '' }}">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                             {{ $item->getPrix() }} <sup>DH</sup>
-
                         @endif
                     </td>
                     <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#808080' : '#008080' }}">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
-                        {{ $item->getOldPrix() }} <sup>DH</sup>
+                            {{ $item->getOldPrix() }} <sup>DH</sup>
                         @else
-                        {{ $item->getPrix() }} <sup>DH</sup>
+                            {{ $item->Prix_initial() }} <sup>DH</sup>
                         @endif
                     </td>
                     <td>
