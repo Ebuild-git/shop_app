@@ -21,6 +21,7 @@
     <!-- Custom CSS -->
 
     <link rel="shortcut icon" href="/icons/icone.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     @yield('head')
     @livewireStyles
@@ -35,6 +36,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{{ asset('assets/css/styles.css?v=') . time() }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -148,7 +151,23 @@
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
     }
 }
+@media (max-width: 200px) {
+            .modal-dialog {
+                margin: 0;
+                max-width: 50%;
+                height: 50%;
+            }
 
+            .modal-content {
+                height: 50%;
+                border: 0;
+                border-radius: 0;
+            }
+
+            .modal-body {
+                overflow-y: auto;
+            }
+        }
 </style>
 </head>
 
@@ -975,7 +994,7 @@
 
 
     <!-- Condition Modal -->
-    <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
+    {{-- <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
         aria-hidden="true">
         <div class="modal-dialog " role="document">
             <div class="modal-content" id="conditions">
@@ -995,9 +1014,34 @@
                         </button>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </div> --}}
+    <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditionsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="conditionsLabel">Conditions générales</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"  id="conditiondiv">
+                    @include('User.composants.text-conditions')
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark bg-dark" id="agreeConditionButton">
+                        J'accepte les conditions
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+    <!-- Modal -->
+
+
     <!-- End Modal -->
 
 
