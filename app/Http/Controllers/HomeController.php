@@ -29,30 +29,6 @@ use Illuminate\Support\Facades\Validator;
 class HomeController extends Controller
 {
 
-    // public function index()
-    // {
-    //     $categories = categories::all();
-    //     $configuration = configurations::firstorCreate();
-    //     $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
-    //         ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-    //         ->where('categories.luxury', false)
-    //         ->whereNull('posts.sell_at')
-    //         ->select("posts.id", "posts.photos")
-    //         ->Orderby("posts.created_at", "Desc")
-    //         ->Orderby("posts.updated_price_at", "Desc")
-    //         ->take(12)
-    //         ->get();
-
-    //     $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
-    //         ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-    //         ->where('categories.luxury', true)
-    //         ->whereNull('posts.sell_at')
-    //         ->orderby("posts.created_at", "Desc")
-    //         ->select("posts.id", "posts.photos")
-    //         ->take(8)->get();
-    //     return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
-    // }
-
     public function index()
     {
         $categories = categories::all();
