@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\posts;
 use App\Models\proprietes;
 use App\Models\sous_categories;
-use App\Models\History_change_price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -172,18 +171,16 @@ class ShopController extends Controller
 
         foreach ($posts as $post) {
             if ($post->statut == "vente") {
-            $history = History_change_price::where('id_post', $post->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+                // Calculate discount percentage if there is a price change
+                $originalPrice = $post->getOldPrix();
+                $currentPrice = $post->getPrix();
+                $discountPercentage = null;
 
-            $currentPrice = $post->getPrix();
-            $originalPrice = $history ? $history->old_price : $post->getOldPrix();
+                if ($originalPrice && $originalPrice > $currentPrice) {
+                    $discountPercentage = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
+                }
 
-            $discountPercentage = null;
-
-            if ($originalPrice && $originalPrice > $currentPrice) {
-                $discountPercentage = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
-            }
+                // Pass the discount percentage to the view
                 $subCardPostHtml = view('components.sub-card-post', [
                     'post' => $post,
                     'show' => true,
