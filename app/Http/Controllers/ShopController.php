@@ -16,7 +16,6 @@ class ShopController extends Controller
     public function index(Request $request)
     {
 
-
         ///////////- blog brouillons
         $Taille = strtolower($request->input('Taille')) ?? null;
         $Couleur = strtolower($request->input('Couleur')) ?? null;
@@ -230,4 +229,5 @@ class ShopController extends Controller
                 ]
             );
     }
+
 }
