@@ -283,11 +283,10 @@
                 var errorMessage = '';
 
                 // Expression régulière pour valider le format du nom d'utilisateur
-                var regex = /^[a-z0-9-]+$/;
-
+                var regex = /^[a-zA-Z0-9-!@#\$%\^&\*\(\)_\+]+$/;
                 if (!regex.test(input)) {
                     errorMessage =
-                        "Le pseudonyme doit contenir uniquement des lettres minuscules, des chiffres et des tirets (-).";
+                        "Le pseudonyme doit contenir uniquement des lettres , des chiffres et des caractères spéciaux (-!@# etc.).";
                 }
 
                 // Afficher le message d'erreur
