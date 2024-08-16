@@ -519,7 +519,7 @@
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                            {{-- <li class="elementToHideBeforeScroll hide-mobile-version d-none">
 
                                 <div class="div-sroll-recherche">
                                     <form action="/shop" method="get" class="container-search">
@@ -532,8 +532,42 @@
                                         </div>
                                     </form>
                                 </div>
+                            </li> --}}
+                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                                <div class="div-sroll-recherche">
+                                    <form action="/shop" method="get" class="container-search" onsubmit="return validateSearch()">
+                                        @csrf
+                                        <div class="container-search">
+                                            <input type="text" placeholder="Rechercher..." name="key" id="searchInput">
+                                            <button type="button" class="search-search" onclick="expandSearch()">
+                                                <i class="bi bi-search"></i>
+                                            </button>
+                                            <button type="submit" class="search-submit d-none"></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
 
-                        </li>
+                            <script>
+                                function expandSearch() {
+                                     var searchInput = document.getElementById('searchInput');
+                                     var submitButton = document.querySelector('.search-submit');
+
+                                     if (searchInput.style.width === '200px') {
+                                         if (searchInput.value.trim() === '') {
+                                             searchInput.style.width = '0';
+                                             searchInput.style.opacity = '0';
+                                             searchInput.blur();
+                                         } else {
+                                             submitButton.click();
+                                         }
+                                     } else {
+                                         searchInput.style.width = '200px';
+                                         searchInput.style.opacity = '1';
+                                         searchInput.focus();
+                                     }
+                                 }
+                             </script>
                         <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                             <div class="div-scroll-publier">
                                 @auth
@@ -563,6 +597,7 @@
                                     <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
                                     <span class="hide-desktop">Panier</span>
                                 </a>
+
 
                                 @guest
                                     <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"

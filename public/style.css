@@ -964,27 +964,28 @@ body {
 
 .div-scroll-publier{
     position: absolute;
-    margin-left:880px;
+    margin-left:auto;
+    margin-right: 15%;
     margin-bottom: 20px;
     margin-top: 15px;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
+    width: 100px;
     height: 100px;
 }
 .container-search {
     position: absolute;
-    margin-right: 50px;
-    margin-left: 285px;
+    margin-right: 20%;
+    margin-left: auto;
     margin-bottom: 20px;
     margin-top: -10px;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
+    width: 100px;
     height: 100px;
 
     .search-search {
@@ -1002,32 +1003,30 @@ body {
         border-radius: 50%;
         transition: all 1s;
         z-index: 4;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 
         &:hover {
             cursor: pointer;
         }
-
-
     }
 
     input {
         font-family: 'Inconsolata', monospace;
         position: absolute;
-        margin: auto;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 40px;
-        height: 40px;
+        top: 50%;
+        right: 70px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 35px;
         outline: none;
         border: none;
-        background: #a5a5a5;
-        color: white;
-        text-shadow: 0 0 10px #a5a5a5;
-        padding: 0 80px 0 20px;
+        background: #e4e4e4;
+        color: black;
+        text-shadow: 0 0 10px #e4e4e4;
+        padding: 0 20px;
         border-radius: 30px;
-        transition: all 1s;
+        box-shadow: 0 0 10x 0 #e4e4e4;
+        transition: width 0.5s ease;
         opacity: 0;
         z-index: 5;
         font-weight: bolder;
@@ -1043,31 +1042,8 @@ body {
             cursor: text;
         }
 
-        &:focus~.search-search {
-            right: -250px;
-            background: #a5a5a5;
-            z-index: 6;
-
-            &::before {
-                top: 0;
-                left: 0;
-                width: 25px;
-            }
-
-            &::after {
-                top: 0;
-                left: 0;
-                width: 25px;
-                height: 2px;
-                border: none;
-                background: white;
-                border-radius: 0%;
-                transform: rotate(-45deg);
-            }
-        }
-
         &::placeholder {
-            color: white;
+            color: rgb(0, 0, 0);
             opacity: 0.5;
             font-weight: bolder;
         }
@@ -1205,15 +1181,6 @@ thead th {
 tbody td {
     vertical-align: top !important;
 }
-
-
-
-
-
-
-
-
-
 
 
 
