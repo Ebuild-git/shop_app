@@ -59,7 +59,8 @@
             <div class="row">
 
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
-                    <div class="search-sidebar sm-sidebar border">
+                    {{-- <div class="search-sidebar sm-sidebar border"> --}}
+                    <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
                             <div class="single_search_boxed ">
@@ -326,7 +327,7 @@
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class=" mb-3 mfliud">
                                 <div class="d-flex justify-content-between p-2 m-0">
@@ -343,11 +344,34 @@
                                             @endif
                                         </select>
                                     </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+                            <div class="mb-3 mfliud">
+                                <div class="d-flex justify-content-between p-2 m-0">
+                                    <div>
+                                        <!-- Left side empty as in the original -->
+                                    </div>
+                                    <div class="modern-select-wrapper">
+                                        <select name="filtre-ordre" id="filtre-ordre" class="modern-select">
+                                            <option value="">Trier par</option>
+                                            <option value="prix_asc">Prix croissant</option>
+                                            <option value="prix_desc">Prix décroissant</option>
+                                            <option value="Soldé">Articles Soldés</option>
+                                            @if (!$selected_categorie)
+                                                <option value="luxury">Luxury uniquement</option>
+                                            @endif
+                                        </select>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     {{-- suggestion des attributs des propriétés --}}
 
                     <div class="text-center p-5" id="loading">
@@ -785,5 +809,51 @@ $(document).on('click', '.pagination li', function() {
             background-color: #008080;
             color: white;
         }
+        @media (max-width: 768px) {
+            .hide-on-mobile {
+                display: none;
+            }
+        }
+
+        .modern-select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .modern-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            padding: 8px 30px 8px 15px;
+            font-size: 14px;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modern-select:hover, .modern-select:focus {
+            border-color: #008080;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #495057;
+        }
+
+        /* Optional: Style for when the select is open */
+        .modern-select:active + .select-arrow,
+        .modern-select:focus + .select-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
     </style>
 @endsection
