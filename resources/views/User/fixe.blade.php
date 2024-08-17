@@ -152,9 +152,18 @@
 }
 
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
+    .logo-container {
+        display: flex;
+        justify-content: center;
         text-align: center;
+    }
+
+    .logo-container img {
+        margin: 0 auto;
+    }
+
+    .nav-brand {
+        display: block;
     }
 
     .col-sm-2,
@@ -171,11 +180,13 @@
     .form-control {
         width: 100%;
         margin-bottom: 10px;
+        margin-top: 5px;
     }
 
     .btn-publier-header {
         width: 100%;
         margin-bottom: 10px;
+        margin-top: 5px;
     }
 
     .dropdown-menu {
@@ -356,7 +367,7 @@
 
         <div class="container pt-2 pb-2">
             <div class="row">
-                <div class="col-sm-2 col-4">
+                <div class="col-sm-2 col-4 logo-container">
                     <a class="nav-brand" href="/">
                         <img src="/icons/logo.png" class="logo" alt="" />
                     </a>
