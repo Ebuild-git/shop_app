@@ -220,8 +220,13 @@
 
 
                     <div class="p-1">
-                        En cliquant sur S’inscrire, vous acceptez nos
+                        <input type="checkbox" id="acceptConditions" onclick="toggleSubmitButton()">
+                    <label for="acceptConditions">
+                        En cliquant ici, vous acceptez nos
                         <a href="/conditions" target="__blank"> <b>Conditions générales</b> </a>.
+                    </label>
+                    <br>
+
                         Vous recevrez peut-être des notifications
                         par texto de notre part et vous pouvez à tout moment vous désabonner.
                     </div>
@@ -229,7 +234,7 @@
                     <br>
                     <div>
                         <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium"
-                            id="submit" wire:loading.attr="disabled">
+                            id="submit" wire:loading.attr="disabled" disabled>
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
@@ -299,5 +304,11 @@
             });
         });
     </script>
-
+    <script>
+        function toggleSubmitButton() {
+            var submitButton = document.getElementById('submit');
+            var checkbox = document.getElementById('acceptConditions');
+            submitButton.disabled = !checkbox.checked;
+        }
+    </script>
 @endsection
