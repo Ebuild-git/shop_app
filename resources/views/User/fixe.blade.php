@@ -118,26 +118,26 @@
     border-radius: 5px; /* Rounded corners for a modern look */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow to lift the button */
     transition: background-color 0.3s ease, transform 0.2s ease;
-}
+    }
 
-#agreeConditionButton:hover {
-    background-color: #008080; /* Darker green on hover */
-    transform: scale(1.05); /* Slight scale-up effect on hover */
-}
+    #agreeConditionButton:hover {
+        background-color: #008080;
+        transform: scale(1.05);
+    }
 
-#agreeConditionButton:active {
-    transform: scale(0.98); /* Slight scale-down effect on click */
-}
+    #agreeConditionButton:active {
+        transform: scale(0.98);
+    }
 
-#agreeConditionButton::before {
-    content: '\2714'; /* Adds a checkmark symbol before the text */
-    margin-right: 8px; /* Adds space between the checkmark and the text */
-    font-size: 1.2rem; /* Adjust size of the icon */
-}
+    #agreeConditionButton::before {
+        content: '\2714';
+        margin-right: 8px;
+        font-size: 1.2rem;
+    }
 
-#agreeConditionButton.pulsing {
-    animation: pulse 1.5s infinite; /* Pulse animation */
-}
+    #agreeConditionButton.pulsing {
+        animation: pulse 1.5s infinite;
+    }
 
 @keyframes pulse {
     0% {
@@ -150,6 +150,42 @@
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
     }
 }
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .col-sm-2,
+    .col-sm-7,
+    .col-sm-3 {
+        flex: 100%;
+        max-width: 100%;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btn-publier-header {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
 
 </style>
 </head>
@@ -519,20 +555,6 @@
                             <li>
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            {{-- <li class="elementToHideBeforeScroll hide-mobile-version d-none">
-
-                                <div class="div-sroll-recherche">
-                                    <form action="/shop" method="get" class="container-search">
-                                        @csrf
-                                        <div class="container-search">
-                                            <input type="text" placeholder="Recherche..." name="key">
-                                            <button type="submit" class="search-search">
-                                                <i class="bi bi-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li> --}}
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                 <div class="div-sroll-recherche">
                                     <form action="/shop" method="get" class="container-search" onsubmit="return validateSearch()">
@@ -1010,33 +1032,6 @@
     </div>
     <!-- End Modal -->
 
-
-    <!-- Condition Modal -->
-    {{-- <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditions"
-        aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content" id="conditions">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-
-                <div class="modal-body p-5 modal-dialog-scrollable" id="conditiondiv">
-                    @include('User.composants.text-conditions')
-                </div>
-                <div class="p-2">
-                    <div class="modal-footer">
-                        <button type="button" class="btn  bg-dark  btn-sm" id="agreeConditionButton">
-                            J'accepte les conditions
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div> --}}
-    <!-- solution 2 -->
     <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditionsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
