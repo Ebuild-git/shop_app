@@ -84,7 +84,7 @@ class UpdatePrix extends Component
                 }
 
                 if ($post->old_prix === null) {
-                    $post->old_prix = $post->prix;
+                    $post->old_prix = $old_price; // Set old_prix to the current prix the first time
                 }
 
                 $post->prix = $this->prix;
@@ -104,5 +104,6 @@ class UpdatePrix extends Component
             }
         }
     }
+
 
 }

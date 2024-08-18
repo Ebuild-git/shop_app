@@ -46,19 +46,19 @@ class posts extends Model
         return number_format($prix_calculé, 2, '.', '') ?? "N/A";
     }
 
+
+
     public function getOldPrix()
     {
         if ($this->changements_prix->isNotEmpty()) {
-            $lastChangementPrix = $this->changements_prix->last();
-            $old_prix = $lastChangementPrix ? $lastChangementPrix->old_price : null;
-
+            $firstChangementPrix = $this->changements_prix->first();
+            $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
             if ($old_prix !== null) {
                 $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
                 $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
                 return number_format($prix_calculé, 2, '.', '') ?? "N/A";
             }
         }
-
         return null;
     }
 
