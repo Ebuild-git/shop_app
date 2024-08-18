@@ -15,7 +15,7 @@
         @if ($post->sous_categorie_info->categorie->luxury == 1)
         <div class="color strong" style="font-size: 12px;">
             <i class="bi bi-gem"></i>
-            LUXURY
+            <span class="luxury-text">LUXURY</span>
         </div>
         @endif
     </div>
@@ -51,3 +51,22 @@
     </div>
     @endif
 </div>
+
+<style>
+    .color.strong i {
+    margin-right: 1px;
+    }
+
+    .color.strong .luxury-text {
+        margin-left: 0;
+    }
+
+    @media (max-width: 768px) {
+    .luxury-text {
+        display: none;
+    }
+    .color.strong i {
+        font-weight: bold;
+    }
+}
+</style>
