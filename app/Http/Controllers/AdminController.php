@@ -6,6 +6,7 @@ use App\Models\categories;
 use App\Models\posts;
 use App\Models\proprietes;
 use App\Models\User;
+use App\Models\UserCart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -126,10 +127,21 @@ class AdminController extends Controller
 
 
     public function index_logout(){
+        $user = Auth::user();
+        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+
+        if ($user && $cart) {
+            foreach ($cart as $item) {
+                UserCart::updateOrCreate(
+                    ['user_id' => $user->id, 'post_id' => $item['id']]
+                );
+            }
+        }
+
         Auth::logout();
         setcookie('cart', '', time() - 3600, '/', null, null, true);
         return redirect('/')->with('clearLocalStorage', true);
-    }
+        }
 
 
 

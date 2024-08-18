@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\User;
+use App\Models\UserCart;
 use Livewire\Component;
 
 class Connexion extends Component
@@ -27,50 +28,55 @@ class Connexion extends Component
     {
         $this->validate();
 
-        // verifier que l'email existe si non retourner l'erreur
-        $user = User::where("email", $this->email)->Orwhere('username', $this->email)->first();
+        // Verify that the email exists, if not return an error
+        $user = User::where("email", $this->email)
+                    ->orWhere('username', $this->email)
+                    ->first();
+
         if (!$user) {
             session()->flash("error", "Cet utilisateur n'existe pas");
             $this->reset(['email', 'password']);
             return;
         }
 
-        //verifier que le mot de passe est ok
+        // Verify that the password is correct
         if (!password_verify($this->password, $user->password)) {
             session()->flash("error", "Mot de passe incorrect");
-            $this->error = $this->error + 1;
-            $this->password="";
+            $this->error++;
+            $this->password = "";
+
             if ($this->error == 5) {
                 return redirect("/forget")
-                ->with("error", "Tentatives dépassées veuillez réessayer plus tard ou réinitialiser votre mot de passe si vous avez oublié !");
+                    ->with("error", "Tentatives dépassées. Veuillez réessayer plus tard ou réinitialiser votre mot de passe.");
             }
-            return;
-        };
 
-        //verifier que l'utilisateur a bien verifier son compte avec l'email de verification
+            return;
+        }
+
         if (!$user->hasVerifiedEmail()) {
             session()->flash("info", "Veuillez vérifier votre boite mail pour activer votre compte.");
             return;
         }
 
-        //verifer que il a le role User 
         if ($user->hasRole('admin')) {
-            session()->flash("error", "Vous n'avez pas l'autorisation de vous connecter");
+            session()->flash("error", "Vous n'avez pas l'autorisation de vous connecter.");
             return;
         }
 
-        if($user->locked == true){
-            session()->flash("error","Compte bloqué. Veuillez contacter un administrateur pour réactiver votre compte.");
+        if ($user->locked == true) {
+            session()->flash("error", "Compte bloqué. Veuillez contacter un administrateur pour réactiver votre compte.");
             return;
         }
-
-
-        //enregistrer la derniere date de connexion
-        $user->update(['last_login_at'=>now()]);
-
-        //connecter l'utilisateur
+        $user->update(['last_login_at' => now()]);
         auth()->login($user);
+        $savedCart = UserCart::where('user_id', $user->id)->get();
+        $cart = [];
 
+        foreach ($savedCart as $item) {
+            $cart[] = ['id' => $item->post_id];
+        }
+        setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
         return redirect('/');
     }
+
 }

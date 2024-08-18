@@ -17,6 +17,7 @@ use App\Models\regions;
 use App\Models\signalements;
 use App\Models\sous_categories;
 use App\Models\User;
+use App\Models\UserCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -367,26 +368,25 @@ class HomeController extends Controller
     public function count_panier()
     {
         $user = Auth::user();
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        $cartItems = UserCart::where('user_id', $user->id)->get();
         $produits = [];
         $montant = 0;
         $html = '';
-        foreach ($cart ?? [] as $item) {
-            $produit = posts::where('id', $item['id'])->where('id_user', '!=', $user->id)->first();
-            if ($produit) {
 
+        foreach ($cartItems as $item) {
+            $produit = posts::where('id', $item->post_id)->where('id_user', '!=', $user->id)->first();
+            if ($produit) {
                 $CartItem = view('components.cart-item', ['produit' => $produit])->render();
                 $montant += $produit->getPrix();
-
                 $html .= $CartItem;
             } else {
-                $this->delete_form_cart($item['id']);
+                $this->delete_form_cart($item->post_id);
             }
         }
 
         return response()->json(
             [
-                'count' => count($cart ?? []),
+                'count' => $cartItems->count(),
                 'produits' => $produits,
                 'montant' => number_format($montant, 2, '.', '') . " DH",
                 'html' => $html,
@@ -396,82 +396,78 @@ class HomeController extends Controller
     }
 
 
-
-
     public function remove_to_card(Request $request)
     {
         $id = $request->input('id') ?? "";
+
         if ($id) {
             $this->delete_form_cart($id);
-            return response()->json(
-                [
-                    'statut' => true,
-                ]
-            );
-        }
-    }
 
+            return response()->json([
+                'status' => true,
+                'message' => "Article retiré de votre panier",
+                'exist' => false,
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid product ID',
+        ]);
+    }
 
 
     public function add_panier(Request $request)
     {
         $id = $request->input('id') ?? "";
         $post = posts::where("id", $id)->where("statut", "vente")->first();
+
         if (!$post) {
-            //json error
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => "Cet article n'est plus disponible a la vente",
-                    'exist' => false,
-                ]
-            );
+            return response()->json([
+                'status' => true,
+                'message' => "Cet article n'est plus disponible à la vente",
+                'exist' => false,
+            ]);
         }
 
         if ($post->id_user == Auth::user()->id) {
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
-                    'exist' => false,
-                ]
-            );
+            return response()->json([
+                'status' => true,
+                'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
+                'exist' => false,
+            ]);
         }
 
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        $productExists = false;
-        foreach ($cart ?? [] as $item) {
-            if ($item['id'] == $post->id) {
-                $productExists = true;
-                break;
-            }
-        }
+        $user = Auth::user();
+        $productExists = UserCart::where('user_id', $user->id)
+                                ->where('post_id', $post->id)
+                                ->exists();
 
         if (!$productExists) {
-            $cart[] = [
-                'id' => $post->id,
-            ];
-            setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
-            return response()->json(
-                [
-                    'status' => false,
-                    'message' => "Article ajouté avec succès",
-                    'exist' => true,
-                ]
-            );
+            // Add the product to the `user_carts` table
+            UserCart::create([
+                'user_id' => $user->id,
+                'post_id' => $post->id,
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => "Article ajouté avec succès",
+                'exist' => true,
+            ]);
         } else {
-            $this->delete_form_cart($id);
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => "Article rétiré de votre panier",
-                    'exist' => false,
-                ]
-            );
+            // Remove the product from the `user_carts` table
+            UserCart::where('user_id', $user->id)
+                    ->where('post_id', $post->id)
+                    ->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Article retiré de votre panier",
+                'exist' => false,
+            ]);
         }
     }
-
-
 
 
     public function like(Request $request)
@@ -548,18 +544,11 @@ class HomeController extends Controller
 
     public function delete_form_cart($id)
     {
-        if (!is_numeric($id) || $id < 0) {
-            return;
-        }
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        foreach ($cart as $index => $item) {
-            if ($item['id'] == $id) {
-                unset($cart[$index]);
-                break;
-            }
-        }
-        $cart = array_values($cart);
-        setcookie('cart', json_encode($cart), time() + (86400 * 30), '/');
+        $user = Auth::user();
+
+        UserCart::where('user_id', $user->id)
+            ->where('post_id', $id)
+            ->delete();
     }
 
 

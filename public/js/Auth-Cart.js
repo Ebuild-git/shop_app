@@ -71,24 +71,22 @@ function delete_my_post(id) {
     });
 }
 
+
 function CountPanier() {
     $.get("/count_panier", function (data, status) {
         if (status === "success") {
             $("#CountPanier-value").text(data.count);
             $("#Contenu-panier").html(data.html);
             $("#montant-panier").text(data.montant);
-
             if (data.count > 1) {
                 $(".CountPanier-value").text(data.count + " articles");
             } else {
                 $(".CountPanier-value").text(data.count + " article");
             }
-
             if (data.count > 0) {
                 $("#empty-card-div").hide();
                 $("#cart_select_items").show();
             } else {
-                //si il ya aucun element dans le panier on cache les options
                 $("#cart_select_items").hide();
                 $("#empty-card-div").show();
             }
@@ -107,22 +105,33 @@ function CountNotification() {
 function remove_to_card(id) {
     Swal.fire({
         title: "Es-tu sûr?",
-        text: "Voulez vous réttiré ceci de votre panier ?",
+        text: "Voulez-vous retirer ceci de votre panier ?",
         showCancelButton: true,
         confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Valider ",
-        cancelButtonText: "Annuler ",
+        confirmButtonText: "Valider",
+        cancelButtonText: "Annuler",
     }).then((result) => {
         if (result.isConfirmed) {
             $.get(
                 "/remove_to_card",
-                {
-                    id: id,
-                },
+                { id: id },
                 function (data, status) {
-                    if (status) {
+                    if (status === "success") {
                         CountPanier();
+
+                        if (data.status && !data.exist) {
+                            $("#add-cart-text-btn").text("Ajouter au panier");
+                            $("#btn-add-to-card").removeClass("bg-dark");
+
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                        }
                     }
                 }
             );
@@ -130,15 +139,15 @@ function remove_to_card(id) {
     });
 }
 
+
 function add_cart(id) {
     $.get(
         "/add_panier",
-        {
-            id: id,
-        },
+        { id: id },
         function (data, status) {
-            if (status) {
+            if (status === "success") {
                 CountPanier();
+
                 Swal.fire({
                     position: "center",
                     icon: false,
@@ -146,18 +155,15 @@ function add_cart(id) {
                     showConfirmButton: false,
                     timer: 2500,
                 });
+
                 Livewire.dispatch("PostAdded");
+
                 document.getElementById("Cart").style.display = "block";
-                // affichier le message de success ajouter pour 10 secondes
-                $("#div-success-add-card").show("slow");
-                $("#div-success-add-card").html(data.message);
-                if (data.exist) {
-                    $("#add-cart-text-btn").text("Retirer du panier");
-                    $("#btn-add-to-card").addClass("bg-dark");
-                } else {
-                    $("#add-cart-text-btn").text("Ajouter au panier");
-                    $("#btn-add-to-card").removeClass("bg-dark");
-                }
+
+                $("#div-success-add-card").show("slow").html(data.message);
+
+                updateButtonState(data.exist);
+
                 setTimeout(function () {
                     $("#div-success-add-card").hide("slow");
                 }, 7000);
@@ -165,6 +171,17 @@ function add_cart(id) {
         }
     );
 }
+
+function updateButtonState(isInCart) {
+    if (isInCart) {
+        $("#add-cart-text-btn").text("Retirer du panier");
+        $("#btn-add-to-card").addClass("bg-dark");
+    } else {
+        $("#add-cart-text-btn").text("Ajouter au panier");
+        $("#btn-add-to-card").removeClass("bg-dark");
+    }
+}
+
 
 function delete_notification(id) {
     $.get(
@@ -252,17 +269,13 @@ function get_posts_motifs(id) {
         },
         function (response, status) {
             if (status === "success" && response.statut) {
-                console.log(response); // Affiche la réponse complète
-                console.log(response.data); // Affiche la propriété 'data' de la réponse
+                console.log(response);
+                console.log(response.data);
 
-                // Vérifiez si 'response.data' est défini et est un tableau
                 if (Array.isArray(response.data)) {
-                    // Ouvrir la modal Motifs-des-refus
                     $("#modal_motifs_des_refus").modal("toggle");
-                    // Vider le contenu du tbody du tableau
                     $("#modal_motifs_des_refus-table tbody").html("");
 
-                    // Ajouter les motifs de refus au tbody du tableau
                     $.each(response.data, function (index, value) {
                         $("#modal_motifs_des_refus-table tbody").append(
                             "<tr>" +
