@@ -31,7 +31,7 @@ class DetailsPublicationAction extends Component
             $post->verified_at = now();
             $post->statut = 'vente';
             $post->save();
-           
+
             event(new UserEvent($post->id_user));
             //make notification
             $notification = new notifications();
@@ -84,7 +84,7 @@ class DetailsPublicationAction extends Component
             //envoie de la notification a celui qui a poster pour l'informer
             //make notification
             event(new UserEvent($post->id_user));
-            
+
             $notification = new notifications();
             $notification->titre = "Une vente a été retouner ";
             $notification->id_user_destination  =  $post->id_user;
@@ -104,7 +104,7 @@ class DetailsPublicationAction extends Component
 
 
     public function refuser(){
-        
+
     }
 
     public function mark_as_livrer(){
@@ -128,16 +128,22 @@ class DetailsPublicationAction extends Component
             session()->flash('success', 'La publication à bien été livré');
         }
     }
-
-    public function delete()
+    public function delete($postId)
     {
-        $post = posts::find($this->post->id);
+        $post = posts::find($postId);
+
         if ($post) {
-            //update verified_at date
-            $post->delete();
-            return redirect()->back();
+            try {
+                $post->delete();
+                session()->flash("success", "Post deleted successfully.");
+            } catch (\Exception $e) {
+                session()->flash("error", "An error occurred: " . $e->getMessage());
+            }
         } else {
-            session()->flash("error", "Une erreur est survenue lors de la suppression");
+            session()->flash("error", "Post not found.");
         }
     }
+
+
+
 }

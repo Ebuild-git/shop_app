@@ -27,7 +27,7 @@
             </button>
         @endif
         @if ($post->sell_at == null)
-            <button type="button" class="btn btn-danger btn-block" wire:click=delete()>
+            <button type="button" class="btn btn-danger btn-block" wire:click="delete({{ $post->id }})">
                 <i class="bi bi-x-lg"></i>
                 &nbsp;
                 supprimer
