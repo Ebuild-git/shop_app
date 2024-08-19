@@ -38,6 +38,9 @@
         .bg-white {
             background-color: white;
         }
+        .btn-rounded {
+            border-radius: 50px;
+        }
     </style>
 
 </head>
@@ -63,10 +66,10 @@
 
                     Vous venez de créer un compte SHOPIN. <br>
                     Avant de pouvoir utiliser votre compte, vous devez vérifier que cette adresse
-                    e-mail est bien la vôtre.
+                    e-mail est bien la votre.
                 </p>
                 <a href=" {{ route('verify_account', ['id_user' => $user->id, 'token' => $token]) }} "
-                    class="btn btn-infos w-100">
+                    class="btn btn-infos w-100 btn-rounded">
                     <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png"
                         alt="link--v1" />
                     Confirmer maintenant
@@ -75,7 +78,7 @@
                 <p>
                     Merci et bienvenue parmi nous !
                     <br>
-                    L’équipe SHOPIN
+                    L’équipe de <strong style="color:black;">SHOP</strong><span class="color"><strong>IN</strong></span>
                 </p>
                 <br>
                 <p>
