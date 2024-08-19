@@ -38,9 +38,27 @@
         .bg-white {
             background-color: white;
         }
-        .btn-rounded {
-            border-radius: 50px;
-        }
+        .btn-confirm {
+        background-color: #008080; /* Adjust this color to match exactly */
+        color: white;
+        font-weight: bold;
+        border-radius: 4px; /* Slightly rounded corners */
+        padding: 10px 20px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        border: none;
+        font-size: 14px; /* Adjust as needed */
+    }
+
+    .btn-confirm img {
+        margin-right: 8px; /* Space between icon and text */
+    }
+
+    .btn-confirm:hover {
+        background-color: #006666; /* Darker shade for hover effect */
+        color: white;
+    }
     </style>
 
 </head>
@@ -69,9 +87,8 @@
                     e-mail est bien la votre.
                 </p>
                 <a href=" {{ route('verify_account', ['id_user' => $user->id, 'token' => $token]) }} "
-                    class="btn btn-infos w-100 btn-rounded">
-                    <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png"
-                        alt="link--v1" />
+                    class="btn btn-confirm">
+                    <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png" alt="link--v1" />
                     Confirmer maintenant
                 </a>
                 <br>
