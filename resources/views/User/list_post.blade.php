@@ -95,7 +95,7 @@
             </form>
         </div>
 
-        @include('components.Liste-mes-posts', ['posts' => $posts])
+        @include('components.Liste-mes-posts', ['posts' => $posts, 'showRemainingTimeColumn' => $type == 'vente'])
 
     </div>
 

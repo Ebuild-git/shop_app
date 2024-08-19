@@ -8,7 +8,9 @@
                     <th scope="col">Prix aprés réduction</th>
                     <th scope="col">Prix de base</th>
                     <th scope="col">Dernière modification de prix</th>
+                    @if($showRemainingTimeColumn)
                     <th scope="col">Temps restant pour une nouvelle modification</th>
+                    @endif
                     <th scope="col">Statut de l'annonce</th>
                     <th scope="col">Raison de suppression par SHOPIN</th>
                     <th scope="col"></th>
@@ -51,11 +53,13 @@
                             \Carbon\Carbon::parse($item->updated_price_at)->format('d-m-Y \à H:m') : '-' }}
                         </span>
                     </td>
+                    @if($showRemainingTimeColumn)
                     <td>
                         <span class="small">
                             {{ $item->next_time_to_edit_price() }}
                         </span>
                     </td>
+                    @endif
                     <td class="text-capitalize my-auto">
                         @if (!$item->motif_suppression)
                         <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
