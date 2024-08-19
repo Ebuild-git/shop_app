@@ -157,9 +157,6 @@ class CreatePost extends Component
         $this->prix = $value;
     }
 
-
-
-
     public function before_post()
     {
         try {
@@ -180,37 +177,38 @@ class CreatePost extends Component
                 'required' => "Ce champ est obligatoire"
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Les erreurs sont automatiquement sur chaque babge error de chaque input
-            $this->dispatch('alert', ['message' => "", 'type' => 'warning']);
-
             $errors = $e->validator->getMessageBag();
             foreach ($errors->keys() as $field) {
                 foreach ($errors->get($field) as $message) {
                     $this->addError($field, $message);
                 }
             }
-
-            return;
+            return false;
         }
 
-
-
-
-
+        // Custom logic to check for luxury and non-luxury categories
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
-        if ($sous_categorie->categorie->luxury == 1) {
+        $category = $sous_categorie->categorie;
+
+        if ($category->luxury == 1) {
             if ($this->prix < 800) {
-                //le prix doit dépasse 800 DH
-                $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouter a la catégorie LUXURY');
-                return;
+                $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
+                return false;
+            }
+        } else {
+            $luxuryCategory = categories::where('titre', $category->titre)
+                ->where('luxury', 1)
+                ->first();
+
+            if ($luxuryCategory && $this->prix >= 800) {
+                $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
+                return false;
             }
         }
 
         $jsonProprietes = array_filter($this->article_propriete, function($value) {
             return !empty($value);
         });
-
-
 
         $photos = [];
         if ($this->photo1) {
@@ -233,10 +231,11 @@ class CreatePost extends Component
             $name = $this->photo5->store('uploads/posts', 'public');
             $photos[] = $name;
         }
-
-
-
-        $data_post = [
+        if (empty($photos)) {
+            $this->addError('photos', 'Vous devez ajouter au moins une photo!');
+            return false;
+        }
+        $this->data_post = [
             "titre" => $this->titre,
             "description" => $this->description,
             "photos" => $photos,
@@ -254,31 +253,37 @@ class CreatePost extends Component
             "created_at" => now(),
         ];
 
-        $this->data_post = $data_post;
+        return true;
     }
-
-
-
 
     public function preview()
     {
-        $this->before_post();
-        if ($this->data_post) {
-            //verifier que l'utilisateur a ajouter au moins une photo
-            if (empty($this->data_post["photos"])) {
-                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
-                return;
+        if (!$this->before_post()) {
+            if ($this->getErrorBag()->has('prix')) {
+                $this->dispatch('alert', [
+                    'message' => $this->getErrorBag()->first('prix'),
+                    'type' => 'warning',
+                ]);
             } else {
-                $this->dispatch('openmodalpreview', $this->data_post);
-                return;
+                $this->dispatch('alert2', [
+                    'message' => "Veuillez remplir tous les champs obligatoires avant de publier !",
+                    'type' => 'warning',
+                    'time' => 5000
+                ]);
             }
-        } else {
-            $this->dispatch('alert2', ['message' => "Veuillez remplir tous les champs obligatoires avant de publier !", 'type' => 'warning', 'time' => 5000]);
             return;
         }
+        if (empty($this->data_post["photos"])) {
+            $this->dispatch('alert', [
+                'message' => "Vous devez ajouter au moins une photo!",
+                'type' => 'warning'
+            ]);
+            return;
+        }
+
+        // Open the preview modal if all checks pass
+        $this->dispatch('openmodalpreview', $this->data_post);
     }
-
-
 
 
 
