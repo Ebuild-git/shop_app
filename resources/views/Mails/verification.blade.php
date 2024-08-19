@@ -39,26 +39,25 @@
             background-color: white;
         }
         .btn-confirm {
-        background-color: #008080; /* Adjust this color to match exactly */
-        color: white;
-        font-weight: bold;
-        border-radius: 4px; /* Slightly rounded corners */
-        padding: 10px 20px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        border: none;
-        font-size: 14px; /* Adjust as needed */
-    }
+            background-color: #008080;
+            color: white;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            font-size: 14px;
+        }
 
-    .btn-confirm img {
-        margin-right: 8px; /* Space between icon and text */
-    }
+        .btn-confirm:hover {
+            background-color: #006666;
+            color: white;
+        }
 
-    .btn-confirm:hover {
-        background-color: #006666; /* Darker shade for hover effect */
-        color: white;
-    }
+        .btn-confirm img {
+            margin-right: 8px;
+        }
     </style>
 
 </head>
