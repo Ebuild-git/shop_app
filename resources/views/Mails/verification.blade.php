@@ -45,15 +45,15 @@
             border-radius: 20px;
             padding: 10px 20px;
             text-decoration: none;
-            display: inline-flex;  /* Changed from inline-block to inline-flex */
-            align-items: center;   /* This centers items vertically */
-            justify-content: center; /* This centers items horizontally */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border: none;
             font-size: 14px;
         }
 
         .btn-confirm:hover {
-            background-color: #006666;
+            background-color: white;
             color: white;
         }
 
