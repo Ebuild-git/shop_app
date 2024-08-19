@@ -45,7 +45,9 @@
             border-radius: 20px;
             padding: 10px 20px;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;  /* Changed from inline-block to inline-flex */
+            align-items: center;   /* This centers items vertically */
+            justify-content: center; /* This centers items horizontally */
             border: none;
             font-size: 14px;
         }
