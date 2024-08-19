@@ -209,6 +209,7 @@
                                         <i class="bi bi-eye"></i>
                                     </span>
                                 </button>
+
                             </div>
                             @error('password')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -311,4 +312,6 @@
             submitButton.disabled = !checkbox.checked;
         }
     </script>
+
+
 @endsection
