@@ -46,16 +46,23 @@
             </button> @endif
 </form>
 @else
-<div class="text-center
-                            p-2">
-                        <img width="64" height="64" src="https://img.icons8.com/wired/64/008080/calendar--v1.png"
-                            alt="calendar--v1" />
-                        <br>
-                        <p>
-                            Vous ne pouvez pas modifier cette annonce car elle a été modifiée il y a plus moins d'une
-                            semaine.
-                        </p>
-</div>
+        <div class="text-center p-2">
+            <img width="64" height="64" src="https://img.icons8.com/wired/64/008080/calendar--v1.png"
+                alt="calendar--v1" />
+            <br>
+            <p>
+                Vous ne pouvez pas modifier cette annonce car elle a été modifiée il y a plus moins d'une
+                semaine.
+            </p>
+            <div class="flex items-center mt-3">
+                <span class="text-teal-600 text-xl font-bold">
+                    <i style="color: #008080;" class="fas fa-clock"></i> Temps restant avant de pouvoir modifier : <b style="color: #008080;">{{ $post->next_time_to_edit_price() }}</b>
+                </span>
+            </div>
+        </div>
+
+
+
 @endif
 @else
 <div class="text-center strong text-warning p-3">
