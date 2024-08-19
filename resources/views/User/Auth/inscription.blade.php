@@ -217,22 +217,17 @@
                         </div>
                     </div>
 
-
-
-
                     <div class="p-1">
+                        <p>Veuillez lire attentivement et accepter nos conditions générales avant de continuer.</p>
                         <input type="checkbox" id="acceptConditions" onclick="toggleSubmitButton()">
-                    <label for="acceptConditions">
-                        En cliquant ici, vous acceptez nos
-                        <a href="/conditions" target="__blank"> <b>Conditions générales</b> </a>.
-                    </label>
-                    <br>
-
-                        Vous recevrez peut-être des notifications
-                        par texto de notre part et vous pouvez à tout moment vous désabonner.
+                        <label for="acceptConditions">
+                            J'accepte les
+                            <a href="/conditions" target="__blank" style="color: black;"><b>Conditions générales</b></a>.
+                        </label>
+                        <img src="check.svg" alt="Coche" class="checkmark" style="display: none;">
+                        <p>Vous pourrez recevoir des SMS ou des e-mails pour des mises à jour. Vous pouvez vous désabonner à tout moment.</p>
                     </div>
 
-                    <br>
                     <div>
                         <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium"
                             id="submit" wire:loading.attr="disabled" disabled>
@@ -312,6 +307,4 @@
             submitButton.disabled = !checkbox.checked;
         }
     </script>
-
-
 @endsection
