@@ -53,7 +53,7 @@
         }
 
         .btn-confirm:hover {
-            background-color: white;
+            background-color: #008080;
             color: white;
         }
 
