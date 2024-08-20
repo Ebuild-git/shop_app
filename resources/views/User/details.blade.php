@@ -212,9 +212,13 @@
                                 </a>
                             </div>
                             <div class="prt_02 mb-5 mt-3">
-                                <h2 class=" mb-1 mt-2 text-capitalize">
+                                {{-- <h2 class=" mb-1 mt-2 text-capitalize">
+                                    {{ $post->titre }}
+                                </h2> --}}
+                                <h2 class="post-title mb-1 mt-2 text-capitalize">
                                     {{ $post->titre }}
                                 </h2>
+
 
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
@@ -467,6 +471,19 @@
         .sp-current-big {
             width: 100% !important;
         }
+        .post-title {
+            display: block;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .expanded-title {
+            max-width: none;
+            overflow: visible;
+            text-overflow: clip;
+        }
+
     </style>
     <script>
         $(document).ready(function() {
