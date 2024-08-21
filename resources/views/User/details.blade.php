@@ -76,6 +76,9 @@
                                 <a
                                     href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
                                     {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                    @if($post->sous_categorie_info->categorie->luxury)
+                                    <i class="bi bi-gem small color"></i>
+                                    @endif
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
