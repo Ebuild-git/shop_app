@@ -28,7 +28,7 @@
         .header {
             text-align: center;
             padding: 10px 0;
-            background-color: #008080;
+            background-color: #f4f8fb;
             color: #ffffff;
         }
 
