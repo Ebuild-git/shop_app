@@ -137,7 +137,9 @@
 
 
 
-                    <hr>
+
+                    <div class="shopiner-heading">
+                        <hr>
                     <h5>
                         <b>Voilà le SHOP<span class="color">IN</span>ER</b>
                     </h5>
@@ -182,6 +184,8 @@
                         </table>
                     </div>
                     <br><br>
+                    </div>
+
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
@@ -374,6 +378,52 @@
                                     @endif
 
                                 </p>
+                                <div class="shopiner-heading mobile-only">
+                                    <hr>
+                                <h5>
+                                    <b>Voilà le SHOP<span class="color">IN</span>ER</b>
+                                </h5>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div class="avatar-shopinner-details">
+                                                    <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h4 class="h6">
+                                                    <a href="/user/{{ $user->id }}" class="h4">
+                                                        {{ $user->username }}
+                                                    </a>
+                                                </h4>
+                                                <div>
+                                                    @php
+                                                        $count = number_format($user->averageRating->average_rating ?? 1);
+                                                        $avis = $user->getReviewsAttribute->count();
+                                                    @endphp
+
+                                                    <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
+
+                                                    <div>
+                                                        <span>
+                                                            <b> {{ $avis }} </b> avis
+                                                        </span>
+                                                        |
+                                                        <span>
+                                                            <b>{{ $user->total_sales->count() }}</b> Ventes
+                                                        </span>
+                                                        |
+                                                        <span>
+                                                            <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                </div>
                             </div>
 
                         </div>
@@ -482,6 +532,20 @@
             max-width: none;
             overflow: visible;
             text-overflow: clip;
+        }
+        /* Hide the second heading on larger screens */
+        .mobile-only {
+            display: none;
+        }
+
+        /* Show the second heading only on small screens */
+        @media screen and (max-width: 768px) {
+            .shopiner-heading {
+                display: none;
+            }
+            .mobile-only {
+                display: block;
+            }
         }
 
     </style>
