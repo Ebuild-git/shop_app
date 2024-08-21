@@ -32,15 +32,19 @@
                         </b>
                         <br>
                         <span class="small">
-                            <i>Publié le : {{ $item->created_at->format('d-m-Y \à H:m') }}</i>
+                            <i>Publié le :</i>
+                            <br>
+                            <i>{{ $item->created_at->format('d-m-Y \à H:i') }}</i>
                         </span>
+
+
                     </td>
-                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#008080' : '' }}">
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#008080' : '' }}; font-size: 12px;">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                             {{ $item->getPrix() }} <sup>DH</sup>
                         @endif
                     </td>
-                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#808080' : '#008080' }}">
+                    <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#808080' : '#008080' }}; font-size: 12px;">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                             {{ $item->getOldPrix() }} <sup>DH</sup>
                         @else
@@ -115,3 +119,4 @@
     </div>
 </div>
 {{ $posts->links('pagination::bootstrap-4') }}
+
