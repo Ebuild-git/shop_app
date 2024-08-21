@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserCart;
 use Livewire\Component;
 
 class Mode extends Component
@@ -21,19 +22,24 @@ class Mode extends Component
         $this->user = Auth::user();
     }
 
+
     public function render()
     {
         $total = 0;
         $nbre_article = 0;
+        $this->articles_panier = [];
+        $user_id = auth()->id();
 
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+        // Get cart items from UserCart based on user_id
+        $cartItems = UserCart::where('user_id', $user_id)->pluck('post_id');
 
-        foreach ($cart as $item) {
+        foreach ($cartItems as $item_id) {
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
                 ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
-                ->where("posts.id", $item)
+                ->where("posts.id", $item_id)
                 ->first();
+
             if ($post) {
                 $this->articles_panier[] = [
                     "id" => $post->id,
@@ -50,13 +56,9 @@ class Mode extends Component
         }
 
         return view('livewire.user.checkout.mode')
-        ->with("total", $total)
-        ->with("nbre_article", $nbre_article);
+            ->with("total", $total)
+            ->with("nbre_article", $nbre_article);
     }
-
-
-
-
 
 
     public function confirm(){
