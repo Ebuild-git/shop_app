@@ -8,8 +8,7 @@
         <div class="carousel">
             @forelse ($categories as $cat)
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
-                    <a href="/shop" class="btn btn-md bg-dark text-light position-absolute "
-                        style="font-size: 25px; bottom: 20px;  left: 50%; transform: translateX(-50%);">
+                    <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
                         {{ $cat->titre }}
                     </a>
                 </div>
@@ -78,12 +77,11 @@
         // Change slide every 3 seconds
         setInterval(nextItem, 6000);
     </script>
-
     <style>
         .carousel {
             overflow: hidden;
             width: 100%;
-            height: 600px;
+            height: 450px;
             /* Ajustez la hauteur selon vos besoins */
         }
 
@@ -97,6 +95,28 @@
 
         .carousel-item:first-child {
             display: block;
+        }
+
+
+        .carousel-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 20px;
+            color: #fff;
+            background-color: black;
+            border-radius: 15px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background-color: black;
+            color: #fff;
+            transform: translateX(-50%) translateY(-5px);
         }
     </style>
 
