@@ -326,30 +326,7 @@
                 </div>
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
-
                     {{-- <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12">
-                            <div class=" mb-3 mfliud">
-                                <div class="d-flex justify-content-between p-2 m-0">
-                                    <div>
-                                    </div>
-                                    <div>
-                                        <select name="filtre-ordre" id="filtre-ordre" class="form-control-sm">
-                                            <option value="">Trier par</option>
-                                            <option value="prix_asc">Prix croissant</option>
-                                            <option value="prix_desc">Prix décroissant</option>
-                                            <option value="Soldé">Articles Soldés</option>
-                                            @if (!$selected_categorie)
-                                                <option value="luxury">Luxury uniquement</option>
-                                            @endif
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="mb-3 mfliud">
                                 <div class="d-flex justify-content-between p-2 m-0">
@@ -371,7 +348,58 @@
                                 </div>
                             </div>
                         </div>
+                    </div> --}}
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+                            <div class="mb-3 mfliud">
+                                <div class="d-flex justify-content-end p-2 m-0">
+                                    {{-- <div class="custom-select-wrapper">
+                                        <select name="filtre-ordre" id="filtre-ordre" class="custom-select">
+                                            <option value="">Trier par</option>
+                                            <option value="prix_asc">Prix croissant</option>
+                                            <option value="prix_desc">Prix décroissant</option>
+                                            <option value="Soldé">Articles Soldés</option>
+                                            @if (!$selected_categorie)
+                                                <option value="luxury">Luxury uniquement</option>
+                                            @endif
+                                        </select>
+                                    </div> --}}
+                                    <div class="custom-dropdown-wrapper">
+                                        <div class="custom-dropdown">
+                                            <div class="dropdown-selected">
+                                                Trier par
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <div class="dropdown-option" data-value="">Trier par</div>
+                                                <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
+                                                <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
+                                                <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
+                                                @if (!$selected_categorie)
+                                                    <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Hidden select element to retain original options and form behavior -->
+                                        <select name="filtre-ordre" id="filtre-ordre" class="hidden-select" style="display: none;">
+                                            <option value="">Trier par</option>
+                                            <option value="prix_asc">Prix croissant</option>
+                                            <option value="prix_desc">Prix décroissant</option>
+                                            <option value="Soldé">Articles Soldés</option>
+                                            @if (!$selected_categorie)
+                                                <option value="luxury">Luxury uniquement</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     {{-- suggestion des attributs des propriétés --}}
 
                     <div class="text-center p-5" id="loading">
@@ -815,45 +843,121 @@ $(document).on('click', '.pagination li', function() {
             }
         }
 
-        .modern-select-wrapper {
+        .custom-dropdown-wrapper {
             position: relative;
-            display: inline-block;
+            width: 190px;
+            font-family: 'Arial', sans-serif;
+            user-select: none;
         }
 
-        .modern-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-color: #f8f9fa;
+        .custom-dropdown {
+            position: relative;
+        }
+
+        .dropdown-selected {
+            background-color: #ffffff;
             border: 1px solid #ced4da;
-            border-radius: 20px;
-            padding: 8px 30px 8px 15px;
-            font-size: 14px;
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 13px;
             color: #495057;
             cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.3s ease;
         }
 
-        .modern-select:hover, .modern-select:focus {
+        .dropdown-selected:hover,
+        .custom-dropdown.active .dropdown-selected {
             border-color: #008080;
-            outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
         }
 
-        .select-arrow {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
+        .dropdown-selected i {
+            font-size: 13px;
             color: #495057;
+            transition: transform 0.3s ease;
         }
 
-        /* Optional: Style for when the select is open */
-        .modern-select:active + .select-arrow,
-        .modern-select:focus + .select-arrow {
-            transform: translateY(-50%) rotate(180deg);
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            margin-top: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-option {
+            padding: 10px 15px;
+            font-size: 13px;
+            color: #495057;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-option:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-option:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .custom-dropdown.active .dropdown-options {
+            display: block;
+        }
+
+        .custom-dropdown.active .dropdown-selected i {
+            transform: rotate(180deg);
         }
 
     </style>
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const dropdown = document.querySelector('.custom-dropdown');
+    const selected = dropdown.querySelector('.dropdown-selected');
+    const options = dropdown.querySelectorAll('.dropdown-option');
+    const hiddenSelect = document.querySelector('#filtre-ordre');
+
+    // Toggle dropdown on click
+    selected.addEventListener('click', function () {
+        dropdown.classList.toggle('active');
+    });
+
+    // Handle option selection
+    options.forEach(option => {
+        option.addEventListener('click', function () {
+            const value = this.getAttribute('data-value');
+            const text = this.textContent;
+
+            // Update the displayed selected option
+            selected.innerHTML = `${text} <i class="fas fa-chevron-down"></i>`;
+
+            // Update the hidden select value
+            hiddenSelect.value = value;
+
+            // Trigger a change event or form submission (adjust as needed)
+            hiddenSelect.dispatchEvent(new Event('change'));
+
+            // Close the dropdown
+            dropdown.classList.remove('active');
+        });
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function (event) {
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+    </script>
 @endsection
