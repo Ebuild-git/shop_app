@@ -305,21 +305,28 @@
                                         @endif
                                     @elseif($propriete_info->type == 'color')
                                         @if ($selected_color)
-                                            : <b> {{ $selected_color }} </b>
+                                            @php
+                                            $textColor = $selected_color_code === '#FFFFFF' ? '#000000' : $selected_color_code;
+                                            @endphp
+                                            : <b style="color: {{ $textColor }};">{{ $selected_color }}</b>
                                         @endif
                                         <br>
                                         @foreach ($colors as $item)
+                                        @php
+                                            $isSelected = $selected_color == $item['nom'] ? 'selected-color' : '';
+                                        @endphp
                                             @if ($item['nom'] == 'Multicolore')
-                                                <button type="button" class="btn-color-create multi-color-btn cusor"
+                                                <button type="button" class="btn-color-create multi-color-btn cusor {{ $isSelected }}"
                                                     wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
                                                 </button>
                                             @else
                                                 <button style="background-color: {{ $item['code'] }};" type="button"
-                                                    class="btn-color-create cusor"
+                                                    class="btn-color-create cusor {{ $isSelected }}"
                                                     wire:click="choose('{{ $item['nom'] }}','{{ $item['code'] }}','{{ $propriete_info->nom }}')">
                                                 </button>
                                             @endif
                                         @endforeach
+
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
                                             placeholder="{{ $propriete_info->nom }}"
@@ -479,6 +486,12 @@
             width: 25px !important;
             border: solid 1px #011d1d8c;
         }
+        .selected-color {
+            border: 2px solid #000000;
+            border-radius: 60%;
+            /* padding: 1px; */
+        }
+
     </style>
 
 
