@@ -17,14 +17,14 @@
         </div>
         <div class="ft-bold fs-sm text-end">
             @if ($produit->changements_prix->count())
-                <strike class="elis_rty color strong">
+                <strike class="text-muted">
                     {{ $produit->getOldPrix() }} <sup>DH</sup>
                 </strike>
-                
+
             @endif
-            <div class="@if ($produit->changements_prix->count()) text-danger @else color @endif ft-bold fs-sm">
+            <div class="@if ($produit->changements_prix->count()) color @else text-muted @endif ft-bold fs-sm">
                 {{ $produit->getPrix() }} <sup>DH</sup>
-            </div>  
+            </div>
             <br>
         </div>
         <div class="cart_single_close">

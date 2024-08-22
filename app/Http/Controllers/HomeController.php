@@ -384,7 +384,7 @@ class HomeController extends Controller
         $html = '';
 
         foreach ($cartItems as $item) {
-            $produit = posts::where('id', $item->post_id)->where('id_user', '!=', $user->id)->first();
+            $produit = posts::where('id', $item->post_id)->where('id_user', '!=', $user->id)->where('statut', 'vente')->first();
             if ($produit) {
                 $CartItem = view('components.cart-item', ['produit' => $produit])->render();
                 $montant += $produit->getPrix();
