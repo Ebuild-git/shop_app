@@ -133,13 +133,19 @@ class HomeController extends Controller
             }
         }
         $posts =  $Query->withTrashed()->paginate("20");
-        return view('User.list_post')
-            ->with("posts", $posts)
-            ->with("year", $year)
-            ->with("month", $month)
-            ->with("statut", $statut)
-            ->with("type", $type)
-            ->with("key", $key);
+        return view('User.list_post', [
+            'posts' => $posts,
+            'year' => $year,
+            'month' => $month,
+            'statut' => $statut,
+            'type' => $type,
+            'key' => $key,
+            'currentPage' => $posts->currentPage(),
+            'lastPage' => $posts->lastPage(),
+            'nextPageUrl' => $posts->nextPageUrl(),
+            'previousPageUrl' => $posts->previousPageUrl(),
+            'totalItems' => $posts->total(),
+        ]);
     }
 
     public function details_post($id)
@@ -610,7 +616,7 @@ class HomeController extends Controller
                 ->whereMonth('sell_at', $month);
         }
 
-        $achats = $query->paginate(30);
+        $achats = $query->paginate(20);
         $total = posts::where("id_user_buy", Auth::id())->count();
 
         return view("User.mes-achats")

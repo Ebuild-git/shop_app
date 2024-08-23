@@ -66,4 +66,36 @@
         </table>
     </div>
 </div>
-{{ $achats->links('pagination::bootstrap-4') }}
+<div class="sticky-pagination-container">
+    <div class="modern-pagination">
+        <span class="page-indicator">Page {{ $achats->currentPage() }} of {{ $achats->lastPage() }}</span>
+        <button class="page-button" {{ $achats->onFirstPage() ? 'disabled' : '' }} onclick="location.href='{{ $achats->previousPageUrl() }}'">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="page-button" {{ !$achats->hasMorePages() ? 'disabled' : '' }} onclick="location.href='{{ $achats->nextPageUrl() }}'">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+<style>
+    .sticky-pagination-container {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0);
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Responsive Design Adjustment */
+@media (max-width: 768px) {
+    .sticky-pagination-container-left {
+        padding: 8px 10px;
+    }
+}
+
+</style>

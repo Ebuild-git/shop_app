@@ -1155,7 +1155,8 @@ body {
 }
 
 #table-scroll {
-    height: 450px;
+    /* height: 450px; */
+    height: calc(450px - 50px); /* Adjusting height to leave space for pagination */
     overflow: auto;
     margin-top: 20px;
 }
@@ -1184,6 +1185,64 @@ tbody td {
 
 
 
+.sticky-pagination-container {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0);
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Responsive Design Adjustment */
+@media (max-width: 768px) {
+    .sticky-pagination-container {
+        padding: 8px 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+.modern-pagination {
+    display: flex;
+    align-items: center;
+}
+
+.page-indicator {
+    margin-right: 10px; /* Minimal spacing between text and buttons */
+    font-size: 14px; /* Comfortable text size */
+    color: #333; /* Dark gray text for readability */
+}
+
+.page-button {
+    background-color: #008080; /* Main color for buttons */
+    color: white;
+    border: none;
+    border-radius: 4px; /* Slightly rounded corners */
+    width: 30px; /* Compact button size */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s; /* Quick transition for color change */
+    margin-left: 5px; /* Small spacing between buttons */
+}
+
+.page-button:hover {
+    background-color: #006666; /* Darker color on hover */
+}
+
+.page-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.page-button i {
+    font-size: 14px; /* Adjust icon size to fit the compact button */
+}
 
 
 

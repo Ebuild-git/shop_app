@@ -1,3 +1,4 @@
+
 <div id="table-wrapper">
     <div id="table-scroll">
         <table class="table">
@@ -14,6 +15,7 @@
                     <th scope="col">Statut de l'annonce</th>
                     <th scope="col">Raison de suppression par SHOPIN</th>
                     <th scope="col"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -118,5 +120,15 @@
         </table>
     </div>
 </div>
-{{ $posts->links('pagination::bootstrap-4') }}
+<div class="sticky-pagination-container">
+    <div class="modern-pagination">
+        <span class="page-indicator">Page {{ $currentPage }} of {{ $lastPage }}</span>
+        <button class="page-button" {{ $currentPage == 1 ? 'disabled' : '' }} onclick="location.href='{{ $previousPageUrl }}'">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="page-button" {{ $currentPage == $lastPage ? 'disabled' : '' }} onclick="location.href='{{ $nextPageUrl }}'">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
 
