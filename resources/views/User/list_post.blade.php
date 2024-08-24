@@ -136,6 +136,70 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
+
+
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+    .filter-container {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .filter-select, .btn.bg-red {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #table-scroll {
+        height: auto; /* Adjust height to auto for better fit */
+        max-height: 300px; /* Limit the max height on mobile to avoid excessive scrolling */
+        overflow-x: auto; /* Ensure horizontal scrolling */
+    }
+
+    #table-wrapper table {
+        min-width: 600px; /* Ensure the table is scrollable horizontally */
+    }
+
+    thead th, tbody td {
+        font-size: 13px; /* Reduce font size for header and cells */
+        padding: 6px; /* Reduce padding for better spacing */
+    }
+
+    tbody td {
+        text-align: left;
+    }
+}
+
+/* Further adjustments for very small screens */
+@media (max-width: 480px) {
+    .filter-group {
+        gap: 6px;
+    }
+
+    thead th, tbody td {
+        font-size: 10px; /* Further reduce font size */
+        padding: 4px; /* Further reduce padding */
+    }
+
+    .filter-select, .btn.bg-red {
+        padding: 5px 8px; /* Smaller padding for buttons and selects */
+        font-size: 10px; /* Smaller font size */
+    }
+
+    #table-scroll {
+        max-height: 250px; /* Further reduce max height for very small screens */
+    }
+
+    #table-wrapper table {
+        min-width: 500px; /* Slightly reduce the min-width for smaller screens */
+    }
+}
 </style>
 
 @endsection

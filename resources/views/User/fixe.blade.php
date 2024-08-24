@@ -365,7 +365,7 @@
             </div>
         </div>
 
-        <div class="container pt-2 pb-2">
+        <div class="container desktop-container pt-2 pb-2">
             <div class="row">
                 <div class="col-sm-2 col-4 logo-container">
                     <a class="nav-brand" href="/">
@@ -465,7 +465,177 @@
                 </div>
             </div>
         </div>
+<!-- Mobile Container -->
+<div class="container mobile-container pt-2 pb-2">
+    <div class="row align-items-center mobile-only-header">
+        <!-- Navigation and Toggle Button -->
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <nav id="sidebar-navigation">
+                <div class="nav-toggle">&#9776;</div>
+                <div class="sidebar-wrapper">
+                    <div class="close-menu">×</div>
+                    <ul class="text-uppercase-mobile">
+                        <li><a href="/" style="padding-left: 0px !important">Accueil</a></li>
+                        <li>
+                            <a href="{{ Auth::check() ? route('shopiners') : '#' }}" @guest data-toggle="modal" data-target="#login" @endguest>
+                                Shop<span class="color strong">in</span>ers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/shop">CATÉGORIES</a>
+                            <ul class="categories-list p-0">
+                                @forelse ($categories as $item)
+                                    <li class="category-item">
+                                        <a href="/shop?categorie={{ $item->id }}" class="category-link">
+                                            <div class="d-flex align-items-center">
+                                                <span>{{ $item->titre }}</span>
+                                                <span class="small color">
+                                                    @if ($item->luxury == 1)
+                                                        <i class="bi bi-gem luxury-icon"></i>
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @empty
+                                @endforelse
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
+
+            <a class="nav-brand mobile-logo" href="/">
+                <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
+            </a>
+            <div class="d-flex align-items-center mobile-only-icons">
+                <a href="#" onclick="openCart()" class="position-relative mobile-panier" style="color: black !important; margin-left: 10px;">
+                    <i class="bi lni bi-bag icon-icon-header"></i>
+                    <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
+                </a>
+                @guest
+                <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-left: 10px;">
+                    <i class="bi lni bi-person-circle icon-icon-header"></i>
+                </a>
+                @endguest
+                @auth
+                <a href="{{ route('user-notifications') }}" class="mobile-notifications" style="color: black !important; margin-left: 10px;">
+                    <i class="lni bi bi-bell icon-icon-header"></i>
+                    <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                </a>
+                @endauth
+            </div>
+        </div>
+
+        <!-- Search and Publish Section -->
+        <div class="col-12 d-flex justify-content-between align-items-center mt-3 mobile-search-publish">
+            <form action="/shop" method="get" class="position-relative mobile-search-form">
+                @csrf
+                <div class="search-container">
+                    <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="rechercher un article">
+                    <button type="submit" class="search-button cusor mobile-search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="ml-3 mobile-publish-btn-container">
+                @auth
+                <a href="/publication">
+                @else
+                <a href="#" data-toggle="modal" data-target="#login">
+                @endauth
+                    <button class="btn-publier-header cusor p-2 mobile-publish-btn" type="button">
+                        <i class="lni lni-circle-plus"></i>
+                        <span>Publier</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3 mx-auto my-auto" style="text-align: right !important">
+            <div class="currency-selector dropdown js-dropdown ml-3">
+                <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
+                    title="Language" aria-label="Language dropdown">
+                    @auth
+                        <span style="color: black;">
+                            <span class="user-emoji" role="img" aria-label="User"><i class="bi bi-person"></i> <!-- Bootstrap user icon -->
+                            </span>
+                            {{ Auth::user()->username }}
+                            <i class="bi bi-caret-down"></i>
+                        </span>
+                        <i class="fa fa-angle-down medium text-light"></i>
+                        <ul class="dropdown-menu popup-content p-3 ">
+                            <li>
+                                <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
+                                    Mes annonces
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/mes-publication?type=vente" class=" medium link-red text-medium">
+                                    Mes ventes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/mes-achats" class=" medium link-red text-medium">
+                                    Mes achats
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/checkout" class=" medium link-red text-medium">
+                                    Mon panier
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('liked') }}" class=" medium link-red text-medium">
+                                    Mes coups de coeur
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
+                                    Mes favoris
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user-notifications" class=" medium link-red text-medium">
+                                    Notifications
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/informations" class=" medium link-red text-medium">
+                                    Mon compte
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/logout" class=" medium text-medium link-red">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    @endauth
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const navToggle = document.querySelector('.nav-toggle');
+const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+const closeMenu = document.querySelector('.close-menu');
+
+navToggle.addEventListener('click', function() {
+sidebarWrapper.classList.toggle('open'); // Toggle the sidebar on click
+});
+
+closeMenu.addEventListener('click', function() {
+sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is clicked
+});
+});
+
+
+</script>
         <script>
             $(window).scroll(function() {
                 var elementToHide = $('.elementToHideBeforeScroll');
@@ -498,11 +668,11 @@
         <div class="header header-light dark-text">
             <div class="container">
                 <nav id="navigation" class="navigation navigation-landscape">
-                    <div class="nav-header">
+                    {{-- <div class="nav-header">
 
                         <div class="nav-toggle"></div>
 
-                    </div>
+                    </div> --}}
                     <div class="nav-menus-wrapper" style="transition-property: none;">
                         <ul class="nav-menu text-uppercase">
 
@@ -539,7 +709,7 @@
                                                 </div>
                                             </a>
                                             @if ($item->getSousCategories->count() > 0)
-                                                <ul
+                                                {{-- <ul
                                                     class="nav-dropdown nav-submenu p-1 scrollbar-y-nav custom-scrollbar">
                                                     @foreach ($item->getSousCategories as $sous)
                                                         <li>
@@ -549,7 +719,7 @@
                                                             </a>
                                                         </li>
                                                     @endforeach
-                                                </ul>
+                                                </ul> --}}
                                             @endif
                                         </li>
                                     @empty
@@ -563,7 +733,7 @@
                                 </a>
 
                             </li>
-                            <li>
+                            <li class="desktop-only">
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
@@ -628,7 +798,7 @@
                                     style="color: black !important;">
                                     <i class="bi lni bi-bag icon-icon-header"></i>
                                     <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
-                                    <span class="hide-desktop">Panier</span>
+                                    {{-- <span class="hide-desktop">Panier</span> --}}
                                 </a>
 
 
@@ -636,14 +806,14 @@
                                     <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"
                                         style="color: black !important;">
                                         <i class="bi lni  bi-person-circle icon-icon-header"></i>
-                                        <span class="hide-desktop">Connexion</span>
+                                        {{-- <span class="hide-desktop">Connexion</span> --}}
                                     </a>
                                 @endguest
                                 @auth
                                     <a href="{{ route('user-notifications') }}" style="color: black !important;">
                                         <i class="lni bi bi-bell icon-icon-header"></i>
                                         <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
-                                        <span class="hide-desktop">Notifications</span>
+                                        {{-- <span class="hide-desktop">Notifications</span> --}}
                                     </a>
                                 @endauth
                             </li>
