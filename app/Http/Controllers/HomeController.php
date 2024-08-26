@@ -254,6 +254,8 @@ class HomeController extends Controller
 
 
         $count = posts::where("id_user", Auth::user()->id)->count();
+        $showRemainingTimeColumn = $type == "ventes";
+
         if ($type == "achats") {
             $achats = posts::where("id_user_buy", Auth::id())
                 ->paginate(20);
@@ -264,14 +266,36 @@ class HomeController extends Controller
                 ->Orderby("id", "Desc")
                 ->where('statut', "vendu")
                 ->paginate(20);
-            return view('User.historiques', compact("type", "count", "ventes"));
+
+        // Pagination variables
+        $currentPage = $ventes->currentPage();
+        $lastPage = $ventes->lastPage();
+        $nextPageUrl = $ventes->nextPageUrl();
+        $previousPageUrl = $ventes->previousPageUrl();
+        $totalItems = $ventes->total();
+
+        return view('User.historiques', compact(
+            "type", "count", "ventes", "showRemainingTimeColumn",
+            "currentPage", "lastPage", "nextPageUrl", "previousPageUrl", "totalItems"
+        ));
         }
         if ($type == "annonces") {
             $annonces = posts::where("id_user", Auth::user()->id)
                 ->Orderby("id", "Desc")
                 ->where('statut', "vente")
                 ->paginate(20);
-            return view('User.historiques', compact("type", "count", "annonces"));
+
+
+             // Pagination variables
+            $currentPage = $annonces->currentPage();
+            $lastPage = $annonces->lastPage();
+            $nextPageUrl = $annonces->nextPageUrl();
+            $previousPageUrl = $annonces->previousPageUrl();
+            $totalItems = $annonces->total();
+            return view('User.historiques', compact(
+                "type", "count", "annonces", "showRemainingTimeColumn",
+                "currentPage", "lastPage", "nextPageUrl", "previousPageUrl", "totalItems"
+            ));
         }
     }
 
