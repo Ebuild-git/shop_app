@@ -27,7 +27,7 @@
                             Nouveau prix réduis :
                         </label>
                         <input type="number"
-                            class="form-control border-r @error('prix') is-invalid @endif" placeholder="Max {{ $old_price }} DH"
+                            class="form-control border-r @error('prix') is-invalid @endif" placeholder="Moins que {{ $old_price }} DH"
                 required step="0.1" wire:model='prix'>
             @error('prix')
                 <div class="small text-center text-danger alert p-2">
