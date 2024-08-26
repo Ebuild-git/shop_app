@@ -2,9 +2,9 @@
 @if (session()->has('error'))
     <div class="alert alert-danger alert-dismissible" role="alert">
         {{ session('error') }}
-        
+
     </div>
-@enderror
+@endif
 
 
 
@@ -13,13 +13,13 @@
         <img width="50" height="50" src="https://img.icons8.com/ios/50/008080/ok--v1.png" alt="ok--v1"/> <br>
         {!! session('success-special') !!}
     </div>
-@enderror
+@endif
 
-@if (session()->has('success'))
+{{-- @if (session()->has('success'))
 <div class="alert alert-success alert-dismissible text-center" style="background-color: #008080a8 !important;color: white !important;" role="alert">
-        {{ session('warning') }}
+        {!! session('warning') !!}
     </div>
-@enderror
+@endif --}}
 
 
 
@@ -27,15 +27,15 @@
     <div class="alert alert-warning alert-dismissible" role="alert">
         {{ session('warning') }}
     </div>
-@enderror
+@endif
 
 
 
-@if (session()->has('info'))
+@if (session()->has('info') && !empty(session('info')))
     <div class="alert alert-info alert-dismissible" role="alert">
-        {{ session('info') }}
+        {!! session('info') !!}
     </div>
-@enderror
+@endif
 
 
 
@@ -43,4 +43,4 @@
     <div class="alert alert-dark alert-dismissible mb-0" role="alert">
         {{ session('dark') }}
     </div>
-@enderror
+@endif

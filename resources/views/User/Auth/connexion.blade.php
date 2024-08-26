@@ -18,11 +18,18 @@
                 </h4>
 
                  <!-- Success Message -->
-                @if(session('success'))
+                {{-- @if(session('success'))
                  <div class="alert alert-success">
-                     {{ session('success') }}
+                    {!! session('success') !!}
                  </div>
+                @endif --}}
+                @if(session('success'))
+                <div class="custom-teal-alert">
+                    {!! session('success') !!}
+                </div>
                 @endif
+
+
 
                 <!-- Error Message -->
                 @if(session('error'))
@@ -40,5 +47,24 @@
             width: 100%;
             border-radius: 05%;
         }
+
+        .custom-teal-alert {
+            background-color: rgba(0, 128, 128, 0.1);
+            color: #008080;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: left;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-teal-alert::before {
+            font-size: 20px;
+            margin-right: 8px;
+            color: #008080;
+        }
+
     </style>
 @endsection
