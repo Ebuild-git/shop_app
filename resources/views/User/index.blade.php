@@ -10,6 +10,9 @@
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
                     <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
                         {{ $cat->titre }}
+                        @if ($cat->luxury)
+                            <i class="bi bi-gem" style="margin-left: 2px; color: #008080;"></i>
+                        @endif
                     </a>
                 </div>
             @empty
