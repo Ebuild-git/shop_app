@@ -11,12 +11,13 @@
                     <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
                         {{ $cat->titre }}
                         @if ($cat->luxury)
-                            <i class="bi bi-gem" style="margin-left: 2px; color: #008080;"></i>
+                            <i class="bi bi-gem gem-icon"></i>
                         @endif
                     </a>
                 </div>
             @empty
             @endforelse
+
         </div>
         <div class="group-btn-slide">
                 <button class="btn-slide-home" onclick="prevItem()">

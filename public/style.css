@@ -1735,5 +1735,32 @@ ul.nav-dropdown-xxx {
 }
 
 
+.gem-icon {
+    margin-left: 3px;
+    color: #008080;
+    font-size: 1em;
+    transition: transform 0.3s ease, color 0.3s ease;
+    animation: sparkle 1.5s infinite alternate;
+}
 
+/* Hover effect */
+.carousel-btn:hover .gem-icon {
+    transform: scale(1.2);
+    color: #00ced1;
+}
 
+/* Animation for sparkle effect */
+@keyframes sparkle {
+    0% {
+        transform: rotate(0deg);
+        color: #008080;
+    }
+    50% {
+        transform: rotate(15deg) scale(1.1);
+        color: #20b2aa;
+    }
+    100% {
+        transform: rotate(0deg);
+        color: #008080;
+    }
+}
