@@ -633,17 +633,28 @@ body {
 }
 
 .btn-slide-home {
-    background-color: transparent;
-    border: solid 2px #008080;
-    color: #008080;
-    border-radius: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly transparent black */
+    border: none;
+    color: #fff;
+    border-radius: 50%;
     height: 50px;
     width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 0 20px;
+}
+
+.btn-slide-home i {
+    font-size: 24px;
 }
 
 .btn-slide-home:hover {
-    background-color: #008080;
-    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+    color: #fff;
 }
 
 .group-btn-slide {
@@ -651,7 +662,11 @@ body {
     position: absolute !important;
     padding: 5px;
     top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
 }
+
 
 .btn-publier-header {
     color: #018d8d !important;

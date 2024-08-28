@@ -16,14 +16,12 @@
             @endforelse
         </div>
         <div class="group-btn-slide">
-            <div class="d-flex justify-content-between">
                 <button class="btn-slide-home" onclick="prevItem()">
                     <i class="bi bi-arrow-left"></i>
                 </button>
                 <button class="btn-slide-home" onclick="nextItem()">
                     <i class="bi bi-arrow-right"></i>
                 </button>
-            </div>
         </div>
     </div>
 
