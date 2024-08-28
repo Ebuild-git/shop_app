@@ -78,46 +78,48 @@
         setInterval(nextItem, 6000);
     </script>
     <style>
-        .carousel {
-            overflow: hidden;
-            width: 100%;
-            height: 450px;
-            /* Ajustez la hauteur selon vos besoins */
-        }
+    .carousel {
+        overflow: hidden;
+        width: 100%;
+        height: 450px; /* Default height for desktop */
+        position: relative; /* Positioned container for the button */
+    }
 
-        .carousel-item {
-            display: none;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-        }
+    .carousel-item {
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
 
-        .carousel-item:first-child {
-            display: block;
-        }
+    .carousel-item:first-child {
+        display: block;
+    }
 
+    .carousel-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 20px;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.6); /* Slightly transparent black */
+        border-radius: 25px; /* More rounded corners for a modern look */
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+    }
 
-        .carousel-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 20px;
-            color: #fff;
-            background-color: black;
-            border-radius: 15px;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.3s;
-        }
+    /* Hover effect */
+    .carousel-btn:hover {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.8); /* Darken on hover */
+        transform: translate(-50%, -50%) scale(1.05); /* Slightly enlarge on hover */
+    }
 
-        .carousel-btn:hover {
-            background-color: black;
-            color: #fff;
-            transform: translateX(-50%) translateY(-5px);
-        }
         /* Apply different height for mobile screens */
         @media (max-width: 768px) {
             .carousel {
