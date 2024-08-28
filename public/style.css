@@ -406,7 +406,7 @@ body {
 
 
 
-.option-icon-header {
+/* .option-icon-header {
     right: 0px;
 
     text-transform: capitalize;
@@ -414,7 +414,7 @@ body {
 
 .option-icon-header:hover {
     color: #008080 !important;
-}
+} */
 
 
 .elementToHideBeforeScroll {
@@ -1300,7 +1300,7 @@ tbody td {
 
 }
 
-@media (min-width: 991px) {
+/* @media (min-width: 991px) {
     .option-icon-header {
         position: absolute;
     }
@@ -1315,6 +1315,45 @@ tbody td {
         position: absolute;
         right: 0px;
     }
+} */
+@media (min-width: 991px) {
+    .option-icon-header {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .hide-desktop {
+        display: none;
+    }
+
+    .comment-position {
+        position: absolute;
+        right: 0;
+    }
+
+    .option-icon-header a {
+        margin-left: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .option-icon-header i {
+        font-size: 16px;
+    }
+}
+
+.mobile-search-btn-mobile {
+    background-color: #008080;
+    color: white;
+    padding: 10px;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    border-radius: 1px;
+    border: none;
+    border-radius: 5px;
 }
 
 .badge-container {
@@ -1539,13 +1578,17 @@ tbody td {
         font-size: 14px;
     }
     .mobile-only-icons i {
-        font-size: 20px;
+        font-size: 15px;
         margin-right: 5px;
     }
     .mobile-only-icons .dn-counter {
-        font-size: 12px;
+        font-size: 10px;
         padding: 0.1rem 0.4rem;
         margin-left: -8px;
+        line-height: 15px;
+        min-width: 15px;
+        min-height: 15px;
+        border-radius: 50%;
     }
 
  }

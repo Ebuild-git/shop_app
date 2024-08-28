@@ -482,7 +482,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/shop">CATÉGORIES</a>
+                            <a href="/shop">Catégories</a>
                             <ul class="categories-list p-0">
                                 @forelse ($categories as $item)
                                     <li class="category-item">
@@ -510,6 +510,12 @@
                 <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
             </a>
             <div class="d-flex align-items-center mobile-only-icons">
+                @auth
+                <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
+                    style="color: black !important;">
+                    <i class="bi lni bi-clock-history icon-icon-header"></i>
+                </a>
+                @endauth
                 <a href="#" onclick="openCart()" class="position-relative mobile-panier" style="color: black !important; margin-left: 10px;">
                     <i class="bi lni bi-bag icon-icon-header"></i>
                     <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
@@ -525,6 +531,67 @@
                     <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
                 </a>
                 @endauth
+                <div class="col-sm-3 mx-auto my-auto text-right">
+                    <div class="currency-selector dropdown js-dropdown ml-3 d-flex align-items-center">
+                        <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
+                            title="Language" aria-label="Language dropdown">
+                            @auth
+                            <span class="d-flex align-items-center" style="color: black;">
+                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
+                                <i class="bi bi-caret-down ml-1"></i>
+                            </span>
+                            @endauth
+                        </a>
+                        <ul class="dropdown-menu popup-content p-3">
+                            <li>
+                                <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
+                                    Mes annonces
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/mes-publication?type=vente" class="medium link-red text-medium">
+                                    Mes ventes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/mes-achats" class="medium link-red text-medium">
+                                    Mes achats
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/checkout" class="medium link-red text-medium">
+                                    Mon panier
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('liked') }}" class="medium link-red text-medium">
+                                    Mes coups de coeur
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('favoris') }}" class="medium link-red text-medium">
+                                    Mes favoris
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user-notifications" class="medium link-red text-medium">
+                                    Notifications
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/informations" class="medium link-red text-medium">
+                                    Mon compte
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/logout" class="medium text-medium link-red">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -534,7 +601,7 @@
                 @csrf
                 <div class="search-container">
                     <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="rechercher un article">
-                    <button type="submit" class="search-button cusor mobile-search-btn">
+                    <button type="submit" class="search-button cusor mobile-search-btn-mobile">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
@@ -553,72 +620,8 @@
                 </a>
             </div>
         </div>
-        <div class="col-sm-3 mx-auto my-auto" style="text-align: right !important">
-            <div class="currency-selector dropdown js-dropdown ml-3">
-                <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
-                    title="Language" aria-label="Language dropdown">
-                    @auth
-                        <span style="color: black;">
-                            <span class="user-emoji" role="img" aria-label="User"><i class="bi bi-person"></i> <!-- Bootstrap user icon -->
-                            </span>
-                            {{ Auth::user()->username }}
-                            <i class="bi bi-caret-down"></i>
-                        </span>
-                        <i class="fa fa-angle-down medium text-light"></i>
-                        <ul class="dropdown-menu popup-content p-3 ">
-                            <li>
-                                <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
-                                    Mes annonces
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/mes-publication?type=vente" class=" medium link-red text-medium">
-                                    Mes ventes
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/mes-achats" class=" medium link-red text-medium">
-                                    Mes achats
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/checkout" class=" medium link-red text-medium">
-                                    Mon panier
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('liked') }}" class=" medium link-red text-medium">
-                                    Mes coups de coeur
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
-                                    Mes favoris
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/user-notifications" class=" medium link-red text-medium">
-                                    Notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/informations" class=" medium link-red text-medium">
-                                    Mon compte
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/logout" class=" medium text-medium link-red">
-                                    Déconnexion
-                                </a>
-                            </li>
-                        </ul>
-                    @endauth
-                </a>
-            </div>
-        </div>
     </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 const navToggle = document.querySelector('.nav-toggle');
@@ -637,6 +640,32 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
 
 </script>
         <script>
+            // $(window).scroll(function() {
+            //     var elementToHide = $('.elementToHideBeforeScroll');
+            //     var icons_position = $('#icons_position');
+            //     var comment_position = $('#comment_position');
+            //     var scrollPosition = $(window).scrollTop();
+
+            //     if (scrollPosition === 0) {
+            //         elementToHide.addClass('d-none');
+            //         comment_position.addClass("comment-position").removeClass("comment-position-top");
+            //         icons_position.removeClass("comment-position").addClass("comment-position-top");
+            //     } else {
+            //         icons_position.addClass("comment-position").removeClass("comment-position-top");
+            //         comment_position.removeClass("comment-position").addClass("comment-position-top");
+            //         elementToHide.removeClass('d-none');
+            //     }
+
+            // });
+            // $(document).ready(function() {
+            //     var inputField = $('#myInputRecherche');
+            //     inputField.click(function() {
+            //         inputField.addClass('full-width');
+            //     });
+            //     inputField.blur(function() {
+            //         inputField.removeClass('full-width');
+            //     });
+            // });
             $(window).scroll(function() {
                 var elementToHide = $('.elementToHideBeforeScroll');
                 var icons_position = $('#icons_position');
@@ -647,21 +676,14 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                     elementToHide.addClass('d-none');
                     comment_position.addClass("comment-position").removeClass("comment-position-top");
                     icons_position.removeClass("comment-position").addClass("comment-position-top");
+                    icons_position.find('.icon-icon-header').css('margin-left', '8px');
                 } else {
                     icons_position.addClass("comment-position").removeClass("comment-position-top");
+                    icons_position.find('.icon-icon-header').css('margin-left', '-10px');
                     comment_position.removeClass("comment-position").addClass("comment-position-top");
                     elementToHide.removeClass('d-none');
                 }
 
-            });
-            $(document).ready(function() {
-                var inputField = $('#myInputRecherche');
-                inputField.click(function() {
-                    inputField.addClass('full-width');
-                });
-                inputField.blur(function() {
-                    inputField.removeClass('full-width');
-                });
             });
         </script>
         <!-- Start Navigation -->
@@ -670,7 +692,6 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                 <nav id="navigation" class="navigation navigation-landscape">
                     <div class="nav-menus-wrapper" style="transition-property: none;">
                         <ul class="nav-menu text-uppercase">
-
                             <li class="elementToHideBeforeScroll d-none">
                                 <a href="/">
                                     <img src="/icons/logo.png" class="logo" alt="" height="20" />
@@ -679,47 +700,8 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                             <li>
                                 <a href="/" style="padding-left: 0px !important">Accueil</a>
                             </li>
-
-
-
-
                             <li>
                                 <a href="/shop">CATÉGORIES</a>
-                                <ul class="nav-dropdown-xxx nav-submenu-xxx p-0 d-none "
-                                    style="width: 300px !important;direction: ltr !important">
-                                    @forelse ($categories as $item)
-                                        <li>
-                                            <a href="/shop?categorie={{ $item->id }}"
-                                                style="padding-top: 6px;padding-bottom: 6px">
-                                                <div class="d-flex justify-content-between">
-                                                    <span>
-                                                        {{ $item->titre }}
-                                                    </span>
-                                                    <span class="small color">
-                                                        @if ($item->luxury == 1)
-                                                            Luxury
-                                                            <i class="bi bi-gem" style="font-weight: 800;"></i>
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                            </a>
-                                            @if ($item->getSousCategories->count() > 0)
-                                                {{-- <ul
-                                                    class="nav-dropdown nav-submenu p-1 scrollbar-y-nav custom-scrollbar">
-                                                    @foreach ($item->getSousCategories as $sous)
-                                                        <li>
-                                                            <a href="/shop?sous_categorie={{ $sous->id }}"
-                                                                class="p-2 text-start">
-                                                                {{ $sous->titre }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul> --}}
-                                            @endif
-                                        </li>
-                                    @empty
-                                    @endforelse
-                                </ul>
                             </li>
                             <li>
                                 <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
@@ -731,42 +713,22 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                             <li class="desktop-only">
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                            <li class="elementToHideBeforeScroll" style="margin-left: 50px; display: flex; align-items: center;">
                                 <div class="div-sroll-recherche">
-                                    <form action="/shop" method="get" class="container-search" onsubmit="return validateSearch()">
-                                        @csrf
-                                        <div class="container-search">
-                                            <input type="text" placeholder="Rechercher..." name="key" id="searchInput">
-                                            <button type="button" class="search-search" onclick="expandSearch()">
-                                                <i class="bi bi-search"></i>
-                                            </button>
-                                            <button type="submit" class="search-submit d-none"></button>
-                                        </div>
-                                    </form>
+                                <form action="/shop" method="get" class="mobile-search-form">
+                                    @csrf
+                                    <div class="search-container">
+                                        <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="rechercher un article">
+                                        <button type="submit" class="search-button cusor mobile-search-btn">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
                                 </div>
                             </li>
 
-                            <script>
-                                function expandSearch() {
-                                     var searchInput = document.getElementById('searchInput');
-                                     var submitButton = document.querySelector('.search-submit');
 
-                                     if (searchInput.style.width === '200px') {
-                                         if (searchInput.value.trim() === '') {
-                                             searchInput.style.width = '0';
-                                             searchInput.style.opacity = '0';
-                                             searchInput.blur();
-                                         } else {
-                                             submitButton.click();
-                                         }
-                                     } else {
-                                         searchInput.style.width = '200px';
-                                         searchInput.style.opacity = '1';
-                                         searchInput.focus();
-                                     }
-                                 }
-                             </script>
-                        <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                       <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                             <div class="div-scroll-publier">
                                 @auth
                                 <a href="/publication" class="btn-publier-header cusor p-1">
@@ -780,35 +742,31 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                             </a>
                                </div>
                         </li>
-                            <li class="option-icon-header comment-position-top" id="icons_position">
-                                @auth
-                                    <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
-                                        style="color: black !important;">
-                                        <i class="bi lni bi-clock-history icon-icon-header"></i>
-                                        <span class="hide-desktop">Historique</span>
-                                    </a>
-                                @endauth
+                        <li class="option-icon-header comment-position-top" id="icons_position">
+                            @auth
+                            <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                <i class="bi lni bi-clock-history icon-icon-header"></i>
+                            </a>
+                            @endauth
 
-                                <a href="#" onclick="openCart()" class="position-relative"
-                                    style="color: black !important;">
-                                    <i class="bi lni bi-bag icon-icon-header"></i>
-                                    <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
-                                </a>
+                            <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                <i class="bi lni bi-bag icon-icon-header"></i>
+                                <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
+                            </a>
 
+                            @guest
+                            <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                <i class="bi lni bi-person-circle icon-icon-header"></i>
+                            </a>
+                            @endguest
 
-                                @guest
-                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"
-                                        style="color: black !important;">
-                                        <i class="bi lni  bi-person-circle icon-icon-header"></i>
-                                    </a>
-                                @endguest
-                                @auth
-                                    <a href="{{ route('user-notifications') }}" style="color: black !important;">
-                                        <i class="lni bi bi-bell icon-icon-header"></i>
-                                        <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
-                                    </a>
-                                @endauth
-                            </li>
+                            @auth
+                            <a href="{{ route('user-notifications') }}" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                <i class="lni bi bi-bell icon-icon-header"></i>
+                                <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                            </a>
+                            @endauth
+                        </li>
 
 
                             <li class="text-capitalize comment-position" id="comment_position">
@@ -863,6 +821,9 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                 </nav>
             </div>
         </div>
+
+
+
         <script>
             // Close the navbar when any link is clicked unless it's within a modal
             document.querySelectorAll('.nav-menu a').forEach(item => {
