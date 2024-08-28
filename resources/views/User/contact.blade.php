@@ -9,7 +9,7 @@
                 <div class="colxl-12 col-lg-12 col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Contact</li>
                         </ol>
                     </nav>
@@ -28,7 +28,7 @@
 
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">
-                        <p>{{ $configuration->adresse ?? '' }}</p> 
+                        <p>{{ $configuration->adresse ?? '' }}</p>
                         </p>
                     </div>
 
@@ -124,7 +124,7 @@
                     <div class="sec_title position-relative ">
                         <h2 class="ft-bold pt-3">Laissez-nous votre message ici</h2>
                     </div>
-                    
+
                     <form class="row">
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
