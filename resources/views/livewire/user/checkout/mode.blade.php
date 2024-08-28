@@ -29,7 +29,7 @@
                 <div>
                     <div class="alert alert-dark">
                         <i class="bi bi-geo-alt"></i>
-                        {{ $user->address }}
+                        {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
                         <br>
                         <b> <i class="bi bi-geo-alt"></i> {{ $user->region_info->nom }} </b>
                         <br>
@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-between" style="margin-top: -60px;">
+    <div class="d-flex justify-content-between" style="position: relative; top: -60px;">
         <a href="{{ route('checkout') }}?step=2" class="btn btn-dark">
             <i class="bi bi-arrow-left"></i> Adresse de livraison
         </a>

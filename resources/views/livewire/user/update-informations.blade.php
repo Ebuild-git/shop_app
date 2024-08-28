@@ -6,7 +6,7 @@
         <div class="col-sm-4">*
             <label>Nom </label>
             <span class="text-danger">*</span>
-            <div class="form-group">    
+            <div class="form-group">
                 <input type="text" class="form-control border-r shadow-none" value="{{ Auth::user()->lastname }}" readonly>
             </div>
         </div>
@@ -52,8 +52,20 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Adresse</label>
-                <input type="test" class="form-control border-r shadow-none" @error('address') is-invalid @enderror
+                <label>Adresse email</label>
+                <span class="text-danger">*</span>
+                <input type="email" class="form-control border-r shadow-none" @error('email') is-invalid @enderror
+                    wire:model="email" required>
+                @error('email')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Ville</label>
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control border-r shadow-none"
                     wire:model="address">
                 @error('address')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -62,11 +74,42 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Adresse email</label>
+                <label>Rue</label>
                 <span class="text-danger">*</span>
-                <input type="email" class="form-control border-r shadow-none" @error('email') is-invalid @enderror
-                    wire:model="email" required>
-                @error('email')
+                <input type="text" class="form-control border-r shadow-none"
+                    wire:model="rue">
+                @error('rue')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Nom Bâtiment</label>
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control border-r shadow-none"
+                    wire:model="nom_batiment">
+                @error('nom_batiment')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Étage</label>
+                <input type="text" class="form-control border-r shadow-none"
+                    wire:model="etage">
+                @error('etage')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Numéro d'appartement</label>
+                <input type="text" class="form-control border-r shadow-none"
+                    wire:model="num_appartement">
+                @error('num_appartement')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>

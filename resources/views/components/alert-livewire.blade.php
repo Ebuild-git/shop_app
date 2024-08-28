@@ -27,7 +27,7 @@
     <div class="alert alert-warning alert-dismissible" role="alert">
         {{ session('warning') }}
     </div>
-@endif
+@enderror
 
 
 

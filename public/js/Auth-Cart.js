@@ -72,17 +72,43 @@ function delete_my_post(id) {
 }
 
 
+// function CountPanier() {
+//     $.get("/count_panier", function (data, status) {
+//         if (status === "success") {
+//             $("#CountPanier-value").text(data.count);
+//             $("#Contenu-panier").html(data.html);
+//             $("#montant-panier").text(data.montant);
+//             if (data.count > 1) {
+//                 $(".CountPanier-value").text(data.count + " articles");
+//             } else {
+//                 $(".CountPanier-value").text(data.count + " article");
+//             }
+//             if (data.count > 0) {
+//                 $("#empty-card-div").hide();
+//                 $("#cart_select_items").show();
+//             } else {
+//                 $("#cart_select_items").hide();
+//                 $("#empty-card-div").show();
+//             }
+//         }
+//     });
+// }
+
 function CountPanier() {
     $.get("/count_panier", function (data, status) {
         if (status === "success") {
             $("#CountPanier-value").text(data.count);
+            $("#CountPanier-value-mobile").text(data.count);
+
             $("#Contenu-panier").html(data.html);
             $("#montant-panier").text(data.montant);
+
             if (data.count > 1) {
                 $(".CountPanier-value").text(data.count + " articles");
             } else {
                 $(".CountPanier-value").text(data.count + " article");
             }
+
             if (data.count > 0) {
                 $("#empty-card-div").hide();
                 $("#cart_select_items").show();
@@ -93,6 +119,8 @@ function CountPanier() {
         }
     });
 }
+
+
 
 function CountNotification() {
     $.get("/count_notification", function (data, status) {
@@ -140,13 +168,44 @@ function remove_to_card(id) {
 }
 
 
+// function add_cart(id) {
+//     $.get(
+//         "/add_panier",
+//         { id: id },
+//         function (data, status) {
+//             if (status === "success") {
+//                 CountPanier();
+
+//                 Swal.fire({
+//                     position: "center",
+//                     icon: false,
+//                     text: data.message,
+//                     showConfirmButton: false,
+//                     timer: 2500,
+//                 });
+
+//                 Livewire.dispatch("PostAdded");
+
+//                 document.getElementById("Cart").style.display = "block";
+
+//                 $("#div-success-add-card").show("slow").html(data.message);
+
+//                 updateButtonState(data.exist);
+
+//                 setTimeout(function () {
+//                     $("#div-success-add-card").hide("slow");
+//                 }, 7000);
+//             }
+//         }
+//     );
+// }
 function add_cart(id) {
     $.get(
         "/add_panier",
         { id: id },
         function (data, status) {
             if (status === "success") {
-                CountPanier();
+                CountPanier(); // Make sure this reflects the updated count
 
                 Swal.fire({
                     position: "center",

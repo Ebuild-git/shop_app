@@ -76,9 +76,19 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Adresse<span class="text-danger">*</span></label>
+                                    <label for="address" class="form-label">Ville<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="address" wire:model="address">
                                     @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rue" class="form-label">Rue<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="rue" wire:model="rue">
+                                    @error('rue') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nom_batiment" class="form-label">Nom Bâtiment<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nom_batiment" wire:model="nom_batiment">
+                                    @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <button type="submit" class="btn btn-black">Enregistrer</button>
                             </form>
@@ -110,12 +120,13 @@
                             {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                         </b>
                         <p>
-                            @if ($user->address)
-                                {{ $user->address }} <br>
+
+                            @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                            @else
+                                Adresse non complète
                             @endif
-                            @if ($user->region_info)
-                                {{ $user->region_info->nom }} <br>
-                            @endif
+                            <br>
                             <i class="bi bi-telephone"></i>
                             {{ $user->phone_number }} <br>
                         </p>
@@ -124,13 +135,13 @@
                 <br>
                 <div class="d-flex justify-content-end">
                     @if ($this->next)
-                    <button type="button" wire:click="valider()" @disabled(!$user->address) class="btn btn-dark">
+                    <button type="button" wire:click="valider()" @disabled(!($user->address && $user->rue && $user->nom_batiment)) class="btn btn-dark">
                         <b>Continuer</b>
                         <i class="bi bi-arrow-right"></i>
                     </button>
                     @else
                         <div class="alert alert-warning">
-                            Vous devez choisir une adresse de livraison pour poursuivre.
+                            Vous devez compléter toutes vos informations liées à l'adresse pour poursuivre.
                         </div>
                     @endif
                 </div>

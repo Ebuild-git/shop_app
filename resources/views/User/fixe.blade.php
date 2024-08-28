@@ -518,7 +518,7 @@
                 @endauth
                 <a href="#" onclick="openCart()" class="position-relative mobile-panier" style="color: black !important; margin-left: 10px;">
                     <i class="bi lni bi-bag icon-icon-header"></i>
-                    <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
+                    <span class="dn-counter bg-success-ps" id="CountPanier-value-mobile">0</span>
                 </a>
                 @guest
                 <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-left: 10px;">
@@ -623,21 +623,19 @@
     </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-const navToggle = document.querySelector('.nav-toggle');
-const sidebarWrapper = document.querySelector('.sidebar-wrapper');
-const closeMenu = document.querySelector('.close-menu');
+            document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+            const closeMenu = document.querySelector('.close-menu');
 
-navToggle.addEventListener('click', function() {
-sidebarWrapper.classList.toggle('open'); // Toggle the sidebar on click
-});
+            navToggle.addEventListener('click', function() {
+            sidebarWrapper.classList.toggle('open'); // Toggle the sidebar on click
+            });
 
-closeMenu.addEventListener('click', function() {
-sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is clicked
-});
-});
-
-
+            closeMenu.addEventListener('click', function() {
+            sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is clicked
+            });
+            });
 </script>
         <script>
             // $(window).scroll(function() {
@@ -676,7 +674,7 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                     elementToHide.addClass('d-none');
                     comment_position.addClass("comment-position").removeClass("comment-position-top");
                     icons_position.removeClass("comment-position").addClass("comment-position-top");
-                    icons_position.find('.icon-icon-header').css('margin-left', '8px');
+                    icons_position.find('.icon-icon-header').css('margin-left', '3px');
                 } else {
                     icons_position.addClass("comment-position").removeClass("comment-position-top");
                     icons_position.find('.icon-icon-header').css('margin-left', '-10px');
@@ -748,8 +746,7 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                                 <i class="bi lni bi-clock-history icon-icon-header"></i>
                             </a>
                             @endauth
-
-                            <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important; margin-left: 8px;">
+                            <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important;">
                                 <i class="bi lni bi-bag icon-icon-header"></i>
                                 <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
                             </a>

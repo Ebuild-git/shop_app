@@ -17,7 +17,7 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public  $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee;
+    public  $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement;
 
 
     public function mount()
@@ -32,6 +32,10 @@ class UpdateInformations extends Component
         $this->jour = $date->day;
         $this->mois = $date->month;
         $this->annee = $date->year;
+        $this->rue = $user->rue;
+        $this->nom_batiment = $user->nom_batiment;
+        $this->etage = $user->etage;
+        $this->num_appartement = $user->num_appartement;
 
     }
 
@@ -113,6 +117,10 @@ class UpdateInformations extends Component
         $user->region = $this->region;
         $user->address = $this->address;
         $user->birthdate = $date;
+        $user->rue = $this->rue;
+        $user->nom_batiment = $this->nom_batiment;
+        $user->etage = $this->etage;
+        $user->num_appartement = $this->num_appartement;
         $user->save();
 
         $this->dispatch('alert', ['message' => "Informations mises à jour avec succès !", 'type' => 'info']);

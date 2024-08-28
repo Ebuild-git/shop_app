@@ -168,12 +168,51 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="form-group">
-                                <span for="small">Adresse</span>
-                                <input type="text" class="form-control" value="{{ old('adress') }}" name="adress">
-                                @error('adress')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="adress">Ville</label>
+                                    <span class="text-danger">*</span>
+                                    <input type="text" class="form-control" name="adresse" value="{{ old('adresse') }}">
+                                    @error('adress')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="rue">Rue</label>
+                                    <span class="text-danger">*</span>
+                                    <input type="text" class="form-control" name="ruee" value="{{ old('ruee') }}">
+                                    @error('rue')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="nom_batiment">Nom Bâtiment</label>
+                                    <span class="text-danger">*</span>
+                                    <input type="text" class="form-control" value="{{ old('nom_batiment') }}" name="nom_batiment">
+                                    @error('nom_batiment')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="etage">Étage</label>
+                                    <input type="text" class="form-control" value="{{ old('etage') }}" name="adress">
+                                    @error('etage')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label for="num_appartement">Numéro appartement</label>
+                                    <input type="text" class="form-control" value="{{ old('num_appartement') }}" name="rue">
+                                    @error('num_appartement')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 

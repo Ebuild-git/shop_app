@@ -325,15 +325,22 @@ class HomeController extends Controller
             'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
-            'adress' => ['nullable', 'string'],
+            'adresse' => ['required', 'string'],
             'telephone' => ['required', 'string', 'Max:15'],
             'username' => "string|unique:users,username",
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
             'annee' => 'required|integer|between:1950,2024',
+            // Validation rules for new fields
+            'ruee' => ['required', 'string'],
+            'nom_batiment' => ['required', 'string'],
+            'etage' => ['nullable', 'string'],
+            'num_appartement' => ['nullable', 'string'],
         ], [
             'required' => "Veuillez renseigner ce lien.",
+            'adresse.required' => "Veuillez renseigner la ville.",
+            'ruee.required' => "Veuillez renseigner la rue.",
             'username.unique' => "Ce pseudo est déja utilisé.",
             'email.unique' => "Cette adresse email est déja utilisé.",
             "string" => "Veuillez entrer une valeur de type texte.",
@@ -378,10 +385,15 @@ class HomeController extends Controller
         $user->gender = $request->genre;
         $user->role = "user";
         $user->type = "user";
-        $user->address = $request->adress;
+        $user->address = $request->adresse;
         $user->username = $request->username;
         $user->ip_address = request()->ip();
         $user->remember_token = $token;
+        // Assign new fields
+        $user->rue = $request->ruee;
+        $user->nom_batiment = $request->nom_batiment;
+        $user->etage = $request->etage;
+        $user->num_appartement = $request->num_appartement;
 
         if ($request->matricule) {
             $matricule = $request->matricule->store('uploads/documents', 'public');
