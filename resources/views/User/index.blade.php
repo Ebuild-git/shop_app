@@ -73,16 +73,14 @@
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         }, false);
-
-        // Change slide every 3 seconds
         setInterval(nextItem, 6000);
     </script>
     <style>
     .carousel {
         overflow: hidden;
         width: 100%;
-        height: 450px; /* Default height for desktop */
-        position: relative; /* Positioned container for the button */
+        height: 450px;
+        position: relative;
     }
 
     .carousel-item {
@@ -102,30 +100,42 @@
         padding: 12px 24px;
         font-size: 20px;
         color: #fff;
-        background-color: rgba(0, 0, 0, 0.6); /* Slightly transparent black */
-        border-radius: 25px; /* More rounded corners for a modern look */
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 25px;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
         text-decoration: none;
         transition: background-color 0.3s, transform 0.3s;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
-
-    /* Hover effect */
     .carousel-btn:hover {
         color: #fff;
-        background-color: rgba(0, 0, 0, 0.8); /* Darken on hover */
-        transform: translate(-50%, -50%) scale(1.05); /* Slightly enlarge on hover */
+        background-color: rgba(0, 0, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.05);
     }
 
-        /* Apply different height for mobile screens */
-        @media (max-width: 768px) {
-            .carousel {
-                height: 300px; /* Adjusted height for mobile */
-            }
-        }
+@media (max-width: 768px) {
+    .carousel {
+        height: 300px;
+    }
+
+    .carousel-btn {
+        padding: 10px 20px;
+        font-size: 18px;
+    }
+}
+@media (max-width: 480px) {
+    .carousel {
+        height: 250px;
+    }
+
+    .carousel-btn {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+}
     </style>
 
 
