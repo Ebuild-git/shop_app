@@ -43,11 +43,60 @@
     </div>
     <!-- ======================= Top Breadcrubms ======================== -->
 
+    {{-- <div class="sorting-filter-wrapper mobile-visible">
+        <div class="container">
+            <div class="row align-items-center text-center">
+                <div class="col">
+                    <div class="filter-option" id="trier-par-mobile">
+                        <i class="fas fa-sort"></i>
+                        <span>Trier par</span>
+                    </div>
+                </div>
 
+                <div class="col d-flex justify-content-center">
+                    <i class="fas fa-filter"></i>
+                    <i class="fas fa-th-large ml-2"></i>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-options-mobile" id="sorting-options-mobile" style="display: none;">
+            <div class="dropdown-option" data-value="">Trier par</div>
+            <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
+            <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
+            <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
+            @if (!$selected_categorie)
+                <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+            @endif
+
+        </div>
+    </div> --}}
+    <div class="sorting-filter-wrapper mobile-visible">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="filter-option" id="trier-par-mobile">
+                        <i class="fas fa-sort"></i>
+                        <span>Trier par</span>
+                    </div>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <i class="fas fa-filter mr-3"></i>
+                    <i class="fas fa-th-large"></i>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-options-mobile" id="sorting-options-mobile" style="display: none;">
+            <div class="dropdown-option" data-value="">Trier par</div>
+            <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
+            <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
+            <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
+            @if (!$selected_categorie)
+                <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+            @endif
+        </div>
+    </div>
     <section class="middle" id="ancre">
         <div class="container">
-
-
             @if ($key)
                 <h5>
                     <b>
@@ -55,11 +104,9 @@
                     </b>
                 </h5>
             @endif
-
             <div class="row">
 
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
-                    {{-- <div class="search-sidebar sm-sidebar border"> --}}
                     <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
@@ -326,47 +373,12 @@
                 </div>
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
-                    {{-- <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12">
-                            <div class="mb-3 mfliud">
-                                <div class="d-flex justify-content-between p-2 m-0">
-                                    <div>
-                                        <!-- Left side empty as in the original -->
-                                    </div>
-                                    <div class="modern-select-wrapper">
-                                        <select name="filtre-ordre" id="filtre-ordre" class="modern-select">
-                                            <option value="">Trier par</option>
-                                            <option value="prix_asc">Prix croissant</option>
-                                            <option value="prix_desc">Prix décroissant</option>
-                                            <option value="Soldé">Articles Soldés</option>
-                                            @if (!$selected_categorie)
-                                                <option value="luxury">Luxury uniquement</option>
-                                            @endif
-                                        </select>
-                                        <i class="fas fa-chevron-down select-arrow"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="mb-3 mfliud">
                                 <div class="d-flex justify-content-end p-2 m-0">
-                                    {{-- <div class="custom-select-wrapper">
-                                        <select name="filtre-ordre" id="filtre-ordre" class="custom-select">
-                                            <option value="">Trier par</option>
-                                            <option value="prix_asc">Prix croissant</option>
-                                            <option value="prix_desc">Prix décroissant</option>
-                                            <option value="Soldé">Articles Soldés</option>
-                                            @if (!$selected_categorie)
-                                                <option value="luxury">Luxury uniquement</option>
-                                            @endif
-                                        </select>
-                                    </div> --}}
                                     <div class="custom-dropdown-wrapper">
-                                        <div class="custom-dropdown">
+                                        <div class="custom-dropdown desktop-only">
                                             <div class="dropdown-selected">
                                                 Trier par
                                                 <i class="fas fa-chevron-down"></i>
@@ -959,5 +971,55 @@ $(document).on('click', '.pagination li', function() {
     });
 });
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const trierParButton = document.getElementById('trier-par-mobile');
+    const sortingOptions = document.getElementById('sorting-options-mobile');
+    const filtreOrdreSelect = document.getElementById('filtre-ordre');
+    const trierParText = trierParButton.querySelector('span');
+
+    trierParButton.addEventListener('click', function() {
+        // Toggle the visibility of the sorting options dropdown
+        sortingOptions.style.display = (sortingOptions.style.display === 'none' || sortingOptions.style.display === '') ? 'block' : 'none';
+    });
+
+    document.querySelectorAll('.dropdown-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            const optionText = this.textContent;
+            filtreOrdreSelect.value = value;
+            filtreOrdreSelect.dispatchEvent(new Event('change'));
+            trierParText.textContent = optionText;
+
+            sortingOptions.style.display = 'none'; // Close the dropdown after selection
+        });
+    });
+    document.addEventListener('click', function(event) {
+        if (!trierParButton.contains(event.target) && !sortingOptions.contains(event.target)) {
+            sortingOptions.style.display = 'none';
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.querySelector('.search-sidebar');
+    const dropdownOptions = document.querySelectorAll('#sorting-options-mobile .dropdown-option');
+
+    dropdownOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            if (window.innerWidth <= 768) { // Adjust the width as needed for your mobile breakpoint
+                if (option.getAttribute('data-value') === "") {
+                    sidebar.classList.remove('hide-on-mobile');
+                } else {
+                    sidebar.classList.add('hide-on-mobile');
+                }
+            }
+        });
+    });
+});
+
     </script>
+
 @endsection

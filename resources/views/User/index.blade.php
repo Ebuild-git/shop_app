@@ -118,6 +118,12 @@
             color: #fff;
             transform: translateX(-50%) translateY(-5px);
         }
+        /* Apply different height for mobile screens */
+        @media (max-width: 768px) {
+            .carousel {
+                height: 300px; /* Adjusted height for mobile */
+            }
+        }
     </style>
 
 

@@ -668,11 +668,6 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
         <div class="header header-light dark-text">
             <div class="container">
                 <nav id="navigation" class="navigation navigation-landscape">
-                    {{-- <div class="nav-header">
-
-                        <div class="nav-toggle"></div>
-
-                    </div> --}}
                     <div class="nav-menus-wrapper" style="transition-property: none;">
                         <ul class="nav-menu text-uppercase">
 
@@ -798,7 +793,6 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                                     style="color: black !important;">
                                     <i class="bi lni bi-bag icon-icon-header"></i>
                                     <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
-                                    {{-- <span class="hide-desktop">Panier</span> --}}
                                 </a>
 
 
@@ -806,17 +800,17 @@ sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is click
                                     <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header"
                                         style="color: black !important;">
                                         <i class="bi lni  bi-person-circle icon-icon-header"></i>
-                                        {{-- <span class="hide-desktop">Connexion</span> --}}
                                     </a>
                                 @endguest
                                 @auth
                                     <a href="{{ route('user-notifications') }}" style="color: black !important;">
                                         <i class="lni bi bi-bell icon-icon-header"></i>
                                         <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
-                                        {{-- <span class="hide-desktop">Notifications</span> --}}
                                     </a>
                                 @endauth
                             </li>
+
+
                             <li class="text-capitalize comment-position" id="comment_position">
                                 <a href="#">Comment ça marche?</a>
                                 <ul class="nav-dropdown nav-submenu">
