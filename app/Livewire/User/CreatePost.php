@@ -31,12 +31,16 @@ class CreatePost extends Component
     public $proprietes, $quantite;
     protected $listeners = ['suggestionSelected'];
     public $data_post;
+    public $userHasRib;
+    public $step = 1;  // New variable to manage steps
 
 
     public function mount($id)
     {
         $this->id = $id;
         $this->colors = $this->get_list_color();
+        $this->userHasRib = Auth::user()->rib_number ? true : false;
+
     }
 
     public function updatedSelectedCategory($value)
@@ -292,6 +296,9 @@ class CreatePost extends Component
 
     public function submit()
     {
+        if (!$this->userHasRib) {
+            return;
+        }
         $this->before_post();
         if ($this->data_post) {
             //verifier que l'utilisateur a ajouter au moins une photo

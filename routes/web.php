@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
 
-
+    Route::get('/rib', [ControllersHomeController::class, 'showRibForm'])->name('rib.form');
+    Route::post('/rib/submit', [ControllersHomeController::class, 'submitRib'])->name('rib.submit');
     //gestion des notifications
     Route::get('/user-notifications', [NotificationsController::class, 'user_notifications'])->name('user-notifications');
     Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);

@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -77,8 +77,34 @@ class HomeController extends Controller
     public function index_post(Request $request)
     {
         $id = $request->id ?? "";
-        return view('User.post', compact("id"));
+        $step = $request->input('step', 1);
+        return view('User.post', compact("id", "step"));
     }
+
+    public function showRibForm(Request $request)
+    {
+        $step = $request->input('step', 1);
+        return view('rib-form', compact('step'));
+    }
+
+    public function submitRib(Request $request)
+    {
+        $request->validate([
+            'ribNumber' => 'required|string',
+        ]);
+
+        $user = Auth::user();
+        $isNew = empty($user->rib_number);
+
+        $encryptedRib = Crypt::encryptString($request->input('ribNumber'));
+        $user->rib_number = $encryptedRib;
+        $user->save();
+
+        $message = $isNew ? 'RIB ajouté avec succès.' : 'RIB modifié avec succès.';
+
+        return response()->json(['message' => $message]);
+    }
+
 
     public function index_mes_post(Request $request)
     {

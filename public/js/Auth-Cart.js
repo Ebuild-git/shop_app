@@ -120,12 +120,12 @@ function CountPanier() {
     });
 }
 
-
-
 function CountNotification() {
     $.get("/count_notification", function (data, status) {
         if (status === "success") {
             $("#CountNotification-value").text(data.count);
+            $("#CountNotification-value-mobile").text(data.count);
+
         }
     });
 }

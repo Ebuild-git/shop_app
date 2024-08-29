@@ -528,7 +528,7 @@
                 @auth
                 <a href="{{ route('user-notifications') }}" class="mobile-notifications" style="color: black !important; margin-left: 10px;">
                     <i class="lni bi bi-bell icon-icon-header"></i>
-                    <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                    <span class="dn-counter bg-success-ps" id="CountNotification-value-mobile">0</span>
                 </a>
                 @endauth
                 <div class="col-sm-3 mx-auto my-auto text-right">
@@ -711,7 +711,7 @@
                             <li class="desktop-only">
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
-                            <li class="elementToHideBeforeScroll" style="margin-left: 50px; display: flex; align-items: center;">
+                            <li class="elementToHideBeforeScroll d-none" style="margin-left: 50px; display: flex; align-items: center;">
                                 <div class="div-sroll-recherche">
                                 <form action="/shop" method="get" class="mobile-search-form">
                                     @csrf

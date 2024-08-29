@@ -787,6 +787,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            @if ($userHasRib)
                             <button class="btn btn-md bg-dark btn-sm text-light fs-md ft-medium" type="button"
                                 wire:click="submit" id="submit-form" wire:loading.attr="disabled">
                                 <span wire:loading>
@@ -795,6 +796,11 @@
                                 <i class="bi bi-send"></i>
                                 Publier
                             </button>
+                            @else
+                                <div class="alert alert-warning" role="alert" aria-live="assertive">
+                                    Vous devez ajouter votre RIB pour pouvoir publier votre article afin de garantir votre paiement.
+                                </div>
+                            @endif
                         </div>
                     @else
                         <div class="p-2 text-center">
