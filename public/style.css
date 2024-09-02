@@ -1679,10 +1679,6 @@ ul.nav-dropdown-xxx {
 
 
 
-
-
-
-/* Mobile-Only Styles */
 .mobile-visible {
     display: none;
 }
@@ -1706,6 +1702,8 @@ ul.nav-dropdown-xxx {
         color: #333;
         cursor: pointer;
         white-space: nowrap;
+        position: relative; /* Ensure the dropdown is positioned relative to the button */
+
     }
 
     .filter-option i {
@@ -1719,7 +1717,7 @@ ul.nav-dropdown-xxx {
         position: absolute;
         width: 50%;
         z-index: 1000;
-        left: 15px;
+        right: 15px;
         margin-top: 5px;
         padding: 0;
     }
@@ -1733,6 +1731,26 @@ ul.nav-dropdown-xxx {
         background-color: #f0f0f0;
     }
 }
+
+#condition-options-mobile {
+    position: absolute;
+    left: 10px; /* Adjust this value to move it to the right */
+    right: auto;
+    width: max-content;
+    z-index: 1000;
+}
+
+#sorting-options-mobile {
+    position: absolute;
+    right: 15%;
+    transform: translateX(-50%); /* Center-align dropdown */
+    width: max-content;
+    z-index: 10;
+    margin-top: 5px;
+    pointer-events: auto;
+}
+
+
 
 
 .gem-icon {

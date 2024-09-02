@@ -43,58 +43,85 @@
     </div>
     <!-- ======================= Top Breadcrubms ======================== -->
 
-    {{-- <div class="sorting-filter-wrapper mobile-visible">
-        <div class="container">
-            <div class="row align-items-center text-center">
-                <div class="col">
-                    <div class="filter-option" id="trier-par-mobile">
-                        <i class="fas fa-sort"></i>
-                        <span>Trier par</span>
-                    </div>
-                </div>
 
-                <div class="col d-flex justify-content-center">
-                    <i class="fas fa-filter"></i>
-                    <i class="fas fa-th-large ml-2"></i>
-                </div>
-            </div>
-        </div>
-        <div class="dropdown-options-mobile" id="sorting-options-mobile" style="display: none;">
-            <div class="dropdown-option" data-value="">Trier par</div>
-            <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
-            <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
-            <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
-            @if (!$selected_categorie)
-                <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
-            @endif
-
-        </div>
-    </div> --}}
     <div class="sorting-filter-wrapper mobile-visible">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-6">
-                    <div class="filter-option" id="trier-par-mobile">
+                <!-- Filter by Condition Button on the Left -->
+                <div class="col d-flex">
+                    <div class="filter-option" id="filter-condition-mobile" onclick="toggleDropdown('condition-options-mobile')">
+                        <i class="fas fa-filter"></i>
+                        <span>Filtrer par état</span>
+                    </div>
+                </div>
+                <!-- Sort by Button in the Middle -->
+                <div class="col d-flex justify-content-center">
+                    <div class="filter-option" id="trier-par-mobile" onclick="toggleDropdown('sorting-options-mobile')">
                         <i class="fas fa-sort"></i>
                         <span>Trier par</span>
                     </div>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <i class="fas fa-filter mr-3"></i>
-                    <i class="fas fa-th-large"></i>
+                <!-- Dynamic Filter Button on the Right -->
+                <div class="col d-flex justify-content-end">
+                    <div class="filter-option" id="dynamic-filter-toggle" onclick="toggleDynamicFilter()">
+                        <i class="fas fa-list"></i>
+                        <span>Filtres Dynamiques</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Sorting Options Dropdown -->
         <div class="dropdown-options-mobile" id="sorting-options-mobile" style="display: none;">
             <div class="dropdown-option" data-value="">Trier par</div>
             <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
             <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
             <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
             @if (!$selected_categorie)
-                <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+            <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+            @endif
+        </div>
+
+        <!-- Condition Filter Dropdown -->
+        <div class="dropdown-options-mobile" id="condition-options-mobile" style="display: none;">
+            <div class="dropdown-option">
+                <input type="radio" name="etat" value="Neuf avec étiquettes" id="etat-neuf-avec-etiquettes" onclick="choix_etat(this)">
+                <label for="etat-neuf-avec-etiquettes">Neuf avec étiquettes</label>
+            </div>
+            <div class="dropdown-option">
+                <input type="radio" name="etat" value="Neuf sans étiquettes" id="etat-neuf-sans-etiquettes" onclick="choix_etat(this)">
+                <label for="etat-neuf-sans-etiquettes">Neuf sans étiquettes</label>
+            </div>
+            <div class="dropdown-option">
+                <input type="radio" name="etat" value="Très bon état" id="etat-tres-bon" onclick="choix_etat(this)">
+                <label for="etat-tres-bon">Très bon état</label>
+            </div>
+            <div class="dropdown-option">
+                <input type="radio" name="etat" value="Bon état" id="etat-bon" onclick="choix_etat(this)">
+                <label for="etat-bon">Bon état</label>
+            </div>
+            <div class="dropdown-option">
+                <input type="radio" name="etat" value="Usé" id="etat-use" onclick="choix_etat(this)">
+                <label for="etat-use">Usé</label>
+            </div>
+            @error('etat')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <!-- Dynamic Filter Dropdown -->
+        <div class="dropdown-options-mobile" id="dynamic-filter-mobile" style="display: none;">
+            <!-- Inject the DynamicShopFilter Component Here -->
+            @if ($selected_sous_categorie)
+                <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
+            @else
+                <p>-</p>
             @endif
         </div>
     </div>
+
+
+
     <section class="middle" id="ancre">
         <div class="container">
             @if ($key)
@@ -240,7 +267,7 @@
 
 
 
-                            <div>
+                            <div class="desktop-only">
                                 <div class="@if (!$selected_sous_categorie) d-none @endif">
                                     <div class="container mb-2">
                                         <div id="Selected_options" class="d-flex flex-wrap Selected_options"></div>
@@ -973,48 +1000,88 @@ $(document).on('click', '.pagination li', function() {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const trierParButton = document.getElementById('trier-par-mobile');
     const sortingOptions = document.getElementById('sorting-options-mobile');
     const filtreOrdreSelect = document.getElementById('filtre-ordre');
     const trierParText = trierParButton.querySelector('span');
+    const filterConditionButton = document.getElementById('filter-condition-mobile');
+    const conditionOptions = document.getElementById('condition-options-mobile');
+    const dynamicFilterButton = document.getElementById('dynamic-filter-toggle'); // Assuming this button exists
+    const dynamicFilterOptions = document.getElementById('dynamic-filter-mobile'); // Assuming this dropdown exists
 
-    trierParButton.addEventListener('click', function() {
-        // Toggle the visibility of the sorting options dropdown
+    function closeAllDropdowns() {
+        sortingOptions.style.display = 'none';
+        conditionOptions.style.display = 'none';
+        if (dynamicFilterOptions) dynamicFilterOptions.style.display = 'none'; // Ensure dynamic filter is also closed if exists
+    }
+
+    trierParButton.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeAllDropdowns(); // Close others before toggling this one
         sortingOptions.style.display = (sortingOptions.style.display === 'none' || sortingOptions.style.display === '') ? 'block' : 'none';
     });
 
-    document.querySelectorAll('.dropdown-option').forEach(option => {
-        option.addEventListener('click', function() {
+    filterConditionButton.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeAllDropdowns(); // Close others before toggling this one
+        conditionOptions.style.display = (conditionOptions.style.display === 'none' || conditionOptions.style.display === '') ? 'block' : 'none';
+    });
+
+    // If dynamic filter button exists
+    if (dynamicFilterButton) {
+        dynamicFilterButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            closeAllDropdowns(); // Close others before toggling this one
+            dynamicFilterOptions.style.display = (dynamicFilterOptions.style.display === 'none' || dynamicFilterOptions.style.display === '') ? 'block' : 'none';
+        });
+    }
+
+    document.querySelectorAll('#sorting-options-mobile .dropdown-option').forEach(option => {
+        option.addEventListener('click', function () {
             const value = this.getAttribute('data-value');
             const optionText = this.textContent;
             filtreOrdreSelect.value = value;
             filtreOrdreSelect.dispatchEvent(new Event('change'));
             trierParText.textContent = optionText;
-
-            sortingOptions.style.display = 'none'; // Close the dropdown after selection
+            closeAllDropdowns(); // Close dropdown after selection
         });
     });
-    document.addEventListener('click', function(event) {
-        if (!trierParButton.contains(event.target) && !sortingOptions.contains(event.target)) {
-            sortingOptions.style.display = 'none';
+
+    // Close dropdowns if clicked outside
+    document.addEventListener('click', function (event) {
+        if (!trierParButton.contains(event.target) && !sortingOptions.contains(event.target) &&
+            !filterConditionButton.contains(event.target) && !conditionOptions.contains(event.target) &&
+            (!dynamicFilterButton || (!dynamicFilterButton.contains(event.target) && !dynamicFilterOptions.contains(event.target)))) {
+            closeAllDropdowns();
         }
     });
 });
 
-
 document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.querySelector('.search-sidebar');
-    const dropdownOptions = document.querySelectorAll('#sorting-options-mobile .dropdown-option');
+    const sortingOptions = document.querySelectorAll('#sorting-options-mobile .dropdown-option');
+    const filterOptions = document.querySelectorAll('#condition-options-mobile .dropdown-option');
+    const dropdowns = document.querySelectorAll('.dropdown');
 
-    dropdownOptions.forEach(option => {
+    function closeDropdown(dropdown) {
+        dropdown.classList.remove('show');
+    }
+
+    sortingOptions.forEach(option => {
         option.addEventListener('click', function () {
-            if (window.innerWidth <= 768) { // Adjust the width as needed for your mobile breakpoint
-                if (option.getAttribute('data-value') === "") {
-                    sidebar.classList.remove('hide-on-mobile');
-                } else {
-                    sidebar.classList.add('hide-on-mobile');
-                }
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('hide-on-mobile', option.getAttribute('data-value') !== "");
+                dropdowns.forEach(dropdown => closeDropdown(dropdown));
+            }
+        });
+    });
+
+    filterOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('hide-on-mobile', option.getAttribute('data-value') !== "");
+                dropdowns.forEach(dropdown => closeDropdown(dropdown));
             }
         });
     });

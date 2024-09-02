@@ -3793,7 +3793,57 @@ ul.dahs_navbar li a.active {
 }
 
 
+/* Media Query for Mobile Screens */
+@media (max-width: 576px) {
+    .widget-boxed-header h4 {
+        font-size: 14px; /* Adjust font size for mobile headers */
+    }
 
+    .widget-boxed-header h4 a {
+        padding: 0.5rem; /* Adjust padding for mobile */
+    }
+
+    .widget-boxed-header h4 a:before {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }
+
+    .widget-boxed-body .side-list {
+        padding: 0 0.5rem; /* Reduce padding for mobile */
+    }
+
+    .single_filter_card {
+        padding: 8px 0; /* Adjust padding for mobile */
+    }
+
+    .single_filter_card h5 {
+        font-size: 14px; /* Adjust font size for mobile */
+    }
+
+    .single_filter_card .card-body {
+        padding: 5px 0; /* Adjust padding for mobile */
+    }
+
+    .single_filter_card .card-body .inner_widget_link ul li {
+        font-size: 12px; /* Adjust font size for mobile */
+    }
+
+    .single_filter_card .card-body .inner_widget_link ul li a {
+        font-size: 12px; /* Adjust font size for mobile */
+    }
+
+    .single_filter_card h5 a .accordion-indicator {
+        font-size: 8px; /* Adjust font size for mobile */
+        width: 18px;
+        height: 18px;
+    }
+
+    .inner_widget_link label span {
+        float: none; /* Reset float for mobile */
+        display: block;
+    }
+}
 
 
 /*------------------------------------------------------------
