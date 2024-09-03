@@ -371,7 +371,7 @@ class HomeController extends Controller
             'email.unique' => "Cette adresse email est déja utilisé.",
             "string" => "Veuillez entrer une valeur de type texte.",
             "password.min" => "Votre mot de passe doit contenir minimun 8 caractères.",
-            "password.confirmed" => "Votre mot de passe ne correspond pas.",
+            "password.confirmed" => "Les mots de passe ne correspondent pas. Veuillez les vérifier et réessayer.",
             'password.regex' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial(-!@# etc.).',
             "interger" => "Veuillez entrer une valeur de type entier.",
             "in.genre" => "Veuillez choisir votre sexe.",
