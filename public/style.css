@@ -1474,17 +1474,18 @@ tbody td {
 
 /* Close button */
 .close-menu {
-    font-size: 30px;
-    padding: 15px;
+    font-size: 25px;
+    padding: 2px;
     cursor: pointer;
     color: #333;
     text-align: right;
+    margin-right: 10px;
 }
 
 /* Menu items */
 .text-uppercase-mobile {
     list-style: none;
-    padding: 20px;
+    padding: 10px;
     margin: 0;
 }
 
@@ -1507,7 +1508,13 @@ tbody td {
     padding: 5px;
     color: #8b8686;
     border-radius: 5px;
-    margin: 5px;
+    margin: 0;
+    /* margin-left: 1px; */
+}
+
+/* Adjust the container of the nav-toggle button */
+.d-flex.justify-content-between.align-items-center {
+    padding-left: 0; /* Ensure no padding on the left side */
 }
 
 .category-item {
