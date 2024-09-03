@@ -138,9 +138,7 @@
                                     <select name="annee" class="form-control" required>
                                         <option value="">Année</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
-                                            <option value="{{ $year }}" @selected($i == old('annee'))>
-                                                {{ $year }}
-                                            </option>
+                                        <option value="{{ $year }}" @selected($year == old('annee'))>{{ $year }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -200,7 +198,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="etage">Étage</label>
-                                    <input type="text" class="form-control" value="{{ old('etage') }}" name="adress">
+                                    <input type="text" class="form-control" value="{{ old('etage') }}" name="etage">
                                     @error('etage')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
@@ -208,7 +206,7 @@
 
                                 <div class="col-sm-4">
                                     <label for="num_appartement">Numéro appartement</label>
-                                    <input type="text" class="form-control" value="{{ old('num_appartement') }}" name="rue">
+                                    <input type="text" class="form-control" value="{{ old('num_appartement') }}" name="num_appartement">
                                     @error('num_appartement')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
