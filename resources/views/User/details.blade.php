@@ -72,6 +72,11 @@
                             <li class="breadcrumb-item">
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="{{ route('shop') }}">
+                                    Catégories
+                                </a>
+                            </li>
                             <li class="breadcrumb-item">
                                 <a
                                     href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
