@@ -488,8 +488,47 @@
 
         </div>
     </section>
-    <!-- ======================= Similar Products Start ============================ -->
+    <!-- ======================= Similar Products End ============================ -->
 
+    <section class="middle pt-0">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative">
+                        <h3 class="ft-bold pt-3">
+                            Articles de <span class="ft-bold">SHOP<span class="color">IN</span>ER</span> ({{ $user->username }})
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="slide_items">
+                        @foreach ($user_products as $product)
+                            <!-- single Item -->
+                            <div class="single_itesm">
+                                <div class="product_grid card b-0 mb-0">
+                                    @livewire('LikeCard', ['id' => $product->id])
+                                    <div class="card-body p-0">
+                                        <div class="shop_thumb position-relative">
+                                            <a class="card-img-top d-block overflow-hidden"
+                                                href="/post/{{ $product->id }}"><img class="card-img-top"
+                                                    src="{{ Storage::url($product->photos[0] ?? '') }}" alt="...">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <x-SubCardPost :idPost="$product->id"></x-SubCardPost>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
 
 

@@ -221,12 +221,21 @@ class HomeController extends Controller
             ->inRandomOrder()
             ->take(16)
             ->get();
+        $user_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
+            ->where('id_user', $post->id_user)
+            ->select("photos", "id")
+            ->where("verified_at", '!=', null)
+            ->inRandomOrder()
+            ->take(16)
+            ->get();
+
         return view('User.details')
             ->with("post", $post)
             ->with("user", $user)
             ->with("isFavorited", $isFavorited)
             ->with("isLiked", $isLiked)
             ->with("other_products", $other_product)
+            ->with("user_products", $user_product)
             ->with("is_alredy_signaler", $is_alredy_signaler ?? false)
             ->with("produit_in_cart", $produit_in_cart);
     }
