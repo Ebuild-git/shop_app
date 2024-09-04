@@ -2,43 +2,38 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media (max-width: 768px) {
+            /* Custom styles for tablets and mobile */
+            .modal-dialog {
+                max-width: 90%; /* Adjust modal width for smaller screens */
+            }
+            .modal-content {
+                padding: 15px;
+            }
+            .text-center h3, .text-center h4 {
+                font-size: 1.5rem;
+            }
+            .btn {
+                font-size: 1rem;
+            }
+            .alert {
+                font-size: 0.9rem;
+            }
 
+            /* Adjustments to padding and margins */
+            .mb-3, .my-3 {
+                margin-bottom: 15px;
+            }
+            .mt-3 {
+                margin-top: 15px;
+            }
+        }
+    </style>
 @endsection
 
 @section('modal')
     <!-- location-modal Modal -->
-    {{-- <div class="modal fade" id="location-modal" tabindex="-1" role="dialog" aria-labelledby="location-modal" aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content" id="location-modal">
-                <div class="modal-headers">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="ti-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <center>
-                        <h5>
-                            <b class="color">
-                                <i class="bi bi-geo-alt"></i>
-                                Votre localisation
-                            </b>
-                        </h5>
-                    </center>
-                    <br>
-                    <div id="map-adresse" class="map-adresse"></div>
-                    <br>
-                    <div id="val-adresse"></div>
-                    <br>
-                    <div class="text-center">
-                        <button class="btn bg-red" id="btn-accept-location" onclick="btn_accept_location()">
-                            <i class="bi bi-check2-square"></i>
-                            Accepter cette localisation
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="modal fade" id="location-modal" tabindex="-1" role="dialog" aria-labelledby="location-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="location-modal">
@@ -76,6 +71,7 @@
     <!-- End Modal -->
 @endsection
 
+
 <div>
     <div class="text-center">
         <h3>
@@ -86,8 +82,8 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-sm-6 mx-auto">
-            <button type="button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+        <div class="col-lg-6 col-md-8 col-12 mx-auto">
+            <button type="button" class="btn btn-outline-dark w-100 mb-2" data-bs-toggle="modal" data-bs-target="#editAddressModal">
                 <i class="bi bi-pencil-square"></i> Modifier mon adresse de livraison
             </button>
 
@@ -124,7 +120,7 @@
                                     <input type="text" class="form-control" id="nom_batiment" wire:model="nom_batiment">
                                     @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-                                <button type="submit" class="btn btn-black">Enregistrer</button>
+                                <button type="submit" class="btn btn-black w-100">Enregistrer</button>
                             </form>
                         </div>
                     </div>
@@ -139,7 +135,7 @@
             <br>
             <hr>
             <br>
-            <h4 class="color">
+            <h4 class="color text-center">
                 J'utilise cette adresse enregistrée
             </h4>
             <div>
@@ -154,7 +150,6 @@
                             {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                         </b>
                         <p>
-
                             @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
                                 {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
                             @else
@@ -169,7 +164,7 @@
                 <br>
                 <div class="d-flex justify-content-end">
                     @if ($this->next)
-                    <button type="button" wire:click="valider()" @disabled(!($user->address && $user->rue && $user->nom_batiment)) class="btn btn-dark">
+                    <button type="button" wire:click="valider()" @disabled(!($user->address && $user->rue && $user->nom_batiment)) class="btn btn-dark w-30">
                         <b>Continuer</b>
                         <i class="bi bi-arrow-right"></i>
                     </button>
@@ -183,7 +178,6 @@
         </div>
     </div>
 </div>
-
 
  <!-- Bootstrap JS and dependencies -->
  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
