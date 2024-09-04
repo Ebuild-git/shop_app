@@ -111,7 +111,6 @@
         text-decoration: none;
         transition: background-color 0.3s, transform 0.3s;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        z-index: 10;
 
     }
     .carousel-btn:hover {

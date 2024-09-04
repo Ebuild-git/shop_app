@@ -666,7 +666,6 @@ body {
     transform: translateY(-50%);
     display: flex;
     justify-content: space-between;
-    z-index: 5; /* Increase this value if needed */
     pointer-events: none;
 }
 
@@ -1314,9 +1313,6 @@ tbody td {
     .header-btn-position {
         bottom: -100px;
         width: 100%;
-    }
-.mobile-only-icons {
-        margin-right: -50px;
     }
 }
 
