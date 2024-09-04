@@ -645,6 +645,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s, transform 0.3s;
     margin: 0 20px;
+    pointer-events: all;
 }
 
 .btn-slide-home i {
@@ -665,6 +666,8 @@ body {
     transform: translateY(-50%);
     display: flex;
     justify-content: space-between;
+    z-index: 5; /* Increase this value if needed */
+    pointer-events: none;
 }
 
 
