@@ -1789,3 +1789,13 @@ ul.nav-dropdown-xxx {
         color: #008080;
     }
 }
+
+
+@media only screen and (max-width: 768px) {
+    .cell {
+        font-size: 14px;
+    }
+    .cell-bold {
+        font-weight: bold;
+    }
+}

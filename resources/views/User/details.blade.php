@@ -327,28 +327,28 @@
                                 <p>
                                 <table>
                                     <tr>
-                                        <td style="min-width: 130px">Condition </td>
-                                        <td class="text-black"> {{ $post->etat }} </td>
+                                        <td style="min-width: 130px" class="cell cell-bold">Condition </td>
+                                        <td class="text-black cell"> {{ $post->etat }} </td>
                                     </tr>
                                     <tr>
-                                        <td>Catégorie </td>
-                                        <td class="text-black">
+                                        <td class="cell cell-bold">Catégorie </td>
+                                        <td class="text-black cell">
                                             {{ $post->sous_categorie_info->categorie->titre ?? '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Région </td>
-                                        <td class="text-black"> {{ $post->region->nom ?? '' }}</td>
+                                        <td class="cell cell-bold">Région </td>
+                                        <td class="text-black cell"> {{ $post->region->nom ?? '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Publié le </td>
-                                        <td class="text-black">
+                                        <td class="cell cell-bold">Publié le </td>
+                                        <td class="text-black cell">
                                             {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} </td>
                                     </tr>
                                     @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
-                                            <td>{{ ucfirst($key) }} </td>
-                                            <td class="text-black">
+                                            <td class="cell cell-bold">{{ ucfirst($key) }} </td>
+                                            <td class="text-black cell">
                                                 @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
                                                         <img src="/icons/color-wheel.png" height="20" width="20"
@@ -357,10 +357,15 @@
                                                         <script>
                                                             getColorName('{{ $value }}');
                                                         </script>
-                                                        <span class="card"
+                                                        {{-- <span class="card"
                                                             style="background-color: {{ $value }} ;color:{{ $value }};">
                                                             {{ $value }}
-                                                        </span>
+                                                        </span> --}}
+                                                        <div style="display: flex; align-items: center;">
+                                                            <div style="width: 24px; height: 24px; background-color: {{ $value }}; border-radius: 50%; border: 2px solid #ccc; margin-right: 8px;"></div>
+                                                            <span style="color: #333; font-weight: bold;">{{ $value }}</span>
+                                                        </div>
+
                                                     @endif
                                                     <span id="colorName"></span>
                                                 @else

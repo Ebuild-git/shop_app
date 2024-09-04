@@ -137,8 +137,8 @@
                     <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
-                            <div class="single_search_boxed ">
-                                <div class="widget-boxed-header ">
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header">
                                     @if ($selected_categorie)
                                         @if ($selected_sous_categorie)
                                             <h3 class="p-2">
