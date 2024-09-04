@@ -69,8 +69,12 @@ class HomeController extends Controller
                 $lux->discountPercentage = round((($lux->old_prix - $lux->prix) / $lux->old_prix) * 100);
             }
         }
+        // Controller method
+        $categories_carousel = categories::orderBy('titre')
+            ->orderByDesc('luxury')
+            ->get();
 
-        return view("User.index", compact("categories", "configuration", "last_post", "luxurys"));
+        return view("User.index", compact("categories", "configuration", "last_post", "luxurys", "categories_carousel"));
     }
 
 

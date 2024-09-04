@@ -6,7 +6,7 @@
     <!-- ============================ Hero Banner  Start================================== -->
     <div class="position-relative">
         <div class="carousel">
-            @forelse ($categories as $cat)
+            @forelse ($categories_carousel as $cat)
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
                     <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
                         {{ $cat->titre }}

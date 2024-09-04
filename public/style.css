@@ -1312,7 +1312,9 @@ tbody td {
         bottom: -100px;
         width: 100%;
     }
-
+.mobile-only-icons {
+        margin-right: -50px;
+    }
 }
 
 /* @media (min-width: 991px) {
