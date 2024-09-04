@@ -612,7 +612,7 @@ class HomeController extends Controller
             $notification->type = "like";
             $notification->destination = "user";
             $notification->url = "/post/" . $post->id;
-            $notification->message = "@" . Auth::user()->username . " Vient d'aimé votre publication";
+            $notification->message = "@" . Auth::user()->username . " vient d'aimer votre publication";
             $notification->save();
 
             return response()->json(

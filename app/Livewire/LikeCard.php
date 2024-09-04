@@ -61,7 +61,7 @@ class LikeCard extends Component
                 $notification->type = "like";
                 $notification->destination = "user";
                 $notification->url = "/post/" . $this->post->id;
-                $notification->message = "@" . Auth::user()->username . " Vient d'aimé votre publication";
+                $notification->message = "@" . Auth::user()->username . " vient d'aimer votre publication";
                 $notification->save();
             }
         }
