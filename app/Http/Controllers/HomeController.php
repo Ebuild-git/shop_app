@@ -221,8 +221,7 @@ class HomeController extends Controller
             ->inRandomOrder()
             ->take(16)
             ->get();
-        $user_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->where('id_user', $post->id_user)
+        $user_product = posts::where('id_user', $post->id_user)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
             ->inRandomOrder()
