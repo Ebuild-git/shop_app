@@ -536,10 +536,13 @@
                         <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
                             title="Language" aria-label="Language dropdown">
                             @auth
-                            <button class="user-button">
-                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i>
-                                <i class="bi bi-caret-down"></i>
-                            </button>
+                            {{-- <span class="d-flex align-items-end" style="color: black; font-size: 10px;">
+                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
+                                <i class="bi bi-caret-down ml-1"></i>
+                            </span> --}}
+                            <span class="d-flex align-items-end">
+                                <i class="fas fa-user user-emoji" role="img" aria-label="User" onclick="toggleActive(this)"></i>
+                            </span>
                             @endauth
                         </a>
                         <ul class="dropdown-menu popup-content p-3">
