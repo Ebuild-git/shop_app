@@ -1800,3 +1800,59 @@ ul.nav-dropdown-xxx {
         font-weight: bold;
     }
 }
+
+
+.user-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: black; /* Default color */
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s, transform 0.2s;
+    position: relative;
+}
+
+.user-button:hover {
+    color: #007070; /* Slightly darker shade for hover effect */
+    background-color: rgba(0, 128, 128, 0.1); /* Light background on hover */
+}
+
+.user-button:active,
+.user-button:focus {
+    color: #008080; /* Change to the target color when clicked or focused */
+    outline: none;
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+/* Adjust the icon sizes and spacing */
+.user-emoji {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+.bi-caret-down {
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+/* Optional: Add a subtle drop shadow to enhance button visibility */
+.user-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.user-button:hover::after {
+    opacity: 1;
+}

@@ -536,10 +536,10 @@
                         <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
                             title="Language" aria-label="Language dropdown">
                             @auth
-                            <span class="d-flex align-items-center" style="color: black;">
-                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
-                                <i class="bi bi-caret-down ml-1"></i>
-                            </span>
+                            <button class="user-button">
+                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i>
+                                <i class="bi bi-caret-down"></i>
+                            </button>
                             @endauth
                         </a>
                         <ul class="dropdown-menu popup-content p-3">
