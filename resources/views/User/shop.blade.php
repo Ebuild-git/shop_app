@@ -61,13 +61,6 @@
                         <span>Trier par</span>
                     </div>
                 </div>
-                <!-- Dynamic Filter Button on the Right -->
-                <div class="col d-flex justify-content-end">
-                    <div class="filter-option" id="dynamic-filter-toggle" onclick="toggleDynamicFilter()">
-                        <i class="fas fa-list"></i>
-                        <span>Filtres Dynamiques</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -108,16 +101,6 @@
             <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
-
-        <!-- Dynamic Filter Dropdown -->
-        <div class="dropdown-options-mobile" id="dynamic-filter-mobile" style="display: none;">
-            <!-- Inject the DynamicShopFilter Component Here -->
-            @if ($selected_sous_categorie)
-                <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
-            @else
-                <p>-</p>
-            @endif
-        </div>
     </div>
 
 
@@ -133,7 +116,7 @@
             @endif
             <div class="row">
 
-                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
+                {{-- <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
                     <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
@@ -397,7 +380,211 @@
 
                         </div>
                     </div>
+                </div> --}}
+                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
+                    <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
+                        <div class="search-sidebar-body">
+                            <!-- Single Option -->
+                            <div class="single_search_boxed">
+                                <div class="widget-boxed-header">
+                                    @if ($selected_categorie)
+                                        @if ($selected_sous_categorie)
+                                            <h3 class="p-2">
+                                                <b>{{ $selected_sous_categorie->titre }}</b>
+                                            </h3>
+                                        @else
+                                            <div class="bg-color p-2">
+                                                <a href="/shop" class="h6 text-white">Catégories</a>
+                                            </div>
+                                            <div class="strong p-2 pl-3">
+                                                <a href="/shop" class="h6">
+                                                    <i class="bi bi-arrow-left"></i>
+                                                    <span class="strong">{{ $selected_categorie->titre }}</span>
+                                                    @if ($selected_categorie->luxury == 1)
+                                                        <span class="small color">
+                                                            <i class="bi bi-gem"></i> Luxury
+                                                        </span>
+                                                    @endif
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <div class="bg-color p-2">
+                                            <div class="h6 text-white">Catégories</div>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="widget-boxed-body">
+                                    <div class="side-list no-border">
+                                        <div class="filter-card" id="shop-categories">
+                                            @if (!$selected_categorie)
+                                                @foreach ($liste_categories as $categorie)
+                                                    <div class="single_filter_card my-auto" id="list-categorie"
+                                                        onclick="select_categorie({{ $categorie->id }})">
+                                                        <button class="d-flex p-1 justify-content-between btn w-100">
+                                                            <div class="d-flex justify-content-start">
+                                                                <span>
+                                                                    <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" />
+                                                                    &nbsp;
+                                                                </span>
+                                                                <span>{{ $categorie->titre }}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>
+                                                                    @if ($categorie->luxury == 1)
+                                                                        <span class="color small">
+                                                                            <b><i class="bi bi-gem"></i> Luxury</b>
+                                                                        </span>
+                                                                        &nbsp;
+                                                                    @endif
+                                                                </span>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+
+                                            <div>
+                                                @if ($selected_categorie)
+                                                    @if (!$selected_sous_categorie)
+                                                        <div class="card card-image-shop-categorie">
+                                                            <img src="{{ Storage::url($selected_categorie->icon) }}"
+                                                                alt="{{ $selected_categorie->icon }}" class="w-100">
+                                                        </div>
+                                                        <div class="color p-1">
+                                                            <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="color">
+                                                                Tout les articles de {{ $selected_categorie->titre }}
+                                                                @if ($selected_categorie->luxury == 1)
+                                                                    <i class="bi bi-gem small color"></i>
+                                                                @endif
+                                                            </a>
+                                                        </div>
+                                                    @endif
+
+                                                    @if ($selected_sous_categorie)
+                                                    @else
+                                                        <hr>
+                                                        <div>
+                                                            @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                                                <button class="btn w-100 mb-1 d-flex btn-sm justify-content-between"
+                                                                    onclick="select_sous_categorie({{ $sous_categorie->id }})">
+                                                                    <span>
+                                                                        {{ $sous_categorie->titre }}
+                                                                        @if ($selected_categorie->luxury == 1)
+                                                                            <span class="color">
+                                                                                <b><i class="bi bi-gem"></i></b>
+                                                                            </span>
+                                                                        @endif
+                                                                    </span>
+                                                                    <span>{{ $sous_categorie->getPost->where('statut','vente')->count() }}</span>
+                                                                </button>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="@if (!$selected_sous_categorie) d-none @endif">
+                                    <div class="container mb-2">
+                                        <div id="Selected_options" class="d-flex flex-wrap"></div>
+                                    </div>
+                                </div>
+                                @if ($selected_sous_categorie)
+                                    <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
+                                @endif
+                            </div>
+
+                            @if ($selected_sous_categorie)
+                                <!-- Single Option -->
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <button class="collapse-toggle" data-target="#types">
+                                                état
+                                                <span class="collapse-icon">
+                                                    <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
+                                                </span>
+                                            </button>
+                                        </h4>
+                                    </div>
+                                    <div class="widget-boxed-body collapse-content" id="types">
+                                        <div class="side-list no-border">
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="etat" value="Neuf avec étiquettes" onclick="choix_etat(this)">
+                                                <button type="button" class="btn-etat-shop">Neuf avec étiquettes</button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="etat" value="Neuf sans étiquettes" onclick="choix_etat(this)">
+                                                <button type="button" class="btn-etat-shop">Neuf sans étiquettes</button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="etat" value="Très bon état" onclick="choix_etat(this)">
+                                                <button type="button" class="btn-etat-shop">Très bon état</button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="etat" value="Bon état" onclick="choix_etat(this)">
+                                                <button type="button" class="btn-etat-shop">Bon état</button>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="etat" value="Usé" onclick="choix_etat(this)">
+                                                <button type="button" class="btn-etat-shop">Usé</button>
+                                            </div>
+                                            @error('etat')
+                                                <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Single Option -->
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <button class="collapse-toggle" data-target="#prixs">
+                                                prix
+                                                <span class="collapse-icon">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </span>
+                                            </button>
+                                        </h4>
+                                    </div>
+                                    <div class="widget-boxed-body collapse-content" id="prixs">
+                                        <div class="side-list no-border">
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="Asc" onclick="choix_ordre_prix('prix_asc')" id="prix_asc">
+                                                <span class="btn-etat-shop">Ordre croissant</span>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="Desc" onclick="choix_ordre_prix('prix_desc')" id="prix_desc">
+                                                <span class="btn-etat-shop">Ordre décroissant</span>
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="Soldé" onclick="choix_ordre_prix('Soldé')" id="solder">
+                                                <span class="btn-etat-shop">Articles soldés</span>
+                                            </div>
+                                            @if (!$selected_categorie)
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="Desc" onclick="choix_ordre_prix('luxury')">
+                                                    <span class="btn-etat-shop color">Uniquement <b><i class="bi bi-gem"></i> Luxury</b></span>
+                                                </div>
+                                            @endif
+                                            @error('ordre')
+                                                <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
+
+
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                     <div class="row">
@@ -1088,5 +1275,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggles = document.querySelectorAll('.collapse-toggle');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const target = document.querySelector(targetId);
+            const icon = this.querySelector('.collapse-icon i');
+
+            if (target) {
+                if (target.classList.contains('active')) {
+                    target.classList.remove('active');
+                    this.setAttribute('aria-expanded', 'false');
+                    icon.classList.replace('fa-minus', 'fa-plus'); // Change to plus icon
+                } else {
+                    target.classList.add('active');
+                    this.setAttribute('aria-expanded', 'true');
+                    icon.classList.replace('fa-plus', 'fa-minus'); // Change to minus icon
+                }
+            }
+        });
+    });
+});
+
+
+</script>
 
 @endsection

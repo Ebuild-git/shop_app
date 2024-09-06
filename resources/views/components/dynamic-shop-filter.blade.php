@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     @foreach ($selected_sous_categorie->proprietes as $id_propriete)
         @if ($show_option)
             @php
@@ -60,11 +60,75 @@
             </div>
         @endif
     @endforeach
+</div> --}}
+
+<!-- resources/views/components/dynamic-shop-filter.blade.php -->
+<div>
+    @foreach ($selected_sous_categorie->proprietes as $id_propriete)
+        @if ($show_option)
+            @php
+                $propriete = DB::table('proprietes')
+                    ->whereIn(DB::raw('LOWER(nom)'), $show_option)
+                    ->where('id', $id_propriete)
+                    ->first();
+            @endphp
+        @else
+            @php
+                $propriete = DB::table('proprietes')->where('id', $id_propriete)->first();
+            @endphp
+        @endif
+
+        @if ($propriete)
+
+            <!-- Single Option -->
+            <div class="single_search_boxed">
+                <div class="widget-boxed-header">
+                    <h4>
+                        <button class="collapse-toggle" data-target="#types{{ $propriete->id }}">
+                            {{ $propriete->nom }}
+                            <span class="collapse-icon">
+                                <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
+                            </span>
+                        </button>
+                    </h4>
+                </div>
+                <div class="widget-boxed-body collapse-content" id="types{{ $propriete->id }}">
+                    <div class="color-container">
+                        @if (Str::lower($propriete->type) == 'color')
+                            <div class="color-grid">
+                                @foreach ($colors as $color)
+                                    <button
+                                        onclick="filtre_propriete_color('{{ $propriete->nom }}','{{ $color['code'] }}','{{ $color['nom'] }}')"
+                                        class="color-button">
+                                        <div class="color-shop-filtre"
+                                            style="background-color: {{ $color['code'] }};"></div>
+                                        {{-- <span class="color-name">{{ $color['nom'] }}</span> --}}
+                                    </button>
+                                @endforeach
+                            </div>
+                        @else
+                            @if ($propriete->options)
+                                @foreach (json_decode($propriete->options ?? []) as $option)
+                                    <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
+                                        onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
+                                        {{ $option }}
+                                    </button>
+                                @endforeach
+                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endforeach
 </div>
 
 
+
+
+
 <!-- Mobile-specific Filter Design -->
-<div class="mobile-only">
+{{-- <div class="mobile-only">
     <div class="widget-boxed-body collapse" id="types{{ $propriete->id }}" data-parent="#types{{ $propriete->id }}">
         <div class="side-list no-border">
             <!-- Single Filter Card -->
@@ -100,64 +164,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
-<style>
-    /* Mobile-specific styles */
-@media (max-width: 576px) {
-    .widget-boxed-body {
-        padding: 0;
-    }
 
-    .filter-options-container {
-        padding: 0.5rem;
-    }
-
-    .color-options-list {
-        max-height: 150px; /* Adjust based on the height of 5 items */
-        overflow-y: auto;
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-    }
-    .option-filters-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .color-option-item {
-        display: flex;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid #eef0f5;
-    }
-    .option-filter-item {
-        display: flex;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid #eef0f5;
-    }
-
-    .color-label {
-        margin-left: 8px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-    }
-    .option-filter-item label {
-        margin-left: 8px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-    }
-
-    .color-indicator {
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 8px;
-    }
-}
-</style>
