@@ -1,0 +1,48 @@
+<form wire:submit.prevent="update">
+    @include('components.alert-livewire')
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Numéro de RIB actuel</label>
+                <input type="text" class="form-control border-r shadow-none" @error('rib_number') is-invalid @enderror
+                    wire:model="rib_number" required>
+                @error('rib_number')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <label>Nom de la banque</label>
+                <div class="form-group" style="position: relative;">
+                    <input type="text" class="form-control border-r shadow-none" id="bank-name"
+                        @error('bank_name') is-invalid @enderror wire:model="bank_name" required>
+                </div>
+                @error('bank_name')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <label>Nom du titulaire</label>
+                <div class="form-group" style="position: relative;">
+                    <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
+                        @error('titulaire_name') is-invalid @enderror wire:model="titulaire_name"
+                        required>
+                </div>
+                @error('titulaire_name')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer mt-3">
+        <button type="submit" class="btn bg-red">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+            Modifier mes informations bancaires
+            <i class="bi bi-arrow-right-circle-fill"></i>
+        </button>
+    </div>
+</form>

@@ -95,20 +95,27 @@ class HomeController extends Controller
     {
         $request->validate([
             'ribNumber' => 'required|string',
+            'bankName' => 'required|string',
+            'titulaireName' => 'required|string',
         ]);
 
         $user = Auth::user();
         $isNew = empty($user->rib_number);
 
+        // Encrypt and save the RIB number
         $encryptedRib = Crypt::encryptString($request->input('ribNumber'));
         $user->rib_number = $encryptedRib;
+
+        // Save the bank name and titulaire name
+        $user->bank_name = $request->input('bankName');
+        $user->titulaire_name = $request->input('titulaireName');
+
         $user->save();
 
         $message = $isNew ? 'RIB ajouté avec succès.' : 'RIB modifié avec succès.';
 
         return response()->json(['message' => $message]);
     }
-
 
     public function index_mes_post(Request $request)
     {

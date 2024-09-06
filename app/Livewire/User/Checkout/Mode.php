@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserCart;
+use App\Models\User;
+use App\Models\notifications;
+use App\Events\UserEvent;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Mode extends Component
@@ -60,35 +64,64 @@ class Mode extends Component
             ->with("nbre_article", $nbre_article);
     }
 
+    public function confirm()
+    {
+        // Loop through each product in the cart
+        foreach ($this->articles_panier as $article) {
+            $post = posts::find($article['id']);
+            if ($post) {
+                // Update the post's status to 'sold' and set the buyer's ID
+                $post->update(
+                    [
+                        'statut' => 'vendu',
+                        'sell_at' => now(),
+                        'id_user_buy' => $this->user->id
+                    ]
+                );
 
-    public function confirm(){
+                 // Fetch the seller's user model
+                $seller = User::find($post->id_user);
 
-        //validation des commandes de chaque produit
-        foreach($this->articles_panier as $article){
-          $post= posts::find($article['id']);
-          if($post){
-            $post->update(
-                [
-                    'statut' => 'vendu',
-                    'sell_at' => Now(),
-                    'id_user_buy' => $this->user->id
-                ]
-            );
-          }
+                // Determine the salutation based on gender
+                $salutation = 'Cher';
+                if ($seller) {
+                    $gender = $seller->gender;
+                    if ($gender === 'female') {
+                        $salutation = 'Chère';
+                    }
+                }
+
+                // Retrieve the buyer's username
+                $buyerPseudo = Auth::user()->username;
+
+                $notification = new notifications();
+                $notification->titre = "Une nouvelle commande !";
+                $notification->id_user_destination = $post->id_user;
+                $notification->type = "alerte";
+                $notification->url = "/post/" . $post->id;
+                $notification->message = "$salutation " . $seller->username . ", "
+                . "Nous vous informons que votre article \"{$post->titre}\" a été commandé par $buyerPseudo. "
+                . "Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique "
+                . "vous contactera bientôt et passera pour récupérer l'article.<br>"
+                . "Merci de bien vouloir <a href='/informations?section=cord' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), "
+                . "afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé"
+                ;
+                $notification->save();
+                event(new UserEvent($post->id_user));
+            }
         }
 
+        // Send email to the buyer
+        Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier));
 
-        //send mail
-        Mail::to(Auth::user()->email)->send(new commande($this->user,$this->articles_panier));
-
-        //generate random token
+        // Generate random token for redirection
         $token = md5(uniqid(rand(), true));
 
-        //delete cart cookies
+        // Delete cart cookies
         Cookie::queue(Cookie::forget('cart'));
 
-
-
+        // Redirect to the next step in the checkout process
         return Redirect("/checkout?step=4&action=$token");
     }
+
 }

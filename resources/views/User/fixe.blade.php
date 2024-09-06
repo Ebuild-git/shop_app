@@ -641,32 +641,6 @@
             });
 </script>
         <script>
-            // $(window).scroll(function() {
-            //     var elementToHide = $('.elementToHideBeforeScroll');
-            //     var icons_position = $('#icons_position');
-            //     var comment_position = $('#comment_position');
-            //     var scrollPosition = $(window).scrollTop();
-
-            //     if (scrollPosition === 0) {
-            //         elementToHide.addClass('d-none');
-            //         comment_position.addClass("comment-position").removeClass("comment-position-top");
-            //         icons_position.removeClass("comment-position").addClass("comment-position-top");
-            //     } else {
-            //         icons_position.addClass("comment-position").removeClass("comment-position-top");
-            //         comment_position.removeClass("comment-position").addClass("comment-position-top");
-            //         elementToHide.removeClass('d-none');
-            //     }
-
-            // });
-            // $(document).ready(function() {
-            //     var inputField = $('#myInputRecherche');
-            //     inputField.click(function() {
-            //         inputField.addClass('full-width');
-            //     });
-            //     inputField.blur(function() {
-            //         inputField.removeClass('full-width');
-            //     });
-            // });
             $(window).scroll(function() {
                 var elementToHide = $('.elementToHideBeforeScroll');
                 var icons_position = $('#icons_position');

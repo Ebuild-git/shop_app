@@ -17,12 +17,15 @@
                 </div>
             </div>
         </div>
-
-        <div class=" p-3">
+        <div class="p-3">
             <div>
                 <button class="btn btn-perso bg-red shadow-none" onclick="change('perso')">
                     <i class="bi bi-person"></i>
                     Informations personnelles
+                </button>
+                <button class="btn btn-cord shadow-none" onclick="change('cord')">
+                    <i class="fas fa-credit-card"></i>
+                    Coordonnées bancaires
                 </button>
                 <button class="btn btn-secu shadow-none" onclick="change('secu')">
                     <i class="bi bi-lock"></i>
@@ -35,7 +38,12 @@
                     <hr>
                     @livewire('User.UpdateInformations')
                 </div>
-                <div id="div-secu" style="display: none">
+                <div id="div-cordonnées" style="display: none;">
+                    <h4 class="text-muted">Mes coordonnées bancaires</h4>
+                    <hr>
+                    @livewire('User.UpdateCordonnées')
+                </div>
+                <div id="div-secu" style="display: none;">
                     <h4 class="text-muted">Sécurité</h4>
                     <hr>
                     @livewire('User.UpdateMySecurity')
@@ -45,17 +53,54 @@
     </div>
     <script>
         function change(type) {
-            if (type == "secu") {
-                document.getElementById("div-perso").style.display = "none";
-                document.getElementById("div-secu").style.display = "";
-                document.getElementsByClassName("btn-perso")[0].classList.remove("bg-red");
+            // Hide all sections
+            document.getElementById("div-perso").style.display = "none";
+            document.getElementById("div-cordonnées").style.display = "none";
+            document.getElementById("div-secu").style.display = "none";
+
+            // Remove bg-red from all buttons
+            document.getElementsByClassName("btn-perso")[0].classList.remove("bg-red");
+            document.getElementsByClassName("btn-cord")[0].classList.remove("bg-red");
+            document.getElementsByClassName("btn-secu")[0].classList.remove("bg-red");
+
+            // Show the correct section and highlight the corresponding button
+            if (type === "secu") {
+                document.getElementById("div-secu").style.display = "block";
                 document.getElementsByClassName("btn-secu")[0].classList.add("bg-red");
+                updateUrl('secu');
+            } else if (type === "cord") {
+                document.getElementById("div-cordonnées").style.display = "block";
+                document.getElementsByClassName("btn-cord")[0].classList.add("bg-red");
+                updateUrl('cord');
             } else {
-                document.getElementById("div-secu").style.display = "none";
-                document.getElementById("div-perso").style.display = "";
-                document.getElementsByClassName("btn-secu")[0].classList.remove("bg-red");
+                document.getElementById("div-perso").style.display = "block";
                 document.getElementsByClassName("btn-perso")[0].classList.add("bg-red");
+                updateUrl('perso');
             }
         }
+
+        // Function to update the URL without reloading the page
+        function updateUrl(section) {
+            const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?section=${section}`;
+            window.history.pushState({ path: newUrl }, '', newUrl);
+        }
+
+        // On page load, check the URL and show the correct section
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+
+            if (section === 'secu') {
+                change('secu');
+            } else if (section === 'cord') {
+                change('cord');
+            } else {
+                change('perso');
+            }
+        });
     </script>
+
+
+
+
 @endsection
