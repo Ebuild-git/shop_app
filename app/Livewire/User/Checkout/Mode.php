@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\notifications;
 use App\Events\UserEvent;
 use Illuminate\Support\Facades\DB;
+use App\Mail\VenteConfirmee;
 use Livewire\Component;
 
 class Mode extends Component
@@ -94,6 +95,9 @@ class Mode extends Component
                 // Retrieve the buyer's username
                 $buyerPseudo = Auth::user()->username;
 
+                if ($seller) {
+                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo));
+                }
                 $notification = new notifications();
                 $notification->titre = "Une nouvelle commande !";
                 $notification->id_user_destination = $post->id_user;
@@ -104,7 +108,7 @@ class Mode extends Component
                 . "Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique "
                 . "vous contactera bientôt et passera pour récupérer l'article.<br>"
                 . "Merci de bien vouloir <a href='/informations?section=cord' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), "
-                . "afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé"
+                . "afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé."
                 ;
                 $notification->save();
                 event(new UserEvent($post->id_user));

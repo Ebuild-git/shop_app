@@ -164,7 +164,4 @@
         font-size: 0.855rem; /* Smaller font size for URL */
     }
 }
-
-
-
 </style>
