@@ -8,61 +8,60 @@
         <br>
         <div class="row">
             <!-- Payment Info Section -->
-            <div class="col-lg-8 col-md-7 col-sm-12 mx-auto">
-                <div>
-                    <div class="card p-3 mb-4">
-                        <h5>
-                            <b><i class="bi bi-house"></i> Paiement à la livraison</b>
-                        </h5>
-                        <p>
-                            Vous payez à la livraison (à l'adresse de votre choix) et recevez votre commande.
+            <div class="col-lg-8 col-md-7 col-sm-12 mx-auto mb-4">
+                <div class="card p-4 modern-card">
+                    <h5 class="mb-3 payment-title">
+                        <b><i class="bi bi-credit-card-2-front"></i> Paiement à la livraison</b>
+                    </h5>
+                    <p class="payment-description">
+                        Vous payez à la livraison (à l'adresse de votre choix) et recevez votre commande en toute sécurité.
+                    </p>
+                    <hr class="my-3">
+                    <b class="delivery-title"><i class="bi bi-geo-alt"></i> Adresse de livraison</b>
+                    <div class="address-card mt-3 p-3">
+                        <p class="address-text">
+                            <i class="bi bi-house-door"></i> {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }},
+                            {{ $user->region_info->nom }}
                         </p>
-                    </div>
-                    <b><i class="bi bi-geo-alt"></i> Adresse de livraison</b>
-                    <div>
-                        <div class="alert alert-dark">
-                            <i class="bi bi-geo-alt"></i>
-                            {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
-                            <br>
-                            <b><i class="bi bi-geo-alt"></i> {{ $user->region_info->nom }}</b>
-                            <br>
+                        <p class="region-text mb-1">
+                            <b><i class="bi bi-geo"></i> {{ $user->region_info->nom }}</b>
+                        </p>
+                        <p class="phone-text">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
             <!-- Order Summary Section -->
             <div class="col-lg-4 col-md-5 col-sm-12 mx-auto">
-                <div class="alert alert-dark">
-                    <div class="d-flex justify-content-between mb-3">
+                <div class="card p-4 summary-card">
+                    <div class="d-flex justify-content-between summary-item mb-3">
                         <b>Total des articles :</b>
-                        <b>{{ $nbre_article }}</b>
+                        <span>{{ $nbre_article }}</span>
                     </div>
                     <hr>
-                    <div class="d-flex justify-content-between">
-                        <p>Sous-total :</p>
+                    <div class="d-flex justify-content-between summary-item">
+                        <span>Sous-total :</span>
                         <b>{{ number_format($total, 2, '.', '') * $nbre_article }} <sup>DH</sup></b>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Total de frais :</p>
+                    <div class="d-flex justify-content-between summary-item">
+                        <span>Total de frais :</span>
                         <b>{{ $frais * $nbre_article }} <sup>DH</sup></b>
                     </div>
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between summary-item total-section">
                         <h4 class="color"><b>TOTAL :</b></h4>
-                        <h4 class="h5"><b>{{ number_format($total, 2, '.', '') + $frais * $nbre_article }} <sup>DH</sup></b></h4>
+                        <h4><b>{{ number_format($total, 2, '.', '') + $frais * $nbre_article }} <sup>DH</sup></b></h4>
                     </div>
                     @if ($total > 0)
                         <hr>
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <p class="text-center pr-3 pl-3">
-                                    En poursuivant votre commande, vous acceptez les
-                                    <span data-toggle="modal" data-target="#conditions" class="color cursor">
-                                        <b>Conditions générales</b>
-                                    </span> de SHOPIN
-                                </p>
-                            </div>
-                            <button type="button" class="btn btn-info w-100 bg-red" id="validateCartButton" wire:click="confirm()" disabled>
+                        <div class="text-center terms-section">
+                            <p class="terms-text">
+                                En poursuivant votre commande, vous acceptez les
+                                <span data-toggle="modal" data-target="#conditions" class="color cursor">
+                                    <b>Conditions générales</b>
+                                </span> de <b style="color: black">SHOP<span class="color">IN</span></b>.
+                            </p>
+                            <button type="button" class="btn-validate w-100 mt-2" id="validateCartButton" wire:click="confirm()" disabled>
                                 <span wire:loading><x-Loading></x-Loading></span>
                                 Valider mon panier
                             </button>
@@ -70,18 +69,19 @@
                                 Vous devez accepter les conditions générales pour valider votre panier.
                             </div>
                             <div class="mt-3">
-                                <a href="{{ route('checkout') }}?step=2" class="color">Retour aux adresses de livraison</a>
+                                <a href="{{ route('checkout') }}?step=2" class="return-link">Retour aux adresses de livraison</a>
                             </div>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between" style="position: relative; top: -40px;">
-            <a href="{{ route('checkout') }}?step=2" class="btn btn-dark">
+        <div class="d-flex justify-content-between responsive-btn-wrapper" style="position: relative; top: -40px;">
+            <a href="{{ route('checkout') }}?step=2" class="btn btn-dark address-btn">
                 <i class="bi bi-arrow-left"></i> Adresse de livraison
             </a>
         </div>
+
     </div>
 
     @section('script')

@@ -83,13 +83,21 @@
     <br>
     <div class="row">
         <div class="col-lg-6 col-md-8 col-12 mx-auto">
-            <button type="button" class="btn btn-outline-dark w-100 mb-2" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                <i class="bi bi-pencil-square"></i> Modifier mon adresse de livraison
-            </button>
+            <!-- Buttons Section -->
+            <div class="d-flex-buttons mb-3">
+                <button type="button" class="btn btn-outline-dark btn-modern" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                    <i class="bi bi-pencil-square"></i> Modifier mon adresse
+                </button>
+                <button type="button" class="btn btn-dark btn-modern" onclick="get_location()">
+                    <i class="bi bi-geo-alt"></i> Utiliser ma localisation
+                </button>
+            </div>
 
+
+            <!-- Edit Address Modal -->
             <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content rounded-3">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editAddressModalLabel">Modifier l'adresse de livraison</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -98,7 +106,7 @@
                             <form wire:submit.prevent="updateAddress">
                                 <div class="mb-3">
                                     <label for="region" class="form-label">Région<span class="text-danger">*</span></label>
-                                    <select id="region" wire:model="region" class="custom-select" required>
+                                    <select id="region" wire:model="region" class="form-select modern-input" required>
                                         <option value="">Sélectionnez une région</option>
                                         @foreach($regions as $regionItem)
                                             <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
@@ -107,17 +115,17 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="address" class="form-label">Ville<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="address" wire:model="address">
+                                    <input type="text" class="form-control modern-input" id="address" wire:model="address">
                                     @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="rue" class="form-label">Rue<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rue" wire:model="rue">
+                                    <input type="text" class="form-control modern-input" id="rue" wire:model="rue">
                                     @error('rue') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nom_batiment" class="form-label">Nom Bâtiment<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nom_batiment" wire:model="nom_batiment">
+                                    <input type="text" class="form-control modern-input" id="nom_batiment" wire:model="nom_batiment">
                                     @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <button type="submit" class="btn btn-black w-100">Enregistrer</button>
@@ -126,20 +134,11 @@
                     </div>
                 </div>
             </div>
-            <br><br>
-            <button type="button" class="btn btn-dark w-100" onclick="get_location()">
-                <i class="bi bi-geo-alt"></i>
-                Utiliser ma localisation
-            </button>
-            <br>
-            <br>
-            <hr>
-            <br>
-            <h4 class="color text-center">
-                J'utilise cette adresse enregistrée
-            </h4>
-            <div>
-                <div class="alert alert-dark">
+
+            <!-- Saved Address Section -->
+            {{-- <div class="saved-address mt-4">
+                <h4 class="text-center color mb-3">J'utilise cette adresse enregistrée</h4>
+                <div class="alert alert-dark p-3">
                     <div class="text-black">
                         <b class="h6">
                             @if ($user->gender == 'male')
@@ -149,34 +148,60 @@
                             @endif
                             {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                         </b>
-                        <p>
+                        <p class="mb-1">
                             @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
                                 {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
                             @else
                                 Adresse non complète
                             @endif
                             <br>
-                            <i class="bi bi-telephone"></i>
-                            {{ $user->phone_number }} <br>
+                            <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
                     </div>
                 </div>
-                <br>
-                <div class="d-flex justify-content-end">
-                    @if ($this->next)
-                    <button type="button" wire:click="valider()" @disabled(!($user->address && $user->rue && $user->nom_batiment)) class="btn btn-dark w-30">
-                        <b>Continuer</b>
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                    @else
-                        <div class="alert alert-warning">
-                            Vous devez compléter toutes vos informations liées à l'adresse pour poursuivre.
-                        </div>
-                    @endif
+            </div> --}}
+            <div class="saved-address mt-4">
+                <div class="address-card p-3 shadow-sm">
+                    <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
+                    <div class="address-details">
+                        <b class="h6 d-block mb-1">
+                            @if ($user->gender == 'male')
+                                M.
+                            @else
+                                Mme
+                            @endif
+                            {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
+                        </b>
+                        <p class="mb-1">
+                            @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                            @else
+                                Adresse non complète
+                            @endif
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-telephone"></i> {{ $user->phone_number }}
+                        </p>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Continue Button -->
+            <div class="d-flex justify-content-end mt-3">
+                @if ($this->next)
+                    <button type="button" wire:click="valider()" class="btn btn-dark btn-continue" @disabled(!($user->address && $user->rue && $user->nom_batiment))>
+                        Continuer <i class="bi bi-arrow-right"></i>
+                    </button>
+                @else
+                    <div class="alert alert-warning">
+                        Vous devez compléter toutes vos informations liées à l'adresse pour poursuivre.
+                    </div>
+                @endif
             </div>
         </div>
     </div>
+
+
 </div>
 
  <!-- Bootstrap JS and dependencies -->

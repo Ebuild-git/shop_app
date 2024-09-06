@@ -888,6 +888,7 @@ body {
 
 .text-end {
     text-align: right !important;
+    font-size: 15px;
 }
 
 .avatar-post-like {
@@ -1807,4 +1808,492 @@ ul.nav-dropdown-xxx {
     font-weight:500;
     text-decoration: underline;
     color: #008080;
+}
+
+
+
+
+.cart-checkout {
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.card {
+    border-radius: 8px;
+    background-color: white;
+}
+.product-image {
+    margin-right: 15px; /* Add space between the image and the rest of the card */
+}
+.product-image img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.product-title {
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.delivery-info {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.delivery-fee {
+    font-size: 0.9rem;
+    color: #008080;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+}
+
+.delete-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.info-tooltip {
+    font-size: 1rem;
+    color: #008080;
+}
+
+
+
+/* Background Color for the Page */
+.bg-light-blue {
+    background-color: #f4f9ff;
+}
+
+/* Custom Item Card */
+.custom-item-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Image inside Cart */
+.cart-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.custom-item-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Cart details section */
+.cart-details {
+    flex-grow: 1;
+}
+
+/* Checkout Summary Card */
+.custom-checkout-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Table Styles */
+.table-total-checkout {
+    font-size: 1rem;
+    color: #333;
+}
+
+.label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.value {
+    font-weight: bold;
+    color: #333;
+}
+
+.total-row .total-label {
+    font-size: 1.2rem;
+    color: #008080;
+    font-weight: 700;
+}
+
+.total-row .total-value {
+    font-size: 1.2rem;
+    color: #008080;
+    font-weight: 700;
+}
+
+.checkout-btn {
+    background-color: #008080; /* Customize your primary color */
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #ffffff;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background-color: #005757; /* Darker shade for hover */
+    transform: translateY(-3px);
+}
+
+.checkout-btn:disabled {
+    background-color: #ddd; /* Light gray for disabled state */
+    color: #888; /* Darker text color for readability */
+    cursor: not-allowed;
+    transform: none; /* Remove transform effect on disabled state */
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .label {
+        font-size: 0.9rem;
+    }
+
+    .total-row .total-label,
+    .total-row .total-value {
+        font-size: 1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+.btn-modern {
+    border-radius: 8px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modern-input {
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s;
+}
+
+.modern-input:focus {
+    border-color: #008080;
+    box-shadow: 0 0 5px rgba(0, 128, 128, 0.2);
+}
+
+.btn-continue {
+    border-radius: 6px;
+    padding: 8px 16px;
+    background-color: #008080;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.btn-continue:hover {
+    background-color: #006666;
+}
+
+.saved-address {
+    border-radius: 10px;
+    padding: 10px 15px;
+    background: #f4f4f4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.address-card {
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+}
+
+.address-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.address-details {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.address-details i {
+    color: #008080;
+    margin-right: 5px;
+}
+
+/* Responsive Design for Mobile Layouts */
+@media (max-width: 768px) {
+    .btn-modern {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .modern-input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .btn-continue {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .saved-address {
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .address-card {
+        padding: 10px;
+        border: none;
+        box-shadow: none;
+    }
+
+    .address-title {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+
+    .address-details {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-modern,
+    .btn-continue {
+        padding: 8px 12px;
+        width: 100%;
+        font-size: 0.85rem;
+    }
+
+    .address-title {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .address-details {
+        font-size: 0.8rem;
+        color: #444;
+    }
+
+    .modern-input {
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    .saved-address {
+        padding: 8px;
+    }
+
+    .address-card {
+        border: none;
+        padding: 8px;
+    }
+}
+/* Responsive Layout for Buttons */
+.d-flex-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+@media (max-width: 576px) {
+    .d-flex-buttons {
+        flex-direction: column;
+    }
+
+    .btn-modern {
+        width: 100%;
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+/* Payment and Address Card Styles */
+.modern-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+}
+
+.payment-title {
+    font-size: 1.2rem;
+    color: #008080;
+}
+
+.payment-description {
+    color: #555;
+    line-height: 1.6;
+}
+
+.delivery-title {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.address-card {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #555;
+}
+
+.address-text, .region-text, .phone-text {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Order Summary Styles */
+.summary-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+}
+
+.summary-item {
+    font-size: 0.95rem;
+    color: #333;
+}
+.summary-item b {
+    font-size: 16px; /* Adjust the font size as needed */
+}
+.total-section {
+    color: #008080;
+}
+
+.terms-section {
+    margin-top: 15px;
+}
+
+.terms-text {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Button and Link Styles */
+.btn-validate {
+    background-color: #b0b0b0; /* Light gray for disabled state */
+    color: #fff;
+    border-radius: 6px;
+    transition: background-color 0.3s, opacity 0.3s;
+    cursor: not-allowed;
+    opacity: 0.6; /* Indicate disabled state */
+}
+
+.btn-validate:enabled {
+    background-color: #008080; /* Bright color when enabled */
+    cursor: pointer;
+    opacity: 1;
+}
+
+.btn-validate:enabled:hover {
+    background-color: #006666; /* Darker shade on hover when enabled */
+}
+
+.return-link {
+    color: #008080;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+
+/* Wrapper for the button to ensure proper spacing */
+.responsive-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative; /* Adjusting position separately */
+    padding-top: 20px; /* Adds padding to create separation */
+}
+
+/* Styles for the button */
+.address-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px; /* Adds margin for additional separation */
+}
+
+.address-btn:hover {
+    background-color: #005555; /* Slightly darker hover effect */
+    transform: translateY(-2px); /* Adds a subtle lift effect */
+}
+
+/* Media Query for smaller devices */
+@media (max-width: 576px) {
+    .responsive-btn-wrapper {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px; /* Increase top margin on small screens */
+        padding-top: 20px; /* Ensures button doesn't stick to the container above */
+    }
+
+    .address-btn {
+        width: 100%; /* Expands the button to full width on mobile */
+        font-size: 16px;
+        padding: 12px;
+        margin-top: 10px; /* Space between the button and other elements */
+    }
+}
+
+/* Media Query for medium devices */
+@media (max-width: 768px) {
+    .responsive-btn-wrapper {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 25px; /* Adjust margin for medium screens */
+        padding-top: 15px;
+    }
+
+    .address-btn {
+        width: 80%; /* Sets the button width appropriately for tablets */
+        font-size: 16px;
+        padding: 12px;
+    }
 }
