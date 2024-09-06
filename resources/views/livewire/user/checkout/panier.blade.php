@@ -50,7 +50,7 @@
                                             $processedVendors[] = $item['vendeur'];
                                             @endphp
                                             @else
-                                            <span class="text-muted">Frais de Livraison déjà inclus pour ce vendeur.</span>
+                                            <span class="text-muted" style="color: #008080;">Frais de Livraison déjà inclus pour ce vendeur.</span>
                                             <span class="info-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Les frais de livraison ne sont facturés qu'une seule fois par vendeur.">
                                                 <i class="bi bi-info-circle"></i>
                                             </span>
