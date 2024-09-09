@@ -84,8 +84,12 @@
                         placeholder="Entrez votre numéro RIB"
                     >
                 </div>
-
-                <button type="submit" class="btn btn-prim">Sauvegarder</button>
+                @php
+                $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->rib_number;
+                @endphp
+                <button type="submit" class="btn-prim w-30-custom">
+                    {{ $isDataAvailable ? 'Modifier' : 'Sauvegarder' }}
+                </button>
             </form>
         </div>
     </div>
@@ -226,10 +230,8 @@
     border: none;
     border-radius: 0.5rem;
     padding: 12px 20px;
-    font-size: 1rem;
     font-weight: 600;
     transition: background-color 0.3s, box-shadow 0.3s;
-    width: 30%;
     margin-left: auto;
     display: block;
     color: white;

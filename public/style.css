@@ -2465,3 +2465,16 @@ ul.nav-dropdown-xxx {
         font-size: 9px;
     }
 }
+.w-30-custom {
+    width: 30%;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .w-30-custom {
+        width: 40%;
+        font-size: 14px;
+        text-align: center;
+    }
+}
+
