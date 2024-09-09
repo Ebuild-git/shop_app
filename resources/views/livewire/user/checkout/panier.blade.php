@@ -26,14 +26,14 @@
                                     <div class="text-end">
                                         @if ($item['is_solder'])
                                         <span class="text-muted" style="font-size: small;">
-                                            <strike>{{ $item['old_prix'] }} DH</strike>
+                                            <strike>{{ $item['old_prix'] }} <sup>DH</sup></strike>
                                         </span>
                                         <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} DH
+                                            {{ $item['prix'] }} <sup>DH</sup>
                                         </span>
                                         @else
                                         <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} DH
+                                            {{ $item['prix'] }} <sup>DH</sup>
                                         </span>
                                         @endif
                                     </div>
@@ -45,7 +45,7 @@
                                         <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
-                                            Frais de Livraison : <b>{{ $frais ?? 0 }} DH</b>
+                                            Frais de Livraison : <b class="frais-font">{{ $frais ?? 0 }} <sup>DH</sup></b>
                                             @php
                                             $processedVendors[] = $item['vendeur'];
                                             @endphp
