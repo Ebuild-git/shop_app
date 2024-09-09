@@ -2345,12 +2345,12 @@ ul.nav-dropdown-xxx {
     gap: 8px;
     justify-content: center;
     padding: 10px;
-    max-width: 100%; /* Adjust to 100% width for mobile */
+    max-width: 100%;
     margin: 0 auto;
 }
 
 .color-button {
-    width: 25px; /* Adjust size for mobile */
+    width: 25px;
     height: 25px;
     background-color: #ffffff;
     cursor: pointer;
@@ -2361,8 +2361,8 @@ ul.nav-dropdown-xxx {
 .color-button:hover {
     transform: scale(1.1);
 }
-
-/* Tablet and above */
+.text-muted-1 {
+    color:#636872 !important; }
 @media (min-width: 768px) {
     .color-container {
         max-width: 280px;
@@ -2408,7 +2408,14 @@ ul.nav-dropdown-xxx {
     .frais-font {
         font-size: 10px;
     }
-    .price {
+    .text-end .text-muted-1{
+        position: absolute;
+        bottom: 10px;
+        right: 60px;
+        font-size: 9px;
+        margin: 0;
+    }
+    .text-end .price {
         position: absolute;
         bottom: 10px;
         right: 10px;

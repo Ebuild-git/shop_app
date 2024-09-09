@@ -25,7 +25,7 @@
                                     </a>
                                     <div class="text-end">
                                         @if ($item['is_solder'])
-                                        <span class="text-muted" style="font-size: small;">
+                                        <span class="text-muted-1">
                                             <strike>{{ $item['old_prix'] }} <sup>DH</sup></strike>
                                         </span>
                                         <span class="price" style="color: #008080;">
