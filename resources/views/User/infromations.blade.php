@@ -34,7 +34,7 @@
             </div>
             <div class="border border-1 p-3 rounded card">
                 <div id="div-perso">
-                    <h4 class="text-muted">Mes informations</h4>
+                    <h4 class="text-muted">Mes informations personnelles</h4>
                     <hr>
                     @livewire('User.UpdateInformations')
                 </div>

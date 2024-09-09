@@ -18,6 +18,7 @@ class Adresse extends Component
 
 
     public $next = false;
+    public $locationUsed = false;
 
     public function mount(){
         $this->user = Auth::user();
@@ -26,7 +27,6 @@ class Adresse extends Component
         $this->rue = $this->user->rue;
         $this->nom_batiment = $this->user->nom_batiment;
         $this->regions = regions::all();
-
     }
     protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
 
@@ -53,8 +53,11 @@ class Adresse extends Component
     }
     public function render()
     {
-        if( $this->user->address &&  $this->user->phone_number &&  $this->user->region && $this->user->rue
-        && $this->user->nom_batiment){
+        // if( $this->user->address &&  $this->user->phone_number &&  $this->user->region && $this->user->rue
+        // && $this->user->nom_batiment){
+        //     $this->next = true;
+        // }
+        if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment) || $this->locationUsed) {
             $this->next = true;
         }
         return view('livewire.user.checkout.adresse');

@@ -56,18 +56,19 @@
                         <hr>
                         <div class="text-center terms-section">
                             <p class="terms-text">
+                                <input type="checkbox" id="acceptCond" onclick="enableButtonOnCheck()">
                                 En poursuivant votre commande, vous acceptez les
                                 <span data-toggle="modal" data-target="#conditions" class="color cursor">
                                     <b>Conditions générales</b>
                                 </span> de <b style="color: black">SHOP<span class="color">IN</span></b>.
+
                             </p>
+
                             <button type="button" class="btn-validate w-100 mt-2" id="validateCartButton" wire:click="confirm()" disabled>
                                 <span wire:loading><x-Loading></x-Loading></span>
                                 Valider mon panier
                             </button>
-                            <div id="acceptConditionsMessage" class="alert alert-warning mt-3" style="display: none;">
-                                Vous devez accepter les conditions générales pour valider votre panier.
-                            </div>
+
                             <div class="mt-3">
                                 <a href="{{ route('checkout') }}?step=2" class="return-link">Retour aux adresses de livraison</a>
                             </div>
@@ -92,7 +93,7 @@
                 });
             });
         </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const validateCartButton = document.getElementById('validateCartButton');
             const agreeConditionButton = document.getElementById('agreeConditionButton');
@@ -112,9 +113,14 @@
                 window.location.href = '/checkout?step=3'; // Redirect to the specified path
             });
         });
-    </script>
-
-
+    </script> --}}
+        <script>
+            function enableButtonOnCheck() {
+                const checkbox = document.getElementById('acceptCond');
+                const validateButton = document.getElementById('validateCartButton');
+                validateButton.disabled = !checkbox.checked;
+            }
+        </script>
     @endsection
 
 </div>

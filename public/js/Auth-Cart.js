@@ -508,66 +508,133 @@ function delete_all_notification() {
 
 /////////////////////////// localisation
 var result_location = "";
+// function get_location() {
+//     if (navigator.geolocation) {
+//         $("#location-modal").modal("toggle");
+//         // Demander la localisation à l'utilisateur
+//         navigator.geolocation.getCurrentPosition(
+//             function (position) {
+//                 // Récupérer les coordonnées de la position
+//                 let latitude = position.coords.latitude;
+//                 let longitude = position.coords.longitude;
+
+//                 // Initialiser la carte Leaflet
+//                 let map = L.map("map-adresse").setView(
+//                     [latitude, longitude],
+//                     13
+//                 );
+
+//                 // Ajouter une couche de tuile (Mapbox Streets est gratuite)
+//                 L.tileLayer(
+//                     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+//                     {
+//                         maxZoom: 19,
+//                         attribution: "SHOPIN",
+//                     }
+//                 ).addTo(map);
+
+//                 // Ajouter un marqueur à la position
+//                 L.marker([latitude, longitude])
+//                     .addTo(map)
+//                     .bindPopup("Votre position")
+//                     .openPopup();
+
+//                 // Récupérer l'adresse textuelle à partir des coordonnées
+//                 fetch(
+//                     `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+//                 )
+//                     .then((response) => response.json())
+//                     .then((data) => {
+//                         result_location = data.display_name;
+//                         $("#val-adresse").text(result_location);
+//                     })
+//                     .catch((error) => {
+//                         console.error(
+//                             "Erreur lors de la récupération de l'adresse :",
+//                             error
+//                         );
+//                     });
+//             },
+//             function (error) {
+//                 // En cas d'erreur
+//                 $("#location-modal").modal("toggle");
+//                 console.error(
+//                     "Erreur lors de la récupération de la localisation :",
+//                     error
+//                 );
+//             }
+//         );
+//     } else {
+//         console.error(
+//             "La géolocalisation n'est pas prise en charge par ce navigateur."
+//         );
+//     }
+// }
 function get_location() {
     if (navigator.geolocation) {
         $("#location-modal").modal("toggle");
-        // Demander la localisation à l'utilisateur
+
         navigator.geolocation.getCurrentPosition(
             function (position) {
-                // Récupérer les coordonnées de la position
                 let latitude = position.coords.latitude;
                 let longitude = position.coords.longitude;
 
-                // Initialiser la carte Leaflet
-                let map = L.map("map-adresse").setView(
-                    [latitude, longitude],
-                    13
-                );
+                let map = L.map("map-adresse").setView([latitude, longitude], 13);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    maxZoom: 19,
+                    attribution: "SHOPIN",
+                }).addTo(map);
 
-                // Ajouter une couche de tuile (Mapbox Streets est gratuite)
-                L.tileLayer(
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    {
-                        maxZoom: 19,
-                        attribution: "SHOPIN",
-                    }
-                ).addTo(map);
-
-                // Ajouter un marqueur à la position
                 L.marker([latitude, longitude])
                     .addTo(map)
                     .bindPopup("Votre position")
                     .openPopup();
 
-                // Récupérer l'adresse textuelle à partir des coordonnées
-                fetch(
-                    `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
-                )
+                // Fetch the address from the coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
                     .then((response) => response.json())
                     .then((data) => {
                         result_location = data.display_name;
                         $("#val-adresse").text(result_location);
+
+                        // Update the input fields based on the retrieved address information
+                        if (data.address) {
+                            // Update city (ville)
+                            if (data.address.city || data.address.town || data.address.village) {
+                                document.getElementById("address").value =
+                                    data.address.city || data.address.town || data.address.village;
+                            }
+
+                            // Update street (rue)
+                            if (data.address.road) {
+                                document.getElementById("rue").value = data.address.road;
+                            }
+
+                            // Update building name (nom_batiment), if available
+                            if (data.address.building) {
+                                document.getElementById("nom_batiment").value = data.address.building;
+                            }
+
+                            // Floor and apartment number (etage and num_appartement) are not usually provided
+                            // They might need to be entered manually unless this data is available in the OSM data
+                            document.getElementById("etage").value = ""; // Clear or set manually if required
+                            document.getElementById("num_appartement").value = ""; // Same here
+
+                            // Log the address to see what other information might be available
+                            console.log("Address Details:", data.address);
+                        }
                     })
                     .catch((error) => {
-                        console.error(
-                            "Erreur lors de la récupération de l'adresse :",
-                            error
-                        );
+                        console.error("Erreur lors de la récupération de l'adresse :", error);
                     });
             },
             function (error) {
-                // En cas d'erreur
                 $("#location-modal").modal("toggle");
-                console.error(
-                    "Erreur lors de la récupération de la localisation :",
-                    error
-                );
+                console.error("Erreur lors de la récupération de la localisation :", error);
             }
         );
     } else {
-        console.error(
-            "La géolocalisation n'est pas prise en charge par ce navigateur."
-        );
+        console.error("La géolocalisation n'est pas prise en charge par ce navigateur.");
     }
 }
 

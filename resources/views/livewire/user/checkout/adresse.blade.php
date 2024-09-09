@@ -134,32 +134,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Saved Address Section -->
-            {{-- <div class="saved-address mt-4">
-                <h4 class="text-center color mb-3">J'utilise cette adresse enregistrée</h4>
-                <div class="alert alert-dark p-3">
-                    <div class="text-black">
-                        <b class="h6">
-                            @if ($user->gender == 'male')
-                                M.
-                            @else
-                                Mme
-                            @endif
-                            {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
-                        </b>
-                        <p class="mb-1">
-                            @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
-                                {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
-                            @else
-                                Adresse non complète
-                            @endif
-                            <br>
-                            <i class="bi bi-telephone"></i> {{ $user->phone_number }}
-                        </p>
-                    </div>
-                </div>
-            </div> --}}
             <div class="saved-address mt-4">
                 <div class="address-card p-3 shadow-sm">
                     <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
@@ -194,7 +168,7 @@
                     </button>
                 @else
                     <div class="alert alert-warning">
-                        Vous devez compléter toutes vos informations liées à l'adresse pour poursuivre.
+                        Veuillez compléter les informations manquantes de votre adresse pour continuer la commande.
                     </div>
                 @endif
             </div>
