@@ -485,7 +485,8 @@
                             <ul class="categories-list p-0">
                                 @forelse ($categories as $item)
                                     <li class="category-item">
-                                        <a href="/shop?categorie={{ $item->id }}" class="category-link">
+                                        {{-- <a href="/shop?categorie={{ $item->id }}" class="category-link"> --}}
+                                            <a href="javascript:void(0);" class="category-link" onclick="select_categorie({{ $item->id }})">
                                             <div class="d-flex align-items-center">
                                                 <span>{{ $item->titre }}</span>
                                                 <span class="small color">
@@ -1406,6 +1407,395 @@
         function closeCart() {
             document.getElementById("Cart").style.display = "none";
         }
+    </script>
+     <script>
+        //initialisation
+        var check_luxury_only = {{ $luxury_only ?? 'false' }};
+        var key = "{{ $key ?? '' }}";
+        var categorie = {{ $selected_categorie->id ?? 'null' }};
+        var sous_categorie = {{ $selected_sous_categorie->id ?? 'null' }};
+        var region = "";
+        var etat = "";
+        var ordre_prix = "";
+        var proprietes = [];
+        var options = [];
+        var Taille = "";
+        var Couleur = "";
+        var Pointure = "";
+        var ArticlePour = "";
+        var Langue = "";
+        var Tailleenchiffre = "";
+
+        if (options.length > 0) {
+            show_selected_options();
+        }
+
+
+
+
+
+        //afficher les options selectionner qui sont dans options dans la div Selected_options
+        function show_selected_options() {
+            var selected_options_div = document.getElementById("Selected_options");
+            if (options.length > 0) {
+                selected_options_div.innerHTML = "";
+                console.log(options);
+                options.forEach((options, index) => {
+                    selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
+                        options[1] + " <i class='ti-close small text-danger'></i> </div>";
+                });
+                selected_options_div.innerHTML +=
+                    "<div class='reset_select_option' onclick='reset()'>Réinitialiser <i class='ti-close small'></i> </div>";
+            }
+        }
+
+
+        function remove_selected_option(index) {
+            total_option = options.length;
+            options.splice(index, 1);
+            show_selected_options();
+            if (total_option == 1) {
+                document.getElementById("Selected_options").innerHTML = "";
+            }
+        }
+
+
+
+        function add_selected_option(type, nom) {
+            // Vérifier si la paire type et nom existe déjà si ty type existe on change le nom
+            var existeDeja = false;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i][0] === type) {
+                    options[i][1] = nom;
+                    existeDeja = true;
+                    break;
+                }
+            }
+            if (!existeDeja) {
+                options.push([type, nom]);
+            }
+            show_selected_options();
+        }
+
+        $(document).ready(function() {
+            // Faire la requête initiale au chargement de la page
+            fetchProducts();
+
+            // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
+            $('.key-input').on('input', function() {
+                key = $('#key').val();
+                fetchProducts();
+            });
+        });
+
+
+
+        function ancre() {
+            $('html,body').animate({
+                scrollTop: $("#ancre").offset().top
+            }, 'slow');
+        }
+
+
+        function reset() {
+            //reload page
+            window.location.reload();
+        }
+
+
+        function choix_ordre_prix(ordre) {
+            if (ordre == "prix_asc") {
+                ordre_prix = "Asc";
+                $("#filtre-ordre").val("prix_asc");
+                add_selected_option("ordre_prix", "Ordre Croissant");
+                fetchProducts();
+            }
+            if (ordre == "prix_desc") {
+                ordre_prix = "Desc";
+                $("#filtre-ordre").val("prix_desc");
+                add_selected_option("ordre_prix", "Ordre Décroissant");
+                fetchProducts();
+            }
+            if (ordre == "Soldé") {
+                ordre_prix = "Soldé";
+                $("#filtre-ordre").val("Soldé");
+                add_selected_option("ordre_prix", "Article Soldé");
+                fetchProducts();
+            }
+            if (ordre == "luxury") {
+                check_luxury_only = "true";
+                fetchProducts();
+            }
+        }
+
+
+
+
+        function filtre_propriete_color(type, code, nom) {
+            add_selected_option(type, nom);
+            filtre_propriete(type, code);
+        }
+
+
+
+
+
+        function select_region(checkbox) {
+            var checkboxes = document.getElementsByName('region');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            _region = checkbox.value;
+            if (_region == region) {
+                region = "";
+            } else {
+                region = _region;
+            }
+            fetchProducts();
+        }
+
+
+
+        function choix_etat(checkbox) {
+            var checkboxes = document.getElementsByName('etat');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            _etat = checkbox.value;
+            if (_etat == etat) {
+                etat = "";
+            } else {
+                etat = _etat;
+            }
+
+            add_selected_option("etat", etat);
+            fetchProducts();
+        }
+
+
+
+
+        function select_sous_categorie(id) {
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+            sous_categorie = id;
+            fetchProducts();
+        }
+
+
+
+
+        function filtre_propriete(type, nom) {
+            type = type.replace(/^\s+|\s+$/gm, '');
+            var show = true;
+
+
+
+
+
+
+            //debut brouillons
+            if (type == 'Couleur' || type == 'couleur') {
+                Couleur = nom;
+                show = false;
+            }
+            if (type == 'Taille' || type == 'taille') {
+                if(Tailleenchiffre != ""){
+                    sweet("Opération impossible");
+                    return;
+                 }
+                Taille = nom;
+            }
+            if (type == 'Article pour' || type == 'article pour') {
+                ArticlePour = nom;
+            }
+            if (type == 'Langue' || type == 'langue') {
+                Langue = nom;
+            }
+            if (type == 'Pointure' || type == 'pointure') {
+                Pointure = nom;
+            }
+            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
+                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
+                 if(Taille != ""){
+                    sweet("Opération impossible");
+                    return;
+                 }
+                Tailleenchiffre = nom;
+            }
+            //fin brouillons
+            if (show) {
+                add_selected_option(type, nom);
+            }
+
+            let modifiedName = nom.replace(/\s/g, '');
+            var button = $("#btn-option-" + modifiedName);
+
+            if (button.hasClass("bg-red")) {
+                button.removeClass("bg-red");
+                proprietes = '';
+            } else {
+                $("button[id^='btn-option-']").removeClass("bg-red");
+                button.addClass("bg-red");
+                _proprietes = {
+                    type: type,
+                    valeur: nom
+                };
+                proprietes = proprietes
+            }
+
+
+            fetchProducts();
+        }
+
+
+
+        $("#filtre-ordre").on("change", function() {
+            let ordre = $(this).val();
+
+            if (ordre == "prix_asc") {
+                ordre_prix = "Asc";
+                $("#prix_asc").prop('checked', true);
+                add_selected_option("ordre_prix", "Ordre Croissant");
+                check_luxury_only = null;
+                fetchProducts();
+            }
+            if (ordre == "prix_desc") {
+                ordre_prix = "Desc";
+                $("#prix_desc").prop('checked', true);
+                add_selected_option("ordre_prix", "Ordre Décroissant");
+                check_luxury_only = null;
+                fetchProducts();
+            }
+            if (ordre == "Soldé") {
+                ordre_prix = "Soldé";
+                $("#solder").prop('checked', true);
+                add_selected_option("ordre_prix", "Article Soldé");
+                check_luxury_only = null;
+                fetchProducts();
+            }
+            if (ordre == "luxury") {
+                ordre_prix = "";
+                check_luxury_only = "true";
+                fetchProducts();
+            }
+        });
+
+
+
+
+
+        function select_categorie(id) {
+            categorie = id;
+            sous_categorie = "";
+            window.location.href = "/shop?id_categorie=" + id;
+            fetchProducts();
+        }
+
+        function fetchProducts(page = 1) {
+            $("#loading").show("show");
+            //ancre();
+            $.post(
+                "/recherche?page=" + page, {
+                    etat: etat,
+                    key: key,
+                    region: region,
+                    ordre_prix: ordre_prix,
+                    check_luxury: check_luxury_only,
+                    categorie: categorie,
+                    sous_categorie: sous_categorie,
+                    Taille: Taille,
+                    Couleur: Couleur,
+                    Pointure: Pointure,
+                    ArticlePour: ArticlePour,
+                    Tailleenchiffre: Tailleenchiffre,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }, // Passer la valeur de la recherche comme paramètre
+                function(data, status) {
+                    if (status === "success") {
+                        $(".rows-products").empty();
+                        $("#SugestionProprietes").empty();
+                        $(".rows-products").html(data.html);
+                        $("#total_post").text(data.total);
+                        renderPagination(data.data);
+                        $("#total_show_post").text(data.count_resultat);
+                        $("#loading").hide("show");
+                        if(data.count_resultat == 0){
+                            $(".rows-products").html("<div class='col-sm-6 mx-auto text-center'>Aucun résultat pour vos critères de recherche.</div>");
+                        }
+                    }
+                }
+            );
+        }
+
+
+
+
+    function renderPagination(data) {
+    const paginationControls = $('#pagination-controls');
+    paginationControls.empty();
+
+    // Only render pagination if there are items
+    if (data.data.length > 0) {
+        let startPage, endPage;
+        const totalPages = data.last_page;
+        const currentPage = data.current_page;
+
+        if (totalPages <= 3) {
+            // Show all pages if there are 3 or fewer
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            // Determine the start and end pages based on the current page
+            if (currentPage <= 2) {
+                startPage = 1;
+                endPage = 3;
+            } else if (currentPage + 1 >= totalPages) {
+                startPage = totalPages - 2;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 1;
+                endPage = currentPage + 1;
+            }
+        }
+
+        // Add "Previous" button if not on the first page
+        if (currentPage > 1) {
+            paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
+        }
+
+        // Add the page numbers within the range
+        for (let i = startPage; i <= endPage; i++) {
+            const activeClass = currentPage === i ? 'active' : '';
+            paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+        }
+
+        // Add "Next" button if not on the last page
+        if (currentPage < totalPages) {
+            paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
+        }
+    }
+}
+
+$(document).on('click', '.pagination li', function() {
+    const page = $(this).data('page');
+    fetchProducts(page);
+    ancre();
+});
+
+
+
+
+
+
+        $(document).on('click', '.pagination li', function() {
+            const page = $(this).data('page');
+            fetchProducts(page);
+            ancre();
+        });
     </script>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
