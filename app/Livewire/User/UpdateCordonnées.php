@@ -47,8 +47,12 @@ class UpdateCordonnées extends Component
         if ($user) {
             $changes = false;
 
-            // Decrypt RIB number for comparison
-            $current_rib_number = Crypt::decryptString($user->rib_number);
+            // Check if the RIB number exists before decrypting
+            if ($user->rib_number) {
+                $current_rib_number = Crypt::decryptString($user->rib_number);
+            } else {
+                $current_rib_number = null;
+            }
 
             // Check if the RIB number has changed
             if ($current_rib_number !== $this->rib_number) {
