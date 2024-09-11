@@ -84,10 +84,7 @@
     <div class="row">
         <div class="col-lg-6 col-md-8 col-12 mx-auto">
             <div class="d-flex-buttons mb-3">
-                <button type="button" class="btn btn-outline-dark btn-modern" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                    <i class="bi bi-pencil-square"></i> Modifier mon adresse
-                </button>
-                <button type="button" class="btn btn-dark btn-modern" onclick="get_location()">
+                <button type="button" class="btn btn-dark btn-modern w-100" onclick="get_location()">
                     <i class="bi bi-geo-alt"></i> Utiliser ma localisation
                 </button>
             </div>
@@ -132,8 +129,12 @@
                     </div>
                 </div>
             </div>
-            <div class="saved-address mt-4">
+
+            <div class="saved-address mt-4 position-relative">
                 <div class="address-card p-3 shadow-sm">
+                    <button type="button" class=" btn-modern position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
                     <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
                     <div class="address-details">
                         <b class="h6 d-block mb-1">
@@ -157,6 +158,7 @@
                     </div>
                 </div>
             </div>
+
             <hr style="border-color: #807e7e; border-width: 1px;" class="my-4">
 
             <!-- Extra Addresses Section -->

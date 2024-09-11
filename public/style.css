@@ -1989,10 +1989,14 @@ ul.nav-dropdown-xxx {
 
 
 .btn-modern {
+    font-size: 14px;
+    border: 1px solid #6d6e6e;
     border-radius: 8px;
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 8px 8px;
+    margin-right: 12px;
+    margin-bottom: 5px;
+    background-color: #000;
+    color: white;
 }
 
 .btn-modern:hover {
