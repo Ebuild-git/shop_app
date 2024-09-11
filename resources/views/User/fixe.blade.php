@@ -474,6 +474,7 @@
                 <div class="sidebar-wrapper">
                     <div class="close-menu">×</div>
                     <ul class="text-uppercase-mobile">
+                        <li><a href="/about" style="padding-left: 0px !important">À propos</a></li>
                         <li><a href="/" style="padding-left: 0px !important">Accueil</a></li>
                         <li>
                             <a href="{{ Auth::check() ? route('shopiners') : '#' }}" @guest data-toggle="modal" data-target="#login" @endguest>
