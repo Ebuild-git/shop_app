@@ -83,7 +83,6 @@
     <br>
     <div class="row">
         <div class="col-lg-6 col-md-8 col-12 mx-auto">
-            <!-- Buttons Section -->
             <div class="d-flex-buttons mb-3">
                 <button type="button" class="btn btn-outline-dark btn-modern" data-bs-toggle="modal" data-bs-target="#editAddressModal">
                     <i class="bi bi-pencil-square"></i> Modifier mon adresse
@@ -92,7 +91,6 @@
                     <i class="bi bi-geo-alt"></i> Utiliser ma localisation
                 </button>
             </div>
-
 
             <!-- Edit Address Modal -->
             <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
@@ -159,6 +157,148 @@
                     </div>
                 </div>
             </div>
+            <hr style="border-color: #807e7e; border-width: 1px;" class="my-4">
+
+            <!-- Extra Addresses Section -->
+            <div class="extra-addresses mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Autres adresses de livraison</h5>
+                    <button class="add-new" data-bs-toggle="modal" data-bs-target="#extraAddressModal" wire:click="prepareForAdd">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+
+
+                <!-- Display Existing Addresses -->
+                @foreach ($userAddresses as $address)
+                    <div class="address-card p-3 shadow-sm mb-3 {{ $address->is_default ? 'border: 2px solid #00000;' : '' }}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <b class="h6 mb-1">{{ $address->building_name }}, {{ $address->street }}, {{$address->floor }}, {{$address->apartment_number }}, {{ $address->city }}, {{ $address->regionExtra->nom }}</b>
+                            @if ($address->is_default)
+                                <span class="badge" style="background-color: darkcyan;">Adresse par défaut</span>
+                            @endif
+                        </div>
+                        <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                @if ($address->is_default)
+                                    <button class="btn custom-default btn-sm" wire:click="unsetDefault({{ $address->id }})">
+                                        <i class="fa fa-times"></i> Retirer par défaut
+                                    </button>
+                                @else
+                                    <button class="btn custom-default btn-sm" wire:click="setDefault({{ $address->id }})">
+                                        <i class="fa fa-map-pin"></i> Définir par défaut
+                                    </button>
+                                @endif
+
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn custom-edit btn-sm me-2 edit-address-btn"
+                                        wire:click="prepareForUpdate({{ $address->id }})"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#extraAddressModal"
+                                        data-region="{{ $address->region }}"
+                                        data-city="{{ $address->city }}"
+                                        data-street="{{ $address->street }}"
+                                        data-building="{{ $address->building_name }}"
+                                        data-floor="{{ $address->floor }}"
+                                        data-apartment="{{ $address->apartment_number }}"
+                                        data-phone="{{ $address->phone_number }}"
+                                        onclick="populateModal(this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn custom-delete btn-sm" wire:click="deleteAddress({{ $address->id }})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                @endforeach
+            </div>
+
+            <!-- Unified Add/Edit Extra Address Modal -->
+            <div class="modal fade" id="extraAddressModal" tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content rounded-3">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="extraAddressModalLabel">
+                                {{ $isEditMode ? 'Modifier l\'adresse' : 'Ajouter une nouvelle adresse' }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form wire:submit.prevent="{{ $isEditMode ? 'saveAddress' : 'saveAddress' }}" class="form-grid">
+                                <div class="grid-container">
+                                    <!-- Region Select -->
+                                    <div class="form-group">
+                                        <label for="extraRegion">Région</label>
+                                        <select wire:model="extraRegion" id="extraRegion" class="form-control">
+                                            <option value="">Sélectionnez une région</option>
+                                            @foreach($regions as $regionItem)
+                                                <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('extraRegion') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- City Input -->
+                                    <div class="form-group">
+                                        <label for="extraCity" class="form-label">Ville<span class="text-danger">*</span></label>
+                                        <input type="text" id="extraCity" class="form-control" wire:model="extraCity" required>
+                                        @error('extraCity') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Street Input -->
+                                    <div class="form-group">
+                                        <label for="extraStreet" class="form-label">Rue</label>
+                                        <input type="text" id="extraStreet" class="form-control" wire:model="extraStreet">
+                                        @error('extraStreet') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Building Name Input -->
+                                    <div class="form-group">
+                                        <label for="extraBuilding" class="form-label">Nom Bâtiment</label>
+                                        <input type="text" id="extraBuilding" class="form-control" wire:model="extraBuilding">
+                                        @error('extraBuilding') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Floor Input -->
+                                    <div class="form-group">
+                                        <label for="extraFloor" class="form-label">Étage</label>
+                                        <input type="text" id="extraFloor" class="form-control" wire:model="extraFloor">
+                                        @error('extraFloor') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Apartment Number Input -->
+                                    <div class="form-group">
+                                        <label for="extraApartment" class="form-label">Numéro d'appartement</label>
+                                        <input type="text" id="extraApartment" class="form-control" wire:model="extraApartment">
+                                        @error('extraApartment') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Phone Number Input -->
+                                    <div class="form-group">
+                                        <label for="extraPhoneNumber" class="form-label">Numéro de téléphone</label>
+                                        <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber">
+                                        @error('extraPhoneNumber') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-dark btn-continue" id="modalSubmitBtn">{{ $isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Continue Button -->
             <div class="d-flex justify-content-end mt-3">

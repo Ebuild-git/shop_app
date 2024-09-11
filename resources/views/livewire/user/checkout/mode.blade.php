@@ -20,9 +20,11 @@
                     <b class="delivery-title"><i class="bi bi-geo-alt"></i> Adresse de livraison</b>
                     <div class="address-card mt-3 p-3">
                         <p class="address-text">
-                            <i class="bi bi-house-door"></i> {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }},
-                            {{ $user->region_info->nom }}
+                            <i class="bi bi-house-door"></i> {{ $user->nom_batiment }}, {{ $user->rue }},
+                            {{ $user->etage }}{{ $user->etage ? ', ' : '' }}{{ $user->num_appartement }},
+                            {{ $user->address }},  {{ $user->region_info->nom }}
                         </p>
+
                         <p class="region-text mb-1">
                             <b><i class="bi bi-geo"></i> {{ $user->region_info->nom }}</b>
                         </p>

@@ -25,6 +25,24 @@ class Mode extends Component
 
     public function mount(){
         $this->user = Auth::user();
+
+         // Fetch user's second address if it exists and is marked as default
+         $secondAddress = $this->user->addresses()->where('is_default', true)->first();
+
+         if ($secondAddress) {
+             // Use the default second address
+             $this->user->address = $secondAddress->street;
+             $this->user->rue = $secondAddress->building_name;
+             $this->user->nom_batiment = $secondAddress->building_name;
+            //  $this->user->region_info->nom = $secondAddress->region;
+             $this->user->phone_number = $secondAddress->phone_number;
+
+             $region = $secondAddress->regionExtra;  // Assuming the 'region' is the foreign key in user_addresses table
+
+                if ($region) {
+                    $this->user->region_info = $region; // Update user's region info with default address region
+                }
+         }
     }
 
 

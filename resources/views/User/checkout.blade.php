@@ -116,7 +116,57 @@
     .custom-select::-ms-expand {
         display: none;
     }
+    .form-grid .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 5px;
+    }
 
+    .form-grid .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .add-new {
+        background-color: black;
+        border: none;
+        border-radius: 20px;
+        padding: 12px 12px;
+        transition: background-color 0.3s;
+        color: white;
+    }
+
+    .add-new:hover {
+        background-color: #e2e3e5;
+    }
+
+    .custom-default {
+    color: black;
+    border: 1px solid black;
+    background-color: transparent;
+    }
+
+    .custom-default:hover {
+        background-color: darkcyan;
+        color: #000000;
+    }
+
+.custom-edit {
+    color: black;
+    border: 1px solid #6d6e6e;
+    background-color: transparent;
+}
+
+.custom-delete {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+}
+
+.custom-delete:hover {
+    background-color: #f8d7da;
+    color: #c82333; }
     </style>
 
 @endsection
@@ -126,6 +176,28 @@
 <script>
 function closeLocationModal() {
     $('#location-modal').modal('hide');
+}
+
+</script>
+<script>
+function populateModal(button) {
+    // Retrieve data from data attributes
+    const region = button.getAttribute('data-region');
+    const city = button.getAttribute('data-city');
+    const street = button.getAttribute('data-street');
+    const building = button.getAttribute('data-building');
+    const floor = button.getAttribute('data-floor');
+    const apartment = button.getAttribute('data-apartment');
+    const phone = button.getAttribute('data-phone');
+
+    // Populate the modal inputs
+    document.getElementById('extraRegion').value = region;
+    document.getElementById('extraCity').value = city;
+    document.getElementById('extraStreet').value = street;
+    document.getElementById('extraBuilding').value = building;
+    document.getElementById('extraFloor').value = floor;
+    document.getElementById('extraApartment').value = apartment;
+    document.getElementById('extraPhoneNumber').value = phone;
 }
 
 </script>

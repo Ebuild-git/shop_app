@@ -105,12 +105,12 @@ class User extends Authenticatable implements JWTSubject
                 } else {
                     return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
                 }
-                
+
         }
     }
-    
 
-  
+
+
 
 
 
@@ -121,7 +121,7 @@ class User extends Authenticatable implements JWTSubject
                       ->get();
         $categories = [];
         $total = 0;
-        
+
         foreach ($posts as $post) {
             $sous_categorie = sous_categories::find($post->id_sous_categorie);
             if ($sous_categorie) {
@@ -132,10 +132,10 @@ class User extends Authenticatable implements JWTSubject
                 }
             }
         }
-        
+
         return $total;
     }
-    
+
 
     public function averageRating()
     {
@@ -158,7 +158,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(pings::class, 'id_user', 'id');
     }
 
-    
+
 
     //recuperer les avis de l'utilisateur
     public function getReviewsAttribute(){
@@ -172,5 +172,11 @@ class User extends Authenticatable implements JWTSubject
     public function favoris(){
         return $this->hasMany(favoris::class, 'id_user', 'id');
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
 
 }
