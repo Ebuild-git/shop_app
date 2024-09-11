@@ -41,7 +41,7 @@
     <div class="modal-footer mt-3">
         <button type="submit" class="btn bg-red">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-            Modifier mes informations bancaires
+            Sauvegarder les modifications de mes informations bancaires
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>
