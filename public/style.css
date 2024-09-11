@@ -1979,9 +1979,21 @@ ul.nav-dropdown-xxx {
     }
 }
 
+.btn-modern-1{
+    font-size: 14px;
+    border: 1px solid #6d6e6e;
+    border-radius: 8px;
+    padding: 8px 8px;
+    margin-right: 12px;
+    margin-bottom: 5px;
+    background-color: #000;
+    color: white;
+}
 
-
-
+.btn-modern-1:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
 
 

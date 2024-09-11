@@ -132,7 +132,7 @@
 
             <div class="saved-address mt-4 position-relative">
                 <div class="address-card p-3 shadow-sm">
-                    <button type="button" class=" btn-modern position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                    <button type="button" class="btn-modern-1 position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
@@ -163,12 +163,13 @@
 
             <!-- Extra Addresses Section -->
             <div class="extra-addresses mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center mb-3">
                     <h5 class="mb-0">Autres adresses de livraison</h5>
                     <button class="add-new" data-bs-toggle="modal" data-bs-target="#extraAddressModal" wire:click="prepareForAdd">
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
+
 
 
                 <!-- Display Existing Addresses -->

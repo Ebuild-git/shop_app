@@ -132,9 +132,10 @@
         background-color: black;
         border: none;
         border-radius: 20px;
-        padding: 12px 12px;
+        padding: 9px 9px;
         transition: background-color 0.3s;
         color: white;
+        margin-left: 7px;
     }
 
     .add-new:hover {
