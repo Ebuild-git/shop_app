@@ -41,7 +41,14 @@ class Adresse extends Component
         $this->nom_batiment = $this->user->nom_batiment;
         $this->regions = regions::all();
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
+        $this->loadAddresses();
 
+    }
+    public function loadAddresses()
+    {
+        // Load user and user addresses
+        $this->user = Auth::user();
+        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
     }
     protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
 
@@ -74,7 +81,10 @@ class Adresse extends Component
         $address = UserAddress::find($id);
         $address->is_default = true;
         $address->save();
+
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
+        $this->loadAddresses();
+
     }
     public function unsetDefault($id)
     {
@@ -86,6 +96,7 @@ class Adresse extends Component
         // Refresh the list of addresses
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
     }
+
     public function deleteAddress($id)
     {
         UserAddress::find($id)->delete();
@@ -141,7 +152,15 @@ class Adresse extends Component
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
         return Redirect("/checkout?step=2");
     }
+    public function removeDefault()
+    {
+        // Remove the default status from all addresses
+        $this->user->addresses()->update(['is_default' => false]);
 
+        // Reload addresses
+        return Redirect("/checkout?step=2");
+
+    }
     public function render()
     {
 

@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <div class="saved-address mt-4 position-relative">
+            {{-- <div class="saved-address mt-4 position-relative">
                 <div class="address-card p-3 shadow-sm">
                     <button type="button" class="btn-modern-1 position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
                         <i class="bi bi-pencil-square"></i>
@@ -161,7 +161,6 @@
 
             <hr style="border-color: #807e7e; border-width: 1px;" class="my-4">
 
-            <!-- Extra Addresses Section -->
             <div class="extra-addresses mt-4">
                 <div class="d-flex align-items-center mb-3">
                     <h5 class="mb-0">Autres adresses de livraison</h5>
@@ -169,7 +168,6 @@
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
-                <!-- Display Existing Addresses -->
                 @foreach ($userAddresses as $address)
                     <div class="address-card p-3 shadow-sm mb-3 {{ $address->is_default ? 'border: 2px solid #00000;' : '' }}">
                         <div class="d-flex justify-content-between align-items-center">
@@ -225,7 +223,159 @@
 
 
                 @endforeach
+            </div> --}}
+            <div class="saved-address mt-4 position-relative">
+                <div class="address-card p-3 shadow-sm">
+                    <button type="button" class="btn-modern-1 position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+
+                    <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
+
+                    <!-- Check if any extra address is default -->
+                    @php
+                        $defaultAddress = $userAddresses->where('is_default', true)->first();
+                    @endphp
+
+                    @if ($defaultAddress)
+                        <!-- Show Default Extra Address (from userAddresses table) -->
+                        <div class="address-details">
+                            <b class="h6 d-block mb-1">
+                                {{ $defaultAddress->building_name ? $defaultAddress->building_name . ',' : '' }}
+                                {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
+                                {{ $defaultAddress->floor ? $defaultAddress->floor . ',' : '' }}
+                                {{ $defaultAddress->apartment_number ? $defaultAddress->apartment_number . ',' : '' }}
+                                {{ $defaultAddress->city ? $defaultAddress->city . ',' : '' }}
+                                {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
+                            </b>
+                            <p class="mb-0">
+                                <i class="bi bi-telephone"></i> {{ $defaultAddress->phone_number }}
+                            </p>
+                            <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
+                                <i class="bi bi-arrow-counterclockwise"></i> Revenir à l'adresse par défaut
+                            </button>
+                        </div>
+                    @else
+                        <!-- Show User's Address (from users table) -->
+                        <div class="address-details">
+                            <b class="h6 d-block mb-1">
+                                @if ($user->gender == 'male')
+                                    M.
+                                @else
+                                    Mme
+                                @endif
+                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
+                            </b>
+                            <p class="mb-1">
+                                @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                    {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                                @else
+                                    Adresse non complète
+                                @endif
+                            </p>
+                            <p class="mb-0">
+                                <i class="bi bi-telephone"></i> {{ $user->phone_number }}
+                            </p>
+                        </div>
+                    @endif
+                </div>
             </div>
+
+            <hr style="border-color: #807e7e; border-width: 1px;" class="my-4">
+
+            <!-- Extra Addresses Section -->
+            <div class="extra-addresses mt-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0">Autres adresses de livraison</h5>
+                    <button class="add-new" data-bs-toggle="modal" data-bs-target="#extraAddressModal" wire:click="prepareForAdd">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Show User's Address Here Even If Not Default -->
+
+                <!-- Loop through other extra addresses -->
+                @foreach ($userAddresses as $address)
+                @if ($address->is_default)
+                    <div class="address-card p-3 shadow-sm mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <b class="h6 mb-1">
+                                @if ($user->gender == 'male')
+                                    M.
+                                @else
+                                    Mme
+                                @endif
+                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
+                            </b>
+                            @if (!$defaultAddress)
+                                <span class="badge" style="background-color: darkcyan;">Adresse par défaut</span>
+                            @endif
+                        </div>
+                        <p class="mb-1">
+                            @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                            @else
+                                Adresse non complète
+                            @endif
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-telephone"></i> {{ $user->phone_number }}
+                        </p>
+                    </div>
+                @endif
+                    @if ($address->is_default)
+                        <!-- Skip the default address since it's already shown above -->
+                        @continue
+                    @endif
+
+                    <div class="address-card p-3 shadow-sm mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <b class="h6 mb-1">
+                                {{ $address->building_name ? $address->building_name . ',' : '' }}
+                                {{ $address->street ? $address->street . ',' : '' }}
+                                {{ $address->floor ? $address->floor . ',' : '' }}
+                                {{ $address->apartment_number ? $address->apartment_number . ',' : '' }}
+                                {{ $address->city ? $address->city . ',' : '' }}
+                                {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
+                            </b>
+                            @if ($address->is_default)
+                                <span class="badge" style="background-color: darkcyan;">Adresse par défaut</span>
+                            @endif
+                        </div>
+                        <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                @if (!$address->is_default)
+                                    <button class="btn custom-default btn-sm" wire:click="setDefault({{ $address->id }})">
+                                        <i class="fa fa-map-pin"></i> Définir par défaut
+                                    </button>
+                                @endif
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn custom-edit btn-sm me-2 edit-address-btn"
+                                        wire:click="prepareForUpdate({{ $address->id }})"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#extraAddressModal"
+                                        data-region="{{ $address->region }}"
+                                        data-city="{{ $address->city }}"
+                                        data-street="{{ $address->street }}"
+                                        data-building="{{ $address->building_name }}"
+                                        data-floor="{{ $address->floor }}"
+                                        data-apartment="{{ $address->apartment_number }}"
+                                        data-phone="{{ $address->phone_number }}"
+                                        onclick="populateModal(this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn custom-delete btn-sm" wire:click="deleteAddress({{ $address->id }})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
 
             <!-- Unified Add/Edit Extra Address Modal -->
             <div class="modal fade" id="extraAddressModal" wire:ignore.self tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
