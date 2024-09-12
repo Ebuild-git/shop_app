@@ -173,7 +173,14 @@
                 @foreach ($userAddresses as $address)
                     <div class="address-card p-3 shadow-sm mb-3 {{ $address->is_default ? 'border: 2px solid #00000;' : '' }}">
                         <div class="d-flex justify-content-between align-items-center">
-                            <b class="h6 mb-1">{{ $address->building_name }}, {{ $address->street }}, {{$address->floor }}, {{$address->apartment_number }}, {{ $address->city }}, {{ $address->regionExtra->nom }}</b>
+                            <b class="h6 mb-1">
+                                {{ $address->building_name ? $address->building_name . ',' : '' }}
+                                {{ $address->street ? $address->street . ',' : '' }}
+                                {{ $address->floor ? $address->floor . ',' : '' }}
+                                {{ $address->apartment_number ? $address->apartment_number . ',' : '' }}
+                                {{ $address->city ? $address->city . ',' : '' }}
+                                {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
+                            </b>
                             @if ($address->is_default)
                                 <span class="badge" style="background-color: darkcyan;">Adresse par défaut</span>
                             @endif
