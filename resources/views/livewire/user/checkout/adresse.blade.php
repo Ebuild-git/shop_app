@@ -169,9 +169,6 @@
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
-
-
-
                 <!-- Display Existing Addresses -->
                 @foreach ($userAddresses as $address)
                     <div class="address-card p-3 shadow-sm mb-3 {{ $address->is_default ? 'border: 2px solid #00000;' : '' }}">
@@ -224,7 +221,7 @@
             </div>
 
             <!-- Unified Add/Edit Extra Address Modal -->
-            <div class="modal fade" id="extraAddressModal" tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
+            <div class="modal fade" id="extraAddressModal" wire:ignore.self tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content rounded-3">
                         <div class="modal-header">
