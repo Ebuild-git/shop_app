@@ -39,10 +39,12 @@
         </div>
     </div>
     <div class="modal-footer mt-3">
-        <button type="submit" class="btn bg-red">
+        <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
             Sauvegarder les modifications de mes informations bancaires
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>
+
+
 </form>

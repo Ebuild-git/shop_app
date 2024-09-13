@@ -157,7 +157,7 @@
     </div>
     <br>
     <div class="modal-footer">
-        <button type="submit" class="btn bg-red">
+        <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 wire:loading></span>
             Enregistrer les modifications

@@ -68,6 +68,18 @@ body {
     background-color: #018d8d !important;
     color: white !important;
 }
+.bg {
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 8px 24px;
+    background-color: #008080;
+    color: white;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+}
 
 .seach-zone {
     background-color: #f8f9fa;
