@@ -46,7 +46,7 @@ class UpdateMySecurity extends Component
                 $user->password = Hash::make($this->password);
                 $user->save();
                 session()->flash('success', 'Votre mot de passe a été mis à jour avec succès!');
-                return redirect("/connexion");
+                $this->dispatch('alert', ['message' => "Votre mot de passe a été mis à jour avec succès!", 'type' => 'info']);
             } else {
                 session()->flash('error', 'Le mot de passe actuel fourni est incorrecte!');
             };
