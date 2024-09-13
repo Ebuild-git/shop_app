@@ -20,12 +20,22 @@ class UpdateMySecurity extends Component
     {
         $this->validate([
             'old_password' => 'required|string',
-            'password' => 'required|confirmed|min:8'
+            'password' => [
+                'required',
+                'confirmed',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
+            ]
         ],[
             'old_password.required' => 'Veuillez saisir votre ancien mot de passe',
             'password.required' => 'Veuillez saisir votre nouveau mot de passe',
             'password.confirmed' => 'La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe',
-            'password.min' => 'Votre nouveau mot de passe doit contenir au moins 8 caractères'
+            'password.min' => 'Votre nouveau mot de passe doit contenir au moins 8 caractères',
+            'password.regex' => 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial(-!@# etc.).',
         ]);
 
         $user = User::find(Auth::id());
