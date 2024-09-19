@@ -663,7 +663,7 @@
             });
         </script>
         <!-- Start Navigation -->
-        <div class="header header-light dark-text">
+        <div class="header header-light dark-text desktop-only">
             <div class="container">
                 <nav id="navigation" class="navigation navigation-landscape">
                     <div class="nav-menus-wrapper" style="transition-property: none;">
