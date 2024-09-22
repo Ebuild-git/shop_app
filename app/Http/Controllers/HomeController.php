@@ -455,7 +455,7 @@ class HomeController extends Controller
         try{
             Mail::to($user->email)->send(new VerifyMail($user, $token));
         }catch(\Exception $e){
-            dd($e);
+            return redirect()->back()->with("error", "Une erreur s'est produite lors de l'envoi du mail de validation. mais les compte a été créer !");
         }
 
         return redirect("/connexion")->with("success", "Votre compte a été créé avec succès!<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail. Merci et bienvenue parmi nous!");
