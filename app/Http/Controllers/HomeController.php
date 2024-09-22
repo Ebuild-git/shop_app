@@ -452,7 +452,11 @@ class HomeController extends Controller
         $user->assignRole('user');
 
         //envoi du mail avec le lien de validation
-        Mail::to($user->email)->send(new VerifyMail($user, $token));
+        try{
+            Mail::to($user->email)->send(new VerifyMail($user, $token));
+        }catch(\Exception $e){
+            dd($e);
+        }
 
         return redirect("/connexion")->with("success", "Votre compte a été créé avec succès!<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail. Merci et bienvenue parmi nous!");
         //reset form
