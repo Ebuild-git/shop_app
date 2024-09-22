@@ -132,9 +132,13 @@ class AdminController extends Controller
 
         if ($user && $cart) {
             foreach ($cart as $item) {
-                UserCart::updateOrCreate(
-                    ['user_id' => $user->id, 'post_id' => $item['id']]
-                );
+                $postExists = posts::where('id', $item['id'])->exists();
+                if ($postExists) {
+                    UserCart::updateOrCreate(
+                        ['user_id' => $user->id, 'post_id' => $item['id']]
+                    );
+                }
+
             }
         }
 
