@@ -225,10 +225,12 @@ class HomeController extends Controller
 
 
 
+        $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
+            ->whereNotIn('id_user', $usersWithVoyageMode)
             ->inRandomOrder()
             ->take(16)
             ->get();
@@ -254,17 +256,21 @@ class HomeController extends Controller
 
     public function user_profile($id)
     {
-        $user = User::find($id);
-        $postsQuery = posts::where("id_user", $user->id);
 
-        // Fetch posts and calculate the discount percentage
-        $posts = $postsQuery->get()->map(function($post) {
-            $post->discountPercentage = null;
-            if ($post->old_prix && $post->old_prix > $post->prix) {
-                $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
-            }
-            return $post;
-        });
+        $user = User::find($id);
+
+        // Check if the user is in voyage mode
+        if ($user->voyage_mode) {
+            $posts = collect();
+        } else {
+            $posts = posts::where("id_user", $user->id)->get()->map(function($post) {
+                $post->discountPercentage = null;
+                if ($post->old_prix && $post->old_prix > $post->prix) {
+                    $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+                }
+                return $post;
+            });
+        }
 
         $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
         $ma_note = ratings::where('id_user_buy', Auth::user()->id)

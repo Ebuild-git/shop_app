@@ -37,6 +37,7 @@ class Shopinners extends Component
                 'users.id',
                 'users.lastname',
                 'users.username',
+                'users.voyage_mode',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts')
             )
@@ -58,13 +59,14 @@ class Shopinners extends Component
 
             $shopiners =  $Query
                 ->where('users.id', '!=', Auth::id())
-                ->groupBy('users.id', 'users.lastname', 'users.username', 'pings.id_user')
+                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'pings.id_user')
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
                 ->orderByDesc('average_rating') // Ensuite, trie par note moyenne
                 ->orderByDesc('total_posts')
                 ->paginate(50);
+
         } else {
-            $Query = User::select('users.id', 'users.name', 'users.username', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
+            $Query = User::select('users.id', 'users.name', 'users.username', 'users.voyage_mode', DB::raw('AVG(etoiles) as average_rating'), DB::raw('COUNT(posts.id) as total_posts'))
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->groupBy('users.id', 'users.lastname', 'users.username')
@@ -82,6 +84,7 @@ class Shopinners extends Component
             $shopiners =  $Query->orderByDesc('average_rating')
                 ->orderByDesc('total_posts')
                 ->paginate(50);
+
         }
 
         return view('livewire.user.shopinners', compact("shopiners"));

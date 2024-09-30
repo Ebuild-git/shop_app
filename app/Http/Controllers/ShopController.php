@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\posts;
+use App\Models\User;
+
 use App\Models\proprietes;
 use App\Models\sous_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
@@ -40,13 +43,12 @@ class ShopController extends Controller
 
         $total = posts::where('statut', 'vente')->count();
 
+        $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
-
-        $query = posts::whereNotNull('verified_at')
-            ->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
+        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
             ->where('statut', 'vente')
-            ->whereNotIn('statut', ['vendu', 'validation', 'livraison', 'livré', 'refusé']);
-
+            ->whereNotIn('statut', ['vendu', 'validation', 'livraison', 'livré', 'refusé'])
+            ->whereNotIn('id_user', $usersWithVoyageMode);
 
         if ($luxury_only == "true") {
             //sachant que le post est lier a une sous categorie qui est lier a une categoerie, je veux tout les post donc la categorie est luxuryt true

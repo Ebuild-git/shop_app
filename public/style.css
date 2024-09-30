@@ -2537,3 +2537,48 @@ ul.nav-dropdown-xxx {
         scrollbar-color: #008080 #f1f1f1; /* Thumb color and track color */
     }
 }
+
+/* Smaller Toggle Switch Styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px; /* Smaller width */
+    height: 16px; /* Smaller height */
+    vertical-align: middle; /* Aligns the switch with the text */
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #008080;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}

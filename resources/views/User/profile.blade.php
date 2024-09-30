@@ -75,7 +75,7 @@
                                     </span>
                                     |
                                     <span>
-                                        <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                        <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
                                     </span>
                                     |
                                     <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">

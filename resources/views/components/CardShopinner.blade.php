@@ -46,7 +46,8 @@
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        Annonces : {{ $user->GetPosts->count() }}
+                        Annonces :
+                        {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
                     </a>
                 </div>
             </div>
