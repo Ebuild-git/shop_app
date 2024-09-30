@@ -2582,3 +2582,21 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(14px);
 }
+
+/* @media (max-width: 768px) {
+    .mode-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .mode-toggle span {
+        margin-bottom: 5px;
+    }
+
+    .switch {
+        margin-top: 0;
+    }
+} */
+

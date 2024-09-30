@@ -588,6 +588,7 @@
                                     Mon compte
                                 </a>
                             </li>
+                            @livewire('User.ModeToggle')
                             <li>
                                 <a href="/logout" class="medium text-medium link-red">
                                     Déconnexion
