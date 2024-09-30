@@ -2583,20 +2583,18 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
     .mode-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+        margin-left: 14px;
     }
 
     .mode-toggle span {
-        margin-bottom: 5px;
+        font-size: 14px;
+        color: #000;
     }
 
     .switch {
         margin-top: 0;
     }
-} */
+}
 

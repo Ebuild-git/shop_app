@@ -547,7 +547,7 @@
                             </span>
                             @endauth
                         </a>
-                        <ul class="dropdown-menu popup-content p-3">
+                        <ul class="dropdown-menu popup-content">
                             <li>
                                 <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
                                     Mes annonces
