@@ -21,13 +21,13 @@ class ListeCategorieAdmin extends Component
     {
         // Convertir la chaîne de caractères en un tableau d'IDs
         $ids = explode(',', $data);
-    
+
         // Traiter chaque ID individuellement
         foreach ($ids as $index => $id) {
             // Votre logique de réorganisation ici...
         }
     }
-    
+
 
 
     public function render()

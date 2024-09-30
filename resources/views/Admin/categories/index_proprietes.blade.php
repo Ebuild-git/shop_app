@@ -15,11 +15,11 @@
                 <div class="col-sm-12 card">
                     <div class="d-flex justify-content-between ">
                         <div>
-                            <h5 class="card-header">Liste des Propriétés</h5>
+                            <h5 class="card-header">Liste des Propriétés({{$totalProprietes}})</h5>
                         </div>
                         <div class="card-header">
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#add">
-                                ajouter une Propriété
+                                Ajouter une propriété
                             </button>
                         </div>
                     </div>

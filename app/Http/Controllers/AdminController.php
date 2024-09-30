@@ -147,6 +147,17 @@ class AdminController extends Controller
         return redirect('/')->with('clearLocalStorage', true);
         }
 
+        public function index_categories()
+        {
+        $categories = categories::all();
+        $totalCategories = $categories->count();
+        return view("Admin.categories.index" , compact("totalCategories"));
+        }
+        public function index_proprietes(){
+            $proprietes = proprietes::all();
+            $totalProprietes = $proprietes->count();
+            return view("Admin.categories.index_proprietes" , compact("totalProprietes"));
 
+        }
 
 }

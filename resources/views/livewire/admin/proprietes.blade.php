@@ -17,15 +17,16 @@
                 </div>
             </div>
         </div>
-
-        <div class="table-responsive text-nowrap ">
+        <div class="card">
+            <div class="card-body">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table" id="sortable-list">
                 <thead class="table-dark">
                     <th>Nom</th>
                     <th>Type</th>
-                    <td></td>
-                    <td>affichage</td>
-                    <td></td>
+                    <th></th>
+                    <th>Affichage</th>
+                    <th></th>
                 </thead>
                 <tbody class="table-border-bottom-0" wire:sortable-group="updateTaskOrder">
                     @forelse ($prorietes as $proriete)
@@ -46,7 +47,7 @@
                                     Voir les propriétés ( {{ count($proriete->options ?? []) }} )
                                 </button>
                                 @include('Admin.categories.modal-ordre-attribue',['proriete'=>$proriete])
-                                
+
                             </td>
                             <td>
                                 @if ($proriete->type == 'option')
@@ -80,6 +81,7 @@
                 </tbody>
             </table>
         </div>
+            </div> </div>
     </div>
 
 

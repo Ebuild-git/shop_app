@@ -118,13 +118,9 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/dashboard', [AdminController::class, 'show_admin_dashboard'])->name('dashboard');
 
 
-    Route::get('/admin/categorie', function () {
-        return view('Admin.categories.index');
-    })->name('gestion_categorie');
+    Route::get('/admin/categorie', [AdminController::class, 'index_categories'])->name('gestion_categorie');
+    Route::get('/admin/proprietes', [AdminController::class, 'index_proprietes'])->name('gestion_proprietes');
 
-    Route::get('/admin/proprietes', function () {
-        return view('Admin.categories.index_proprietes');
-    })->name('gestion_proprietes');
 
 
 

@@ -15,8 +15,9 @@
                 <div class="col-sm-12 card">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <h5 class="card-header">Liste des catégories</h5>
+                            <h5 class="card-header">Liste des catégories({{ $totalCategories }})</h5>
                         </div>
+
                         <div class="my-auto">
                             <a href="{{ route('grille_prix') }}">
                                 <button class="btn btn-dark btn-sm me-sm-3 me-1 waves-effect waves-light">
