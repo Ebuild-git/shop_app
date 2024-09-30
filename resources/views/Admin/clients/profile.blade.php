@@ -21,7 +21,7 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                            <a href="{{ Storage::url($user->avatar) }}">
+                            <a href="#">
                                 <img src="{{ $user->getAvatar() }}" alt="..."
                                     class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
                             </a>
@@ -159,7 +159,7 @@
                 <!-- Profile Overview -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p class="card-text text-uppercase">Overview</p>
+                        <p class="card-text text-uppercase">Aperçu</p>
                         <ul class="list-unstyled mb-0">
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-layout-grid"></i><span class="fw-medium mx-2">Publications :</span>

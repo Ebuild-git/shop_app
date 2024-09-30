@@ -20,7 +20,7 @@
                                 <span class="avatar-initial rounded bg-label-primary">
                                     <i class="fa-regular fa-user"></i>
                                 </span>
-                                        
+
                             </div>
                             <h4 class="ms-1 mb-0">
                                 {{ DB::table("users")->where("role","user")->count() }}
@@ -64,7 +64,7 @@
                         </p>
                     </div>
                 </div>
-            </div> 
+            </div>
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-danger">
                     <div class="card-body">
@@ -233,7 +233,7 @@
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Statistiques du trafic</h5>
                             <small class="text-muted">
-                                
+
                             </small>
                         </div>
                         <div class="dropdown">
@@ -249,7 +249,7 @@
                                     </a>
                                 </li>
                                 @endfor
-                               
+
                             </ul>
                         </div>
                     </div>
@@ -400,7 +400,7 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">
-                                Statistiques d'incription par genre.
+                                Statistiques d'inscription par genre.
                             </h5>
                         </div>
                     </div>
