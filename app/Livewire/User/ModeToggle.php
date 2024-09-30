@@ -12,7 +12,11 @@ class ModeToggle extends Component
 
     public function mount()
     {
-        $this->isVoyageMode = Auth::user()->voyage_mode;
+        if (Auth::check()) {
+            $this->isVoyageMode = Auth::user()->voyage_mode;
+        } else {
+            $this->isVoyageMode = false;
+        }
     }
 
     public function toggleVoyageMode()
