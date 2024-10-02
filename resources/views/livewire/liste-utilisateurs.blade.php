@@ -103,9 +103,7 @@
                             @endif
                         </td>
                         <td>
-                            @if ($user->deleted_at)
-                                supprimer
-                            @elseif ($user->locked)
+                            @if ($user->locked)
                                 suspendu
                             @else
                                 actif
@@ -203,19 +201,7 @@
                              </button>
                             </div>
                          </td>
-                         {{-- <td>
-                             <div class="dropdown">
-                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                     data-bs-toggle="dropdown">
-                                     <i class="ti ti-dots-vertical"></i>
-                                 </button>
-                                 <div class="dropdown-menu">
-                                     <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                         wire:click="delete( {{ $user->id }})">
-                                         <i class="ti ti-trash me-1"></i> Supprimer </a>
-                                 </div>
-                             </div>
-                         </td> --}}
+
                          <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
