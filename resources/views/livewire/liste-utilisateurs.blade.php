@@ -51,13 +51,20 @@
          <table class="table">
              <thead class="table-dark">
                  <tr>
-                    <th>Pseudonyme </th>
-                    <th>Email</th>
+                    <th>Pseudonyme</th>
                      <th>Nom</th>
                      <th>Prénom</th>
+                     <th>Email</th>
                      <th>Téléphone</th>
-                     <th>Publications</th>
                      <th>Inscription</th>
+                     <th>Dernière connexion</th>
+                     <th>Statut du compte</th>
+                     <th>Nombre de transactions</th>
+                     <th>Nombre d'etoiles</th>
+                     <th>Adresse</th>
+                     <th>Vérification d'identité</th>
+                     <th>Nombre d'annonces actives</th>
+                     <th>Historique des violations</th>
                      <th>Actions</th>
                      <th></th>
                  </tr>
@@ -67,21 +74,114 @@
                  @forelse ($users as $user)
                      <tr>
                         <td> {{ $user->username }} </td>
-                        <td>
+                        <td> {{ $user->firstname }} </td>
+                        <td> {{ $user->lastname }} </td>
+                         <td>
                             <span class="cusor"
                                 onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
                                 {{ $user->email }}
                             </span>
                         </td>
-                         <td> {{ $user->lastname }} </td>
-                         <td> {{ $user->firstname }} </td>
                          <td> {{ $user->phone_number ?? '/' }} </td>
-                         <td> {{ $user->GetPosts->count() }} </td>
                          <td>
-                             <span title="{{ $user->created_at->diffForHumans() }}">
-                                 {{ $user->created_at->format('d/m/Y') }}
-                             </span>
-                         </td>
+                            <span title="{{ $user->created_at->diffForHumans() }}">
+                                {{ $user->created_at->format('d/m/Y') }}
+                            </span>
+                        </td>
+                        <td>
+                            @if($user->last_login_at)
+                            @php
+                                $lastLogin = \Carbon\Carbon::parse($user->last_login_at);
+                            @endphp
+                            <span title="{{ $lastLogin->diffForHumans() }}">
+                                {{ $lastLogin->format('d/m/Y') }}
+                            </span>
+                            @else
+                                <span title="Aucune donnée de connexion">
+                                    Jamais connecté
+                                </span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($user->deleted_at)
+                                supprimer
+                            @elseif ($user->locked)
+                                suspendu
+                            @else
+                                actif
+                            @endif
+                        </td>
+                        <td></td>
+                        <td>
+                            <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                            {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
+                        </td>
+
+                        <td>
+                            {!! $user->num_appartement ? 'App. ' . $user->num_appartement . '<br>' : '' !!}
+                            {!! $user->etage ? 'Étage ' . $user->etage . '<br>' : '' !!}
+                            {!! $user->nom_batiment ? $user->nom_batiment . '<br>' : '' !!}
+                            {!! $user->rue ? $user->rue . '<br>' : '' !!}
+                            {!! $user->address ?? '' !!}
+                        </td>
+                        <td>
+                            @if($user->isIdentityVerified())
+                            <span class="text-success">Vérifié</span>
+                            @else
+                                <span class="text-danger">Non vérifié</span>
+                            @endif
+                        </td>
+                         <td style="text-align: center;"> {{ $user->GetPosts->count() }}</td>
+
+                        <td>
+                            <button type="button" class="bg" data-toggle="modal" data-target="#violationsModal{{ $user->id }}" style="background-color: #008080;">
+                                Voir historique des violations
+                            </button>
+                            <div class="modal fade" id="violationsModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="violationsModalLabel{{ $user->id }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="violationsModalLabel{{ $user->id }}">
+                                                Historique des violations pour <b>{{ $user->username }}</b>
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body custom-modal-body">
+                                            @if ($user->violations->isNotEmpty())
+                                                @foreach ($user->violations as $violation)
+                                                    <div class="violation-card mb-3">
+                                                        <div class="violation-card-header">
+                                                            {{ $violation->type }}
+                                                        </div>
+                                                        <div class="violation-card-body">
+                                                            <p class="violation-card-text">
+                                                                {{ $violation->message ?? 'No message' }}
+                                                            </p>
+                                                            <p class="violation-card-timestamp text-muted">
+                                                                {{ $violation->created_at->format('d/m/Y H:i') }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="alert alert-custom-info" role="alert">
+                                                    Aucun historique
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+
                          <td>
                             <div class="action-buttons">
 
@@ -103,7 +203,7 @@
                              </button>
                             </div>
                          </td>
-                         <td>
+                         {{-- <td>
                              <div class="dropdown">
                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                      data-bs-toggle="dropdown">
@@ -115,7 +215,21 @@
                                          <i class="ti ti-trash me-1"></i> Supprimer </a>
                                  </div>
                              </div>
-                         </td>
+                         </td> --}}
+                         <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="confirmDeleteUser({{ $user->id }}, @this)">
+                                        <i class="ti ti-trash me-1"></i> Supprimer
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+
+
 
 
                      </tr>
@@ -133,10 +247,34 @@
 
         </div>
 
-         <div class="p-3" {{ $users->links('pagination::bootstrap-4') }} </div>
+         <div class="p-3">{{ $users->links('pagination::bootstrap-4') }} </div>
          </div>
      </div>
  </div>
-     <!--/ Ajax Sourced Server-side -->
+
+
+ <script>
+    function confirmDeleteUser(userId, livewireInstance) {
+        Swal.fire({
+            title: 'Êtes-vous sûr?',
+            text: "Cette action est irréversible!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, supprimer!',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                livewireInstance.call('delete', userId);
+                Swal.fire(
+                    'Supprimé!',
+                    'L\'utilisateur a été supprimé.',
+                    'success'
+                );
+            }
+        });
+    }
+</script>
 
 

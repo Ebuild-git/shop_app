@@ -30,6 +30,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+//lang
+
+Route::get('/change-lang/{lang}', function ($lang) {
+    if (in_array($lang, ['fr', 'ar'])) {
+        session(['locale' => $lang]);
+    }
+    return redirect()->back();
+})->name('change.lang');
+
 //gestion de la connexion admin
 Route::get('login', [AdminController::class, 'index_login'])->name('login');
 Route::get('logout', [AdminController::class, 'index_logout'])->name('logout');

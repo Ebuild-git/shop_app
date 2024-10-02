@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -173,6 +174,26 @@ class User extends Authenticatable implements JWTSubject
     public function addresses()
     {
         return $this->hasMany(UserAddress::class);
+    }
+
+    public function isIdentityVerified()
+    {
+        if ($this->email_verified_at && $this->photo_verified_at) {
+            return true;
+        }
+            return false;
+    }
+
+    public function violations()
+    {
+        return $this->hasMany(signalements::class, 'id_user_make');
+    }
+
+    public function getViolationsHistory($userId)
+    {
+        return signalements::where('id_user_make', $userId)
+            ->with('post') // Assuming you want to include related post data
+            ->get();
     }
 
 

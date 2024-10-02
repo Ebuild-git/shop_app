@@ -127,3 +127,51 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+.custom-modal-body {
+    padding: 20px;
+    background-color: #d3eeee;
+}
+
+.violation-card {
+    border: 2px solid #008080;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.violation-card-header {
+    background-color: #008080;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px; }
+
+.violation-card-body {
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+.violation-card-text {
+    margin-bottom: 5px;
+}
+
+.alert-custom-info {
+    text-align: center;
+    background-color: #d3eeee;
+    color: #008080;
+    border: 1px solid #d3eeee;
+}
+.bg {
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 6px 20px;
+    background-color: #008080;
+    color: white;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    z-index: 1;
+}

@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="utf-8" />
@@ -318,7 +318,6 @@
         <div class="py-2 bg-dark">
             <div class="container">
                 <div class="row">
-
                     <!-- Right Menu -->
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 ">
                         <!-- Choose Language -->
@@ -327,24 +326,30 @@
                             <a class="popup-title" href="javascript:void(0)" data-toggle="dropdown" title="Language"
                                 aria-label="Language dropdown">
                                 <span class="hidden-xl-down medium text-light">Language:</span>
-                                <span class="iso_code medium text-light">Français</span>
+                                <span class="iso_code medium text-light">
+                                    @if (app()->getLocale() == 'fr')
+                                    Français
+                                    @elseif (app()->getLocale() == 'ar')
+                                        Arabe
+                                    @endif
+                                </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
                             </a>
                             <ul class="dropdown-menu popup-content link">
-                                <li><a href="javascript:void(0);" class="dropdown-item medium text-medium"><img
+                                <li class="{{ app()->getLocale() == 'fr' ? 'current' : '' }}"><a href="{{ url('/change-lang/fr') }}" class="dropdown-item medium text-medium"><img
                                             src="/assets/img/2.jpg" alt="fr" width="16"
-                                            height="11" /><span>Français</span></a></li>
-                                <li class="current"><a href="javascript:void(0);"
+                                            height="11" />
+                                    <span>Français</span></a>
+                                </li>
+                                <li class="{{ app()->getLocale() == 'ar' ? 'current' : '' }}"><a href="{{ url('/change-lang/ar') }}"
                                         class="dropdown-item medium text-medium"><img src="/assets/img/1.jpg"
-                                            alt="en" width="16" height="11" /><span>English</span></a></li>
+                                            alt="en" width="16" height="11" />
+                                    <span>Arabe</span></a></li>
                         </div>
-
-
-
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-                        Appelez le:
+                        {{ __('call')}}:
                         <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
                             {{ $configurations->phone_number ?? '' }}
                         </a>
@@ -363,7 +368,6 @@
                 </div>
             </div>
         </div>
-
         <div class="container desktop-container pt-2 pb-2">
             <div class="row">
                 <div class="col-sm-2 col-4 logo-container">

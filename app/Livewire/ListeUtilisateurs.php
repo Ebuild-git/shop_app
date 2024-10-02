@@ -12,7 +12,6 @@ class ListeUtilisateurs extends Component
     public $type, $list, $key, $statut,$etat;
     use WithPagination;
 
-
     public function mount($type)
     {
         if ($type == "shop") {
@@ -64,6 +63,10 @@ class ListeUtilisateurs extends Component
     }
 
 
+    public function confirmDelete($id)
+    {
+        $this->dispatch('show-delete-confirmation', ['userId' => $id]);
+    }
     public function delete($id)
     {
         try {

@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -171,7 +171,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        
+
     ])->toArray(),
 
     /*
@@ -186,7 +186,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class, 
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'role' => \App\Http\Middleware\CheckRole::class,
     ])->toArray(),
 
