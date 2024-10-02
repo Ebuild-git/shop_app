@@ -176,4 +176,11 @@ class posts extends Model
         //relation
         return $this->hasMany(History_change_price::class, 'id_post', 'id');
     }
+
+    public function favoris()
+    {
+        return $this->hasMany(favoris::class, 'id_post');
+    }
+
+
 }

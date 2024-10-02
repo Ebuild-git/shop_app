@@ -192,6 +192,16 @@ class HomeController extends Controller
             abort(404);
         }
         $user = $post->user_info;
+        $ipAddress = request()->ip();
+
+        $viewedIps = json_decode($post->ip_address, true) ?? [];
+
+        if (!in_array($ipAddress, $viewedIps)) {
+            $post->increment('views');
+            $viewedIps[] = $ipAddress;
+            $post->ip_address = json_encode($viewedIps);
+            $post->save();
+        }
 
         //si un user est connecter verifier si ce post est dans ses favoris
         if (Auth::check()) {
