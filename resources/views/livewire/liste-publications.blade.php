@@ -91,6 +91,7 @@
                     @else
                         <!-- Headers for active publications -->
                         <th>Photos</th>
+                        <th>ID</th>
                         <th>Titre</th>
                         <th>Catégorie</th>
                         <th>Prix</th>
@@ -103,6 +104,7 @@
                         <th>Date de dernière mise à jour</th>
                         <th>Commandé</th>
                         <th>Alert</th>
+                        <th>Actions</th>
                     @endif
                 </tr>
              </thead>
@@ -126,7 +128,27 @@
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
                         <td style="text-align: center;">{{ $post->views }}</td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
-                        <td>{{ $post->alert }}</td>
+                        <td>
+                            @php
+                                $signalementCount = $post->signalements->count();
+                            @endphp
+
+                            @if($signalementCount > 0)
+                                <span>
+                                    <i class="bi bi-exclamation-triangle-fill" style="color: red; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: red; font-weight: bold;">
+                                        {{ $signalementCount }}
+                                    </a>
+                                </span>
+                            @else
+                                <span>
+                                    <i class="bi bi-check-circle" style="color: green; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: green; font-weight: bold;">
+                                        0
+                                    </a>
+                                </span>
+                            @endif
+                        </td>
                         <td>
                             <!-- Display the history of changes (if applicable) -->
                             <!-- You might need to fetch this via a separate table or relationship -->
@@ -137,6 +159,7 @@
                             <!-- Display the first photo -->
 
                         </td>
+                        <td>{{ $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
@@ -148,7 +171,72 @@
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
                         <td style="text-align: center;">{{ $post->updated_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">{{ $post->sell_at ? 'Oui' : 'Non' }}</td>
-                        <td>{{ $post->alert }}</td>
+                        <td>
+                            @php
+                                $signalementCount = $post->signalements->count();
+                            @endphp
+
+                            @if($signalementCount > 0)
+                                <span>
+                                    <i class="bi bi-exclamation-triangle-fill" style="color: red; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: red; font-weight: bold;">
+                                        {{ $signalementCount }}
+                                    </a>
+                                </span>
+                            @else
+                                <span>
+                                    <i class="bi bi-check-circle" style="color: green; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: green; font-weight: bold;">
+                                        0
+                                    </a>
+                                </span>
+                            @endif
+                        </td>
+                        <td>
+                            <!-- Delete button -->
+                        <button type="button" class="custom-btn-d" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
+                            <i class="fas fa-trash-alt icon"></i>
+                        </button>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal-{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Supprimer la publication</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Êtes-vous sûr de vouloir supprimer cette publication ?</p>
+                                        <div>
+                                            <label for="motif_suppression">Raison de la suppression:</label>
+                                            <select wire:model="motif_suppression" class="form-control">
+                                                <option value="" selected>Sélectionnez un motif</option>
+                                                <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
+                                                <option value="Annonce multiple du même article">Annonce multiple du même article</option>
+                                                <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
+                                                <option value="Contenu inapproprié">Contenu inapproprié</option>
+                                                <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
+                                                <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
+                                                <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
+                                                <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
+                                                <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
+                                                <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
+                                                <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
+                                                <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="button" wire:click="confirmDelete({{ $post->id }})" class="btn btn-danger">Confirmer la suppression</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </td>
+
                     @endif
                 </tr>
                 @endforeach
@@ -158,5 +246,36 @@
 
         </div>
      </div>
+
+
+
+     <script>
+        window.addEventListener('closeModal', event => {
+            const modalId = event.detail.id;
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+            }
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        });
+        window.addEventListener('reloadPage', () => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    </script>
+
+
+
+
+
+
 
 

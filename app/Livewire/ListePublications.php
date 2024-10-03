@@ -20,6 +20,10 @@ class ListePublications extends Component
 
     public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted, $date, $signalement;
 
+    public $postIdToDelete;
+    public $motif_suppression = '';
+    public $custom_motif_suppression;
+
     public function mount($deleted)
     {
         $this->deleted = $deleted;
@@ -59,19 +63,19 @@ class ListePublications extends Component
         // Filtrage par mot-clé
         if (strlen($this->mot_key) > 0) {
             $mot_key = $this->mot_key;
-            
+
             $postsQuery->where(function($query) use ($mot_key) {
                 $query->whereHas('user_info', function($q) use ($mot_key) {
                     $q->where('username', 'like', '%' . $mot_key . '%')
                       ->orWhere('firstname', 'like', '%' . $mot_key . '%')
                       ->orWhere('lastname', 'like', '%' . $mot_key . '%');
                 });
-                
+
                 $query->orWhere('titre', 'like', '%' . $mot_key . '%')
                       ->orWhere('description', 'like', '%' . $mot_key . '%');
             });
         }
-        
+
 
         // Filtrage par catégories
         if (strlen($this->categorie_key) > 0) {
@@ -131,17 +135,55 @@ class ListePublications extends Component
 
 
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
         $post = posts::find($id);
+
         if ($post) {
-            //update verified_at date
-            $post->delete();
-            $this->dispatch('alert', ['message' => "La publication a été supprimé !",'type'=>'success']);
+            if (!empty($this->motif_suppression)) {
+                $post->motif_suppression = $this->motif_suppression;
+                $post->save();
+
+                $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
+
+                // Create a notification with styled content
+                $notification = new notifications();
+                $notification->titre = "{$greeting} " . $post->user_info->username;
+                $notification->id_user_destination = $post->id_user;
+                $notification->type = "alerte";
+                $notification->url = "#";
+                $notification->message = "
+                                                Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                                                La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
+                                                Merci pour votre compréhension.
+                                            ";
+                $notification->save();
+
+                // Dispatch a user event (if necessary)
+                event(new UserEvent($post->id_user));
+
+                $post->delete();
+
+                // Dispatch event to close the modal
+                $this->dispatch('closeModal', ['id' => "deleteModal-$id"]);
+
+                // Dispatch event to show the success alert
+                $this->dispatch('alert', ['message' => "La publication a été supprimée avec le motif: {$this->motif_suppression} !", 'type' => 'success']);
+
+                // Dispatch an event to reload the page
+                $this->dispatch('reloadPage');
+
+                $this->motif_suppression = '';
+            } else {
+                $this->dispatch('alert', ['message' => "Veuillez sélectionner un motif de suppression.", 'type' => 'error']);
+            }
         } else {
-            $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la suppression !",'type'=>'error']);
+            $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la suppression !", 'type' => 'error']);
         }
     }
+
+
+
 
     public function restore($id)
     {
