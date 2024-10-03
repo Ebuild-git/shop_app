@@ -127,10 +127,12 @@
         background-color: #343a40;
         color: #fff;
         box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        font-size: 12px;
     }
 
     .table tbody td {
         border-bottom: 1px solid #dee2e6;
+        font-size: 13px;
     }
 
     .table .action-buttons {

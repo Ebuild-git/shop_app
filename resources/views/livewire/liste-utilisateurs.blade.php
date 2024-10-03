@@ -114,7 +114,17 @@
                                 actif
                             @endif
                         </td>
-                        <td></td>
+                        <td>
+                            @if (empty($user->rib_number) && empty($user->bank_name) && empty($user->titulaire_name))
+                                <span class="badge bg-danger">Non fournies</span>
+                            @elseif (!empty($user->rib_number) && !empty($user->bank_name) && !empty($user->titulaire_name))
+                                <span class="badge bg-success">Fournies</span>
+                            @elseif (empty($user->rib_number) || empty($user->bank_name) || empty($user->titulaire_name))
+                                <span class="badge bg-warning text-dark">Incompletes</span>
+                            @elseif ($user->rib_status === 'rejected') <!-- Adjust this condition based on your rejection logic -->
+                                <span class="badge bg-dark">Rejetées</span>
+                            @endif
+                        </td>
                         <td>
                             @if($user->isIdentityVerified())
                             <span class="text-success">Vérifié</span>
