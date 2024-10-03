@@ -296,9 +296,9 @@ class CreatePost extends Component
 
     public function submit()
     {
-        if (!$this->userHasRib) {
-            return;
-        }
+        // if (!$this->userHasRib) {
+        //     return;
+        // }
         $this->before_post();
         if ($this->data_post) {
             //verifier que l'utilisateur a ajouter au moins une photo
