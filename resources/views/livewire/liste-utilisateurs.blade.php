@@ -51,21 +51,24 @@
          <table class="table">
              <thead class="table-dark">
                  <tr>
+                    <th>ID</th>
                     <th>Pseudonyme</th>
                      <th>Nom</th>
                      <th>Prénom</th>
-                     <th>Email</th>
-                     <th>Téléphone</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
-                     <th>Statut du compte</th>
-                     <th>Nombre de transactions</th>
-                     <th>Nombre d'etoiles</th>
-                     <th>Adresse</th>
+                     <th>Nb articles en vente</th>
+                     <th>Total des ventes</th>
+                     <th>Évaluation</th>
+                    <th>Statut du compte</th>
+                    <th>Statut des informations RIB</th>
                      <th>Vérification d'identité</th>
-                     <th>Nombre d'annonces actives</th>
+                     <th>Email</th>
+                     <th>Téléphone</th>
+                     <th>Adresse</th>
                      <th>Historique des violations</th>
                      <th>Actions</th>
+                     <th></th>
                      <th></th>
                  </tr>
              </thead>
@@ -73,17 +76,11 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
+                        <td>{{ 'U' . ($user->id + 1000) }}</td>
                         <td> {{ $user->username }} </td>
                         <td> {{ $user->firstname }} </td>
                         <td> {{ $user->lastname }} </td>
-                         <td>
-                            <span class="cusor"
-                                onclick="OpenModalMessage('{{ $user->email }}','{{ $user->username }}')">
-                                {{ $user->email }}
-                            </span>
-                        </td>
-                         <td> {{ $user->phone_number ?? '/' }} </td>
-                         <td>
+                        <td>
                             <span title="{{ $user->created_at->diffForHumans() }}">
                                 {{ $user->created_at->format('d/m/Y') }}
                             </span>
@@ -102,7 +99,15 @@
                                 </span>
                             @endif
                         </td>
+                        <td style="text-align: center;"> {{ $user->GetPosts->count() }}</td>
+                        <td style="text-align: center;">
+                            {{ $venduCountPerUser[$user->id] }}
+                        </td>
                         <td>
+                            <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
+                            {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
+                        </td>
+                        <td style="text-align: center;">
                             @if ($user->locked)
                                 suspendu
                             @else
@@ -111,10 +116,22 @@
                         </td>
                         <td></td>
                         <td>
-                            <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
-                            {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
+                            @if($user->isIdentityVerified())
+                            <span class="text-success">Vérifié</span>
+                            @else
+                                <span class="text-danger">Non vérifié</span>
+                            @endif
                         </td>
-
+                        <td>
+                            <span class="cursor" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                {{ $user->email }}
+                            </span>
+                            <br>
+                            <span class="cursor" style="font-size: 12px; color: #008080;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                            </span>
+                        </td>
+                        <td> {{ $user->phone_number ?? '/' }} </td>
                         <td>
                             {!! $user->num_appartement ? 'App. ' . $user->num_appartement . '<br>' : '' !!}
                             {!! $user->etage ? 'Étage ' . $user->etage . '<br>' : '' !!}
@@ -122,14 +139,6 @@
                             {!! $user->rue ? $user->rue . '<br>' : '' !!}
                             {!! $user->address ?? '' !!}
                         </td>
-                        <td>
-                            @if($user->isIdentityVerified())
-                            <span class="text-success">Vérifié</span>
-                            @else
-                                <span class="text-danger">Non vérifié</span>
-                            @endif
-                        </td>
-                         <td style="text-align: center;"> {{ $user->GetPosts->count() }}</td>
 
                         <td>
                             <button type="button" class="bg" data-toggle="modal" data-target="#violationsModal{{ $user->id }}" style="background-color: #008080;">
@@ -214,7 +223,6 @@
                                 </div>
                             </div>
                         </td>
-
 
 
 

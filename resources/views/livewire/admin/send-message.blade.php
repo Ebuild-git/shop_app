@@ -8,10 +8,10 @@
         <table class="w-100">
             <tr>
                 <td>
-                    <label for="">Destinatire</label>
+                    <label for="">Destinataire</label>
                 </td>
                 <td>
-                    <input type="email" wire:model="email" class="form-control @error('email') is-invalid @enderror " readonly>
+                    <input type="email" wire:model="recipientEmail" class="form-control @error('email') is-invalid @enderror " readonly>
                     @error('email')
                         <span class="small text-danger"> {{ $message }} </span>
                     @enderror

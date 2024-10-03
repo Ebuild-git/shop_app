@@ -37,6 +37,13 @@ class ListeUtilisateurs extends Component
                     ->orWhere('phone_number', 'like', '%' . $this->key . '%')
                     ->orWhere('firstname', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
+                    if (is_numeric($this->key)) {
+                        $modifiedKey = $this->key - 1000;
+                        $query->orWhere('id', $this->key)
+                              ->orWhere('id', $modifiedKey);
+                    }
+
+
             });
         }
 
@@ -52,8 +59,12 @@ class ListeUtilisateurs extends Component
             }
         }
         $users = $users->paginate(50);
+        $venduCountPerUser = [];
 
-        return view('livewire.liste-utilisateurs',  compact('users'));
+        foreach ($users as $user) {
+            $venduCountPerUser[$user->id] = $user->GetPosts()->where('statut', 'vendu')->count();
+        }
+        return view('livewire.liste-utilisateurs',  compact('users', 'venduCountPerUser'));
     }
 
 
