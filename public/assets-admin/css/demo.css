@@ -196,3 +196,23 @@
     font-size: 14px; /* Icon size */
     margin-right: 4px; /* Space between icon and text */
 }
+
+.image-cell {
+    width: 100px; /* Set a fixed width for the image cell */
+    text-align: center; /* Center the image */
+    overflow: hidden; /* Hide overflow to maintain clean layout */
+    position: relative; /* Position relative to allow absolute positioning of the enlarged image */
+}
+
+.table-image {
+    width: 100%; /* Set the image to take the full width of the cell */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Optional: rounded corners */
+    object-fit: cover; /* Cover the area without distorting the image */
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.table-image:hover {
+    transform: scale(1.5); /* Enlarge the image on hover */
+    z-index: 10; /* Ensure the enlarged image is above other elements */
+}

@@ -90,7 +90,7 @@
                         <th>Historique des modifications</th>
                     @else
                         <!-- Headers for active publications -->
-                        <th>Photos</th>
+                        <th  style="width: 20px;">Photos</th>
                         <th>ID</th>
                         <th>Titre</th>
                         <th>Catégorie</th>
@@ -111,12 +111,15 @@
 
              <tbody>
                 @foreach ($posts as $post)
+
                 <tr>
                     @if ($deleted)
-                        <td>
-                            <!-- Display the first photo -->
-
+                        @foreach ($post->photos ?? [] as $key => $image)
+                        <td class="image-cell">
+                            <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
                         </td>
+
+                        @endforeach
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
@@ -155,10 +158,14 @@
                         </td>
 
                     @else
-                        <td>
-                            <!-- Display the first photo -->
-
+                        @foreach ($post->photos ?? [] as $key => $image)
+                        <td class="image-cell">
+                            <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
                         </td>
+                        @endforeach
+
+
+
                         <td>{{ $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
