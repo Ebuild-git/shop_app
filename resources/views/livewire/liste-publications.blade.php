@@ -90,7 +90,7 @@
                         <th>Actions</th>
                     @else
                         <!-- Headers for active publications -->
-                        <th  style="width: 20px;">Photos</th>
+                        <th>Photos</th>
                         <th>ID</th>
                         <th>Titre</th>
                         <th>Catégorie</th>
@@ -126,9 +126,11 @@
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td>{{ $post->deleted_at ? $post->deleted_at->format('d-m-Y') : '' }}</td>
-                        <td> <a href="/admin/client/{{ $post->user_info->id }}/view">
+                        <td>
+                            <a href="/admin/client/{{ $post->user_info->id }}/view">
                             {{ $post->user_info->username }}
-                        </a></td>
+                            </a>
+                        </td>
                         <td>{{ $post->motif_suppression }}</td>
                         <td>{{ $post->etat }}</td>
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
@@ -156,38 +158,33 @@
                             @endif
                         </td>
                         <td>
-                            <!-- Restore button -->
                             <button wire:click="restore({{ $post->id }})" class="btn btn-sm btn-success custom-restore-btn">
                                 <i class="bi bi-arrow-clockwise"></i>
                             </button>
-
-                            <!-- Delete definitively button -->
                             <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $post->id }})">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
 
                     @else
-                    @foreach ($post->photos ?? [] as $key => $image)
-                        <td class="image-cell">
-                            <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
-                                <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
-                            </a>
-                        </td>
-                    @endforeach
-
-
-
-
+                        @foreach ($post->photos ?? [] as $key => $image)
+                            <td class="image-cell">
+                                <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
+                                    <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
+                                </a>
+                            </td>
+                        @endforeach
                         <td>{{ $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">{{ $post->statut }}</td>
-                        <td> <a href="/admin/client/{{ $post->user_info->id }}/view">
+                        <td>
+                            <a href="/admin/client/{{ $post->user_info->id }}/view">
                             {{ $post->user_info->username }}
-                        </a></td>
+                            </a>
+                        </td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>{{ $post->etat }}</td>
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
@@ -215,47 +212,44 @@
                             @endif
                         </td>
                         <td>
-                            <!-- Delete button -->
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-
-                        <!-- Delete Modal -->
-                        <div class="modal fade" id="deleteModal-{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Supprimer la publication</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Êtes-vous sûr de vouloir supprimer cette publication ?</p>
-                                        <div>
-                                            <label for="motif_suppression">Raison de la suppression:</label>
-                                            <select wire:model="motif_suppression" class="form-control">
-                                                <option value="" selected>Sélectionnez un motif</option>
-                                                <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
-                                                <option value="Annonce multiple du même article">Annonce multiple du même article</option>
-                                                <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
-                                                <option value="Contenu inapproprié">Contenu inapproprié</option>
-                                                <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
-                                                <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
-                                                <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
-                                                <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
-                                                <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
-                                                <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
-                                                <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
-                                                <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
-                                            </select>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                            <div class="modal fade" id="deleteModal-{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Supprimer la publication</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                        <button type="button" wire:click="confirmDelete({{ $post->id }})" class="btn btn-danger">Confirmer la suppression</button>
+                                        <div class="modal-body">
+                                            <p>Êtes-vous sûr de vouloir supprimer cette publication ?</p>
+                                            <div>
+                                                <label for="motif_suppression">Raison de la suppression:</label>
+                                                <select wire:model="motif_suppression" class="form-control">
+                                                    <option value="" selected>Sélectionnez un motif</option>
+                                                    <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
+                                                    <option value="Annonce multiple du même article">Annonce multiple du même article</option>
+                                                    <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
+                                                    <option value="Contenu inapproprié">Contenu inapproprié</option>
+                                                    <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
+                                                    <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
+                                                    <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
+                                                    <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
+                                                    <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
+                                                    <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
+                                                    <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
+                                                    <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <button type="button" wire:click="confirmDelete({{ $post->id }})" class="btn btn-danger">Confirmer la suppression</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
                         </td>
 
@@ -269,30 +263,28 @@
         </div>
      </div>
 
-
-
     <script>
-    window.addEventListener('closeModal', event => {
-        const modalId = event.detail.id;
-        const modalElement = document.getElementById(modalId);
-        if (modalElement) {
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) {
-                modal.hide();
+        window.addEventListener('closeModal', event => {
+            const modalId = event.detail.id;
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
             }
-        }
 
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.remove();
-        }
-    });
-    window.addEventListener('reloadPage', () => {
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-    });
-</script>
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        });
+        window.addEventListener('reloadPage', () => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    </script>
 
     <script>
         function confirmDelete(postId) {
