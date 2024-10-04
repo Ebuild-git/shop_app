@@ -176,45 +176,40 @@
     z-index: 1;
 }
 
-.custom-btn-d{
-    background-color: #ff4c4c; /* Custom red color */
-    color: white; /* Text color */
-    border: none; /* No border */
-    padding: 6px 10px; /* Adjust padding for a smaller button */
-    font-size: 14px; /* Font size */
-    border-radius: 4px; /* Slightly rounded corners */
-    display: flex; /* Flexbox for centering icon and text */
-    align-items: center; /* Center vertically */
-    transition: background-color 0.3s; /* Smooth background color transition */
-}
-
-.custom-btn-d:hover {
-    background-color: #e63939; /* Darker shade on hover */
-}
-
-.custom-btn-d .icon {
-    font-size: 14px; /* Icon size */
-    margin-right: 4px; /* Space between icon and text */
-}
 
 .image-cell {
-    width: 100px; /* Set a fixed width for the image cell */
-    text-align: center; /* Center the image */
-    overflow: hidden; /* Hide overflow to maintain clean layout */
-    position: relative; /* Position relative to allow absolute positioning of the enlarged image */
+    width: 100px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
 }
 
 .table-image {
-    width: 100%; /* Set the image to take the full width of the cell */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 5px; /* Optional: rounded corners */
-    object-fit: cover; /* Cover the area without distorting the image */
-    transition: transform 0.3s ease; /* Smooth transition for scaling */
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .table-image:hover {
-    transform: scale(1.5); /* Enlarge the image on hover */
-    z-index: 10; /* Ensure the enlarged image is above other elements */
+    transform: scale(1.5);
+    z-index: 10;
 }
 
 
+.status-actif {
+    color: green; /* For Actif */
+}
+
+.status-en-attente {
+    color: orange; /* For En attente */
+}
+
+.status-suspendu {
+    color: red; /* For Suspendu */
+}
+
+.status-termine {
+    color: gray; /* For Terminé */
+}

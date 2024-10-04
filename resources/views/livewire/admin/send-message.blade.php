@@ -48,3 +48,11 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('closeModal', function () {
+            $('#MessageModal').modal('hide'); // Close the modal
+        });
+    });
+    </script>

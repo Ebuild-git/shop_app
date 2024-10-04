@@ -475,6 +475,7 @@
             $('#MessageModal').modal('show');
         }
 
+
         function OpenModalDeletePost(id_post) {
             Livewire.dispatch('sendDataPostForDelete', {
                 id_post: id_post

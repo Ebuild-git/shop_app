@@ -182,5 +182,34 @@ class posts extends Model
         return $this->hasMany(favoris::class, 'id_post');
     }
 
+    public function getStatusAttribute()
+    {
+        if ($this->statut === 'vendu' && $this->delivered_at) {
+            return 'Terminé'; // Sold and delivered
+        }
+
+        if ($this->statut === 'refusé' || !is_null($this->motif_suppression)) {
+            return 'Suspendu'; // Suspended or flagged
+        }
+
+        if ($this->statut === 'validation' && is_null($this->verified_at)) {
+            return 'En attente'; // Waiting for validation
+        }
+
+        if ($this->statut === 'validation' || $this->statut === 'vente') {
+            if (!is_null($this->verified_at) && is_null($this->sell_at)) {
+                return 'Actif'; // Active for sale
+            }
+        }
+
+        return 'Unknown'; // Default case if no conditions matched
+    }
+
+    public function getLastActionDateAttribute()
+    {
+        $lastSignalement = $this->signalements()->latest()->first(); // Assuming a signalement has a created_at timestamp
+        return $lastSignalement ? $lastSignalement->created_at : $this->created_at; // Fall back to post creation date if no signalement exists
+    }
+
 
 }

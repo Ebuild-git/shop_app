@@ -15,7 +15,9 @@ class SignalementsController extends Controller
     public function liste_publications_signaler(Request $request)
     {
         $date = $request->input('date');
-        $query = posts::withCount('signalements')->has('signalements');
+        // $query = posts::withCount('signalements')->has('signalements');
+        $query = posts::with(['signalements.auteur'])->withCount('signalements')->has('signalements');
+
         if ($date) {
             $query->whereDate('created_at', $date);
         }
@@ -24,7 +26,7 @@ class SignalementsController extends Controller
         ->with("date",$date)
         ->with('posts', $posts);
     }
-    
+
 
 
 
@@ -47,7 +49,7 @@ class SignalementsController extends Controller
             $post->signalements()->delete();
             $post->delete();
         }
-        
+
         return redirect()->back()->with("success", "L'annonce a été supprimé");
     }
 }

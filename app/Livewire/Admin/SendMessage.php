@@ -71,13 +71,14 @@ class SendMessage extends Component
             // Send the message via email
             Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
 
-            // Flash success message and reset inputs
             session()->flash("success", "Votre message a été envoyé avec succès.");
+            $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.",'type'=>'success']);
+            $this->dispatch('closeModal');
             $this->sujet = "";
             $this->message = "";
         } catch (Exception $e) {
-            // Flash error message
             session()->flash("error", "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage());
+            $this->dispatch('alert', ['message' => "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage(),'type'=>'error']);
         }
     }
 }

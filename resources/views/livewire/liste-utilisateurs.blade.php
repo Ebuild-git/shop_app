@@ -68,8 +68,7 @@
                      <th>Adresse</th>
                      <th>Historique des violations</th>
                      <th>Actions</th>
-                     <th></th>
-                     <th></th>
+                        <th></th>
                  </tr>
              </thead>
 
@@ -133,11 +132,11 @@
                             @endif
                         </td>
                         <td>
-                            <span class="cursor" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                            <span style="cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
                                 {{ $user->email }}
                             </span>
                             <br>
-                            <span class="cursor" style="font-size: 12px; color: #008080;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                            <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
                                 <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                             </span>
                         </td>
@@ -150,9 +149,9 @@
                             {!! $user->address ?? '' !!}
                         </td>
 
-                        <td>
+                        <td style="text-align: center;">
                             <button type="button" class="bg" data-toggle="modal" data-target="#violationsModal{{ $user->id }}" style="background-color: #008080;">
-                                Voir historique des violations
+                                <i class="bi bi-clock-history"></i>
                             </button>
                             <div class="modal fade" id="violationsModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="violationsModalLabel{{ $user->id }}" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
