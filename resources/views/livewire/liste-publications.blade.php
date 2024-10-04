@@ -87,7 +87,7 @@
                         <th>Nombre de vues</th>
                         <th>Nombre de favoris</th>
                         <th>Alert</th>
-                        <th>Historique des modifications</th>
+                        <th>Actions</th>
                     @else
                         <!-- Headers for active publications -->
                         <th  style="width: 20px;">Photos</th>
@@ -115,17 +115,20 @@
                 <tr>
                     @if ($deleted)
                         @foreach ($post->photos ?? [] as $key => $image)
-                        <td class="image-cell">
-                            <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
-                        </td>
-
+                            <td class="image-cell">
+                                <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
+                                    <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
+                                </a>
+                            </td>
                         @endforeach
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td>{{ $post->deleted_at ? $post->deleted_at->format('d-m-Y') : '' }}</td>
-                        <td>{{ $post->user_info->username }}</td>
+                        <td> <a href="/admin/client/{{ $post->user_info->id }}/view">
+                            {{ $post->user_info->username }}
+                        </a></td>
                         <td>{{ $post->motif_suppression }}</td>
                         <td>{{ $post->etat }}</td>
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
@@ -138,31 +141,41 @@
 
                             @if($signalementCount > 0)
                                 <span>
-                                    <i class="bi bi-exclamation-triangle-fill" style="color: red; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: red; font-weight: bold;">
+                                    <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
                                         {{ $signalementCount }}
                                     </a>
                                 </span>
                             @else
                                 <span>
-                                    <i class="bi bi-check-circle" style="color: green; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: green; font-weight: bold;">
+                                    <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold;">
                                         0
                                     </a>
                                 </span>
                             @endif
                         </td>
                         <td>
-                            <!-- Display the history of changes (if applicable) -->
-                            <!-- You might need to fetch this via a separate table or relationship -->
+                            <!-- Restore button -->
+                            <button wire:click="restore({{ $post->id }})" class="btn btn-sm btn-success custom-restore-btn">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+
+                            <!-- Delete definitively button -->
+                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $post->id }})">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
 
                     @else
-                        @foreach ($post->photos ?? [] as $key => $image)
+                    @foreach ($post->photos ?? [] as $key => $image)
                         <td class="image-cell">
-                            <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
+                            <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
+                                <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
+                            </a>
                         </td>
-                        @endforeach
+                    @endforeach
+
 
 
 
@@ -172,7 +185,9 @@
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">{{ $post->statut }}</td>
-                        <td>{{ $post->user_info->username }}</td>
+                        <td> <a href="/admin/client/{{ $post->user_info->id }}/view">
+                            {{ $post->user_info->username }}
+                        </a></td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>{{ $post->etat }}</td>
                         <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
@@ -185,15 +200,15 @@
 
                             @if($signalementCount > 0)
                                 <span>
-                                    <i class="bi bi-exclamation-triangle-fill" style="color: red; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: red; font-weight: bold;">
+                                    <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
                                         {{ $signalementCount }}
                                     </a>
                                 </span>
                             @else
                                 <span>
-                                    <i class="bi bi-check-circle" style="color: green; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: green; font-weight: bold;">
+                                    <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
+                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold;">
                                         0
                                     </a>
                                 </span>
@@ -201,8 +216,8 @@
                         </td>
                         <td>
                             <!-- Delete button -->
-                        <button type="button" class="custom-btn-d" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
-                            <i class="fas fa-trash-alt icon"></i>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
+                            <i class="bi bi-trash3"></i>
                         </button>
 
                         <!-- Delete Modal -->
@@ -256,33 +271,66 @@
 
 
 
-     <script>
-        window.addEventListener('closeModal', event => {
-            const modalId = event.detail.id;
-            const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                const modal = bootstrap.Modal.getInstance(modalElement);
-                if (modal) {
-                    modal.hide();
-                }
+    <script>
+    window.addEventListener('closeModal', event => {
+        const modalId = event.detail.id;
+        const modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
             }
+        }
 
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) {
-                backdrop.remove();
-            }
-        });
-        window.addEventListener('reloadPage', () => {
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        });
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+    });
+    window.addEventListener('reloadPage', () => {
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    });
+</script>
+
+    <script>
+        function confirmDelete(postId) {
+            Swal.fire({
+                title: 'Êtes-vous sûr?',
+                text: "Vous ne pourrez pas revenir en arrière!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#008080',
+                cancelButtonColor: '#000',
+                confirmButtonText: 'Oui, supprimez-le!',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Call the Livewire method directly
+                    @this.delete_definitivement(postId);
+
+                    Swal.fire(
+                        'Supprimé!',
+                        'La publication a été supprimée définitivement.',
+                        'success'
+                    )
+                }
+            });
+        }
     </script>
 
 
 
 
+<style>
+    .custom-restore-btn {
+        background-color: #008080;
+        border-color: #008080;
+    }
 
-
-
-
+    .custom-restore-btn:hover {
+        background-color: #006666; /* Darker shade for hover */
+        border-color: #006666;     /* Match border with hover color */
+    }
+</style>
