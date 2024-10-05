@@ -30,22 +30,6 @@
                 <div>
                     {{ $post->sous_categorie_info->titre }}
                 </div>
-                {{-- @if ($post->proprietes)
-                <div class="strong">
-                    @if ($post->proprietes['Taille'] ?? null)
-                    {{ $post->proprietes['Taille'] }}
-                    @elseif($post->proprietes['Pointure'] ?? null)
-                    {{ $post->proprietes['Pointure'] }}
-                    @elseif($post->proprietes['Pointure - Bébé'] ?? null)
-                    {{ $post->proprietes['Pointure - Bébé'] }}
-                    @elseif($post->proprietes['Pointure- Bébé'] ?? null)
-                    {{ $post->proprietes['Pointure- Bébé'] }}
-                    @elseif($post->proprietes['Taille - bébé'] ?? null)
-                    {{ $post->proprietes['Taille - bébé'] }}
-                    @else
-                    @endif
-                </div>
-                @endif --}}
                 @if ($post->proprietes)
                     <div class="strong">
                         @foreach ($post->proprietes as $key => $value)

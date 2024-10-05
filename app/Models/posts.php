@@ -15,7 +15,6 @@ class posts extends Model
 
 
 
-
     protected $fillable = [
         'sell_at',
         'id_user_buy',

@@ -45,7 +45,6 @@ class HomeController extends Controller
             ->orderBy("posts.updated_price_at", "Desc")
             ->take(12)
             ->get();
-
         // Fetch luxury posts
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
@@ -54,6 +53,8 @@ class HomeController extends Controller
             ->orderBy("posts.created_at", "Desc")
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
             ->take(8)->get();
+
+
 
         // Calculate the discount percentage for each post
         foreach ($last_post as $post) {
