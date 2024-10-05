@@ -30,7 +30,7 @@
                 <div>
                     {{ $post->sous_categorie_info->titre }}
                 </div>
-                @if ($post->proprietes)
+                {{-- @if ($post->proprietes)
                 <div class="strong">
                     @if ($post->proprietes['Taille'] ?? null)
                     {{ $post->proprietes['Taille'] }}
@@ -45,7 +45,21 @@
                     @else
                     @endif
                 </div>
+                @endif --}}
+                @if ($post->proprietes)
+                    <div class="strong">
+                        @foreach ($post->proprietes as $key => $value)
+                            @if (\Illuminate\Support\Str::startsWith(strtolower($key), 'taille'))
+                                {{ $value }}
+                                @break
+                            @elseif (\Illuminate\Support\Str::startsWith(strtolower($key), 'pointure'))
+                                {{ $value }}
+                                @break
+                            @endif
+                        @endforeach
+                    </div>
                 @endif
+
             </div>
         </div>
     </div>
