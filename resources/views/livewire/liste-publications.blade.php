@@ -152,7 +152,7 @@
                             @if($signalementCount > 0)
                                 <span>
                                     <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
+                                    <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
                                         {{ $signalementCount }}
                                     </a>
                                 </span>
@@ -212,7 +212,7 @@
                             @if($signalementCount > 0)
                                 <span>
                                     <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
+                                    <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
                                         {{ $signalementCount }}
                                     </a>
                                 </span>
