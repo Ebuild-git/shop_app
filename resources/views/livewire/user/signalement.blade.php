@@ -17,7 +17,7 @@
                 Signaler cet annonce
             </h1>
             <span class="text-muted">
-                " 
+                "
                 <span class="color text-capitalize">
                     {{ $post->titre }}
                 </span>
@@ -35,11 +35,17 @@
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
             <b>Message</b>
-            <textarea wire:model="message" class="form-control border-r shadow-none" rows="6"></textarea>
+            <textarea wire:model="message" class="form-control border-r shadow-none" rows="6"
+            placeholder="Veuillez entrer un message expliquant clairement la raison de votre signalement. Votre message doit contenir au moins 20 caractères."
+            oninput="updateCharCount(event)"
+            ></textarea>
             @error('message')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-between align-items-center">
+                <span id="charCount" class="text-muted">
+                    {{ strlen($message) }} caractères
+                </span>
                 <button type="submit" class="btn btn-sm btn-danger">
                     <span wire:loading>
                         <x-Loading></x-Loading>
@@ -48,6 +54,13 @@
                     <i class="bi bi-arrow-right-circle-fill"></i>
                 </button>
             </div>
+
         </form>
     @endif
 </div>
+<script>
+    function updateCharCount(event) {
+        const charCount = event.target.value.length;
+        document.getElementById('charCount').textContent = charCount + ' caractères';
+    }
+</script>
