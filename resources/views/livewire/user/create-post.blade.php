@@ -718,30 +718,30 @@
                                         <table>
                                             <tr>
                                                 <td style="min-width: 130px">Condition </td>
-                                                <td class="text-black"> {{ $data_post['etat'] }} </td>
+                                                <td class="text-black space-td"> {{ $data_post['etat'] }} </td>
                                             </tr>
                                             <tr>
                                                 <td>Catégorie </td>
-                                                <td class="text-black text-capitalize">
+                                                <td class="text-black text-capitalize space-td">
                                                     {{ $data_post['categorie']->titre ?? '' }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Région </td>
-                                                <td class="text-black text-capitalize">
+                                                <td class="text-black text-capitalize space-td">
                                                     {{ $data_post['region']->nom }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Publié le </td>
-                                                <td class="text-black">
+                                                <td class="text-black space-td">
                                                     {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
                                                 </td>
                                             </tr>
                                             @foreach ($data_post['proprietes'] ?? [] as $key => $value)
                                                 <tr>
                                                     <td>{{ ucfirst($key) }} </td>
-                                                    <td class="text-black">
+                                                    <td class="text-black space-td">
                                                         @if ($key == 'Couleur')
                                                             @if ($value == '#000000000')
                                                                 <img src="/icons/color-wheel.png" height="20"
