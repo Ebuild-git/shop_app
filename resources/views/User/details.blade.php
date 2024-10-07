@@ -148,7 +148,7 @@
 
                     <div class="shopiner-heading">
                         <hr>
-                    <h5>
+                    <h5 style="font-size: 20px;">
                         <b>Voilà le SHOP<span class="color">IN</span>ER</b>
                     </h5>
                     @php
@@ -156,7 +156,7 @@
                         $avis = $user->getReviewsAttribute->count();
                     @endphp
 
-                    <div>
+                    <div style="margin-top:25px;">
                         <table>
                             <tr>
                                 <td>
@@ -409,10 +409,10 @@
                                 </p>
                                 <div class="shopiner-heading mobile-only">
                                     <hr>
-                                <h5>
+                                <h5 style="font-size: 20px;">
                                     <b>Voilà le SHOP<span class="color">IN</span>ER</b>
                                 </h5>
-                                <div>
+                                <div style="margin-top:20px;">
                                     <table>
                                         <tr>
                                             <td>
