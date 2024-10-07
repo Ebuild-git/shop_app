@@ -199,6 +199,20 @@ class ListePublications extends Component
         if ($post) {
             $post->update(['motif_suppression' => null]);
             $post->restore();
+
+            $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
+
+            // Create a notification with styled content
+            $notification = new notifications();
+            $notification->titre = "{$greeting} " . $post->user_info->username;
+            $notification->id_user_destination = $post->id_user;
+            $notification->type = "alerte";
+            $notification->url = "#";
+            $notification->message = "
+                Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été restaurée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                Merci pour votre patience.
+            ";
+            $notification->save();
             $this->dispatch('alert', ['message' => "La publication à été restaurer !",'type'=>'success']);
         } else {
             $this->dispatch('alert', ['message' => "Cette publication n'existe pas.",'type'=>'error']);
