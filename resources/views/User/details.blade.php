@@ -151,6 +151,11 @@
                     <h5>
                         <b>Voilà le SHOP<span class="color">IN</span>ER</b>
                     </h5>
+                    @php
+                        $count = number_format($user->averageRating->average_rating ?? 1);
+                        $avis = $user->getReviewsAttribute->count();
+                    @endphp
+
                     <div>
                         <table>
                             <tr>
@@ -160,30 +165,41 @@
                                     </div>
                                 </td>
                                 <td>
+
                                     <h4 class="h6">
                                         <a href="/user/{{ $user->id }}" class="h4">
-                                            {{ $user->username }}
+                                            <span class="color">
+                                                {{ $user->username }}
+                                            </span>
                                         </a>
                                     </h4>
                                     <div>
-                                        @php
-                                            $count = number_format($user->averageRating->average_rating ?? 1);
-                                            $avis = $user->getReviewsAttribute->count();
-                                        @endphp
-
-                                        <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
-
                                         <div>
-                                            <span>
-                                                <b> {{ $avis }} </b> avis
-                                            </span>
-                                            |
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    {{ $avis }} Avis
+                                                </div>
+                                                <div data-toggle="modal" data-target="#Noter">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                    <button type="button"
+                                                        class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        </button>
+                                                        @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
                                             <span>
                                                 <b>{{ $user->total_sales->count() }}</b> Ventes
                                             </span>
                                             |
                                             <span>
-                                                <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                                <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
+                                            </span>
+                                            |
+                                            <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
+                                                <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
                                             </span>
                                         </div>
                                     </div>
@@ -569,6 +585,25 @@
     </div>
     <!-- End Modal -->
 
+    <div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" >
+        <div class="modal-dialog modal-xl login-pop-form" role="document">
+            <div class="modal-content" id="loginmodal">
+                <div class="modal-headers">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="ti-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h4 class="m-0 ft-regular">
+                            Noter le SHOP<span class="color strong">IN</span>ER
+                        </h4>
+                    </div>
+                    @livewire('User.Rating',['id_user'=>$user->id])
+                </div>
+            </div>
+        </div>
+    </div>
     <style>
         .sp-current-big {
             width: 100% !important;

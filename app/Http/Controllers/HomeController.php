@@ -234,7 +234,12 @@ class HomeController extends Controller
             $produit_in_cart = false;
         }
 
-
+        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+        ->where("id_user_sell", $user->id)
+        ->first();
+        if ($ma_note) {
+            $ma_note = $ma_note->etoiles;
+        }
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
@@ -259,6 +264,7 @@ class HomeController extends Controller
             ->with("isLiked", $isLiked)
             ->with("other_products", $other_product)
             ->with("user_products", $user_product)
+            ->with("ma_note", $ma_note)
             ->with("is_alredy_signaler", $is_alredy_signaler ?? false)
             ->with("produit_in_cart", $produit_in_cart);
     }
