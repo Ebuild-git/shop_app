@@ -148,66 +148,65 @@
 
                     <div class="shopiner-heading">
                         <hr>
-                    <h5 style="font-size: 20px;">
-                        <b>Voilà le SHOP<span class="color">IN</span>ER</b>
-                    </h5>
-                    @php
-                        $count = number_format($user->averageRating->average_rating ?? 1);
-                        $avis = $user->getReviewsAttribute->count();
-                    @endphp
+                        <h5 style="font-size: 20px; margin-top:20px;">
+                            <b>Voilà le SHOP<span class="color">IN</span>ER</b>
+                        </h5>
+                        @php
+                            $count = number_format($user->averageRating->average_rating ?? 1);
+                            $avis = $user->getReviewsAttribute->count();
+                        @endphp
 
-                    <div style="margin-top:25px;">
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="avatar-shopinner-details">
-                                        <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
-                                    </div>
-                                </td>
-                                <td>
+                        <div style="margin-top:25px;">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="avatar-shopinner-details">
+                                            <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
+                                        </div>
+                                    </td>
+                                    <td>
 
-                                    <h4 class="h6">
-                                        <a href="/user/{{ $user->id }}" class="h4">
-                                            <span class="color">
-                                                {{ $user->username }}
-                                            </span>
-                                        </a>
-                                    </h4>
-                                    <div>
+                                        <h4 class="h6">
+                                            <a href="/user/{{ $user->id }}" class="h4">
+                                                <span class="color">
+                                                    {{ $user->username }}
+                                                </span>
+                                            </a>
+                                        </h4>
                                         <div>
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    {{ $avis }} Avis
-                                                </div>
-                                                <div data-toggle="modal" data-target="#Noter">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                    <button type="button"
-                                                        class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
-                                                        <i class="bi bi-star-fill"></i>
-                                                        </button>
-                                                        @endfor
+                                            <div>
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        {{ $avis }} Avis
+                                                    </div>
+                                                    <div data-toggle="modal" data-target="#Noter">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                        <button type="button"
+                                                            class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
+                                                            <i class="bi bi-star-fill"></i>
+                                                            </button>
+                                                            @endfor
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div>
+                                                <span>
+                                                    <b>{{ $user->total_sales->count() }}</b> Ventes
+                                                </span>
+                                                |
+                                                <span>
+                                                    <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
+                                                </span>
+                                                |
+                                                <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
+                                                    <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span>
-                                                <b>{{ $user->total_sales->count() }}</b> Ventes
-                                            </span>
-                                            |
-                                            <span>
-                                                <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
-                                            </span>
-                                            |
-                                            <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
-                                                <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <br><br>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -409,49 +408,49 @@
                                 </p>
                                 <div class="shopiner-heading mobile-only">
                                     <hr>
-                                <h5 style="font-size: 20px;">
-                                    <b>Voilà le SHOP<span class="color">IN</span>ER</b>
-                                </h5>
-                                <div style="margin-top:20px;">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <div class="avatar-shopinner-details">
-                                                    <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <h4 class="h6">
-                                                    <a href="/user/{{ $user->id }}" class="h4">
-                                                        {{ $user->username }}
-                                                    </a>
-                                                </h4>
-                                                <div>
-                                                    @php
-                                                        $count = number_format($user->averageRating->average_rating ?? 1);
-                                                        $avis = $user->getReviewsAttribute->count();
-                                                    @endphp
-
-                                                    <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
-
-                                                    <div>
-                                                        <span>
-                                                            <b> {{ $avis }} </b> avis
-                                                        </span>
-                                                        |
-                                                        <span>
-                                                            <b>{{ $user->total_sales->count() }}</b> Ventes
-                                                        </span>
-                                                        |
-                                                        <span>
-                                                            <b>{{ $user->GetPosts->count() }}</b> Annonces
-                                                        </span>
+                                    <h5 style="font-size: 20px;">
+                                        <b>Voilà le SHOP<span class="color">IN</span>ER</b>
+                                    </h5>
+                                    <div style="margin-top:20px;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="avatar-shopinner-details">
+                                                        <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset="">
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                                </td>
+                                                <td>
+                                                    <h4 class="h6">
+                                                        <a href="/user/{{ $user->id }}" class="h4">
+                                                            {{ $user->username }}
+                                                        </a>
+                                                    </h4>
+                                                    <div>
+                                                        @php
+                                                            $count = number_format($user->averageRating->average_rating ?? 1);
+                                                            $avis = $user->getReviewsAttribute->count();
+                                                        @endphp
+
+                                                        <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
+
+                                                        <div>
+                                                            <span>
+                                                                <b> {{ $avis }} </b> avis
+                                                            </span>
+                                                            |
+                                                            <span>
+                                                                <b>{{ $user->total_sales->count() }}</b> Ventes
+                                                            </span>
+                                                            |
+                                                            <span>
+                                                                <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
