@@ -20,69 +20,6 @@
         </div>
     </section>
     <!-- ============================= Filter Wrap ============================== -->
-    {{-- <div class="container pt-5 pb-5">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card p-2">
-                    @if ($notifications->count() > 0)
-                        <div class="text-end mb-2">
-                            <button class="btn btn-sm btn-danger" onclick="delete_all_notification()">
-                                <i class="bi bi-x-lg "></i>
-                                Tout supprimer
-                            </button>
-                        </div>
-                    @endif
-                    @forelse ($notifications as $item)
-                    <div class="card p-2 mb-1" id="tr-{{ $item->id }}">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-start w-100">
-                                <!-- Icon with increased margin to create more space between icon and content -->
-                                <img width="45" height="45" src="/icons/alarm--v1.png" alt="alarm--v1" class="me-4" />
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-0 mt-2">
-                                            <b>
-                                                @if ($item->url != null)
-                                                    <a href="{{ $item->url }}" class="link" style="margin-left: 10px;">
-                                                @else
-                                                    <a href="#" class="link">
-                                                @endif
-                                                {{ $item->titre }}
-                                                </a>
-                                            </b>
-                                        </h6>
-                                        <div class="text-end">
-                                            <div class="small">
-                                                <i class="bi bi-app-indicator"></i>
-                                                {{ \Carbon\Carbon::parse($item->created_at)->locale('fr')->diffForHumans() }}
-                                                &nbsp;
-                                                <span onclick="delete_notification({{ $item->id }})" class="cursor">
-                                                    <i class="bi bi-trash3 text-danger"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Message aligned to start at the same position as the title -->
-                                    <p class="mt-2" style="margin-left: 10px;">{!! $item->message !!}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="pb-5 pt-5 text-center">
-                        <img src="https://static.vecteezy.com/system/resources/thumbnails/023/570/826/small/still-empty-no-notification-yet-concept-illustration-line-icon-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-vector.jpg"
-                            alt="">
-                        <h6 class="text-center">Pas Notifications</h6>
-                        <span class="text-muted">
-                            <i> vous n'avez pas de notification actuellement.</i>
-                        </span>
-                    </div>
-                @endforelse
-                </div>
-            </div>
-        </div>
-
-    </div> --}}
 
     <div class="container pt-5 pb-5">
         <div class="row">
@@ -90,9 +27,9 @@
                 <div class="card p-2">
                     @if ($notifications->isNotEmpty())
                         <div class="text-end mb-2">
-                            <button class="btn btn-sm btn-danger" onclick="delete_all_notification()">
-                                <i class="bi bi-x-lg"></i>
-                                Tout supprimer
+                            <button class="btn btn-sm" onclick="delete_all_notification()">
+                                <i class="bi bi-x-lg text-danger"></i>
+                                <span class="text-danger">Tout supprimer</span>
                             </button>
                         </div>
                     @endif
