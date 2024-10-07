@@ -36,6 +36,12 @@ class ListeUtilisateurs extends Component
                 $query->where('lastname', 'like', '%' . $this->key . '%')
                     ->orWhere('phone_number', 'like', '%' . $this->key . '%')
                     ->orWhere('firstname', 'like', '%' . $this->key . '%')
+                    ->orWhere('username', 'like', '%' . $this->key . '%')
+                    ->orWhere('address', 'like', '%' . $this->key . '%')
+                    ->orWhere('rue', 'like', '%' . $this->key . '%')
+                    ->orWhere('nom_batiment', 'like', '%' . $this->key . '%')
+                    ->orWhere('etage', 'like', '%' . $this->key . '%')
+                    ->orWhere('num_appartement', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
                     if (is_numeric($this->key)) {
                         $modifiedKey = $this->key - 1000;
@@ -44,6 +50,9 @@ class ListeUtilisateurs extends Component
                     }
 
 
+            });
+            $users = $users->orWhereHas('region_info', function ($query) {
+                $query->where('nom', 'like', '%' . $this->key . '%'); // Adjust 'name' to the actual column name
             });
         }
 
