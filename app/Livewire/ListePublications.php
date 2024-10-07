@@ -65,12 +65,20 @@ class ListePublications extends Component
             $mot_key = $this->mot_key;
 
             $postsQuery->where(function($query) use ($mot_key) {
+
+
                 $query->whereHas('user_info', function($q) use ($mot_key) {
                     $q->where('username', 'like', '%' . $mot_key . '%')
                       ->orWhere('firstname', 'like', '%' . $mot_key . '%')
                       ->orWhere('lastname', 'like', '%' . $mot_key . '%');
                 });
-
+                if (strtoupper(substr($mot_key, 0, 1)) === 'P' && is_numeric(substr($mot_key, 1))) {
+                    $numericId = substr($mot_key, 1);
+                    $query->orWhere('id', $numericId);
+                }
+                if (is_numeric($mot_key)) {
+                    $query->orWhere('id', $mot_key);
+                }
                 $query->orWhere('titre', 'like', '%' . $mot_key . '%')
                       ->orWhere('description', 'like', '%' . $mot_key . '%');
             });

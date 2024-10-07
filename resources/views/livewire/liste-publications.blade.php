@@ -71,10 +71,11 @@
          <table class="table">
              <thead class="table-dark">
                 <tr>
-                    <!-- Conditionally display table headers based on deleted status -->
+
                     @if ($deleted)
                         <!-- Headers for deleted publications -->
                         <th>Photos</th>
+                        <th>ID</th>
                         <th>Titre</th>
                         <th>Catégorie</th>
                         <th>Prix</th>
@@ -114,13 +115,20 @@
 
                 <tr>
                     @if ($deleted)
-                        @foreach ($post->photos ?? [] as $key => $image)
-                            <td class="image-cell">
-                                <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
-                                    <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
-                                </a>
-                            </td>
+
+                        @if (!empty($post->photos) && count($post->photos) > 0)
+                        @foreach ($post->photos as $key => $image)
+                            @if ($key == 0) <!-- Show only the first image -->
+                                <td class="image-cell">
+                                    <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
+                                        <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image 1" class="table-image">
+                                    </a>
+                                </td>
+                            @endif
+                            @break <!-- Exit after the first iteration -->
                         @endforeach
+                        @endif
+                        <td>{{ 'P' . $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
@@ -166,15 +174,21 @@
                             </button>
                         </td>
 
+
                     @else
-                        @foreach ($post->photos ?? [] as $key => $image)
-                            <td class="image-cell">
-                                <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
-                                    <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
-                                </a>
-                            </td>
+                        @if (!empty($post->photos) && count($post->photos) > 0)
+                        @foreach ($post->photos as $key => $image)
+                            @if ($key == 0)
+                                <td class="image-cell">
+                                    <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
+                                        <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image 1" class="table-image">
+                                    </a>
+                                </td>
+                            @endif
+                            @break
                         @endforeach
-                        <td>{{ $post->id }}</td>
+                        @endif
+                        <td>{{ 'P' . $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>

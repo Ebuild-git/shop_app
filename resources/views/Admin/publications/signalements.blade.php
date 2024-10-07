@@ -143,14 +143,53 @@
                                                     <i class="bi bi-eye"></i>
                                                 </button>
                                             </a>
-                                            <button class="btn btn-sm btn-danger" onclick="toggle_confirmation({{ $post->id }})">
+
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
-                                            <a class="btn btn-sm btn-success d-none" id="confirmBtn{{ $post->id }}" href="{{ route('delete_signalement',['id'=> $post->id]) }}">
-                                                <i class="bi bi-check-circle"></i>
-                                                &nbsp;
-                                                Confirmer
-                                            </a>
+
+                                            <!-- Modal for confirming deletion -->
+                                            <div class="modal fade" id="deleteModal-{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $post->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel-{{ $post->id }}">Supprimer la publication</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p style="text-align: left;">Êtes-vous sûr de vouloir supprimer cette publication ?</p>
+                                                            <div class="form-group mt-2">
+                                                                <label for="motif_suppression{{ $post->id }}" style="display: block; text-align: left;">Raison de la suppression:</label>
+                                                                <select id="motif_suppression{{ $post->id }}" class="form-control">
+                                                                    <option value="" selected>Sélectionnez un motif</option>
+                                                                    <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
+                                                                    <option value="Annonce multiple du même article">Annonce multiple du même article</option>
+                                                                    <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
+                                                                    <option value="Contenu inapproprié">Contenu inapproprié</option>
+                                                                    <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
+                                                                    <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
+                                                                    <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
+                                                                    <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
+                                                                    <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
+                                                                    <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
+                                                                    <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
+                                                                    <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                            <form id="deleteForm{{ $post->id }}" action="{{ route('delete_signalement', ['id' => $post->id]) }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" id="motif_input{{ $post->id }}" name="motif_suppression">
+                                                                <button type="button" class="btn btn-danger" onclick="submitDeleteForm({{ $post->id }})">Confirmer la suppression</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                         </td>
 
                                     </tr>
@@ -201,19 +240,17 @@
     <!-- Page JS -->
     <script src="/assets-admin/js/app-logistics-dashboard.js"></script>
     <script>
-        function toggle_confirmation(productId) {
-            const confirmBtn = document.getElementById('confirmBtn' + productId);
-            if (!confirmBtn.classList.contains('d-none')) {
-                confirmBtn.classList.add('d-none');
-            } else {
-                // Masquer tous les autres boutons de confirmation s'ils sont visibles
-                document.querySelectorAll('.confirm-btn').forEach(btn => {
-                    if (!btn.classList.contains('d-none')) {
-                        btn.classList.add('d-none');
-                    }
-                });
-                confirmBtn.classList.remove('d-none');
-            }
+        function submitDeleteForm(postId) {
+        const motif = document.getElementById(`motif_suppression${postId}`).value;
+
+        if (!motif) {
+            alert("Veuillez sélectionner un motif de suppression.");
+            return;
         }
+        document.getElementById(`motif_input${postId}`).value = motif;
+        document.getElementById(`deleteForm${postId}`).submit();
+    }
+
     </script>
+
 @endsection

@@ -6,6 +6,8 @@ use App\Models\posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use App\Models\notifications;
+use App\Events\UserEvent;
 
 class SignalementsController extends Controller
 {
@@ -42,14 +44,41 @@ class SignalementsController extends Controller
     }
 
 
-    public function delete($id)
+    public function delete($id, Request $request)
     {
-        $post = posts::find($id);
-        if ($post) {
-            $post->signalements()->delete();
-            $post->delete();
-        }
 
-        return redirect()->back()->with("success", "L'annonce a été supprimé");
+        $post = posts::find($id);
+
+        if ($post) {
+            $motif_suppression = $request->input('motif_suppression');
+            $post->motif_suppression = $motif_suppression;
+            $post->save();
+
+            $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
+
+            // Create a notification with styled content
+            $notification = new Notifications();
+            $notification->titre = "{$greeting} " . $post->user_info->username;
+            $notification->id_user_destination = $post->id_user;
+            $notification->type = "alerte";
+            $notification->url = "#";
+            $notification->message = "
+                Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($motif_suppression) . "</b> <br/>
+                Merci pour votre compréhension.
+            ";
+            $notification->save();
+
+            // Optionally dispatch any events here (if needed)
+            event(new UserEvent($post->id_user));
+
+            $post->delete();
+
+            // Optionally return a response
+            return redirect()->back()->with("success", "La publication a été supprimée avec le motif: {$motif_suppression} !");
+        } else {
+            return redirect()->back()->with("error", "Une erreur est survenue lors de la suppression !");
+
+        }
     }
 }
