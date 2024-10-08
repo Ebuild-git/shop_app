@@ -126,7 +126,6 @@ class HomeController extends Controller
         $statut = $request->input('statut') ?? null;
         $key = $request->input("key") ?? null;
         $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
-
         if ($key) {
             $Query->where("titre", "LIKE", "%{$key}%")
                 ->orWhere("description", "LIKE", "%{$key}%");
@@ -234,11 +233,23 @@ class HomeController extends Controller
             $produit_in_cart = false;
         }
 
-        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
-        ->where("id_user_sell", $user->id)
-        ->first();
-        if ($ma_note) {
-            $ma_note = $ma_note->etoiles;
+        $ma_note = null; // Initialize ma_note as null
+
+        // $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+        // ->where("id_user_sell", $user->id)
+        // ->first();
+        // if ($ma_note) {
+        //     $ma_note = $ma_note->etoiles;
+        // }
+        if (Auth::check()) {
+            $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+                ->where('id_user_sell', $user->id)
+                ->first();
+
+            // If ma_note is found, retrieve the etoiles property
+            if ($ma_note) {
+                $ma_note = $ma_note->etoiles;
+            }
         }
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
