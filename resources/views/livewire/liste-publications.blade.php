@@ -28,8 +28,8 @@
                      <input type="text" class="form-control" wire:model="mot_key"
                          placeholder="Titre,Auteur,Description">
                      <select wire:model ="type" class="form-control">
-                         <option value="" selected>Toutes les publications</option>
-                         <option value="validation">En cour de validation</option>
+                         <option value="" selected>Statuts des publications</option>
+                         <option value="validation">En cours de validation</option>
                          <option value="vente">En vente</option>
                          <option value="vendu">vendu</option>
                          <option value="livraison">en cour de livraison</option>
@@ -201,7 +201,58 @@
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
-                        <td style="text-align: center;">{{ $post->statut }}</td>
+                        {{-- <td style="text-align: center;">{{ $post->statut }}</td> --}}
+                        <td style="text-align: center;">
+                            @if($post->verified_at !== null && $post->sell_at !== null)
+                                <span class="badge badge-success">Vendu</span>
+                            @elseif($post->verified_at !== null)
+                                <span class="badge badge-info">En vente</span>
+                            @else
+                                @switch($post->statut)
+                                    @case('validation')
+                                        <span class="badge badge-warning">En attente de validation</span>
+                                        @break
+
+                                    @case('livraison')
+                                        <span class="badge badge-primary">En livraison</span>
+                                        @break
+
+                                    @case('livré')
+                                        <span class="badge badge-success">Livré</span>
+                                        @break
+
+                                    @case('refusé')
+                                        <span class="badge badge-danger">Refusé</span>
+                                        @break
+
+                                    @case('préparation')
+                                        <span class="badge badge-secondary">Préparation</span>
+                                        @break
+
+                                    @case('en voyage')
+                                        <span class="badge badge-info">En voyage</span>
+                                        @break
+
+                                    @case('en cours de livraison')
+                                        <span class="badge badge-warning">En cours de livraison</span>
+                                        @break
+
+                                    @case('ramassée')
+                                        <span class="badge badge-secondary">Ramassée</span>
+                                        @break
+
+                                    @case('retourné')
+                                        <span class="badge badge-danger">Retourné</span>
+                                        @break
+
+                                    @default
+                                        <span class="badge badge-light">Statut inconnu</span>
+                                @endswitch
+                            @endif
+                        </td>
+
+
+
                         <td>
                             <a href="/admin/client/{{ $post->user_info->id }}/view">
                             {{ $post->user_info->username }}
