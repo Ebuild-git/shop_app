@@ -42,17 +42,23 @@ class ListePublications extends Component
         if ($this->deleted == 'oui') {
             $publications = $postsQuery->onlyTrashed();
         }
+
         if (strlen($this->status_filter) > 0) {
-            if ($this->status_filter === 'vendu') {
-                $postsQuery->whereNotNull('sell_at');
-            } elseif ($this->status_filter === 'vente') {
+            if ($this->status_filter === 'vente') {
                 $postsQuery->whereNotNull('verified_at')
-                ->whereNull('sell_at');
+                           ->whereNull('sell_at');
+            } elseif ($this->status_filter === 'vendu') {
+                $postsQuery->whereNotNull('sell_at');
+            } elseif ($this->status_filter === 'en voyage') {
+                $postsQuery->whereNotNull('verified_at')
+                            ->whereNull('sell_at')
+                            ->whereHas('user_info', function ($query) {
+                                $query->where('voyage_mode', 1);
+                            });
             } else {
                 $postsQuery->where('statut', $this->status_filter);
             }
         }
-
 
 
         //filtre rn fonction de l'ordre des post les plus signaler

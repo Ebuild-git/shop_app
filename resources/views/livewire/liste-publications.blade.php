@@ -209,54 +209,43 @@
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">
-                            @if($post->verified_at !== null && $post->sell_at !== null)
-                                <span class="badge badge-success">Vendu</span>
-                            @elseif($post->verified_at !== null)
+                            @if($post->verified_at !== null && $post->sell_at === null && $post->user_info->voyage_mode === 1)
+                                <span class="badge badge-warning">En voyage</span>
+                            @elseif($post->verified_at !== null && $post->sell_at === null)
                                 <span class="badge badge-info">En vente</span>
+                            @elseif($post->sell_at !== null)
+                                <span class="badge badge-success">Vendu</span>
                             @else
                                 @switch($post->statut)
                                     @case('validation')
                                         <span class="badge badge-warning">En attente de validation</span>
                                         @break
-
                                     @case('livraison')
                                         <span class="badge badge-primary">En livraison</span>
                                         @break
-
                                     @case('livré')
                                         <span class="badge badge-success">Livré</span>
                                         @break
-
                                     @case('refusé')
                                         <span class="badge badge-danger">Refusé</span>
                                         @break
-
                                     @case('préparation')
                                         <span class="badge badge-secondary">Préparation</span>
                                         @break
-
-                                    @case('en voyage')
-                                        <span class="badge badge-info">En voyage</span>
-                                        @break
-
                                     @case('en cours de livraison')
                                         <span class="badge badge-warning">En cours de livraison</span>
                                         @break
-
                                     @case('ramassée')
                                         <span class="badge badge-secondary">Ramassée</span>
                                         @break
-
                                     @case('retourné')
                                         <span class="badge badge-danger">Retourné</span>
                                         @break
-
                                     @default
                                         <span class="badge badge-light">Statut inconnu</span>
                                 @endswitch
                             @endif
                         </td>
-
 
 
                         <td>
