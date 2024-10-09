@@ -1,45 +1,60 @@
 @extends('Admin.fixe')
-@section('titre', $post->titre . ' - Signalements')
+@section('titre', $user->username . ' - Signalements')
 @section('content')
 
 
 
 @section('body')
+    <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        {{-- <h5 class="py-3 mb-4">
-            <span class="text-muted fw-light text-capitalize">{{ $post->titre }}</span>
-        </h5> --}}
-
-        <div class="card p-4 shadow-sm">
+        <div class="card p-4">
             <h1 class="h4 mb-4">
-                Liste des signalements
+                Liste des signalements ({{ $user->username }})
             </h1>
             <div class="row">
-                @forelse ($post->signalements as $signalement)
+                @forelse ($user->violations as $violation)
                     <div class="col-sm-4 mb-3">
                         <div class="card p-3 shadow-sm hover-card">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div>
                                     <span class="text-danger h5">
                                         <i class="bi bi-exclamation-octagon"></i>
-                                        {{ $signalement->type }}
+                                        {{ $violation->type }}
                                     </span>
                                 </div>
-                                <div class="small text-muted text-end">
+                                <div class="small text-muted">
                                     <div>Auteur</div>
-                                    <a href="/admin/client/{{$signalement->auteur->id}}/view" class="text-decoration-none">
+                                    <a href="/admin/client/{{$violation->auteur->id}}/view" class="text-decoration-none">
                                         <i class="bi bi-person-circle"></i>
-                                        {{ '@'. $signalement->auteur->username }}
+                                        {{ '@'. $violation->auteur->username }}
                                     </a>
                                 </div>
                             </div>
 
-                            <p class="text-muted">{{ $signalement->message }}</p>
+                            <p class="text-muted">{{ $violation->message }}</p>
+
+                            @if ($violation->post)
+                                <div class="post-info mt-2">
+                                    <h5 class="mt-1">{{ $violation->post->titre }}</h5>
+                                    @if (!empty($violation->post->photos) && count($violation->post->photos) > 0)
+                                        @foreach ($violation->post->photos as $key => $image)
+                                            @if ($key == 0) <!-- Show only the first image -->
+                                                <div class="image-cell mb-2">
+                                                    <a href="{{ url('/admin/publication/' . $violation->post->id . '/view') }}">
+                                                        <img src="{{ Storage::url($image) }}" alt="{{ $violation->post->titre }} - Image 1" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @break <!-- Exit after the first iteration -->
+                                        @endforeach
+                                    @endif
+                                </div>
+                            @endif
 
                             <div class="modal-footer border-0">
                                 <span class="small text-muted">
-                                    {{ $signalement->created_at }}
+                                    {{ $violation->created_at }}
                                 </span>
                             </div>
                         </div>
@@ -60,6 +75,11 @@
     .hover-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .table-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
     }
     </style>
 

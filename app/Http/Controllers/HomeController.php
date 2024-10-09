@@ -233,20 +233,12 @@ class HomeController extends Controller
             $produit_in_cart = false;
         }
 
-        $ma_note = null; // Initialize ma_note as null
+        $ma_note = null;
 
-        // $ma_note = ratings::where('id_user_buy', Auth::user()->id)
-        // ->where("id_user_sell", $user->id)
-        // ->first();
-        // if ($ma_note) {
-        //     $ma_note = $ma_note->etoiles;
-        // }
         if (Auth::check()) {
             $ma_note = ratings::where('id_user_buy', Auth::user()->id)
                 ->where('id_user_sell', $user->id)
                 ->first();
-
-            // If ma_note is found, retrieve the etoiles property
             if ($ma_note) {
                 $ma_note = $ma_note->etoiles;
             }

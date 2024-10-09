@@ -7,16 +7,11 @@
 @section('body')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="d-flex justify-content-between">
-            <h4 class="py-2 mb-3">
-                <span class="text-muted fw-light">Publications</span>
-            </h4>
-        </div>
         @livewire('ListePublications', ['deleted' => $deleted ?? null])
     </div>
     <!--/ Content -->
 
-    
+
 @endsection
 
 

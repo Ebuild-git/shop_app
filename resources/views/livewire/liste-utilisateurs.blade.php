@@ -37,11 +37,6 @@
              </form>
          </div>
 
-         <div class="d-flex justify-content-between">
-
-         </div>
-
-
      </div>
 
      <div class="card">
@@ -150,49 +145,10 @@
                         </td>
 
                         <td style="text-align: center;">
-                            <button type="button" class="bg" data-toggle="modal" data-target="#violationsModal{{ $user->id }}" style="background-color: #008080;">
-                                <i class="bi bi-clock-history"></i>
+                            <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_by_user', ['user_id' => $user->id]) }}'">
+                                <i class="bi bi-clock-history" style="font-size: 14px;"></i>
                             </button>
-                            <div class="modal fade" id="violationsModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="violationsModalLabel{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="violationsModalLabel{{ $user->id }}">
-                                                Historique des violations pour <b>{{ $user->username }}</b>
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body custom-modal-body">
-                                            @if ($user->violations->isNotEmpty())
-                                                @foreach ($user->violations as $violation)
-                                                    <div class="violation-card mb-3">
-                                                        <div class="violation-card-header">
-                                                            {{ $violation->type }}
-                                                        </div>
-                                                        <div class="violation-card-body">
-                                                            <p class="violation-card-text">
-                                                                {{ $violation->message ?? 'No message' }}
-                                                            </p>
-                                                            <p class="violation-card-timestamp text-muted">
-                                                                {{ $violation->created_at->format('d/m/Y H:i') }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <div class="alert alert-custom-info" role="alert">
-                                                    Aucun historique
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </td>
 

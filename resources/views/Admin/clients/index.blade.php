@@ -9,10 +9,10 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        <h5 class="py-3 mb-4">
+        {{-- <h5 class="py-3 mb-4">
             <span class="text-muted fw-light">
                 Utilisateur /</span> Liste
-        </h5>
+        </h5> --}}
 
         @livewire('ListeUtilisateurs', ['type' => $type])
     </div>

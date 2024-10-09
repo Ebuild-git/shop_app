@@ -87,7 +87,7 @@
                         <th>Adresse</th>
                         <th>Nombre de vues</th>
                         <th>Nombre de favoris</th>
-                        <th>Alert</th>
+                        <th style="text-align: center;">Alert</th>
                         <th>Actions</th>
                     @else
                         <!-- Headers for active publications -->
@@ -104,7 +104,7 @@
                         <th>Localisation</th>
                         <th>Date de dernière mise à jour</th>
                         <th>Commandé</th>
-                        <th>Alert</th>
+                        <th style="text-align: center;">Alert</th>
                         <th>Actions</th>
                     @endif
                 </tr>
@@ -149,21 +149,29 @@
                                 $signalementCount = $post->signalements->count();
                             @endphp
 
-                            @if($signalementCount > 0)
-                                <span>
-                                    <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
-                                    <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
-                                        {{ $signalementCount }}
-                                    </a>
-                                </span>
-                            @else
-                                <span>
-                                    <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold;">
-                                        0
-                                    </a>
-                                </span>
-                            @endif
+                            <div class="d-flex align-items-center">
+                                <!-- Signal icon and count -->
+                                @if($signalementCount > 0)
+                                    <span class="d-flex align-items-center">
+                                        <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
+                                        <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold; margin-left: 5px;">
+                                            {{ $signalementCount }}
+                                        </a>
+                                    </span>
+                                @else
+                                    <span class="d-flex align-items-center">
+                                        <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
+                                        <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold; margin-left: 5px;">
+                                            0
+                                        </a>
+                                    </span>
+                                @endif
+
+                                <!-- History button -->
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_publications', $post->id) }}'">
+                                    <i class="bi bi-clock-history" style="font-size: 14px;"></i>
+                                </button>
+                            </div>
                         </td>
                         <td>
                             <button wire:click="restore({{ $post->id }})" class="btn btn-sm btn-success custom-restore-btn">
@@ -209,21 +217,29 @@
                                 $signalementCount = $post->signalements->count();
                             @endphp
 
-                            @if($signalementCount > 0)
-                                <span>
-                                    <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
-                                    <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold;">
-                                        {{ $signalementCount }}
-                                    </a>
-                                </span>
-                            @else
-                                <span>
-                                    <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
-                                    <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold;">
-                                        0
-                                    </a>
-                                </span>
-                            @endif
+                            <div class="d-flex align-items-center">
+                                <!-- Signal icon and count -->
+                                @if($signalementCount > 0)
+                                    <span class="d-flex align-items-center">
+                                        <i class="bi bi-exclamation-triangle-fill" style="color: rgb(182, 19, 19); font-size: 20px;"></i>
+                                        <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: rgb(182, 19, 19); font-weight: bold; margin-left: 5px;">
+                                            {{ $signalementCount }}
+                                        </a>
+                                    </span>
+                                @else
+                                    <span class="d-flex align-items-center">
+                                        <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
+                                        <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold; margin-left: 5px;">
+                                            0
+                                        </a>
+                                    </span>
+                                @endif
+
+                                <!-- History button -->
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_publications', $post->id) }}'">
+                                    <i class="bi bi-clock-history" style="font-size: 14px;"></i>
+                                </button>
+                            </div>
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $post->id }}">

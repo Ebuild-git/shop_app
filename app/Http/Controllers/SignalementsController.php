@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\posts;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Colors\Rgb\Channels\Red;
@@ -29,10 +31,6 @@ class SignalementsController extends Controller
         ->with('posts', $posts);
     }
 
-
-
-
-
     public function liste_signalement_publications($id_post)
     {
         $post = posts::find($id_post);
@@ -42,6 +40,20 @@ class SignalementsController extends Controller
             return redirect()->route('post_signalers');
         }
     }
+
+    public function liste_signalement_by_user($user_id)
+    {
+        $user = User::find($user_id);
+        if ($user) {
+            return view("Admin.publications.user-signalement")->with("user", $user);
+        } else {
+            return redirect()->route('post_signalers');
+        }
+
+    }
+
+
+
 
 
     public function delete($id, Request $request)
