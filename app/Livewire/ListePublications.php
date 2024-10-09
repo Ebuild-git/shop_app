@@ -29,8 +29,11 @@ class ListePublications extends Component
         $this->deleted = $deleted;
     }
 
+    public $status_filter; // This will hold the selected status for filtering
+
     public function render()
     {
+
         $this->categories = categories::all();
 
 
@@ -39,9 +42,17 @@ class ListePublications extends Component
         if ($this->deleted == 'oui') {
             $publications = $postsQuery->onlyTrashed();
         }
-        if (strlen($this->type) > 0) {
-            $postsQuery->where('statut',  $this->type);
+        if (strlen($this->status_filter) > 0) {
+            if ($this->status_filter === 'vendu') {
+                $postsQuery->whereNotNull('sell_at');
+            } elseif ($this->status_filter === 'vente') {
+                $postsQuery->whereNotNull('verified_at')
+                ->whereNull('sell_at');
+            } else {
+                $postsQuery->where('statut', $this->status_filter);
+            }
         }
+
 
 
         //filtre rn fonction de l'ordre des post les plus signaler

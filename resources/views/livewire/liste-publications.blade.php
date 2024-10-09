@@ -27,14 +27,21 @@
                  <div class="input-group mb-3">
                      <input type="text" class="form-control" wire:model="mot_key"
                          placeholder="Titre,Auteur,Description">
-                     <select wire:model ="type" class="form-control">
-                         <option value="" selected>Statuts des publications</option>
-                         <option value="validation">En cours de validation</option>
-                         <option value="vente">En vente</option>
-                         <option value="vendu">vendu</option>
-                         <option value="livraison">en cour de livraison</option>
-                         <option value="livré">livré</option>
-                     </select>
+
+                        <select wire:model="status_filter" class="form-control">
+                            <option value="">Tous les statuts</option>
+                            <option value="validation">En attente de validation</option>
+                            <option value="vente">En vente</option>
+                            <option value="vendu">Vendu</option>
+                            <option value="livraison">En livraison</option>
+                            <option value="livré">Livré</option>
+                            <option value="refusé">Refusé</option>
+                            <option value="préparation">Préparation</option>
+                            <option value="en voyage">En voyage</option>
+                            <option value="en cours de livraison">En cours de livraison</option>
+                            <option value="ramassée">Ramassée</option>
+                            <option value="retourné">Retourné</option>
+                        </select>
                      <select wire:model ="region_key" class="form-control">
                          <option value="" selected>Toutes les regions</option>
                          @foreach ($regions as $item)
@@ -201,7 +208,6 @@
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
-                        {{-- <td style="text-align: center;">{{ $post->statut }}</td> --}}
                         <td style="text-align: center;">
                             @if($post->verified_at !== null && $post->sell_at !== null)
                                 <span class="badge badge-success">Vendu</span>
