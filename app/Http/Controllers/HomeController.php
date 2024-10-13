@@ -34,12 +34,13 @@ class HomeController extends Controller
     {
         $categories = categories::all();
         $configuration = configurations::firstOrCreate();
-
+        $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
         // Fetch non-luxury posts
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->whereNull('posts.sell_at')
+            ->whereNotIn('id_user', $usersWithVoyageMode)
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
             ->orderBy("posts.created_at", "Desc")
             ->orderBy("posts.updated_price_at", "Desc")
