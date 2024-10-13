@@ -47,7 +47,7 @@ class ShopController extends Controller
 
         $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
             ->where('statut', 'vente')
-            ->whereNotIn('statut', ['vendu', 'validation', 'livraison', 'livré', 'refusé'])
+            ->whereNotIn('statut', ['vendu', 'livraison', 'livré', 'refusé'])
             ->whereNotIn('id_user', $usersWithVoyageMode);
 
         if ($luxury_only == "true") {
