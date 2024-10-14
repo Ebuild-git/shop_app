@@ -40,13 +40,15 @@
                                         </li>
                                         <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>
                                             {{ $user->ville ?? '/' }}</li>
-                                        <li class="list-inline-item d-flex gap-1">
-                                            <i class="ti ti-calendar"></i> Joined {{ $user->created_at }}
-                                        </li>
+                                            <li class="list-inline-item d-flex gap-1">
+                                                <i class="ti ti-calendar"></i>
+                                                {{ $user->gender == 'female' ? 'Inscrite' : 'Inscrit' }} le {{ \Carbon\Carbon::parse($user->created_at)->locale('fr')->translatedFormat('d F Y à H:i') }}
+                                            </li>
+
                                     </ul>
                                 </div>
 
-                                <form action="{{ route('change_picture_statut') }}" method="post">
+                                {{-- <form action="{{ route('change_picture_statut') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id_user" value="{{ $user->id }}">
                                     @if (is_null($user->photo_verified_at))
@@ -62,7 +64,7 @@
                                             </button>
                                         </a>
                                     @endif
-                                </form>
+                                </form> --}}
                             </div>
 
                         </div>
@@ -102,20 +104,20 @@
                         <ul class="list-unstyled mb-4 mt-3">
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
-                                <span class="fw-medium mx-2 text-heading">
-                                    Nom :</span> <span>{{ $user->lastname }}</span>
-                                <span>{{ $user->firstname }}</span>
+                                <span class="fw-medium mx-2 text-heading">Nom:</span>
+                                <span>{{ ucfirst($user->firstname) }}</span>
+
                                 &nbsp;
                                 [ {{ $user->gender }} ]
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-user text-heading"></i>
-                                <span class="fw-medium mx-2 text-heading">
-                                    Prénom : <span>{{ $user->lastname }}</span>
+                                <span class="fw-medium mx-2 text-heading">Prénom: </span>
+                                <span>{{ ucfirst($user->lastname) }}</span>
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">Email
-                                    confimé:</span>
+                                    vérifié:</span>
                                 @if ($user->email_verified_at == null)
                                     <span class="badge bg-label-danger">
                                         Non
@@ -128,24 +130,45 @@
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-flag text-heading"></i><span class="fw-medium mx-2 text-heading">
-                                    Date de naissance :</span>
-                                <span class="ms-2">{{ \Carbon\Carbon::parse($user->birthdate)->format('d M Y') }}
+                                    Date de naissance:</span>
+                                    <span class="ms-2">{{ \Carbon\Carbon::parse($user->birthdate)->locale('fr')->translatedFormat('d F Y') }}</span>
                             </li>
+                            {{-- <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-file-description text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">Adresse:</span>
+                                <span>
+                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
+                                    {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
+                                    {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
+                                    {!! $user->rue ? $user->rue . ',' : '' !!}
+                                    {!! $user->address ?? '' !!}
+                                </span>
+                            </li> --}}
+                            <li class="d-flex flex-column mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="ti ti-file-description text-heading"></i>
+                                    <span class="fw-medium mx-2 text-heading">Adresse:</span>
+                                </div>
+                                <span style="margin-left: 28px;">
+                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
+                                    {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
+                                    {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
+                                    {!! $user->rue ? $user->rue . ',' : '' !!}
+                                    {!! $user->address ?? '' !!}
+                                </span>
+                            </li>
+
+
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-file-description text-heading"></i><span
-                                    class="fw-medium mx-2 text-heading">Adresse :</span>
-                                <span>{{ $user->address ?? '/' }}</span>
-                            </li>
-                            <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-file-description text-heading"></i><span
-                                    class="fw-medium mx-2 text-heading">Region :</span>
+                                    class="fw-medium mx-2 text-heading">Region:</span>
                                 <span>{{ $user->region_info->nom ?? '/' }}</span>
                             </li>
                         </ul>
                         <small class="card-text text-uppercase">Contacts</small>
                         <ul class="list-unstyled mb-4 mt-3">
                             <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">Contact:</span>
+                                <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">Téléphone:</span>
                                 <span>{{ $user->phone_number ?? '/' }}</span>
                             </li>
                             <li class="d-flex align-items-center mb-3">
@@ -177,8 +200,9 @@
                         <table class="datatables-projects table border-top">
                             <thead class="table-dark">
                                 <tr>
+                                    <th>ID</th>
                                     <th>Photo</th>
-                                    <th>titre</th>
+                                    <th>Titre</th>
                                     <th>Date</th>
                                     <th>Prix</th>
                                     <th>Action</th>
@@ -186,12 +210,14 @@
                             </thead>
                             @forelse ($posts as $post)
                                 <tr>
+                                    <td>{{ 'P' . $post->id }}</td>
                                     <td>
                                         <div class="avatar me-2">
                                             <img src="{{ $post->FirstImage() }}" alt="{{ $post->titre }}" srcset=""
                                                 class="rounded">
                                         </div>
                                     </td>
+
                                     <td> {{ $post->titre }} </td>
                                     <td>{{ $post->created_at }}</td>
                                     <td>
