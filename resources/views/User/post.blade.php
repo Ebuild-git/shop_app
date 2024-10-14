@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-sm-10 mx-auto p-3">
                 <div class="d-flex justify-content-around timeline">
-                    <button id="showArticle" class="step">
+                    <button id="showArticle" class="step active">
                         <i class="fas fa-plus"></i>
                         Publier un article
                     </button>
@@ -94,7 +94,14 @@
         </div>
     </div>
 </div>
-
+<script>
+    document.querySelectorAll('.step').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.step').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+    });
+});
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -184,7 +191,9 @@
     background-color: #004d4d;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
+.step.active {
+    background-color: #000; /* Black color for the active button */
+}
 .timeline {
     gap: 20px;
 }
