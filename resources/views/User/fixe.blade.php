@@ -328,9 +328,11 @@
                                 <span class="hidden-xl-down medium text-light">Language:</span>
                                 <span class="iso_code medium text-light">
                                     @if (app()->getLocale() == 'fr')
-                                    Français
+                                        Français
+                                    @elseif (app()->getLocale() == 'en')
+                                         English
                                     @elseif (app()->getLocale() == 'ar')
-                                        Arabe
+                                            Arabe
                                     @endif
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
@@ -341,10 +343,16 @@
                                             height="11" />
                                     <span>Français</span></a>
                                 </li>
-                                <li class="{{ app()->getLocale() == 'ar' ? 'current' : '' }}"><a href="{{ url('/change-lang/ar') }}"
+                                <li class="{{ app()->getLocale() == 'en' ? 'current' : '' }}"><a href="{{ url('/change-lang/ar') }}"
                                         class="dropdown-item medium text-medium"><img src="/assets/img/1.jpg"
                                             alt="en" width="16" height="11" />
-                                    <span>Arabe</span></a></li>
+                                    <span>English</span></a></li>
+                                <li class="{{ app()->getLocale() == 'ar' ? 'current' : '' }}">
+                                    <a href="{{ url('/change-lang/ar') }}" class="dropdown-item medium text-medium">
+                                        <img src="/icons/maroc.webp" alt="ar" width="16" height="11" />
+                                        <span>Arabe</span>
+                                    </a>
+                                </li>
                         </div>
                     </div>
 
