@@ -68,6 +68,8 @@ class CreatePost extends Component
 
     public function updatedselectedSubcategory($value)
     {
+        $this->article_propriete = [];
+
         if ($value != "x") {
             $sous_categorie = sous_categories::find($value);
             if ($sous_categorie) {
@@ -262,8 +264,10 @@ class CreatePost extends Component
         return true;
     }
 
+
     public function preview()
     {
+
         if (!$this->before_post()) {
             if ($this->getErrorBag()->has('prix')) {
                 $this->dispatch('alert', [
