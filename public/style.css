@@ -2694,7 +2694,7 @@ input:checked + .slider:before {
 
 /* Category card styling */
 .category-card {
-    width: 130px; /* Set fixed width for all cards */
+    width: 140px; /* Set fixed width for all cards */
     height: 100px; /* Set fixed height for all cards */
     background-color: #fff;
     border: 1px solid #ddd;
@@ -2749,7 +2749,7 @@ input:checked + .slider:before {
     }
 
     .category-card {
-        width: 120px; /* Slightly smaller width on mobile */
+        width: 130px; /* Slightly smaller width on mobile */
         height: 130px; /* Slightly smaller height on mobile */
     }
 
