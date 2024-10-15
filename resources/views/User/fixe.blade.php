@@ -523,7 +523,7 @@
             <a class="nav-brand mobile-logo" href="/">
                 <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
             </a>
-            <div class="d-flex align-items-center mobile-only-icons">
+            <div class="mobile-only-icons" style="padding:0;margin:0;width:auto;">
                 @auth
                 <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
                     style="color: black !important;">
@@ -535,7 +535,7 @@
                     <span class="dn-counter bg-success-ps" id="CountPanier-value-mobile">0</span>
                 </a>
                 @guest
-                <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-left: 10px;">
+                <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-right: -60px;">
                     <i class="bi lni bi-person-circle icon-icon-header"></i>
                 </a>
                 @endguest
