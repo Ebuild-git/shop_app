@@ -46,9 +46,9 @@
          <table class="table">
 
                  <tr>
-                    <th style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">ID</th>
-                    <th style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Pseudonyme</th>
-                     <th style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Nom</th>
+                    <th>ID</th>
+                    <th style="left: 50px;">Pseudonyme</th>
+                     <th style="left: 160px;">Nom</th>
                      <th>Prénom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
@@ -70,9 +70,9 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">{{ 'U' . ($user->id + 1000) }}</td>
-                        <td style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->username }} </td>
-                        <td style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->firstname }} </td>
+                        <td>{{ 'U' . ($user->id + 1000) }}</td>
+                        <td style="left: 50px;"> {{ $user->username }} </td>
+                        <td style="left: 160px;"> {{ $user->firstname }} </td>
                         <td> {{ $user->lastname }} </td>
                         <td>
                             <span title="{{ $user->created_at->diffForHumans() }}">
