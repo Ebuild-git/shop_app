@@ -112,7 +112,7 @@
                 </h5>
             @endif
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
+                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 desktop-only">
                     <div class="search-sidebar sm-sidebar border @if ($key) hide-on-mobile @endif">
                         <div class="search-sidebar-body">
                             <!-- Single Option -->
@@ -311,6 +311,26 @@
                                     </div>
                                 </div>
                             @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 d-xl-none">
+                    <div class="row mobile-view">
+                        <!-- Categories Card Wrapper -->
+                        <div class="scrollable-card-wrapper d-flex">
+                            @foreach ($liste_categories as $categorie)
+                            <div class="category-card p-2" id="list-categorie" onclick="select_categorie({{ $categorie->id }})">
+                                <button class="category-btn d-flex flex-column p-1">
+                                    <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
+                                    <span>{{ $categorie->titre }}</span>
+                                    @if ($categorie->luxury == 1)
+                                    <span class="luxury-icon color small">
+                                        <b><i class="bi bi-gem"></i></b>
+                                    </span>
+                                    @endif
+                                </button>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

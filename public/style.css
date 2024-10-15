@@ -2666,3 +2666,98 @@ input:checked + .slider:before {
 .space-td {
     padding-left: 25px;
 }
+
+/* Mobile view design: Hide on larger screens */
+@media (max-width: 1200px) {
+    .search-sidebar {
+        display: none !important;
+    }
+    .mobile-view {
+        display: block;
+    }
+}
+
+/* Scrollable horizontal cards */
+.scrollable-card-wrapper {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 1rem; /* Space between cards */
+    padding-bottom: 10px; /* Avoid scrollbar overlap */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
+
+/* Hide the scrollbar */
+.scrollable-card-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Category card styling */
+.category-card {
+    width: 130px; /* Set fixed width for all cards */
+    height: 100px; /* Set fixed height for all cards */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    padding: 10px;
+}
+
+/* Styling the category button */
+.category-btn {
+    border: none;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Make button take full card width */
+}
+
+/* Category icon styling */
+.category-icon {
+    width: 30px; /* Smaller, uniform image size */
+    height: 30px;
+    object-fit: cover; /* Ensure image maintains its aspect ratio */
+    border-radius: 50%;
+    margin-bottom: 10px; /* Space between image and text */
+}
+
+/* Category text styling */
+.category-btn span {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+/* Luxury icon styling */
+.luxury-icon {
+    color: #FFD700;
+    margin-top: 5px;
+}
+
+/* Mobile responsive adjustments for .middle section */
+@media (max-width: 767px) {
+    section.middle {
+        padding: 20px 0; /* Reduced padding on mobile */
+    }
+
+    .category-card {
+        width: 120px; /* Slightly smaller width on mobile */
+        height: 130px; /* Slightly smaller height on mobile */
+    }
+
+    .category-icon {
+        width: 30px; /* Smaller image size on mobile */
+        height: 30px;
+    }
+}
+
+
+
