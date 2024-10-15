@@ -44,12 +44,12 @@
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
 
          <table class="table">
-             <thead class="table-dark">
+
                  <tr>
-                    <th>ID</th>
-                    <th>Pseudonyme</th>
-                     <th>Nom</th>
-                     <th>Prénom</th>
+                    <th style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">ID</th>
+                    <th style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Pseudonyme</th>
+                     <th style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Nom</th>
+                     <th style="position: sticky; left: 230px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Prénom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
                      <th>Nb articles en vente</th>
@@ -65,15 +65,15 @@
                      <th>Actions</th>
                         <th></th>
                  </tr>
-             </thead>
+
 
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td>{{ 'U' . ($user->id + 1000) }}</td>
-                        <td> {{ $user->username }} </td>
-                        <td> {{ $user->firstname }} </td>
-                        <td> {{ $user->lastname }} </td>
+                        <td style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">{{ 'U' . ($user->id + 1000) }}</td>
+                        <td style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->username }} </td>
+                        <td style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->firstname }} </td>
+                        <td style="position: sticky; left: 230px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); background-color:white;"> {{ $user->lastname }} </td>
                         <td>
                             <span title="{{ $user->created_at->diffForHumans() }}">
                                 {{ $user->created_at->format('d/m/Y') }}
@@ -235,5 +235,6 @@
         });
     }
 </script>
+
 
 

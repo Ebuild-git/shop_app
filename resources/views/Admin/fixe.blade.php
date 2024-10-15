@@ -105,10 +105,10 @@
             color: white !important;
         }
 
-        .table-responsive {
-        max-height: 400px;
-        overflow-y: auto;
-        overflow-x: auto;
+    .table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
     }
 
     .table {
@@ -122,10 +122,10 @@
         padding: 8px 12px;
     }
 
-    .table thead th {
+    .table th {
         position: sticky;
         top: 0;
-        z-index: 5;
+        z-index: 2;
         background-color: #343a40;
         color: #fff;
         box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
@@ -137,6 +137,41 @@
         font-size: 13px;
     }
 
+    td:first-child,
+    th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+
+    }
+    td:nth-child(2), th:nth-child(2) {
+    position: sticky;
+    left: 75px; /* Adjust based on the width of the first column */
+    z-index: 3; /* Ensure it's above other elements */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    }
+    td:nth-child(3), th:nth-child(3) {
+    position: sticky;
+    left: 120px; /* Adjust based on the combined width of the first two columns */
+    z-index: 3;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+    td:nth-child(2) {
+        background-color: white; /* White background when scrolling */
+    }
+    td:first-child {
+        background-color: white;
+    }
+    td:nth-child(3){
+        background-color: white; /* White background when scrolling */
+    }
+    th:first-child, th:nth-child(2), th:nth-child(3){
+        z-index: 4;
+    }
+    td:first-child, td:nth-child(2), td:nth-child(3) {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
     .table .action-buttons {
         display: flex;
         gap: 5px;
