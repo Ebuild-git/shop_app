@@ -329,27 +329,18 @@
                                     </span>
                                     @endif
                                 </button>
+                                <div id="subcategories-{{ $categorie->id }}" class="subcategory-list" style="display:none;">
+                                    @foreach ($categorie->getSousCategories as $sous_categorie)
+                                    <button class="subcategory-btn" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                        {{ $sous_categorie->titre }}
+                                    </button>
+                                    @endforeach
+                                </div>
                             </div>
                             @endforeach
                         </div>
                     </div>
-                    <div id="subcategories-container" class="subcategories-wrapper mt-3 d-none">
-                        <div class="scrollable-subcategory-wrapper d-flex">
-                            @if ($selected_categorie)
-                                @foreach ($selected_categorie->getSousCategories as $sous_categorie)
-                                    <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
-                                        <button class="subcategory-btn d-flex flex-column p-1">
-                                            <span>{{ $sous_categorie->titre }}</span>
-                                            <span class="posts-count">{{ $sous_categorie->getPost->where('statut','vente')->count() }}</span>
-                                        </button>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        <div class="view-all mt-2">
-                            <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="btn btn-primary w-100">View All Articles</a>
-                        </div>
-                    </div>
+
                 </div>
 
 
@@ -592,13 +583,13 @@
             sous_categorie = id;
             fetchProducts();
         }
-
         function select_sous_categorie1(id) {
-            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+            // window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+            window.location.href = "/shop?id_categorie=" + categorie + "&id_sous_categorie=" + id;
+
             sous_categorie = id;
             fetchProducts1();
         }
-
 
 
         function filtre_propriete(type, nom) {
@@ -745,6 +736,14 @@
         }
 
         function select_categorie1(id) {
+            document.querySelectorAll('.subcategory-list').forEach(list => {
+            list.style.display = 'none'; // Hide all subcategories
+        });
+
+        // Show the selected category's subcategories
+        const subcategoryList = document.getElementById(`subcategories-${id}`);
+        subcategoryList.style.display = 'block'; // Show the subcategory list
+
             categorie = id;
             sous_categorie = "";
             window.location.href = "/shop?id_categorie=" + id;
