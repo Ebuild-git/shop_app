@@ -319,7 +319,7 @@
                         <!-- Categories Card Wrapper -->
                         <div class="scrollable-card-wrapper d-flex">
                             @foreach ($liste_categories as $categorie)
-                            <div class="category-card p-2" id="list-categorie" onclick="select_categorie({{ $categorie->id }})">
+                            <div class="category-card p-2" id="list-categorie" onclick="select_categorie1({{ $categorie->id }})">
                                 <button class="category-btn d-flex flex-column p-1">
                                     <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
                                     <span>{{ $categorie->titre }}</span>
@@ -722,7 +722,48 @@
             );
         }
 
+        function select_categorie1(id) {
+            categorie = id;
+            sous_categorie = "";
+            window.location.href = "/shop?id_categorie=" + id;
+            fetchProducts1();
+        }
 
+        function fetchProducts1(page = 1) {
+            $("#loading").show("show");
+            //ancre();
+            $.post(
+                "/recherche?page=" + page, {
+                    etat: etat,
+                    key: key,
+                    region: region,
+                    ordre_prix: ordre_prix,
+                    check_luxury: check_luxury_only,
+                    categorie: categorie,
+                    sous_categorie: sous_categorie,
+                    Taille: Taille,
+                    Couleur: Couleur,
+                    Pointure: Pointure,
+                    ArticlePour: ArticlePour,
+                    Tailleenchiffre: Tailleenchiffre,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }, // Passer la valeur de la recherche comme paramètre
+                function(data, status) {
+                    if (status === "success") {
+                        $(".rows-products").empty();
+                        $("#SugestionProprietes").empty();
+                        $(".rows-products").html(data.html);
+                        $("#total_post").text(data.total);
+                        renderPagination(data.data);
+                        $("#total_show_post").text(data.count_resultat);
+                        $("#loading").hide("show");
+                        if(data.count_resultat == 0){
+                            $(".rows-products").html("<div class='col-sm-6 mx-auto text-center'>Aucun résultat pour vos critères de recherche.</div>");
+                        }
+                    }
+                }
+            );
+        }
 
 
     function renderPagination(data) {
