@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>Photos</th>
                                     <th>ID</th>
-                                    <th style="position: sticky; left: 115px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Titre</th>
+                                    <th style="left: 105px;">Titre</th>
                                     <th>Pseudonyme du vendeur</th>
                                     <th>Pseudo du / des rapporteur(s)</th>
                                     <th>Date de publication</th>
@@ -64,7 +64,7 @@
                                             </td>
                                         @endforeach
                                         <td> {{ $post->id}}</td>
-                                        <td style="position: sticky; left: 115px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">
+                                        <td style="left: 105px;">
                                             {{ $post->titre }}
                                             <div class="small">
                                                 <i class="bi bi-heart-fill text-danger"></i> {{ $post->getLike->count() }} likes
