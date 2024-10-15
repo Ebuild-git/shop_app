@@ -83,7 +83,7 @@
                         <!-- Headers for deleted publications -->
                         <th>Photos</th>
                         <th>ID</th>
-                        <th>Titre</th>
+                        <th style="left: 110px;">Titre</th>
                         <th>Catégorie</th>
                         <th>Prix</th>
                         <th>Date de publication</th>
@@ -136,7 +136,7 @@
                         @endforeach
                         @endif
                         <td>{{ 'P' . $post->id }}</td>
-                        <td>{{ $post->titre }}</td>
+                        <td style="left: 110px;">{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>DH</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
