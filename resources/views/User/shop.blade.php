@@ -329,13 +329,7 @@
                                     </span>
                                     @endif
                                 </button>
-                                <div id="subcategories-{{ $categorie->id }}" class="subcategory-list" style="display:none;">
-                                    @foreach ($categorie->getSousCategories as $sous_categorie)
-                                    <button class="subcategory-btn" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
-                                        {{ $sous_categorie->titre }}
-                                    </button>
-                                    @endforeach
-                                </div>
+
                             </div>
                             @endforeach
                         </div>
@@ -583,13 +577,7 @@
             sous_categorie = id;
             fetchProducts();
         }
-        function select_sous_categorie1(id) {
-            // window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
-            window.location.href = "/shop?id_categorie=" + categorie + "&id_sous_categorie=" + id;
 
-            sous_categorie = id;
-            fetchProducts1();
-        }
 
 
         function filtre_propriete(type, nom) {
@@ -736,14 +724,6 @@
         }
 
         function select_categorie1(id) {
-            document.querySelectorAll('.subcategory-list').forEach(list => {
-            list.style.display = 'none'; // Hide all subcategories
-        });
-
-        // Show the selected category's subcategories
-        const subcategoryList = document.getElementById(`subcategories-${id}`);
-        subcategoryList.style.display = 'block'; // Show the subcategory list
-
             categorie = id;
             sous_categorie = "";
             window.location.href = "/shop?id_categorie=" + id;
