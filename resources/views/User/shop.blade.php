@@ -333,6 +333,23 @@
                             @endforeach
                         </div>
                     </div>
+                    <div id="subcategories-container" class="subcategories-wrapper mt-3 d-none">
+                        <div class="scrollable-subcategory-wrapper d-flex">
+                            @if ($selected_categorie)
+                                @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                    <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                        <button class="subcategory-btn d-flex flex-column p-1">
+                                            <span>{{ $sous_categorie->titre }}</span>
+                                            <span class="posts-count">{{ $sous_categorie->getPost->where('statut','vente')->count() }}</span>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="view-all mt-2">
+                            <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="btn btn-primary w-100">View All Articles</a>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -576,6 +593,11 @@
             fetchProducts();
         }
 
+        function select_sous_categorie1(id) {
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+            sous_categorie = id;
+            fetchProducts1();
+        }
 
 
 
@@ -829,7 +851,6 @@ $(document).on('click', '.pagination li', function() {
             ancre();
         });
     </script>
-
 
     <style>
         .pagination {
