@@ -49,7 +49,7 @@
                     <th style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">ID</th>
                     <th style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Pseudonyme</th>
                      <th style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Nom</th>
-                     <th style="position: sticky; left: 230px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">Prénom</th>
+                     <th>Prénom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
                      <th>Nb articles en vente</th>
@@ -73,7 +73,7 @@
                         <td style="position: sticky; left: 0; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">{{ 'U' . ($user->id + 1000) }}</td>
                         <td style="position: sticky; left: 50px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->username }} </td>
                         <td style="position: sticky; left: 160px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);"> {{ $user->firstname }} </td>
-                        <td style="position: sticky; left: 230px; z-index: 3; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); background-color:white;"> {{ $user->lastname }} </td>
+                        <td> {{ $user->lastname }} </td>
                         <td>
                             <span title="{{ $user->created_at->diffForHumans() }}">
                                 {{ $user->created_at->format('d/m/Y') }}
