@@ -161,7 +161,10 @@ class HomeController extends Controller
                         $query->where('statut', 'vente')
                               ->orWhere(function($subQuery) {
                                   $subQuery->where('verified_at', '!=', null)
-                                           ->where('sell_at', null);
+                                           ->where('sell_at', null)
+                                           ->whereHas('user_info', function($userQuery) {
+                                            $userQuery->where('voyage_mode', 0); // voyage_mode should be false (0)
+                                        });
                               });
                     });
                     break;
