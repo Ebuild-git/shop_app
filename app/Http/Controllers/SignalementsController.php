@@ -19,15 +19,32 @@ class SignalementsController extends Controller
     public function liste_publications_signaler(Request $request)
     {
         $date = $request->input('date');
+        $keyword = $request->input('keyword');
         // $query = posts::withCount('signalements')->has('signalements');
         $query = posts::with(['signalements.auteur'])->withCount('signalements')->has('signalements');
 
         if ($date) {
             $query->whereDate('created_at', $date);
         }
+
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('id', 'like', '%' . $keyword . '%')
+                  ->orWhere('titre', 'like', '%' . $keyword . '%')
+                  ->orWhereHas('user_info', function ($query) use ($keyword) {
+                      $query->where('username', 'like', '%' . $keyword . '%');
+                  })
+                  ->orWhereHas('signalements', function ($query) use ($keyword) {
+                      $query->whereHas('auteur', function ($q) use ($keyword) {
+                          $q->where('username', 'like', '%' . $keyword . '%');
+                      });
+                  });
+            });
+        }
         $posts = $query->paginate(50);
         return view('Admin.publications.signalements')
         ->with("date",$date)
+        ->with("keyword", $keyword)
         ->with('posts', $posts);
     }
 

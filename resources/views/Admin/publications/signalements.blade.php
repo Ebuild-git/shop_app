@@ -8,7 +8,6 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Publications signalées</span></h4>
         <div class="card">
             <div class="row p-2">
                 <div class="col-sm-6 my-auto">
@@ -20,7 +19,8 @@
                     <form method="POST" action="{{ route('filtre_signalement') }}">
                         @csrf
                         <div class="input-group mb-3">
-                            <input type="date" class="form-control" name="date" value="{{ $date ? $date : null }}" required placeholder="titre">
+                            <input type="text" class="form-control" name="keyword" value="{{ $keyword ?? '' }}" placeholder="ID, Titre, Pseudonymes...">
+                            <input type="date" class="form-control" name="date" value="{{ $date ? $date : null }}" placeholder="titre">
                             <button class="btn btn-primary" type="submit" >
                                 <i class="fa-solid fa-filter"></i> &nbsp;
                                 Filtrer
