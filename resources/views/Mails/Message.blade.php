@@ -12,21 +12,69 @@
     <title>{{$data['sujet']}}</title>
 
     <style>
-        .header-image img {
-            width: 100%;
+        body {
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+            color: #333;
         }
 
-        .color {
-            color: #008080;
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .footer {
+        .email-header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .email-header img {
+            height: 50px;
+        }
+
+        .email-content {
+            line-height: 1.6;
+        }
+
+        .email-content p {
+            margin: 0 0 10px;
+        }
+
+        .email-content a.btn-infos {
+            display: inline-block;
             background-color: #008080;
-            color: white;
+            color: #ffffff !important;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-top: 20px;
         }
 
-        .bg-white {
-            background-color: white;
+        .email-footer {
+            text-align: center;
+            background-color: #008080;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            margin-top: 30px;
+        }
+
+        .email-footer .social-icons img {
+            width: 30px;
+            margin: 0 5px;
+        }
+
+        .email-footer p {
+            margin: 5px 0;
+        }
+
+        .email-footer .small {
+            font-size: 14px;
         }
     </style>
 
