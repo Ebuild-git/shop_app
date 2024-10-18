@@ -1,4 +1,4 @@
-<div class="card p-2 position-relative">
+<div class="card p-2 position-relative mb-2">
     <div>
         <div class="d-flex justify-content-between">
             <div class="pl-3" style="text-align: left">
@@ -13,19 +13,21 @@
             @if ($page == 'shopiners')
                 <div style="text-align: right;">
                     @auth
-                        @if (auth()->user()->pings()->where('pined', $user->id)->exists())
-                            <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
-                                <img src="/icons/icons8.png" height="20" width="20" alt="">
-                            </button>
-                        @else
-                            <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
-                                <img src="/icons/icons9.png" height="20" width="20" alt="">
-                            </button>
+                        @if ($user->id !== auth()->id())  <!-- Check if the user is not the auth user -->
+                            @if (auth()->user()->pings()->where('pined', $user->id)->exists())
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
+                                    <img src="/icons/icons8.png" height="20" width="20" alt="">
+                                </button>
+                            @else
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
+                                    <img src="/icons/icons9.png" height="20" width="20" alt="">
+                                </button>
+                            @endif
                         @endif
-
                     @endauth
                 </div>
             @endif
+
         </div>
         <div>
             <div class="row">
