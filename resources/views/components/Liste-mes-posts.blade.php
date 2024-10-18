@@ -70,7 +70,7 @@
                     @endif
                     <td class="text-capitalize my-auto">
                         @if (!$item->motif_suppression)
-                        <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
+                        <x-AnnonceStatut :statut="$item->statut" :sellAt="$item->sell_at" :verifiedAt="$item->verified_at" :voyageMode="$item->user_info->voyage_mode"></x-AnnonceStatut>
                         @if ($item->sell_at)
                         <div class="small">
                             {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y \à H:m') }}

@@ -154,23 +154,62 @@ class HomeController extends Controller
         if (!empty($statut)) {
             switch ($statut) {
                 case 'validation':
-                    $postsQuery = $Query->where('statut', "validation");
+                    $Query->where('statut', 'validation');
                     break;
                 case 'vente':
-                    $postsQuery = $Query->where('statut', "vente");
+                    $Query->where(function($query) {
+                        $query->where('statut', 'vente')
+                              ->orWhere(function($subQuery) {
+                                  $subQuery->where('verified_at', '!=', null)
+                                           ->where('sell_at', null);
+                              });
+                    });
                     break;
                 case 'vendu':
-                    $postsQuery = $Query->where('statut', "vendu");
+                    $Query->where('statut', 'vendu')
+                          ->orWhere('sell_at', '!=', null);
                     break;
                 case 'livraison':
-                    $postsQuery = $Query->where('statut', "livraison");
+                    $Query->where('statut', 'livraison');
                     break;
                 case 'livré':
-                    $postsQuery = $Query->where('statut', "livré");
+                    $Query->where('statut', 'livré');
+                    break;
+                case 'refusé':
+                    $Query->where('statut', 'refusé');
+                    break;
+                case 'préparation':
+                    $Query->where('statut', 'préparation');
+                    break;
+                case 'en cours de livraison':
+                    $Query->where('statut', 'en cours de livraison');
+                    break;
+                case 'ramassée':
+                    $Query->where('statut', 'ramassée');
+                    break;
+                case 'retourné':
+                    $Query->where('statut', 'retourné');
+                    break;
+                case 'en voyage':
+                    $Query->where(function($query) {
+                        $query->where('statut', 'en voyage')
+                              ->orWhere(function($subQuery) {
+                                  $subQuery->whereHas('user_info', function($userQuery) {
+                                      $userQuery->where('voyage_mode', 1);
+                                  })
+                                  ->where('verified_at', '!=', null)
+                                  ->where('sell_at', null);
+                              });
+                    });
+                    break;
+                default:
+                    // Handle unknown status or fallback
+                    $Query->where('statut', 'like', "%{$statut}%");
                     break;
             }
         }
-        $posts =  $Query->withTrashed()->paginate("20");
+
+        $posts = $Query->paginate("20");
         return view('User.list_post', [
             'posts' => $posts,
             'year' => $year,

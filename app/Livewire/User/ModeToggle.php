@@ -27,7 +27,13 @@ class ModeToggle extends Component
         $user->save();
 
         if ($this->isVoyageMode) {
-            $this->dispatch('alert', ['message' => "Vous êtes maintenant en mode Voyage.", 'type' => 'info']);
+            // $this->dispatch('alert', ['message' => "Vous êtes maintenant en mode Voyage.", 'type' => 'info']);
+            $this->dispatch('alert', [
+                'message' => "<strong>Mode voyage activé:</strong><br><span style='font-size: 16px;'>Vos annonces seront temporairement invisibles pour les autres utilisateurs. Elles réapparaîtront automatiquement lorsque vous désactiverez ce mode.</span>",
+                'type' => 'info',
+                'id' => 'mode-voyage-alert'
+            ]);
+
         } else {
             $this->dispatch('alert', ['message' => "Vous avez quitté le mode Voyage.", 'type' => 'info']);
         }

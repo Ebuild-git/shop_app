@@ -46,11 +46,18 @@
                         <select class="filter-select" name="statut">
                             <option value="">Status</option>
                             <option value="validation">En validation</option>
-                            <option value="vente">En cour de vente</option>
+                            <option value="vente">En cours de vente</option>
                             <option value="vendu">Vendu</option>
-                            <option value="livraison">En cour de Livraison</option>
+                            <option value="livraison">En cours de livraison</option>
                             <option value="livré">Déjà livré</option>
+                            <option value="refusé">Refusé</option>
+                            <option value="préparation">En préparation</option>
+                            <option value="en voyage">En voyage</option>
+                            <option value="en cours de livraison">En cours de livraison</option>
+                            <option value="ramassée">Ramassée</option>
+                            <option value="retourné">Retourné</option>
                         </select>
+
 
                         <select class="filter-select" name="month">
                             <option value="">Mois</option>

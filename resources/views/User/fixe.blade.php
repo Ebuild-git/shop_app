@@ -1812,7 +1812,19 @@ $(document).on('click', '.pagination li', function() {
             ancre();
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alert = document.getElementById('mode-voyage-alert');
 
+            if (alert) {
+                // Wait for 5 seconds before dismissing the alert
+                setTimeout(() => {
+                    alert.style.display = 'none'; // Dismiss the alert
+                }, 1000000); // Time in milliseconds (5000ms = 5 seconds)
+            }
+        });
+
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
