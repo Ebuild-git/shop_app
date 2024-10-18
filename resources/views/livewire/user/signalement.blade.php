@@ -28,8 +28,18 @@
             <b>Motif</b>
             <select required wire:model="type" class="form-control shadow-none">
                 <option value="">Choisir un motif</option>
-                <option value="Fraude">Fraude</option>
-                <option value="Spam">Spam</option>
+                <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
+                <option value="Annonce multiple du même article">Annonce multiple du même article</option>
+                <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
+                <option value="Contenu inapproprié">Contenu inapproprié</option>
+                <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
+                <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
+                <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
+                <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
+                <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
+                <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
+                <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
+                <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
             </select>
             @error('type')
                 <small class="form-text text-danger">{{ $message }}</small>

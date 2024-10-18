@@ -18,7 +18,7 @@
                         <div class="card p-3 shadow-sm hover-card">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div>
-                                    <span class="text-danger h5">
+                                    <span class="text-danger">
                                         <i class="bi bi-exclamation-octagon"></i>
                                         {{ $violation->type }}
                                     </span>
