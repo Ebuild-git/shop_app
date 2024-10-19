@@ -198,22 +198,37 @@ class CreatePost extends Component
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         $category = $sous_categorie->categorie;
 
-        if ($category->luxury == 1) {
-            if ($this->prix < 800) {
+        // if ($category->luxury == 1) {
+        //     if ($this->prix < 800) {
+        //         $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
+        //         return false;
+        //     }
+        // } else {
+        //     $luxuryCategory = categories::where('titre', $category->titre)
+        //         ->where('luxury', 1)
+        //         ->first();
+
+        //     if ($luxuryCategory && $this->prix >= 800) {
+        //         $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
+        //         return false;
+        //     }
+        // }
+        if ($category) {
+            if ($category->luxury == 1 && $this->prix < 800) {
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
                 return false;
             }
-        } else {
+
+            // Check if a non-luxury version of the category exists
             $luxuryCategory = categories::where('titre', $category->titre)
                 ->where('luxury', 1)
                 ->first();
 
-            if ($luxuryCategory && $this->prix >= 800) {
+            if ($luxuryCategory && $category->luxury == 0 && $this->prix >= 800) {
                 $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
                 return false;
             }
         }
-
         $jsonProprietes = array_filter($this->article_propriete, function($value) {
             return !empty($value);
         });
