@@ -168,7 +168,7 @@
                                 @else
                                     <span class="d-flex align-items-center">
                                         <i class="bi bi-check-circle" style="color: #008080; font-size: 20px;"></i>
-                                        <a href="{{ route('post_signalers') }}" style="text-decoration: none; color: #008080; font-weight: bold; margin-left: 5px;">
+                                        <a href="{{ route('liste_signalement_publications', $post->id) }}" style="text-decoration: none; color: #008080; font-weight: bold; margin-left: 5px;">
                                             0
                                         </a>
                                     </span>

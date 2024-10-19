@@ -50,7 +50,7 @@ class SignalementsController extends Controller
 
     public function liste_signalement_publications($id_post)
     {
-        $post = posts::find($id_post);
+        $post = posts::withTrashed()->find($id_post);
         if ($post) {
             return view("Admin.publications.liste-signalement")->with("post", $post);
         } else {
