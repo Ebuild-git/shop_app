@@ -2759,3 +2759,14 @@ input:checked + .slider:before {
         height: 30px;
     }
 }
+.icon-modern {
+    width: 80px; /* Increase icon size */
+    height: 80px; /* Maintain aspect ratio */
+}
+
+.text-modern {
+    font-size: 1.25rem; /* Slightly larger font size for modern look */
+    font-weight: 500; /* Use medium weight for modern feel */
+}
+
+

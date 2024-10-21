@@ -326,7 +326,7 @@
                                                 Vous avez déjà signalée cette annonce !
                                             </span>
                                         @else
-                                            <span class=" text-danger cursor" data-toggle="modal" data-target="#signaler">
+                                            <span class=" text-danger cursor" data-toggle="modal" data-target="#signalModal_{{ $post->id }}">
                                                 <i class="bi bi-exclamation-octagon"></i>
                                                 Signaler cette annonce
                                             </span>
@@ -545,20 +545,15 @@
         </div>
     </section>
 
-
-
     @auth
         @if (Auth::id() != $post->id_user)
-            <!-- Log In Modal -->
-            <div class="modal fade" id="signaler" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-                aria-hidden="true">
+            <!-- Signalement Modal -->
+            <div class="modal fade" id="signalModal_{{ $post->id }}" tabindex="-1" role="dialog" aria-labelledby="signalModalLabel_{{ $post->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-xl login-pop-form" role="document">
-                    <div class="modal-content" id="loginmodal">
-                        <div class="modal-headers">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span class="ti-close"></span>
-                            </button>
-                        </div>
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <div class="modal-body p-5">
                             @livewire('User.Signalement', ['post' => $post])
                         </div>

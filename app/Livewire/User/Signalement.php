@@ -50,5 +50,6 @@ class Signalement extends Component
 
         //reset form
         $this->reset(['type','message']);
+        $this->dispatch('report-submitted');
     }
 }

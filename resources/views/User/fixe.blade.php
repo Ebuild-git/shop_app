@@ -465,6 +465,7 @@
                                         </a>
                                     </li>
                                     @livewire('User.ModeToggle')
+
                                     <li>
                                         <a href="/logout" class=" medium text-medium link-red">
                                             Déconnexion
@@ -477,6 +478,7 @@
                 </div>
             </div>
         </div>
+
 <!-- Mobile Container -->
 <div class="container mobile-container pt-2 pb-2">
     <div class="row align-items-center mobile-only-header">
@@ -1183,8 +1185,6 @@
     <!-- Modal -->
 
 
-    <!-- End Modal -->
-
 
 
     <div class="modal fade" id="CategoryPostsModal" tabindex="1" role="dialog" aria-labelledby="loginmodal"
@@ -1289,7 +1289,7 @@
             }
         </script>
 
-        </script>
+
 
 
 
@@ -1423,6 +1423,7 @@
             document.getElementById("Cart").style.display = "none";
         }
     </script>
+
      <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};
@@ -1811,19 +1812,6 @@ $(document).on('click', '.pagination li', function() {
             fetchProducts(page);
             ancre();
         });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const alert = document.getElementById('mode-voyage-alert');
-
-            if (alert) {
-                // Wait for 5 seconds before dismissing the alert
-                setTimeout(() => {
-                    alert.style.display = 'none'; // Dismiss the alert
-                }, 1000000); // Time in milliseconds (5000ms = 5 seconds)
-            }
-        });
-
     </script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

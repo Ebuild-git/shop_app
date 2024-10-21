@@ -1,12 +1,12 @@
 <div>
     @if ($is_send)
-        <div class="p-3 text-center">
-            <img src="/icons/bouclier.svg" alt="icon alert" height="60" srcset="">
+        <div class="p-4 text-center">
+            <img src="/icons/bouclier.svg" alt="icon alert" class="icon-modern">
             <br>
-            <b class="text-success">
+            <b class="text-success text-modern">
                 Merci pour votre signalement!
             </b>
-            <p>
+            <p class="text-muted text-modern">
                 Nous allons examiner cette annonce dans les plus brefs délais.
             </p>
         </div>
@@ -74,3 +74,19 @@
         document.getElementById('charCount').textContent = charCount + ' caractères';
     }
 </script>
+<script>
+    let isSuccess = false;
+    window.addEventListener('report-submitted', function() {
+        isSuccess = true;
+        setTimeout(function() {
+            location.reload();
+        }, 3000);
+    });
+    $('#signalModal_{{ $post->id }}').on('hide.bs.modal', function () {
+        if (isSuccess) {
+            location.reload();
+        }
+    });
+</script>
+
+
