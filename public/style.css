@@ -2768,5 +2768,10 @@ input:checked + .slider:before {
     font-size: 1.25rem; /* Slightly larger font size for modern look */
     font-weight: 500; /* Use medium weight for modern feel */
 }
+.personalized-card {
+    border: 2px solid #008080; /* Example border color */
+    background-color: #f0f8ff; /* Light background for distinction */
+    /* Add any other styles you want for personalization */
+}
 
 

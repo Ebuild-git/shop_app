@@ -1,4 +1,5 @@
-<div class="card p-2 position-relative mb-2">
+<div class="card p-2 position-relative mb-2"
+     style="{{ auth()->check() && $user->id === auth()->id() ? 'border: 2px solid #008080; background-color: #f9fbfc;' : '' }}">
     <div>
         <div class="d-flex justify-content-between">
             <div class="pl-3" style="text-align: left">
@@ -27,17 +28,17 @@
                     @endauth
                 </div>
             @endif
-
         </div>
+
         <div>
             <div class="row">
                 <div class="col text-center">
                     <div>
                         <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
                     </div>
-                    Ventes : {{ $user->total_sales->count() }}
+                    Ventes : {{ $user->total_sales()->count() }}
                 </div>
-                <div class="col text-center cusor" onclick="ShowPostsCatgorie({{ $user->id }})">
+                <div class="col text-center cursor" onclick="ShowPostsCatgorie({{ $user->id }})">
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>
@@ -48,25 +49,24 @@
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        Annonces :
-                        {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
+                        Annonces : {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
                     </a>
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-2  text-bold note-shopinner-bas">
+
+        <div class="d-flex justify-content-between mt-2 text-bold note-shopinner-bas">
             <div>
                 <b>
                     @php
                         $count = number_format($user->averageRating->average_rating ?? 1);
                         $avis = $user->getReviewsAttribute->count();
                     @endphp
-                    <x-Etoiles :count="$count" :avis="$avis"></x-Etoiles>
-                    {{ $avis }}
-                    Avis
+                    <x-Etoiles :count="$count" :avis="$avis" :user="$user"></x-Etoiles>
+                    {{ $avis }} Avis
                 </b>
             </div>
-            {{-- Afficher le lien pour voirle profil uniquement si on est dans la page shopinner --}}
+
             @if ($page == 'shopiners')
                 <div>
                     <a href="/user/{{ $user->id }}" class="link">
@@ -74,8 +74,6 @@
                     </a>
                 </div>
             @endif
-
         </div>
-
     </div>
 </div>
