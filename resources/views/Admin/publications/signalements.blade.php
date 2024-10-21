@@ -79,17 +79,22 @@
                                                 <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                             </span>
                                         </td>
+
                                         <td>
                                             @foreach($post->signalements as $signalement)
+                                                <div>
                                                     <a href="/admin/client/{{ $signalement->auteur->id }}/view">
                                                         {{ $signalement->auteur->username }}
                                                     </a>
-                                                    <br>
+                                                </div>
+                                                <div>
                                                     <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $signalement->auteur->id }}','{{ $signalement->auteur->username }}')">
                                                         <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                                     </span>
+                                                </div>
                                             @endforeach
                                         </td>
+
                                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                                         <td>
                                             @foreach($post->signalements as $signalement)
