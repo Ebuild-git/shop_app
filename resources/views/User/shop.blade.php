@@ -314,30 +314,100 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                    $selected_categorie_id = request()->get('id_categorie');
+                @endphp
+
+
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 d-xl-none">
                     <div class="row mobile-view">
-                        <!-- Categories Card Wrapper -->
-                        <div class="scrollable-card-wrapper d-flex">
-                            @foreach ($liste_categories as $categorie)
-                            <div class="category-card p-2" id="list-categorie" onclick="select_categorie1({{ $categorie->id }})">
-                                <button class="category-btn d-flex flex-column p-1">
-                                    <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
-                                    <span>{{ $categorie->titre }}</span>
-                                    @if ($categorie->luxury == 1)
-                                    <span class="luxury-icon color small">
-                                        <b><i class="bi bi-gem"></i></b>
-                                    </span>
-                                    @endif
-                                </button>
+                        <div class="scrollable-container">
+                            <button class="scroll-btn left" onclick="scrollToLeft()"><i class="bi bi-arrow-left-short"></i></button> <!-- Left scroll button -->
+                            <div class="subcategory-card-wrapper" id="category-cards">
+                                @if (!$selected_categorie_id)
+                                    @foreach ($liste_categories as $categorie)
+                                        <div class="category-card p-1" id="list-categorie-{{ $categorie->id }}" onclick="select_categorie1({{ $categorie->id }})">
+                                            <button class="category-btn d-flex flex-column p-1">
+                                                <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
+                                                <span>{{ $categorie->titre }}</span>
+                                                @if ($categorie->luxury == 1)
+                                                    <span class="luxury-icon color small">
+                                                        <b><i class="bi bi-gem"></i></b>
+                                                    </span>
+                                                @endif
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <!-- Go Back Message -->
+                                    <div class="go-back-container">
+                                        <div class="go-back-message">
+                                            <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToCategories()">
+                                                Tout les articles de cette catégorie.
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Subcategory Cards -->
+                                    <div class="subcategory-card-wrapper">
+                                        @php
+                                            $selected_categorie = $liste_categories->firstWhere('id', $selected_categorie_id);
+                                        @endphp
 
+                                        @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                            <div class="subcategory-card p-2">
+                                                <button class="subcategory-btn d-flex flex-column p-1" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                                    <span>{{ $sous_categorie->titre }}</span>
+                                                    @if ($selected_categorie->luxury == 1)
+                                                        <span class="luxury-icon color small">
+                                                            <b><i class="bi bi-gem"></i></b>
+                                                        </span>
+                                                    @endif
+                                                    <span>{{ $sous_categorie->getPost->where('statut', 'vente')->count() }}</span>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
-                            @endforeach
+                            <button class="scroll-btn right" onclick="scrollToRight()"><i class="bi bi-arrow-right-short"></i></button> <!-- Right scroll button -->
                         </div>
                     </div>
-
                 </div>
 
 
+                <script>
+
+                    var lastScrollAmount = 0;  // Global variable to store the last scroll amount
+
+                    function scrollToLeft() {
+                        const container = document.getElementById('category-cards');
+
+                        // Log the current scroll position
+                        console.log("Current Scroll Position:", container.scrollLeft);
+
+                        // Ensure we aren't trying to scroll left when at the start
+                        if (container.scrollLeft > 0) {
+                            container.scrollBy({ left: -lastScrollAmount, behavior: 'smooth' });
+                            console.log("Scrolling Left by:", -lastScrollAmount);
+                        } else {
+                            console.log("Already at the start, cannot scroll further left");
+                        }
+                    }
+
+                    function scrollToRight() {
+                        const container = document.getElementById('category-cards');
+                        lastScrollAmount = container.clientWidth * 0.8;  // Update last scroll amount
+
+                        // Log the current scroll position and the scroll amount
+                        console.log("Current Scroll Position:", container.scrollLeft);
+                        console.log("Scrolling Right by:", lastScrollAmount);
+
+                        container.scrollBy({ left: lastScrollAmount, behavior: 'smooth' });
+                    }
+
+
+                </script>
 
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                     <div class="row">
@@ -578,7 +648,11 @@
             fetchProducts();
         }
 
-
+        function select_sous_categorie1(id) {
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+            sous_categorie = id;
+            fetchProducts1();
+        }
 
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
@@ -723,12 +797,40 @@
             );
         }
 
-        function select_categorie1(id) {
-            categorie = id;
-            sous_categorie = "";
-            window.location.href = "/shop?id_categorie=" + id;
-            fetchProducts1();
-        }
+        // function select_categorie1(id) {
+        //     categorie = id;
+        //     sous_categorie = "";
+        //     window.location.href = "/shop?id_categorie=" + id;
+        //     fetchProducts1();
+        // }
+        function select_categorie1(id, categorieName) {
+                categorie = id;
+                sous_categorie = "";
+
+                // Redirect to the new URL
+                window.location.href = "/shop?id_categorie=" + id;
+
+                // Show the go-back message and subcategory cards inline
+                document.getElementById('category-cards').innerHTML = `
+                    <div class="go-back-message">
+                        <a href="javascript:void(0)" class="small text-primary" style="text-decoration: underline;" onclick="goBackToCategories()">
+                            Go back to categories
+                        </a>
+                        <div class="subcategory-card-wrapper">
+                            <!-- Subcategory cards will go here -->
+                        </div>
+                    </div>
+                `;
+
+            }
+
+            function goBackToCategories() {
+                // Redirect to the categories view without the selected category
+                window.location.href = "/shop";
+            }
+
+
+
 
         function fetchProducts1(page = 1) {
             $("#loading").show("show");

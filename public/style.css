@@ -2694,18 +2694,18 @@ input:checked + .slider:before {
 
 /* Category card styling */
 .category-card {
-    width: 140px; /* Set fixed width for all cards */
-    height: 100px; /* Set fixed height for all cards */
+    width: 100%; /* Set fixed width for all cards */
+    height: 50%; /* Set fixed height for all cards */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center; /* Center content vertically */
     align-items: center; /* Center content horizontally */
-    padding: 10px;
+    padding: 5px;
 }
 
 /* Styling the category button */
@@ -2774,4 +2774,112 @@ input:checked + .slider:before {
     /* Add any other styles you want for personalization */
 }
 
+/* Style for the 'Go back to categories' link */
+.go-back-container {
+    width: 100px; /* Set fixed width for all cards */
+    height: 10px; /* Set fixed height for all cards */
+}
+
+.go-back-message {
+    font-size: 14px; /* Adjust font size for a smaller, compact message */
+    padding: 5px 10px; /* Adjust padding to reduce the height of the go back section */
+}
+
+
+/* Wrapper for scrollable horizontal cards */
+.scrollable-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Make sure the container takes the full width of the parent */
+}
+
+.subcategory-card-wrapper {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 1rem;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth; /* Ensure smooth scrolling behavior */
+}
+
+.subcategory-card-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-btn {
+    background-color: #008080; /* Set background to transparent */
+    border: 1px solid #008080; /* Optional: add a border with the desired color */
+    color: #fff; /* Change text color to match the border for visibility */
+    font-size: 24px;
+    padding: 5px 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-radius: 50%; /* Makes the button rounded */
+    height: 25px;
+    width: 25px;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+}
+
+.scroll-btn.left {
+    left: 0;
+    margin-left: 5px;
+}
+
+.scroll-btn.right {
+    right: 0;
+    margin-right: 5px;
+}
+
+.subcategory-card {
+    width: 80px;
+    height: 60px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+
+/* Subcategory button styling */
+.subcategory-btn {
+    border: none;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Category icon styling */
+.subcategory-btn img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+/* Subcategory text styling */
+.subcategory-btn span {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
 
