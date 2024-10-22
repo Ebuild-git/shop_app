@@ -803,6 +803,12 @@
         //     window.location.href = "/shop?id_categorie=" + id;
         //     fetchProducts1();
         // }
+        function refreshScrollSettings() {
+            const container = document.getElementById('category-cards');
+            if (container.clientWidth < container.scrollWidth) {
+                lastScrollAmount = container.clientWidth * 0.8;  // Recalculate scroll amount based on new content width
+            }
+        }
         function select_categorie1(id, categorieName) {
                 categorie = id;
                 sous_categorie = "";
@@ -814,14 +820,14 @@
                 document.getElementById('category-cards').innerHTML = `
                     <div class="go-back-message">
                         <a href="javascript:void(0)" class="small text-primary" style="text-decoration: underline;" onclick="goBackToCategories()">
-                            Go back to categories
+                            Tout les articles de cette catégorie.
                         </a>
                         <div class="subcategory-card-wrapper">
                             <!-- Subcategory cards will go here -->
                         </div>
                     </div>
                 `;
-
+                refreshScrollSettings();
             }
 
             function goBackToCategories() {
