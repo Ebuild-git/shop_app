@@ -2776,7 +2776,7 @@ input:checked + .slider:before {
 
 /* Style for the 'Go back to categories' link */
 .go-back-container {
-    width: 100px; /* Set fixed width for all cards */
+    width: 0; /* Set fixed width for all cards */
     height: 10px; /* Set fixed height for all cards */
 }
 
