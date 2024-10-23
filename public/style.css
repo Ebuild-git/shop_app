@@ -2802,7 +2802,7 @@ input:checked + .slider:before {
     padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth; /* Ensure smooth scrolling behavior */
-    width: 90px;
+    width: 95%;
 }
 
 .subcategory-card-wrapper::-webkit-scrollbar {
