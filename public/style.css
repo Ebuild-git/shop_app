@@ -2676,7 +2676,11 @@ input:checked + .slider:before {
         display: block;
     }
 }
-
+@media (max-width: 767px) {
+    .special-mobile-container .search-sidebar {
+        display: block !important;
+    }
+}
 /* Scrollable horizontal cards */
 .scrollable-card-wrapper {
     display: flex;
