@@ -324,7 +324,7 @@
                     <div class="row mobile-view">
                         <div class="scrollable-container">
                             <button class="scroll-btn left" onclick="scrollToLeft()"><i class="bi bi-arrow-left-short"></i></button> <!-- Left scroll button -->
-                            <div class="subcategory-card-wrapper" id="category-cards">
+                            <div class="subcategory-card-wrapper scrollable-wrapper" id="category-cards">
                                 @if (!$selected_categorie_id)
                                     @foreach ($liste_categories as $categorie)
                                         <div class="category-card p-1" id="list-categorie-{{ $categorie->id }}" onclick="select_categorie1({{ $categorie->id }})">
@@ -349,7 +349,7 @@
                                         </div>
                                     </div>
                                     <!-- Subcategory Cards -->
-                                    <div class="subcategory-card-wrapper">
+                                    <div class="subcategory-card-wrapper scrollable-wrapper">
                                         @php
                                             $selected_categorie = $liste_categories->firstWhere('id', $selected_categorie_id);
                                         @endphp
@@ -377,34 +377,37 @@
 
 
                 <script>
-
-                    var lastScrollAmount = 0;  // Global variable to store the last scroll amount
-
                     function scrollToLeft() {
-                        const container = document.getElementById('category-cards');
-
-                        // Log the current scroll position
-                        console.log("Current Scroll Position:", container.scrollLeft);
-
-                        // Ensure we aren't trying to scroll left when at the start
-                        if (container.scrollLeft > 0) {
-                            container.scrollBy({ left: -lastScrollAmount, behavior: 'smooth' });
-                            console.log("Scrolling Left by:", -lastScrollAmount);
-                        } else {
-                            console.log("Already at the start, cannot scroll further left");
+                    const containers = document.querySelectorAll('.scrollable-wrapper');
+                    containers.forEach(container => {
+                        if (isVisible(container)) {  // Assuming you have an `isVisible` function to check if the element is currently displayed
+                            console.log("Current Scroll Position:", container.scrollLeft);
+                            if (container.scrollLeft > 0) {
+                                container.scrollBy({ left: -lastScrollAmount, behavior: 'smooth' });
+                                console.log("Scrolling Left by:", -lastScrollAmount);
+                            } else {
+                                console.log("Already at the start, cannot scroll further left");
+                            }
                         }
-                    }
+                    });
+                }
 
-                    function scrollToRight() {
-                        const container = document.getElementById('category-cards');
-                        lastScrollAmount = container.clientWidth * 0.8;  // Update last scroll amount
+                function scrollToRight() {
+                    const containers = document.querySelectorAll('.scrollable-wrapper');
+                    containers.forEach(container => {
+                        if (isVisible(container)) {
+                            lastScrollAmount = container.clientWidth * 0.8;  // Update last scroll amount
+                            console.log("Current Scroll Position:", container.scrollLeft);
+                            console.log("Scrolling Right by:", lastScrollAmount);
+                            container.scrollBy({ left: lastScrollAmount, behavior: 'smooth' });
+                        }
+                    });
+                }
 
-                        // Log the current scroll position and the scroll amount
-                        console.log("Current Scroll Position:", container.scrollLeft);
-                        console.log("Scrolling Right by:", lastScrollAmount);
-
-                        container.scrollBy({ left: lastScrollAmount, behavior: 'smooth' });
-                    }
+                // Utility function to determine if an element is visible
+                function isVisible(element) {
+                    return element.offsetWidth > 0 && element.offsetHeight > 0;
+                }
 
 
                 </script>
