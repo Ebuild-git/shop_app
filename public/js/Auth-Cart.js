@@ -110,13 +110,14 @@ function CountNotification() {
 
 function remove_to_card(id) {
     Swal.fire({
-        title: "Es-tu sûr?",
-        text: "Voulez-vous retirer ceci de votre panier ?",
+        // title: "Es-tu sûr?",
+        title: '<small>Voulez-vous retirer cet article de votre panier?</small>',
         showCancelButton: true,
         confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",
         confirmButtonText: "Valider",
         cancelButtonText: "Annuler",
+        iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
     }).then((result) => {
         if (result.isConfirmed) {
             $.get(

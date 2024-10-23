@@ -118,7 +118,7 @@
             <img src="{{ config('app.url') }}/icons/logo.png" alt="logo" class="logo" srcset="">
         </div>
         <div class="content">
-            <h2>Merci de votre achat, {{ $user->username }} !</h2>
+            <h2>Merci pour votre achat, {{ $user->username }} !</h2>
             <p>Nous sommes ravis de vous informer que votre commande a été prise en charge avec succès.</p>
             <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte.</p>
 

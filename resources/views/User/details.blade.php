@@ -323,7 +323,7 @@
                                         @if ($is_alredy_signaler)
                                             <span class=" text-danger cursor">
                                                 <i class="bi bi-exclamation-octagon"></i>
-                                                Vous avez déjà signalée cette annonce !
+                                                Vous avez déjà signalé cette annonce !
                                             </span>
                                         @else
                                             <span class=" text-danger cursor" data-toggle="modal" data-target="#signalModal_{{ $post->id }}">
