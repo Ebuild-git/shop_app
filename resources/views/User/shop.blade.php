@@ -762,10 +762,17 @@
             // if (type == 'Pointure' || type == 'pointure') {
             //     Pointure = nom;
             // }
+            // Assuming 'type' and 'nom' are defined
             const normalizedType = type.toLowerCase().trim();
-            if (normalizedType.includes('pointure')) {
-                Pointure = nom;
+
+            // Use regex to check for the presence of 'pointure'
+            if (/pointure/i.test(normalizedType)) {
+                Pointure = nom; // Assign nom to Pointure when 'pointure' is matched
+                console.log('Matched Pointure:', Pointure);
+            } else {
+                console.log('No match for pointure');
             }
+
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
                  if(Taille != ""){
