@@ -27,12 +27,17 @@
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
-                     <button class="btn btn-dark ">
+                     {{-- <button class="btn btn-dark ">
                          <a href="{{ route('export_users') }}" style="color: white !important;">
                              <i class="bi bi-file-earmark-excel"></i>
                              Exporter la liste
                          </a>
-                     </button>
+                     </button> --}}
+                     <button class="btn btn-dark" onclick="exportTableToXLSX('user_list.xlsx')" style="color: white !important;">
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Exporter la liste
+                    </button>
+
                  </div>
              </form>
          </div>
@@ -237,4 +242,37 @@
 </script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+<script>
+    function exportTableToXLSX(filename) {
+        var table = document.querySelector("table");
+        var workbook = XLSX.utils.book_new();
+        var worksheet = XLSX.utils.table_to_sheet(table, { raw: true });
+
+        // Remove the last two columns (Actions and the second last)
+        var lastColumnIndex = XLSX.utils.decode_range(worksheet['!ref']).e.c; // Get last column index
+        for (var row = 0; row <= XLSX.utils.decode_range(worksheet['!ref']).e.r; row++) {
+            delete worksheet[XLSX.utils.encode_cell({ c: lastColumnIndex, r: row })]; // Delete last column
+            delete worksheet[XLSX.utils.encode_cell({ c: lastColumnIndex - 1, r: row })]; // Delete second last column
+        }
+
+        // Adjust column widths based on content
+        const columnWidths = [];
+        for (let col = 0; col < lastColumnIndex - 1; col++) { // Now lastColumnIndex - 1 since we deleted 2 columns
+            let maxWidth = 10; // Set a minimum width
+            for (let row = 0; row <= XLSX.utils.decode_range(worksheet['!ref']).e.r; row++) {
+                const cell = worksheet[XLSX.utils.encode_cell({ c: col, r: row })];
+                if (cell && cell.v) {
+                    maxWidth = Math.max(maxWidth, cell.v.toString().length);
+                }
+            }
+            columnWidths.push({ wpx: maxWidth * 10 }); // Multiply by a factor for better spacing
+        }
+
+        worksheet['!cols'] = columnWidths; // Set column widths
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
+        XLSX.writeFile(workbook, filename);
+    }
+    </script>
