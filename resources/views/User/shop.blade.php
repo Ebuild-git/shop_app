@@ -674,6 +674,10 @@
         }
 
 
+        function filtre_propriete_color1(type, code, nom) {
+            add_selected_option(type, nom);
+            filtre_propriete1(type, code);
+        }
 
 
 
@@ -755,7 +759,7 @@
             if (type == 'Langue' || type == 'langue') {
                 Langue = nom;
             }
-            if (type == 'Pointure' || type == 'pointure' || type == 'Pointure chaussures enfants' || type == 'pointure chaussures enfants') {
+            if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
             }
             // Assuming 'type' and 'nom' are defined
@@ -792,7 +796,65 @@
             fetchProducts();
         }
 
+        function filtre_propriete1(type, nom) {
+            type = type.replace(/^\s+|\s+$/gm, '');
+            var show = true;
 
+
+            //debut brouillons
+            if (type == 'Couleur' || type == 'couleur') {
+                Couleur = nom;
+                show = false;
+            }
+            if (type == 'Taille' || type == 'taille') {
+                if(Tailleenchiffre != ""){
+                    sweet("Opération impossible");
+                    return;
+                 }
+                Taille = nom;
+            }
+            if (type == 'Article pour' || type == 'article pour') {
+                ArticlePour = nom;
+            }
+            if (type == 'Langue' || type == 'langue') {
+                Langue = nom;
+            }
+            if (type == 'Pointure' || type == 'pointure') {
+                Pointure = nom;
+            }
+            // Assuming 'type' and 'nom' are defined
+            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
+                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
+                 if(Taille != ""){
+                    sweet("Opération impossible");
+                    return;
+                 }
+                Tailleenchiffre = nom;
+            }
+            //fin brouillons
+            if (show) {
+                add_selected_option(type, nom);
+            }
+
+            let modifiedName = nom.replace(/\s/g, '');
+            var button = $("#btn-option-" + modifiedName);
+
+            if (button.hasClass("bg-red")) {
+                button.removeClass("bg-red");
+                proprietes = '';
+            } else {
+                $("button[id^='btn-option-']").removeClass("bg-red");
+                button.addClass("bg-red");
+                _proprietes = {
+                    type: type,
+                    valeur: nom
+                };
+                proprietes = proprietes
+            }
+
+
+            fetchProducts1();
+        }
 
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();
