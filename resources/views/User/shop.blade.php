@@ -363,28 +363,26 @@
                                         @php
                                             $selected_categorie = $liste_categories->firstWhere('id', $selected_categorie_id);
                                         @endphp
-                                        @foreach ($selected_categorie->getSousCategories as $sous_categorie)
-                                            <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
-                                                <button class="subcategory-btn d-flex flex-column p-1">
-                                                    <span>{{ $sous_categorie->titre }}</span>
-                                                    @if ($selected_categorie->luxury == 1)
-                                                        <span class="luxury-icon color small">
-                                                            <b><i class="bi bi-gem"></i></b>
-                                                        </span>
-                                                    @endif
-                                                    <span>{{ $sous_categorie->getPost->where('statut', 'vente')->count() }}</span>
-                                                </button>
-                                            </div>
-                                        @endforeach
+                                            @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                                <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                                    <button class="subcategory-btn d-flex flex-column p-1">
+                                                        <span>{{ $sous_categorie->titre }}</span>
+                                                        @if ($selected_categorie->luxury == 1)
+                                                            <span class="luxury-icon color small">
+                                                                <b><i class="bi bi-gem"></i></b>
+                                                            </span>
+                                                        @endif
+                                                        <span>{{ $sous_categorie->getPost->where('statut', 'vente')->count() }}</span>
+                                                    </button>
+                                                </div>
+                                            @endforeach
                                     @endif
                                 @else
-                                {{-- <div class="go-back-container">
-                                    <div class="go-back-message">
-                                        <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToSubCategories()">
-                                            Tout les articles de cette catégorie.
-                                        </a>
-                                    </div>
-                                </div> --}}
+                                <div class="go-back-container mb-2">
+                                    <span href="javascript:void(0)" style="text-decoration: underline; color: #008080; cursor: pointer; margin-left: 10px;" onclick="goBackToSubcategories()">
+                                        <i class="bi bi-arrow-left-square-fill"></i> Retour à la liste des sous-catégories.
+                                    </span>
+                                </div>
 
                                 @endif
                             </div>
@@ -705,12 +703,16 @@
             fetchProducts();
         }
 
+
         function select_sous_categorie1(id) {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
             sous_categorie = id;
             fetchProducts1();
         }
-
+        function goBackToSubcategories() {
+            // Clear the selected subcategory
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
+        }
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
             var show = true;
@@ -886,10 +888,7 @@
                 // Redirect to the categories view without the selected category
                 window.location.href = "/shop";
             }
-            function goBackToSubCategories() {
-                // Redirect to the categories view without the selected category
-                window.location.href = "/shop?id_categorie=" + id;
-            }
+
 
 
 
