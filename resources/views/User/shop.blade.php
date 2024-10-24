@@ -419,7 +419,7 @@
                                 </div>
                             </div>
                         @elseif ($selected_sous_categorie_id)
-                            <div class="go-back-container mb-2">
+                            <div class="go-back-container1 mb-2">
                                 <span href="javascript:void(0)" style="text-decoration: underline; color: #008080; cursor: pointer; margin-left: 10px;" onclick="goBackToSubcategories()">
                                     <i class="bi bi-arrow-left-square-fill"></i> Retour à la liste des sous-catégories.
                                 </span>

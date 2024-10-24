@@ -2802,7 +2802,12 @@ input:checked + .slider:before {
     height: 10px; /* Set fixed height for all cards */
     z-index: 1000;
 }
-
+.go-back-container1 {
+    width: 0; /* Set fixed width for all cards */
+    height: 10px; /* Set fixed height for all cards */
+    z-index: 1000;
+    width: 100%;
+}
 .go-back-message {
     width: 235px;
     font-size: 14px; /* Adjust font size for a smaller, compact message */
