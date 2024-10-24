@@ -563,7 +563,7 @@
         var ArticlePour = "";
         var Langue = "";
         var Tailleenchiffre = "";
-
+        var PointureBebe = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -762,6 +762,10 @@
             if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
             }
+
+            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
+                PointureBebe = nom;
+            }
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
@@ -821,6 +825,9 @@
             }
             if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
+            }
+            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
+                PointureBebe = nom;
             }
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
