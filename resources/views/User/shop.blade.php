@@ -221,13 +221,17 @@
 
                             <div>
                                 <div class="@if (!$selected_sous_categorie) d-none @endif">
-                                    <div class="container mb-2">
-                                        <div id="Selected_options" class="d-flex flex-wrap"></div>
+
+                                    <div class="desktop-options">
+                                        <div class="container mb-2">
+                                            <div class="d-flex flex-wrap"></div>
+                                        </div>
                                     </div>
                                 </div>
                                 @if ($selected_sous_categorie)
                                     <x-DynamicShopFilter :idsouscategorie="$selected_sous_categorie->id"></x-DynamicShopFilter>
                                 @endif
+
                             </div>
 
                             @if ($selected_sous_categorie)
@@ -374,10 +378,13 @@
                                         @endforeach
                                     @endif
                                 @else
-                                    <!-- Display 'Filter by' text when subcategory is selected -->
-                                    {{-- <div class="text-center p-2">
-                                        <h4>Filter by:</h4>
-                                    </div> --}}
+                                {{-- <div class="go-back-container">
+                                    <div class="go-back-message">
+                                        <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToSubCategories()">
+                                            Tout les articles de cette catégorie.
+                                        </a>
+                                    </div>
+                                </div> --}}
 
                                 @endif
                             </div>
@@ -388,10 +395,12 @@
                         </div>
 
                         @if ($selected_sous_categorie_id)
-
                             <div class="container-fluid">
-                                <div id="Selected_options" class="d-flex flex-wrap"></div>
-
+                                <div class="mobile-options">
+                                    <div class="container mb-2">
+                                        <div class="d-flex flex-wrap"></div>
+                                    </div>
+                                </div>
                                 <x-DynamicShopFilterMobile :idsouscategorie="$selected_sous_categorie_id"></x-DynamicShopFilterMobile>
                             </div>
                         @endif
@@ -407,10 +416,8 @@
                     const containers = document.querySelectorAll('.scrollable-wrapper');
                     containers.forEach(container => {
                         if (isVisible(container)) {  // Assuming you have an `isVisible` function to check if the element is currently displayed
-                            console.log("Current Scroll Position:", container.scrollLeft);
                             if (container.scrollLeft > 0) {
                                 container.scrollBy({ left: -lastScrollAmount, behavior: 'smooth' });
-                                console.log("Scrolling Left by:", -lastScrollAmount);
                             } else {
                                 console.log("Already at the start, cannot scroll further left");
                             }
@@ -423,8 +430,6 @@
                     containers.forEach(container => {
                         if (isVisible(container)) {
                             lastScrollAmount = container.clientWidth * 0.8;  // Update last scroll amount
-                            console.log("Current Scroll Position:", container.scrollLeft);
-                            console.log("Scrolling Right by:", lastScrollAmount);
                             container.scrollBy({ left: lastScrollAmount, behavior: 'smooth' });
                         }
                     });
@@ -435,7 +440,33 @@
 
 
                 </script>
+                <script>
+                    function toggleIdForScreenSize() {
+                    var selectedOptionsDesktop = document.querySelector(".desktop-options");
+                    var selectedOptionsMobile = document.querySelector(".mobile-options");
 
+                    if (window.innerWidth <= 768) {  // Mobile screen (768px or less)
+                        if (selectedOptionsDesktop) {
+                            selectedOptionsDesktop.removeAttribute("id");  // Remove ID from desktop
+                        }
+                        if (selectedOptionsMobile) {
+                            selectedOptionsMobile.setAttribute("id", "Selected_options");  // Add ID to mobile
+                        }
+                    } else {  // Desktop screen (> 768px)
+                        if (selectedOptionsMobile) {
+                            selectedOptionsMobile.removeAttribute("id");  // Remove ID from mobile
+                        }
+                        if (selectedOptionsDesktop) {
+                            selectedOptionsDesktop.setAttribute("id", "Selected_options");  // Add ID to desktop
+                        }
+                    }
+                }
+
+                // Run the function on page load and when resizing the window
+                window.onload = toggleIdForScreenSize;
+                window.onresize = toggleIdForScreenSize;
+
+                </script>
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
@@ -522,8 +553,6 @@
 
 
 
-
-
         //afficher les options selectionner qui sont dans options dans la div Selected_options
         function show_selected_options() {
             var selected_options_div = document.getElementById("Selected_options");
@@ -548,6 +577,7 @@
                 document.getElementById("Selected_options").innerHTML = "";
             }
         }
+
 
 
 
@@ -855,6 +885,10 @@
             function goBackToCategories() {
                 // Redirect to the categories view without the selected category
                 window.location.href = "/shop";
+            }
+            function goBackToSubCategories() {
+                // Redirect to the categories view without the selected category
+                window.location.href = "/shop?id_categorie=" + id;
             }
 
 
