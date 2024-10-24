@@ -762,7 +762,8 @@
             // if (type == 'Pointure' || type == 'pointure') {
             //     Pointure = nom;
             // }
-            if (type.toLowerCase().includes('pointure')) {
+            const normalizedType = type.toLowerCase().trim();
+            if (normalizedType.includes('pointure')) {
                 Pointure = nom;
             }
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
