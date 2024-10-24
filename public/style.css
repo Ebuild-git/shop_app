@@ -2739,6 +2739,7 @@ input:checked + .slider:before {
     align-items: center;
     justify-content: center;
     width: 100%; /* Make button take full card width */
+    height: 10%;
 }
 
 /* Category icon styling */
@@ -2773,7 +2774,7 @@ input:checked + .slider:before {
 
     .category-card {
         width: 130px; /* Slightly smaller width on mobile */
-        height: 130px; /* Slightly smaller height on mobile */
+        height: 95px; /* Slightly smaller height on mobile */
     }
 
     .category-icon {
