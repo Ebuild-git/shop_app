@@ -2800,6 +2800,7 @@ input:checked + .slider:before {
 .go-back-container {
     width: 0; /* Set fixed width for all cards */
     height: 10px; /* Set fixed height for all cards */
+    z-index: 1000;
 }
 
 .go-back-message {
