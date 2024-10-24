@@ -325,7 +325,7 @@
 
                 @endphp
 
-                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 d-xl-none">
+                {{-- <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 d-xl-none">
                     <div class="row mobile-view">
                         <div class="scrollable-container">
                             <!-- Conditional rendering of scroll buttons based on whether a subcategory is selected -->
@@ -352,7 +352,7 @@
                                         @endforeach
                                     @else
                                         <!-- Go Back Message -->
-                                        <div class="go-back-container" style="position: sticky;top: 0;">
+                                        <div class="go-back-container">
                                             <div class="go-back-message">
                                                 <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToCategories()">
                                                     Tout les articles de cette catégorie.
@@ -404,6 +404,89 @@
                         @endif
 
 
+                    </div>
+                </div> --}}
+
+                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0 d-xl-none">
+                    <div class="row mobile-view">
+                        <!-- Go Back Message (outside the scrollable container) -->
+                        @if ($selected_categorie_id && !$selected_sous_categorie_id)
+                            <div class="go-back-container">
+                                <div class="go-back-message">
+                                    <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToCategories()">
+                                        Tout les articles de cette catégorie.
+                                    </a>
+                                </div>
+                            </div>
+                        @elseif ($selected_sous_categorie_id)
+                            <div class="go-back-container mb-2">
+                                <span href="javascript:void(0)" style="text-decoration: underline; color: #008080; cursor: pointer; margin-left: 10px;" onclick="goBackToSubcategories()">
+                                    <i class="bi bi-arrow-left-square-fill"></i> Retour à la liste des sous-catégories.
+                                </span>
+                            </div>
+                        @endif
+
+                        <!-- Scrollable container for categories and subcategories -->
+                        <div class="scrollable-container">
+                            <!-- Conditional rendering of scroll buttons based on whether a subcategory is selected -->
+                            @if (!$selected_sous_categorie_id)
+                                <button class="scroll-btn left" onclick="scrollToLeft()"><i class="bi bi-arrow-left-short"></i></button>
+                            @endif
+
+                            <div class="subcategory-card-wrapper scrollable-wrapper" id="category-cards">
+                                @if (!$selected_sous_categorie_id)
+                                    <!-- Show categories or subcategories cards if no subcategory is selected -->
+                                    @if (!$selected_categorie_id)
+                                        @foreach ($liste_categories as $categorie)
+                                            <div class="category-card p-1" id="list-categorie-{{ $categorie->id }}" onclick="select_categorie1({{ $categorie->id }})">
+                                                <button class="category-btn d-flex flex-column p-1">
+                                                    <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
+                                                    <span>{{ $categorie->titre }}</span>
+                                                    @if ($categorie->luxury == 1)
+                                                        <span class="luxury-icon color small">
+                                                            <b><i class="bi bi-gem"></i></b>
+                                                        </span>
+                                                    @endif
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <!-- Subcategory Cards -->
+                                        @php
+                                            $selected_categorie = $liste_categories->firstWhere('id', $selected_categorie_id);
+                                        @endphp
+                                        @foreach ($selected_categorie->getSousCategories as $sous_categorie)
+                                            <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                                <button class="subcategory-btn d-flex flex-column p-1">
+                                                    <span>{{ $sous_categorie->titre }}</span>
+                                                    @if ($selected_categorie->luxury == 1)
+                                                        <span class="luxury-icon color small">
+                                                            <b><i class="bi bi-gem"></i></b>
+                                                        </span>
+                                                    @endif
+                                                    <span>{{ $sous_categorie->getPost->where('statut', 'vente')->count() }}</span>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                @endif
+                            </div>
+
+                            @if (!$selected_sous_categorie_id)
+                                <button class="scroll-btn right" onclick="scrollToRight()"><i class="bi bi-arrow-right-short"></i></button>
+                            @endif
+                        </div>
+
+                        @if ($selected_sous_categorie_id)
+                            <div class="container-fluid">
+                                <div class="mobile-options">
+                                    <div class="container mb-2">
+                                        <div class="d-flex flex-wrap"></div>
+                                    </div>
+                                </div>
+                                <x-DynamicShopFilterMobile :idsouscategorie="$selected_sous_categorie_id"></x-DynamicShopFilterMobile>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

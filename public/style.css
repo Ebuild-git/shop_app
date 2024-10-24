@@ -2804,6 +2804,7 @@ input:checked + .slider:before {
 }
 
 .go-back-message {
+    width: 235px;
     font-size: 14px; /* Adjust font size for a smaller, compact message */
     padding: 5px 10px; /* Adjust padding to reduce the height of the go back section */
 }
