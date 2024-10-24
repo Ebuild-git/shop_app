@@ -352,7 +352,7 @@
                                         @endforeach
                                     @else
                                         <!-- Go Back Message -->
-                                        <div class="go-back-container">
+                                        <div class="go-back-container" style="position: sticky;top: 0;">
                                             <div class="go-back-message">
                                                 <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToCategories()">
                                                     Tout les articles de cette catégorie.
