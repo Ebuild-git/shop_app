@@ -2810,6 +2810,7 @@ input:checked + .slider:before {
 
 /* Wrapper for scrollable horizontal cards */
 .scrollable-container {
+    padding: 0 40px;
     position: relative;
     display: flex;
     align-items: center;
