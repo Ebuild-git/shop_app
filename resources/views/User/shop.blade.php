@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <!-- Sort by Button in the Middle -->
-                <div class="col d-flex justify-content-center">
+                <div class="col d-flex justify-content-end">
                     <div class="filter-option" id="trier-par-mobile" onclick="toggleDropdown('sorting-options-mobile')">
                         <i class="fas fa-sort"></i>
                         <span>Trier par</span>
