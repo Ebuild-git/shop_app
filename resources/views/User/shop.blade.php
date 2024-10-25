@@ -330,7 +330,7 @@
                         @if ($selected_categorie_id && !$selected_sous_categorie_id)
                             <div class="go-back-container">
                                 <div class="go-back-message">
-                                    <a href="javascript:void(0)" style="text-decoration: underline; color: #008080;" onclick="goBackToCategories()">
+                                    <a href="javascript:void(0)" style="text-decoration: underline; color: #008080; z-index:1;" onclick="goBackToCategories()">
                                         Tout les articles de cette catégorie
                                     </a>
                                 </div>
@@ -674,12 +674,6 @@
         }
 
 
-        function filtre_propriete_color1(type, code, nom) {
-            add_selected_option(type, nom);
-            filtre_propriete1(type, code);
-        }
-
-
 
         function select_region(checkbox) {
             var checkboxes = document.getElementsByName('region');
@@ -800,68 +794,7 @@
             fetchProducts();
         }
 
-        function filtre_propriete1(type, nom) {
-            type = type.replace(/^\s+|\s+$/gm, '');
-            var show = true;
 
-
-            //debut brouillons
-            if (type == 'Couleur' || type == 'couleur') {
-                Couleur = nom;
-                show = false;
-            }
-            if (type == 'Taille' || type == 'taille') {
-                if(Tailleenchiffre != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
-                Taille = nom;
-            }
-            if (type == 'Article pour' || type == 'article pour') {
-                ArticlePour = nom;
-            }
-            if (type == 'Langue' || type == 'langue') {
-                Langue = nom;
-            }
-            if (type == 'Pointure' || type == 'pointure') {
-                Pointure = nom;
-            }
-            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
-                PointureBebe = nom;
-            }
-            // Assuming 'type' and 'nom' are defined
-            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
-                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
-                 if(Taille != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
-                Tailleenchiffre = nom;
-            }
-            //fin brouillons
-            if (show) {
-                add_selected_option(type, nom);
-            }
-
-            let modifiedName = nom.replace(/\s/g, '');
-            var button = $("#btn-option-" + modifiedName);
-
-            if (button.hasClass("bg-red")) {
-                button.removeClass("bg-red");
-                proprietes = '';
-            } else {
-                $("button[id^='btn-option-']").removeClass("bg-red");
-                button.addClass("bg-red");
-                _proprietes = {
-                    type: type,
-                    valeur: nom
-                };
-                proprietes = proprietes
-            }
-
-
-            fetchProducts1();
-        }
 
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();

@@ -1739,7 +1739,7 @@ ul.nav-dropdown-xxx {
         border: 1px solid #ccc;
         position: absolute;
         width: 50%;
-        z-index: 1000;
+        z-index: 1500;
         right: 15px;
         margin-top: 5px;
         padding: 0;
@@ -2781,6 +2781,12 @@ input:checked + .slider:before {
         width: 30px; /* Smaller image size on mobile */
         height: 30px;
     }
+    .category-card,
+    .subcategory-card {
+        margin: 0; /* Adjust the margin to control space between cards */
+        padding: 0; /* Reduce padding to decrease internal spacing */
+        gap: 1px;
+    }
 }
 .icon-modern {
     width: 80px; /* Increase icon size */
@@ -2801,12 +2807,12 @@ input:checked + .slider:before {
 .go-back-container {
     width: 0; /* Set fixed width for all cards */
     height: 10px; /* Set fixed height for all cards */
-    z-index: 1000;
+    z-index: 1;
 }
 .go-back-container1 {
     width: 0; /* Set fixed width for all cards */
     height: 10px; /* Set fixed height for all cards */
-    z-index: 1000;
+    z-index: 1;
     width: 100%;
 }
 .go-back-message {
@@ -2818,7 +2824,7 @@ input:checked + .slider:before {
 
 /* Wrapper for scrollable horizontal cards */
 .scrollable-container {
-    padding: 0 40px;
+    padding: 0 33px;
     position: relative;
     display: flex;
     align-items: center;
@@ -2829,7 +2835,7 @@ input:checked + .slider:before {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    gap: 1rem;
+    gap: 0.2rem;
     padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth; /* Ensure smooth scrolling behavior */

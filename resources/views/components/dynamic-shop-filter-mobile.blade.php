@@ -37,7 +37,7 @@
                             <div class="color-grid">
                                 @foreach ($colors as $color)
                                     <button
-                                        onclick="filtre_propriete_color1('{{ $propriete->nom }}','{{ $color['code'] }}','{{ $color['nom'] }}')"
+                                        onclick="filtre_propriete_color('{{ $propriete->nom }}','{{ $color['code'] }}','{{ $color['nom'] }}')"
                                         class="color-button">
                                         <div class="color-shop-filtre"
                                             style="background-color: {{ $color['code'] }};"></div>
@@ -49,7 +49,7 @@
                             @if ($propriete->options)
                                 @foreach (json_decode($propriete->options ?? []) as $option)
                                     <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
-                                        onclick="filtre_propriete1('{{ $propriete->nom }}','{{ $option }}')">
+                                        onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
                                         {{ $option }}
                                     </button>
                                 @endforeach
