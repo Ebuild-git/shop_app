@@ -432,7 +432,7 @@
                     function scrollToLeft() {
                     const containers = document.querySelectorAll('.scrollable-wrapper');
                     containers.forEach(container => {
-                        if (isVisible(container)) {  // Assuming you have an `isVisible` function to check if the element is currently displayed
+                        if (isVisible(container)) {
                             if (container.scrollLeft > 0) {
                                 container.scrollBy({ left: -lastScrollAmount, behavior: 'smooth' });
                             } else {
@@ -446,7 +446,7 @@
                     const containers = document.querySelectorAll('.scrollable-wrapper');
                     containers.forEach(container => {
                         if (isVisible(container)) {
-                            lastScrollAmount = container.clientWidth * 0.8;  // Update last scroll amount
+                            lastScrollAmount = container.clientWidth * 0.8;
                             container.scrollBy({ left: lastScrollAmount, behavior: 'smooth' });
                         }
                     });
@@ -462,28 +462,28 @@
                     var selectedOptionsDesktop = document.querySelector(".desktop-options");
                     var selectedOptionsMobile = document.querySelector(".mobile-options");
 
-                    if (window.innerWidth <= 768) {  // Mobile screen (768px or less)
+                    if (window.innerWidth <= 768) {
                         if (selectedOptionsDesktop) {
-                            selectedOptionsDesktop.removeAttribute("id");  // Remove ID from desktop
+                            selectedOptionsDesktop.removeAttribute("id");
                         }
                         if (selectedOptionsMobile) {
-                            selectedOptionsMobile.setAttribute("id", "Selected_options");  // Add ID to mobile
+                            selectedOptionsMobile.setAttribute("id", "Selected_options");
                         }
-                    } else {  // Desktop screen (> 768px)
+                    } else {
                         if (selectedOptionsMobile) {
-                            selectedOptionsMobile.removeAttribute("id");  // Remove ID from mobile
+                            selectedOptionsMobile.removeAttribute("id");
                         }
                         if (selectedOptionsDesktop) {
-                            selectedOptionsDesktop.setAttribute("id", "Selected_options");  // Add ID to desktop
+                            selectedOptionsDesktop.setAttribute("id", "Selected_options");
                         }
                     }
                 }
 
-                // Run the function on page load and when resizing the window
                 window.onload = toggleIdForScreenSize;
                 window.onresize = toggleIdForScreenSize;
 
                 </script>
+
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
@@ -506,7 +506,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Hidden select element to retain original options and form behavior -->
                                         <select name="filtre-ordre" id="filtre-ordre" class="hidden-select" style="display: none;">
                                             <option value="">Trier par</option>
                                             <option value="prix_asc">Prix croissant</option>
@@ -523,8 +522,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- suggestion des attributs des propriétés --}}
 
                     <div class="text-center p-5" id="loading">
                         <img src="/icons/kOnzy.gif" alt="gif" height="50" width="50" srcset="">
