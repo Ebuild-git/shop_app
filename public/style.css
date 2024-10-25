@@ -2770,7 +2770,7 @@ input:checked + .slider:before {
 /* Mobile responsive adjustments for .middle section */
 @media (max-width: 767px) {
     section.middle {
-        padding: 20px 0; /* Reduced padding on mobile */
+        padding: 20px 0 50px !important; /* Reduced padding on mobile */
     }
 
     .category-card {
@@ -2830,6 +2830,7 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     width: 100%; /* Make sure the container takes the full width of the parent */
+    top: 9px;
 }
 
 .subcategory-card-wrapper {
