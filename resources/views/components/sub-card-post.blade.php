@@ -27,7 +27,7 @@
                 </a>
             </h4>
             <div class="d-flex justify-content-between">
-                <div>
+                <div class="categorie-title1">
                     {{ $post->sous_categorie_info->titre }}
                 </div>
                 @if ($post->proprietes)

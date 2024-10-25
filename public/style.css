@@ -2794,6 +2794,9 @@ input:checked + .slider:before {
         text-overflow: ellipsis; /* Show ellipsis (...) for overflowed text */
         max-width: 100%;     /* Set a max width, adjust as needed */
     }
+    .categorie-title1{
+        font-size: 12px;
+    }
 
 }
 .icon-modern {
