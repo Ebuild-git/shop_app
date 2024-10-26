@@ -1755,6 +1755,12 @@ ul.nav-dropdown-xxx {
     .dropdown-options-mobile .dropdown-option:hover {
         background-color: #f0f0f0;
     }
+    .custom-dropdown-item {
+        padding: 6px 13px;
+        cursor: pointer;
+        color: #333333;
+        transition: background-color 0.3s ease;
+    }
 }
 
 #condition-options-mobile {
