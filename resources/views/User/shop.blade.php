@@ -71,7 +71,7 @@
                                 <span>Filtrer par état</span>
                             </div>
                             <!-- Condition Options Dropdown -->
-                            <div class="custom-dropdown-container etat-drop" id="condition-options-category-mobile">
+                            <div class="custom-dropdown-container etat-dropdown" id="condition-options-category-mobile">
                                 <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">Neuf avec étiquettes</div>
                                 <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">Neuf sans étiquettes</div>
                                 <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">Très bon état</div>

@@ -2967,9 +2967,13 @@ input:checked + .slider:before {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
-    width: calc(100% - 20px); /* slightly smaller than the container for padding */
+    width: calc(97% - 70px); /* slightly smaller than the container for padding */
     display: none; /* Hidden by default */
     transition: all 0.3s ease;
+}
+.etat-dropdown{
+    width: calc(163% - 5px);
+    right: 15px;
 }
 
 .custom-dropdown-item {
