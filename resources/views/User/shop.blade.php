@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <!-- Filter by Condition Button and its Dropdown -->
-                    <div class="col d-flex justify-content-end">
+                    <div style="margin-right: 10px;">
                         <div class="condition-filter-container">
                             <div class="custom-filter-option" id="filter-condition-category-mobile">
                                 <i class="fas fa-tags"></i>

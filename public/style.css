@@ -1755,11 +1755,16 @@ ul.nav-dropdown-xxx {
     .dropdown-options-mobile .dropdown-option:hover {
         background-color: #f0f0f0;
     }
-    .custom-dropdown-item {
-        padding: 6px 13px;
+
+    .custom-filter-option {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #333;
         cursor: pointer;
-        color: #333333;
-        transition: background-color 0.3s ease;
+        white-space: nowrap;
+        position: relative; /* Ensure the dropdown is positioned relative to the button */
+
     }
 }
 
@@ -2951,7 +2956,6 @@ input:checked + .slider:before {
     position: relative;
     width: 100%;
     z-index: 1500;
-    left: 60px;
 }
 .etat-drop{
     right: 60px;
@@ -2980,14 +2984,13 @@ input:checked + .slider:before {
 }
 
 .custom-filter-option {
-    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 1px;
-    font-weight: 500;
-    color: #333333;
-    user-select: none; /* Prevent text selection */
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
     white-space: nowrap;
+    position: relative; /* Ensure the dropdown is positioned relative to the button */
 
 }
 
