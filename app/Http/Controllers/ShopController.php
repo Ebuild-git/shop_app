@@ -65,18 +65,40 @@ class ShopController extends Controller
             $query->where('id_region', $region);
         }
 
+        // if ($ordre_prix) {
+        //     if ($ordre_prix == "Desc") {
+        //         $query->orderBy('prix', 'Desc');
+        //     } elseif ($ordre_prix == "Asc") {
+        //         $query->orderBy('prix', 'Asc');
+        //     } elseif ($ordre_prix == "Soldé") {
+        //         $query->whereHas('changements_prix', function ($q) {
+        //             $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
+        //         });
+        //     }
+        // } else {
+        //     $query->orderBy('id', 'Desc');
+        // }
         if ($ordre_prix) {
-            if ($ordre_prix == "Desc") {
-                $query->orderBy('prix', 'Desc');
-            } elseif ($ordre_prix == "Asc") {
-                $query->orderBy('prix', 'Asc');
-            } elseif ($ordre_prix == "Soldé") {
-                $query->whereHas('changements_prix', function ($q) {
-                    $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
-                });
+            switch ($ordre_prix) {
+                case 'Desc':
+                    $query->orderBy('prix', 'DESC');
+                    break;
+                case 'Asc':
+                    $query->orderBy('prix', 'ASC');
+                    break;
+                case 'Soldé':
+                    $query->whereHas('changements_prix', function ($q) {
+                        $q->whereNotNull('id'); // Ensuring at least one price change
+                    });
+                    break;
+                case 'Luxury':
+                    $query->whereHas('sous_categorie_info.categorie', function ($q) {
+                        $q->where('luxury', true); // Filter for luxury items
+                    });
+                    break;
             }
         } else {
-            $query->orderBy('id', 'Desc');
+            $query->orderBy('id', 'DESC'); // Default order if no specific filter is selected
         }
 
 

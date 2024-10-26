@@ -43,65 +43,48 @@
     </div>
     <!-- ======================= Top Breadcrubms ======================== -->
 
-
-    <div class="sorting-filter-wrapper mobile-visible">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Filter by Condition Button on the Left -->
-                <div class="col d-flex">
-                    <div class="filter-option" id="filter-condition-mobile" onclick="toggleDropdown('condition-options-mobile')">
-                        <i class="fas fa-filter"></i>
-                        <span>Filtrer par état</span>
+    <!-- ======================= New Filter Container for Category Level ======================== -->
+        <div class="category-filter-wrapper mobile-visible">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col d-flex">
+                        <div class="price-filter-container">
+                            <div class="custom-filter-option" id="filter-price-mobile">
+                                <i class="fas fa-sort"></i>
+                                <span>Trier par</span>
+                            </div>
+                            <div class="custom-dropdown-container" id="price-options-mobile">
+                                <div class="custom-dropdown-item" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">Prix croissant</div>
+                                <div class="custom-dropdown-item" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">Prix décroissant</div>
+                                <div class="custom-dropdown-item" data-value="soldé" onclick="updatePriceFilter('soldé')">Articles Soldés</div>
+                                @if (!$selected_categorie)
+                                <div class="custom-dropdown-item" data-value="luxury" onclick="updatePriceFilter('luxury')">Luxury uniquement</div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Filter by Condition Button and its Dropdown -->
+                    <div class="col d-flex justify-content-end">
+                        <div class="condition-filter-container">
+                            <div class="custom-filter-option" id="filter-condition-category-mobile">
+                                <i class="fas fa-tags"></i>
+                                <span>Filtrer par état</span>
+                            </div>
+                            <!-- Condition Options Dropdown -->
+                            <div class="custom-dropdown-container etat-drop" id="condition-options-category-mobile">
+                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">Neuf avec étiquettes</div>
+                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">Neuf sans étiquettes</div>
+                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">Très bon état</div>
+                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">Bon état</div>
+                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">Usé</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Sort by Button in the Middle -->
-                <div class="col d-flex justify-content-end">
-                    <div class="filter-option" id="trier-par-mobile" onclick="toggleDropdown('sorting-options-mobile')">
-                        <i class="fas fa-sort"></i>
-                        <span>Trier par</span>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Sorting Options Dropdown -->
-        <div class="dropdown-options-mobile" id="sorting-options-mobile" style="display: none;">
-            <div class="dropdown-option" data-value="">Trier par</div>
-            <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
-            <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
-            <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
-            @if (!$selected_categorie)
-            <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
-            @endif
-        </div>
-
-        <!-- Condition Filter Dropdown -->
-        <div class="dropdown-options-mobile" id="condition-options-mobile" style="display: none;">
-            <div class="dropdown-option">
-                <input type="radio" name="etat" value="Neuf avec étiquettes" id="etat-neuf-avec-etiquettes" onclick="choix_etat(this)">
-                <label for="etat-neuf-avec-etiquettes">Neuf avec étiquettes</label>
-            </div>
-            <div class="dropdown-option">
-                <input type="radio" name="etat" value="Neuf sans étiquettes" id="etat-neuf-sans-etiquettes" onclick="choix_etat(this)">
-                <label for="etat-neuf-sans-etiquettes">Neuf sans étiquettes</label>
-            </div>
-            <div class="dropdown-option">
-                <input type="radio" name="etat" value="Très bon état" id="etat-tres-bon" onclick="choix_etat(this)">
-                <label for="etat-tres-bon">Très bon état</label>
-            </div>
-            <div class="dropdown-option">
-                <input type="radio" name="etat" value="Bon état" id="etat-bon" onclick="choix_etat(this)">
-                <label for="etat-bon">Bon état</label>
-            </div>
-            <div class="dropdown-option">
-                <input type="radio" name="etat" value="Usé" id="etat-use" onclick="choix_etat(this)">
-                <label for="etat-use">Usé</label>
-            </div>
-            @error('etat')
-            <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
-        </div>
-    </div>
+<!-- ======================= New Filter Container for Category Level ======================== -->
     <section class="middle" id="ancre">
         <div class="container">
             @if ($key)
@@ -414,6 +397,7 @@
                         </div>
 
                         @if ($selected_sous_categorie_id)
+
                             <div class="container-fluid">
                                 <div class="mobile-options">
                                     <div class="container mb-2">
@@ -422,6 +406,7 @@
                                 </div>
                                 <x-DynamicShopFilterMobile :idsouscategorie="$selected_sous_categorie_id"></x-DynamicShopFilterMobile>
                             </div>
+
                         @endif
                     </div>
                 </div>
@@ -707,7 +692,23 @@
             add_selected_option("etat", etat);
             fetchProducts();
         }
+        function choix_etat1(checkbox) {
+            var checkboxes = document.getElementsByName('etat');
+            checkboxes.forEach(function(cb) {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+            _etat = checkbox.value;
+            if (_etat == etat) {
+                etat = "";
+            } else {
+                etat = _etat;
+            }
 
+            add_selected_option("etat", etat);
+            fetchProducts();
+        }
 
 
 
@@ -906,9 +907,32 @@
 
 
 
+            function updatePriceFilter(priceOrder) {
+                // Convert frontend values to backend-expected values
+                let backendPriceOrder;
+                if (priceOrder === 'low_to_high') {
+                    backendPriceOrder = 'Asc';
+                } else if (priceOrder === 'high_to_low') {
+                    backendPriceOrder = 'Desc';
+                }else if (priceOrder === 'soldé') {
+                    backendPriceOrder = 'Soldé'; // Ensure this matches any identifier used in the backend
+                }else if (priceOrder === 'luxury') {
+                    backendPriceOrder = 'Luxury'; // This is a special case for filtering luxury items
+                }
+                // Set the price order in a global variable or directly call fetchProducts1
+                window.currentPriceOrder = backendPriceOrder; // Store the backend-appropriate order
+                fetchProducts1(); // Refresh the product list based on the new filter
+            }
 
+            function updateConditionFilter(condition) {
+                window.currentCondition = condition; // Store the current condition globally or manage state as needed
+                fetchProducts1(); // Refresh the product list based on the new filter
+            }
 
         function fetchProducts1(page = 1) {
+            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val(); // Get the price order from global variable or an input/select element
+            var etat = window.currentCondition; // Get the current condition
+
             $("#loading").show("show");
             //ancre();
             $.post(
@@ -1270,7 +1294,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle dropdown function
+        function toggleDropdown(dropdownId, triggerId) {
+            var dropdown = document.getElementById(dropdownId);
+            var trigger = document.getElementById(triggerId);
+            var isDisplayed = window.getComputedStyle(dropdown).display !== 'none';
+            dropdown.style.display = isDisplayed ? 'none' : 'block';
+            trigger.classList.toggle('active'); // Toggle the active class for icon rotation
+        }
 
+        // Assign event listeners to the filter options
+        document.getElementById('filter-price-mobile').addEventListener('click', function() {
+            toggleDropdown('price-options-mobile', 'filter-price-mobile');
+        });
+
+        document.getElementById('filter-condition-category-mobile').addEventListener('click', function() {
+            toggleDropdown('condition-options-category-mobile', 'filter-condition-category-mobile');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.matches('.custom-filter-option, .custom-filter-option *')) {
+                document.querySelectorAll('.custom-dropdown-container').forEach(function(dropdown) {
+                    dropdown.style.display = 'none';
+                    document.querySelectorAll('.custom-filter-option').forEach(function(trigger) {
+                        trigger.classList.remove('active');
+                    });
+                });
+            }
+        });
+    });
+</script>
 @endsection

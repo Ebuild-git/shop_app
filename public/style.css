@@ -1717,7 +1717,9 @@ ul.nav-dropdown-xxx {
     .sorting-filter-wrapper .container {
         padding: 0 15px;
     }
-
+    .category-filter-wrapper .container {
+        padding: 0 15px;
+    }
     .filter-option {
         display: flex;
         align-items: center;
@@ -2933,3 +2935,60 @@ input:checked + .slider:before {
     font-size: 12px;
 }
 
+
+.price-filter-container{
+    position: relative;
+    width: 100%;
+    z-index: 1500;
+}
+.condition-filter-container {
+    position: relative;
+    width: 100%;
+    z-index: 1500;
+    left: 60px;
+}
+.etat-drop{
+    right: 60px;
+}
+.custom-dropdown-container {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: calc(100% - 20px); /* slightly smaller than the container for padding */
+    display: none; /* Hidden by default */
+    transition: all 0.3s ease;
+}
+
+.custom-dropdown-item {
+    padding: 6px 13px;
+    cursor: pointer;
+    color: #333333;
+    transition: background-color 0.3s ease;
+}
+
+.custom-dropdown-item:hover {
+    background-color: #f8f8f8;
+}
+
+.custom-filter-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    font-weight: 500;
+    color: #333333;
+    user-select: none; /* Prevent text selection */
+    white-space: nowrap;
+
+}
+
+.custom-filter-option i {
+    transition: transform 0.3s ease;
+}
+
+.custom-filter-option.active i {
+    transform: rotate(180deg);
+}
