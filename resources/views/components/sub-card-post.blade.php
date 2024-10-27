@@ -31,7 +31,7 @@
                     {{ $post->sous_categorie_info->titre }}
                 </div>
                 @if ($post->proprietes)
-                    <div class="strong">
+                    <div class="strong1">
                         @foreach ($post->proprietes as $key => $value)
                             @if (\Illuminate\Support\Str::startsWith(strtolower($key), 'taille'))
                                 {{ $value }}

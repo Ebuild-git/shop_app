@@ -959,7 +959,9 @@ body {
 .strong {
     font-weight: bold;
 }
-
+.strong1 {
+    font-weight: bold;
+}
 .border-r{
     border-radius: 5px !important;
 }
@@ -2814,7 +2816,7 @@ input:checked + .slider:before {
         overflow: hidden;          /* Hides the overflow text */
         text-overflow: ellipsis;   /* Adds the ellipsis (...) */
     }
-    .strong {
+    .strong1 {
         font-weight: 700;
         font-size: 9px;
     }
