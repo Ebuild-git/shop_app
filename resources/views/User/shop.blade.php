@@ -755,13 +755,11 @@
                 Pointure = nom;
             }
 
-            if (type == 'Pointure bébé' || type == 'pointure bébé' || type == 'pointure Bébé' || type == 'Pointure Bébé')  {
+            if (type.toLowerCase() === 'pointure bébé') {
                 PointureBebe = nom;
             }
-            if (type === 'Chaussures bébé' || type === 'chaussures bébé') {
-                // Define any specific variable or action related to this property
-                ChaussuresBebe = nom; // Example of assigning the selected option to a variable
-            }
+
+
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
