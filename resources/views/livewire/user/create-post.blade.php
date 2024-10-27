@@ -644,7 +644,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Function to handle disabling other inputs when one is filled
             function handleInputChange() {
-                const tailleInputs = document.querySelectorAll('.option-taille, .option-tailleenchiffre, .option-taillebébé, .option-tailleenfants');
+                const tailleInputs = document.querySelectorAll('.option-taille, .option-tailleenchiffre, .option-taillebébé, .option-tailleenfant');
 
                 // Add event listeners to each taille input
                 tailleInputs.forEach(input => {
