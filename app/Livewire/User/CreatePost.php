@@ -182,37 +182,43 @@ class CreatePost extends Component
                 'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
                 'selectedCategory' => 'required|integer|exists:categories,id'
             ], [
-                'required' => "Ce champ est obligatoire"
+                'required' => "Veuillez remplir tous les champs obligatoires"
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            $errors = $e->validator->getMessageBag();
-            foreach ($errors->keys() as $field) {
-                foreach ($errors->get($field) as $message) {
-                    $this->addError($field, $message);
+            // $errors = $e->validator->getMessageBag();
+            // foreach ($errors->keys() as $field) {
+            //     foreach ($errors->get($field) as $message) {
+            //         $this->addError($field, $message);
+            //     }
+            // }
+            // return false;
+             // Get the error messages as a string
+            $errors = $e->validator->getMessageBag()->toArray();
+            $errorMessages = [];
+
+            foreach ($errors as $field => $messages) {
+                foreach ($messages as $message) {
+                    $errorMessages[] = $message;
                 }
             }
-            return false;
+
+            // Convert the messages into a single string or format it
+            $errorMessage = implode("\n", $errorMessages);
+
+            // Dispatch a browser event to show SweetAlert
+            $this->dispatch('swal:alert', [
+                'type' => 'error',
+                'title' => 'Erreur de validation',
+                'text' => $errorMessage
+            ]);
+
+            return false; // Prevent further execution if validation fails
         }
 
         // Custom logic to check for luxury and non-luxury categories
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         $category = $sous_categorie->categorie;
 
-        // if ($category->luxury == 1) {
-        //     if ($this->prix < 800) {
-        //         $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
-        //         return false;
-        //     }
-        // } else {
-        //     $luxuryCategory = categories::where('titre', $category->titre)
-        //         ->where('luxury', 1)
-        //         ->first();
-
-        //     if ($luxuryCategory && $this->prix >= 800) {
-        //         $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
-        //         return false;
-        //     }
-        // }
         if ($category) {
             if ($category->luxury == 1 && $this->prix < 800) {
                 $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');

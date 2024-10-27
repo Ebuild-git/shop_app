@@ -871,3 +871,13 @@
 
     });
 </script>
+<script>
+    window.addEventListener('swal:alert', function(event) {
+        Swal.fire({
+            icon: event.detail.type,
+            title: event.detail.title,
+            text: event.detail.text,
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
