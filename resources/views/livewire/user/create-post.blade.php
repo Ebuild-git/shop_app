@@ -815,3 +815,18 @@
 
 
 </form>
+<script>
+    document.addEventListener('livewire:init', function () {
+        Livewire.on('remplir-alert', function () {
+            Swal.fire({
+                title: "<span style='font-size: 20px;'>Veuillez remplir tous les champs obligatoires avant de publier !</span>",
+                showCloseButton: true,
+                showConfirmButton: false,
+                iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
+
+            });
+        });
+
+
+    });
+</script>

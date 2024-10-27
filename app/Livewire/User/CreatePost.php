@@ -290,11 +290,7 @@ class CreatePost extends Component
                     'type' => 'warning',
                 ]);
             } else {
-                $this->dispatch('alert2', [
-                    'message' => "Veuillez remplir tous les champs obligatoires avant de publier !",
-                    'type' => 'warning',
-                    'time' => 5000
-                ]);
+                $this->dispatch('remplir-alert');
             }
             return;
         }
