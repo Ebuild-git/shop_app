@@ -228,7 +228,7 @@
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
                         <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
-                            <i class="bi bi-arrow-counterclockwise"></i> Revenir à l'adresse par défaut
+                            <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
                         </button>
                     </div>
 
