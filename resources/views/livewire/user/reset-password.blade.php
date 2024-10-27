@@ -4,21 +4,21 @@
         <div class="alert alert-info">
             <img width="64" height="64" src="https://img.icons8.com/sf-black/64/008080/checked.png" alt="checked" />
             <h5>
-                <b>Le Lien De Reinitialisation a Eté Envoyer !</b>
+                <b>Le Lien De Reinitialisation a été envoyé !</b>
             </h5>
             <p class="text-muted">
                 Un email contenant le lien pour mettre à jour votre mot de passe a été envoyer.
-                Veuillez vérifié votre boîte de réception.
+                Veuillez vérifier votre boîte de réception.
             </p>
             <br>
             <a href="{{ route('connexion') }}" class="btn btn-dark btn-block">
-                Retour a la page de connexion
+                Retour à la page de connexion
             </a>
         </div>
     @else
         <!-- Champ pour entrer l'email -->
         <form wire:submit="reset_password">
-            
+
             @include('components.alert-livewire')
 
 
@@ -26,7 +26,7 @@
                 Veuillez entrer votre adresse mail lier à votre compte pour réinitialiser votre mot de passe
             </p>
 
-         
+
 
             <div class="form-group">
                 <label for="email">Email</label>

@@ -48,7 +48,7 @@
                         Merci pour votre commande
                     </h2>
                     <p>
-                        Vous allez recevoir un email de confirmation conprenent un recapitulatif de votre commande.
+                        Vous allez reçevoir un email de confirmation comprenant un recapitulatif de votre commande.
                     </p>
                     <a href="/" class="btn btn-outline-dark">
                         <i class="bi bi-house-door-fill"></i>

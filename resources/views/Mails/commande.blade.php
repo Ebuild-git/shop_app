@@ -120,10 +120,10 @@
         <div class="content">
             <h2>Merci pour votre achat, {{ $user->username }} !</h2>
             <p>Nous sommes ravis de vous informer que votre commande a été prise en charge avec succès.</p>
-            <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte.</p>
+            <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte.(<a href="/mes-achats" style="font-weight: 500;">Mes achats</a>)</p>
 
             <div class="order-summary">
-                <h3>Récapitulatif de commande</h3>
+                <h3>Récapitulatif de votre commande</h3>
                 <table>
                     @php
                         $total = 0;
@@ -151,7 +151,13 @@
 
             <div class="delivery-info">
                 <p><strong>Mode de paiement :</strong> Paiement à la livraison</p>
-                <p><strong>Adresse de livraison :</strong> {{ $user->address }}</p>
+                <p><strong>Adresse de livraison :</strong>
+                    {{ $user->rue ? $user->rue . ', ' : '' }}
+                    {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                    {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
+                    {{ $user->num_appartement ? 'Appartement ' . $user->num_appartement . ', ' : '' }}
+                    {{ $user->address }}
+                </p>
                 <p><strong>Région :</strong> {{ $user->region_info->nom ?? '-' }}</p>
                 <p><strong>Numéro de téléphone :</strong> {{ $user->phone_number ?? "-"}}</p>
             </div>
