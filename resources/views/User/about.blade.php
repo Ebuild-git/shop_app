@@ -37,13 +37,7 @@
             commerce responsable. Notre mission est de créer une communauté inclusive où chacun peut trouver des trésors
             uniques tout en contribuant à réduire l'empreinte écologique de la mode et de la consommation.
         </p>
-        <p class="ft-regular fs-md mb-2">
-            De plus, nous collaborons avec des boutiques proposant des articles neufs et non utilisés. Ces partenaires
-            utilisent
-            notre plateforme pour présenter et vendre leurs produits, offrant ainsi une expérience de shopping diversifiée
-            et
-            éthique pour tous.
-        </p>
+
         <p class="ft-regular fs-md mb-2">
             Devenez SHOP<span class="color">IN</span>ER pour vendre vos articles ou pour découvrir votre prochaine trouvaille préférée!
         </p>

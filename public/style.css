@@ -2807,7 +2807,14 @@ input:checked + .slider:before {
         text-overflow: ellipsis; /* Show ellipsis (...) for overflowed text */
         max-width: 100%;     /* Set a max width, adjust as needed */
     }
-    .categorie-title1{
+    .categorie-title1 {
+        font-size: 12px;           /* Existing font size */
+        white-space: nowrap;       /* Prevents wrapping to the next line */
+        overflow: hidden;          /* Hides the overflow text */
+        text-overflow: ellipsis;   /* Adds the ellipsis (...) */
+    }
+    .strong {
+        font-weight: 600;
         font-size: 12px;
     }
 
