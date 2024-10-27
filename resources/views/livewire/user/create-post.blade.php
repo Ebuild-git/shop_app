@@ -642,52 +642,45 @@
     </script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Fonction pour gérer les changements des inputs
+            // Function to handle disabling other inputs when one is filled
             function handleInputChange() {
-                const inputTaille = document.querySelector('.option-taille'); // e.g., taille
-                const inputTailleBebe = document.querySelector('.option-taille-bebe'); // e.g., taille bébé
-                const inputTailleEnfant = document.querySelector('.option-taille-enfant'); // e.g., taille enfants
-                const inputTailleEnChiffre = document.querySelector('.option-tailleenchiffre'); // e.g., taille en chiffre
+                const tailleInputs = document.querySelectorAll('.option-taille, .option-tailleenchiffre, .option-taillebébé, .option-tailleenfants');
 
-                const inputs = [inputTaille, inputTailleBebe, inputTailleEnfant, inputTailleEnChiffre];
-
-                // Function to check inputs and disable others
-                function checkInputs() {
-                    const filledInput = inputs.find(input => input && input.value.trim() !== '');
-                    inputs.forEach(input => {
-                        if (input) {
-                            input.disabled = filledInput && input !== filledInput;
-                        }
+                // Add event listeners to each taille input
+                tailleInputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        // If an input has a value, disable other inputs in the group
+                        tailleInputs.forEach(otherInput => {
+                            if (otherInput !== input) {
+                                otherInput.disabled = this.value.trim() !== '';
+                            }
+                        });
                     });
-                }
-
-                inputs.forEach(input => {
-                    if (input) {
-                        input.addEventListener('input', checkInputs);
-                    }
                 });
             }
 
-            // Fonction pour observer les changements dans le DOM
+            // Function to observe DOM changes and apply listeners if needed
             function observeDOM() {
                 const observer = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.type === 'childList') {
-                            handleInputChange();
+                            handleInputChange(); // Reapply listeners when DOM changes
                         }
                     });
                 });
 
-                // Observer le body pour les ajouts d'éléments
+                // Start observing the body for added elements
                 observer.observe(document.body, {
                     childList: true,
                     subtree: true
                 });
             }
 
-            observeDOM(); // Démarrer l'observation
+            observeDOM(); // Start observing the DOM for changes
+            handleInputChange(); // Initialize listeners on page load
         });
     </script>
+
 
 
     <!-- Modal pour voir la liste des motifs d'un post réfuser -->
