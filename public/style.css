@@ -3013,3 +3013,21 @@ input:checked + .slider:before {
 .custom-filter-option.active i {
     transform: rotate(180deg);
 }
+
+
+/* Breathing pulse animation with glow */
+@keyframes softPulse {
+    0%, 100% {
+        box-shadow: 0 0 0px rgb(0, 128, 128);
+        opacity: 2;
+    }
+    50% {
+        box-shadow: 0 0 8px rgb(0, 128, 128);
+        opacity: 0.8;
+    }
+}
+
+/* Apply the soft pulse effect */
+#acceptCond.soft-pulse-effect {
+    animation: softPulse 2s infinite;
+}

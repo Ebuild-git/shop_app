@@ -95,34 +95,24 @@
                 });
             });
         </script>
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const validateCartButton = document.getElementById('validateCartButton');
-            const agreeConditionButton = document.getElementById('agreeConditionButton');
 
-            // Check localStorage for conditionsAccepted
-            if (localStorage.getItem('conditionsAccepted') === 'true') {
-                validateCartButton.disabled = false;
-            } else {
-                validateCartButton.disabled = true;
-            }
-
-            // Handle condition agreement
-            agreeConditionButton.addEventListener('click', function () {
-                localStorage.setItem('conditionsAccepted', 'true');
-                validateCartButton.disabled = false;
-                $('#conditions').modal('hide'); // Close the modal
-                window.location.href = '/checkout?step=3'; // Redirect to the specified path
-            });
-        });
-    </script> --}}
         <script>
-            function enableButtonOnCheck() {
+            document.addEventListener("DOMContentLoaded", function() {
                 const checkbox = document.getElementById('acceptCond');
                 const validateButton = document.getElementById('validateCartButton');
-                validateButton.disabled = !checkbox.checked;
-            }
+
+                checkbox.classList.add("soft-pulse-effect");
+
+                checkbox.addEventListener("click", function() {
+                    validateButton.disabled = !checkbox.checked;
+                    if (checkbox.checked) {
+                        checkbox.classList.remove("soft-pulse-effect");
+                    }
+                });
+            });
         </script>
+
+
     @endsection
 
 </div>
