@@ -728,71 +728,129 @@
             // Clear the selected subcategory
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
+        // function filtre_propriete(type, nom) {
+        //     type = type.replace(/^\s+|\s+$/gm, '');
+        //     var show = true;
+
+
+        //     //debut brouillons
+        //     if (type == 'Couleur' || type == 'couleur') {
+        //         Couleur = nom;
+        //         show = false;
+        //     }
+        //     if (type == 'Taille' || type == 'taille') {
+        //         if(Tailleenchiffre != ""){
+        //             sweet("Opération impossible");
+        //             return;
+        //          }
+        //         Taille = nom;
+        //     }
+        //     if (type == 'Article pour' || type == 'article pour') {
+        //         ArticlePour = nom;
+        //     }
+        //     if (type == 'Langue' || type == 'langue') {
+        //         Langue = nom;
+        //     }
+        //     if (type == 'Pointure' || type == 'pointure') {
+        //         Pointure = nom;
+        //     }
+
+        //     if (type.toLowerCase() === 'pointure bébé') {
+        //         PointureBebe = nom;
+        //     }
+
+
+        //     // Assuming 'type' and 'nom' are defined
+        //     if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
+        //          //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
+        //          if(Taille != ""){
+        //             sweet("Opération impossible");
+        //             return;
+        //          }
+        //         Tailleenchiffre = nom;
+        //     }
+        //     //fin brouillons
+        //     if (show) {
+        //         add_selected_option(type, nom);
+        //     }
+
+        //     let modifiedName = nom.replace(/\s/g, '');
+        //     var button = $("#btn-option-" + modifiedName);
+
+        //     if (button.hasClass("bg-red")) {
+        //         button.removeClass("bg-red");
+        //         proprietes = '';
+        //     } else {
+        //         $("button[id^='btn-option-']").removeClass("bg-red");
+        //         button.addClass("bg-red");
+        //         _proprietes = {
+        //             type: type,
+        //             valeur: nom
+        //         };
+        //         proprietes = proprietes
+        //     }
+
+
+        //     fetchProducts();
+        // }
         function filtre_propriete(type, nom) {
-            type = type.replace(/^\s+|\s+$/gm, '');
-            var show = true;
+        type = type.trim().replace(/\s+/g, ' ').toLowerCase(); // Normalize whitespace and casing
+        console.log("Normalized Type: ", type); // Debug output
 
-
-            //debut brouillons
-            if (type == 'Couleur' || type == 'couleur') {
+        var show = true;
+        switch (type) {
+            case 'couleur':
                 Couleur = nom;
                 show = false;
-            }
-            if (type == 'Taille' || type == 'taille') {
-                if(Tailleenchiffre != ""){
+                break;
+            case 'taille':
+            case 'taille en chiffre':
+                if (Taille != "" && type == 'taille en chiffre') {
                     sweet("Opération impossible");
                     return;
-                 }
+                }
                 Taille = nom;
-            }
-            if (type == 'Article pour' || type == 'article pour') {
+                break;
+            case 'article pour':
                 ArticlePour = nom;
-            }
-            if (type == 'Langue' || type == 'langue') {
+                break;
+            case 'langue':
                 Langue = nom;
-            }
-            if (type == 'Pointure' || type == 'pointure') {
-                Pointure = nom;
-            }
-
-            if (type.toLowerCase() === 'pointure bébé') {
-                PointureBebe = nom;
-            }
-
-
-            // Assuming 'type' and 'nom' are defined
-            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
-                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
-                 if(Taille != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
-                Tailleenchiffre = nom;
-            }
-            //fin brouillons
-            if (show) {
-                add_selected_option(type, nom);
-            }
-
-            let modifiedName = nom.replace(/\s/g, '');
-            var button = $("#btn-option-" + modifiedName);
-
-            if (button.hasClass("bg-red")) {
-                button.removeClass("bg-red");
-                proprietes = '';
-            } else {
-                $("button[id^='btn-option-']").removeClass("bg-red");
-                button.addClass("bg-red");
-                _proprietes = {
-                    type: type,
-                    valeur: nom
-                };
-                proprietes = proprietes
-            }
-
-
-            fetchProducts();
+                break;
+            case 'pointure':
+            case 'pointure bébé':
+                if (type === 'pointure bébé') {
+                    PointureBebe = nom;
+                } else {
+                    Pointure = nom;
+                }
+                break;
+            default:
+                break;
         }
+
+        if (show) {
+            add_selected_option(type, nom);
+        }
+
+        let modifiedName = nom.replace(/\s/g, '');
+        var button = $("#btn-option-" + modifiedName);
+
+        if (button.hasClass("bg-red")) {
+            button.removeClass("bg-red");
+            proprietes = '';
+        } else {
+            $("button[id^='btn-option-']").removeClass("bg-red");
+            button.addClass("bg-red");
+            _proprietes = {
+                type: type,
+                valeur: nom
+            };
+            proprietes = proprietes
+        }
+
+        fetchProducts();
+    }
 
 
 
