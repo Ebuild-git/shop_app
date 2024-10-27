@@ -546,7 +546,6 @@
         var Langue = "";
         var Tailleenchiffre = "";
         var PointureBebe = "";
-        var ChaussuresBebe ="";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -756,7 +755,7 @@
                 Pointure = nom;
             }
 
-            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
+            if (type == 'Pointure bébé' || type == 'pointure bébé' || type == 'pointure Bébé' || type == 'Pointure Bébé')  {
                 PointureBebe = nom;
             }
             if (type === 'Chaussures bébé' || type === 'chaussures bébé') {
