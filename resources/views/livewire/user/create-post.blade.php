@@ -593,7 +593,7 @@
 
         });
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Fonction pour gérer les changements des inputs
             function handleInputChange() {
@@ -638,6 +638,54 @@
 
             observeDOM(); // Démarrer l'observation
 
+        });
+    </script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction pour gérer les changements des inputs
+            function handleInputChange() {
+                const inputTaille = document.querySelector('.option-taille'); // e.g., taille
+                const inputTailleBebe = document.querySelector('.option-taille-bebe'); // e.g., taille bébé
+                const inputTailleEnfant = document.querySelector('.option-taille-enfant'); // e.g., taille enfants
+                const inputTailleEnChiffre = document.querySelector('.option-tailleenchiffre'); // e.g., taille en chiffre
+
+                const inputs = [inputTaille, inputTailleBebe, inputTailleEnfant, inputTailleEnChiffre];
+
+                // Function to check inputs and disable others
+                function checkInputs() {
+                    const filledInput = inputs.find(input => input && input.value.trim() !== '');
+                    inputs.forEach(input => {
+                        if (input) {
+                            input.disabled = filledInput && input !== filledInput;
+                        }
+                    });
+                }
+
+                inputs.forEach(input => {
+                    if (input) {
+                        input.addEventListener('input', checkInputs);
+                    }
+                });
+            }
+
+            // Fonction pour observer les changements dans le DOM
+            function observeDOM() {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList') {
+                            handleInputChange();
+                        }
+                    });
+                });
+
+                // Observer le body pour les ajouts d'éléments
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+
+            observeDOM(); // Démarrer l'observation
         });
     </script>
 
