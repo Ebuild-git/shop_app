@@ -2815,8 +2815,8 @@ input:checked + .slider:before {
         text-overflow: ellipsis;   /* Adds the ellipsis (...) */
     }
     .strong {
-        font-weight: 600;
-        font-size: 12px;
+        font-weight: 700;
+        font-size: 9px;
     }
 
 }
