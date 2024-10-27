@@ -119,10 +119,12 @@
                             </div>
                             @endif
                         </div>
-                        <div class="badge badge-like-post-count position-absolute ab-right text-upper">
-                            <i class="far fa-heart"></i>
-                            {{ $post->getLike->count() }}
-                        </div>
+
+                        <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cursor"
+                        id="post-{{ $post->id }}" data-post-id="{{ $post->id }}" onclick="btn_like_post({{ $post->id }})">
+                            <i class="bi bi-suit-heart-fill"></i>
+                            <span class="count">{{ $post->getLike->count() }}</span>
+                        </button>
 
                         <div class="card-body p-0">
                             <div class="shop_thumb position-relative">

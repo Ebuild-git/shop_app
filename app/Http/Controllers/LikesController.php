@@ -41,14 +41,14 @@ class LikesController extends Controller
 
         //verification de l'existance du post
         $post = posts::find($id_post);
-        if (!$post) {
-            return response()->json(
-                [
-                    "status" => false,
-                    "message" => "Annonce rétiré !"
-                ]
-            );
-        }
+        // if (!$post) {
+        //     return response()->json(
+        //         [
+        //             "status" => false,
+        //             "message" => "Annonce rétiré !"
+        //         ]
+        //     );
+        // }
 
         //verifier que celui qui like nest pas le proprietaie du post
         if ($post->id_user == $user->id) {
