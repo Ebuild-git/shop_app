@@ -1514,7 +1514,7 @@ tbody td {
 
 .text-uppercase-mobile li a {
     display: block;
-    padding: 15px 20px;
+    padding: 15px 0px;
     text-decoration: none;
     color: #333;
     font-weight: bold;
@@ -1663,7 +1663,7 @@ ul.nav-dropdown-xxx {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    margin-left: 15px;
+    margin-left: -9px;
 }
 
 
