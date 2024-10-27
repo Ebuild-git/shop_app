@@ -89,7 +89,10 @@
             <i class="bi bi-plus-circle"></i> &nbsp;
             Enregistrer les modifications
         </button>
+        <a href="{{route('gestion_categorie')}}" class="btn btn-secondary">
+            Annuler
+        </a>
     </div>
 
-   
+
 </form>

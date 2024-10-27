@@ -15,7 +15,7 @@
                 <div class="col-sm-12 card">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <h5 class="card-header">Formulaire de modification.</h5>
+                            <h5 class="card-header">Modifier la catégorie</h5>
                         </div>
                         <div class="my-auto">
                             <a href="{{ route('gestion_categorie') }}">
