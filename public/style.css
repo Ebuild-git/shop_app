@@ -2783,7 +2783,7 @@ input:checked + .slider:before {
 /* Mobile responsive adjustments for .middle section */
 @media (max-width: 767px) {
     section.middle {
-        padding: 20px 0 50px !important; /* Reduced padding on mobile */
+        padding: 12px 0 10px !important; /* Reduced padding on mobile */
     }
 
     .category-card {
