@@ -71,7 +71,7 @@ class FavorisController extends Controller
                         [
                             "status" => true,
                             "action" => "ajouté",
-                            "message" => "Annonce Ajouté aux favoris !"
+                            "message" => "Article ajouté aux favoris !"
                         ]
                     );
                 }
@@ -81,7 +81,7 @@ class FavorisController extends Controller
                     [
                         "status" => true,
                         "action" => "retiré",
-                        "message" => "Annonce retiré des favoris !"
+                        "message" => "Article retiré des favoris !"
                     ]
                 );
             }
