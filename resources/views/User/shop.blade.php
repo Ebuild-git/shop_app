@@ -546,6 +546,7 @@
         var Langue = "";
         var Tailleenchiffre = "";
         var PointureBebe = "";
+        var ChaussuresBebe ="";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -757,6 +758,10 @@
 
             if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
                 PointureBebe = nom;
+            }
+            if (type === 'Chaussures bébé' || type === 'chaussures bébé') {
+                // Define any specific variable or action related to this property
+                ChaussuresBebe = nom; // Example of assigning the selected option to a variable
             }
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
