@@ -127,7 +127,7 @@
                         <td class="strong">
                             @if ($favori->post->sell_at)
                             <span class="text-danger">
-                                Indisponible
+                                {{ $favori->post->statut }}
                             </span>
                             @else
                             <span class="text-success">
