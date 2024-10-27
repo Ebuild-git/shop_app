@@ -53,7 +53,7 @@ class HomeController extends Controller
             ->whereNull('posts.sell_at')
             ->orderBy("posts.created_at", "Desc")
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
-            ->take(8)->get();
+            ->take(9)->get();
 
 
 
