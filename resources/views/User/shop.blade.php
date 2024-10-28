@@ -872,6 +872,7 @@
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
+                    console.log(data, status);
                     if (status === "success") {
                         $(".rows-products").empty();
                         $("#SugestionProprietes").empty();
