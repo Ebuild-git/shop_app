@@ -290,7 +290,7 @@
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 @required($requi)
                                                 class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
-                                                <option value=""></option>
+                                                <option value="">Veuillez sélectionner</option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                 @endforeach
@@ -593,53 +593,7 @@
 
         });
     </script>
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fonction pour gérer les changements des inputs
-            function handleInputChange() {
-                const input1 = document.querySelector('.option-tailleenchiffre');
-                const input2 = document.querySelector('.option-taille');
 
-                if (input1 && input2) {
-                    input1.addEventListener('input', function() {
-                        if (this.value.trim() !== '') {
-                            input2.disabled = true;
-                        } else {
-                            input2.disabled = false;
-                        }
-                    });
-
-                    input2.addEventListener('input', function() {
-                        if (this.value.trim() !== '') {
-                            input1.disabled = true;
-                        } else {
-                            input1.disabled = false;
-                        }
-                    });
-                }
-            }
-
-            // Fonction pour observer les changements dans le DOM
-            function observeDOM() {
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        if (mutation.type === 'childList') {
-                            handleInputChange();
-                        }
-                    });
-                });
-
-                // Observer le body pour les ajouts d'éléments
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
-            }
-
-            observeDOM(); // Démarrer l'observation
-
-        });
-    </script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Function to handle disabling other inputs when one is filled
