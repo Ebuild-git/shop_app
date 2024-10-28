@@ -182,37 +182,17 @@ class CreatePost extends Component
                 'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
                 'selectedCategory' => 'required|integer|exists:categories,id'
             ], [
-                'required' => "Veuillez remplir tous les champs obligatoires"
+                'required' => "Veuillez remplir tout les champs obligatoires"
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // $errors = $e->validator->getMessageBag();
-            // foreach ($errors->keys() as $field) {
-            //     foreach ($errors->get($field) as $message) {
-            //         $this->addError($field, $message);
-            //     }
-            // }
-            // return false;
-             // Get the error messages as a string
-            $errors = $e->validator->getMessageBag()->toArray();
-            $errorMessages = [];
-
-            foreach ($errors as $field => $messages) {
-                foreach ($messages as $message) {
-                    $errorMessages[] = $message;
+            $errors = $e->validator->getMessageBag();
+            foreach ($errors->keys() as $field) {
+                foreach ($errors->get($field) as $message) {
+                    $this->addError($field, $message);
                 }
             }
+            return false;
 
-            // Convert the messages into a single string or format it
-            $errorMessage = implode("\n", $errorMessages);
-
-            // Dispatch a browser event to show SweetAlert
-            $this->dispatch('swal:alert', [
-                'type' => 'error',
-                'title' => 'Erreur de validation',
-                'text' => $errorMessage
-            ]);
-
-            return false; // Prevent further execution if validation fails
         }
 
         // Custom logic to check for luxury and non-luxury categories
