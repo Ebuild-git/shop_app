@@ -497,7 +497,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/shop">Catégories</a>
+                            <a href="/shop">Catégories({{$categories->count()}})</a>
                             <ul class="categories-list p-0">
                                 @forelse ($categories as $item)
                                     <li class="category-item">
