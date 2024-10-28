@@ -4,10 +4,10 @@
         <div class="alert alert-info">
             <img width="64" height="64" src="https://img.icons8.com/sf-black/64/008080/checked.png" alt="checked" />
             <h5>
-                <b>Le Lien De Reinitialisation a été envoyé !</b>
+                <b>Le Lien De Réinitialisation a été envoyé !</b>
             </h5>
             <p class="text-muted">
-                Un email contenant le lien pour mettre à jour votre mot de passe a été envoyer.
+                Un email contenant le lien pour mettre à jour votre mot de passe a été envoyé.
                 Veuillez vérifier votre boîte de réception.
             </p>
             <br>
