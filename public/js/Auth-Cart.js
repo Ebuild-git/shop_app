@@ -107,6 +107,10 @@ function CountNotification() {
         }
     });
 }
+function resetNotificationCount() {
+    $("#CountNotification-value").text('0');
+    $("#CountNotification-value-mobile").text('0');
+}
 
 function remove_to_card(id) {
     Swal.fire({

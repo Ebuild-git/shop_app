@@ -77,24 +77,33 @@ class NotificationsController extends Controller
 
     }
 
+    public function user_notifications() {
+        $user_id = Auth::id();
 
+        // Automatically mark notifications as read when viewed
+        notifications::where("id_user_destination", $user_id)
+            ->where("statut", "unread")
+            ->update(["statut" => "read"]);
 
-    public function user_notifications()
-    {
-        $notifications = notifications::where("id_user_destination", Auth::id())
-            ->Orderby("id", "Desc")
+        // Fetch notifications
+        $notifications = notifications::where("id_user_destination", $user_id)
+            ->orderBy("id", "desc")
             ->get();
-        return view('User.notifications')->with("notifications", $notifications);
+
+        // Should be 0 as they are all marked as read now
+        $unreadCount = 0;
+
+        return view('User.notifications', compact("notifications", "unreadCount"));
     }
 
-
-    public function count_notification(){
-        $count =  notifications::where("id_user_destination", Auth::id())->count();
-        return response()->json(
-            [
-                'statut' => true,
-                'count' => $count
-            ]
-        );
+    public function count_notification() {
+        $count = notifications::where("id_user_destination", Auth::id())
+                              ->where("statut", "unread")
+                              ->count();
+        return response()->json([
+            'statut' => true,
+            'count' => $count
+        ]);
     }
+
 }
