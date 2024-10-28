@@ -755,7 +755,7 @@
                 Pointure = nom;
             }
 
-            if (type.toLowerCase() === 'Pointure chaussures bébé') {
+            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
                 PointureBebe = nom;
             }
 
