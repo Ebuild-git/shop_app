@@ -560,7 +560,7 @@
             var selected_options_div = document.getElementById("Selected_options");
             if (options.length > 0) {
                 selected_options_div.innerHTML = "";
-                console.log(options);
+                console.log("======>",options);
                 options.forEach((options, index) => {
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         options[1] + " <i class='ti-close small text-danger'></i> </div>";
@@ -872,7 +872,8 @@
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
-                    console.log(data, status);
+                    console.log(data);
+                    console.log(status);
                     if (status === "success") {
                         $(".rows-products").empty();
                         $("#SugestionProprietes").empty();
