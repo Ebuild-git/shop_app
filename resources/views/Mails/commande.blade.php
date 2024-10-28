@@ -120,7 +120,7 @@
         <div class="content">
             <h2>Merci pour votre achat, {{ $user->username }} !</h2>
             <p>Nous sommes ravis de vous informer que votre commande a été prise en charge avec succès.</p>
-            <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte.(<a href="/mes-achats" style="font-weight: 500;">Mes achats</a>)</p>
+            <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte(<span style="font-weight: 500;">Mes achats</span>).</p>
 
             <div class="order-summary">
                 <h3>Récapitulatif de votre commande</h3>
