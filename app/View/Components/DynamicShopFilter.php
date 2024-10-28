@@ -32,9 +32,10 @@ class DynamicShopFilter extends Component
             "livres & fournitures" => ["État", "Prix", "Langue du livre"],
             "langue du livre" => ["État", "Prix"],
             "jouets & divertissements"=> ["État","Prix"],
-            "univers bébé" => ["Taille","État","Prix", "Pointure chaussures bébé", "Pointure bébé"],
+            "univers bébé" => ["Taille","État","Prix", "Pointure"],
             "univers sport" => ["État","Prix"],
             "univers maison" => ["État","Prix"],
+            "univers bébé & enfants" => ["État", "Prix", "Pointure chaussures bébé", "pointure bébé", "taille bébé", "Couleur"],
         ];
 
 
