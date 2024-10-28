@@ -93,7 +93,7 @@
                     {{$data['message']}}
                 </p>
 
-                <span>Merci de votre attention !</span>
+                <span>Merci pour votre attention !</span>
                 <br>
                 <p>L’équipe de  <strong style="color:black;">SHOP</strong><span style="color:#008080;"><strong>IN</strong></span></p>
         </div>

@@ -82,7 +82,7 @@
             </p>
         </div>
         <div class="footer">
-            Merci de votre confiance et à bientôt !
+            Merci pour votre confiance et à bientôt !
         </div>
     </div>
 </body>
