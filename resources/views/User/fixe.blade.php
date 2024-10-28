@@ -1728,9 +1728,6 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
-                    PointureBebeChaussure: PointureBebeChaussure,
-                    PointureBebe: PointureBebe,
-                    TailleBebe: TailleBebe,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {

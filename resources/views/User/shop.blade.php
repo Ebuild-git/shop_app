@@ -548,6 +548,7 @@
         PointureBebeChaussure = "";
         PointureBebe = "";
         TailleBebe = "";
+        Matiere = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -766,7 +767,9 @@
             if (type == 'Taille bébé' || type == 'taille bébé') {
                 TailleBebe = nom;
             }
-
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
+                Matiere = nom;
+            }
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
@@ -862,6 +865,10 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
+                    PointureBebeChaussure: PointureBebeChaussure,
+                    PointureBebe: PointureBebe,
+                    TailleBebe: TailleBebe,
+                    Matiere: Matiere,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
@@ -958,6 +965,7 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
+                    Matiere: Matiere,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
