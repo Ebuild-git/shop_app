@@ -389,7 +389,7 @@
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
                                 <input type="text" class="form-control sm input cusor border-r" name="key"
-                                    placeholder="rechercher un article">
+                                    placeholder="Rechercher un article">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -620,7 +620,7 @@
             <form action="/shop" method="get" class="position-relative mobile-search-form">
                 @csrf
                 <div class="search-container">
-                    <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="rechercher un article">
+                    <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="Rechercher un article">
                     <button type="submit" class="search-button cusor mobile-search-btn-mobile">
                         <i class="bi bi-search"></i>
                     </button>
@@ -710,7 +710,7 @@
                                 <form action="/shop" method="get" class="mobile-search-form">
                                     @csrf
                                     <div class="search-container">
-                                        <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="rechercher un article">
+                                        <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="Rechercher un article">
                                         <button type="submit" class="search-button cusor mobile-search-btn">
                                             <i class="bi bi-search"></i>
                                         </button>
