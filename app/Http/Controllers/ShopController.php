@@ -26,6 +26,7 @@ class ShopController extends Controller
         $Tailleenchiffre = strtolower($request->input('Tailleenchiffre')) ?? null;
         $Pointure = strtolower($request->input('Pointure')) ?? null;
         $Langue = strtolower($request->input('Langue')) ?? null;
+        $Matiere = strtolower($request->input('Matiere')) ?? null;
         ///// fin du brouillons
 
         $gouvernorat = $request->input('gouvernorat') ?? null;
@@ -122,6 +123,9 @@ class ShopController extends Controller
         }
         if ($Pointure) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
+        }
+        if ($Matiere) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière de chaussures\"'))) = ?", [$Matiere]);
         }
         if ($Langue) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);

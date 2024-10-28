@@ -545,10 +545,10 @@
         var ArticlePour = "";
         var Langue = "";
         var Tailleenchiffre = "";
-        PointureBebeChaussure = "";
-        PointureBebe = "";
-        TailleBebe = "";
-        Matiere = "";
+        var PointureBebeChaussure = "";
+        var PointureBebe = "";
+        var TailleBebe = "";
+        var Matiere = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -967,6 +967,9 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
+                    PointureBebeChaussure: PointureBebeChaussure,
+                    PointureBebe: PointureBebe,
+                    TailleBebe: TailleBebe,
                     Matiere: Matiere,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
