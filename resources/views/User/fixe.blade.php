@@ -1441,7 +1441,11 @@
         var ArticlePour = "";
         var Langue = "";
         var Tailleenchiffre = "";
-
+        var Matiere = "";
+        var PointureBeBe = "";
+        var TailleBeBe = "";
+        var PointureEnfant = "";
+        var TailleEnfant = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -1642,6 +1646,21 @@
                  }
                 Tailleenchiffre = nom;
             }
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
+                Matiere = nom;
+            }
+            if (type == 'Pointure Bébé' || type == 'Pointure bébé' || type == 'pointure bébé') {
+                PointureBeBe = nom;
+            }
+            if (type == 'Taille Bébé' || type == 'taille bébé' || type == 'Taille bébé') {
+                TailleBeBe = nom;
+            }
+            if (type == 'Pointure Enfant' || type == 'Pointure enfant' || type == 'pointure enfant') {
+                PointureEnfant = nom;
+            }
+            if (type == 'Taille Enfant' || type == 'Taille enfant' || type == 'taille enfant') {
+                TailleEnfant = nom;
+            }
             //fin brouillons
             if (show) {
                 add_selected_option(type, nom);
@@ -1728,11 +1747,14 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
+                    Matiere: Matiere,
+                    PointureBeBe: PointureBeBe,
+                    TailleBeBe: TailleBeBe,
+                    PointureEnfant: PointureEnfant,
+                    TailleEnfant: TailleEnfant,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
-
-
                     if (status === "success") {
                         $(".rows-products").empty();
                         $("#SugestionProprietes").empty();

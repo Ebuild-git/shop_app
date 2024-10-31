@@ -35,6 +35,7 @@ class DynamicShopFilterMobile extends Component
             "univers bébé" => ["Taille - bébé","Pointure - Bébé","État","Prix"],
             "univers sport" => ["État","Prix"],
             "univers maison" => ["État","Prix"],
+            "univers bébé & enfants" => ["État", "Prix", "Pointure Bébé", "Taille Bébé", "Couleur", "Matière de chaussures", "Pointure Enfant", "Taille Enfant"],
         ];
 
 

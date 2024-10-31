@@ -27,6 +27,11 @@ class ShopController extends Controller
         $Pointure = strtolower($request->input('Pointure')) ?? null;
         $Langue = strtolower($request->input('Langue')) ?? null;
         $Matiere = strtolower($request->input('Matiere')) ?? null;
+        $PointureBeBe = strtolower($request->input('PointureBeBe')) ?? null;
+        $TailleBeBe = strtolower($request->input('TailleBeBe')) ?? null;
+        $PointureEnfant = strtolower($request->input('PointureEnfant')) ?? null;
+        $TailleEnfant = strtolower($request->input('TailleEnfant')) ?? null;
+
         ///// fin du brouillons
 
         $gouvernorat = $request->input('gouvernorat') ?? null;
@@ -66,19 +71,6 @@ class ShopController extends Controller
             $query->where('id_region', $region);
         }
 
-        // if ($ordre_prix) {
-        //     if ($ordre_prix == "Desc") {
-        //         $query->orderBy('prix', 'Desc');
-        //     } elseif ($ordre_prix == "Asc") {
-        //         $query->orderBy('prix', 'Asc');
-        //     } elseif ($ordre_prix == "Soldé") {
-        //         $query->whereHas('changements_prix', function ($q) {
-        //             $q->whereNotNull('id'); // Vérifie qu'il y a au moins un changement de prix
-        //         });
-        //     }
-        // } else {
-        //     $query->orderBy('id', 'Desc');
-        // }
         if ($ordre_prix) {
             switch ($ordre_prix) {
                 case 'Desc':
@@ -126,6 +118,18 @@ class ShopController extends Controller
         }
         if ($Matiere) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière de chaussures\"'))) = ?", [$Matiere]);
+        }
+        if ($PointureBeBe) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Bébé\"'))) = ?", [$PointureBeBe]);
+        }
+        if ($TailleBeBe) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille Bébé\"'))) = ?", [$TailleBeBe]);
+        }
+        if ($PointureEnfant) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Enfant\"'))) = ?", [$PointureEnfant]);
+        }
+        if ($TailleEnfant) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille Enfant\"'))) = ?", [$TailleEnfant]);
         }
         if ($Langue) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Langue du livre\"'))) = ?", [$Langue]);

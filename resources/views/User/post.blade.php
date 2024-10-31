@@ -79,7 +79,7 @@
                         class="form-control form-control-lg"
                         id="ribNumber"
                         name="ribNumber"
-                        value="{{ old('ribNumber', Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : '') }}"
+                        {{-- value="{{ old('ribNumber', Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : '') }}" --}}
                         required
                         placeholder="Entrez votre numéro RIB"
                     >

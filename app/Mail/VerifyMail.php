@@ -24,9 +24,6 @@ class VerifyMail extends Mailable
         $this->from('no-reply@apa.tn', 'SHOPIN');
         $this->subject('Confirmation de votre inscription !');
 
-
-
-
     }
 
     public function build()

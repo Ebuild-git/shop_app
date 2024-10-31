@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            
+
 
 
             $table->foreign('region')->references('id')->on('regions')->onDelete('set null');

@@ -545,10 +545,11 @@
         var ArticlePour = "";
         var Langue = "";
         var Tailleenchiffre = "";
-        var PointureBebeChaussure = "";
-        var PointureBebe = "";
-        var TailleBebe = "";
         var Matiere = "";
+        var PointureBeBe = "";
+        var TailleBeBe = "";
+        var PointureEnfant = "";
+        var TailleEnfant = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -734,6 +735,7 @@
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
             var show = true;
+            console.log("Type:", type, "Nom:", nom); // Debug
 
 
             //debut brouillons
@@ -758,18 +760,6 @@
                 Pointure = nom;
             }
 
-            if (type == 'Pointure chaussures bébé' || type == 'pointure chaussures bébé') {
-            PointureBebeChaussure = nom;
-            }
-            if (type == 'Pointure bébé' || type == 'pointure bébé') {
-                PointureBebe = nom;
-            }
-            if (type == 'Taille bébé' || type == 'taille bébé') {
-                TailleBebe = nom;
-            }
-            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
-                Matiere = nom;
-            }
             // Assuming 'type' and 'nom' are defined
             if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
                  //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
@@ -778,6 +768,21 @@
                     return;
                  }
                 Tailleenchiffre = nom;
+            }
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
+                Matiere = nom;
+            }
+            if (type == 'Pointure Bébé' || type == 'Pointure bébé' || type == 'pointure bébé') {
+                PointureBeBe = nom;
+            }
+            if (type == 'Taille Bébé' || type == 'taille bébé' || type == 'Taille bébé') {
+                TailleBeBe = nom;
+            }
+            if (type == 'Pointure Enfant' || type == 'Pointure enfant' || type == 'pointure enfant') {
+                PointureEnfant = nom;
+            }
+            if (type == 'Taille Enfant' || type == 'Taille enfant' || type == 'taille enfant') {
+                TailleEnfant = nom;
             }
             //fin brouillons
             if (show) {
@@ -865,15 +870,15 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
-                    PointureBebeChaussure: PointureBebeChaussure,
-                    PointureBebe: PointureBebe,
-                    TailleBebe: TailleBebe,
                     Matiere: Matiere,
+                    PointureBeBe: PointureBeBe,
+                    TailleBeBe: TailleBeBe,
+                    PointureEnfant: PointureEnfant,
+                    TailleEnfant: TailleEnfant,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
-                    console.log(data);
-                    console.log(status);
+
                     if (status === "success") {
                         $(".rows-products").empty();
                         $("#SugestionProprietes").empty();
@@ -887,6 +892,7 @@
                         }
                     }
                 }
+
             );
         }
 
@@ -967,10 +973,11 @@
                     Pointure: Pointure,
                     ArticlePour: ArticlePour,
                     Tailleenchiffre: Tailleenchiffre,
-                    PointureBebeChaussure: PointureBebeChaussure,
-                    PointureBebe: PointureBebe,
-                    TailleBebe: TailleBebe,
                     Matiere: Matiere,
+                    PointureBeBe: PointureBeBe,
+                    TailleBeBe: TailleBeBe,
+                    PointureEnfant: PointureEnfant,
+                    TailleEnfant: TailleEnfant,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
@@ -987,6 +994,8 @@
                         }
                     }
                 }
+                console.log("Matiere in fetchProducts:", Matiere);
+
             );
         }
 
