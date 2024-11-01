@@ -1604,7 +1604,35 @@
             sous_categorie = id;
             fetchProducts();
         }
+        function goBackToCategories() {
+                // Redirect to the categories view without the selected category
+                window.location.href = "/shop";
+        }
+        function goBackToSubcategories() {
+            // Clear the selected subcategory
+            window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
+        }
 
+        function select_categorie1(id, categorieName) {
+                categorie = id;
+                sous_categorie = "";
+
+                // Redirect to the new URL
+                window.location.href = "/shop?id_categorie=" + id;
+
+                // Show the go-back message and subcategory cards inline
+                document.getElementById('category-cards').innerHTML = `
+                    <div class="go-back-message">
+                        <a href="javascript:void(0)" class="small text-primary" style="text-decoration: underline;" onclick="goBackToCategories()">
+                            Tout les articles de cette catégorie.
+                        </a>
+                        <div class="subcategory-card-wrapper">
+                            <!-- Subcategory cards will go here -->
+                        </div>
+                    </div>
+                `;
+                refreshScrollSettings();
+            }
 
 
 
