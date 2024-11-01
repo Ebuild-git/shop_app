@@ -1613,6 +1613,32 @@
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
 
+
+
+        function updatePriceFilter(priceOrder) {
+                // Convert frontend values to backend-expected values
+                let backendPriceOrder;
+                if (priceOrder === 'low_to_high') {
+                    backendPriceOrder = 'Asc';
+                } else if (priceOrder === 'high_to_low') {
+                    backendPriceOrder = 'Desc';
+                }else if (priceOrder === 'soldé') {
+                    backendPriceOrder = 'Soldé'; // Ensure this matches any identifier used in the backend
+                }else if (priceOrder === 'luxury') {
+                    backendPriceOrder = 'Luxury'; // This is a special case for filtering luxury items
+                }
+                // Set the price order in a global variable or directly call fetchProducts1
+                window.currentPriceOrder = backendPriceOrder; // Store the backend-appropriate order
+                fetchProducts(); // Refresh the product list based on the new filter
+            }
+
+            function updateConditionFilter(condition) {
+                window.currentCondition = condition; // Store the current condition globally or manage state as needed
+                fetchProducts(); // Refresh the product list based on the new filter
+            }
+
+
+
         function select_categorie1(id, categorieName) {
                 categorie = id;
                 sous_categorie = "";
@@ -1633,6 +1659,13 @@
                 `;
                 refreshScrollSettings();
             }
+
+
+        function select_sous_categorie1(id) {
+        window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
+        sous_categorie = id;
+        fetchProducts1();
+        }
 
 
 

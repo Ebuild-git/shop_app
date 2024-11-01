@@ -945,12 +945,12 @@
                 }
                 // Set the price order in a global variable or directly call fetchProducts1
                 window.currentPriceOrder = backendPriceOrder; // Store the backend-appropriate order
-                fetchProducts1(); // Refresh the product list based on the new filter
+                fetchProducts(); // Refresh the product list based on the new filter
             }
 
             function updateConditionFilter(condition) {
                 window.currentCondition = condition; // Store the current condition globally or manage state as needed
-                fetchProducts1(); // Refresh the product list based on the new filter
+                fetchProducts(); // Refresh the product list based on the new filter
             }
 
         function fetchProducts1(page = 1) {
