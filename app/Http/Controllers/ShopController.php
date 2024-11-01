@@ -145,8 +145,12 @@ class ShopController extends Controller
             $query->where(function ($query) use ($q) {
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
                     ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
-            });
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%'])
+                    ->orWhereRaw('LOWER(etat) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
+                    if (str_contains(strtolower($q), 'soldé') || str_contains(strtolower($q), 'solde')) {
+                        $query->orWhereNotNull('updated_price_at');
+                    }
+                });
 
             $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
