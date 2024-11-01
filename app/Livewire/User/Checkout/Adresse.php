@@ -16,7 +16,9 @@ class Adresse extends Component
     public $regions;
     public $rue;
     public $nom_batiment;
-
+    public $etage;
+    public $num_appartement;
+    public $phone_number;
 
     public $next = false;
     public $locationUsed = false;
@@ -39,6 +41,9 @@ class Adresse extends Component
         $this->region = $this->user->region;
         $this->rue = $this->user->rue;
         $this->nom_batiment = $this->user->nom_batiment;
+        $this->etage = $this->user->etage;
+        $this->num_appartement = $this->user->num_appartement;
+        $this->phone_number = $this->user->phone_number;
         $this->regions = regions::all();
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
         $this->loadAddresses();
@@ -70,10 +75,12 @@ class Adresse extends Component
         $this->user->region = $this->region;
         $this->user->rue = $this->rue;
         $this->user->nom_batiment = $this->nom_batiment;
+        $this->user->etage = $this->etage;
+        $this->user->num_appartement = $this->num_appartement;
+        $this->user->phone_number = $this->phone_number;
         $this->user->save();
         return Redirect("/checkout?step=2");
     }
-
 
     public function setDefault($id)
     {
@@ -164,7 +171,7 @@ class Adresse extends Component
     public function render()
     {
 
-        if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment) || $this->locationUsed) {
+        if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment && $this->user->etage && $this->user->num_appartement && $this->user->phone_number) || $this->locationUsed) {
             $this->next = true;
         }
         return view('livewire.user.checkout.adresse', ['userAddresses' => $this->userAddresses]);

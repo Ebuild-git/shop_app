@@ -123,6 +123,23 @@
                                     <input type="text" class="form-control modern-input" id="nom_batiment" wire:model="nom_batiment">
                                     @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
+                                <div class="mb-3">
+                                    <label for="etage" class="form-label">Étage</label>
+                                    <input type="text" class="form-control modern-input" id="etage" wire:model="etage">
+                                    @error('etage') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="num_appartement" class="form-label">Numéro d'Appartement</label>
+                                    <input type="text" class="form-control modern-input" id="num_appartement" wire:model="num_appartement">
+                                    @error('num_appartement') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phone_number" class="form-label">Numéro de Téléphone</label>
+                                    <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number">
+                                    @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
                                 <button type="submit" class="btn btn-black w-100">Enregistrer</button>
                             </form>
                         </div>
