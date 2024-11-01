@@ -54,6 +54,7 @@ class CreatePost extends Component
             $this->selectedCategory = null;
             $this->sous_categories = [];
         }
+        $this->validateCategoryPrice();
     }
 
 
@@ -165,6 +166,28 @@ class CreatePost extends Component
         $this->prix = $value;
     }
 
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'selectedCategory' || $propertyName === 'prix') {
+            $this->validateCategoryPrice();
+        }
+    }
+
+    public function validateCategoryPrice()
+    {
+        $category = categories::find($this->selectedCategory);
+        if (!$category) return;
+
+        if ($category->luxury && $this->prix < 800) {
+            $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
+        } elseif (!$category->luxury && $this->prix >= 800) {
+            // Assume here that if it's not luxury and the price is high, you need another message or validation
+            $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
+        } else {
+            $this->resetErrorBag('prix');
+        }
+    }
+
     public function before_post()
     {
         try {
@@ -195,26 +218,9 @@ class CreatePost extends Component
 
         }
 
-        // Custom logic to check for luxury and non-luxury categories
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         $category = $sous_categorie->categorie;
 
-        if ($category) {
-            if ($category->luxury == 1 && $this->prix < 800) {
-                $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
-                return false;
-            }
-
-            // Check if a non-luxury version of the category exists
-            $luxuryCategory = categories::where('titre', $category->titre)
-                ->where('luxury', 1)
-                ->first();
-
-            if ($luxuryCategory && $category->luxury == 0 && $this->prix >= 800) {
-                $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
-                return false;
-            }
-        }
         $jsonProprietes = array_filter($this->article_propriete, function($value) {
             return !empty($value);
         });
