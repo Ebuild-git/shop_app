@@ -190,22 +190,48 @@ class CreatePost extends Component
 
     public function before_post()
     {
+
+        $subcategoryRequired = DB::table('sous_categories')
+        ->where('id', $this->selectedSubcategory)
+        ->value('required');
+
+        // Decode the JSON data
+        $subcategoryRequired = json_decode($subcategoryRequired, true);
+
+        // Extract only required property IDs
+        $requiredProps = [];
+        foreach ($subcategoryRequired as $property) {
+            if (isset($property['required']) && $property['required'] === 'Oui') {
+                $requiredProps[] = $property['id'];
+            }
+        }
+
+        // Define base rules
+        $rules = [
+            'titre' => 'required|min:2',
+            'description' => 'string|nullable',
+            'photo1' => 'nullable|max:2048|min:1',
+            'photo2' => 'nullable|max:2048|min:1',
+            'photo3' => 'nullable|max:2048|min:1',
+            'photo4' => 'nullable|max:2048|min:1',
+            'region' => 'required|integer|exists:regions,id',
+            'prix' => 'required|numeric|min:1',
+            'prix_achat' => 'nullable|numeric|min:1',
+            'etat' => ['required', 'string'],
+            'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
+            'selectedCategory' => 'required|integer|exists:categories,id'
+        ];
+
+        // Add dynamic validation rules for required properties
+        foreach ($requiredProps as $propId) {
+            $propName = DB::table('proprietes')->where('id', $propId)->value('nom');
+            $rules["article_propriete.$propName"] = 'required';
+        }
+
+        // Perform validation
         try {
-            $this->validate([
-                'titre' => 'required|min:2',
-                'description' => 'string|nullable',
-                'photo1' => 'nullable|max:2048|min:1',
-                'photo2' => 'nullable|max:2048|min:1',
-                'photo3' => 'nullable|max:2048|min:1',
-                'photo4' => 'nullable|max:2048|min:1',
-                'region' => 'required|integer|exists:regions,id',
-                'prix' => 'required|numeric|min:1',
-                'prix_achat' => 'nullable|numeric|min:1',
-                'etat' => ['required', 'string'],
-                'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
-                'selectedCategory' => 'required|integer|exists:categories,id'
-            ], [
-                'required' => "Veuillez remplir tout les champs obligatoires"
+            $this->validate($rules, [
+                'required' => "Veuillez remplir tous les champs obligatoires"
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = $e->validator->getMessageBag();
@@ -215,9 +241,7 @@ class CreatePost extends Component
                 }
             }
             return false;
-
         }
-
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         $category = $sous_categorie->categorie;
 

@@ -295,6 +295,9 @@
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                 @endforeach
                                             </select>
+                                            @error("article_propriete.{$propriete_info->nom}")
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         @else
                                             <input type="text"
                                                 class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
@@ -302,6 +305,9 @@
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
                                                 data-model="{{ $propriete_info->nom }}">
+                                            @error("article_propriete.{$propriete_info->nom}")
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         @endif
                                     @elseif($propriete_info->type == 'color')
                                         @if ($selected_color)
@@ -326,12 +332,17 @@
                                                 </button>
                                             @endif
                                         @endforeach
-
+                                        @error("article_propriete.{$propriete_info->nom}")
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
                                             placeholder="{{ $propriete_info->nom }}"
                                             class="form-control cusor border-r"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
+                                        @error("article_propriete.{$propriete_info->nom}")
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     @endif
                                 </div>
                             </div>
