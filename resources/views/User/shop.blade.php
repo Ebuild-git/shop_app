@@ -335,7 +335,7 @@
                                 @if (!$selected_sous_categorie_id)
                                     @if (!$selected_categorie_id)
                                         @foreach ($liste_categories as $categorie)
-                                            <div class="category-card p-1" id="list-categorie-{{ $categorie->id }}" onclick="select_categorie1({{ $categorie->id }})">
+                                            <div class="category-card p-1" id="list-categorie-{{ $categorie->id }}" onclick="select_categorie({{ $categorie->id }})">
 
                                                 <button class="category-btn d-flex flex-column align-items-center p-1" style="height: 120px;">
                                                     <div style="height: 30px;">
@@ -363,7 +363,7 @@
                                             $selected_categorie = $liste_categories->firstWhere('id', $selected_categorie_id);
                                         @endphp
                                         @foreach ($selected_categorie->getSousCategories as $sous_categorie)
-                                            <div class="subcategory-card p-2" onclick="select_sous_categorie1({{ $sous_categorie->id }})">
+                                            <div class="subcategory-card p-2" onclick="select_sous_categorie({{ $sous_categorie->id }})">
 
                                                 <button class="subcategory-btn d-flex flex-column align-items-center p-1" style="height: auto;">
                                                     <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
