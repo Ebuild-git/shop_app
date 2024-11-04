@@ -463,7 +463,7 @@ var result_location = "";
 
 function get_location() {
     if (navigator.geolocation) {
-        $("#location-modal").modal("toggle");
+        $("#location-modal").modal("toggle");  // Show the modal to indicate the process has started
 
         navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -481,59 +481,32 @@ function get_location() {
                     .bindPopup("Votre position")
                     .openPopup();
 
-                // Fetch the address from the coordinates
+                // Fetch the address from the coordinates using OpenStreetMap's Nominatim API
                 fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
                     .then((response) => response.json())
                     .then((data) => {
                         result_location = data.display_name;
-                        $("#val-adresse").text(result_location);
-
-                        // Update the input fields based on the retrieved address information
-                        if (data.address) {
-                            // Update city (ville)
-                            if (data.address.city || data.address.town || data.address.village) {
-                                document.getElementById("address").value =
-                                    data.address.city || data.address.town || data.address.village;
-                            }
-
-                            // Update street (rue)
-                            if (data.address.road) {
-                                document.getElementById("rue").value = data.address.road;
-                            }
-
-                            // Update building name (nom_batiment), if available
-                            if (data.address.building) {
-                                document.getElementById("nom_batiment").value = data.address.building;
-                            }
-
-                            // Floor and apartment number (etage and num_appartement) are not usually provided
-                            // They might need to be entered manually unless this data is available in the OSM data
-                            document.getElementById("etage").value = ""; // Clear or set manually if required
-                            document.getElementById("num_appartement").value = ""; // Same here
-
-                            // Log the address to see what other information might be available
-                            console.log("Address Details:", data.address);
-                        }
+                        console.log("Location Result:", result_location);  // Log the full location result
                     })
                     .catch((error) => {
-                        console.error("Erreur lors de la récupération de l'adresse :", error);
+                        console.error("Error retrieving address:", error);
                     });
             },
             function (error) {
-                $("#location-modal").modal("toggle");
-                console.error("Erreur lors de la récupération de la localisation :", error);
+                $("#location-modal").modal("toggle");  // Hide the modal on error
+                console.error("Error retrieving location:", error);
             }
         );
     } else {
-        console.error("La géolocalisation n'est pas prise en charge par ce navigateur.");
+        console.error("Geolocation is not supported by this browser.");
     }
 }
 
 function btn_accept_location() {
-    Livewire.dispatch("UpdateUserAdresse", { adresse: result_location });
-    sweet("Adresse acceptée !");
-    //close modal location-modal
+    Livewire.dispatch("storeLocation", { city: result_location });
+    sweet("Adresse acceptée!");
     $("#location-modal").modal("toggle");
+
 }
 
 function ShowPostsCatgorie(id) {

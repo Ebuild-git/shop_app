@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\regions;
 use App\Models\UserAddress;
+use App\Models\User;
 
 class Adresse extends Component
 {
@@ -55,7 +56,9 @@ class Adresse extends Component
         $this->user = Auth::user();
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
     }
-    protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
+    // protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
+    protected $listeners = ['storeLocation' => 'storeLocation'];
+
 
     protected $rules = [
         'region' => 'required|exists:regions,id',
@@ -64,9 +67,23 @@ class Adresse extends Component
         'nom_batiment' => 'required|string|max:255',
     ];
 
-    public function UpdateUserAdresse($adresse){
-        $this->user->address = $adresse;
-        $this->user->save();
+    public function storeLocation($city)
+    {
+        $user = User::find(Auth::id());
+        UserAddress::create([
+            'user_id' => $user->id,
+            'city' => $city,
+            'region' => $user->region_info->id,
+            'street' => null,
+            'building_name' => null,
+            'floor' => null,
+            'apartment_number' => null,
+            'phone_number' => $user->phone_number,
+            'is_default' => false
+        ]);
+
+        session()->flash('success', 'Nouvelle adresse ajoutée avec succès!');
+        return Redirect("/checkout?step=2");
     }
 
     public function updateAddress()
