@@ -395,13 +395,16 @@
                                         <input type="text" id="extraApartment" class="form-control" wire:model="extraApartment">
                                         @error('extraApartment') <span class="error">{{ $message }}</span> @enderror
                                     </div>
-
-                                    <!-- Phone Number Input -->
-                                    <div class="form-group">
+                                    <div class="form-group position-relative">
                                         <label for="extraPhoneNumber" class="form-label">Numéro de téléphone</label>
-                                        <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber">
+                                        <div class="input-container d-flex align-items-center position-relative">
+                                            <img src="/icons/maroc.webp" alt="Moroccan flag" class="flag-icon2">
+                                            <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber" style="padding-left: 45px;" maxlength="9">
+                                        </div>
                                         @error('extraPhoneNumber') <span class="error">{{ $message }}</span> @enderror
                                     </div>
+
+
                                 </div>
 
                                 <!-- Submit Button -->
