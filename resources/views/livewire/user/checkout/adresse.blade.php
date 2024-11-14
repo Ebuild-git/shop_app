@@ -90,8 +90,9 @@
             </div>
 
             <!-- Edit Address Modal -->
+
             <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg"> <!-- Optionally increase the size of the modal -->
                     <div class="modal-content rounded-3">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editAddressModalLabel">Modifier l'adresse de livraison</h5>
@@ -99,46 +100,52 @@
                         </div>
                         <div class="modal-body">
                             <form wire:submit.prevent="updateAddress">
-                                <div class="mb-3">
-                                    <label for="region" class="form-label">Région<span class="text-danger">*</span></label>
-                                    <select id="region" wire:model="region" class="form-select modern-input" required>
-                                        <option value="">Sélectionnez une région</option>
-                                        @foreach($regions as $regionItem)
-                                            <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="region" class="form-label">Région<span class="text-danger">*</span></label>
+                                        <select id="region" wire:model="region" class="form-select modern-input" required>
+                                            <option value="">Sélectionnez une région</option>
+                                            @foreach($regions as $regionItem)
+                                                <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">Ville<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control modern-input" id="address" wire:model="address">
+                                        @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Ville<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control modern-input" id="address" wire:model="address">
-                                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="rue" class="form-label">Rue<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control modern-input" id="rue" wire:model="rue">
+                                        @error('rue') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nom_batiment" class="form-label">Nom Bâtiment<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control modern-input" id="nom_batiment" wire:model="nom_batiment">
+                                        @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="rue" class="form-label">Rue<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control modern-input" id="rue" wire:model="rue">
-                                    @error('rue') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="etage" class="form-label">Étage</label>
+                                        <input type="text" class="form-control modern-input" id="etage" wire:model="etage">
+                                        @error('etage') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="num_appartement" class="form-label">Numéro d'Appartement</label>
+                                        <input type="text" class="form-control modern-input" id="num_appartement" wire:model="num_appartement">
+                                        @error('num_appartement') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="nom_batiment" class="form-label">Nom Bâtiment<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control modern-input" id="nom_batiment" wire:model="nom_batiment">
-                                    @error('nom_batiment') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="etage" class="form-label">Étage</label>
-                                    <input type="text" class="form-control modern-input" id="etage" wire:model="etage">
-                                    @error('etage') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="num_appartement" class="form-label">Numéro d'Appartement</label>
-                                    <input type="text" class="form-control modern-input" id="num_appartement" wire:model="num_appartement">
-                                    @error('num_appartement') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="phone_number" class="form-label">Numéro de Téléphone</label>
-                                    <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number">
-                                    @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="phone_number" class="form-label">Numéro de Téléphone</label>
+                                        <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number">
+                                        @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-black w-100">Enregistrer</button>
                             </form>
@@ -338,7 +345,7 @@
 
             <!-- Unified Add/Edit Extra Address Modal -->
             <div class="modal fade" id="extraAddressModal" wire:ignore.self tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content rounded-3">
                         <div class="modal-header">
                             <h5 class="modal-title" id="extraAddressModalLabel">
