@@ -149,9 +149,7 @@
 
             <div class="saved-address mt-4 position-relative">
                 <div class="address-card p-3 shadow-sm">
-                    <button type="button" class="btn-modern-1 position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
+
 
                     <h5 class="address-title text-center mb-3">Adresse de livraison actuelle</h5>
 
@@ -177,9 +175,32 @@
                             {{-- <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
                                 <i class="bi bi-arrow-counterclockwise"></i> Revenir à l'adresse par défaut
                             </button> --}}
+
+                        </div>
+                        <div class="mt-auto d-flex justify-content-end">
+                            <button class="btn custom-edit btn-sm me-2 edit-address-btn"
+                                    wire:click="prepareForUpdate({{ $defaultAddress->id }})"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#extraAddressModal"
+                                    data-region="{{ $defaultAddress->region }}"
+                                    data-city="{{ $defaultAddress->city }}"
+                                    data-street="{{ $defaultAddress->street }}"
+                                    data-building="{{ $defaultAddress->building_name }}"
+                                    data-floor="{{ $defaultAddress->floor }}"
+                                    data-apartment="{{ $defaultAddress->apartment_number }}"
+                                    data-phone="{{ $defaultAddress->phone_number }}"
+                                    onclick="populateModal(this)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn custom-delete btn-sm" wire:click="deleteAddress({{ $defaultAddress->id }})">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     @else
                         <!-- Show User's Address (from users table) -->
+                        <button type="button" class="btn-modern-1 position-absolute" style="bottom: 10px; right: 10px;" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
                         <div class="address-details">
                             <b class="h6 d-block mb-1">
                                 @if ($user->gender == 'male')
@@ -221,6 +242,7 @@
                 @foreach ($userAddresses as $address)
                 @if ($address->is_default)
                     <div class="address-card p-3 shadow-sm mb-3">
+
                         <div class="d-flex justify-content-between align-items-center">
                             <b class="h6 mb-1">
                                 @if ($user->gender == 'male')
@@ -247,6 +269,7 @@
                         <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
                             <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
                         </button>
+
                     </div>
 
                 @endif
@@ -258,17 +281,26 @@
                     <div class="address-card p-3 shadow-sm mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <b class="h6 mb-1">
-                                {{ $address->building_name ? $address->building_name . ',' : '' }}
-                                {{ $address->street ? $address->street . ',' : '' }}
-                                {{ $address->floor ? $address->floor . ',' : '' }}
-                                {{ $address->apartment_number ? $address->apartment_number . ',' : '' }}
-                                {{ $address->city ? $address->city . ',' : '' }}
-                                {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
+                                @if ($user->gender == 'male')
+                                    M.
+                                @else
+                                    Mme
+                                @endif
+                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                             </b>
+
                             @if ($address->is_default)
                                 <span class="badge" style="background-color: darkcyan;">Adresse par défaut</span>
                             @endif
                         </div>
+                        <p class="mb-1">
+                            {{ $address->building_name ? $address->building_name . ',' : '' }}
+                            {{ $address->street ? $address->street . ',' : '' }}
+                            {{ $address->floor ? $address->floor . ',' : '' }}
+                            {{ $address->apartment_number ? $address->apartment_number . ',' : '' }}
+                            {{ $address->city ? $address->city . ',' : '' }}
+                            {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
+                        </p>
                         <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
 
                         <div class="d-flex justify-content-between align-items-center mt-3">
