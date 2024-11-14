@@ -273,9 +273,23 @@
                         <p class="mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
-                        <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
+                        {{-- <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
                             <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
                         </button>
+                        <div class="mt-auto d-flex justify-content-end">
+                            <button type="button" class="btn-modern-1" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </div> --}}
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <button class="btn custom-default btn-sm" wire:click="removeDefault">
+                                <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
+                            </button>
+                            <button type="button" class="btn-modern-1" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </div>
+
 
                     </div>
 
