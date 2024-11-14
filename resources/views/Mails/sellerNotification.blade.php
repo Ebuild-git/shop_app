@@ -77,6 +77,31 @@
                 Nous vous informons que votre article "{{ $post->titre }}" a été commandé par {{ $buyerPseudo }}.
                 Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt et passera pour récupérer l'article.
             </p>
+            <div class="order-summary">
+                <h3>Récapitulatif de la commande</h3>
+                <table>
+                    @php
+                        $total = 0;
+                    @endphp
+                    @foreach ($articles_panier as $article)
+                        <tr>
+                            <td class="product-img">
+                                <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
+                            </td>
+                            <td class="product-info">
+                                <p>{{ $article['prix'] }} <sup>DH</sup></p>
+                            </td>
+                        </tr>
+                        @php
+                            $total += $article['prix'];
+                        @endphp
+                    @endforeach
+                </table>
+                <div class="total">
+                    <h4>Frais de livraison : 25 <sup>DH</sup></h4>
+                    <h3>Total : {{ $total + 25 }} <sup>DH</sup></h3>
+                </div>
+            </div>
             <p>
                 Merci de bien vouloir <a href="{{ config('app.url') }}/informations?section=cord" class="underlined-link">cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
             </p>

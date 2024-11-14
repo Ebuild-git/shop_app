@@ -112,7 +112,7 @@ class Mode extends Component
                 $buyerPseudo = Auth::user()->username;
 
                 if ($seller) {
-                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo));
+                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo, $this->articles_panier));
                 }
                 $notification = new notifications();
                 $notification->titre = "Une nouvelle commande !";
