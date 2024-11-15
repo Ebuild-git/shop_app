@@ -84,7 +84,11 @@
             height: auto;
             object-fit: cover;
         }
-
+        .content .order-summary table .product-img1 img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
         .content .order-summary table .product-info h3 {
             font-size: 18px;
             margin: 0;
