@@ -3044,3 +3044,12 @@ input:checked + .slider:before {
     border-radius: 50px;
 }
 
+.hover-black {
+    background-color: black;
+    color: white;
+}
+
+.hover-black:hover {
+    background-color: #000;
+    color: #fff !important;
+}

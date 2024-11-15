@@ -275,7 +275,7 @@
                             </div>
 
 
-                            @if ($post->statut == 'vente')
+                            {{-- @if ($post->statut == 'vente')
                                 @auth
                                     @if ($post->id_user != Auth::id())
                                         <button type="button"
@@ -296,8 +296,30 @@
                                         Ajouter au panier
                                     </button>
                                 @endguest
-                            @endif
+                            @endif --}}
 
+                            @if ($post->statut == 'vente')
+                            @auth
+                                @if ($post->id_user != Auth::id())
+                                    <button type="button"
+                                        class="btn btn-block @if ($produit_in_cart) bg-dark @else hover-black @endif mb-2 p-3"
+                                        id="btn-add-to-card" onclick="add_cart({{ $post->id }})">
+                                        <i class="lni lni-shopping-basket mr-2"></i>
+                                        <span id="add-cart-text-btn">
+                                            {{ $produit_in_cart ? 'Rétiré du panier' : 'Ajouter au panier' }}
+                                        </span>
+                                    </button>
+                                @endif
+                            @endauth
+
+                            @guest
+                                <button type="button" class="btn btn-block bg-dark mb-2 p-3 hover-black" data-toggle="modal"
+                                    data-target="#login">
+                                    <i class="lni lni-shopping-basket mr-2"></i>
+                                    Ajouter au panier
+                                </button>
+                            @endguest
+                        @endif
 
 
                             @auth
