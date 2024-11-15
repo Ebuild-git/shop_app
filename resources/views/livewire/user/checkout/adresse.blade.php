@@ -430,7 +430,7 @@
 
                                 <!-- Submit Button -->
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-dark btn-continue" id="modalSubmitBtn">{{ $isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+                                    <button type="submit" class="btn btn-dark btn-continue" id="modalSubmitBtn">{{ $isEditMode ? 'Enregistrer' : 'Ajouter' }}</button>
                                 </div>
                             </form>
                         </div>
