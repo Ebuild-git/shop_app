@@ -87,8 +87,8 @@
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">
-                                    <b class="color"> {{ $post->sous_categorie_info->titre }}</b>
+                                <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}&selected_sous_categorie={{ $post->sous_categorie_info->id ?? '' }}">
+                                    <b class="color">{{ $post->sous_categorie_info->titre }}</b>
                                 </a>
                             </li>
                         </ol>
