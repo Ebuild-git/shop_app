@@ -1498,7 +1498,6 @@
         }
 
         $(document).ready(function() {
-            // Faire la requête initiale au chargement de la page
             fetchProducts();
 
             // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
@@ -1605,18 +1604,15 @@
             fetchProducts();
         }
         function goBackToCategories() {
-                // Redirect to the categories view without the selected category
                 window.location.href = "/shop";
         }
         function goBackToSubcategories() {
-            // Clear the selected subcategory
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
 
 
 
         function updatePriceFilter(priceOrder) {
-                // Convert frontend values to backend-expected values
                 let backendPriceOrder;
                 if (priceOrder === 'low_to_high') {
                     backendPriceOrder = 'Asc';
@@ -1781,9 +1777,6 @@
         });
 
 
-
-
-
         function select_categorie(id) {
             categorie = id;
             sous_categorie = "";
@@ -1846,11 +1839,9 @@
         const currentPage = data.current_page;
 
         if (totalPages <= 3) {
-            // Show all pages if there are 3 or fewer
             startPage = 1;
             endPage = totalPages;
         } else {
-            // Determine the start and end pages based on the current page
             if (currentPage <= 2) {
                 startPage = 1;
                 endPage = 3;

@@ -1,12 +1,20 @@
 <div>
     @foreach ($selected_sous_categorie->proprietes as $id_propriete)
         @if ($show_option)
-            @php
+            {{-- @php
                 $propriete = DB::table('proprietes')
                     ->whereIn(DB::raw('LOWER(nom)'), $show_option)
                     ->where('id', $id_propriete)
                     ->first();
+            @endphp --}}
+            @php
+                $propriete = DB::table('proprietes')
+                    ->whereIn(DB::raw('LOWER(RTRIM(REPLACE(nom, "\t", "")))'), $show_option)
+                    ->where('id', $id_propriete)
+                    ->first();
             @endphp
+
+
         @else
             @php
                 $propriete = DB::table('proprietes')->where('id', $id_propriete)->first();

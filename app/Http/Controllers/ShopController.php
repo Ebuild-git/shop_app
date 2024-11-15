@@ -122,12 +122,13 @@ class ShopController extends Controller
         if ($PointureBeBe) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Bébé\"'))) = ?", [$PointureBeBe]);
         }
+        if ($PointureEnfant){
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Enfant\"'))) = ?", [$PointureEnfant]);
+        }
         if ($TailleBeBe) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille Bébé\"'))) = ?", [$TailleBeBe]);
         }
-        if ($PointureEnfant) {
-            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Enfant\"'))) = ?", [$PointureEnfant]);
-        }
+
         if ($TailleEnfant) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Taille Enfant\"'))) = ?", [$TailleEnfant]);
         }
