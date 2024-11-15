@@ -854,6 +854,9 @@
         }
 
         function fetchProducts(page = 1) {
+            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val(); // Get the price order from global variable or an input/select element
+            var etat = window.currentCondition;
+
             $("#loading").show("show");
             //ancre();
             $.post(
@@ -949,13 +952,13 @@
             }
 
             function updateConditionFilter(condition) {
-                window.currentCondition = condition; // Store the current condition globally or manage state as needed
-                fetchProducts(); // Refresh the product list based on the new filter
+                window.currentCondition = condition;
+                fetchProducts();
             }
 
         function fetchProducts1(page = 1) {
-            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val(); // Get the price order from global variable or an input/select element
-            var etat = window.currentCondition; // Get the current condition
+            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val();
+            var etat = window.currentCondition;
 
             $("#loading").show("show");
             //ancre();

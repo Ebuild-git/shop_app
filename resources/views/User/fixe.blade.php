@@ -1785,6 +1785,8 @@
         }
 
         function fetchProducts(page = 1) {
+            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val();
+            var etat = window.currentCondition;
             $("#loading").show("show");
             //ancre();
             $.post(
