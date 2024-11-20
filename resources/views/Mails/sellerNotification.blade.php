@@ -76,7 +76,7 @@
         }
 
         .product-item img {
-            width: 60px; /* Adjust image size */
+            width: 80px; /* Adjust image size */
             height: auto;
             margin-right: 15px; /* Space between image and text */
         }
@@ -128,7 +128,7 @@
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
                             </td>
                             <td class="product-info">
-                                <h3>{{ $article['titre'] }}</h3><br>
+                                <h3>{{ $article['titre'] }}</h3>
                                 <span class="gain">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
