@@ -41,7 +41,7 @@ class Security extends Controller
             //check token time generation
             if (now()->diffInMinutes($user->updated_at) > 20) {
                 return view('User.Auth.reset_password')
-                    ->with("message", "token expirer");
+                    ->with("message", "Le délai pour réinitialiser votre mot de passe est dépassé. Veuillez réessayer.");
             } else {
                 return view('User.Auth.reset_password')
                     ->with(["user" => $user])

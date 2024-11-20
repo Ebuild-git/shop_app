@@ -24,6 +24,13 @@
                 <br>
             </div>
             <br>
+            @if(session('message'))
+                <div class="alert alert-danger text-center" role="alert" style="margin-top: 20px; padding: 15px; border-radius: 8px;">
+                    <strong>Attention !</strong> {{ session('message') }}
+                </div>
+            @endif
+
+
             @isset($user)
                 @livewire('User.reset', ['user' => $user])
             @else
