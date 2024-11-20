@@ -86,18 +86,19 @@
             flex-direction: column;
             align-items: flex-start; /* Ensure left alignment */
         }
-
         .product-info h3 {
-            margin: 0 0 5px 0; /* Add spacing below the title */
+            margin: 0 0 5px 0;
             font-size: 16px;
             color: #333;
+            display: block; /* Ensure it is a block element */
         }
 
         .product-info .gain {
-            margin: 0; /* Remove margin for the gain text */
+            margin: 0;
             font-weight: 600;
             font-size: 14px;
             color: #555;
+            display: block; /* Ensure it is a block element */
         }
 
         .footer {
