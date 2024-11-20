@@ -84,9 +84,15 @@
             height: auto;
             object-fit: cover;
         }
+        .content .order-summary table .product-img1 {
+            width: 70px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
         .content .order-summary table .product-img1 img {
-            width: 50px;
-            height: 50px;
+            width: 100%;
+            height: auto;
             object-fit: cover;
         }
         .content .order-summary table .product-info h3 {
@@ -140,6 +146,7 @@
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
                                 <p>{{ $article['prix'] }} <sup>DH</sup></p>
+
                             </td>
                         </tr>
                         @php

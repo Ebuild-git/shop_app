@@ -86,8 +86,9 @@ class Mode extends Component
         // Loop through each product in the cart
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
+            $gain = $post->calculateGain();
+
             if ($post) {
-                // Update the post's status to 'sold' and set the buyer's ID
                 $post->update(
                     [
                         'statut' => 'vendu',
@@ -112,7 +113,7 @@ class Mode extends Component
                 $buyerPseudo = Auth::user()->username;
 
                 if ($seller) {
-                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo, $this->articles_panier));
+                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo, $this->articles_panier, $gain));
                 }
                 $notification = new notifications();
                 $notification->titre = "Une nouvelle commande !";

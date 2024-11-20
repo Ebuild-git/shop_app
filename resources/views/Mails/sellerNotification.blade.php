@@ -87,7 +87,7 @@
                             </td>
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <p>{{ $article['prix'] }} <sup>DH</sup></p>
+                                <span style="font-weight: 600;">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
                     @endforeach

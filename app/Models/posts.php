@@ -94,6 +94,21 @@ class posts extends Model
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
 
+    public function calculateGain()
+    {
+        $sousCategorie = $this->sous_categorie_info;
+
+        if ($sousCategorie && $sousCategorie->categorie) {
+            $pourcentageGain = $sousCategorie->categorie->pourcentage_gain;
+            $price = $this->old_prix ?: $this->prix; // Use old_prix if available, otherwise use prix
+            $gain = $price * ($pourcentageGain / 100);
+
+            return $gain;
+        }
+
+        return 0; // Return 0 if no category or gain is found
+    }
+
 
     //recuperer les informations su l'uilisateur
     public function user_info()
