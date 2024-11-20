@@ -128,7 +128,7 @@
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
                             </td>
                             <td class="product-info">
-                                <h3>{{ $article['titre'] }}</h3>
+                                <h3>{{ $article['titre'] }}</h3><br>
                                 <span class="gain">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
