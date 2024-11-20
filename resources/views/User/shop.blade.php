@@ -274,20 +274,20 @@
                                     <div class="widget-boxed-body collapse-content" id="prixs">
                                         <div class="side-list no-border">
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="ordre_prix" value="Asc" onclick="choix_ordre_prix('prix_asc')" id="prix_asc">
+                                                <input type="radio" name="ordre_prix" value="low_to_high" onclick="updatePriceFilter('low_to_high')" id="prix_asc">
                                                 <span class="btn-etat-shop">Ordre croissant</span>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="ordre_prix" value="Desc" onclick="choix_ordre_prix('prix_desc')" id="prix_desc">
+                                                <input type="radio" name="ordre_prix" value="high_to_low" onclick="updatePriceFilter('high_to_low')" id="prix_desc">
                                                 <span class="btn-etat-shop">Ordre décroissant</span>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="ordre_prix" value="Soldé" onclick="choix_ordre_prix('Soldé')" id="solder">
+                                                <input type="radio" name="ordre_prix" value="soldé" onclick="updatePriceFilter('soldé')" id="solder">
                                                 <span class="btn-etat-shop">Articles soldés</span>
                                             </div>
                                             @if (!$selected_categorie)
                                                 <div class="d-flex justify-content-start">
-                                                    <input type="checkbox" name="ordre_prix" value="Desc" onclick="choix_ordre_prix('luxury')">
+                                                    <input type="checkbox" name="ordre_prix" value="luxury" onclick="updatePriceFilter('luxury')">
                                                     <span class="btn-etat-shop color">Uniquement <b><i class="bi bi-gem"></i> Luxury</b></span>
                                                 </div>
                                             @endif
@@ -480,13 +480,14 @@
                                                 Trier par
                                                 <i class="fas fa-chevron-down"></i>
                                             </div>
+
                                             <div class="dropdown-options">
-                                                <div class="dropdown-option" data-value="">Trier par</div>
-                                                <div class="dropdown-option" data-value="prix_asc">Prix croissant</div>
-                                                <div class="dropdown-option" data-value="prix_desc">Prix décroissant</div>
-                                                <div class="dropdown-option" data-value="Soldé">Articles Soldés</div>
+                                                <div class="dropdown-option" data-value="" onclick="updatePriceFilter('')">Trier par</div>
+                                                <div class="dropdown-option" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">Prix croissant</div>
+                                                <div class="dropdown-option" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">Prix décroissant</div>
+                                                <div class="dropdown-option" data-value="soldé" onclick="updatePriceFilter('soldé')">Articles Soldés</div>
                                                 @if (!$selected_categorie)
-                                                    <div class="dropdown-option" data-value="luxury">Luxury uniquement</div>
+                                                    <div class="dropdown-option" data-value="luxury" onclick="updatePriceFilter('luxury')">Luxury uniquement</div>
                                                 @endif
                                             </div>
                                         </div>
