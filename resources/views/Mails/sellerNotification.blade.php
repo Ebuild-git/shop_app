@@ -84,15 +84,17 @@
         .product-info {
             display: flex;
             flex-direction: column;
+            align-items: flex-start; /* Ensure left alignment */
         }
 
         .product-info h3 {
-            margin: 0;
+            margin: 0 0 5px 0; /* Add spacing below the title */
             font-size: 16px;
             color: #333;
         }
 
         .product-info .gain {
+            margin: 0; /* Remove margin for the gain text */
             font-weight: 600;
             font-size: 14px;
             color: #555;
