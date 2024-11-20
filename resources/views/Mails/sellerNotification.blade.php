@@ -130,8 +130,8 @@
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
                             </td>
                             <td class="product-info">
-                                <h3>{{ $article['titre'] }}</h3>
-                                <span class="gain">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
+                                <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; display: block;">{{ $article['titre'] }}</h3>
+                                <span style="margin: 0; font-weight: 600; font-size: 14px; color: #555; display: block;">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
                     @endforeach
