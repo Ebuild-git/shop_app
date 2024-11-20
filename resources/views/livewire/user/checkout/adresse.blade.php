@@ -99,6 +99,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <div class="alert alert-warning mb-3" role="alert">
+                                <strong><i class="bi bi-info-circle"></i>Note:</strong> Vous modifiez l'adresse principale de votre compte.
+                                Les modifications apportées à cette adresse mettront à jour vos informations d'adresse dans <b>"Mon compte"</b>.
+                            </div>
                             <form wire:submit.prevent="updateAddress">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -169,13 +173,21 @@
                         <!-- Show Default Extra Address (from userAddresses table) -->
                         <div class="address-details">
                             <b class="h6 d-block mb-1">
+                                @if ($user->gender == 'male')
+                                    M.
+                                @else
+                                    Mme
+                                @endif
+                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
+                            </b>
+                            <p class="mb-1">
                                 {{ $defaultAddress->building_name ? $defaultAddress->building_name . ',' : '' }}
                                 {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
                                 {{ $defaultAddress->floor ? $defaultAddress->floor . ',' : '' }}
                                 {{ $defaultAddress->apartment_number ? $defaultAddress->apartment_number . ',' : '' }}
                                 {{ $defaultAddress->city ? $defaultAddress->city . ',' : '' }}
                                 {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
-                            </b>
+                            </p>
                             <p class="mb-0">
                                 <i class="bi bi-telephone"></i> {{ $defaultAddress->phone_number }}
                             </p>
@@ -273,14 +285,7 @@
                         <p class="mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
-                        {{-- <button class="btn custom-default btn-sm mt-3" wire:click="removeDefault">
-                            <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
-                        </button>
-                        <div class="mt-auto d-flex justify-content-end">
-                            <button type="button" class="btn-modern-1" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </div> --}}
+
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <button class="btn custom-default btn-sm" wire:click="removeDefault">
                                 <i class="bi bi-arrow-counterclockwise"></i> Définir par défaut
@@ -455,7 +460,9 @@
         </div>
     </div>
 
-
+    <div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        Loading...
+    </div>
 </div>
 
  <!-- Bootstrap JS and dependencies -->
@@ -474,4 +481,18 @@
          alert('Adresse modifiée avec succès.');
      });
  </script>
+
+
+<script>
+    document.addEventListener('refreshAddresses', () => {
+        // Show the loader
+        document.getElementById('loader').style.display = 'block';
+
+        // Reload the page
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+    });
+</script>
+
 

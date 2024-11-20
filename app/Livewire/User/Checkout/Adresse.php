@@ -108,6 +108,7 @@ class Adresse extends Component
 
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
         $this->loadAddresses();
+        $this->dispatch('refreshAddresses');
 
     }
     public function unsetDefault($id)
