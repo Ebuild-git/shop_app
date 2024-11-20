@@ -55,6 +55,48 @@
             margin-bottom: 10px;
             color: #555;
         }
+        .order-summary {
+            margin-top: 20px;
+        }
+
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-summary td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-item img {
+            width: 60px; /* Adjust image size */
+            height: auto;
+            margin-right: 15px; /* Space between image and text */
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .product-info .gain {
+            font-weight: 600;
+            font-size: 14px;
+            color: #555;
+        }
 
         .footer {
             background-color: #008080;
@@ -81,13 +123,13 @@
                 <h3>Récapitulatif de la commande</h3>
                 <table>
                     @foreach ($articles_panier as $article)
-                        <tr>
+                        <tr class="product-item">
                             <td class="product-img1">
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
                             </td>
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <span style="font-weight: 600;">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
+                                <span class="gain">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
                     @endforeach
