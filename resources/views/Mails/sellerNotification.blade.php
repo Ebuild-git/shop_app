@@ -126,17 +126,18 @@
                 <h3>Récapitulatif de la commande</h3>
                 <table>
                     @foreach ($articles_panier as $article)
-                        <tr class="product-item">
-                            <td class="product-img1">
+                        <tr class="product-row">
+                            <td class="image-cell">
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
                             </td>
-                            <td class="product-info">
-                                <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; display: block;">{{ $article['titre'] }}</h3>
-                                <span style="margin: 0; font-weight: 600; font-size: 14px; color: #555; display: block;">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
+                            <td class="details-cell">
+                                <h3>{{ $article['titre'] }}</h3>
+                                <span class="price-info">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
                     @endforeach
                 </table>
+
             </div>
             <p>
                 Merci de bien vouloir <a href="{{ config('app.url') }}/informations?section=cord" class="underlined-link">cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.

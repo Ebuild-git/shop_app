@@ -233,23 +233,23 @@
                                     <div class="widget-boxed-body collapse-content" id="types">
                                         <div class="side-list no-border">
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="etat" value="Neuf avec étiquettes" onclick="choix_etat(this)">
+                                                <input type="radio" name="etat" value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">
                                                 <button type="button" class="btn-etat-shop">Neuf avec étiquettes</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="etat" value="Neuf sans étiquettes" onclick="choix_etat(this)">
+                                                <input type="radio" name="etat" value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">
                                                 <button type="button" class="btn-etat-shop">Neuf sans étiquettes</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="etat" value="Très bon état" onclick="choix_etat(this)">
+                                                <input type="radio" name="etat" value="Très bon état" onclick="updateConditionFilter('Très bon état')">
                                                 <button type="button" class="btn-etat-shop">Très bon état</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="etat" value="Bon état" onclick="choix_etat(this)">
+                                                <input type="radio" name="etat" value="Bon état" onclick="updateConditionFilter('Bon état')">
                                                 <button type="button" class="btn-etat-shop">Bon état</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
-                                                <input type="radio" name="etat" value="Usé" onclick="choix_etat(this)">
+                                                <input type="radio" name="etat" value="Usé" onclick="updateConditionFilter('Usé')">
                                                 <button type="button" class="btn-etat-shop">Usé</button>
                                             </div>
                                             @error('etat')
