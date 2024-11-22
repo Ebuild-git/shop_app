@@ -445,18 +445,51 @@
             </div>
 
 
-            <!-- Continue Button -->
             <div class="d-flex justify-content-end mt-3">
-                @if ($this->next)
-                    <button type="button" wire:click="valider()" class="btn btn-dark btn-continue" @disabled(!($user->address && $user->rue && $user->nom_batiment))>
-                        Continuer <i class="bi bi-arrow-right"></i>
-                    </button>
+                @php
+                    // Check if there is a default extra address and validate it
+                    $isDefaultExtraAddressComplete = $defaultAddress &&
+                        !empty($defaultAddress->region) &&
+                        !empty($defaultAddress->city) &&
+                        !empty($defaultAddress->street) &&
+                        !empty($defaultAddress->building_name) &&
+                        !empty($defaultAddress->floor) &&
+                        !empty($defaultAddress->apartment_number) &&
+                        !empty($defaultAddress->phone_number);
+
+                    // Check completeness for the primary address only if no default extra address is set
+                    $isPrimaryAddressComplete = !$defaultAddress &&
+                        !empty($user->region) &&
+                        !empty($user->address) &&
+                        !empty($user->rue) && !empty($user->etage) &&
+                        !empty($user->nom_batiment) && !empty($user->num_appartement) &&
+                        !empty($user->phone_number);
+                @endphp
+
+                @if ($defaultAddress)
+                    @if ($isDefaultExtraAddressComplete)
+                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
+                            Continuer <i class="bi bi-arrow-right"></i>
+                        </button>
+                    @else
+                        <div class="alert alert-warning">
+                            Veuillez compléter toutes les informations de l'adresse par défaut pour continuer la commande.
+                        </div>
+                    @endif
                 @else
-                    <div class="alert alert-warning">
-                        Veuillez compléter les informations manquantes de votre adresse pour continuer la commande.
-                    </div>
+                    @if ($isPrimaryAddressComplete)
+                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
+                            Continuer <i class="bi bi-arrow-right"></i>
+                        </button>
+                    @else
+                        <div class="alert alert-warning">
+                            Veuillez compléter toutes les informations de votre adresse principale pour continuer la commande.
+                        </div>
+                    @endif
                 @endif
             </div>
+
+
         </div>
     </div>
 

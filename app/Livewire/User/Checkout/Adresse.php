@@ -189,9 +189,9 @@ class Adresse extends Component
     public function render()
     {
 
-        if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment && $this->user->etage && $this->user->num_appartement && $this->user->phone_number) || $this->locationUsed) {
-            $this->next = true;
-        }
+        // if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment && $this->user->etage && $this->user->num_appartement && $this->user->phone_number) || $this->locationUsed) {
+        //     $this->next = true;
+        // }
         return view('livewire.user.checkout.adresse', ['userAddresses' => $this->userAddresses]);
     }
 
