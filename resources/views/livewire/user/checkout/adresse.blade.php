@@ -183,8 +183,8 @@
                             <p class="mb-1">
                                 {{ $defaultAddress->building_name ? $defaultAddress->building_name . ',' : '' }}
                                 {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
-                                {{ $defaultAddress->floor ? $defaultAddress->floor . ',' : '' }}
-                                {{ $defaultAddress->apartment_number ? $defaultAddress->apartment_number . ',' : '' }}
+                                {{ $defaultAddress->floor ? 'Étage ' . $defaultAddress->floor . ',' : '' }}
+                                {{ $defaultAddress->apartment_number ? 'Numéro d\'appartement ' . $defaultAddress->apartment_number . ',' : '' }}
                                 {{ $defaultAddress->city ? $defaultAddress->city . ',' : '' }}
                                 {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
                             </p>
@@ -231,7 +231,12 @@
                             </b>
                             <p class="mb-1">
                                 @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
-                                    {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                                {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                                {{ $user->rue ? $user->rue . ', ' : '' }}
+                                {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
+                                {{ $user->num_appartement ? 'Numéro d\'appartement ' . $user->num_appartement . ', ' : '' }}
+                                {{ $user->address ? $user->address . ', ' : '' }}
+                                {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
                                 @else
                                     Adresse non complète
                                 @endif
@@ -277,7 +282,13 @@
                         </div>
                         <p class="mb-1">
                             @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
-                                {{ $user->address }}, {{ $user->rue }} {{ $user->nom_batiment }}, {{ $user->region_info->nom }}
+                            {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                            {{ $user->rue ? $user->rue . ', ' : '' }}
+                            {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
+                            {{ $user->num_appartement ? 'Numéro d\'appartement ' . $user->num_appartement . ', ' : '' }}
+                            {{ $user->address ? $user->address . ', ' : '' }}
+                            {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+
                             @else
                                 Adresse non complète
                             @endif
@@ -322,8 +333,8 @@
                         <p class="mb-1">
                             {{ $address->building_name ? $address->building_name . ',' : '' }}
                             {{ $address->street ? $address->street . ',' : '' }}
-                            {{ $address->floor ? $address->floor . ',' : '' }}
-                            {{ $address->apartment_number ? $address->apartment_number . ',' : '' }}
+                            {{ $address->floor ? 'Étage ' . $address->floor . ',' : '' }}
+                            {{ $address->apartment_number ? 'Numéro d\'appartement ' . $address->apartment_number . ',' : '' }}
                             {{ $address->city ? $address->city . ',' : '' }}
                             {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
                         </p>
