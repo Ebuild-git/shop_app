@@ -141,20 +141,27 @@ class ShopController extends Controller
 
 
         if ($key) {
-            $q = strtolower($key); // Convertir la recherche en minuscules
+            $q = strtolower($key);
 
             $query->where(function ($query) use ($q) {
-                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'titre'
-                    ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%']) // Recherche insensible à la casse sur la colonne 'proprietes'
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%'])
+                    ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%'])
                     ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%'])
-                    ->orWhereRaw('LOWER(etat) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la colonne 'description'
+                    ->orWhereRaw('LOWER(etat) LIKE ?', ['%' . $q . '%']);
                     if (str_contains(strtolower($q), 'soldé') || str_contains(strtolower($q), 'solde')) {
                         $query->orWhereNotNull('updated_price_at');
+                    }
+                    if (str_contains($q, 'luxury') || str_contains($q, 'luxe')) {
+                        $query->orWhereHas('sous_categorie_info', function ($query) {
+                            $query->whereHas('categorie', function ($query) {
+                                $query->where('luxury', true);
+                            });
+                        });
                     }
                 });
 
             $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
-                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']); // Recherche insensible à la casse sur la relation 'sous_categorie_info'
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']);
             });
         }
 
