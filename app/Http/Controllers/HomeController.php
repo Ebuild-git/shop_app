@@ -72,9 +72,8 @@ class HomeController extends Controller
             }
         }
         // Controller method
-        $categories_carousel = categories::orderBy('titre')
-            ->orderByDesc('luxury')
-            ->get();
+        $categories_carousel = Categories::orderBy('id')->get();
+
 
         return view("User.index", compact("categories", "configuration", "last_post", "luxurys", "categories_carousel"));
     }
