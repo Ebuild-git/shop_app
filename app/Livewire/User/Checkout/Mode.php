@@ -50,7 +50,7 @@ class Mode extends Component
     {
         $total = 0;
         $nbre_article = 0;
-        $this->articles_panier = [];
+        $articles_panier = [];
         $user_id = auth()->id();
 
         // Get cart items from UserCart based on user_id
@@ -64,7 +64,7 @@ class Mode extends Component
                 ->first();
 
             if ($post) {
-                $this->articles_panier[] = [
+               $articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
@@ -77,10 +77,17 @@ class Mode extends Component
                 $nbre_article++;
             }
         }
+        $groupedByVendor = collect($articles_panier)->groupBy('vendeur');
+        $uniqueVendorsCount = $groupedByVendor->count();
+        $totalDeliveryFees = $uniqueVendorsCount > 0 ? $this->frais * $uniqueVendorsCount : 0;
+        $totalWithDelivery = $total + $totalDeliveryFees;
 
         return view('livewire.user.checkout.mode')
             ->with("total", $total)
-            ->with("nbre_article", $nbre_article);
+            ->with("articles_panier", $articles_panier)
+            ->with("nbre_article", $nbre_article)
+            ->with("totalDeliveryFees", $totalDeliveryFees)
+            ->with("totalWithDelivery", $totalWithDelivery);
     }
 
     public function confirm()
@@ -91,7 +98,7 @@ class Mode extends Component
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             $gain = $post->calculateGain();
-
+            dd($gain);
             if ($post) {
                 $proprietes = $post->proprietes;
                 if (isset($proprietes['Poids']) && $proprietes['Poids'] !== null) {

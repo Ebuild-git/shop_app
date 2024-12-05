@@ -96,17 +96,19 @@ class posts extends Model
 
     public function calculateGain()
     {
-        $sousCategorie = $this->sous_categorie_info;
+        // $sousCategorie = $this->sous_categorie_info;
 
-        if ($sousCategorie && $sousCategorie->categorie) {
-            $pourcentageGain = $sousCategorie->categorie->pourcentage_gain;
-            $price = $this->old_prix ?: $this->prix; // Use old_prix if available, otherwise use prix
-            $gain = $price * ($pourcentageGain / 100);
+        // if ($sousCategorie && $sousCategorie->categorie) {
+        //     $pourcentageGain = $sousCategorie->categorie->pourcentage_gain;
+        //     $price = $this->old_prix ?: $this->prix;
+        //     $gain = $price * ($pourcentageGain / 100);
 
-            return $gain;
-        }
+        //     return $gain;
+        // }
 
-        return 0; // Return 0 if no category or gain is found
+        // return 0;
+        $price = $this->old_prix ?: $this->prix;
+        return $price;
     }
 
 

@@ -132,7 +132,7 @@
                             </td>
                             <td class="details-cell">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <span class="price-info">Le montant que vous allez percevoir: {{$gain}}<sup>DH</sup></span>
+                                <span class="price-info">La somme que vous allez reçevoir dans votre compte bancaire en Dhs est: {{$gain}}<sup>DH</sup></span>
                             </td>
                         </tr>
                     @endforeach

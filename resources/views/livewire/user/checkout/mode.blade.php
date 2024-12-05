@@ -49,15 +49,15 @@
                     <hr>
                     <div class="d-flex justify-content-between summary-item">
                         <span>Sous-total :</span>
-                        <b>{{ number_format($total, 2, '.', '') * $nbre_article }} <sup>DH</sup></b>
+                        <b>{{ number_format($total, 2, '.', '') }} <sup>DH</sup></b>
                     </div>
                     <div class="d-flex justify-content-between summary-item">
                         <span>Total de frais :</span>
-                        <b>{{ $frais * $nbre_article }} <sup>DH</sup></b>
+                        <b>{{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>DH</sup></b>
                     </div>
                     <div class="d-flex justify-content-between summary-item total-section">
                         <h4 class="color"><b>TOTAL :</b></h4>
-                        <h4><b>{{ number_format($total, 2, '.', '') + $frais * $nbre_article }} <sup>DH</sup></b></h4>
+                        <h4><b>{{ number_format($totalWithDelivery, 2, '.', '') }} <sup>DH</sup></b></h4>
                     </div>
                     @if ($total > 0)
                         <hr>

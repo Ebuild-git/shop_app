@@ -33,7 +33,7 @@
                         </p>
                         <p class="mb-0">
                             <small class="text-muted">
-                                Nombre total des vendeurs particuliers !
+                                Nombre total des vendeurs particuliers
                             </small>
                         </p>
                     </div>
@@ -59,7 +59,7 @@
                         </p>
                         <p class="mb-0">
                             <small class="text-muted">
-                                Nombre total des Catégories !
+                                Nombre total des Catégories
                             </small>
                         </p>
                     </div>
@@ -85,7 +85,7 @@
                         </p>
                         <p class="mb-0">
                             <small class="text-muted">
-                                Publications totales de la plate-forme !
+                                Publications totales de la plate-forme
                             </small>
                         </p>
                     </div>
@@ -107,7 +107,7 @@
                         <p class="mb-1">Ventes</p>
                         <p class="mb-0">
                             <small class="text-muted">
-                                Nombre total des ventes !
+                                Nombre total des ventes
                             </small>
                         </p>
                     </div>

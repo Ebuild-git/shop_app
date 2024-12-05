@@ -384,9 +384,6 @@ class CreatePost extends Component
             $notification->save();
         }
 
-        //$this->dispatch('alert', ['message' => "Le post a été créé avec succès", 'type' => 'success']);
-
-        // Réinitialiser le formulaire
         return redirect()->route('details_post_single', ['id' => $post->id]);
     }
 
