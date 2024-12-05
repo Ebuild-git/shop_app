@@ -64,7 +64,7 @@ class Mode extends Component
                 ->first();
 
             if ($post) {
-               $articles_panier[] = [
+                $this->articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
@@ -77,14 +77,13 @@ class Mode extends Component
                 $nbre_article++;
             }
         }
-        $groupedByVendor = collect($articles_panier)->groupBy('vendeur');
+        $groupedByVendor = collect($this->articles_panier)->groupBy('vendeur');
         $uniqueVendorsCount = $groupedByVendor->count();
         $totalDeliveryFees = $uniqueVendorsCount > 0 ? $this->frais * $uniqueVendorsCount : 0;
         $totalWithDelivery = $total + $totalDeliveryFees;
 
         return view('livewire.user.checkout.mode')
             ->with("total", $total)
-            ->with("articles_panier", $articles_panier)
             ->with("nbre_article", $nbre_article)
             ->with("totalDeliveryFees", $totalDeliveryFees)
             ->with("totalWithDelivery", $totalWithDelivery);
@@ -98,7 +97,6 @@ class Mode extends Component
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             $gain = $post->calculateGain();
-            dd($gain);
             if ($post) {
                 $proprietes = $post->proprietes;
                 if (isset($proprietes['Poids']) && $proprietes['Poids'] !== null) {
@@ -301,7 +299,7 @@ class Mode extends Component
                 $notification->type = "alerte";
                 $notification->url = "/post/" . $post->id;
                 $notification->message = "$salutation " . $seller->username . ", "
-                . "Nous vous informons que votre article \"{$post->titre}\" a été commandé par $buyerPseudo. "
+                . "Nous vous informons que votre article <a href='" . route('details_post2', ['id' => $post->id, 'titre' => $post->titre]) . "' class='underlined-link'>{$post->titre}</a> a été commandé par $buyerPseudo. "
                 . "Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique "
                 . "vous contactera bientôt et passera pour récupérer l'article.<br>"
                 . "Merci de bien vouloir <a href='/informations?section=cord' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), "
