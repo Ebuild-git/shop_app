@@ -337,7 +337,7 @@
                                     @enderror
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
-                                            placeholder="{{ $propriete_info->nom }}"
+                                            placeholder="{{ $propriete_info->nom }} @if($propriete_info->nom == 'Poids' && $propriete_info->type == 'number') en KG @endif"
                                             class="form-control cusor border-r"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
                                         @error("article_propriete.{$propriete_info->nom}")

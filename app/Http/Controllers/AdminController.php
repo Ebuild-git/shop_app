@@ -160,4 +160,7 @@ class AdminController extends Controller
 
         }
 
+        public function shipment(){
+            return view("Admin.shipement.shipement");
+        }
 }

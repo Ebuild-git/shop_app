@@ -410,7 +410,12 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li class="menu-item">
+                                    <a href="{{ route('shipment') }}" class="menu-link ">
+                                        <i class="menu-icon tf-icons bi bi-speedometer"></i>
+                                        <div data-i18n="Expédition">Expédition</div>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </aside>

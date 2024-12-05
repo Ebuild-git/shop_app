@@ -182,6 +182,11 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/nos_partenaires', [PartenairesController::class, 'index'])->name('nos_partenaires');
     Route::post('/admin/nos_partenaires/create', [PartenairesController::class, 'create'])->name('create_partenaires');
     Route::post('/admin/nos_partenaires/delete', [PartenairesController::class, 'delete'])->name('delete_partenaires');
+
+    //SHIPEMENT
+
+    Route::get('/admin/shipment', [AdminController::class, 'shipment'])->name('shipment');
+
 });
 
 
