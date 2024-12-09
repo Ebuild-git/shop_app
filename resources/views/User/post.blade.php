@@ -41,7 +41,7 @@
                 <p class="text-muted">Veuillez remplir les informations bancaires pour compléter votre profil.</p>
             </div>
             <div id="ribMessage" class="mb-3"></div>
-            <form id="ribForm">
+            <form id="ribForm" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4 position-relative">
                     {{-- <i class="fas fa-user-circle form-icon"></i> --}}
@@ -79,11 +79,73 @@
                         class="form-control form-control-lg"
                         id="ribNumber"
                         name="ribNumber"
-                        {{-- value="{{ old('ribNumber', Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : '') }}" --}}
+                        value="{{ old('ribNumber', Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : '') }}"
                         required
                         placeholder="Entrez votre numéro RIB"
                     >
                 </div>
+
+                {{-- <div class="mb-4 position-relative">
+                    <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
+                    <div class="file-upload-container">
+                        @if(Auth::user()->cin_img)
+                            <div class="file-upload-preview">
+                                <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview" style="max-width: 50px; display: block;">
+                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">Télécharger l'image</a>
+                            </div>
+                        @else
+                            <div class="file-upload-preview">
+                                <img id="imagePreview" src="#" alt="Image Preview" style="display:none;">
+                            </div>
+                        @endif
+                        <input
+                            type="file"
+                            class="form-control form-control-lg file-input"
+                            id="cinImg"
+                            name="cin_img"
+                            accept="image/*"
+                            style="display: none;"
+                        >
+                        <label for="cinImg" class="upload-icon-label">
+                            <i class="fas fa-upload"></i>
+                            <span>Choisir un fichier</span>
+                        </label>
+                    </div>
+                </div> --}}
+                <div class="mb-4 position-relative">
+                    <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
+                    <div class="file-upload-container">
+                        <!-- If the user has already uploaded an image, show the preview and download link -->
+                        @if(Auth::user()->cin_img)
+                            <div class="file-upload-preview">
+                                <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview">
+                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">Télécharger l'image</a>
+                            </div>
+                        @else
+                            <div class="file-upload-preview">
+                                <img id="imagePreview" src="#" alt="Image Preview" style="display:none;">
+                            </div>
+                        @endif
+
+                        <!-- File input hidden -->
+                        <input
+                            type="file"
+                            class="file-input"
+                            id="cinImg"
+                            name="cin_img"
+                            accept="image/*"
+                        >
+
+                        <!-- Custom upload button -->
+                        <label for="cinImg" class="upload-icon-label">
+                            <i class="fas fa-upload"></i>
+                            <span>Choisir un fichier</span>
+                        </label>
+                    </div>
+                </div>
+
+
+
                 @php
                 $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->rib_number;
                 @endphp
@@ -103,6 +165,21 @@
 });
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.getElementById('cinImg').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = event.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const showArticleButton = document.getElementById('showArticle');
@@ -142,16 +219,16 @@
             ribSection.style.display = 'none';
         }
 
-        // AJAX form submission
         $('#ribForm').on('submit', function (e) {
             e.preventDefault();
-
-            const formData = $(this).serialize();
+            var formData = new FormData(this);
 
             $.ajax({
                 url: '{{ route('rib.submit') }}',
                 type: 'POST',
                 data: formData,
+                processData: false,
+                contentType: false,
                 success: function (response) {
                     $('#ribMessage').html('<div class="alert alert-success">' + response.message + '</div>');
                 },
@@ -160,6 +237,7 @@
                 }
             });
         });
+
     });
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

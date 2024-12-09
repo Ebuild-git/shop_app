@@ -98,6 +98,8 @@ class HomeController extends Controller
             'ribNumber' => 'required|string',
             'bankName' => 'required|string',
             'titulaireName' => 'required|string',
+            'cin_img' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
+
         ]);
 
         $user = Auth::user();
@@ -111,6 +113,11 @@ class HomeController extends Controller
         $user->bank_name = $request->input('bankName');
         $user->titulaire_name = $request->input('titulaireName');
 
+        if ($request->file('cin_img')) {
+            $image = $request->file('cin_img');
+            $imagePath = $image->store('cin_images', 'public'); // Save in the "public/cin_images" directory
+            $user->cin_img = $imagePath;
+        }
         $user->save();
 
         $message = $isNew ? 'RIB ajouté avec succès.' : 'RIB modifié avec succès.';
