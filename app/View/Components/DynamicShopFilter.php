@@ -27,7 +27,7 @@ class DynamicShopFilter extends Component
         //pas de majuscule dans les nom des key
         $regles = [
             "fashion & vêtements" => ["Etat", "Prix", "Article pour", "Taille", "Taille en chiffre", "Taille en chiffre", "Couleur"],
-            "sacs & accessoires" => ["Etat", "Prix", "Article pour", "Couleur"],
+            "sacs & accessoires" => ["Etat", "Prix", "Article pour", "Couleur", "Matière"],
             "chaussures" => ["État", "Prix", "Article pour", "Pointure", "Couleur"],
             "livres & fournitures" => ["État", "Prix", "Langue du livre"],
             "langue du livre" => ["État", "Prix"],

@@ -1703,7 +1703,7 @@
                  }
                 Tailleenchiffre = nom;
             }
-            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures' || type == 'Matière' || type == 'matière') {
                 Matiere = nom;
             }
             if (type == 'Pointure Bébé' || type == 'Pointure bébé' || type == 'pointure bébé') {
