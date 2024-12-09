@@ -282,9 +282,8 @@
     </script>
     <script>
         window.onload = function() {
-    document.getElementById('agreeConditionButton').classList.add('pulsing');
-}
-
+        document.getElementById('agreeConditionButton').classList.add('pulsing');
+    }
     </script>
     @auth
         <style>
@@ -292,6 +291,12 @@
                 position: absolute;
                 right: 150px;
                 top: -63px;
+            }
+            @media (max-width: 1024px) {
+                .comment-position-top {
+                    right: 81px;
+                    top: -63px;
+                }
             }
         </style>
     @endauth
