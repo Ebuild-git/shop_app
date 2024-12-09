@@ -355,11 +355,7 @@
 
     </div>
 
-
-
     <br><br>
-
-
 
     <div class="header-titre-create">
         <div class="align-self-start ">
@@ -378,17 +374,6 @@
             <small class="form-text text-danger">{{ $message }}</small>
         @enderror
     </div>
-
-
-
-
-
-
-
-
-
-
-
 
     <br>
     <div class="text-muted text-center">
@@ -508,25 +493,19 @@
 
     <script>
         $(document).ready(function() {
-            let suggestions, model; // Déclarer la variable suggestions en dehors de la fonction d'événement
+            let suggestions, model;
 
             $(document).on("keyup", ".liste", function(event) {
                 const inputField = $(this);
-
-                // Récupérer les suggestions une seule fois en dehors de la fonction d'événement
                 if (!suggestions) {
                     suggestions = inputField.data('suggestions');
                     model = inputField.data('model');
                 }
-
-                // Fonction pour mettre à jour les suggestions en fonction de ce que vous tapez
                 function updateSuggestions(input) {
                     return suggestions.filter(suggestion =>
                         suggestion.toLowerCase().includes(input.toLowerCase())
                     );
                 }
-
-                // Fonction pour afficher les suggestions
                 function showSuggestions(suggestions) {
                     const suggestionList = $('<ul id="suggestion-list"></ul>');
 
@@ -534,14 +513,8 @@
                         const listItem = $('<li></li>').text(suggestion);
                         suggestionList.append(listItem);
                     });
-
-                    // Supprime la liste de suggestions précédente s'il y en a une
                     $('#suggestion-list').remove();
-
-                    // Ajoute la nouvelle liste de suggestions juste en dessous du champ de saisie
                     inputField.parent().append(suggestionList);
-
-                    // Gère la sélection de suggestion
                     suggestionList.on('click', 'li', function() {
                         inputField.val($(this).text());
                         suggestionList.remove();
@@ -555,13 +528,9 @@
 
                     });
                 }
-
-                // Récupère la valeur actuelle du champ de saisie
                 const input = inputField.val();
                 const filteredSuggestions = updateSuggestions(input);
                 showSuggestions(filteredSuggestions);
-
-                // Gère le clic en dehors de la liste de suggestions pour la fermer
                 $(document).on('click', function(event) {
                     if (!$(event.target).closest(inputField).length && !$(event.target).closest(
                             '#suggestion-list').length) {
@@ -570,9 +539,6 @@
                 });
             });
         });
-
-
-
 
         $(document).ready(function() {
 
@@ -607,14 +573,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to handle disabling other inputs when one is filled
             function handleInputChange() {
                 const tailleInputs = document.querySelectorAll('.option-taille, .option-tailleenchiffre, .option-taillebébé, .option-tailleenfant');
-
-                // Add event listeners to each taille input
                 tailleInputs.forEach(input => {
                     input.addEventListener('input', function() {
-                        // If an input has a value, disable other inputs in the group
                         tailleInputs.forEach(otherInput => {
                             if (otherInput !== input) {
                                 otherInput.disabled = this.value.trim() !== '';
@@ -623,26 +585,22 @@
                     });
                 });
             }
-
-            // Function to observe DOM changes and apply listeners if needed
             function observeDOM() {
                 const observer = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.type === 'childList') {
-                            handleInputChange(); // Reapply listeners when DOM changes
+                            handleInputChange();
                         }
                     });
                 });
-
-                // Start observing the body for added elements
                 observer.observe(document.body, {
                     childList: true,
                     subtree: true
                 });
             }
 
-            observeDOM(); // Start observing the DOM for changes
-            handleInputChange(); // Initialize listeners on page load
+            observeDOM();
+            handleInputChange();
         });
     </script>
 
@@ -832,8 +790,6 @@
 
             });
         });
-
-
     });
 </script>
 <script>

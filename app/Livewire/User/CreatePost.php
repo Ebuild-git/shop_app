@@ -157,8 +157,6 @@ class CreatePost extends Component
             ->with("categories", $categories);
     }
 
-    //validation with multi upload image
-
 
 
     public function inputChanged($value)
@@ -181,7 +179,6 @@ class CreatePost extends Component
         if ($category->luxury && $this->prix < 800) {
             $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
         } elseif (!$category->luxury && $this->prix >= 800) {
-            // Assume here that if it's not luxury and the price is high, you need another message or validation
             $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
         } else {
             $this->resetErrorBag('prix');
@@ -194,11 +191,7 @@ class CreatePost extends Component
         $subcategoryRequired = DB::table('sous_categories')
         ->where('id', $this->selectedSubcategory)
         ->value('required');
-
-        // Decode the JSON data
         $subcategoryRequired = json_decode($subcategoryRequired, true);
-
-        // Extract only required property IDs
         $requiredProps = [];
         foreach ($subcategoryRequired as $property) {
             if (isset($property['required']) && $property['required'] === 'Oui') {
@@ -222,13 +215,10 @@ class CreatePost extends Component
             'selectedCategory' => 'required|integer|exists:categories,id'
         ];
 
-        // Add dynamic validation rules for required properties
         foreach ($requiredProps as $propId) {
             $propName = DB::table('proprietes')->where('id', $propId)->value('nom');
             $rules["article_propriete.$propName"] = 'required';
         }
-
-        // Perform validation
         try {
             $this->validate($rules, [
                 'required' => "Veuillez remplir tous les champs obligatoires"
@@ -298,7 +288,6 @@ class CreatePost extends Component
 
     public function preview()
     {
-
         if (!$this->before_post()) {
             if ($this->getErrorBag()->has('prix')) {
                 $this->dispatch('alert', [
@@ -317,8 +306,6 @@ class CreatePost extends Component
             ]);
             return;
         }
-
-        // Open the preview modal if all checks pass
         $this->dispatch('openmodalpreview', $this->data_post);
     }
 
@@ -327,12 +314,8 @@ class CreatePost extends Component
 
     public function submit()
     {
-        // if (!$this->userHasRib) {
-        //     return;
-        // }
         $this->before_post();
         if ($this->data_post) {
-            //verifier que l'utilisateur a ajouter au moins une photo
             if (empty($this->data_post["photos"])) {
                 $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
                 return;

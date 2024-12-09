@@ -388,25 +388,23 @@
                                             <td class="text-black cell">
                                                 @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
-                                                        <img src="/icons/color-wheel.png" height="20" width="20"
-                                                            alt="multicolor" title="Multi color" srcset="">
+                                                        <img src="/icons/color-wheel.png" height="20"
+                                                            width="20" alt="multicolor"
+                                                            title="Multi color" srcset="">
                                                     @else
                                                         <script>
                                                             getColorName('{{ $value }}');
                                                         </script>
-                                                        {{-- <span class="card"
-                                                            style="background-color: {{ $value }} ;color:{{ $value }};">
-                                                            {{ $value }}
-                                                        </span> --}}
+
                                                         <div style="display: flex; align-items: center;">
                                                             <div style="width: 24px; height: 24px; background-color: {{ $value }}; border-radius: 50%; border: 2px solid #ccc; margin-right: 8px;"></div>
                                                             <span id="colorName" style="color: #333; font-weight: bold;"></span>
                                                         </div>
-
                                                     @endif
-                                                    {{-- <span id="colorName"></span> --}}
                                                 @else
-                                                    {{ $value }}
+                                                    <span class="text-capitalize">
+                                                        {{ $value }}
+                                                    </span>
                                                 @endif
                                             </td>
                                         </tr>
