@@ -42,6 +42,7 @@
     @auth
         <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
+    <script src="{{ asset('js/Shop.js?v=') . time() }}"></script>
 
     <style>
     #comment_position {

@@ -502,8 +502,6 @@
                                             @endif
                                         </select>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -641,7 +639,6 @@
             }
         }
 
-
         function filtre_propriete_color(type, code, nom) {
             add_selected_option(type, nom);
             filtre_propriete(type, code);
@@ -697,7 +694,6 @@
             add_selected_option("etat", etat);
             fetchProducts();
         }
-
 
         function select_sous_categorie(id) {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
@@ -824,7 +820,7 @@
         }
 
         function fetchProducts(page = 1) {
-            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val(); // Get the price order from global variable or an input/select element
+            var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val();
             var etat = window.currentCondition;
 
             $("#loading").show("show");
@@ -979,7 +975,6 @@
                     startPage = 1;
                     endPage = totalPages;
                 } else {
-                    // Determine the start and end pages based on the current page
                     if (currentPage <= 2) {
                         startPage = 1;
                         endPage = 3;
@@ -992,7 +987,6 @@
                     }
                 }
 
-                // Add "Previous" button if not on the first page
                 if (currentPage > 1) {
                     paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
                 }
@@ -1125,193 +1119,5 @@
         }
 
     </style>
-    <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const dropdown = document.querySelector('.custom-dropdown');
-    const selected = dropdown.querySelector('.dropdown-selected');
-    const options = dropdown.querySelectorAll('.dropdown-option');
-    const hiddenSelect = document.querySelector('#filtre-ordre');
 
-    // Toggle dropdown on click
-    selected.addEventListener('click', function () {
-        dropdown.classList.toggle('active');
-    });
-
-    // Handle option selection
-    options.forEach(option => {
-        option.addEventListener('click', function () {
-            const value = this.getAttribute('data-value');
-            const text = this.textContent;
-
-            // Update the displayed selected option
-            selected.innerHTML = `${text} <i class="fas fa-chevron-down"></i>`;
-
-            // Update the hidden select value
-            hiddenSelect.value = value;
-
-            // Trigger a change event or form submission (adjust as needed)
-            hiddenSelect.dispatchEvent(new Event('change'));
-
-            // Close the dropdown
-            dropdown.classList.remove('active');
-        });
-    });
-
-    // Close dropdown if clicked outside
-    document.addEventListener('click', function (event) {
-        if (!dropdown.contains(event.target)) {
-            dropdown.classList.remove('active');
-        }
-    });
-});
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const trierParButton = document.getElementById('trier-par-mobile');
-    const sortingOptions = document.getElementById('sorting-options-mobile');
-    const filtreOrdreSelect = document.getElementById('filtre-ordre');
-    const trierParText = trierParButton.querySelector('span');
-    const filterConditionButton = document.getElementById('filter-condition-mobile');
-    const conditionOptions = document.getElementById('condition-options-mobile');
-    const dynamicFilterButton = document.getElementById('dynamic-filter-toggle');
-    const dynamicFilterOptions = document.getElementById('dynamic-filter-mobile');
-
-    function closeAllDropdowns() {
-        sortingOptions.style.display = 'none';
-        conditionOptions.style.display = 'none';
-        if (dynamicFilterOptions) dynamicFilterOptions.style.display = 'none';
-    }
-
-    trierParButton.addEventListener('click', function (event) {
-        event.stopPropagation();
-        closeAllDropdowns();
-        sortingOptions.style.display = (sortingOptions.style.display === 'none' || sortingOptions.style.display === '') ? 'block' : 'none';
-    });
-
-    filterConditionButton.addEventListener('click', function (event) {
-        event.stopPropagation();
-        closeAllDropdowns();
-        conditionOptions.style.display = (conditionOptions.style.display === 'none' || conditionOptions.style.display === '') ? 'block' : 'none';
-    });
-
-    // If dynamic filter button exists
-    if (dynamicFilterButton) {
-        dynamicFilterButton.addEventListener('click', function (event) {
-            event.stopPropagation();
-            closeAllDropdowns();
-            dynamicFilterOptions.style.display = (dynamicFilterOptions.style.display === 'none' || dynamicFilterOptions.style.display === '') ? 'block' : 'none';
-        });
-    }
-
-    document.querySelectorAll('#sorting-options-mobile .dropdown-option').forEach(option => {
-        option.addEventListener('click', function () {
-            const value = this.getAttribute('data-value');
-            const optionText = this.textContent;
-            filtreOrdreSelect.value = value;
-            filtreOrdreSelect.dispatchEvent(new Event('change'));
-            trierParText.textContent = optionText;
-            closeAllDropdowns();
-        });
-    });
-
-    // Close dropdowns if clicked outside
-    document.addEventListener('click', function (event) {
-        if (!trierParButton.contains(event.target) && !sortingOptions.contains(event.target) &&
-            !filterConditionButton.contains(event.target) && !conditionOptions.contains(event.target) &&
-            (!dynamicFilterButton || (!dynamicFilterButton.contains(event.target) && !dynamicFilterOptions.contains(event.target)))) {
-            closeAllDropdowns();
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const sidebar = document.querySelector('.search-sidebar');
-    const sortingOptions = document.querySelectorAll('#sorting-options-mobile .dropdown-option');
-    const filterOptions = document.querySelectorAll('#condition-options-mobile .dropdown-option');
-    const dropdowns = document.querySelectorAll('.dropdown');
-
-    function closeDropdown(dropdown) {
-        dropdown.classList.remove('show');
-    }
-
-    sortingOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('hide-on-mobile', option.getAttribute('data-value') !== "");
-                dropdowns.forEach(dropdown => closeDropdown(dropdown));
-            }
-        });
-    });
-
-    filterOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('hide-on-mobile', option.getAttribute('data-value') !== "");
-                dropdowns.forEach(dropdown => closeDropdown(dropdown));
-            }
-        });
-    });
-});
-
-    </script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const toggles = document.querySelectorAll('.collapse-toggle');
-
-    toggles.forEach(toggle => {
-        toggle.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-target');
-            const target = document.querySelector(targetId);
-            const icon = this.querySelector('.collapse-icon i');
-
-            if (target) {
-                if (target.classList.contains('active')) {
-                    target.classList.remove('active');
-                    this.setAttribute('aria-expanded', 'false');
-                    icon.classList.replace('fa-minus', 'fa-plus'); // Change to plus icon
-                } else {
-                    target.classList.add('active');
-                    this.setAttribute('aria-expanded', 'true');
-                    icon.classList.replace('fa-plus', 'fa-minus'); // Change to minus icon
-                }
-            }
-        });
-    });
-});
-
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Toggle dropdown function
-        function toggleDropdown(dropdownId, triggerId) {
-            var dropdown = document.getElementById(dropdownId);
-            var trigger = document.getElementById(triggerId);
-            var isDisplayed = window.getComputedStyle(dropdown).display !== 'none';
-            dropdown.style.display = isDisplayed ? 'none' : 'block';
-            trigger.classList.toggle('active'); // Toggle the active class for icon rotation
-        }
-
-        // Assign event listeners to the filter options
-        document.getElementById('filter-price-mobile').addEventListener('click', function() {
-            toggleDropdown('price-options-mobile', 'filter-price-mobile');
-        });
-
-        document.getElementById('filter-condition-category-mobile').addEventListener('click', function() {
-            toggleDropdown('condition-options-category-mobile', 'filter-condition-category-mobile');
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.matches('.custom-filter-option, .custom-filter-option *')) {
-                document.querySelectorAll('.custom-dropdown-container').forEach(function(dropdown) {
-                    dropdown.style.display = 'none';
-                    document.querySelectorAll('.custom-filter-option').forEach(function(trigger) {
-                        trigger.classList.remove('active');
-                    });
-                });
-            }
-        });
-    });
-</script>
 @endsection
