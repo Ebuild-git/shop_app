@@ -128,7 +128,7 @@
                     @foreach ($articles_panier as $article)
                         <tr class="product-row">
                             <td class="image-cell">
-                                <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}">
+                                <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}" width="30" height="30">
                             </td>
                             <td class="details-cell">
                                 <h3>{{ $article['titre'] }}</h3>
