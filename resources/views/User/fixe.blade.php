@@ -1601,29 +1601,79 @@
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
 
-
-
         function updatePriceFilter(priceOrder) {
-                let backendPriceOrder;
-                if (priceOrder === 'low_to_high') {
-                    backendPriceOrder = 'Asc';
-                } else if (priceOrder === 'high_to_low') {
-                    backendPriceOrder = 'Desc';
-                }else if (priceOrder === 'soldé') {
-                    backendPriceOrder = 'Soldé';
-                }else if (priceOrder === 'luxury') {
-                    backendPriceOrder = 'Luxury';
+            let backendPriceOrder;
+            if (priceOrder === 'low_to_high') {
+                backendPriceOrder = 'Asc';
+            } else if (priceOrder === 'high_to_low') {
+                backendPriceOrder = 'Desc';
+            } else if (priceOrder === 'soldé') {
+                backendPriceOrder = 'Soldé';
+            } else if (priceOrder === 'luxury') {
+                backendPriceOrder = 'Luxury';
+            }
+            window.currentPriceOrder = backendPriceOrder;
+            fetchProducts(); // Fetch the products based on the updated filter
+
+            // Show "X" next to the selected radio button
+            let radios = document.querySelectorAll('input[name="ordre_prix"]');
+            radios.forEach((radio) => {
+                let span = radio.parentElement.querySelector('.reset-x');
+                if (radio.checked) {
+                    span.style.display = 'inline'; // Show "X" if the radio is checked
                 }
-                window.currentPriceOrder = backendPriceOrder;
-                fetchProducts();
+            });
+        }
+
+        // Function to handle the click event on "X" to reset the price filter
+        function resetSinglePriceFilter(element) {
+            // Find the related radio button or checkbox
+            let radioOrCheckbox = element.parentElement.querySelector('input[type="radio"], input[type="checkbox"]');
+            radioOrCheckbox.checked = false; // Uncheck the radio button or checkbox
+
+            // Hide the "X" button after reset
+            element.style.display = 'none';
+
+            // Call the reset filter logic
+            updatePriceFilter(''); // Reset the filter by passing an empty condition
+        }
+
+        // Initialize: Hide "X" when no checkbox/radio is selected
+        document.querySelectorAll('input[name="ordre_prix"]').forEach((input) => {
+            let span = input.parentElement.querySelector('.reset-x');
+            span.style.display = 'none'; // Hide "X" initially
+            input.addEventListener('click', function() {
+                // When radio/checkbox is selected, show the "X"
+                updatePriceFilter(this.value);
+            });
+        });
+
+        function updateConditionFilter(condition) {
+        window.currentCondition = condition;
+        fetchProducts();
+        let radios = document.querySelectorAll('input[name="etat"]');
+        radios.forEach((radio) => {
+            let span = radio.parentElement.querySelector('.reset-x');
+            if (radio.checked) {
+                span.style.display = 'inline';
             }
+        });
+        }
 
-            function updateConditionFilter(condition) {
-                window.currentCondition = condition;
-                fetchProducts();
-            }
+        function resetSingleFilter(element) {
+            let radio = element.parentElement.querySelector('input[type="radio"]');
+            radio.checked = false;
+            element.style.display = 'none';
+            updateConditionFilter('');
+        }
 
-
+        document.querySelectorAll('input[name="etat"]').forEach((radio) => {
+            let span = radio.parentElement.querySelector('.reset-x');
+            span.style.display = 'none';
+            radio.addEventListener('click', function() {
+                updateConditionFilter(this.value);
+            });
+        });
 
         function select_categorie1(id, categorieName) {
                 categorie = id;

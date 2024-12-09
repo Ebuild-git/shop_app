@@ -184,3 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+document.querySelectorAll('input[name="etat"]').forEach((radio) => {
+    radio.addEventListener('click', function() {
+        if (!this.checked) {
+            // If the radio button is unchecked, reset the filter
+            updateConditionFilter('');
+        }
+    });
+});

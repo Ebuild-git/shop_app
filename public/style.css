@@ -3065,3 +3065,34 @@ input:checked + .slider:before {
     background-color: #000;
     color: #fff !important;
 }
+
+.reset-x {
+    display: none;
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #d9534f;
+    transition: color 0.3s;
+}
+
+.reset-x:hover {
+    color: #c9302c;
+}
+
+.d-flex {
+    position: relative;
+}
+
+.reset-x {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+/* Adjust for larger clickable area around the X */
+.reset-x {
+    padding: 5px;
+    cursor: pointer;
+    z-index: 1;
+}

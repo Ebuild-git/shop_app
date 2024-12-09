@@ -235,22 +235,27 @@
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">
                                                 <button type="button" class="btn-etat-shop">Neuf avec étiquettes</button>
+                                                <span class="reset-x" onclick="resetSingleFilter(this)">&times;</span> <!-- X for reset -->
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">
                                                 <button type="button" class="btn-etat-shop">Neuf sans étiquettes</button>
+                                                <span class="reset-x" onclick="resetSingleFilter(this)">&times;</span> <!-- X for reset -->
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Très bon état" onclick="updateConditionFilter('Très bon état')">
                                                 <button type="button" class="btn-etat-shop">Très bon état</button>
+                                                <span class="reset-x" onclick="resetSingleFilter(this)">&times;</span> <!-- X for reset -->
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Bon état" onclick="updateConditionFilter('Bon état')">
                                                 <button type="button" class="btn-etat-shop">Bon état</button>
+                                                <span class="reset-x" onclick="resetSingleFilter(this)">&times;</span> <!-- X for reset -->
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Usé" onclick="updateConditionFilter('Usé')">
                                                 <button type="button" class="btn-etat-shop">Usé</button>
+                                                <span class="reset-x" onclick="resetSingleFilter(this)">&times;</span> <!-- X for reset -->
                                             </div>
                                             @error('etat')
                                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -260,7 +265,7 @@
                                 </div>
 
                                 <!-- Single Option -->
-                                <div class="single_search_boxed">
+                                {{-- <div class="single_search_boxed">
                                     <div class="widget-boxed-header">
                                         <h4>
                                             <button class="collapse-toggle" data-target="#prixs">
@@ -289,6 +294,47 @@
                                                 <div class="d-flex justify-content-start">
                                                     <input type="checkbox" name="ordre_prix" value="luxury" onclick="updatePriceFilter('luxury')">
                                                     <span class="btn-etat-shop color">Uniquement <b><i class="bi bi-gem"></i> Luxury</b></span>
+                                                </div>
+                                            @endif
+                                            @error('ordre')
+                                                <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <div class="single_search_boxed">
+                                    <div class="widget-boxed-header">
+                                        <h4>
+                                            <button class="collapse-toggle" data-target="#prixs">
+                                                prix
+                                                <span class="collapse-icon">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </span>
+                                            </button>
+                                        </h4>
+                                    </div>
+                                    <div class="widget-boxed-body collapse-content" id="prixs">
+                                        <div class="side-list no-border">
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="low_to_high" onclick="updatePriceFilter('low_to_high')" id="prix_asc">
+                                                <span class="btn-etat-shop">Ordre croissant</span>
+                                                <span class="reset-x" onclick="resetSinglePriceFilter(this)">&times;</span> <!-- X for reset -->
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="high_to_low" onclick="updatePriceFilter('high_to_low')" id="prix_desc">
+                                                <span class="btn-etat-shop">Ordre décroissant</span>
+                                                <span class="reset-x" onclick="resetSinglePriceFilter(this)">&times;</span> <!-- X for reset -->
+                                            </div>
+                                            <div class="d-flex justify-content-start">
+                                                <input type="radio" name="ordre_prix" value="soldé" onclick="updatePriceFilter('soldé')" id="solder">
+                                                <span class="btn-etat-shop">Articles soldés</span>
+                                                <span class="reset-x" onclick="resetSinglePriceFilter(this)">&times;</span> <!-- X for reset -->
+                                            </div>
+                                            @if (!$selected_categorie)
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" name="ordre_prix" value="luxury" onclick="updatePriceFilter('luxury')">
+                                                    <span class="btn-etat-shop color">Uniquement <b><i class="bi bi-gem"></i> Luxury</b></span>
+                                                    <span class="reset-x" onclick="resetSinglePriceFilter(this)">&times;</span> <!-- X for reset -->
                                                 </div>
                                             @endif
                                             @error('ordre')
@@ -895,26 +941,89 @@
                 window.location.href = "/shop";
             }
 
+
             function updatePriceFilter(priceOrder) {
-                let backendPriceOrder;
-                if (priceOrder === 'low_to_high') {
-                    backendPriceOrder = 'Asc';
-                } else if (priceOrder === 'high_to_low') {
-                    backendPriceOrder = 'Desc';
-                }else if (priceOrder === 'soldé') {
-                    backendPriceOrder = 'Soldé';
-                }else if (priceOrder === 'luxury') {
-                    backendPriceOrder = 'Luxury';
+            let backendPriceOrder;
+            if (priceOrder === 'low_to_high') {
+                backendPriceOrder = 'Asc';
+            } else if (priceOrder === 'high_to_low') {
+                backendPriceOrder = 'Desc';
+            } else if (priceOrder === 'soldé') {
+                backendPriceOrder = 'Soldé';
+            } else if (priceOrder === 'luxury') {
+                backendPriceOrder = 'Luxury';
+            }
+            window.currentPriceOrder = backendPriceOrder;
+            fetchProducts(); // Fetch the products based on the updated filter
+
+            // Show "X" next to the selected radio button
+            let radios = document.querySelectorAll('input[name="ordre_prix"]');
+            radios.forEach((radio) => {
+                let span = radio.parentElement.querySelector('.reset-x');
+                if (radio.checked) {
+                    span.style.display = 'inline'; // Show "X" if the radio is checked
                 }
-                window.currentPriceOrder = backendPriceOrder;
-                fetchProducts();
-            }
+            });
+        }
 
-            function updateConditionFilter(condition) {
-                window.currentCondition = condition;
-                fetchProducts();
-            }
+        // Function to handle the click event on "X" to reset the price filter
+        function resetSinglePriceFilter(element) {
+            // Find the related radio button or checkbox
+            let radioOrCheckbox = element.parentElement.querySelector('input[type="radio"], input[type="checkbox"]');
+            radioOrCheckbox.checked = false; // Uncheck the radio button or checkbox
 
+            // Hide the "X" button after reset
+            element.style.display = 'none';
+
+            // Call the reset filter logic
+            updatePriceFilter(''); // Reset the filter by passing an empty condition
+        }
+
+        // Initialize: Hide "X" when no checkbox/radio is selected
+        document.querySelectorAll('input[name="ordre_prix"]').forEach((input) => {
+            let span = input.parentElement.querySelector('.reset-x');
+            span.style.display = 'none'; // Hide "X" initially
+            input.addEventListener('click', function() {
+                // When radio/checkbox is selected, show the "X"
+                updatePriceFilter(this.value);
+            });
+        });
+
+        function updateConditionFilter(condition) {
+        window.currentCondition = condition; // Set the current filter condition
+        fetchProducts(); // Fetch the products based on the updated filter
+        // Show "X" next to the selected radio button
+        let radios = document.querySelectorAll('input[name="etat"]');
+        radios.forEach((radio) => {
+            let span = radio.parentElement.querySelector('.reset-x');
+            if (radio.checked) {
+                span.style.display = 'inline'; // Show "X" if the radio is checked
+            }
+        });
+        }
+
+        // Function to handle the click event on "X" to reset the filter
+        function resetSingleFilter(element) {
+            // Find the related radio button
+            let radio = element.parentElement.querySelector('input[type="radio"]');
+            radio.checked = false; // Uncheck the radio button
+
+            // Hide the "X" button after reset
+            element.style.display = 'none';
+
+            // Call the reset filter logic
+            updateConditionFilter(''); // Reset the filter by passing an empty condition
+        }
+
+        // Initialize: Hide "X" when no checkbox is selected
+        document.querySelectorAll('input[name="etat"]').forEach((radio) => {
+            let span = radio.parentElement.querySelector('.reset-x');
+            span.style.display = 'none'; // Hide "X" initially
+            radio.addEventListener('click', function() {
+                // When radio is selected, show the "X"
+                updateConditionFilter(this.value);
+            });
+        });
         function fetchProducts1(page = 1) {
             var ordre_prix = window.currentPriceOrder || $('#priceOrderSelect').val();
             var etat = window.currentCondition;
