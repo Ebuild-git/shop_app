@@ -28,7 +28,7 @@ class DynamicShopFilter extends Component
         $regles = [
             "fashion & vêtements" => ["Etat", "Prix", "Article pour", "Taille", "Taille en chiffre", "Taille en chiffre", "Couleur"],
             "sacs & accessoires" => ["Etat", "Prix", "Article pour", "Couleur", "Matière"],
-            "chaussures" => ["État", "Prix", "Article pour", "Pointure", "Couleur"],
+            "chaussures" => ["État", "Prix", "Article pour", "Pointure", "Couleur", "Matière de chaussures"],
             "livres & fournitures" => ["État", "Prix", "Langue du livre"],
             "langue du livre" => ["État", "Prix"],
             "jouets & divertissements"=> ["État","Prix"],

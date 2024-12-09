@@ -225,7 +225,7 @@
                                             <button class="collapse-toggle" data-target="#types">
                                                 état
                                                 <span class="collapse-icon">
-                                                    <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
+                                                    <i class="bi bi-plus-lg"></i>
                                                 </span>
                                             </button>
                                         </h4>
@@ -563,7 +563,7 @@
             var selected_options_div = document.getElementById("Selected_options");
             if (options.length > 0) {
                 selected_options_div.innerHTML = "";
-                console.log("======>",options);
+
                 options.forEach((options, index) => {
                     selected_options_div.innerHTML += "<div onclick='remove_selected_option(" + index + ")'>" +
                         options[1] + " <i class='ti-close small text-danger'></i> </div>";
@@ -1229,24 +1229,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const trierParText = trierParButton.querySelector('span');
     const filterConditionButton = document.getElementById('filter-condition-mobile');
     const conditionOptions = document.getElementById('condition-options-mobile');
-    const dynamicFilterButton = document.getElementById('dynamic-filter-toggle'); // Assuming this button exists
-    const dynamicFilterOptions = document.getElementById('dynamic-filter-mobile'); // Assuming this dropdown exists
+    const dynamicFilterButton = document.getElementById('dynamic-filter-toggle');
+    const dynamicFilterOptions = document.getElementById('dynamic-filter-mobile');
 
     function closeAllDropdowns() {
         sortingOptions.style.display = 'none';
         conditionOptions.style.display = 'none';
-        if (dynamicFilterOptions) dynamicFilterOptions.style.display = 'none'; // Ensure dynamic filter is also closed if exists
+        if (dynamicFilterOptions) dynamicFilterOptions.style.display = 'none';
     }
 
     trierParButton.addEventListener('click', function (event) {
         event.stopPropagation();
-        closeAllDropdowns(); // Close others before toggling this one
+        closeAllDropdowns();
         sortingOptions.style.display = (sortingOptions.style.display === 'none' || sortingOptions.style.display === '') ? 'block' : 'none';
     });
 
     filterConditionButton.addEventListener('click', function (event) {
         event.stopPropagation();
-        closeAllDropdowns(); // Close others before toggling this one
+        closeAllDropdowns();
         conditionOptions.style.display = (conditionOptions.style.display === 'none' || conditionOptions.style.display === '') ? 'block' : 'none';
     });
 
@@ -1254,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (dynamicFilterButton) {
         dynamicFilterButton.addEventListener('click', function (event) {
             event.stopPropagation();
-            closeAllDropdowns(); // Close others before toggling this one
+            closeAllDropdowns();
             dynamicFilterOptions.style.display = (dynamicFilterOptions.style.display === 'none' || dynamicFilterOptions.style.display === '') ? 'block' : 'none';
         });
     }
@@ -1266,7 +1266,7 @@ document.addEventListener('DOMContentLoaded', function () {
             filtreOrdreSelect.value = value;
             filtreOrdreSelect.dispatchEvent(new Event('change'));
             trierParText.textContent = optionText;
-            closeAllDropdowns(); // Close dropdown after selection
+            closeAllDropdowns();
         });
     });
 
