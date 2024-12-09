@@ -17,11 +17,7 @@ class ColorController extends Controller
         if ($response->successful()) {
             $colorData = $response->json();
             $colorNameEn = $colorData['name']['value'];
-
-            // Traduire le nom de la couleur en français
             $translatedName = $this->translateColorName($colorNameEn, 'fr');
-
-
             return response()->json([
                 'name' => $translatedName,
                 'hex' => $colorData['hex']['value']
@@ -34,10 +30,8 @@ class ColorController extends Controller
     private function translateColorName($text, $targetLanguage)
     {
         $tr = new GoogleTranslate();
-        $tr->setSource('en'); // Translate from English
+        $tr->setSource('en');
         $tr->setTarget($targetLanguage);
-
-        // Output the translated text
         return $tr->translate($text);
     }
 }

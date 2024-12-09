@@ -398,7 +398,7 @@
 
                                                         <div style="display: flex; align-items: center;">
                                                             <div style="width: 24px; height: 24px; background-color: {{ $value }}; border-radius: 50%; border: 2px solid #ccc; margin-right: 8px;"></div>
-                                                            <span id="colorName" style="color: #333; font-weight: bold;"></span>
+                                                            {{-- <span id="colorName" style="color: #333; font-weight: bold;"></span> --}}
                                                         </div>
                                                     @endif
                                                 @else
