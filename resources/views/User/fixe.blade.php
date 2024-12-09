@@ -1451,11 +1451,6 @@
             show_selected_options();
         }
 
-
-
-
-
-        //afficher les options selectionner qui sont dans options dans la div Selected_options
         function show_selected_options() {
             var selected_options_div = document.getElementById("Selected_options");
             if (options.length > 0) {
@@ -1470,7 +1465,6 @@
             }
         }
 
-
         function remove_selected_option(index) {
             total_option = options.length;
             options.splice(index, 1);
@@ -1480,10 +1474,7 @@
             }
         }
 
-
-
         function add_selected_option(type, nom) {
-            // Vérifier si la paire type et nom existe déjà si ty type existe on change le nom
             var existeDeja = false;
             for (var i = 0; i < options.length; i++) {
                 if (options[i][0] === type) {
@@ -1500,8 +1491,6 @@
 
         $(document).ready(function() {
             fetchProducts();
-
-            // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
             $('.key-input').on('input', function() {
                 key = $('#key').val();
                 fetchProducts();
@@ -1620,18 +1609,17 @@
                 } else if (priceOrder === 'high_to_low') {
                     backendPriceOrder = 'Desc';
                 }else if (priceOrder === 'soldé') {
-                    backendPriceOrder = 'Soldé'; // Ensure this matches any identifier used in the backend
+                    backendPriceOrder = 'Soldé';
                 }else if (priceOrder === 'luxury') {
-                    backendPriceOrder = 'Luxury'; // This is a special case for filtering luxury items
+                    backendPriceOrder = 'Luxury';
                 }
-                // Set the price order in a global variable or directly call fetchProducts1
-                window.currentPriceOrder = backendPriceOrder; // Store the backend-appropriate order
-                fetchProducts(); // Refresh the product list based on the new filter
+                window.currentPriceOrder = backendPriceOrder;
+                fetchProducts();
             }
 
             function updateConditionFilter(condition) {
-                window.currentCondition = condition; // Store the current condition globally or manage state as needed
-                fetchProducts(); // Refresh the product list based on the new filter
+                window.currentCondition = condition;
+                fetchProducts();
             }
 
 
@@ -1639,11 +1627,7 @@
         function select_categorie1(id, categorieName) {
                 categorie = id;
                 sous_categorie = "";
-
-                // Redirect to the new URL
                 window.location.href = "/shop?id_categorie=" + id;
-
-                // Show the go-back message and subcategory cards inline
                 document.getElementById('category-cards').innerHTML = `
                     <div class="go-back-message">
                         <a href="javascript:void(0)" class="small text-primary" style="text-decoration: underline;" onclick="goBackToCategories()">
@@ -1664,28 +1648,17 @@
         fetchProducts1();
         }
 
-
-
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
             var show = true;
 
-
-
-
-
-
-            //debut brouillons
             if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
                 show = false;
             }
             if (type == 'Taille' || type == 'taille') {
-                if(Tailleenchiffre != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
                 Taille = nom;
+                console.log("Selected Taille FIXE:", Taille);
             }
             if (type == 'Article pour' || type == 'article pour') {
                 ArticlePour = nom;
@@ -1696,14 +1669,7 @@
             if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
             }
-            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
-                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
-                 if(Taille != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
-                Tailleenchiffre = nom;
-            }
+
             if (type == 'Matière de chaussures' || type == 'matière de chaussures' || type == 'Matière' || type == 'matière') {
                 Matiere = nom;
             }
@@ -1722,32 +1688,35 @@
             if (type == 'Taille Enfant' || type == 'Taille enfant' || type == 'taille enfant') {
                 TailleEnfant = nom;
             }
-            //fin brouillons
+
             if (show) {
                 add_selected_option(type, nom);
             }
 
             let modifiedName = nom.replace(/\s/g, '');
+            modifiedName = modifiedName.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g, '\\$1');
+
             var button = $("#btn-option-" + modifiedName);
 
-            if (button.hasClass("bg-red")) {
-                button.removeClass("bg-red");
-                proprietes = '';
+            if (button.length) {
+                if (button.hasClass("bg-red")) {
+                    button.removeClass("bg-red");
+                    proprietes = '';
+                } else {
+                    $("button[id^='btn-option-']").removeClass("bg-red");
+                    button.addClass("bg-red");
+                    _proprietes = {
+                        type: type,
+                        valeur: nom
+                    };
+                    proprietes = _proprietes;
+                }
             } else {
-                $("button[id^='btn-option-']").removeClass("bg-red");
-                button.addClass("bg-red");
-                _proprietes = {
-                    type: type,
-                    valeur: nom
-                };
-                proprietes = proprietes
+                console.error("Button with ID '#btn-option-" + modifiedName + "' not found.");
             }
-
 
             fetchProducts();
         }
-
-
 
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();
@@ -1793,6 +1762,7 @@
             var etat = window.currentCondition;
             $("#loading").show("show");
             //ancre();
+            console.log("Taille in fetchProducts FIXE:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
@@ -1835,60 +1805,54 @@
 
 
 
-    function renderPagination(data) {
-    const paginationControls = $('#pagination-controls');
-    paginationControls.empty();
+        function renderPagination(data) {
+        const paginationControls = $('#pagination-controls');
+        paginationControls.empty();
 
-    // Only render pagination if there are items
-    if (data.data.length > 0) {
-        let startPage, endPage;
-        const totalPages = data.last_page;
-        const currentPage = data.current_page;
+            if (data.data.length > 0) {
+                let startPage, endPage;
+                const totalPages = data.last_page;
+                const currentPage = data.current_page;
 
-        if (totalPages <= 3) {
-            startPage = 1;
-            endPage = totalPages;
-        } else {
-            if (currentPage <= 2) {
-                startPage = 1;
-                endPage = 3;
-            } else if (currentPage + 1 >= totalPages) {
-                startPage = totalPages - 2;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 1;
-                endPage = currentPage + 1;
+                if (totalPages <= 3) {
+                    startPage = 1;
+                    endPage = totalPages;
+                } else {
+                    if (currentPage <= 2) {
+                        startPage = 1;
+                        endPage = 3;
+                    } else if (currentPage + 1 >= totalPages) {
+                        startPage = totalPages - 2;
+                        endPage = totalPages;
+                    } else {
+                        startPage = currentPage - 1;
+                        endPage = currentPage + 1;
+                    }
+                }
+
+                // Add "Previous" button if not on the first page
+                if (currentPage > 1) {
+                    paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
+                }
+
+                // Add the page numbers within the range
+                for (let i = startPage; i <= endPage; i++) {
+                    const activeClass = currentPage === i ? 'active' : '';
+                    paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+                }
+
+                // Add "Next" button if not on the last page
+                if (currentPage < totalPages) {
+                    paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
+                }
             }
         }
 
-        // Add "Previous" button if not on the first page
-        if (currentPage > 1) {
-            paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
-        }
-
-        // Add the page numbers within the range
-        for (let i = startPage; i <= endPage; i++) {
-            const activeClass = currentPage === i ? 'active' : '';
-            paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
-        }
-
-        // Add "Next" button if not on the last page
-        if (currentPage < totalPages) {
-            paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
-        }
-    }
-}
-
-$(document).on('click', '.pagination li', function() {
-    const page = $(this).data('page');
-    fetchProducts(page);
-    ancre();
-});
-
-
-
-
-
+        $(document).on('click', '.pagination li', function() {
+            const page = $(this).data('page');
+            fetchProducts(page);
+            ancre();
+        });
 
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');
@@ -1896,6 +1860,7 @@ $(document).on('click', '.pagination li', function() {
             ancre();
         });
     </script>
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

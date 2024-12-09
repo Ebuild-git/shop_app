@@ -556,9 +556,6 @@
             show_selected_options();
         }
 
-
-
-        //afficher les options selectionner qui sont dans options dans la div Selected_options
         function show_selected_options() {
             var selected_options_div = document.getElementById("Selected_options");
             if (options.length > 0) {
@@ -573,7 +570,6 @@
             }
         }
 
-
         function remove_selected_option(index) {
             total_option = options.length;
             options.splice(index, 1);
@@ -584,10 +580,7 @@
         }
 
 
-
-
         function add_selected_option(type, nom) {
-            // Vérifier si la paire type et nom existe déjà si ty type existe on change le nom
             var existeDeja = false;
             for (var i = 0; i < options.length; i++) {
                 if (options[i][0] === type) {
@@ -603,17 +596,12 @@
         }
 
         $(document).ready(function() {
-            // Faire la requête initiale au chargement de la page
             fetchProducts();
-
-            // Ajouter un écouteur d'événements pour la saisie dans le champ de recherche
             $('.key-input').on('input', function() {
                 key = $('#key').val();
                 fetchProducts();
             });
         });
-
-
 
         function ancre() {
             $('html,body').animate({
@@ -654,14 +642,10 @@
         }
 
 
-
-
         function filtre_propriete_color(type, code, nom) {
             add_selected_option(type, nom);
             filtre_propriete(type, code);
         }
-
-
 
         function select_region(checkbox) {
             var checkboxes = document.getElementsByName('region');
@@ -678,8 +662,6 @@
             }
             fetchProducts();
         }
-
-
 
         function choix_etat(checkbox) {
             var checkboxes = document.getElementsByName('etat');
@@ -717,7 +699,6 @@
         }
 
 
-
         function select_sous_categorie(id) {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=" + id;
             sous_categorie = id;
@@ -731,26 +712,21 @@
             fetchProducts1();
         }
         function goBackToSubcategories() {
-            // Clear the selected subcategory
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
         function filtre_propriete(type, nom) {
             type = type.replace(/^\s+|\s+$/gm, '');
             var show = true;
-            console.log("Type:", type, "Nom:", nom); // Debug
+            console.log("Type:", type, "Nom:", nom);
 
-
-            //debut brouillons
             if (type == 'Couleur' || type == 'couleur') {
                 Couleur = nom;
                 show = false;
             }
             if (type == 'Taille' || type == 'taille') {
-                if(Tailleenchiffre != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
                 Taille = nom;
+                console.log("Selected Taille SHOp: ", Taille); // Debugging
+
             }
             if (type == 'Article pour' || type == 'article pour') {
                 ArticlePour = nom;
@@ -760,16 +736,6 @@
             }
             if (type == 'Pointure' || type == 'pointure') {
                 Pointure = nom;
-            }
-
-            // Assuming 'type' and 'nom' are defined
-            if (type == 'Taille en chiffre' || type == 'taille en chiffre') {
-                 //se rasurer que on ne sellectionne pas en meme temps la taille et la taille en chiffre
-                 if(Taille != ""){
-                    sweet("Opération impossible");
-                    return;
-                 }
-                Tailleenchiffre = nom;
             }
             if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
                 Matiere = nom;
@@ -789,32 +755,34 @@
             if (type == 'Taille Enfant' || type == 'Taille enfant' || type == 'taille enfant') {
                 TailleEnfant = nom;
             }
-            //fin brouillons
             if (show) {
                 add_selected_option(type, nom);
             }
 
+
             let modifiedName = nom.replace(/\s/g, '');
+            modifiedName = modifiedName.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g, '\\$1');
+
             var button = $("#btn-option-" + modifiedName);
 
-            if (button.hasClass("bg-red")) {
-                button.removeClass("bg-red");
-                proprietes = '';
+            if (button.length) {
+                if (button.hasClass("bg-red")) {
+                    button.removeClass("bg-red");
+                    proprietes = '';
+                } else {
+                    $("button[id^='btn-option-']").removeClass("bg-red");
+                    button.addClass("bg-red");
+                    _proprietes = {
+                        type: type,
+                        valeur: nom
+                    };
+                    proprietes = _proprietes;
+                }
             } else {
-                $("button[id^='btn-option-']").removeClass("bg-red");
-                button.addClass("bg-red");
-                _proprietes = {
-                    type: type,
-                    valeur: nom
-                };
-                proprietes = proprietes
+                console.error("Button with ID '#btn-option-" + modifiedName + "' not found.");
             }
-
-
             fetchProducts();
         }
-
-
 
         $("#filtre-ordre").on("change", function() {
             let ordre = $(this).val();
@@ -848,9 +816,6 @@
         });
 
 
-
-
-
         function select_categorie(id) {
             categorie = id;
             sous_categorie = "";
@@ -864,6 +829,7 @@
 
             $("#loading").show("show");
             //ancre();
+            console.log("Taille in fetchProducts SHOP:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
@@ -909,17 +875,14 @@
         function refreshScrollSettings() {
             const container = document.getElementById('category-cards');
             if (container.clientWidth < container.scrollWidth) {
-                lastScrollAmount = container.clientWidth * 0.8;  // Recalculate scroll amount based on new content width
+                lastScrollAmount = container.clientWidth * 0.8;
             }
         }
         function select_categorie1(id, categorieName) {
                 categorie = id;
                 sous_categorie = "";
-
-                // Redirect to the new URL
                 window.location.href = "/shop?id_categorie=" + id;
 
-                // Show the go-back message and subcategory cards inline
                 document.getElementById('category-cards').innerHTML = `
                     <div class="go-back-message">
                         <a href="javascript:void(0)" class="small text-primary" style="text-decoration: underline;" onclick="goBackToCategories()">
@@ -934,27 +897,22 @@
             }
 
             function goBackToCategories() {
-                // Redirect to the categories view without the selected category
                 window.location.href = "/shop";
             }
 
-
-
             function updatePriceFilter(priceOrder) {
-                // Convert frontend values to backend-expected values
                 let backendPriceOrder;
                 if (priceOrder === 'low_to_high') {
                     backendPriceOrder = 'Asc';
                 } else if (priceOrder === 'high_to_low') {
                     backendPriceOrder = 'Desc';
                 }else if (priceOrder === 'soldé') {
-                    backendPriceOrder = 'Soldé'; // Ensure this matches any identifier used in the backend
+                    backendPriceOrder = 'Soldé';
                 }else if (priceOrder === 'luxury') {
-                    backendPriceOrder = 'Luxury'; // This is a special case for filtering luxury items
+                    backendPriceOrder = 'Luxury';
                 }
-                // Set the price order in a global variable or directly call fetchProducts1
-                window.currentPriceOrder = backendPriceOrder; // Store the backend-appropriate order
-                fetchProducts(); // Refresh the product list based on the new filter
+                window.currentPriceOrder = backendPriceOrder;
+                fetchProducts();
             }
 
             function updateConditionFilter(condition) {
@@ -968,6 +926,7 @@
 
             $("#loading").show("show");
             //ancre();
+            console.log("Taille in fetchProducts 11:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
@@ -1010,62 +969,50 @@
         }
 
 
-    function renderPagination(data) {
-    const paginationControls = $('#pagination-controls');
-    paginationControls.empty();
+        function renderPagination(data) {
+            const paginationControls = $('#pagination-controls');
+            paginationControls.empty();
+            if (data.data.length > 0) {
+                let startPage, endPage;
+                const totalPages = data.last_page;
+                const currentPage = data.current_page;
 
-    // Only render pagination if there are items
-    if (data.data.length > 0) {
-        let startPage, endPage;
-        const totalPages = data.last_page;
-        const currentPage = data.current_page;
+                if (totalPages <= 3) {
+                    startPage = 1;
+                    endPage = totalPages;
+                } else {
+                    // Determine the start and end pages based on the current page
+                    if (currentPage <= 2) {
+                        startPage = 1;
+                        endPage = 3;
+                    } else if (currentPage + 1 >= totalPages) {
+                        startPage = totalPages - 2;
+                        endPage = totalPages;
+                    } else {
+                        startPage = currentPage - 1;
+                        endPage = currentPage + 1;
+                    }
+                }
 
-        if (totalPages <= 3) {
-            // Show all pages if there are 3 or fewer
-            startPage = 1;
-            endPage = totalPages;
-        } else {
-            // Determine the start and end pages based on the current page
-            if (currentPage <= 2) {
-                startPage = 1;
-                endPage = 3;
-            } else if (currentPage + 1 >= totalPages) {
-                startPage = totalPages - 2;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 1;
-                endPage = currentPage + 1;
+                // Add "Previous" button if not on the first page
+                if (currentPage > 1) {
+                    paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
+                }
+                for (let i = startPage; i <= endPage; i++) {
+                    const activeClass = currentPage === i ? 'active' : '';
+                    paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
+                }
+                if (currentPage < totalPages) {
+                    paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
+                }
             }
         }
 
-        // Add "Previous" button if not on the first page
-        if (currentPage > 1) {
-            paginationControls.append('<li data-page="' + (currentPage - 1) + '">Précédent</li>');
-        }
-
-        // Add the page numbers within the range
-        for (let i = startPage; i <= endPage; i++) {
-            const activeClass = currentPage === i ? 'active' : '';
-            paginationControls.append('<li data-page="' + i + '" class="' + activeClass + '">' + i + '</li>');
-        }
-
-        // Add "Next" button if not on the last page
-        if (currentPage < totalPages) {
-            paginationControls.append('<li data-page="' + (currentPage + 1) + '">Suivant</li>');
-        }
-    }
-}
-
-$(document).on('click', '.pagination li', function() {
-    const page = $(this).data('page');
-    fetchProducts(page);
-    ancre();
-});
-
-
-
-
-
+        $(document).on('click', '.pagination li', function() {
+            const page = $(this).data('page');
+            fetchProducts(page);
+            ancre();
+        });
 
         $(document).on('click', '.pagination li', function() {
             const page = $(this).data('page');
