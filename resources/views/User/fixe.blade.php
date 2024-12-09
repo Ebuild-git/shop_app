@@ -1600,7 +1600,7 @@
         function goBackToSubcategories() {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
-
+        // Function to update the price filter based on selected value
         function updatePriceFilter(priceOrder) {
             let backendPriceOrder;
             if (priceOrder === 'low_to_high') {
@@ -1615,14 +1615,17 @@
             window.currentPriceOrder = backendPriceOrder;
             fetchProducts(); // Fetch the products based on the updated filter
 
-            // Show "X" next to the selected radio button
-            let radios = document.querySelectorAll('input[name="ordre_prix"]');
-            radios.forEach((radio) => {
-                let span = radio.parentElement.querySelector('.reset-x');
-                if (radio.checked) {
-                    span.style.display = 'inline'; // Show "X" if the radio is checked
-                }
+            // Hide all "X" buttons
+            document.querySelectorAll('.reset-x').forEach((span) => {
+                span.style.display = 'none';
             });
+
+            // Show "X" for the selected filter only
+            let selectedElement = document.querySelector(`input[name="ordre_prix"][value="${priceOrder}"], input[name="ordre_prix"][value="luxury"]`);
+            if (selectedElement) {
+                let resetX = selectedElement.parentElement.querySelector('.reset-x');
+                resetX.style.display = 'inline'; // Show the "X" for the selected filter
+            }
         }
 
         // Function to handle the click event on "X" to reset the price filter
@@ -1647,33 +1650,47 @@
                 updatePriceFilter(this.value);
             });
         });
-
+       // Function to update the condition filter based on the selected value
         function updateConditionFilter(condition) {
-        window.currentCondition = condition;
-        fetchProducts();
-        let radios = document.querySelectorAll('input[name="etat"]');
-        radios.forEach((radio) => {
-            let span = radio.parentElement.querySelector('.reset-x');
-            if (radio.checked) {
-                span.style.display = 'inline';
+            window.currentCondition = condition; // Set the current filter condition
+            fetchProducts(); // Fetch the products based on the updated filter
+
+            // Hide all "X" buttons first
+            document.querySelectorAll('.reset-x').forEach((span) => {
+                span.style.display = 'none';
+            });
+
+            // Show "X" next to the selected radio button
+            let selectedRadio = document.querySelector(`input[name="etat"][value="${condition}"]`);
+            if (selectedRadio) {
+                let resetX = selectedRadio.parentElement.querySelector('.reset-x');
+                resetX.style.display = 'inline'; // Show the "X" for the selected filter
             }
-        });
         }
 
+        // Function to handle the click event on "X" to reset the filter
         function resetSingleFilter(element) {
+            // Find the related radio button
             let radio = element.parentElement.querySelector('input[type="radio"]');
-            radio.checked = false;
+            radio.checked = false; // Uncheck the radio button
+
+            // Hide the "X" button after reset
             element.style.display = 'none';
-            updateConditionFilter('');
+
+            // Call the reset filter logic
+            updateConditionFilter(''); // Reset the filter by passing an empty condition
         }
 
+        // Initialize: Hide "X" when no radio is selected
         document.querySelectorAll('input[name="etat"]').forEach((radio) => {
             let span = radio.parentElement.querySelector('.reset-x');
-            span.style.display = 'none';
+            span.style.display = 'none'; // Hide "X" initially
             radio.addEventListener('click', function() {
+                // When radio is selected, show the "X"
                 updateConditionFilter(this.value);
             });
         });
+
 
         function select_categorie1(id, categorieName) {
                 categorie = id;
