@@ -270,12 +270,10 @@ class Mode extends Component
                     } else {
                         // Log and display each error
                         foreach ($response['Notifications'] as $notification) {
-                            Log::error('Erreur Aramex: ' . $notification['Message']);
                             session()->flash('error', 'Erreur: ' . $notification['Message']);
                         }
                     }
                 } catch (\Exception $e) {
-                    Log::error('Exception Aramex: ' . $e->getMessage());
                     session()->flash('error', 'Erreur interne: ' . $e->getMessage());
                 }
 
