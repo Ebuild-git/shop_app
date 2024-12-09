@@ -1658,7 +1658,6 @@
             }
             if (type == 'Taille' || type == 'taille') {
                 Taille = nom;
-                console.log("Selected Taille FIXE:", Taille);
             }
             if (type == 'Article pour' || type == 'article pour') {
                 ArticlePour = nom;
@@ -1670,7 +1669,7 @@
                 Pointure = nom;
             }
 
-            if (type == 'Matière de chaussures' || type == 'matière de chaussures' || type == 'Matière' || type == 'matière') {
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
                 Matiere = nom;
             }
             if (type == 'Matière' || type == 'matière') {
@@ -1762,7 +1761,6 @@
             var etat = window.currentCondition;
             $("#loading").show("show");
             //ancre();
-            console.log("Taille in fetchProducts FIXE:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,

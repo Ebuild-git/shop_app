@@ -725,7 +725,6 @@
             }
             if (type == 'Taille' || type == 'taille') {
                 Taille = nom;
-                console.log("Selected Taille SHOp: ", Taille); // Debugging
 
             }
             if (type == 'Article pour' || type == 'article pour') {
@@ -742,6 +741,7 @@
             }
             if (type == 'Matière' || type == 'matière') {
                 MatiereSac = nom;
+
             }
             if (type == 'Pointure Bébé' || type == 'Pointure bébé' || type == 'pointure bébé') {
                 PointureBeBe = nom;
@@ -829,7 +829,6 @@
 
             $("#loading").show("show");
             //ancre();
-            console.log("Taille in fetchProducts SHOP:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
@@ -926,7 +925,6 @@
 
             $("#loading").show("show");
             //ancre();
-            console.log("Taille in fetchProducts 11:", Taille);
             $.post(
                 "/recherche?page=" + page, {
                     etat: etat,
