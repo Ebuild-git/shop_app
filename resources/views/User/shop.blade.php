@@ -551,6 +551,7 @@
         var TailleBeBe = "";
         var PointureEnfant = "";
         var TailleEnfant = "";
+        var MatiereSac = "";
         if (options.length > 0) {
             show_selected_options();
         }
@@ -770,8 +771,11 @@
                  }
                 Tailleenchiffre = nom;
             }
-            if (type == 'Matière de chaussures' || type == 'matière de chaussures' || type == 'Matière' || type == 'matière') {
+            if (type == 'Matière de chaussures' || type == 'matière de chaussures') {
                 Matiere = nom;
+            }
+            if (type == 'Matière' || type == 'matière') {
+                MatiereSac = nom;
             }
             if (type == 'Pointure Bébé' || type == 'Pointure bébé' || type == 'pointure bébé') {
                 PointureBeBe = nom;
@@ -879,6 +883,7 @@
                     TailleBeBe: TailleBeBe,
                     PointureEnfant: PointureEnfant,
                     TailleEnfant: TailleEnfant,
+                    MatiereSac: MatiereSac,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {
@@ -982,6 +987,7 @@
                     TailleBeBe: TailleBeBe,
                     PointureEnfant: PointureEnfant,
                     TailleEnfant: TailleEnfant,
+                    MatiereSac: MatiereSac,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
                 function(data, status) {

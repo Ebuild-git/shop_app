@@ -31,7 +31,7 @@ class ShopController extends Controller
         $TailleBeBe = strtolower($request->input('TailleBeBe')) ?? null;
         $PointureEnfant = strtolower($request->input('PointureEnfant')) ?? null;
         $TailleEnfant = strtolower($request->input('TailleEnfant')) ?? null;
-
+        $MatiereSac = strtolower($request->input('MatiereSac')) ?? null;
         ///// fin du brouillons
 
         $gouvernorat = $request->input('gouvernorat') ?? null;
@@ -116,16 +116,13 @@ class ShopController extends Controller
         if ($Pointure) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.Pointure'))) = ?", [$Pointure]);
         }
-        // if ($Matiere) {
-        //     $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière de chaussures\"'))) = ?", [$Matiere]);
-        // }
         if ($Matiere) {
-            $query->where(function ($q) use ($Matiere) {
-                $q->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière de chaussures\"'))) = ?", [$Matiere])
-                  ->orWhereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière\"'))) = ?", [$Matiere]);
-            });
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière de chaussures\"'))) = ?", [$Matiere]);
         }
 
+        if ($MatiereSac) {
+            $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Matière\"'))) = ?", [$MatiereSac]);
+        }
         if ($PointureBeBe) {
             $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(proprietes, '$.\"Pointure Bébé\"'))) = ?", [$PointureBeBe]);
         }
