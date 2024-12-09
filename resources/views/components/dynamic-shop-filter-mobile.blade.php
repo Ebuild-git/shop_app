@@ -20,13 +20,12 @@
                 <div class="widget-boxed-header">
                     <h4>
                         @php
-                            // Creating a unique ID based on property name and ID to ensure it's unique
                             $unique_id = 'collapse-' . md5($propriete->id . $propriete->nom);
                         @endphp
                         <button class="collapse-toggle" data-target="#{{ $unique_id }}">
                             {{ $propriete->nom }}
                             <span class="collapse-icon">
-                                <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
+                                <i class="bi bi-plus-lg"></i>
                             </span>
                         </button>
                     </h4>
