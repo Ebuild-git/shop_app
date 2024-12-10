@@ -2419,6 +2419,7 @@ ul.nav-dropdown-xxx {
     cursor: pointer;
     transition: transform 0.2s ease;
     border: none;
+    padding: 0;
 }
 
 .color-button:hover {
