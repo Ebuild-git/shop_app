@@ -10,23 +10,18 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use App\Events\UserEvent;
+use App\Models\notifications;
 
 use Livewire\Component;
 
 class SendMessage extends Component
 {
-    public $email, $message, $sujet, $username,$post,$titre, $user_id;
+    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender;
     public $recipientEmail;
     protected $listeners = ['sendDataUser'];
 
-    // public function sendDataUser($id_post, $username)
-    // {
-    //     $post = posts::where('id',$id_post)->first();
-    //     $this->post = $post;
-    //     $this->titre = $post->titre;
-    //     $this->email = $post->user_info->email;
-    //     $this->username = $username;
-    // }
+
     public function sendDataUser($user_id, $username)
     {
         $user = User::find($user_id);
@@ -34,6 +29,7 @@ class SendMessage extends Component
             $this->recipientEmail = $user->email;
             $this->username = $username;
             $this->user_id = $user_id;
+            $this->gender = $user->gender;
         } else {
             session()->flash('error', 'User not found.');
         }
@@ -67,9 +63,27 @@ class SendMessage extends Component
             "email_send_message" => $user->email
         ];
 
+        $salutation = 'Cher';
+
+        if ($this->gender === 'female') {
+            $salutation = 'Chère';
+        }
         try {
-            // Send the message via email
             Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
+
+            $notification = new notifications();
+            $notification->titre = "Nouveau message de l'equipe de Shopin !";
+            $notification->id_user_destination = $this->user_id;
+            $notification->type = "alerte";
+            $notification->url = "#";
+            $notification->message = "$salutation " . $this->username . ", "
+            . "vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>. "
+            . "Le contenu du message est : {$this->message}. "
+            . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
+
+            $notification->save();
+            event(new UserEvent($this->user_id));
+
 
             session()->flash("success", "Votre message a été envoyé avec succès.");
             $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.",'type'=>'success']);

@@ -20,7 +20,6 @@ class SignalementsController extends Controller
     {
         $date = $request->input('date');
         $keyword = $request->input('keyword');
-        // $query = posts::withCount('signalements')->has('signalements');
         $query = posts::with(['signalements.auteur'])->withCount('signalements')->has('signalements');
 
         if ($date) {
