@@ -2,8 +2,8 @@
 
 
  <div class="card">
-     <div class="d-flex justify-content-between">
-         <h5 class="card-header">
+     <div class="d-flex justify-content-between" style="height: 30px;">
+         <h5 class="card-header" style="padding: 11px;">
              Liste des publications
              @if ($deleted)
                  <span class="text-danger">
@@ -71,7 +71,7 @@
              </form>
          </div>
      </div>
-     <div class="card">
+     <div class="card" style="margin-top: -12px;">
         <div class="card-body">
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
 
