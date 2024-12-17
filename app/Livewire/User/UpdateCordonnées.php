@@ -6,12 +6,17 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateCordonnées extends Component
 {
+    use WithFileUploads;
+
     public $rib_number;
     public $bank_name;
     public $titulaire_name;
+    public $cin_img;
 
     public function mount()
     {
@@ -21,6 +26,7 @@ class UpdateCordonnées extends Component
             $this->rib_number = $user->rib_number ? Crypt::decryptString($user->rib_number) : '';
             $this->bank_name = $user->bank_name;
             $this->titulaire_name = $user->titulaire_name;
+            $this->cin_img = $user->cin_img;
         }
     }
 
@@ -35,12 +41,14 @@ class UpdateCordonnées extends Component
             'rib_number' => 'required|string|min:13|max:32',
             'bank_name' => 'required|string',
             'titulaire_name' => 'required|string',
+            'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'rib_number.required' => 'Veuillez saisir votre numéro de RIB',
             'rib_number.min' => 'Votre numéro de RIB doit contenir au moins 13 caractères',
             'rib_number.max' => 'Votre numéro de RIB ne peut pas dépasser 32 caractères',
             'bank_name.required' => 'Veuillez saisir le nom de la banque',
             'titulaire_name.required' => 'Veuillez saisir le nom du titulaire du compte',
+            'cin_img.image' => 'Veuillez télécharger une image valide.',
         ]);
 
         $user = User::find(Auth::id());
@@ -65,6 +73,12 @@ class UpdateCordonnées extends Component
             }
             if ($user->titulaire_name !== $this->titulaire_name) {
                 $user->titulaire_name = $this->titulaire_name;
+                $changes = true;
+            }
+
+            if ($this->cin_img) {
+                $path = $this->cin_img->store('cin_images', 'public');
+                $user->cin_img = $path;
                 $changes = true;
             }
 

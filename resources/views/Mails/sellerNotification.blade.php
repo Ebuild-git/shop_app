@@ -132,16 +132,27 @@
                             </td>
                             <td class="details-cell">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <span class="price-info">La somme que vous allez reçevoir dans votre compte bancaire en Dhs est: {{$gain}}<sup>DH</sup></span>
+                                <span class="price-info">
+                                    La somme que vous allez recevoir dans votre compte bancaire en Dhs est:
+                                    <span style="color: #008080; font-size:500;">{{$gain}}</span><sup style="color: #008080;">DH</sup>
+                                </span>
                             </td>
                         </tr>
                     @endforeach
                 </table>
 
             </div>
-            <p>
+            {{-- <p>
                 Merci de bien vouloir <a href="{{ config('app.url') }}/informations?section=cord" class="underlined-link">cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
+            </p> --}}
+            <p>
+                Merci de bien vouloir
+                <a href="{{ auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login') }}" class="underlined-link">
+                    cliquer ici
+                </a>
+                pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
             </p>
+
         </div>
         <div class="footer">
             Merci pour votre confiance et à bientôt !
