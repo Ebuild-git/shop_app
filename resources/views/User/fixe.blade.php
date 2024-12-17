@@ -1472,12 +1472,24 @@
         }
 
         function remove_selected_option(index) {
-            total_option = options.length;
-            options.splice(index, 1);
-            show_selected_options();
-            if (total_option == 1) {
-                document.getElementById("Selected_options").innerHTML = "";
-            }
+        let total_option = options.length;
+        if (options[index][0] === 'ordre_prix') {
+            updatePriceFilter('');
+            document.querySelectorAll('input[name="ordre_prix"]').forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+        }
+        if (options[index][0] === 'etat') {
+        updateConditionFilter('');
+        document.querySelectorAll('input[name="etat"]').forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+        }
+        options.splice(index, 1);
+        show_selected_options();
+        if (total_option === 1) {
+            document.getElementById("Selected_options").innerHTML = "";
+        }
         }
 
         function add_selected_option(type, nom) {
@@ -1514,6 +1526,8 @@
 
         function reset() {
             //reload page
+            updatePriceFilter('');
+            updateConditionFilter('');
             window.location.reload();
         }
 
@@ -1605,93 +1619,131 @@
         function goBackToSubcategories() {
             window.location.href = "{{ Request::fullUrl() }}&selected_sous_categorie=";
         }
-        // Function to update the price filter based on selected value
+
         function updatePriceFilter(priceOrder) {
             let backendPriceOrder;
+            let label;
+
             if (priceOrder === 'low_to_high') {
                 backendPriceOrder = 'Asc';
+                label = 'Ordre Croissant';
             } else if (priceOrder === 'high_to_low') {
                 backendPriceOrder = 'Desc';
+                label = 'Ordre Décroissant';
             } else if (priceOrder === 'soldé') {
                 backendPriceOrder = 'Soldé';
+                label = 'Article Soldé';
             } else if (priceOrder === 'luxury') {
                 backendPriceOrder = 'Luxury';
+                label = 'Produits de Luxe';
+            } else {
+                backendPriceOrder = '';
+                label = null;
             }
-            window.currentPriceOrder = backendPriceOrder;
-            fetchProducts(); // Fetch the products based on the updated filter
 
-            // Hide all "X" buttons
-            document.querySelectorAll('.reset-x').forEach((span) => {
-                span.style.display = 'none';
-            });
-
-            // Show "X" for the selected filter only
-            let selectedElement = document.querySelector(`input[name="ordre_prix"][value="${priceOrder}"], input[name="ordre_prix"][value="luxury"]`);
-            if (selectedElement) {
-                let resetX = selectedElement.parentElement.querySelector('.reset-x');
-                resetX.style.display = 'inline'; // Show the "X" for the selected filter
-            }
+        window.currentPriceOrder = backendPriceOrder;
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasSousCategorie = urlParams.has('selected_sous_categorie');
+        if (label && hasSousCategorie) {
+            add_selected_option('ordre_prix', label);
         }
 
-        // Function to handle the click event on "X" to reset the price filter
-        function resetSinglePriceFilter(element) {
-            // Find the related radio button or checkbox
-            let radioOrCheckbox = element.parentElement.querySelector('input[type="radio"], input[type="checkbox"]');
-            radioOrCheckbox.checked = false; // Uncheck the radio button or checkbox
+        fetchProducts();
 
-            // Hide the "X" button after reset
-            element.style.display = 'none';
-
-            // Call the reset filter logic
-            updatePriceFilter(''); // Reset the filter by passing an empty condition
-        }
-
-        // Initialize: Hide "X" when no checkbox/radio is selected
-        document.querySelectorAll('input[name="ordre_prix"]').forEach((input) => {
-            let span = input.parentElement.querySelector('.reset-x');
-            span.style.display = 'none'; // Hide "X" initially
-            input.addEventListener('click', function() {
-                // When radio/checkbox is selected, show the "X"
-                updatePriceFilter(this.value);
-            });
+        document.querySelectorAll('.reset-x').forEach((span) => {
+            span.style.display = 'none';
         });
-       // Function to update the condition filter based on the selected value
-        function updateConditionFilter(condition) {
-            window.currentCondition = condition; // Set the current filter condition
-            fetchProducts(); // Fetch the products based on the updated filter
 
-            // Hide all "X" buttons first
+        let selectedElement = document.querySelector(`input[name="ordre_prix"][value="${priceOrder}"], input[name="ordre_prix"][value="luxury"]`);
+        if (selectedElement) {
+            let resetX = selectedElement.parentElement.querySelector('.reset-x');
+            if (resetX) {
+                resetX.style.display = 'inline';
+            }
+        }
+
+        displaySelectedPriceOrder();
+    }
+
+        function displaySelectedPriceOrder() {
+            let priceOrder = window.currentPriceOrder;
+            let label;
+            if (priceOrder === 'Asc') {
+                label = 'Ordre Croissant';
+            } else if (priceOrder === 'Desc') {
+                label = 'Ordre Décroissant';
+            } else if (priceOrder === 'Soldé') {
+                label = 'Article Soldé';
+            } else if (priceOrder === 'Luxury') {
+                label = 'Produits de Luxe';
+            }
+            let desktopOptionsContainer = document.querySelector('.desktop-options .d-flex.flex-wrap');
+            if (desktopOptionsContainer) {
+                desktopOptionsContainer.innerHTML = '';
+                if (label) {
+                    desktopOptionsContainer.innerHTML = `<div class="selected-price-order">
+                        ${label} <i class="ti-close small text-danger" onclick="resetPriceOrder()"></i>
+                    </div>`;
+                }
+            }
+        }
+
+        function resetSinglePriceFilter(element) {
+            let radioOrCheckbox = element.parentElement.querySelector('input[type="radio"], input[type="checkbox"]');
+            radioOrCheckbox.checked = false;
+            element.style.display = 'none';
+            updatePriceFilter('');
+        }
+
+        function updateConditionFilter(condition) {
+            let label = condition;
+            window.currentCondition = condition;
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasSousCategorie = urlParams.has('selected_sous_categorie');
+            if (label && hasSousCategorie) {
+                add_selected_option('etat', label);
+            }
+            fetchProducts();
             document.querySelectorAll('.reset-x').forEach((span) => {
                 span.style.display = 'none';
             });
 
-            // Show "X" next to the selected radio button
-            let selectedRadio = document.querySelector(`input[name="etat"][value="${condition}"]`);
-            if (selectedRadio) {
-                let resetX = selectedRadio.parentElement.querySelector('.reset-x');
-                resetX.style.display = 'inline'; // Show the "X" for the selected filter
+            let selectedItem = document.querySelector(`.custom-dropdown-item[data-value="${condition}"]`);
+            if (selectedItem) {
+                let resetX = selectedItem.parentElement.querySelector('.reset-x');
+                if (resetX) {
+                    resetX.style.display = 'inline';
+                }
+            }
+            displaySelectedCondition();
+        }
+        function displaySelectedCondition() {
+            let desktopOptionsContainer = document.querySelector('.desktop-options .d-flex.flex-wrap');
+            if (!desktopOptionsContainer) return;
+
+            // Clear previous condition display
+            desktopOptionsContainer.innerHTML = '';
+
+            // Get the current condition from `window.currentCondition`
+            let condition = window.currentCondition;
+
+            // If there's a valid condition, display it
+            if (condition) {
+                desktopOptionsContainer.innerHTML = `<div class="selected-condition">
+                    ${condition} <i class="ti-close small text-danger" onclick="resetCondition()"></i>
+                </div>`;
             }
         }
-
-        // Function to handle the click event on "X" to reset the filter
         function resetSingleFilter(element) {
-            // Find the related radio button
             let radio = element.parentElement.querySelector('input[type="radio"]');
-            radio.checked = false; // Uncheck the radio button
-
-            // Hide the "X" button after reset
+            radio.checked = false;
             element.style.display = 'none';
-
-            // Call the reset filter logic
-            updateConditionFilter(''); // Reset the filter by passing an empty condition
+            updateConditionFilter('');
         }
-
-        // Initialize: Hide "X" when no radio is selected
         document.querySelectorAll('input[name="etat"]').forEach((radio) => {
             let span = radio.parentElement.querySelector('.reset-x');
-            span.style.display = 'none'; // Hide "X" initially
+            span.style.display = 'none';
             radio.addEventListener('click', function() {
-                // When radio is selected, show the "X"
                 updateConditionFilter(this.value);
             });
         });
