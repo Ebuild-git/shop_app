@@ -46,7 +46,6 @@ class ShopController extends Controller
         $luxury_only = $request->input('check_luxury') ?? null;
         $html = "";
 
-
         $total = posts::where('statut', 'vente')->count();
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
@@ -142,17 +141,70 @@ class ShopController extends Controller
         }
         ///// fin du blog
 
-
-
-
         if ($key) {
             $q = strtolower($key);
-
-            $query->where(function ($query) use ($q) {
+            $colors = [
+                'blue' => '#0000FF',
+                'red' => '#FF0000',
+                'green' => '#00FF00',
+                'black' => '#000000',
+                'argenté' => '#C0C0C0',
+                'silver' => '#C0C0C0',
+                'beige' => '#F5F5DC',
+                'beige' => '#F5F5DC',
+                'blanc' => '#FFFFFF',
+                'white' => '#FFFFFF',
+                'bleu-vert' => '#0A7B7D',
+                'blue-green' => '#0A7B7D',
+                'bordeaux' => '#800000',
+                'bordeaux' => '#800000',
+                'camel' => '#C19A6B',
+                'camel' => '#C19A6B',
+                'corail' => '#FF7F50',
+                'coral' => '#FF7F50',
+                'doré' => '#FFD700',
+                'gold' => '#FFD700',
+                'fushia' => '#FF00FF',
+                'fuchsia' => '#FF00FF',
+                'gris' => '#808080',
+                'grey' => '#808080',
+                'jaune' => '#FFFF00',
+                'yellow' => '#FFFF00',
+                'marron' => '#6F4F28',
+                'brown' => '#6F4F28',
+                'noir' => '#000000',
+                'black' => '#000000',
+                'nude' => '#F0E1D2',
+                'nude' => '#F0E1D2',
+                'orange' => '#FFA500',
+                'orange' => '#FFA500',
+                'rose' => '#FFC0CB',
+                'pink' => '#FFC0CB',
+                'rouge' => '#FF0000',
+                'red' => '#FF0000',
+                'turquoise' => '#40E0D0',
+                'turquoise' => '#40E0D0',
+                'taupe' => '#483C32',
+                'taupe' => '#483C32',
+                'vert' => '#008000',
+                'green' => '#008000',
+                'violet' => '#800080',
+                'purple' => '#800080',
+                'multicolore' => '#F5A9A9',
+                'multicolor' => '#F5A9A9',
+            ];
+            $query->where(function ($query) use ($q, $colors) {
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%'])
                     ->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $q . '%'])
                     ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $q . '%'])
                     ->orWhereRaw('LOWER(etat) LIKE ?', ['%' . $q . '%']);
+
+                    foreach ($colors as $colorName => $hexCode) {
+                        if (str_contains($q, $colorName) || str_contains($q, $hexCode)) {
+                            $query->orWhereRaw('LOWER(proprietes) LIKE ?', ['%' . $hexCode . '%']);
+                        }
+                    }
+
                     if (str_contains(strtolower($q), 'soldé') || str_contains(strtolower($q), 'solde')) {
                         $query->orWhereNotNull('updated_price_at');
                     }
@@ -169,8 +221,6 @@ class ShopController extends Controller
                 $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']);
             });
         }
-
-
 
 
         if ($sous_categorie) {
@@ -278,5 +328,6 @@ class ShopController extends Controller
                 ]
             );
     }
+
 
 }
