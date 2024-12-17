@@ -44,7 +44,6 @@
                                         <b>Chat</b><br>
                                     </span>
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
-                                    <div>7 jours sur 7</div>
                                 </td>
                             </tr>
                         </table> <br>
@@ -60,7 +59,6 @@
                                         <b>Email</b><br>
                                     </span>
                                     <b>{{ $configuration->email ?? 'xxxxx@gmail.com' }}</b>
-                                    <div>7 jours sur 7</div>
                                 </td>
                             </tr>
                         </table> <br>
@@ -76,7 +74,6 @@
                                         <b>Appelez-le</b><br>
                                     </span>
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
-                                    <div>7 jours sur 7</div>
                                 </td>
                             </tr>
                         </table>
