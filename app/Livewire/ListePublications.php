@@ -170,32 +170,22 @@ class ListePublications extends Component
                 $post->save();
 
                 $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
-
-                // Create a notification with styled content
                 $notification = new notifications();
                 $notification->titre = "{$greeting} " . $post->user_info->username;
                 $notification->id_user_destination = $post->id_user;
                 $notification->type = "alerte";
                 $notification->url = "#";
                 $notification->message = "
-                                                Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
-                                                La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
-                                                Merci pour votre compréhension.
-                                            ";
+                    Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                    La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
+                    Merci pour votre compréhension.
+                ";
                 $notification->save();
-
-                // Dispatch a user event (if necessary)
                 event(new UserEvent($post->id_user));
 
                 $post->delete();
-
-                // Dispatch event to close the modal
                 $this->dispatch('closeModal', ['id' => "deleteModal-$id"]);
-
-                // Dispatch event to show the success alert
                 $this->dispatch('alert', ['message' => "La publication a été supprimée avec le motif: {$this->motif_suppression} !", 'type' => 'success']);
-
-                // Dispatch an event to reload the page
                 $this->dispatch('reloadPage');
 
                 $this->motif_suppression = '';

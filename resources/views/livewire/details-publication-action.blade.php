@@ -26,13 +26,21 @@
                 Accepter
             </button>
         @endif
-        @if ($post->sell_at == null)
+        {{-- @if ($post->sell_at == null)
             <button type="button" class="btn btn-danger btn-block" wire:click="delete({{ $post->id }})">
                 <i class="bi bi-x-lg"></i>
                 &nbsp;
                 supprimer
             </button>
+        @endif --}}
+        @if ($post->sell_at == null)
+        <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ $post->id }}">
+            <i class="bi bi-x-lg"></i>
+            &nbsp;
+            supprimer
+        </button>
         @endif
+
     </div>
     @if ($post->sell_at != null)
         <div class="alert alert-light">
@@ -83,4 +91,53 @@
             </div>
         </div>
     @endif
+
+
+    <div class="modal fade" id="deleteModal1-{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel1-{{ $post->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel1-{{ $post->id }}">Supprimer la publication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: left;">Êtes-vous sûr de vouloir supprimer cette publication ?</p>
+                    <div class="form-group mt-2">
+                        <label for="motif_suppression{{ $post->id }}" style="display: block; text-align: left;">Raison de la suppression:</label>
+                        <select id="motif_suppression{{ $post->id }}" class="form-control" wire:model="motif_suppression">
+                            <option value="" selected>Sélectionnez un motif</option>
+                            <option value="Annonce de produits interdits ou illégaux">Annonce de produits interdits ou illégaux</option>
+                            <option value="Annonce multiple du même article">Annonce multiple du même article</option>
+                            <option value="Autres violations des politiques du site">Autres violations des politiques du site</option>
+                            <option value="Contenu inapproprié">Contenu inapproprié</option>
+                            <option value="Description trompeuse de l'état de l'article">Description trompeuse de l'état de l'article</option>
+                            <option value="Fraude ou activité suspecte">Fraude ou activité suspecte</option>
+                            <option value="Information incorrecte sur la taille, la couleur, etc.">Information incorrecte sur la taille, la couleur, etc.</option>
+                            <option value="Photos floues ou de mauvaise qualité">Photos floues ou de mauvaise qualité</option>
+                            <option value="Prix excessif pour le produit mis en vente">Prix excessif pour le produit mis en vente</option>
+                            <option value="Produit contrefait ou non authentique">Produit contrefait ou non authentique</option>
+                            <option value="Publicité non autorisée ou spam">Publicité non autorisée ou spam</option>
+                            <option value="Violation des droits d'auteur ou de la propriété intellectuelle">Violation des droits d'auteur ou de la propriété intellectuelle</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" wire:click="confirmDelete({{ $post->id }})" class="btn btn-danger">Confirmer la suppression</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('hide-delete-modal', function() {
+            const modal = document.getElementById('deleteModal1-{{ $post->id }}');
+            if (modal) {
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+                document.body.classList.remove('modal-open');
+                document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+            }
+        });
+    </script>
 </div>

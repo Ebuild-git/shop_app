@@ -12,6 +12,9 @@ use Livewire\Component;
 class DetailsPublicationAction extends Component
 {
     public $post, $id, $verified_at;
+    public $motif_suppression;
+
+
     public function mount($id)
     {
         $this->id = $id;
@@ -128,22 +131,43 @@ class DetailsPublicationAction extends Component
             session()->flash('success', 'La publication à bien été livré');
         }
     }
-    public function delete($postId)
+
+    public function confirmDelete($id)
     {
-        $post = posts::find($postId);
+        $post = posts::find($id);
 
         if ($post) {
-            try {
+            if (!empty($this->motif_suppression)) {
+                $post->motif_suppression = $this->motif_suppression;
+                $post->save();
+
+                $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
+                $notification = new notifications();
+                $notification->titre = "{$greeting} " . $post->user_info->username;
+                $notification->id_user_destination = $post->id_user;
+                $notification->type = "alerte";
+                $notification->url = "#";
+                $notification->message = "
+                    Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                    La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
+                    Merci pour votre compréhension.
+                ";
+                $notification->save();
+                event(new UserEvent($post->id_user));
+
                 $post->delete();
-                session()->flash("success", "Post deleted successfully.");
-            } catch (\Exception $e) {
-                session()->flash("error", "An error occurred: " . $e->getMessage());
+                session()->flash('success', 'La publication a été supprimée avec succès !');
+                $this->dispatch('hide-delete-modal');
+
+            } else {
+                session()->flash('error', 'Veuillez sélectionner un motif de suppression.');
+                $this->dispatch('hide-delete-modal');
+
             }
         } else {
-            session()->flash("error", "Post not found.");
+            session()->flash('error', "Une erreur est survenue lors de la suppression !");
+            $this->dispatch('hide-delete-modal');
         }
     }
-
-
 
 }
