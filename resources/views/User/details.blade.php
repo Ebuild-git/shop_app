@@ -323,7 +323,7 @@
 
 
                             @auth
-                                @if (Auth::id() == $post->id_user)
+                                @if (Auth::id() == $post->id_user && $post->statut !== 'vendu')
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"
                                         class="btn btn-default btn-block mb-2" type="button">
                                         <i class="bi bi-pencil-square"></i>
