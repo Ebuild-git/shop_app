@@ -216,9 +216,15 @@ class ListePublications extends Component
             $notification->type = "alerte";
             $notification->url = "#";
             $notification->message = "
-                Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été restaurée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+                Votre annonce pour <strong>
+                    <a href='" . route('details_post2', ['id' => $post->id, 'titre' => $post->titre]) . "'
+                    class='underlined-link'>
+                    " . htmlspecialchars($post->titre) . "
+                    </a>
+                </strong> a été restaurée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
                 Merci pour votre patience.
             ";
+
             $notification->save();
             $this->dispatch('alert', ['message' => "La publication à été restaurer !",'type'=>'success']);
         } else {
