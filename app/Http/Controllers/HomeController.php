@@ -839,7 +839,11 @@ class HomeController extends Controller
         if ($id_selected_sous_categorie) {
             $selected_sous_categorie = sous_categories::find($id_selected_sous_categorie);
         }
-        $liste_categories = categories::orderBy('order')->get(["titre", "id", "luxury", "small_icon", "icon"]);
+
+        $liste_categories = categories::where('active', true)
+        ->orderBy('order')
+        ->get(["titre", "id", "luxury", "small_icon", "icon"]);
+
         $key = $request->input("key") ?? null;
 
         $regions = regions::all();

@@ -84,34 +84,6 @@
                         placeholder="Entrez votre numéro RIB"
                     >
                 </div>
-
-                {{-- <div class="mb-4 position-relative">
-                    <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
-                    <div class="file-upload-container">
-                        @if(Auth::user()->cin_img)
-                            <div class="file-upload-preview">
-                                <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview" style="max-width: 50px; display: block;">
-                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">Télécharger l'image</a>
-                            </div>
-                        @else
-                            <div class="file-upload-preview">
-                                <img id="imagePreview" src="#" alt="Image Preview" style="display:none;">
-                            </div>
-                        @endif
-                        <input
-                            type="file"
-                            class="form-control form-control-lg file-input"
-                            id="cinImg"
-                            name="cin_img"
-                            accept="image/*"
-                            style="display: none;"
-                        >
-                        <label for="cinImg" class="upload-icon-label">
-                            <i class="fas fa-upload"></i>
-                            <span>Choisir un fichier</span>
-                        </label>
-                    </div>
-                </div> --}}
                 <div class="mb-4 position-relative">
                     <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
                     <div class="file-upload-container">
@@ -143,8 +115,6 @@
                         </label>
                     </div>
                 </div>
-
-
 
                 @php
                 $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->rib_number;

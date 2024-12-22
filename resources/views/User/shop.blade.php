@@ -133,6 +133,7 @@
                                         <div class="filter-card" id="shop-categories">
                                             @if (!$selected_categorie)
                                                 @foreach ($liste_categories as $categorie)
+
                                                     <div class="single_filter_card my-auto" id="list-categorie"
                                                         onclick="select_categorie({{ $categorie->id }})">
                                                         <button class="d-flex p-1 justify-content-between btn w-100">
@@ -155,6 +156,7 @@
                                                             </div>
                                                         </button>
                                                     </div>
+
                                                 @endforeach
                                             @endif
 

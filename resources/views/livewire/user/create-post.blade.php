@@ -254,9 +254,6 @@
                 </div>
             @endif
 
-
-
-
             @if ($proprietes && $selectedCategory)
                 <div class="row">
                     @foreach ($proprietes as $propriete)

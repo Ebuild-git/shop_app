@@ -1,6 +1,8 @@
 @php
     $configurations = DB::table('configurations')->first();
-    $categories = \App\Models\categories::orderBy('order', 'ASC')->get(['id', 'titre', 'luxury', 'pourcentage_gain']);
+    $categories = \App\Models\categories::where('active', true)
+    ->orderBy('order', 'ASC')
+    ->get(['id', 'titre', 'luxury', 'pourcentage_gain']);
 @endphp
 
 
