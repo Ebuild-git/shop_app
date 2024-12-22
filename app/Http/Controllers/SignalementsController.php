@@ -20,7 +20,12 @@ class SignalementsController extends Controller
     {
         $date = $request->input('date');
         $keyword = $request->input('keyword');
-        $query = posts::with(['signalements.auteur'])->withCount('signalements')->has('signalements');
+        $query = posts::with(['signalements.auteur'])
+        ->withCount('signalements')
+        ->has('signalements')
+        ->join('signalements', 'signalements.id_post', '=', 'posts.id')
+        ->select('posts.*')
+        ->orderBy('signalements.created_at', 'desc');
 
         if ($date) {
             $query->whereDate('created_at', $date);
