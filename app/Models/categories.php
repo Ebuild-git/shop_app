@@ -12,7 +12,8 @@ class categories extends Model
         'titre',
         'description',
         'photo',
-        'order'
+        'order',
+        'active',
     ];
 
     protected $casts = [

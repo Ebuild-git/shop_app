@@ -8,7 +8,6 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Catégories /</span> Modifier la catégorie</h4>
         <!-- Bootstrap Table with Header - Dark -->
         <div class=" container">
             <div class="row">

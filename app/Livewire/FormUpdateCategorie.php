@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $icon, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon;
+    public $categorie, $titre, $icon, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon, $active;
     public $region_prix = [];
 
     public function mount($id)
@@ -35,7 +35,7 @@ class FormUpdateCategorie extends Component
         $this->apercu_small_icon = $this->categorie->small_icon;
         $this->proprietes = ModelsProprietes::all();
         $this->list_regions = regions::all('id', 'nom');
-
+        $this->active = $this->categorie->active;
         foreach ($this->list_regions as $regi) {
             $data = regions_categories::where("id_categorie", $this->categorie->id)
                 ->where("id_region", $regi->id)
@@ -60,6 +60,7 @@ class FormUpdateCategorie extends Component
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
             'small_icon' => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:1048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
+            'active' => 'boolean',
         ]);
 
         regions_categories::where("id_categorie", $this->categorie->id)->delete();
@@ -91,6 +92,7 @@ class FormUpdateCategorie extends Component
             $categorie->titre = $this->titre;
             $categorie->description = $this->description;
             $categorie->pourcentage_gain = $this->pourcentage_gain;
+            $categorie->active = $this->active;
             $categorie->save();
             session()->flash('success', "La catégorie a été modifiée avec succès");
             $this->region_prix = [];

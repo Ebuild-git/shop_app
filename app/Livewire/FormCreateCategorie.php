@@ -13,11 +13,10 @@ use Livewire\Component;
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo,  $pourcentage_gain, $list_regions,$small_icon;
-    
+    public $titre, $description, $photo,  $pourcentage_gain, $list_regions,$small_icon, $active = true;
+
     public $regions = [];
     protected $listeners = ['regionCreated' => '$refresh'];
-
 
     public function render()
     {
@@ -34,10 +33,11 @@ class FormCreateCategorie extends Component
             'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:10048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
             'small_icon' => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:1048',
+            'active' => 'boolean',
         ]);
 
 
-       
+
 
         $newName = $this->photo->store('uploads/categories', 'public');
 
@@ -46,10 +46,11 @@ class FormCreateCategorie extends Component
         $categorie->description = $this->description;
         $categorie->icon = $newName;
         $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
+        $categorie->active = $this->active;
         if ($this->small_icon) {
             $categorie->small_icon = $this->small_icon->store('uploads/categories', 'public');
         }
-        
+
         if ($categorie->save()) {
             foreach ($this->regions as $cle => $valeur) {
                 $regions_categorie = new regions_categories();

@@ -35,7 +35,13 @@
                     </div>
                 @enderror
             </div>
-
+            <div class="mb-3">
+                <label for="active">Activer la catégorie</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" wire:model="active" id="active" checked>
+                    <label class="form-check-label" for="active">{{ $active ? 'La catégorie est active' : 'La catégorie est inactive' }}</label>
+                </div>
+            </div>
         </div>
         <div class="col-sm-4">
             <div class="mb-3">
