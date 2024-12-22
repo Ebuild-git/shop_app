@@ -36,11 +36,11 @@ class ListePublications extends Component
 
         $this->categories = categories::all();
 
-
-        $postsQuery = posts::Orderby("id", "Desc");
-
+        $postsQuery = posts::query();
         if ($this->deleted == 'oui') {
-            $publications = $postsQuery->onlyTrashed();
+            $postsQuery->onlyTrashed()->orderBy('deleted_at', 'desc');
+        } else {
+            $postsQuery->orderBy('id', 'desc');
         }
 
         if (strlen($this->status_filter) > 0) {
