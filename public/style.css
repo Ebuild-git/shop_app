@@ -1649,6 +1649,9 @@ tbody td {
     right: -160px;
     }
 
+    .option-icon-header {
+        display: none !important;
+    }
     /* Header */
     .mobile-only-header {
         padding: 0.5rem 1rem;
