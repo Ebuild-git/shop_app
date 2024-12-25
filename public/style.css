@@ -1352,7 +1352,7 @@ tbody td {
 } */
 @media (min-width: 991px) {
     .option-icon-header {
-        display: none !important;
+        display: none;
         position: absolute;
         right: 0;
         display: flex;
