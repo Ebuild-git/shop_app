@@ -65,11 +65,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.25rem 1rem; /* Reduced padding */
+        padding: 0.25rem 1rem;
         background-color: white;
         color: #565656;
         font-size: bold;
-        margin-bottom: 0.25rem; /* Reduced margin */
+        margin-bottom: 0.25rem;
     }
     .nav-dropdown.nav-submenu.left-aligned {
         width: 400px;
@@ -81,7 +81,6 @@
         align-items: center;
         font-weight: 500;
     }
-
     .luxury-icon, .luxury-text {
         color: #008080;
         font-weight: 800;
@@ -100,7 +99,7 @@
 
     .tarif-separator {
         border-top: 1px solid #f0f0f0;
-        margin: 4px 0; /* Reduced margin */
+        margin: 4px 0;
     }
 
     .tarif-note {
@@ -255,8 +254,6 @@
             });
         });
 
-
-        //ouverture du modal pour la previsualisation du post
         document.addEventListener('livewire:init', () => {
             Livewire.on('openmodalpreview', (data) => {
                 console.log(data);
@@ -267,8 +264,7 @@
 
         //formatage du numero de telephone
         function formatTelephone(input) {
-            var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques
-            // Crée des groupes de deux chiffres séparés par des espaces
+            var phoneNumber = input.value.replace(/\D/g, '');
             var formattedPhoneNumber = '';
             for (var i = 0; i < phoneNumber.length; i++) {
                 formattedPhoneNumber += phoneNumber[i];
@@ -386,7 +382,7 @@
         </div>
         <div class="container desktop-container pt-2 pb-2">
             <div class="row">
-                <div class="col-sm-2 col-4 logo-container">
+                <div class="col-sm-3 col-4 logo-container">
                     <a class="nav-brand" href="/">
                         <img src="/icons/logo.png" class="logo" alt="" />
                     </a>
@@ -487,184 +483,184 @@
             </div>
         </div>
 
-<!-- Mobile Container -->
-<div class="container mobile-container pt-2 pb-2">
-    <div class="row align-items-center mobile-only-header">
-        <!-- Navigation and Toggle Button -->
-        <div class="col-12 d-flex justify-content-between align-items-center">
-            <nav id="sidebar-navigation">
-                <div class="nav-toggle">&#9776;</div>
-                <div class="sidebar-wrapper">
-                    <div class="close-menu">×</div>
-                    <ul class="text-uppercase-mobile">
-                        <li><a href="/about" style="padding-left: 0px !important">À propos</a></li>
-                        <li><a href="/" style="padding-left: 0px !important">Accueil</a></li>
-                        <li>
-                            <a href="{{ Auth::check() ? route('shopiners') : '#' }}" @guest data-toggle="modal" data-target="#login" @endguest>
-                                Shop<span class="color strong">in</span>ers
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/shop">Catégories({{$categories->count()}})</a>
-                            <ul class="categories-list p-0">
-                                @forelse ($categories as $item)
-                                    <li class="category-item">
-                                        {{-- <a href="/shop?categorie={{ $item->id }}" class="category-link"> --}}
-                                            <a href="javascript:void(0);" class="category-link" onclick="select_categorie({{ $item->id }})">
-                                            <div class="d-flex align-items-center">
-                                                <span>{{ $item->titre }}</span>
-                                                <span class="small color">
-                                                    @if ($item->luxury == 1)
-                                                        <i class="bi bi-gem luxury-icon"></i>
-                                                    @endif
-                                                </span>
-                                            </div>
+        <!-- Mobile Container -->
+        <div class="container mobile-container pt-2 pb-2">
+            <div class="row align-items-center mobile-only-header">
+                <!-- Navigation and Toggle Button -->
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <nav id="sidebar-navigation">
+                        <div class="nav-toggle">&#9776;</div>
+                        <div class="sidebar-wrapper">
+                            <div class="close-menu">×</div>
+                            <ul class="text-uppercase-mobile">
+                                <li><a href="/about" style="padding-left: 0px !important">À propos</a></li>
+                                <li><a href="/" style="padding-left: 0px !important">Accueil</a></li>
+                                <li>
+                                    <a href="{{ Auth::check() ? route('shopiners') : '#' }}" @guest data-toggle="modal" data-target="#login" @endguest>
+                                        Shop<span class="color strong">in</span>ers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/shop">Catégories({{$categories->count()}})</a>
+                                    <ul class="categories-list p-0">
+                                        @forelse ($categories as $item)
+                                            <li class="category-item">
+                                                {{-- <a href="/shop?categorie={{ $item->id }}" class="category-link"> --}}
+                                                    <a href="javascript:void(0);" class="category-link" onclick="select_categorie({{ $item->id }})">
+                                                    <div class="d-flex align-items-center">
+                                                        <span>{{ $item->titre }}</span>
+                                                        <span class="small color">
+                                                            @if ($item->luxury == 1)
+                                                                <i class="bi bi-gem luxury-icon"></i>
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @empty
+                                        @endforelse
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+
+                    <a class="nav-brand mobile-logo" href="/">
+                        <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
+                    </a>
+                    <div class="mobile-only-icons" style="padding:0;margin:0;width:auto;">
+                        @auth
+                        <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
+                            style="color: black !important;">
+                            <i class="bi lni bi-clock-history icon-icon-header"></i>
+                        </a>
+                        @endauth
+                        <a href="#" onclick="openCart()" class="position-relative mobile-panier" style="color: black !important; margin-left: 10px;">
+                            <i class="bi lni bi-bag icon-icon-header"></i>
+                            <span class="dn-counter bg-success-ps" id="CountPanier-value-mobile">0</span>
+                        </a>
+                        @guest
+                        <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-right: -60px;">
+                            <i class="bi lni bi-person-circle icon-icon-header"></i>
+                        </a>
+                        @endguest
+                        @auth
+                        <a href="{{ route('user-notifications') }}" class="mobile-notifications" style="color: black !important; margin-left: 10px;">
+                            <i class="lni bi bi-bell icon-icon-header"></i>
+                            <span class="dn-counter bg-success-ps" id="CountNotification-value-mobile">0</span>
+                        </a>
+                        @endauth
+                        <div class="col-sm-3 mx-auto my-auto text-right">
+                            <div class="currency-selector dropdown js-dropdown ml-3 d-flex align-items-center">
+                                <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
+                                    title="Language" aria-label="Language dropdown">
+                                    @auth
+                                    {{-- <span class="d-flex align-items-end" style="color: black; font-size: 10px;">
+                                        <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
+                                        <i class="bi bi-caret-down ml-1"></i>
+                                    </span> --}}
+                                    <span class="d-flex align-items-end">
+                                        <i class="fas fa-user user-emoji" role="img" aria-label="User" onclick="toggleActive(this)"></i>
+                                    </span>
+                                    @endauth
+                                </a>
+                                <ul class="dropdown-menu popup-content">
+                                    <li>
+                                        <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
+                                            Mes annonces
                                         </a>
                                     </li>
-                                @empty
-                                @endforelse
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                                    <li>
+                                        <a href="/mes-publication?type=vente" class="medium link-red text-medium">
+                                            Mes ventes
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/mes-achats" class="medium link-red text-medium">
+                                            Mes achats
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/checkout" class="medium link-red text-medium">
+                                            Mon panier
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('liked') }}" class="medium link-red text-medium">
+                                            Mes coups de coeur
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('favoris') }}" class="medium link-red text-medium">
+                                            Mes favoris
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/user-notifications" class="medium link-red text-medium">
+                                            Notifications
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/informations" class="medium link-red text-medium">
+                                            Mon compte
+                                        </a>
+                                    </li>
+                                    @livewire('User.ModeToggle')
+                                    <li>
+                                        <a href="/logout" class="medium text-medium link-red">
+                                            Déconnexion
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-
-            <a class="nav-brand mobile-logo" href="/">
-                <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
-            </a>
-            <div class="mobile-only-icons" style="padding:0;margin:0;width:auto;">
-                @auth
-                <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header"
-                    style="color: black !important;">
-                    <i class="bi lni bi-clock-history icon-icon-header"></i>
-                </a>
-                @endauth
-                <a href="#" onclick="openCart()" class="position-relative mobile-panier" style="color: black !important; margin-left: 10px;">
-                    <i class="bi lni bi-bag icon-icon-header"></i>
-                    <span class="dn-counter bg-success-ps" id="CountPanier-value-mobile">0</span>
-                </a>
-                @guest
-                <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header mobile-connexion" style="color: black !important; margin-right: -60px;">
-                    <i class="bi lni bi-person-circle icon-icon-header"></i>
-                </a>
-                @endguest
-                @auth
-                <a href="{{ route('user-notifications') }}" class="mobile-notifications" style="color: black !important; margin-left: 10px;">
-                    <i class="lni bi bi-bell icon-icon-header"></i>
-                    <span class="dn-counter bg-success-ps" id="CountNotification-value-mobile">0</span>
-                </a>
-                @endauth
-                <div class="col-sm-3 mx-auto my-auto text-right">
-                    <div class="currency-selector dropdown js-dropdown ml-3 d-flex align-items-center">
-                        <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
-                            title="Language" aria-label="Language dropdown">
-                            @auth
-                            {{-- <span class="d-flex align-items-end" style="color: black; font-size: 10px;">
-                                <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
-                                <i class="bi bi-caret-down ml-1"></i>
-                            </span> --}}
-                            <span class="d-flex align-items-end">
-                                <i class="fas fa-user user-emoji" role="img" aria-label="User" onclick="toggleActive(this)"></i>
-                            </span>
-                            @endauth
-                        </a>
-                        <ul class="dropdown-menu popup-content">
-                            <li>
-                                <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
-                                    Mes annonces
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/mes-publication?type=vente" class="medium link-red text-medium">
-                                    Mes ventes
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/mes-achats" class="medium link-red text-medium">
-                                    Mes achats
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/checkout" class="medium link-red text-medium">
-                                    Mon panier
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('liked') }}" class="medium link-red text-medium">
-                                    Mes coups de coeur
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('favoris') }}" class="medium link-red text-medium">
-                                    Mes favoris
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/user-notifications" class="medium link-red text-medium">
-                                    Notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/informations" class="medium link-red text-medium">
-                                    Mon compte
-                                </a>
-                            </li>
-                            @livewire('User.ModeToggle')
-                            <li>
-                                <a href="/logout" class="medium text-medium link-red">
-                                    Déconnexion
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
 
-            </div>
-        </div>
+                <!-- Search and Publish Section -->
+                <div class="col-12 d-flex justify-content-between align-items-center mt-3 mobile-search-publish">
+                    <form action="/shop" method="get" class="position-relative mobile-search-form">
+                        @csrf
+                        <div class="search-container">
+                            <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="Rechercher un article">
+                            <button type="submit" class="search-button cusor mobile-search-btn-mobile">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
 
-        <!-- Search and Publish Section -->
-        <div class="col-12 d-flex justify-content-between align-items-center mt-3 mobile-search-publish">
-            <form action="/shop" method="get" class="position-relative mobile-search-form">
-                @csrf
-                <div class="search-container">
-                    <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="Rechercher un article">
-                    <button type="submit" class="search-button cusor mobile-search-btn-mobile">
-                        <i class="bi bi-search"></i>
-                    </button>
+                    <div class="ml-3 mobile-publish-btn-container">
+                        @auth
+                        <a href="/publication">
+                        @else
+                        <a href="#" data-toggle="modal" data-target="#login">
+                        @endauth
+                            <button class="btn-publier-header cusor p-2 mobile-publish-btn" type="button">
+                                <i class="lni lni-circle-plus"></i>
+                                <span>Publier</span>
+                            </button>
+                        </a>
+                    </div>
                 </div>
-            </form>
-
-            <div class="ml-3 mobile-publish-btn-container">
-                @auth
-                <a href="/publication">
-                @else
-                <a href="#" data-toggle="modal" data-target="#login">
-                @endauth
-                    <button class="btn-publier-header cusor p-2 mobile-publish-btn" type="button">
-                        <i class="lni lni-circle-plus"></i>
-                        <span>Publier</span>
-                    </button>
-                </a>
             </div>
         </div>
-    </div>
-</div>
-<script>
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.querySelector('.nav-toggle');
             const sidebarWrapper = document.querySelector('.sidebar-wrapper');
             const closeMenu = document.querySelector('.close-menu');
 
             navToggle.addEventListener('click', function() {
-            sidebarWrapper.classList.toggle('open'); // Toggle the sidebar on click
+            sidebarWrapper.classList.toggle('open');
             });
 
             closeMenu.addEventListener('click', function() {
-            sidebarWrapper.classList.remove('open'); // Close the sidebar when '×' is clicked
+            sidebarWrapper.classList.remove('open');
             });
             });
-</script>
+        </script>
         <script>
             $(window).scroll(function() {
                 var elementToHide = $('.elementToHideBeforeScroll');
@@ -728,94 +724,91 @@
                             </li>
 
 
-                       <li class="elementToHideBeforeScroll hide-mobile-version d-none">
-                            <div class="div-scroll-publier">
-                                @auth
-                                <a href="/publication" class="btn-publier-header cusor p-1">
-                            @else
-                                <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
-                            @endauth
-                                <span class="color small">
-                                    <i class="lni lni-circle-plus"></i>
-                                    Publier
-                                </span>
-                            </a>
-                               </div>
-                        </li>
-                        <li class="option-icon-header comment-position-top" id="icons_position">
-                            @auth
-                            <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                <i class="bi lni bi-clock-history icon-icon-header"></i>
-                            </a>
-                            @endauth
-                            <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important;">
-                                <i class="bi lni bi-bag icon-icon-header"></i>
-                                <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
-                            </a>
+                            <li class="elementToHideBeforeScroll hide-mobile-version d-none">
+                                    <div class="div-scroll-publier">
+                                        @auth
+                                        <a href="/publication" class="btn-publier-header cusor p-1">
+                                    @else
+                                        <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
+                                    @endauth
+                                        <span class="color small">
+                                            <i class="lni lni-circle-plus"></i>
+                                            Publier
+                                        </span>
+                                    </a>
+                                    </div>
+                                </li>
+                                <li class="option-icon-header comment-position-top" id="icons_position">
+                                    @auth
+                                    <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                        <i class="bi lni bi-clock-history icon-icon-header"></i>
+                                    </a>
+                                    @endauth
+                                    <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important;">
+                                        <i class="bi lni bi-bag icon-icon-header"></i>
+                                        <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
+                                    </a>
 
-                            @guest
-                            <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                <i class="bi lni bi-person-circle icon-icon-header"></i>
-                            </a>
-                            @endguest
+                                    @guest
+                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                        <i class="bi lni bi-person-circle icon-icon-header"></i>
+                                    </a>
+                                    @endguest
 
-                            @auth
-                            <a href="{{ route('user-notifications') }}" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                <i class="lni bi bi-bell icon-icon-header"></i>
-                                <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
-                            </a>
-                            @endauth
-                        </li>
+                                    @auth
+                                    <a href="{{ route('user-notifications') }}" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                        <i class="lni bi bi-bell icon-icon-header"></i>
+                                        <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                                    </a>
+                                    @endauth
+                                </li>
 
+                                <li class="text-capitalize comment-position" id="comment_position">
+                                    <a href="#">Comment ça marche?</a>
+                                    <ul class="nav-dropdown nav-submenu">
+                                        <li>
+                                            <a href="{{ route('how_sell') }}">
+                                                Comment Vendre ?
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('how_buy') }}">
+                                                Comment acheter?
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/conditions">
+                                                Conditions générales
+                                            </a>
+                                        </li>
 
-                            <li class="text-capitalize comment-position" id="comment_position">
-                                <a href="#">Comment ça marche?</a>
-                                <ul class="nav-dropdown nav-submenu">
-                                    <li>
-                                        <a href="{{ route('how_sell') }}">
-                                            Comment Vendre ?
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('how_buy') }}">
-                                            Comment acheter?
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/conditions">
-                                            Conditions générales
-                                        </a>
-                                    </li>
-
-                                    <li class="text-capitalize comment-position">
-                                        <a href="#" data-toggle="modal" data-target="#tarifaire">Nos Politiques Tarifaires</a>
-                                        <ul class="nav-dropdown nav-submenu left-aligned">
-                                            @foreach ($categories as $tarif)
-                                            <li class="tarif-item">
-                                                <span class="tarif-title">
-                                                    {{ $tarif->titre }}
-                                                    @if ($tarif->luxury == 1)
-                                                    <span class="luxury-text">
-                                                        <i class="bi bi-gem luxury-icon"></i> Luxury
+                                        <li class="text-capitalize comment-position">
+                                            <a href="#" data-toggle="modal" data-target="#tarifaire">Nos Politiques Tarifaires</a>
+                                            <ul class="nav-dropdown nav-submenu left-aligned">
+                                                @foreach ($categories as $tarif)
+                                                <li class="tarif-item">
+                                                    <span class="tarif-title">
+                                                        {{ $tarif->titre }}
+                                                        @if ($tarif->luxury == 1)
+                                                        <span class="luxury-text">
+                                                            <i class="bi bi-gem luxury-icon"></i> Luxury
+                                                        </span>
+                                                        @endif
                                                     </span>
-                                                    @endif
-                                                </span>
-                                                <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
-                                            </li>
-                                            @endforeach
-                                            <!-- Separator and phrase -->
-                                            <li class="tarif-separator"></li>
-                                            <li class="tarif-note">
-                                                Le montant de la commission est prélévé au moment du paiement par l'acheteur
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                                                    <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
+                                                </li>
+                                                @endforeach
+                                                <!-- Separator and phrase -->
+                                                <li class="tarif-separator"></li>
+                                                <li class="tarif-note">
+                                                    Le montant de la commission est prélévé au moment du paiement par l'acheteur
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                        </ul>
-
-
+                            </ul>
                     </div>
                 </nav>
             </div>
