@@ -287,8 +287,8 @@
         <style>
             .comment-position-top {
                 position: absolute;
-                right: 150px;
-                top: -63px;
+                right: 67px;
+                top: -84px;
             }
             @media (max-width: 1024px) {
                 .comment-position-top {
@@ -417,7 +417,7 @@
 
                     </div>
                 </div>
-                <div class="col-sm-3 mx-auto my-auto" style="text-align: right !important">
+                <div class="col-sm-3 mx-auto my-auto" style="   top: -32px;width: 84px;position: relative;left: 55%; ">
                     <div class="currency-selector dropdown js-dropdown ml-3">
                         <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
                             title="Language" aria-label="Language dropdown">

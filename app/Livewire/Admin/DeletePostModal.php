@@ -41,7 +41,7 @@ class DeletePostModal extends Component
             $notification->id_user_destination  =  $post->id_user;
             $notification->type = "alerte";
             $notification->url = "#";
-            $notification->message = "Votre annonce pour  " . $post->titre . " aa été retirée par l'équipe de SHOPIN La raison de la suppression est la suivante: <b>" . $this->motif . "</b> <br/> Merci pour votre compréhension. ";
+            $notification->message = "Votre annonce pour  " . $post->titre . " a été retirée par l'équipe de SHOPIN La raison de la suppression est la suivante: <b>" . $this->motif . "</b> <br/> Merci pour votre compréhension. ";
             $notification->save();
             event(new UserEvent($post->id_user));
 

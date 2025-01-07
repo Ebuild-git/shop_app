@@ -1467,7 +1467,12 @@ tbody td {
     border: none;
     border-radius: 5px;
 }
-
+/* position: relative;
+    //right: -104px;
+    width: 84px;
+    //left: 1100px;
+    top: -32px;
+    left: 385%; */
 /* toggle */
 
 /* Wrapper for the sidebar */
