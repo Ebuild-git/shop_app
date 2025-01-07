@@ -64,7 +64,7 @@ class Connexion extends Component
         }
 
         if ($user->locked == true) {
-            session()->flash("error", "Compte bloqué. Veuillez <a href='/contact'>cliquer ici</a> pour contacter un administrateur et réactiver votre compte.");
+            session()->flash("error", "Compte bloqué. Veuillez <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>cliquer ici</a> pour contacter un administrateur et réactiver votre compte.");
             return;
         }
         $user->update(['last_login_at' => now()]);

@@ -1,7 +1,7 @@
 
 @if (session()->has('error'))
     <div class="alert alert-danger alert-dismissible" role="alert">
-        {{ session('error') }}
+        {!! session('error') !!}
 
     </div>
 @endif
@@ -14,13 +14,6 @@
         {!! session('success-special') !!}
     </div>
 @endif
-
-{{-- @if (session()->has('success'))
-<div class="alert alert-success alert-dismissible text-center" style="background-color: #008080a8 !important;color: white !important;" role="alert">
-        {!! session('warning') !!}
-    </div>
-@endif --}}
-
 
 
 @if (session()->has('warning'))
