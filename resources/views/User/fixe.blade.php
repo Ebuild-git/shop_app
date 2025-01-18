@@ -858,12 +858,8 @@
                                 </div>
                                 <div class="flex-fill">
                                     <h4 class="color">Protection et Sécurité</h4>
-                                    <p>
-                                        En cas de non-conformité de
-                                        l'article, soyez assuré que nous
-                                        garantissons le remboursement
-                                        total, avec une prise en charge
-                                        complète des frais de retour !
+                                    <p class="text-justified">
+                                        SHOP<span class="color">IN</span> vous offre des outils pratiques, comme une messagerie privée et un système de signalement, pour vous garantir un espace sécurisé et des transactions en toute confiance.
                                     </p>
                                 </div>
                             </div>
@@ -878,9 +874,9 @@
                                 </div>
                                 <div class="flex-fill">
                                     <h4 class="color">Expérience agréable!</h4>
-                                    <p>
+                                    <p class="text-justified">
                                         Acheter ou vendre, votre
-                                        expérience sur SHOPIN sera
+                                        expérience sur SHOP<span class="color">IN</span> sera
                                         toujours marquée par un
                                         service exceptionnel, une
                                         simplicité inégalée et une
@@ -900,7 +896,7 @@
                                 </div>
                                 <div class="flex-fill">
                                     <h4 class="color">Livraison porte à porte</h4>
-                                    <p>
+                                    <p class="text-justified">
                                         Un livreur se rendra
                                         directement à votre porte
                                         pour récupérer ou livrer vos

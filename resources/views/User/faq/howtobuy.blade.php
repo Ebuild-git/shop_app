@@ -26,47 +26,44 @@
             <div class="col-sm-8">
                 <table class="">
                     <tr onmousemove="change_image(1)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/1.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-1">
-                                <b>Utilisez la recherche multicritères ou simplement parcourez les
-                                annonces des autres SHOP<span class="color">IN</span>ERS</b>
+                            <h4 class="title title-1 pointer-title">
+                                <b>Explorez à votre façon</b>
                             </h4>
-                            <p>Continuez jusqu’à ce que vous trouvez votre coup de coeur</p>
+                            <p class="text-justified">Utilisez notre recherche multicritères pour affiner vos envies ou laissez-vous surprendre en parcourant les annonces des autres SHOP<span class="color">IN</span>ERS jusqu’à ce que vous tombiez sur le coup de cœur parfait.</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(2)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/2.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-2">
-                                <b>Laissez un petit Coeur sur l’article qui vous plait</b>
+                            <h4 class="title title-2 pointer-title">
+                                <b>Ajoutez vos favoris d’un simple clic</b>
                             </h4>
-                            <p>Comme çà l’article sera ajouter à votre liste de coup de
-                                coeur</p>
+                            <p class="text-justified">Repérez un article qui vous plaît ? Appuyez sur le petit cœur pour l’ajouter instantanément à votre liste de favoris et ne jamais perdre de vue vos pépites.</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(3)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/3.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-3"><b>Appuyez sur « J’achète »</b></h4>
-                            <p>Et voilà c’est aussi simple que çà et le paiement se fait à la
+                            <h4 class="title title-3 pointer-title"><b>Validez votre panier en un rien de temps</b></h4>
+                            <p class="text-justified">Et voilà c’est aussi simple que çà et le paiement se fait à la
                                 livraison</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(4)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/4.png" alt="" height="45">
                         </td>
                         <td>
-                            <h4 class="title title-4"><b>Attendez votre colis</h4>
-                            <p>Après avoir confirmé la réception de votre colis, un livreur
-                                se rendra chez vous pour le remettre</p>
+                            <h4 class="title title-4 pointer-title"><b>Recevez votre colis sans effort</b></h4>
+                            <p class="text-justified">Une fois votre commande confirmée, un livreur se chargera de vous remettre votre colis directement chez vous. SHOP<span class="color">IN</span> rend votre shopping aussi pratique que plaisant!</p>
                         </td>
                     </tr>
                 </table>

@@ -24,45 +24,41 @@
         <br>
         <div class="row">
             <div class="col-sm-8">
-                <table class="">
+                <table>
                     <tr onmousemove="change_image(1)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/1.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-1"><b>Mettez votre article en ligne en un instant</b></h4>
-                            <p>Ajoutez des photos, rédigez une description, fixez le
-                                prix</p>
+                            <h4 class="title title-1 pointer-title"><b>Mettez votre article en ligne en un clin d'œil</b></h4>
+                            <p class="text-justified">Ajoutez des photos attrayantes, décrivez votre article avec soin, et fixez un prix compétitif.</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(2)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/2.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-2"><b>Préparez votre article pour la livraison</b></h4>
-                            <p>Emballez votre article. Un livreur viendra récupérer le
-                                colis directement depuis chez vous</p>
+                            <h4 class="title title-2 pointer-title"><b>Préparez votre article pour la livraison</b></h4>
+                            <p class="text-justified">Emballez soigneusement votre article. Un livreur viendra le récupérer directement chez vous, sans effort de votre part.</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(3)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/3.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-3"><b>Recevez votre argent rapidement</b></h4>
-                            <p>24h après la livraison, vous receverez votre argent par
-                                virement bancaire</p>
+                            <h4 class="title title-3 pointer-title"><b>Recevez votre argent rapidement</b></h4>
+                            <p class="text-justified">24 heures après la livraison réussie, votre paiement sera effectué par versement selon les modalités convenues.</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(4)">
-                        <td class="p-3 text-center">
+                        <td class="p-3 text-center align-top">
                             <img src="/faq/4.png" alt="" height="45">
                         </td>
                         <td>
-                            <h4 class="title title-4"><b>À vous maintenant! Achetez sur SHOP<span
-                                        class="color">IN</span></b></h4>
-                            <p>Explorez les beaux articles et passer à l’achat</p>
+                            <h4 class="title title-4 pointer-title"><b>C’est à vous de jouer !</b></h4>
+                            <p class="text-justified">Rejoignez SHOP<span class="color">IN</span> dès aujourd’hui, vendez vos articles, et découvrez des trésors uniques à acheter.</p>
                         </td>
                     </tr>
                 </table>

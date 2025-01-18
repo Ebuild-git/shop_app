@@ -3248,3 +3248,14 @@ input:checked + .slider:before {
     display: block;
     text-align: center;
 }
+
+.pointer-title{
+    cursor: pointer;
+}
+.text-justified {
+    text-align: justify; /* Ensures justified text alignment */
+}
+
+.align-top {
+    vertical-align: top; /* Aligns text properly with images */
+}

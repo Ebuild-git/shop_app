@@ -26,20 +26,17 @@
         <h2 class="mb-2 ft-bold">À propos de SHOP<span class="color">IN</span></h2>
         <!-- Text -->
         <p class="ft-regular fs-md mb-2">
-            Bienvenue sur SHOP<span class="color">IN</span>, le site web et l'application mobile qui offrent bien plus qu'une simple plateforme
-            d'achat. Ici,
-            vous pouvez non seulement trouver une large sélection d'articles neufs et d'occasion, mais aussi vendre vos
-            propres
-            articles.
+            Bienvenue dans l’univers de SHOP<span class="color">IN</span>, la plateforme qui transforme vos habitudes d'achat et de vente. Ici, chaque article raconte une histoire, et chaque transaction devient une opportunité de faire partie d’un mouvement responsable et tendance.
         </p>
         <p class="ft-regular fs-md mb-2">
-            Chez SHOP<span class="color">IN</span>, nous croyons fermement à la durabilité, en donnant une seconde vie aux objets et en encourageant le
-            commerce responsable. Notre mission est de créer une communauté inclusive où chacun peut trouver des trésors
-            uniques tout en contribuant à réduire l'empreinte écologique de la mode et de la consommation.
+            Pourquoi choisir SHOP<span class="color">IN</span>? Parce que nous ne sommes pas juste un marché en ligne : nous sommes une communauté qui valorise vos besoins, vos envies et votre impact. Explorez une sélection variée d’articles neufs et d’occasion, trouvez des pépites rares et vendez vos propres objets en toute simplicité.
         </p>
 
         <p class="ft-regular fs-md mb-2">
-            Devenez SHOP<span class="color">IN</span>ER pour vendre vos articles ou pour découvrir votre prochaine trouvaille préférée!
+            En rejoignant SHOP<span class="color">IN</span>vous adoptez un mode de consommation plus intelligent et durable. Vous contribuez à réduire le gaspillage tout en découvrant des trésors uniques qui reflètent votre style et vos valeurs.
+        </p>
+        <p class="ft-regular fs-md mb-2">
+            Ne laissez pas vos objets inutilisés dormir chez vous – transformez-les en revenus. Et pour les chasseurs de bonnes affaires, votre prochaine trouvaille coup de cœur vous attend déjà sur SHOP<span class="color">IN</span>. Rejoignez-nous dès aujourd’hui et devenez un SHOP<span class="color">IN</span>ER, acteur d’un changement positif, pratique et enrichissant !
         </p>
     </div>
 
