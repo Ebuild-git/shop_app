@@ -198,8 +198,6 @@ class CreatePost extends Component
                 $requiredProps[] = $property['id'];
             }
         }
-
-        // Define base rules
         $rules = [
             'titre' => 'required|min:2',
             'description' => 'string|nullable',
@@ -208,8 +206,8 @@ class CreatePost extends Component
             'photo3' => 'nullable|max:2048|min:1',
             'photo4' => 'nullable|max:2048|min:1',
             'region' => 'required|integer|exists:regions,id',
-            'prix' => 'required|numeric|min:1',
-            'prix_achat' => 'nullable|numeric|min:1',
+            'prix' => 'required|numeric|min:50',
+            'prix_achat' => 'nullable|numeric|min:50',
             'etat' => ['required', 'string'],
             'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
             'selectedCategory' => 'required|integer|exists:categories,id'
@@ -221,7 +219,8 @@ class CreatePost extends Component
         }
         try {
             $this->validate($rules, [
-                'required' => "Veuillez remplir tous les champs obligatoires"
+                'required' => "Veuillez remplir tous les champs obligatoires",
+                'prix.min' => 'Le prix doit être supérieur à 50 DH.',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = $e->validator->getMessageBag();
@@ -260,7 +259,6 @@ class CreatePost extends Component
             $name = $this->photo5->store('uploads/posts', 'public');
             $photos[] = $name;
         }
-         // Ensure at least 3 photos are uploaded
         if (count($photos) < 3) {
             $this->addError('photos', 'Vous devez ajouter au moins 3 photos!');
             return false;
@@ -298,27 +296,13 @@ class CreatePost extends Component
             return;
         }
 
-        // if (!$this->before_post()) {
-        //     if ($this->getErrorBag()->has('prix')) {
-        //         $this->dispatch('alert', [
-        //             'message' => $this->getErrorBag()->first('prix'),
-        //             'type' => 'warning',
-        //         ]);
-        //     } else {
-        //         $this->dispatch('remplir-alert');
-        //     }
-        //     return;
-        // }
         if (!$this->before_post()) {
-            // Check if there is a 'prix' error
             if ($this->getErrorBag()->has('prix')) {
                 $this->dispatch('alert', [
                     'message' => $this->getErrorBag()->first('prix'),
                     'type' => 'warning',
                 ]);
             }
-
-            // Check if there is a 'cin_img' error
             if ($this->getErrorBag()->has('cin_img')) {
                 $this->dispatch('alert', [
                     'message' => $this->getErrorBag()->first('cin_img'),
@@ -326,28 +310,19 @@ class CreatePost extends Component
                 ]);
             }
 
-            // Check if there is a 'photos' error
             if ($this->getErrorBag()->has('photos')) {
                 $this->dispatch('alert', [
                     'message' => $this->getErrorBag()->first('photos'),
                     'type' => 'warning',
                 ]);
             }
-
-            // If no specific errors are found, show the general alert
             if (!$this->getErrorBag()->has('prix') && !$this->getErrorBag()->has('cin_img') && !$this->getErrorBag()->has('photos')) {
                 $this->dispatch('remplir-alert');
             }
 
             return;
         }
-        // if (empty($this->data_post["photos"])) {
-        //     $this->dispatch('alert', [
-        //         'message' => "Vous devez ajouter au moins une photo!",
-        //         'type' => 'warning'
-        //     ]);
-        //     return;
-        // }
+
         if (count($this->data_post["photos"]) < 3) {
             $this->dispatch('alert', [
                 'message' => "Vous devez ajouter au moins 3 photos!",
@@ -365,12 +340,7 @@ class CreatePost extends Component
     {
         $this->before_post();
         if ($this->data_post) {
-            // if (empty($this->data_post["photos"])) {
-            //     $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
-            //     return;
-            // } else {
-            //     $this->make_post($this->data_post);
-            // }
+
             if (count($this->data_post["photos"]) < 3) {
                 $this->dispatch('alert', ['message' => "Vous devez ajouter au moins 3 photos!", 'type' => 'warning']);
                 return;
