@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class posts extends Model
 {
@@ -73,22 +74,6 @@ class posts extends Model
         }
     }
 
-
-
-    public function getFraisLivraison()
-    {
-        $id_categorie = $this->sous_categorie_info->categorie->id;
-        $id_region = $this->region->id;
-
-        $val = regions_categories::where('id_region', $id_region)->where('id_categorie', $id_categorie)->first();
-        if ($val) {
-            return $val->prix;
-        } else {
-            return  'N/A';
-        }
-    }
-
-
     public function sous_categorie_info()
     {
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
@@ -96,17 +81,6 @@ class posts extends Model
 
     public function calculateGain()
     {
-        // $sousCategorie = $this->sous_categorie_info;
-
-        // if ($sousCategorie && $sousCategorie->categorie) {
-        //     $pourcentageGain = $sousCategorie->categorie->pourcentage_gain;
-        //     $price = $this->old_prix ?: $this->prix;
-        //     $gain = $price * ($pourcentageGain / 100);
-
-        //     return $gain;
-        // }
-
-        // return 0;
         $price = $this->old_prix ?: $this->prix;
         return $price;
     }

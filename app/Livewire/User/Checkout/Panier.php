@@ -4,6 +4,8 @@ namespace App\Livewire\User\Checkout;
 
 use App\Models\posts;
 use App\Models\UserCart;
+use App\Models\sous_categories;
+use App\Models\regions_categories;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -12,15 +14,13 @@ class Panier extends Component
 {
     public $success = 0;
     protected $listeners = ['PostAdded' => '$refresh'];
-    public $frais  = 25;
+    public $frais  = 0;
 
     public function render()
     {
         $articles_panier = [];
         $total = 0;
         $nbre_article = 0;
-
-        // Retrieve cart items based on user_id
         $user_id = Auth::id();
         $cartItems = UserCart::where('user_id', $user_id)->pluck('post_id');
 
@@ -32,6 +32,19 @@ class Panier extends Component
                 ->first();
 
             if ($post) {
+                $id_categorie = $post->id_sous_categorie
+                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                : null;
+
+                $id_region = Auth::user()->region ?? null;
+
+                $fraisLivraison = '0';
+                if ($id_categorie && $id_region) {
+                    $regionCategory = regions_categories::where('id_region', $id_region)
+                        ->where('id_categorie', $id_categorie)
+                        ->first();
+                        $fraisLivraison = $regionCategory ? number_format($regionCategory->prix, 2, ',', '') : '0,00';
+                }
                 $articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
@@ -39,18 +52,22 @@ class Panier extends Component
                     "photo" => $post->photos[0],
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
-                    "old_prix" => $post->getOldPrix()
+                    "old_prix" => $post->getOldPrix(),
+                    "frais" => $fraisLivraison,
                 ];
                 $total += round($post->getPrix(), 3);
                 $nbre_article++;
             }
+
         }
 
         $groupedByVendor = collect($articles_panier)->groupBy('vendeur');
         $uniqueVendorsCount = $groupedByVendor->count();
-        $totalDeliveryFees = $uniqueVendorsCount > 0 ? $this->frais * $uniqueVendorsCount : 0;
-        $totalWithDelivery = $total + $totalDeliveryFees;
+        $totalDeliveryFees = $groupedByVendor->map(function ($items) {
+            return (float) $items->first()['frais'];
+        })->sum();
 
+        $totalWithDelivery = $total + $totalDeliveryFees;
         return view('livewire.user.checkout.panier')
             ->with("articles_panier", $articles_panier)
             ->with("total", $total)

@@ -45,7 +45,7 @@
                                         <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
-                                            Frais de Livraison : <b class="frais-font">{{ $frais ?? 0 }} <sup>DH</sup></b>
+                                            Frais de Livraison : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>DH</sup></b>
                                             @php
                                             $processedVendors[] = $item['vendeur'];
                                             @endphp

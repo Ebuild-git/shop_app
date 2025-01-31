@@ -96,7 +96,7 @@ class FormUpdateCategorie extends Component
             $categorie->save();
             session()->flash('success', "La catégorie a été modifiée avec succès");
             $this->region_prix = [];
-            //$this->dispatch('categorieCreated');
+
         } catch (\Exception $e) {
             session()->flash('error', 'Une erreur est survenue lors de la modification de la catégorie');
         }
