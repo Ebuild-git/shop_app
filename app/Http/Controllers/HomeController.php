@@ -456,15 +456,19 @@ class HomeController extends Controller
     }
 
 
-
-
-
-
-
-
     public function inscription_post(Request $request)
     {
         $year = date('Y');
+        $forbiddenWord = 'shopin';
+        $requestData = $request->all();
+
+        $forbiddenFields = ['email', 'username', 'nom', 'prenom'];
+
+        foreach ($forbiddenFields as $field) {
+            if (stripos($requestData[$field], $forbiddenWord) !== false) {
+                return redirect()->back()->with("error", "Le mot 'shopin' n'est pas autorisé dans le $field.")->withInput();
+            }
+        }
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => [
