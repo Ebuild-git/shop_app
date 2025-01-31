@@ -260,8 +260,9 @@ class CreatePost extends Component
             $name = $this->photo5->store('uploads/posts', 'public');
             $photos[] = $name;
         }
-        if (empty($photos)) {
-            $this->addError('photos', 'Vous devez ajouter au moins une photo!');
+         // Ensure at least 3 photos are uploaded
+        if (count($photos) < 3) {
+            $this->addError('photos', 'Vous devez ajouter au moins 3 photos!');
             return false;
         }
         $this->data_post = [
@@ -288,20 +289,68 @@ class CreatePost extends Component
 
     public function preview()
     {
+        $user = Auth::user();
+        if (!$user->cin_img) {
+            $this->dispatch('alert', [
+                'message' => "Vous devez ajouter une image de votre carte d'identité avant de publier un post!",
+                'type' => 'warning'
+            ]);
+            return;
+        }
+
+        // if (!$this->before_post()) {
+        //     if ($this->getErrorBag()->has('prix')) {
+        //         $this->dispatch('alert', [
+        //             'message' => $this->getErrorBag()->first('prix'),
+        //             'type' => 'warning',
+        //         ]);
+        //     } else {
+        //         $this->dispatch('remplir-alert');
+        //     }
+        //     return;
+        // }
         if (!$this->before_post()) {
+            // Check if there is a 'prix' error
             if ($this->getErrorBag()->has('prix')) {
                 $this->dispatch('alert', [
                     'message' => $this->getErrorBag()->first('prix'),
                     'type' => 'warning',
                 ]);
-            } else {
+            }
+
+            // Check if there is a 'cin_img' error
+            if ($this->getErrorBag()->has('cin_img')) {
+                $this->dispatch('alert', [
+                    'message' => $this->getErrorBag()->first('cin_img'),
+                    'type' => 'warning',
+                ]);
+            }
+
+            // Check if there is a 'photos' error
+            if ($this->getErrorBag()->has('photos')) {
+                $this->dispatch('alert', [
+                    'message' => $this->getErrorBag()->first('photos'),
+                    'type' => 'warning',
+                ]);
+            }
+
+            // If no specific errors are found, show the general alert
+            if (!$this->getErrorBag()->has('prix') && !$this->getErrorBag()->has('cin_img') && !$this->getErrorBag()->has('photos')) {
                 $this->dispatch('remplir-alert');
             }
+
             return;
         }
-        if (empty($this->data_post["photos"])) {
+        // if (empty($this->data_post["photos"])) {
+        //     $this->dispatch('alert', [
+        //         'message' => "Vous devez ajouter au moins une photo!",
+        //         'type' => 'warning'
+        //     ]);
+        //     return;
+        // }
+        if (count($this->data_post["photos"]) < 3) {
             $this->dispatch('alert', [
-                'message' => "Vous devez ajouter au moins une photo!",
+                'message' => "Vous devez ajouter au moins 3 photos!",
                 'type' => 'warning'
             ]);
             return;
@@ -316,8 +365,14 @@ class CreatePost extends Component
     {
         $this->before_post();
         if ($this->data_post) {
-            if (empty($this->data_post["photos"])) {
-                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
+            // if (empty($this->data_post["photos"])) {
+            //     $this->dispatch('alert', ['message' => "Vous devez ajouter au moins une photo!", 'type' => 'warning']);
+            //     return;
+            // } else {
+            //     $this->make_post($this->data_post);
+            // }
+            if (count($this->data_post["photos"]) < 3) {
+                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins 3 photos!", 'type' => 'warning']);
                 return;
             } else {
                 $this->make_post($this->data_post);

@@ -14,7 +14,7 @@
                     </button>
                     <button id="showRib" class="step">
                         <i class="fas fa-credit-card"></i>
-                        Coordonnées Bancaires
+                        Coordonnées Personnelles
                     </button>
                 </div>
             </div>
@@ -37,8 +37,8 @@
     <div id="ribSection" class="content-section">
         <div class="form-container">
             <div class="text-center mb-4">
-                <h2 class="ft-bold mb-2">Coordonnées Bancaires</h2>
-                <p class="text-muted">Veuillez remplir les informations bancaires pour compléter votre profil.</p>
+                <h2 class="ft-bold mb-2">Coordonnées Personnelles</h2>
+                <p class="text-muted">Veuillez remplir ces informations pour compléter votre profil.</p>
             </div>
             <div id="ribMessage" class="mb-3"></div>
             <form id="ribForm" enctype="multipart/form-data">
@@ -87,7 +87,6 @@
                 <div class="mb-4 position-relative">
                     <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
                     <div class="file-upload-container">
-                        <!-- If the user has already uploaded an image, show the preview and download link -->
                         @if(Auth::user()->cin_img)
                             <div class="file-upload-preview">
                                 <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview">

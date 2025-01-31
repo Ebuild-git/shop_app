@@ -47,24 +47,6 @@
 
                                     </ul>
                                 </div>
-
-                                {{-- <form action="{{ route('change_picture_statut') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="id_user" value="{{ $user->id }}">
-                                    @if (is_null($user->photo_verified_at))
-                                        <a href="javascript:void(0)">
-                                            <button class="btn btn-success" type="submit">
-                                                <i class="ti ti-camera me-1"></i> Accepter
-                                            </button>
-                                        </a>
-                                    @else
-                                        <a href="javascript:void(0)">
-                                            <button class="btn btn-danger" type="submit">
-                                                <i class="ti ti-camera me-1"></i> Réfuser
-                                            </button>
-                                        </a>
-                                    @endif
-                                </form> --}}
                             </div>
 
                         </div>
@@ -133,17 +115,7 @@
                                     Date de naissance:</span>
                                     <span class="ms-2">{{ \Carbon\Carbon::parse($user->birthdate)->locale('fr')->translatedFormat('d F Y') }}</span>
                             </li>
-                            {{-- <li class="d-flex align-items-center mb-3">
-                                <i class="ti ti-file-description text-heading"></i><span
-                                    class="fw-medium mx-2 text-heading">Adresse:</span>
-                                <span>
-                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
-                                    {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
-                                    {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
-                                    {!! $user->rue ? $user->rue . ',' : '' !!}
-                                    {!! $user->address ?? '' !!}
-                                </span>
-                            </li> --}}
+
                             <li class="d-flex flex-column mb-3">
                                 <div class="d-flex align-items-center">
                                     <i class="ti ti-file-description text-heading"></i>
@@ -179,6 +151,43 @@
                     </div>
                 </div>
                 <!--/ About User -->
+                <!-- Add the CIN images after the user info -->
+                <!-- CIN Images Section -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">CIN Images</h5>
+
+                        <!-- Display the current CIN image if it exists -->
+                        @if ($currentCinImg)
+                            <div class="mb-3">
+                                <h6>Image du CIN actuelle :</h6>
+                                <!-- Download Button for Current CIN -->
+                                <a href="{{ $currentCinImg }}" download="CIN_actuelle.jpg" class="btn btn-sm btn-success mt-2">
+                                    <i class="bi bi-download"></i> Télécharger l'image actuelle
+                                </a>
+                            </div>
+                        @endif
+
+                        <!-- Display old CIN images if they exist -->
+                        @if (!empty($oldCinImages))
+                            <div class="mb-3">
+                                <h6>Anciennes images du CIN:</h6>
+                                <div class="row">
+                                    @foreach ($oldCinImages as $oldCin)
+                                        <div class="col-4 mb-2">
+                                            <a href="{{ $oldCin }}" download="CIN_ancienne.jpg" class="btn btn-sm btn-success mt-2">
+                                                <i class="bi bi-download"></i> Télécharger
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+
+
                 <!-- Profile Overview -->
                 <div class="card mb-4">
                     <div class="card-body">
@@ -282,15 +291,8 @@
     <script src="/assets-admin/js/main.js"></script>
 @endsection
 @section('css')
-
-    <!-- Page CSS -->
     <link rel="stylesheet" href="/assets-admin/vendor/css/pages/page-profile.css" />
-
-    <!-- Helpers -->
     <script src="/assets-admin/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
     <script src="/assets-admin/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/assets-admin/js/config.js"></script>
 @endsection
