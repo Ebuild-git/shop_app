@@ -39,6 +39,7 @@ class HomeController extends Controller
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
+            ->where("statut", '!=', 'validation')
             ->whereNull('posts.sell_at')
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
@@ -50,6 +51,7 @@ class HomeController extends Controller
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
+            ->where("statut", '!=', 'validation')
             ->whereNull('posts.sell_at')
             ->orderBy("posts.created_at", "Desc")
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
@@ -334,6 +336,7 @@ class HomeController extends Controller
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
+            ->where("statut", '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->inRandomOrder()
             ->take(16)
@@ -341,6 +344,7 @@ class HomeController extends Controller
         $user_product = posts::where('id_user', $post->id_user)
             ->select("photos", "id")
             ->where("verified_at", '!=', null)
+            ->where("statut", '!=', 'validation')
             ->inRandomOrder()
             ->take(16)
             ->get();
@@ -368,7 +372,9 @@ class HomeController extends Controller
         if ($user->voyage_mode) {
             $posts = collect();
         } else {
-            $posts = posts::where("id_user", $user->id)->get()->map(function($post) {
+            $posts = posts::where("id_user", $user->id)
+            ->where("statut", "!=", "validation")
+            ->get()->map(function($post) {
                 $post->discountPercentage = null;
                 if ($post->old_prix && $post->old_prix > $post->prix) {
                     $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
