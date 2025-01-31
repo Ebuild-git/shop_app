@@ -1,8 +1,8 @@
 @extends('User.fixe')
-@section('titre', 'Comment acheter ?')
+@section('titre', \App\Traits\TranslateTrait::TranslateText('Comment acheter ?'))
 @section('content')
 @section('body')
-   <!-- ======================= Top Breadcrubms ======================== -->
+   <!-- ======================= Top Breadcrumbs ======================== -->
    <div class="gray py-3">
     <div class="container">
         <div class="row">
@@ -10,17 +10,17 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Comment acheter?</li>
+                        <li class="breadcrumb-item active" aria-current="page">{!! \App\Traits\TranslateTrait::TranslateText('Comment acheter?') !!}</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 </div>
-<!-- ======================= Top Breadcrubms ======================== -->
+<!-- ======================= Top Breadcrumbs ======================== -->
 
     <div class="container pt-5 pb-5">
-        <h2 class="mb-2 ft-bold">Comment Acheter?</h2>
+        <h2 class="mb-2 ft-bold">{!! \App\Traits\TranslateTrait::TranslateText('Comment Acheter?') !!}</h2>
         <br>
         <div class="row">
             <div class="col-sm-8">
@@ -31,9 +31,9 @@
                         </td>
                         <td>
                             <h4 class="title title-1 pointer-title">
-                                <b>Explorez à votre façon</b>
+                                <b>{!! \App\Traits\TranslateTrait::TranslateText('Explorez à votre façon') !!}</b>
                             </h4>
-                            <p class="text-justified">Utilisez notre recherche multicritères pour affiner vos envies ou laissez-vous surprendre en parcourant les annonces des autres SHOP<span class="color">IN</span>ERS jusqu’à ce que vous tombiez sur le coup de cœur parfait.</p>
+                            <p class="text-justified">{!! \App\Traits\TranslateTrait::TranslateText('Utilisez notre recherche multicritères pour affiner vos envies ou laissez-vous surprendre en parcourant les annonces des autres SHOP<span class="color">IN</span>ERS jusqu’à ce que vous tombiez sur le coup de cœur parfait.') !!}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(2)">
@@ -42,9 +42,9 @@
                         </td>
                         <td>
                             <h4 class="title title-2 pointer-title">
-                                <b>Ajoutez vos favoris d’un simple clic</b>
+                                <b>{!! \App\Traits\TranslateTrait::TranslateText('Ajoutez vos favoris d’un simple clic') !!}</b>
                             </h4>
-                            <p class="text-justified">Repérez un article qui vous plaît ? Appuyez sur le petit cœur pour l’ajouter instantanément à votre liste de favoris et ne jamais perdre de vue vos pépites.</p>
+                            <p class="text-justified">{!! \App\Traits\TranslateTrait::TranslateText('Repérez un article qui vous plaît ? Appuyez sur le petit cœur pour l’ajouter instantanément à votre liste de favoris et ne jamais perdre de vue vos pépites.') !!}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(3)">
@@ -52,9 +52,8 @@
                             <img src="/faq/3.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-3 pointer-title"><b>Validez votre panier en un rien de temps</b></h4>
-                            <p class="text-justified">Et voilà c’est aussi simple que çà et le paiement se fait à la
-                                livraison</p>
+                            <h4 class="title title-3 pointer-title"><b>{!! \App\Traits\TranslateTrait::TranslateText('Validez votre panier en un rien de temps') !!}</b></h4>
+                            <p class="text-justified">{!! \App\Traits\TranslateTrait::TranslateText('Et voilà c’est aussi simple que çà et le paiement se fait à la livraison') !!}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(4)">
@@ -62,8 +61,8 @@
                             <img src="/faq/4.png" alt="" height="45">
                         </td>
                         <td>
-                            <h4 class="title title-4 pointer-title"><b>Recevez votre colis sans effort</b></h4>
-                            <p class="text-justified">Une fois votre commande confirmée, un livreur se chargera de vous remettre votre colis directement chez vous. SHOP<span class="color">IN</span> rend votre shopping aussi pratique que plaisant!</p>
+                            <h4 class="title title-4 pointer-title"><b>{!! \App\Traits\TranslateTrait::TranslateText('Recevez votre colis sans effort') !!}</b></h4>
+                            <p class="text-justified">{!! \App\Traits\TranslateTrait::TranslateText('Une fois votre commande confirmée, un livreur se chargera de vous remettre votre colis directement chez vous. SHOP<span class="color">IN</span> rend votre shopping aussi pratique que plaisant!') !!}</p>
                         </td>
                     </tr>
                 </table>
@@ -83,11 +82,9 @@
 
     <script>
         function change_image(id) {
-            //alert(id);
             $(".title").removeClass("color");
             $(".title-"+id).addClass("color");
 
-            //change image source
             var img = document.getElementById('myImage');
             img.src = "/faq/etape-" + id + ".png";
         }

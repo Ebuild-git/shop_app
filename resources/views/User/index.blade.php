@@ -9,7 +9,7 @@
             @forelse ($categories_carousel as $cat)
                 <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
                     <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
-                        {{ $cat->titre }}
+                        {{ \App\Traits\TranslateTrait::TranslateText($cat->titre) }}
                         @if ($cat->luxury)
                             <i class="bi bi-gem gem-icon"></i>
                         @endif
@@ -41,7 +41,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h3 class="ft-bold pt-3">Nouveau Sur SHOP<span class="color">IN</span> LUXURY</h3>
+                        <h3 class="ft-bold pt-3">{{ \App\Traits\TranslateTrait::TranslateText('Nouveau Sur ') }}SHOP<span class="color">IN</span> {{ \App\Traits\TranslateTrait::TranslateText('LUXURY') }}</h3>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                         <div class="position-relative text-center">
                             <a href="/shop?luxury_only=true" class="btn stretched-link borders">
                                 <span class="voir-plus-home-texte">
-                                    Voir Plus
+                                    {{ \App\Traits\TranslateTrait::TranslateText('Voir Plus') }}
                                 </span>
                                 <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -103,7 +103,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h3 class="ft-bold pt-3">Nouveau Sur SHOP<span class="color">IN</span> </h3>
+                        <h3 class="ft-bold pt-3">{{ \App\Traits\TranslateTrait::TranslateText('Nouveau Sur ') }}SHOP<span class="color">IN</span> </h3>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                     <div class="position-relative text-center">
                         <a href="/shop" class="btn stretched-link borders">
                             <span class="voir-plus-home-texte">
-                                Voir Plus
+                                {{ \App\Traits\TranslateTrait::TranslateText('Voir Plus') }}
                             </span>
                             <i class="lni lni-arrow-right ml-2"></i>
                         </a>

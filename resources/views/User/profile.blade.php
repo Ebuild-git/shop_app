@@ -57,7 +57,7 @@
                                 <div>
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            {{ $avis }} Avis
+                                            {{ $avis }} {!! \App\Traits\TranslateTrait::TranslateText('Avis') !!}
                                         </div>
                                         <div data-toggle="modal" data-target="#Noter">
                                             @for ($i = 1; $i <= 5; $i++)
@@ -71,15 +71,15 @@
                                 </div>
                                 <div>
                                     <span>
-                                        <b>{{ $user->total_sales->count() }}</b> Ventes
+                                        <b>{{ $user->total_sales->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Ventes') !!}
                                     </span>
                                     |
                                     <span>
-                                        <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
+                                        <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
                                     </span>
                                     |
                                     <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
-                                        <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
+                                        <b>{{ $user->categoriesWhereUserSell() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Catégories') !!}
                                     </span>
                                 </div>
                             </div>
@@ -90,9 +90,9 @@
             <br>
             <div>
                 <p>
-                    <i class="bi bi-calendar-check"></i> Membre dépuis les {{ $user->created_at }}
+                    <i class="bi bi-calendar-check"></i> {!! \App\Traits\TranslateTrait::TranslateText('Membre dépuis les') !!} {{ $user->created_at }}
                     <br>
-                    <i class="bi bi-envelope"></i> Email vérifié <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
+                    <i class="bi bi-envelope"></i> {!! \App\Traits\TranslateTrait::TranslateText('Email vérifié') !!} <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
                     </b>
                 </p>
             </div>
@@ -100,7 +100,7 @@
         <div class="col-sm-8">
             <div>
                 <b class="text-black">
-                    {{ $posts->count() }} Annonces
+                    {{ $posts->count() }} {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
                 </b>
             </div>
             <div class="row">
@@ -110,7 +110,7 @@
                         <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
                             @if ($post->sell_at)
                             <div class="badge-new badge-danger-new mb-4">
-                                Vendu
+                                {!! \App\Traits\TranslateTrait::TranslateText('Vendu') !!}
                             </div>
                             @endif
                             @if ($post->discountPercentage)
@@ -140,7 +140,7 @@
                 <div class="col-sm-4 mx-auto text-center pt-5 pb-5">
                     <img width="80" height="80" src="/icons/web-design.png" alt="web-design" />
                     <div class="color col-lg-12" role="alert">
-                        <b> Aucun article trouvé !</b>
+                        <b> {!! \App\Traits\TranslateTrait::TranslateText('Aucun article trouvé !') !!} </b>
                     </div>
                 </div>
                 @endforelse
@@ -163,7 +163,7 @@
             <div class="modal-body p-5">
                 <div class="text-center mb-4">
                     <h4 class="m-0 ft-regular">
-                        Noter le SHOP<span class="color strong">IN</span>ER
+                        {!! \App\Traits\TranslateTrait::TranslateText('Noter le SHOP') !!}<span class="color strong">IN</span>{!! \App\Traits\TranslateTrait::TranslateText('ER') !!}
                     </h4>
                 </div>
                 @livewire('User.Rating',['id_user'=>$user->id])

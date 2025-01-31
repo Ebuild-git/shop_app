@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 //lang
 
 Route::get('/change-lang/{lang}', function ($lang) {
-    if (in_array($lang, ['fr', 'ar'])) {
+    if (in_array($lang, ['fr', 'ar', 'en'])) {
         session(['locale' => $lang]);
     }
     return redirect()->back();

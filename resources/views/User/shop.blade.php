@@ -15,13 +15,13 @@
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 <a href="{{ route('shop') }}">
-                                    Catégories
+                                    {{ \App\Traits\TranslateTrait::TranslateText('Catégories') }}
                                 </a>
                             </li>
                             @if ($selected_categorie)
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <a href="shop?id_categorie={{ $selected_categorie->id }}">
-                                        {{ $selected_categorie->titre }}
+                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre) }}
                                         @if ($selected_categorie->luxury == 1)
                                             <i class="bi bi-gem small color"></i>
                                         @endif
@@ -31,7 +31,7 @@
                             @if ($selected_sous_categorie)
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <b class="color">
-                                        {{ $selected_sous_categorie->titre }}
+                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre) }}
                                     </b>
                                 </li>
                             @endif
@@ -51,14 +51,14 @@
                         <div class="price-filter-container">
                             <div class="custom-filter-option" id="filter-price-mobile">
                                 <i class="fas fa-sort"></i>
-                                <span>Trier par</span>
+                                <span>{{ \App\Traits\TranslateTrait::TranslateText('Trier par') }}</span>
                             </div>
                             <div class="custom-dropdown-container" id="price-options-mobile">
-                                <div class="custom-dropdown-item" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">Prix croissant</div>
-                                <div class="custom-dropdown-item" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">Prix décroissant</div>
-                                <div class="custom-dropdown-item" data-value="soldé" onclick="updatePriceFilter('soldé')">Articles Soldés</div>
+                                <div class="custom-dropdown-item" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">{{ \App\Traits\TranslateTrait::TranslateText('Prix croissant') }}</div>
+                                <div class="custom-dropdown-item" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">{{ \App\Traits\TranslateTrait::TranslateText('Prix décroissant') }}</div>
+                                <div class="custom-dropdown-item" data-value="soldé" onclick="updatePriceFilter('soldé')">{{ \App\Traits\TranslateTrait::TranslateText('Articles Soldés') }}</div>
                                 @if (!$selected_categorie)
-                                <div class="custom-dropdown-item" data-value="luxury" onclick="updatePriceFilter('luxury')">Luxury uniquement</div>
+                                <div class="custom-dropdown-item" data-value="luxury" onclick="updatePriceFilter('luxury')">{{ \App\Traits\TranslateTrait::TranslateText('Luxury uniquement') }}</div>
                                 @endif
                             </div>
                         </div>
@@ -68,15 +68,15 @@
                         <div class="condition-filter-container">
                             <div class="custom-filter-option" id="filter-condition-category-mobile">
                                 <i class="fas fa-tags"></i>
-                                <span>Filtrer par état</span>
+                                <span>{{ \App\Traits\TranslateTrait::TranslateText('Filtrer par état') }}</span>
                             </div>
                             <!-- Condition Options Dropdown -->
                             <div class="custom-dropdown-container etat-dropdown" id="condition-options-category-mobile">
-                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">Neuf avec étiquettes</div>
-                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">Neuf sans étiquettes</div>
-                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">Très bon état</div>
-                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">Bon état</div>
-                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">Usé</div>
+                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">{{ \App\Traits\TranslateTrait::TranslateText('Neuf avec étiquettes') }}</div>
+                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">{{ \App\Traits\TranslateTrait::TranslateText('Neuf sans étiquettes') }}</div>
+                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">{{ \App\Traits\TranslateTrait::TranslateText('Très bon état') }}</div>
+                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">{{ \App\Traits\TranslateTrait::TranslateText('Bon état') }}</div>
+                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">{{ \App\Traits\TranslateTrait::TranslateText('Usé') }}</div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
             @if ($key)
                 <h5>
                     <b>
-                        Résultats de recherche pour : '{{ $key }}'
+                        {{ \App\Traits\TranslateTrait::TranslateText('Résultats de recherche pour ') }}: '{{ $key }}'
                     </b>
                 </h5>
             @endif
@@ -104,19 +104,19 @@
                                     @if ($selected_categorie)
                                         @if ($selected_sous_categorie)
                                             <h3 class="p-2">
-                                                <b>{{ $selected_sous_categorie->titre }}</b>
+                                                <b>{{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre )}}</b>
                                             </h3>
                                         @else
                                             <div class="bg-color p-2">
-                                                <a href="/shop" class="h6 text-white">Catégories</a>
+                                                <a href="/shop" class="h6 text-white">{{ \App\Traits\TranslateTrait::TranslateText('Catégories')}}</a>
                                             </div>
                                             <div class="strong p-2 pl-3">
                                                 <a href="/shop" class="h6">
                                                     <i class="bi bi-arrow-left"></i>
-                                                    <span class="strong">{{ $selected_categorie->titre }}</span>
+                                                    <span class="strong">{{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}}</span>
                                                     @if ($selected_categorie->luxury == 1)
                                                         <span class="small color">
-                                                            <i class="bi bi-gem"></i> Luxury
+                                                            <i class="bi bi-gem"></i> {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}
                                                         </span>
                                                     @endif
                                                 </a>
@@ -124,7 +124,7 @@
                                         @endif
                                     @else
                                         <div class="bg-color p-2">
-                                            <div class="h6 text-white">Catégories</div>
+                                            <div class="h6 text-white">{{ \App\Traits\TranslateTrait::TranslateText('Catégories') }}</div>
                                         </div>
                                     @endif
                                 </div>
@@ -142,13 +142,13 @@
                                                                     <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
-                                                                <span>{{ $categorie->titre }}</span>
+                                                                <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
                                                             </div>
                                                             <div>
                                                                 <span>
                                                                     @if ($categorie->luxury == 1)
                                                                         <span class="color small">
-                                                                            <b><i class="bi bi-gem"></i> Luxury</b>
+                                                                            <b><i class="bi bi-gem"></i> {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}</b>
                                                                         </span>
                                                                         &nbsp;
                                                                     @endif
@@ -169,7 +169,7 @@
                                                         </div>
                                                         <div class="color p-1">
                                                             <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="color">
-                                                                Tout les articles de {{ $selected_categorie->titre }}
+                                                                 {{ \App\Traits\TranslateTrait::TranslateText('Tout les articles de ') }} : {{$selected_categorie->titre}}
                                                                 @if ($selected_categorie->luxury == 1)
                                                                     <i class="bi bi-gem small color"></i>
                                                                 @endif

@@ -3,16 +3,16 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-end">
                 <div class="me-2">
-                    <input type="text" wire:model.live="key" class="form-control" placeholder="Trouvez votre shopiner idéal">
+                    <input type="text" wire:model.live="key" class="form-control" placeholder="{!! \App\Traits\TranslateTrait::TranslateText('Trouvez votre shopiner idéal') !!}">
                 </div>
                 <div>
                     <select wire:model.live="rating" class="form-control custom-select">
-                        <option value="">Filtrer par avis</option>
-                        <option value="1">★ 1 Étoile et plus</option>
-                        <option value="2">★★ 2 Étoiles et plus</option>
-                        <option value="3">★★★ 3 Étoiles et plus</option>
-                        <option value="4">★★★★ 4 Étoiles et plus</option>
-                        <option value="5">★★★★★ 5 Étoiles</option>
+                        <option value="">{!! \App\Traits\TranslateTrait::TranslateText('Filtrer par avis') !!}</option>
+                        <option value="1">★ 1 {!! \App\Traits\TranslateTrait::TranslateText('Étoile et plus') !!}</option>
+                        <option value="2">★★ 2 {!! \App\Traits\TranslateTrait::TranslateText('Étoiles et plus') !!}</option>
+                        <option value="3">★★★ 3 {!! \App\Traits\TranslateTrait::TranslateText('Étoiles et plus') !!}</option>
+                        <option value="4">★★★★ 4 {!! \App\Traits\TranslateTrait::TranslateText('Étoiles et plus') !!}</option>
+                        <option value="5">★★★★★ 5 {!! \App\Traits\TranslateTrait::TranslateText('Étoiles') !!}</option>
                     </select>
                 </div>
             </div>
@@ -27,9 +27,9 @@
             </div>
         @empty
             <p class="color text-center p-5">
-                Aucun shopiner trouvé pour le moment
+                {!! \App\Traits\TranslateTrait::TranslateText('Aucun shopiner trouvé pour le moment') !!}
                 @if ($key)
-                    avec le mot " <b> {{ $key }} </b> "
+                    {!! \App\Traits\TranslateTrait::TranslateText('avec le mot') !!} " <b> {{ $key }} </b> "
                 @endif .
             </p>
         @endforelse

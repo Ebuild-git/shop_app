@@ -36,20 +36,20 @@
                     <div>
                         <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
                     </div>
-                    Ventes : {{ $user->total_sales()->count() }}
+                    {!! \App\Traits\TranslateTrait::TranslateText('Ventes') !!} : {{ $user->total_sales()->count() }}
                 </div>
                 <div class="col text-center cursor" onclick="ShowPostsCatgorie({{ $user->id }})">
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>
-                    Catégories : {{ $user->categoriesWhereUserSell() }}
+                    {!! \App\Traits\TranslateTrait::TranslateText('Catégories') !!} : {{ $user->categoriesWhereUserSell() }}
                 </div>
                 <div class="col text-center">
                     <a href="/user/{{ $user->id }}">
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        Annonces : {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
+                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} : {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
                     </a>
                 </div>
             </div>
@@ -63,14 +63,14 @@
                         $avis = $user->getReviewsAttribute->count();
                     @endphp
                     <x-Etoiles :count="$count" :avis="$avis" :user="$user"></x-Etoiles>
-                    {{ $avis }} Avis
+                    {{ $avis }} {!! \App\Traits\TranslateTrait::TranslateText('Avis') !!}
                 </b>
             </div>
 
             @if ($page == 'shopiners')
                 <div>
                     <a href="/user/{{ $user->id }}" class="link">
-                        <b>Voir le profil</b>
+                        <b>{!! \App\Traits\TranslateTrait::TranslateText('Voir le profil') !!}</b>
                     </a>
                 </div>
             @endif
