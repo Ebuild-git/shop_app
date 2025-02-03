@@ -148,6 +148,33 @@
                                 <span>{{ $user->email ?? '/' }}</span>
                             </li>
                         </ul>
+                        <small class="card-text text-uppercase">Informations Supplémentaires</small>
+                        <ul class="list-unstyled mb-4 mt-3">
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">ID:</span>
+                                <span>{{ $user->id ?? '/' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Première connexion à:</span>
+                                <span>{{ $user->first_login_at ?? '/' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Dernière connexion à:</span>
+                                <span>{{ $user->last_login_at ?? '/' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Numéro du RIB:</span>
+                                <span>{{ $decryptedRib }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Nom du Bank:</span>
+                                <span>{{ $user->bank_name ?? '/' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Titulaire du compte bancaire:</span>
+                                <span>{{ $user->titulaire_name ?? '/' }}</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <!--/ About User -->
@@ -155,7 +182,7 @@
                 <!-- CIN Images Section -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">CIN Images</h5>
+                        <h5 class="card-title">Images CIN</h5>
 
                         <!-- Display the current CIN image if it exists -->
                         @if ($currentCinImg)

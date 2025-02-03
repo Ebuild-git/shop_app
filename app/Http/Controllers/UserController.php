@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -23,37 +24,21 @@ class UserController extends Controller
         return view("Admin.clients.index")->with("type", $type);
     }
 
-    // public function details_user(Request $request)
-    // {
-    //     $id = $request->id;
-    //     try {
-    //         $user = User::findOrFail($id);
-    //         $posts = posts::where('id_user', $user->id)->paginate(30);
-    //         return view("Admin.clients.profile")
-    //             ->with("user", $user)
-    //             ->with("posts", $posts);
-    //     } catch (\Throwable $th) {
-
-    //         abort(404, "Page non trouvée");
-    //     }
-    // }
     public function details_user(Request $request)
     {
         $id = $request->id;
         try {
             $user = User::findOrFail($id);
             $posts = Posts::where('id_user', $user->id)->paginate(30);
-
-            // Get the current CIN image
+            $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
             $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
-
-            // Get all old CIN images from JSON field
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
             $oldCinImages = array_map(fn($img) => asset('storage/' . $img), $oldCinImages);
 
             return view("Admin.clients.profile")
                 ->with("user", $user)
                 ->with("posts", $posts)
+                ->with("decryptedRib", $decryptedRib)
                 ->with("currentCinImg", $currentCinImg)
                 ->with("oldCinImages", $oldCinImages);
         } catch (\Throwable $th) {

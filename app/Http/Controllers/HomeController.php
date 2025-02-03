@@ -94,39 +94,6 @@ class HomeController extends Controller
         $step = $request->input('step', 1);
         return view('rib-form', compact('step'));
     }
-
-    // public function submitRib(Request $request)
-    // {
-    //     $request->validate([
-    //         'ribNumber' => 'required|string',
-    //         'bankName' => 'required|string',
-    //         'titulaireName' => 'required|string',
-    //         'cin_img' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
-
-    //     ]);
-
-    //     $user = Auth::user();
-    //     $isNew = empty($user->rib_number);
-
-    //     // Encrypt and save the RIB number
-    //     $encryptedRib = Crypt::encryptString($request->input('ribNumber'));
-    //     $user->rib_number = $encryptedRib;
-
-    //     // Save the bank name and titulaire name
-    //     $user->bank_name = $request->input('bankName');
-    //     $user->titulaire_name = $request->input('titulaireName');
-
-    //     if ($request->file('cin_img')) {
-    //         $image = $request->file('cin_img');
-    //         $imagePath = $image->store('cin_images', 'public'); // Save in the "public/cin_images" directory
-    //         $user->cin_img = $imagePath;
-    //     }
-    //     $user->save();
-
-    //     $message = $isNew ? 'Informations ajouté avec succès.' : 'Informations modifié avec succès.';
-
-    //     return response()->json(['message' => $message]);
-    // }
     public function submitRib(Request $request)
     {
         $request->validate([
