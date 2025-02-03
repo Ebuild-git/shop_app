@@ -383,7 +383,7 @@ class CreatePost extends Component
             event(new AdminEvent('Un post a été créé avec succès.'));
             $notification = new notifications();
             $notification->type = "new_post";
-            $notification->titre = Auth::user()->name . " vient de publier un article ";
+            $notification->titre = Auth::user()->username . " vient de publier un article ";
             $notification->url = "/admin/publication/" . $post->id . "/view";
             $notification->message = $post->titre;
             $notification->id_post = $post->id;

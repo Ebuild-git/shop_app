@@ -18,29 +18,21 @@
             Validé le {{ $post->verified_at }}
         </div>
     @endif
-    <div class="btn-group " role="group" aria-label="Basic example" style="width: 100% !important;">
+
+    <div class="btn-group d-flex gap-2" role="group" style="width: 100%">
         @if ($post->verified_at == null)
-            <button type="button" class="btn btn-success btn-block" wire:click="valider()">
-                <i class="bi bi-check-circle"></i>
-                &nbsp;
+            <button type="button" class="btn btn-success d-inline-flex align-items-center justify-content-center flex-fill py-2" wire:click="valider()">
+                <i class="bi bi-check-circle me-2"></i>
                 Accepter
             </button>
         @endif
-        {{-- @if ($post->sell_at == null)
-            <button type="button" class="btn btn-danger btn-block" wire:click="delete({{ $post->id }})">
-                <i class="bi bi-x-lg"></i>
-                &nbsp;
-                supprimer
-            </button>
-        @endif --}}
-        @if ($post->sell_at == null)
-        <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ $post->id }}">
-            <i class="bi bi-x-lg"></i>
-            &nbsp;
-            supprimer
-        </button>
-        @endif
 
+        @if ($post->sell_at == null)
+            <button type="button" class="btn btn-danger d-inline-flex align-items-center justify-content-center flex-fill py-2" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ $post->id }}">
+                <i class="bi bi-x-lg me-2"></i>
+                Supprimer
+            </button>
+        @endif
     </div>
     @if ($post->sell_at != null)
         <div class="alert alert-light">

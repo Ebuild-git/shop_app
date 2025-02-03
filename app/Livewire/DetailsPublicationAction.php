@@ -45,7 +45,10 @@ class DetailsPublicationAction extends Component
             $notification->id_post = $post->id;
             $notification->destination = "user";
             $notification->id_user = $post->id_user;
-            $notification->message = "Nous vous informons que votre publication  $post->titre a été validé par les administrateurs";
+            $notification->message = "Nous vous informons que votre publication
+            <a href='" . route('details_post2', ['id' => $post->id, 'titre' => $post->titre]) . "' class='underlined-link'>
+                $post->titre
+            </a> a été validé par les administrateurs.";
             $notification->save();
 
 
