@@ -1410,12 +1410,10 @@ tbody td {
 }
 
 .badge-discount {
-    /* background-color: #008080;
-    color: #fff; */
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    color: #008080 !important;
-
+    color: #dc3545 !important;
+    font-weight: 800;
 }
 
 
