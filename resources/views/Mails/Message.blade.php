@@ -99,7 +99,7 @@
                 <!-- Add Post Photo -->
                 @if($data['image'])
                     <p>
-                        <img src="{{$data['image']}}" alt="Post Image" style="max-width: 100%; height: auto;">
+                        <img src="{{$data['image']}}" alt="Post Image" style="max-width: 50%; height: auto;">
                     </p>
                 @endif
 
