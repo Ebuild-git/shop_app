@@ -94,12 +94,14 @@ class AdminController extends Controller
 
     public function index_login()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view("auth.login");
     }
 
 
     public function post_login(Request $request){
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
             'password' => 'required'
@@ -108,16 +110,18 @@ class AdminController extends Controller
             'email' => 'Veuillez entrer une adresse email valide.',
             'exists' => "Cette adresse email n'existe pas.",
         ]);
-
-
         $user = User::where('email',$request->email)
             ->where("role", "admin")
             ->first();
         if (!$user) {
             return redirect()->back()->with('error', 'Cet e-mail n\'existe pas autorisé!');
         }
-        if (Auth::attempt(['email' =>$request->email, 'password' =>$request->password])) {
-            return redirect('/dashboard');
+        $remember = $request->has('remember');
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ], $remember)) {
+            return redirect()->route('dashboard');
         } else {
             return redirect()->back()->with('error', 'Echec de connexion');
         }
