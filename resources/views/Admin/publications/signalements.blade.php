@@ -56,13 +56,11 @@
                             <tbody>
                                 @forelse ($posts as $post)
                                     <tr>
-                                        @foreach ($post->photos ?? [] as $key => $image)
                                             <td class="image-cell">
                                                 <a href="{{ url('/admin/publication/' . $post->id . '/view') }}">
-                                                    <img src="{{ Storage::url($image) }}" alt="{{ $post->titre }} - Image {{ $key + 1 }}" class="table-image">
+                                                    <img src="{{ Storage::url($post->photos[0]) }}" alt="{{ $post->titre }}" class="table-image">
                                                 </a>
                                             </td>
-                                        @endforeach
                                         <td> {{ $post->id}}</td>
                                         <td style="left: 105px;">
                                             {{ $post->titre }}
