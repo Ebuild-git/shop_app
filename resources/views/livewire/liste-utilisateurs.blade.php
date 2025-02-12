@@ -27,12 +27,7 @@
                          <i class="fa-solid fa-filter"></i> &nbsp;
                          Filtrer
                      </button>
-                     {{-- <button class="btn btn-dark ">
-                         <a href="{{ route('export_users') }}" style="color: white !important;">
-                             <i class="bi bi-file-earmark-excel"></i>
-                             Exporter la liste
-                         </a>
-                     </button> --}}
+
                      <button class="btn btn-dark" onclick="exportTableToXLSX('user_list.xlsx')" style="color: white !important;">
                         <i class="bi bi-file-earmark-excel"></i>
                         Exporter la liste
@@ -153,22 +148,16 @@
                             <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_by_user', ['user_id' => $user->id]) }}'">
                                 <i class="bi bi-clock-history" style="font-size: 14px;"></i>
                             </button>
-
-
                         </td>
-
-
-
                          <td>
                             <div class="action-buttons">
+                                <button class="btn btn-sm btn-dark"
+                                    onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
+                                    <i class="bi bi-person-circle"></i>
+                                    </a>
+                                </button>
 
-                             <button class="btn btn-sm btn-dark"
-                                 onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
-                                 <i class="bi bi-person-circle"></i>
-                                 </a>
-                             </button>
-
-                             @if ($user->locked == true)
+                                @if ($user->locked == true)
                                  <button class="btn btn-sm btn-success" wire:click="locked({{ $user->id }})"
                                      type="button" title="Débloquer cet utilisateur">
                                      <i class="bi bi-play-fill"></i>
@@ -176,8 +165,9 @@
                                      <button class="btn btn-sm btn-danger" wire:click="locked({{ $user->id }})"
                                          type="button" title="Bloquer cet utilisateur">
                                          <i class="bi bi-stop-fill"></i>
-                             @endif
-                             </button>
+                                    </button>
+                                @endif
+
                             </div>
                          </td>
 
@@ -193,9 +183,6 @@
                                 </div>
                             </div>
                         </td>
-
-
-
                      </tr>
                  @empty
                      <tr>

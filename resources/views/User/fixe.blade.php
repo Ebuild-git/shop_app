@@ -45,7 +45,7 @@
         <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
     <script src="{{ asset('js/Shop.js?v=') . time() }}"></script>
-
+    <script src="{{ asset('js/custom.js?v=') . time() }}"></script>
     <style>
     #comment_position {
         position: absolute;
@@ -558,10 +558,7 @@
                                 <a href="javascript:void(0);" class="text-light medium text-capitalize d-flex align-items-center" data-toggle="dropdown"
                                     title="Language" aria-label="Language dropdown">
                                     @auth
-                                    {{-- <span class="d-flex align-items-end" style="color: black; font-size: 10px;">
-                                        <i class="bi bi-person user-emoji" role="img" aria-label="User"></i> <!-- Bootstrap user icon -->
-                                        <i class="bi bi-caret-down ml-1"></i>
-                                    </span> --}}
+
                                     <span class="d-flex align-items-end">
                                         <i class="fas fa-user user-emoji" role="img" aria-label="User" onclick="toggleActive(this)"></i>
                                     </span>

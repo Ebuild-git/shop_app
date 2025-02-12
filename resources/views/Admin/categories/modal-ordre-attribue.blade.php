@@ -21,7 +21,7 @@
                             Vous avez la possibilité de <b>changer l'ordre</b> des propriétés dans cette liste, <br> ce qui
                             entraînera également le changement de l'ordre dans le <br> formulaire de publication et dans les détails
                             des publications.
-        
+
                         </div>
                     </div>
                 </div>
@@ -45,6 +45,7 @@
     </div>
 </div>
 
+<!-- End Modal -->
 <script>
     new Sortable(document.getElementById("sortable-list{{ $proriete->id }}"), {
         animation: 150,

@@ -7,6 +7,7 @@ use App\Models\configurations;
 use App\Models\notifications;
 use App\Models\regions;
 use App\Models\User;
+use App\Models\posts;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -127,4 +128,21 @@ class UpdateInformations extends Component
 
         $this->dispatch('refreshAlluser-information');
     }
+
+    public function delete($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $isCurrentUser = Auth::id() == $user->id;
+            $user->delete();
+            session()->flash('message', 'Utilisateur supprimé avec succès !');
+            if ($isCurrentUser) {
+                Auth::logout();
+                return redirect('/')->with('success', 'Votre compte a été supprimé.');
+            }
+        } catch (\Throwable $th) {
+            session()->flash('error', 'Impossible de supprimer cet utilisateur !');
+        }
+    }
+
 }

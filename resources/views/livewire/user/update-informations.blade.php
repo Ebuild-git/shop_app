@@ -157,6 +157,10 @@
     </div>
     <br>
     <div class="modal-footer">
+        <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount({{ Auth::id() }}, @this)">
+            Supprimer mon compte
+        </button>
+
         <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 wire:loading></span>
@@ -165,3 +169,4 @@
         </button>
     </div>
 </form>
+
