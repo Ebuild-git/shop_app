@@ -18,12 +18,12 @@ use Livewire\Component;
 
 class SendMessage extends Component
 {
-    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender, $post_id;
+    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender, $post_id, $image;
     public $recipientEmail;
     protected $listeners = ['sendDataUser'];
 
 
-    public function sendDataUser($user_id, $username, $titre, $post_id)
+    public function sendDataUser($user_id, $username, $titre, $post_id, $image)
     {
         $user = User::find($user_id);
         if ($user) {
@@ -33,6 +33,7 @@ class SendMessage extends Component
             $this->gender = $user->gender;
             $this->titre = $titre;
             $this->post_id = $post_id;
+            $this->image = $image;
         } else {
             session()->flash('error', 'User not found.');
         }
@@ -63,7 +64,10 @@ class SendMessage extends Component
             "destainataire" => $this->message,
             "message" => $this->message,
             "sujet" => $this->sujet,
-            "email_send_message" => $user->email
+            "email_send_message" => $user->email,
+            "image" => $this->image,
+            "titre" => $this->titre,
+            "post_id" => $this->post_id,
         ];
 
         $salutation = 'Cher';

@@ -92,6 +92,16 @@
                     <strong>Message:</strong><br>
                     {{$data['message']}}
                 </p>
+                <p>
+                    Pour l'article : <a href="{{ route('details_post_single', ['id' => $data['post_id']]) }}" class="underlined-link">{{$data['titre']}}</a>
+                </p>
+
+                <!-- Add Post Photo -->
+                @if($data['image'])
+                    <p>
+                        <img src="{{$data['image']}}" alt="Post Image" style="max-width: 100%; height: auto;">
+                    </p>
+                @endif
 
                 <span>Merci pour votre attention !</span>
                 <br>
