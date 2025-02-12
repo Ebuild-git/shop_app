@@ -42,13 +42,15 @@
                     <tr>
                         <td>
                             <div class="avatar-shopinner-details">
-                                {{-- <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset=""> --}}
                                 @if ($user->avatar == 'avatar.png' || !$user->avatar)
                                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
                                         alt="Default Avatar" height="80">
-                                @else
+                                @elseif (!is_null($user->photo_verified_at))
                                     <img src="{{ Storage::url($user->avatar) }}"
                                         alt="User Avatar" height="80">
+                                @else
+                                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                            alt="Default Avatar" height="80">
                                 @endif
                             </div>
                         </td>
