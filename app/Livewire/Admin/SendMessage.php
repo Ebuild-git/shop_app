@@ -12,17 +12,18 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Events\UserEvent;
 use App\Models\notifications;
+use Illuminate\Support\Str;
 
 use Livewire\Component;
 
 class SendMessage extends Component
 {
-    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender;
+    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender, $post_id;
     public $recipientEmail;
     protected $listeners = ['sendDataUser'];
 
 
-    public function sendDataUser($user_id, $username)
+    public function sendDataUser($user_id, $username, $titre, $post_id)
     {
         $user = User::find($user_id);
         if ($user) {
@@ -30,6 +31,8 @@ class SendMessage extends Component
             $this->username = $username;
             $this->user_id = $user_id;
             $this->gender = $user->gender;
+            $this->titre = $titre;
+            $this->post_id = $post_id;
         } else {
             session()->flash('error', 'User not found.');
         }
@@ -76,11 +79,11 @@ class SendMessage extends Component
             $notification->id_user_destination = $this->user_id;
             $notification->type = "alerte";
             $notification->url = "#";
-            $notification->message = "$salutation " . $this->username . ", "
-            . "vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>. "
-            . "Le contenu du message est : {$this->message}. "
+            $notification->message = "$salutation " . $this->username . ",<br>"
+            . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
+            . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
+            . "Le contenu du message est : {$this->message}.<br>"
             . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
-
             $notification->save();
             event(new UserEvent($this->user_id));
 

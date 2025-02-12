@@ -75,7 +75,7 @@
                                                 {{ $post->user_info->username }}
                                             </a>
                                             <br>
-                                            <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $post->user_info->id }}','{{ $post->user_info->username }}')">
+                                            <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $post->user_info->id }}','{{ $post->user_info->username }}', '{{ $post->titre }}', '{{ $post->id }}')">
                                                 <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                             </span>
                                         </td>
@@ -88,7 +88,7 @@
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $signalement->auteur->id }}','{{ $signalement->auteur->username }}')">
+                                                    <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $signalement->auteur->id }}','{{ $signalement->auteur->username }}', '{{ $post->titre }}', '{{ $post->id }}')">
                                                         <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                                     </span>
                                                 </div>

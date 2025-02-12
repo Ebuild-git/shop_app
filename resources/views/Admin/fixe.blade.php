@@ -504,10 +504,12 @@
     </div>
 
     <script>
-        function OpenModalMessage(user_id, username) {
+        function OpenModalMessage(user_id, username, titre, post_id) {
             Livewire.dispatch('sendDataUser', {
                 username: username,
-                user_id: user_id
+                user_id: user_id,
+                titre: titre,
+                post_id
             });
             $("#destinataire").html(username);
             $('#MessageModal').modal('show');
