@@ -1285,14 +1285,6 @@
                 location.reload();
             }
         </script>
-
-
-
-
-
-
-
-
         <!-- Condition Modal -->
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
             aria-hidden="true">

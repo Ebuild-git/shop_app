@@ -21,11 +21,48 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                            <a href="#">
-                                <img src="{{ $user->getAvatar() }}" alt="..."
-                                    class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#profileImageModal">
+
+                                    @if ($user->avatar)
+                                    @if ($user->avatar == 'avatar.png')
+                                        <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                             alt="Default Avatar"
+                                             class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
+                                             style="width: 100px; height: 100px;">
+                                    @else
+                                        <img src="{{ Storage::url($user->avatar) }}"
+                                             alt="User Avatar"
+                                             class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
+                                             style="width: 100px; height: 100px;">
+                                    @endif
+                                @else
+                                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                         alt="Default Avatar"
+                                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
+                                         style="width: 100px; height: 100px;">
+                                @endif
                             </a>
                         </div>
+                        <div class="modal fade" id="profileImageModal" tabindex="-1" aria-labelledby="profileImageModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="profileImageModalLabel">Photo de profile</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        @if ($user->avatar && $user->avatar != 'avatar.png')
+                                            <img src="{{ Storage::url($user->avatar) }}" alt="User Avatar" class="img-fluid rounded">
+                                        @else
+                                            <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                                 alt="Default Avatar" class="img-fluid rounded">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             <div
                                 class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
@@ -47,6 +84,17 @@
 
                                     </ul>
                                 </div>
+
+                                @if ($user->photo_verified_at === null)
+                                    <form action="{{ route('admin.validate.photo', $user->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="bi bi-check-circle"></i> Valider la photo
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="badge bg-success">Photo Validée</span>
+                                @endif
                             </div>
 
                         </div>
@@ -152,7 +200,7 @@
                         <ul class="list-unstyled mb-4 mt-3">
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">ID:</span>
-                                <span>{{ $user->id ?? '/' }}</span>
+                                <span>{{ 'U' . ($user->id + 1000) ?? '/' }}</span>
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-minus"></i><span class="fw-medium mx-2 text-heading">Première connexion à:</span>

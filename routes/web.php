@@ -131,13 +131,6 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/categorie', [AdminController::class, 'index_categories'])->name('gestion_categorie');
     Route::get('/admin/proprietes', [AdminController::class, 'index_proprietes'])->name('gestion_proprietes');
 
-
-
-
-
-
-
-
     Route::get('/admin/changer_ordre_categorie', [CategoriesController::class, 'changerOrdre']);
     Route::get('/admin/changer_ordre_sous_categorie', [CategoriesController::class, 'changerOrdresous']);
     Route::get('/admin/changer_ordre_proprietes', [CategoriesController::class, 'changerOrdrepropriete']);
@@ -186,6 +179,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     //SHIPEMENT
 
     Route::get('/admin/shipment', [AdminController::class, 'shipment'])->name('shipment');
+    Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
 
 });
 

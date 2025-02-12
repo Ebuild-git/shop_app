@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
+use App\Events\UserEvent;
+use App\Models\notifications;
 
 class UserController extends Controller
 {
@@ -46,6 +48,25 @@ class UserController extends Controller
         }
     }
 
+    public function validatePhoto($id)
+    {
+        $user = User::findOrFail($id);
+        $user->photo_verified_at = now();
+        $user->save();
+
+        event(new UserEvent($user->id));
+        //make notification
+        $notification = new notifications();
+        $notification->titre = "Votre photo de profile a été validé !";
+        $notification->id_user_destination  = $user->id;
+        $notification->type = "alerte";
+        $notification->url = "/informations";
+        $notification->destination = "user";
+        $notification->id_user = $user->id;
+        $notification->message = "Nous vous informons que votre photo de profile a été validé par les administrateurs.";
+        $notification->save();
+        return back()->with('success', 'La photo de profil a été validée avec succès.');
+    }
 
     public function delete_my_post(Request $request)
     {

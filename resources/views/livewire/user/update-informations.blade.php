@@ -1,8 +1,38 @@
 <form wire:submit="update">
-
     @include('components.alert-livewire')
-
     <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Photo de profil</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" wire:model="avatar" id="avatar" accept="image/*">
+                    <label class="custom-file-label" for="avatar">Choisir une image</label>
+                </div>
+
+                @if ($avatar)
+                    <div class="mt-2">
+                        <img src="{{ $avatar->temporaryUrl() }}" alt="Avatar preview" style="width: 100px; height: 100px;">
+                    </div>
+                @elseif(Auth::user()->avatar)
+                    <div class="mt-2">
+                        @if (Auth::user()->avatar == 'avatar.png')
+                            <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg" alt="Default Avatar" style="width: 100px; height: 100px;">
+                        @else
+                            <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Current Avatar" style="width: 100px; height: 100px;">
+                        @endif
+                    </div>
+                @else
+                    <div class="mt-2">
+                        <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg" alt="Default Avatar" style="width: 100px; height: 100px;">
+                    </div>
+                @endif
+
+                @error('avatar')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
         <div class="col-sm-4">*
             <label>Nom </label>
             <span class="text-danger">*</span>
