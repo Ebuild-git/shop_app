@@ -85,8 +85,6 @@ class posts extends Model
         return $price;
     }
 
-
-    //recuperer les informations su l'uilisateur
     public function user_info()
     {
         return $this->hasOne(User::class, 'id', "id_user");

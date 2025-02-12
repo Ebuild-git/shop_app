@@ -41,7 +41,6 @@
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <div>
                                         <span class="text-muted">Vendeur: {{ $item['vendeur'] }}</span> <br>
-                                        <span class="delivery-info">Livraison entre le x et le y</span> <br>
                                         <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
@@ -71,6 +70,11 @@
                     @endforelse
                 </div>
                 @include('components.alert-livewire')
+                @if (is_null(auth()->user()->region))
+                    <div class="alert alert-warning">
+                        <p>Veuillez entrer votre région <a href="/informations">ici</a> pour continuer votre commande.</p>
+                    </div>
+                @endif
             </div>
             <div class="col-sm-4 col-12">
                 <div class="custom-checkout-card p-3 shadow-sm border-0 rounded-lg">
@@ -94,8 +98,9 @@
                     </table>
                 </div>
 
+
                 <div class="d-flex justify-content-end mt-3">
-                    <button class="checkout-btn w-100" @disabled($nbre_article <= 0) wire:click="valider()">
+                    <button class="checkout-btn w-100" @disabled($nbre_article <= 0 || is_null(auth()->user()->region)) wire:click="valider()">
                         <span wire:loading>Validation....</span>
                         <span wire:loading.remove>Valider mon panier</span>
                     </button>

@@ -155,8 +155,8 @@
                     @endforeach
                 </table>
                 <div class="total">
-                    <h4>Frais de livraison : 25 <sup>DH</sup></h4>
-                    <h3>Total : {{ $total + 25 }} <sup>DH</sup></h3>
+                    <h4>Frais de livraison : {{$totalShippingFees}} <sup>DH</sup></h4>
+                    <h3>Total : {{ $total + $totalShippingFees }} <sup>DH</sup></h3>
                 </div>
             </div>
 

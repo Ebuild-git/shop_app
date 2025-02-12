@@ -16,17 +16,21 @@ class commande extends Mailable
     /**
      * Create a new message instance.
      */
-    public $user,$articles_panier;
-    public function __construct($user,$articles_panier)
+    public $user,$articles_panier, $totalShippingFees;
+    public function __construct($user,$articles_panier, $totalShippingFees)
     {
         $this->user = $user;
         $this->articles_panier = $articles_panier;
+        $this->totalShippingFees = $totalShippingFees;
         $this->from("no-reply@apa.tn", 'SHOPIN');
         $this->subject("Confirmation de votre commande");
     }
 
     public function build()
     {
-        return $this->view('Mails.commande');
+        return $this->view('Mails.commande')
+        ->with([
+            'totalShippingFees' => $this->totalShippingFees,
+        ]);
     }
 }

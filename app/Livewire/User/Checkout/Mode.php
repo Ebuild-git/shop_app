@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserCart;
 use App\Models\User;
+use App\Models\sous_categories;
+use App\Models\regions_categories;
 use App\Models\Shipment;
 use App\Models\notifications;
 use App\Events\UserEvent;
@@ -22,7 +24,7 @@ use Livewire\Component;
 class Mode extends Component
 {
     public $user,$articles_panier;
-    public $frais  = 25 ;
+    // public $frais  = 0 ;
 
 
     public function mount(){
@@ -64,6 +66,19 @@ class Mode extends Component
                 ->first();
 
             if ($post) {
+
+                $id_categorie = $post->id_sous_categorie
+                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                : null;
+
+                $id_region = Auth::user()->region ?? null;
+                $frais  = 0;
+                if ($id_categorie && $id_region) {
+                    $regionCategory = regions_categories::where('id_region', $id_region)
+                        ->where('id_categorie', $id_categorie)
+                        ->first();
+                        $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                }
                 $this->articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
@@ -79,7 +94,7 @@ class Mode extends Component
         }
         $groupedByVendor = collect($this->articles_panier)->groupBy('vendeur');
         $uniqueVendorsCount = $groupedByVendor->count();
-        $totalDeliveryFees = $uniqueVendorsCount > 0 ? $this->frais * $uniqueVendorsCount : 0;
+        $totalDeliveryFees = $uniqueVendorsCount > 0 ? $frais * $uniqueVendorsCount : 0;
         $totalWithDelivery = $total + $totalDeliveryFees;
 
         return view('livewire.user.checkout.mode')
@@ -94,6 +109,7 @@ class Mode extends Component
         $aramexService = new AramexService();
         $totalArticles = count($this->articles_panier);
         $totalWeight = 0;
+        $totalShippingFees = 0;
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             $gain = $post->calculateGain();
@@ -115,6 +131,21 @@ class Mode extends Component
                         'id_user_buy' => $this->user->id
                     ]
                 );
+
+                $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
+                $id_region = Auth::user()->region ?? null;
+                $frais = 0;
+
+                if ($id_categorie && $id_region) {
+                    $regionCategory = regions_categories::where('id_region', $id_region)
+                        ->where('id_categorie', $id_categorie)
+                        ->first();
+                    $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                }
+
+                // Add shipping fee to total shipping cost
+                $totalShippingFees += $frais;
+
 
                 $shippingDateTime = new DateTime();
                 $dueDate = (new DateTime())->modify('+4 days');
@@ -309,7 +340,7 @@ class Mode extends Component
 
         }
 
-        Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier));
+        Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier, $totalShippingFees));
         $token = md5(uniqid(rand(), true));
         Cookie::queue(Cookie::forget('cart'));
         return Redirect("/checkout?step=4&action=$token");

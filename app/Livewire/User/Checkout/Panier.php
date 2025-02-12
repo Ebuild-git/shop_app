@@ -44,6 +44,7 @@ class Panier extends Component
                         ->where('id_categorie', $id_categorie)
                         ->first();
                         $fraisLivraison = $regionCategory ? number_format($regionCategory->prix, 2, ',', '') : '0,00';
+
                 }
                 $articles_panier[] = [
                     "id" => $post->id,

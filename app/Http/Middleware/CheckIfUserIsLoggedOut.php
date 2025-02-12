@@ -22,7 +22,7 @@ class CheckIfUserIsLoggedOut
                 return redirect()->route("connexion")->with("error", "Votre compte a été bloquer par un administrateur !");
             }
         }
-        
+
         return $next($request);
     }
 }

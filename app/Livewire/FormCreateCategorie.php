@@ -36,12 +36,9 @@ class FormCreateCategorie extends Component
             'active' => 'boolean',
         ]);
 
-
-
-
         $newName = $this->photo->store('uploads/categories', 'public');
 
-        $categorie = new categories(); // Assurez-vous que le nom de la classe modèle est correct
+        $categorie = new categories();
         $categorie->titre = $this->titre;
         $categorie->description = $this->description;
         $categorie->icon = $newName;

@@ -2,8 +2,6 @@
 @section('titre', 'Modifier la Catégorie')
 @section('content')
 
-
-
 @section('body')
     <!-- Content -->
 
@@ -24,9 +22,6 @@
                             </a>
                         </div>
                     </div>
-
-
-
                     <div class="nav-align-top mb-4">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
