@@ -190,9 +190,12 @@ class ListePublications extends Component
 
                 $this->motif_suppression = '';
             } else {
+                $this->dispatch('closeModal', ['id' => "deleteModal-$id"]);
                 $this->dispatch('alert', ['message' => "Veuillez sélectionner un motif de suppression.", 'type' => 'error']);
+
             }
         } else {
+            $this->dispatch('closeModal', ['id' => "deleteModal-$id"]);
             $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la suppression !", 'type' => 'error']);
         }
     }
