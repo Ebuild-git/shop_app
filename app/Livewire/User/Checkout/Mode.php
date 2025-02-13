@@ -55,7 +55,6 @@ class Mode extends Component
         $articles_panier = [];
         $user_id = auth()->id();
 
-        // Get cart items from UserCart based on user_id
         $cartItems = UserCart::where('user_id', $user_id)->pluck('post_id');
 
         foreach ($cartItems as $item_id) {
@@ -122,13 +121,11 @@ class Mode extends Component
                 }
 
                 $totalWeight += $poids;
-
-                // dd($totalWeight);
                 $post->update(
                     [
                         'statut' => 'vendu',
                         'sell_at' => now(),
-                        'id_user_buy' => $this->user->id
+                        'id_user_buy' => Auth::id()
                     ]
                 );
 

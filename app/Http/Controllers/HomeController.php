@@ -137,7 +137,7 @@ class HomeController extends Controller
         $type = $request->get('type') ?? "annonce";
         $statut = $request->input('statut') ?? null;
         $key = $request->input("key") ?? null;
-        $Query = posts::where("id_user", Auth::user()->id)->Orderby("id", "Desc");
+        $Query = posts::where("id_user", Auth::user()->id)->Orderby('sell_at', 'desc');
         if ($key) {
             $Query->where("titre", "LIKE", "%{$key}%")
                 ->orWhere("description", "LIKE", "%{$key}%");
@@ -153,6 +153,7 @@ class HomeController extends Controller
                 $Query->whereYear('sell_at', $year)
                       ->whereMonth('sell_at', $month);
             }
+            $Query->orderBy('sell_at', 'desc');
         } else {
             $Query = $Query->where('statut', "vente");
 
@@ -160,6 +161,7 @@ class HomeController extends Controller
                 $Query->whereYear('created_at', $year)
                       ->whereMonth('created_at', $month);
             }
+            $Query->orderBy('created_at', 'desc');
         }
 
         if (!empty($statut)) {
@@ -779,7 +781,8 @@ class HomeController extends Controller
         $year = $request->input('year') ?? null;
 
         $query = posts::where("id_user_buy", Auth::id())
-            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id");
+            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
+            ->orderBy('sell_at', 'desc');
 
         if ($month && $year) {
             $query->whereYear('sell_at', $year)
