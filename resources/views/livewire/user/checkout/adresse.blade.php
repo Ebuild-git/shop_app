@@ -145,9 +145,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 mb-3">
+                                    <div class="col-6 mb-3">
                                         <label for="phone_number" class="form-label">Numéro de Téléphone</label>
-                                        <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number" maxlength="14" oninput="formatPhoneNumber(this)">
+                                        <div class="input-container d-flex align-items-center position-relative">
+                                            <img src="/icons/maroc.webp" alt="Moroccan flag" class="flag-icon2">
+                                            <input type="text" id="phone_number" class="form-control" wire:model="phone_number" style="padding-left: 45px;" maxlength="14" oninput="formatTelephone(this)">
+                                        </div>
                                         @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
