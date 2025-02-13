@@ -220,18 +220,16 @@
         }
         document.addEventListener('livewire:init', () => {
             Livewire.on('alert', (parametres) => {
-                console.log(parametres);
                 const message = parametres[0].message;
                 const type = parametres[0].type;
-
-
                 Swal.fire({
                     position: "center",
                     icon: type,
                     title: message,
-                    showConfirmButton: false,
-                    timer: 2000,
+                    showConfirmButton: true,
+                    timer: 10000,
                     customClass: "swal-wide",
+                    confirmButtonColor: "#008080"
                 });
             });
         });
@@ -241,7 +239,6 @@
                 const message = parametres[0].message;
                 const type = parametres[0].type;
                 const time = parametres[0].time;
-
 
                 Swal.fire({
                     position: "center",
@@ -274,9 +271,6 @@
             }
             input.value = formattedPhoneNumber;
         }
-
-
-
     </script>
     <script>
         window.onload = function() {

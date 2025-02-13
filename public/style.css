@@ -792,6 +792,8 @@ body {
     background-color: white !important; /* Set background color to white */
     border-radius: 10px; /* Add border radius for rounded corners */
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
 }
 
 .color-red {

@@ -288,13 +288,15 @@ class CreatePost extends Component
     public function preview()
     {
         $user = Auth::user();
+
         if (!$user->cin_img) {
             $this->dispatch('alert', [
-                'message' => "Vous devez ajouter une image de votre carte d'identité avant de publier un post!",
+                'message' => "Vous devez ajouter une image de votre carte d'identité avant de publier un post !<br>Veuillez aller dans <strong>Mon compte</strong> → <strong>Coordonnées bancaires</strong> pour l'ajouter.",
                 'type' => 'warning'
             ]);
             return;
         }
+
 
         if (!$this->before_post()) {
             if ($this->getErrorBag()->has('prix')) {
@@ -332,9 +334,6 @@ class CreatePost extends Component
         }
         $this->dispatch('openmodalpreview', $this->data_post);
     }
-
-
-
 
     public function submit()
     {
