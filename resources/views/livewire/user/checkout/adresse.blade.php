@@ -147,7 +147,7 @@
                                 <div class="row">
                                     <div class="col-12 mb-3">
                                         <label for="phone_number" class="form-label">Numéro de Téléphone</label>
-                                        <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number">
+                                        <input type="text" class="form-control modern-input" id="phone_number" wire:model="phone_number" maxlength="14" oninput="formatPhoneNumber(this)">
                                         @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
@@ -259,8 +259,6 @@
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
-
-                <!-- Show User's Address Here Even If Not Default -->
 
                 <!-- Loop through other extra addresses -->
                 @foreach ($userAddresses as $address)
@@ -436,7 +434,7 @@
                                         <label for="extraPhoneNumber" class="form-label">Numéro de téléphone</label>
                                         <div class="input-container d-flex align-items-center position-relative">
                                             <img src="/icons/maroc.webp" alt="Moroccan flag" class="flag-icon2">
-                                            <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber" style="padding-left: 45px;" maxlength="9">
+                                            <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber" style="padding-left: 45px;" maxlength="14" oninput="formatTelephone(this)">
                                         </div>
                                         @error('extraPhoneNumber') <span class="error">{{ $message }}</span> @enderror
                                     </div>
@@ -538,5 +536,4 @@
         }, 50);
     });
 </script>
-
 

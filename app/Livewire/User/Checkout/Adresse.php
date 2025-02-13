@@ -113,12 +113,9 @@ class Adresse extends Component
     }
     public function unsetDefault($id)
     {
-        // Unset the default for the selected address
         $address = UserAddress::find($id);
         $address->is_default = false;
         $address->save();
-
-        // Refresh the list of addresses
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
     }
 
@@ -136,7 +133,7 @@ class Adresse extends Component
     public function prepareForAdd()
     {
         $this->resetForm();
-        $this->isEditMode = false; // Explicitly set isEditMode to false when adding a new address
+        $this->isEditMode = false;
     }
 
     public function prepareForUpdate($id)
@@ -151,7 +148,7 @@ class Adresse extends Component
             $this->extraApartment = $address->apartment_number;
             $this->extraPhoneNumber = $address->phone_number;
             $this->editingAddressId = $id;
-            $this->isEditMode = true; // Set isEditMode to true when editing an existing address
+            $this->isEditMode = true;
         }
     }
 
@@ -159,7 +156,7 @@ class Adresse extends Component
     public function saveAddress()
     {
         $this->validate([
-            'extraCity' => 'required|string|max:255',  // Validate based on your requirements
+            'extraCity' => 'required|string|max:255',
         ]);
 
         $address = $this->editingAddressId ? UserAddress::find($this->editingAddressId) : new UserAddress();
@@ -179,16 +176,12 @@ class Adresse extends Component
     }
     public function removeDefault()
     {
-        // Remove the default status from all addresses
         $this->user->addresses()->update(['is_default' => false]);
-
-        // Reload addresses
         return Redirect("/checkout?step=2");
 
     }
     public function render()
     {
-
         // if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment && $this->user->etage && $this->user->num_appartement && $this->user->phone_number) || $this->locationUsed) {
         //     $this->next = true;
         // }
