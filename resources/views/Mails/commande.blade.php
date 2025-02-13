@@ -154,9 +154,13 @@
                         @endphp
                     @endforeach
                 </table>
-                <div class="total">
+                {{-- <div class="total">
                     <h4>Frais de livraison : {{$totalShippingFees}} <sup>DH</sup></h4>
                     <h3>Total : {{ $total + $totalShippingFees }} <sup>DH</sup></h3>
+                </div> --}}
+                <div class="total">
+                    <h4>Frais de livraison : {{ number_format($totalShippingFees, 2, '.', '') }} <sup>DH</sup></h4>
+                    <h3>Total : {{ number_format($total + $totalShippingFees, 2, '.', '') }} <sup>DH</sup></h3>
                 </div>
             </div>
 
