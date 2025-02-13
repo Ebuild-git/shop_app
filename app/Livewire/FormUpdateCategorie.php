@@ -44,7 +44,7 @@ class FormUpdateCategorie extends Component
             $this->region_prix[] = [
                 "id_region" => $regi->id,
                 "nom"  => $regi->nom,
-                "prix" => $data->prix ?? null,
+                "prix" => isset($data->prix) ? number_format($data->prix, 2, '.', '') : null,
             ];
         }
 
