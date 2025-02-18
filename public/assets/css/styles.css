@@ -940,7 +940,7 @@ table.table tr th {
 	color:#ffffff;
 	background:#212121;
 }
-.btn.btn-default{
+.btn.btn-default:hover{
 	background:#ebedf1;
 }
 .btn-dark {
