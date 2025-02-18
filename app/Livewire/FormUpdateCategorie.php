@@ -83,7 +83,7 @@ class FormUpdateCategorie extends Component
             }
 
             $categorie->titre = $this->titre;
-            $categorie->description = $this->description;
+            $categorie->description = $this->description ?: null;
             $categorie->pourcentage_gain = $this->pourcentage_gain;
             $categorie->active = $this->active;
             $categorie->save();
