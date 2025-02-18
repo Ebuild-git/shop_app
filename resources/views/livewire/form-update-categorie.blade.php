@@ -4,19 +4,19 @@
         <div class="col-md-4 mb-4">
             <div class="mb-3">
                 <label for="titre" class="form-label">Titre de la catégorie</label>
-                <input type="text" wire:model="titre" id="titre" class="form-control" required>
+                <input type="text" wire:model="titre" id="titre" class="form-control">
                 @error('titre') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
             <div class="mb-3">
                 <label for="pourcentage_gain" class="form-label">Marge de gain (%)</label>
-                <input type="number" wire:model="pourcentage_gain" id="pourcentage_gain" class="form-control" min="0" step="0.1" required>
+                <input type="number" wire:model="pourcentage_gain" id="pourcentage_gain" class="form-control" min="0" step="0.1">
                 @error('pourcentage_gain') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" wire:model="description" id="description" rows="5" required></textarea>
+                <textarea class="form-control" wire:model="description" id="description" rows="5"></textarea>
                 @error('description') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
