@@ -1699,6 +1699,18 @@ tbody td {
         min-height: 15px;
         border-radius: 50%;
     }
+    .mode-toggle {
+        margin-left: 14px;
+    }
+
+    .mode-toggle span {
+        font-size: 14px;
+        color: #000;
+    }
+
+    .switch {
+        margin-top: 0;
+    }
 }
 
 
@@ -2698,7 +2710,7 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .mode-toggle {
         margin-left: 14px;
     }
