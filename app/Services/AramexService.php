@@ -15,7 +15,7 @@ class AramexService
     {
         $this->client = new Client();
         // This should be just the base part of the URL
-        $this->baseUrl = env('ARAMEX_API_BASE_URL', 'https://ws.sbx.aramex.net/ShippingAPI.V2');
+        $this->baseUrl = env('ARAMEX_API_BASE_URL', 'https://ws.aramex.net/ShippingAPI.V2');
     }
 
     public function sendRequest($endpoint, $payload)
