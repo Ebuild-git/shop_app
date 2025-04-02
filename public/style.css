@@ -1386,7 +1386,7 @@ tbody td {
     color: white;
     padding: 9px;
     position: absolute;
-    top: 6px;
+    top: 1px;
     right: 1px;
     border-radius: 1px;
     border: none;
@@ -1642,6 +1642,7 @@ tbody td {
 
 
 /* Target iPad Pro (12.9-inch) and other iPads */
+
 @media (min-width: 820px) and (max-width: 1200px){
     .desktop-container {
         display: none;
@@ -1649,9 +1650,10 @@ tbody td {
     .mobile-container {
         display: block;
     }
-    .btn-publier-header{
+    .div-scroll-publier .btn-publier-header{
         position: absolute;
-    right: -160px;
+        right: -160px;
+        top: 2px;
     }
 
     .option-icon-header {
@@ -1685,7 +1687,7 @@ tbody td {
         font-size: 14px;
     }
     .mobile-only-icons i {
-        font-size: 15px;
+        font-size: 25px;
         margin-right: 5px;
     }
     .mobile-only-icons .dn-counter {
@@ -1698,10 +1700,6 @@ tbody td {
         border-radius: 50%;
     }
 }
-
-
-
-
 
 
 /* Hide the section on mobile screens (less than 768px) */

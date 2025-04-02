@@ -721,9 +721,9 @@
                                     <div class="div-scroll-publier">
                                         @auth
                                         <a href="/publication" class="btn-publier-header cusor p-1">
-                                    @else
-                                        <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
-                                    @endauth
+                                        @else
+                                            <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
+                                        @endauth
                                         <span class="color small">
                                             <i class="lni lni-circle-plus"></i>
                                             {{ \App\Traits\TranslateTrait::TranslateText('Publier') }}
