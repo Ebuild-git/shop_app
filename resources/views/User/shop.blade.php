@@ -51,14 +51,14 @@
                         <div class="price-filter-container">
                             <div class="custom-filter-option" id="filter-price-mobile">
                                 <i class="fas fa-sort"></i>
-                                <span>{{ \App\Traits\TranslateTrait::TranslateText('Trier par') }}</span>
+                                <span>{{ __('sort_by') }}</span>
                             </div>
                             <div class="custom-dropdown-container" id="price-options-mobile">
-                                <div class="custom-dropdown-item" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">{{ \App\Traits\TranslateTrait::TranslateText('Prix croissant') }}</div>
-                                <div class="custom-dropdown-item" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">{{ \App\Traits\TranslateTrait::TranslateText('Prix décroissant') }}</div>
-                                <div class="custom-dropdown-item" data-value="soldé" onclick="updatePriceFilter('soldé')">{{ \App\Traits\TranslateTrait::TranslateText('Articles Soldés') }}</div>
+                                <div class="custom-dropdown-item" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">{{ __('low_to_high') }}</div>
+                                <div class="custom-dropdown-item" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">{{ __('high_to_low') }}</div>
+                                <div class="custom-dropdown-item" data-value="soldé" onclick="updatePriceFilter('soldé')">{{ __('on_sale') }}</div>
                                 @if (!$selected_categorie)
-                                <div class="custom-dropdown-item" data-value="luxury" onclick="updatePriceFilter('luxury')">{{ \App\Traits\TranslateTrait::TranslateText('Luxury uniquement') }}</div>
+                                <div class="custom-dropdown-item" data-value="luxury" onclick="updatePriceFilter('luxury')">{{ __('luxury_only') }}</div>
                                 @endif
                             </div>
                         </div>
@@ -68,15 +68,15 @@
                         <div class="condition-filter-container">
                             <div class="custom-filter-option" id="filter-condition-category-mobile">
                                 <i class="fas fa-tags"></i>
-                                <span>{{ \App\Traits\TranslateTrait::TranslateText('Filtrer par état') }}</span>
+                                <span>{{ __('filter_by_condition') }}</span>
                             </div>
                             <!-- Condition Options Dropdown -->
                             <div class="custom-dropdown-container etat-dropdown" id="condition-options-category-mobile">
-                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">{{ \App\Traits\TranslateTrait::TranslateText('Neuf avec étiquettes') }}</div>
-                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">{{ \App\Traits\TranslateTrait::TranslateText('Neuf sans étiquettes') }}</div>
-                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">{{ \App\Traits\TranslateTrait::TranslateText('Très bon état') }}</div>
-                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">{{ \App\Traits\TranslateTrait::TranslateText('Bon état') }}</div>
-                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">{{ \App\Traits\TranslateTrait::TranslateText('Usé') }}</div>
+                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">{{ __('new_with_tags') }}</div>
+                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">{{ __('new_without_tags') }}</div>
+                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">{{ __('very_good_condition') }}</div>
+                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">{{ __('good_condition') }}</div>
+                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">{{ __('used') }}</div>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                                                     <span class="strong">{{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}}</span>
                                                     @if ($selected_categorie->luxury == 1)
                                                         <span class="small color">
-                                                            <i class="bi bi-gem"></i> {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}
+                                                            <i class="bi bi-gem"></i> {{ __('luxury') }}
                                                         </span>
                                                     @endif
                                                 </a>
@@ -148,7 +148,7 @@
                                                                 <span>
                                                                     @if ($categorie->luxury == 1)
                                                                         <span class="color small">
-                                                                            <b><i class="bi bi-gem"></i> {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}</b>
+                                                                            <b><i class="bi bi-gem"></i> {{ __('luxury') }}</b>
                                                                         </span>
                                                                         &nbsp;
                                                                     @endif
@@ -342,7 +342,7 @@
                                                         <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
                                                     </div>
                                                     <div style="height: 15px; margin-top: 5px;">
-                                                        <span>{{ $categorie->titre }}</span>
+                                                        <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
                                                     </div>
                                                     <div style="height: 25px; margin-top: 5px;">
                                                         @if ($categorie->luxury == 1)
@@ -367,7 +367,7 @@
 
                                                 <button class="subcategory-btn d-flex flex-column align-items-center p-1" style="height: auto;">
                                                     <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
-                                                        <span>{{ $sous_categorie->titre }}</span>
+                                                        <span>{{ \App\Traits\TranslateTrait::TranslateText($sous_categorie->titre) }}</span>
                                                     </div>
 
                                                     <div class="d-flex align-items-center justify-content-center" style="width: 100%;gap: 5px;">
@@ -477,28 +477,28 @@
                                     <div class="custom-dropdown-wrapper">
                                         <div class="custom-dropdown desktop-only">
                                             <div class="dropdown-selected">
-                                                Trier par
+                                                {{ __('sort_by') }}
                                                 <i class="fas fa-chevron-down"></i>
                                             </div>
 
                                             <div class="dropdown-options">
-                                                <div class="dropdown-option" data-value="" onclick="updatePriceFilter('')">Trier par</div>
-                                                <div class="dropdown-option" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">Prix croissant</div>
-                                                <div class="dropdown-option" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">Prix décroissant</div>
-                                                <div class="dropdown-option" data-value="soldé" onclick="updatePriceFilter('soldé')">Articles Soldés</div>
+                                                <div class="dropdown-option" data-value="" onclick="updatePriceFilter('')">{{ __('sort_by') }}</div>
+                                                <div class="dropdown-option" data-value="low_to_high" onclick="updatePriceFilter('low_to_high')">{{ __('low_to_high') }}</div>
+                                                <div class="dropdown-option" data-value="high_to_low" onclick="updatePriceFilter('high_to_low')">{{ __('high_to_low') }}</div>
+                                                <div class="dropdown-option" data-value="soldé" onclick="updatePriceFilter('soldé')">{{ __('on_sale') }}</div>
                                                 @if (!$selected_categorie)
-                                                    <div class="dropdown-option" data-value="luxury" onclick="updatePriceFilter('luxury')">Luxury uniquement</div>
+                                                    <div class="dropdown-option" data-value="luxury" onclick="updatePriceFilter('luxury')">{{ __('luxury_only') }}</div>
                                                 @endif
                                             </div>
                                         </div>
 
                                         <select name="filtre-ordre" id="filtre-ordre" class="hidden-select" style="display: none;">
-                                            <option value="">Trier par</option>
-                                            <option value="prix_asc">Prix croissant</option>
-                                            <option value="prix_desc">Prix décroissant</option>
-                                            <option value="Soldé">Articles Soldés</option>
+                                            <option value="">{{ __('sort_by') }}</option>
+                                            <option value="prix_asc">{{ __('low_to_high') }}</option>
+                                            <option value="prix_desc">{{ __('high_to_low') }}</option>
+                                            <option value="Soldé">{{ __('on_sale') }}</option>
                                             @if (!$selected_categorie)
-                                                <option value="luxury">Luxury uniquement</option>
+                                                <option value="luxury">{{ __('luxury_only') }}</option>
                                             @endif
                                         </select>
                                     </div>
@@ -511,7 +511,7 @@
                         <img src="/icons/kOnzy.gif" alt="gif" height="50" width="50" srcset="">
                         <br>
                         <span class="color">
-                            Recherche d'annonces...
+                            {{ __('searching_ads') }}
                         </span>
                     </div>
 

@@ -15,7 +15,7 @@
         @if ($post->sous_categorie_info->categorie->luxury == 1)
         <div class="color strong" style="font-size: 12px;">
             <i class="bi bi-gem"></i>
-            <span class="luxury-text">{{ \App\Traits\TranslateTrait::TranslateText('LUXURY') }}</span>
+            <span class="luxury-text">{{ __('luxury') }}</span>
         </div>
         @endif
     </div>

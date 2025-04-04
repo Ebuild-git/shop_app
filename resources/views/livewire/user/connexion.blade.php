@@ -4,16 +4,16 @@
         @include('components.alert-livewire')
 
         <div class="form-group">
-            <label style="color: black;">Adresse E-mail / Pseudonyme</label>
+            <label style="color: black;">{{ __('email_label') }}</label>
             <input type="text" name="email" id="email-login" autocomplete="off"
                 class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
-                placeholder="Email / Pseudonyme">
+                placeholder="{{ __('email_placeholder') }}">
             @error('email')
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
         </div>
         <div class="form-group ">
-            <label style="color: black;">Mot de passe</label>
+            <label style="color: black;">{{ __('password_label') }}</label>
             <div class="position-relative">
                 <input type="{{ $showPassword ? 'text' : 'password' }}" name="password" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
@@ -28,7 +28,7 @@
                 <small class="form-text text-danger">{{ $message }}</small>
             @enderror
             <div style="text-align: right;">
-                <a href="/forget" class="link">Mot de passe oublié ?</a>
+                <a href="/forget" class="link">{{ __('forgot_password') }}</a>
             </div>
         </div>
         <br>
@@ -36,8 +36,8 @@
         <br><br>
         <div class="d-flex justify-content-between">
             <div>
-                <span style="color: black;">Vous n'avez pas encore de compte?</span>
-                <a href="/inscription" class="link">S'inscrire</a>
+                <span style="color: black;">{{ __('no_account') }}</span>
+                <a href="/inscription" class="link">{{ __('register') }}</a>
             </div>
             <div>
                 <span wire:loading>
@@ -46,13 +46,9 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium" wire:loading.attr="disabled">
-                    Se connecter
+                    {{ __('login') }}
                     <i class="bi bi-arrow-right-circle-fill"></i>
                 </button>
             </div>
         </div>
-
-        <!-- Dans votre vue Livewire -->
-
-
 </div>

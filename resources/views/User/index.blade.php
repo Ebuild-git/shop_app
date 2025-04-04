@@ -41,7 +41,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h3 class="ft-bold pt-3">{{ \App\Traits\TranslateTrait::TranslateText('Nouveau Sur ') }}SHOP<span class="color">IN</span> {{ \App\Traits\TranslateTrait::TranslateText('LUXURY') }}</h3>
+                        <h3 class="ft-bold pt-3">{!! __('nouveau_sur_shopin_luxury') !!} {!! __('luxury2') !!}</h3>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h3 class="ft-bold pt-3">{{ \App\Traits\TranslateTrait::TranslateText('Nouveau Sur ') }}SHOP<span class="color">IN</span> </h3>
+                        <h3 class="ft-bold pt-3">{!! __('nouveau_sur_shopin_luxury') !!}</h3>
                     </div>
                 </div>
             </div>

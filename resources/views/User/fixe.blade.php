@@ -90,7 +90,7 @@
     .tarif-percentage {
         font-weight: small;
         color: #808080;
-        margin-left: 1rem; /* Increased space between percentage and other items */
+        margin-left: 1rem;
     }
 
     .tarif-item:hover {
@@ -258,8 +258,6 @@
             });
         });
 
-
-        //formatage du numero de telephone
         function formatTelephone(input) {
             var phoneNumber = input.value.replace(/\D/g, '');
             var formattedPhoneNumber = '';
@@ -365,14 +363,9 @@
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
-
                             <a href="/about" style="color: white !important;padding-right: 17px">{{ \App\Traits\TranslateTrait::TranslateText('À propos') }}</a>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -389,7 +382,7 @@
                             <form action="/shop" method="get" class="position-relative">
                                 @csrf
                                 <input type="text" class="form-control sm input cusor border-r" name="key"
-                                    placeholder="Rechercher un article">
+                                    placeholder="{{ __('search_article') }}">
                                 <button type="submit" class="span-icon-recherche cusor">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -405,7 +398,7 @@
                                     <button class=" btn-publier-header cusor p-2 " type="button">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Publier un article') }}
+                                            {{ __('publish_article') }}
                                         </span>
                                     </button>
                                 </a>
@@ -426,49 +419,49 @@
                                 <ul class="dropdown-menu popup-content p-3 ">
                                     <li>
                                         <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes annonces') }}
+                                            {{ __('my_ads') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/mes-publication?type=vente" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes ventes') }}
+                                            {{ __('my_sales') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/mes-achats" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes achats') }}
+                                            {{ __('my_purchases') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/checkout" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mon panier') }}
+                                            {{ __('my_cart') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('liked') }}" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes coups de coeur') }}
+                                            {{ __('my_favorites') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes favoris') }}
+                                            {{ __('my_liked') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/user-notifications" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Notifications') }}
+                                            {{ __('notifications') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/informations" class=" medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mon compte') }}
+                                            {{ __('my_account') }}
                                         </a>
                                     </li>
                                     @livewire('User.ModeToggle')
 
                                     <li>
                                         <a href="/logout" class=" medium text-medium link-red">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Déconnexion') }}
+                                            {{ __('logout') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -489,11 +482,11 @@
                         <div class="sidebar-wrapper">
                             <div class="close-menu">×</div>
                             <ul class="text-uppercase-mobile">
-                                <li><a href="/about" style="padding-left: 0px !important">{{ \App\Traits\TranslateTrait::TranslateText('À propos') }}</a></li>
-                                <li><a href="/" style="padding-left: 0px !important">{{ \App\Traits\TranslateTrait::TranslateText('Accueil') }}</a></li>
+                                <li><a href="/about" style="padding-left: 0px !important">{{ __('about') }}</a></li>
+                                <li><a href="/" style="padding-left: 0px !important">{{ __('home') }}</a></li>
                                 <li>
                                     <a href="{{ Auth::check() ? route('shopiners') : '#' }}" @guest data-toggle="modal" data-target="#login" @endguest>
-                                        Shop<span class="color strong">in</span>ers
+                                        {{ __('shopiners_part1') }}<span class="color strong">{{ __('shopiners_part2') }}</span>{{ __('shopiners_part3') }}
                                     </a>
                                 </li>
                                 <li>
@@ -501,10 +494,10 @@
                                     <ul class="categories-list p-0">
                                         @forelse ($categories as $item)
                                             <li class="category-item">
-                                                {{-- <a href="/shop?categorie={{ $item->id }}" class="category-link"> --}}
+
                                                     <a href="javascript:void(0);" class="category-link" onclick="select_categorie({{ $item->id }})">
                                                     <div class="d-flex align-items-center">
-                                                        <span>{{ $item->titre }}</span>
+                                                        <span>{{ \App\Traits\TranslateTrait::TranslateText($item->titre) }}</span>
                                                         <span class="small color">
                                                             @if ($item->luxury == 1)
                                                                 <i class="bi bi-gem luxury-icon"></i>
@@ -561,48 +554,48 @@
                                 <ul class="dropdown-menu popup-content">
                                     <li>
                                         <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes annonces') }}
+                                            {{ __('my_ads') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/mes-publication?type=vente" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes ventes') }}
+                                            {{ __('my_sales') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/mes-achats" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes achats') }}
+                                            {{ __('my_purchases') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/checkout" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mon panier') }}
+                                            {{ __('my_cart') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('liked') }}" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes coups de coeur') }}
+                                            {{ __('my_favorites') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('favoris') }}" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mes favoris') }}
+                                            {{ __('my_liked') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/user-notifications" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Notifications') }}
+                                            {{ __('notifications') }}
                                         </a>
                                     </li>
                                     <li>
                                         <a href="/informations" class="medium link-red text-medium">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Mon compte') }}
+                                            {{ __('my_account') }}
                                         </a>
                                     </li>
                                     @livewire('User.ModeToggle')
                                     <li>
                                         <a href="/logout" class="medium text-medium link-red">
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Déconnexion') }}
+                                            {{ __('logout') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -617,7 +610,7 @@
                     <form action="/shop" method="get" class="position-relative mobile-search-form">
                         @csrf
                         <div class="search-container">
-                            <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="{{ \App\Traits\TranslateTrait::TranslateText('Rechercher un article') }}">
+                            <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="{{ __('search_article') }}">
                             <button type="submit" class="search-button cusor mobile-search-btn-mobile">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -687,7 +680,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/" style="padding-left: 0px !important">{{ \App\Traits\TranslateTrait::TranslateText('Accueil') }}</a>
+                                <a href="/" style="padding-left: 0px !important">{{ __('home') }}</a>
                             </li>
                             <li>
                                 <a href="/shop">{{ \App\Traits\TranslateTrait::TranslateText('CATÉGORIES') }}</a>
@@ -695,7 +688,7 @@
                             <li>
                                 <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
                                     @guest data-toggle="modal" data-target="#login" @endguest>
-                                    Shop<span class="color strong">in</span>ers
+                                    {{ __('shopiners_part1') }}<span class="color strong">{{ __('shopiners_part2') }}</span>{{ __('shopiners_part3') }}
                                 </a>
 
                             </li>
@@ -707,7 +700,7 @@
                                 <form action="/shop" method="get" class="mobile-search-form">
                                     @csrf
                                     <div class="search-container">
-                                        <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="{{ \App\Traits\TranslateTrait::TranslateText('Rechercher un article') }}">
+                                        <input type="text" class="form-control sm input cusor border-r mobile-search-input" name="key" placeholder="{{ __('search_article') }}">
                                         <button type="submit" class="search-button cusor mobile-search-btn">
                                             <i class="bi bi-search"></i>
                                         </button>
@@ -757,26 +750,26 @@
                                 </li>
 
                                 <li class="text-capitalize comment-position" id="comment_position">
-                                    <a href="#">{{ \App\Traits\TranslateTrait::TranslateText('Comment ça marche?') }}</a>
+                                    <a href="#">{{ __('how_it_works') }}</a>
                                     <ul class="nav-dropdown nav-submenu">
                                         <li>
                                             <a href="{{ route('how_sell') }}">
-                                                {{ \App\Traits\TranslateTrait::TranslateText('Comment Vendre ?') }}
+                                                {{ __('how_sell') }}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('how_buy') }}">
-                                                {{ \App\Traits\TranslateTrait::TranslateText('Comment acheter?') }}
+                                                {{ __('how_buy') }}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/conditions">
-                                                {{ \App\Traits\TranslateTrait::TranslateText('Conditions générales') }}
+                                                {{ __('terms_and_conditions') }}
                                             </a>
                                         </li>
 
                                         <li class="text-capitalize comment-position">
-                                            <a href="#" data-toggle="modal" data-target="#tarifaire">{{ \App\Traits\TranslateTrait::TranslateText('Nos Politiques Tarifaires') }}</a>
+                                            <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
                                             <ul class="nav-dropdown nav-submenu left-aligned">
                                                 @foreach ($categories as $tarif)
                                                 <li class="tarif-item">
@@ -784,7 +777,7 @@
                                                         {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}
                                                         @if ($tarif->luxury == 1)
                                                         <span class="luxury-text">
-                                                            <i class="bi bi-gem luxury-icon"></i> {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}
+                                                            <i class="bi bi-gem luxury-icon"></i> {{ __('luxury') }}
                                                         </span>
                                                         @endif
                                                     </span>
@@ -795,7 +788,7 @@
                                                 <li class="tarif-separator"></li>
                                                 <li class="tarif-note">
 
-                                                    {{ \App\Traits\TranslateTrait::TranslateText('Le montant de la commission est prélévé au moment du paiement par l\'acheteur') }}
+                                                    {{ __('commission_note') }}
                                                 </li>
                                             </ul>
                                         </li>
@@ -836,7 +829,7 @@
             <br>
             <div class="p-2 text-center">
                 <h3>
-                    {{ \App\Traits\TranslateTrait::TranslateText('Pourquoi choisir') }} SHOP<span class="color">IN</span> ?
+                    {{ __('pourquoi_choisir') }} SHOP<span class="color">IN</span> ?
                 </h3>
             </div>
             <br>
@@ -851,10 +844,9 @@
                                         alt="security-shield-green" />
                                 </div>
                                 <div class="flex-fill">
-                                    <h4 class="color">{{ \App\Traits\TranslateTrait::TranslateText('Protection et Sécurité') }}</h4>
+                                    <h4 class="color">{{ __('protection_et_securite') }}</h4>
                                     <p class="text-justified">
-                                        SHOP<span class="color">IN</span>
-                                        {{ \App\Traits\TranslateTrait::TranslateText('vous offre des outils pratiques, comme une messagerie privée et un système de signalement, pour vous garantir un espace sécurisé et des transactions en toute confiance.') }}
+                                        {!! __('protection_description') !!}
                                     </p>
                                 </div>
                             </div>
@@ -868,10 +860,9 @@
                                         src="https://img.icons8.com/ios/50/1A1A1A/lol--v1.png" alt="lol--v1" />
                                 </div>
                                 <div class="flex-fill">
-                                    <h4 class="color">{{ \App\Traits\TranslateTrait::TranslateText('Expérience agréable!') }}</h4>
+                                    <h4 class="color">{{ __('experience_agreable') }}</h4>
                                     <p class="text-justified">
-                                        {!! \App\Traits\TranslateTrait::TranslateText('Acheter ou vendre, votreexpérience sur SHOP<span class="color">IN</span> sera toujours marquée par un
-                                        service exceptionnel, une simplicité inégalée et une satisfaction garantie.') !!}
+                                        {!! __('experience_description') !!}
                                     </p>
 
                                 </div>
@@ -887,13 +878,9 @@
                                         alt="delivery--v1" />
                                 </div>
                                 <div class="flex-fill">
-                                    <h4 class="color"> {{ \App\Traits\TranslateTrait::TranslateText('Livraison porte à porte') }}</h4>
+                                    <h4 class="color">{{ __('livraison_porte_a_porte') }}</h4>
                                     <p class="text-justified">
-                                        {{ \App\Traits\TranslateTrait::TranslateText('Un livreur se rendra
-                                        directement à votre porte
-                                        pour récupérer ou livrer vos
-                                        articles. Fini le casse-tête de
-                                        la vente à distance! ') }}
+                                        {{ __('livraison_description') }}
                                         <br><br>
                                     </p>
                                 </div>
@@ -950,31 +937,32 @@
 
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ \App\Traits\TranslateTrait::TranslateText('Générales') }}</h4>
+                                    <h4 class="widget_title"> {{ __('generales') }}</h4>
                                     <ul class="footer-menu">
-                                        <li><a href="/contact"> {{ \App\Traits\TranslateTrait::TranslateText('Contactez-nous') }}</a></li>
-                                        <li><a href="#"> {{ \App\Traits\TranslateTrait::TranslateText('Page FAQs') }}</a></li>
+                                        <li><a href="/contact"> {{ __('contactez_nous') }}</a></li>
+                                        <li><a href="#"> {{ __('page_faqs') }}</a></li>
                                         @guest
-                                            <li><a href="/inscription"> {{ \App\Traits\TranslateTrait::TranslateText('Abonnez-vous') }}</a></li>
-                                            <li><a href="/connexion"> {{ \App\Traits\TranslateTrait::TranslateText('Connexion') }}</a></li>
+                                            <li><a href="/inscription"> {{ __('abonnez_vous') }}</a></li>
+                                            <li><a href="/connexion"> {{ __('connexion') }}</a></li>
                                         @endguest
                                     </ul>
                                 </div>
                             </div>
 
+
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ \App\Traits\TranslateTrait::TranslateText('Informations') }}</h4>
+                                    <h4 class="widget_title"> {{ __('informations') }}</h4>
                                     <ul class="footer-menu">
-                                        <li><a href="/about">{{ \App\Traits\TranslateTrait::TranslateText('À propos') }}</a></li>
-                                        <li><a href="/how_sell">{{ \App\Traits\TranslateTrait::TranslateText('Comment Vendre?') }}</a></li>
-                                        <li><a href="/how_buy">{{ \App\Traits\TranslateTrait::TranslateText('Comment Acheter?') }}</a></li>
-                                        <li><a href="/conditions">{{ \App\Traits\TranslateTrait::TranslateText('Conditions Générales') }}</a></li>
-                                        <li><a href="#" data-toggle="modal" data-target="#tarifaire">{{ \App\Traits\TranslateTrait::TranslateText('Politiques
-                                                Tarifaires') }}</a></li>
+                                        <li><a href="/about">{{ __('a_propos') }}</a></li>
+                                        <li><a href="/how_sell">{{ __('how_sell') }}</a></li>
+                                        <li><a href="/how_buy">{{ __('how_buy') }}</a></li>
+                                        <li><a href="/conditions">{{ __('terms_and_conditions') }}</a></li>
+                                        <li><a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('politiques_tarifaires') }}</a></li>
                                     </ul>
                                 </div>
                             </div>
+
 
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
@@ -1014,7 +1002,7 @@
         <div class="rightMenu-scroll">
             <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
                 <h4 class="cart_heading fs-md ft-medium mb-0">
-                    {{ \App\Traits\TranslateTrait::TranslateText('Mon panier') }}
+                    {{ __('my_cart') }}
                 </h4>
                 <button onclick="closeCart()" class="close_slide">
                     <i class="ti-close"></i>
@@ -1038,7 +1026,7 @@
                                 </div>
                                 <div>
                                     <h6 class="mb-0">
-                                        {{ \App\Traits\TranslateTrait::TranslateText('Sous-total du panier') }}
+                                        {{ __('panier_subtotal') }}
                                     </h6>
                                     <h6 class=" color">
                                         <span id="montant-panier" class="strong">0</span>
@@ -1049,7 +1037,7 @@
                         <div class="cart_action px-3 py-3">
                             <div class="form-group">
                                 <a href="/checkout" class="btn d-block full-width btn-dark">
-                                    {{ \App\Traits\TranslateTrait::TranslateText('Voir le panier') }}
+                                    {{ __('view_cart') }}
                                 </a>
                             </div>
                         </div>
@@ -1057,7 +1045,7 @@
                 @endauth
                 <div class="text-center p-3" id="empty-card-div">
                     <b>
-                        {{ \App\Traits\TranslateTrait::TranslateText('Aucun article dans votre panier !') }}
+                        {{ __('empty_cart') }}
                     </b>
                 </div>
             </div>
@@ -1085,7 +1073,8 @@
                     </div>
                     <div class="modal-body p-5">
                         <div class="text-center mb-4">
-                            <h2 class="m-0 ft-regular">{{ \App\Traits\TranslateTrait::TranslateText('Connexion') }}</h2>
+                            <h2 class="m-0 ft-regular">{{ __('connexion') }}
+                            </h2>
                         </div>
                         @livewire('User.Connexion')
                     </div>
@@ -1113,7 +1102,7 @@
                             <img width="20" height="20"
                                 src="https://img.icons8.com/ios/20/008080/ticket--v1.png" alt="ticket--v1" />
                             <b>
-                                {{ \App\Traits\TranslateTrait::TranslateText('Nos Politiques Tarifaires') }}
+                                {{ __('our_pricing_policies') }}
                             </b>
                         </h5>
                     </div>
@@ -1127,7 +1116,7 @@
                                             @if ($tarif->luxury == 1)
                                                 <b>
                                                     <i class="bi bi-gem" style="font-weight: 800;"></i>
-                                                    {{ \App\Traits\TranslateTrait::TranslateText('Luxury') }}
+                                                    {{ __('luxury') }}
                                                 </b>
                                             @endif
                                         </span>
@@ -1140,8 +1129,7 @@
                         </table>
                         <hr>
                         <p class="text-center">
-
-                            {{ \App\Traits\TranslateTrait::TranslateText('Le montant de la comission est prélévé au moment du paiement par l\'acheteur') }}
+                            {{ __('commission_note') }}
                         </p>
                     </div>
                 </div>
@@ -1154,7 +1142,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="conditionsLabel">{{ \App\Traits\TranslateTrait::TranslateText('Conditions générales') }}</h5>
+                    <h5 class="modal-title" id="conditionsLabel">{{ __('terms_and_conditions') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -1272,10 +1260,8 @@
                 </div>
             </div>
         </div>
-        <!-- End Modal pour modifier le prix -->
         <script>
             function close_update_price() {
-                //reload page
                 location.reload();
             }
         </script>
@@ -1296,20 +1282,16 @@
                                 src="https://img.icons8.com/carbon-copy/100/018d8d/camera--v1.png" alt="camera--v1" />
                             <h5 class="color">
                                 <b>
-                                    {{ \App\Traits\TranslateTrait::TranslateText('Bienvennue') }},
+                                    {{ \App\Traits\TranslateTrait::TranslateText('Bienvenue') }},
                                     {{ Auth::user()->username }}
                                 </b>
                             </h5>
                         </div>
                         <p class="p-3">
-
-                            {{ \App\Traits\TranslateTrait::TranslateText('Nous vous informons que votre photo de profil sera soumise à un processus de validation, qui
-                            prendra jusqu\'à un maximum de 24 heures avant d\'être approuvée.') }}
+                            {{ __('profile_photo_validation') }}
                             <br><br>
-                            {{ \App\Traits\TranslateTrait::TranslateText('Nous vous remercions pour votre
-                            patience et votre compréhension.') }}
+                            {{ __('thank_you_message') }}
                         </p>
-
                     </div>
                 </div>
             </div>
@@ -1319,8 +1301,6 @@
 
 
         @yield('modal')
-
-
 
         @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
             <script>

@@ -10,7 +10,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ \App\Traits\TranslateTrait::TranslateText('Comment Vendre ?') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('how_sell') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -20,7 +20,7 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
     <div class="container pt-5 pb-5">
-        <h2 class="mb-2 ft-bold">{{ \App\Traits\TranslateTrait::TranslateText('Comment Vendre ?') }}</h2>
+        <h2 class="mb-2 ft-bold">{{ __('how_sell') }}</h2>
         <br>
         <div class="row">
             <div class="col-sm-8">
