@@ -1063,7 +1063,7 @@
     @if (Route::currentRouteName() != 'connexion')
         <!-- Log In Modal -->
         <div class="modal fade" id="login" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-            aria-hidden="true">
+            aria-hidden="true" style="z-index: 2000;">
             <div class="modal-dialog modal-xl login-pop-form" role="document">
                 <div class="modal-content" id="loginmodal">
                     <div class="modal-headers">
