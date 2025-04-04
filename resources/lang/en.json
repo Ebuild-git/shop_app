@@ -92,6 +92,7 @@
     "accept_conditions": "I accept the <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>Terms and Conditions</b></a>.",
     "sign_up": "Sign Up",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+    "seller": "Seller"
 
 }

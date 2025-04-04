@@ -93,6 +93,7 @@
   "accept_conditions": "J'accepte les <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>Conditions générales</b></a>.",
   "sign_up": "S'inscrire",
   "male": "Homme",
-    "female": "Femme"
+"female": "Femme",
+"seller": "Vendeur"
 
 }

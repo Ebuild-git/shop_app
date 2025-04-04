@@ -11,7 +11,7 @@
                     </h4>
                 </a>
                 <div class="text-muted ">
-                    Vendeur : {{ $produit->user_info->username }}
+                    {{ __('seller')}} : {{ $produit->user_info->username }}
                 </div>
             </div>
         </div>

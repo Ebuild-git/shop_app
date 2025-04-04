@@ -82,9 +82,9 @@ function CountPanier() {
             $("#montant-panier").text(data.montant);
 
             if (data.count > 1) {
-                $(".CountPanier-value").text(data.count + " articles");
+                $(".CountPanier-value").text("x" + data.count );
             } else {
-                $(".CountPanier-value").text(data.count + " article");
+                $(".CountPanier-value").text("x" + data.count);
             }
 
             if (data.count > 0) {
