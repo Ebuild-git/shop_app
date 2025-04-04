@@ -829,7 +829,7 @@
             <br>
             <div class="p-2 text-center">
                 <h3>
-                    {{ __('pourquoi_choisir') }} SHOP<span class="color">IN</span> ?
+                    {!! __('pourquoi_choisir') !!} ?
                 </h3>
             </div>
             <br>
