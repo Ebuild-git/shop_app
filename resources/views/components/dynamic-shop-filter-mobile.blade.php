@@ -23,7 +23,7 @@
                             $unique_id = 'collapse-' . md5($propriete->id . $propriete->nom);
                         @endphp
                         <button class="collapse-toggle" data-target="#{{ $unique_id }}">
-                            {{ $propriete->nom }}
+                            {{ \App\Traits\TranslateTrait::TranslateText($propriete->nom) }}
                             <span class="collapse-icon">
                                 <i class="bi bi-plus-lg"></i>
                             </span>
@@ -49,7 +49,8 @@
                                 @foreach (json_decode($propriete->options ?? []) as $option)
                                     <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
                                         onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
-                                        {{ $option }}
+
+                                        {{ \App\Traits\TranslateTrait::TranslateText($option) }}
                                     </button>
                                 @endforeach
                             @endif

@@ -314,14 +314,14 @@
                             <div class="go-back-container">
                                 <div class="go-back-message">
                                     <a href="javascript:void(0)" style="text-decoration: underline; color: #008080; z-index:1;" onclick="goBackToCategories()">
-                                        Tout les articles de cette catégorie
+                                        {{ __('all_items_in_category') }}
                                     </a>
                                 </div>
                             </div>
                         @elseif ($selected_sous_categorie_id)
                             <div class="go-back-container1 mb-2">
                                 <span href="javascript:void(0)" style="text-decoration: underline; color: #008080; cursor: pointer; margin-left: 10px;" onclick="goBackToSubcategories()">
-                                    <i class="bi bi-arrow-left-square-fill"></i> Retour à la liste des sous-catégories
+                                    <i class="bi bi-arrow-left-square-fill"></i> {{ __('back_to_subcategories') }}
                                 </span>
                             </div>
                         @endif

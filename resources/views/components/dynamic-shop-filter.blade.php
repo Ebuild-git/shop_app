@@ -1,12 +1,7 @@
 <div>
     @foreach ($selected_sous_categorie->proprietes as $id_propriete)
         @if ($show_option)
-            {{-- @php
-                $propriete = DB::table('proprietes')
-                    ->whereIn(DB::raw('LOWER(nom)'), $show_option)
-                    ->where('id', $id_propriete)
-                    ->first();
-            @endphp --}}
+
             @php
                 $propriete = DB::table('proprietes')
                     ->whereIn(DB::raw('LOWER(RTRIM(REPLACE(nom, "\t", "")))'), $show_option)
@@ -28,7 +23,7 @@
                 <div class="widget-boxed-header">
                     <h4>
                         <button class="collapse-toggle" data-target="#types{{ $propriete->id }}">
-                            {{ $propriete->nom }}
+                            {{ \App\Traits\TranslateTrait::TranslateText($propriete->nom) }}
                             <span class="collapse-icon">
                                 <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
                             </span>

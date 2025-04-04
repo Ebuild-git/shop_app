@@ -9,7 +9,7 @@
                 <div class="p-3 ">
                     <div class="p-3 ">
                         <h4>
-                            Connectez-vous pour vendre et acheter sur SHOP<span class="color">IN</span>
+                            {!! __('login_to_sell_and_buy') !!}
                         </h4>
                         <img style="width: 80%;" src="/icons/illus-register.png" alt="" srcset="">
                     </div>
@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <span for="small text-muted">Nom</span>
+                                <span for="small text-muted">{{ __('nom') }}</span>
                                 <span class="text-danger">*</span>
                                 <input type="text" class="form-control" name="nom" value="{{ old('nom') }}"
                                     required>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <span for="small text-muted">Prénom</span>
+                                <span for="small text-muted">{{ __('prenom') }}</span>
                                 <span class="text-danger">*</span>
                                 <input type="text"class="form-control" name="prenom" value="{{ old('prenom') }}"
                                     required>
@@ -56,7 +56,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <span for="small">Pseudonyme</span>
+                                <span for="small">{{ __('pseudonyme') }}</span>
                                 <span class="text-danger">*</span>
                                 <input type="text"class="form-control" value="{{ old('username') }}" id="username"
                                     name="username" required>
@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
                                     style="bottom:30px;left: 30px;border-radius: 100%;">
-                                <span for="small">Numéro de téléphone</span>
+                                <span for="small">{{ __('telephone') }}</span>
                                 <span class="text-danger">*</span>
                                 <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="14"
                                     value="{{ old('telephone') }}" oninput="formatTelephone(this)" id="telephone"
@@ -82,20 +82,20 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <span for="small">Genre</span>
+                                <span for="small">{{ __('genre') }}</span>
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
                                     <buttonn type="button" class="form-control register-button"
                                         onclick="selectButton(this,'male')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/sf-black/20/008080/male.png" alt="male" />
-                                        Homme
+                                            {{ __('male') }}
                                     </buttonn>
                                     <buttonn type="button" class="form-control register-button"
                                         onclick="selectButton(this,'female')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
-                                        Femme
+                                            {{ __('female') }}
                                     </buttonn>
                                 </div>
                                 <input type="hidden" id="sexe-input" name="genre" value="{{ old('genre') }}">
@@ -107,7 +107,7 @@
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <span for="small">Date de naissance</span>
+                                <span for="small">{{ __('date_naissance') }}</span>
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
                                     <select name="jour" class="form-control">
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <span for="small">Adresse email</span>
+                                <span for="small">{{ __('email') }}</span>
                                 <span class="text-danger">*</span>
                                 <input type="email" class="form-control" value="{{ old('email') }}" name="email"
                                     required>
@@ -168,7 +168,7 @@
                         <div class="col-sm-12">
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <label for="adress">Ville</label>
+                                    <label for="adress">{{ __('ville') }}</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control" name="adresse" value="{{ old('adresse') }}">
                                     @error('adress')
@@ -177,7 +177,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label for="rue">Rue</label>
+                                    <label for="rue">{{ __('rue') }}</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control" name="ruee" value="{{ old('ruee') }}">
                                     @error('rue')
@@ -189,7 +189,7 @@
                         <div class="col-sm-12">
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <label for="nom_batiment">Nom Bâtiment</label>
+                                    <label for="nom_batiment">{{ __('nom_batiment') }}</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control" value="{{ old('nom_batiment') }}" name="nom_batiment">
                                     @error('nom_batiment')
@@ -197,7 +197,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="etage">Étage</label>
+                                    <label for="etage">{{ __('etage') }}</label>
                                     <input type="text" class="form-control" value="{{ old('etage') }}" name="etage">
                                     @error('etage')
                                         <small class="form-text text-danger">{{ $message }}</small>
@@ -205,7 +205,7 @@
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <label for="num_appartement">Numéro appartement</label>
+                                    <label for="num_appartement">{{ __('num_appartement') }}</label>
                                     <input type="text" class="form-control" value="{{ old('num_appartement') }}" name="num_appartement">
                                     @error('num_appartement')
                                         <small class="form-text text-danger">{{ $message }}</small>
@@ -220,9 +220,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group" style="position: relative;">
-                                <span for="small">Mot de passe</span>
+                                <span for="small">{{ __('mot_de_passe') }}</span>
                                 <span class="text-danger">*</span>
-                                <input type="password" placeholder="Mot de passe" class="form-control" id="password-1"
+                                <input type="password" placeholder="{{ __('password_placeholder') }}" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" minlength="8" required>
                                 <button class="password_show" type="button" onclick="showPassword(1)">
                                     <span class="input-group-text">
@@ -236,9 +236,9 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group" style="position: relative;">
-                                <span for="small">Confirmation du mot de passe</span>
+                                <span for="small">{{ __('confirmation_mot_de_passe') }}</span>
                                 <span class="text-danger">*</span>
-                                <input type="password" placeholder="Mot de passe" class="form-control"
+                                <input type="password" placeholder="{{ __('password_placeholder') }}" class="form-control"
                                     value="{{ old('password_confirmation') }}" minlength="8" id="password-2"
                                     name="password_confirmation" required>
                                 <button class="password_show" type="button" onclick="showPassword(2)">
@@ -255,14 +255,13 @@
                     </div>
 
                     <div class="p-1">
-                        <p>Veuillez lire attentivement et accepter nos conditions générales avant de continuer.</p>
+                        <p>{{ __('terms_condition') }}</p>
                         <input type="checkbox" id="acceptConditions" onclick="toggleSubmitButton()">
                         <label for="acceptConditions">
-                            J'accepte les
-                            <a href="/conditions" target="__blank" style="color: black;"><b>Conditions générales</b></a>.
+                            {!! __('accept_conditions') !!}
                         </label>
                         <img src="check.svg" alt="Coche" class="checkmark" style="display: none;">
-                        <p>Vous pourrez recevoir des SMS ou des e-mails pour des mises à jour. Vous pouvez vous désabonner à tout moment.</p>
+                        <p>{{ __('receive_notifications') }}</p>
                     </div>
 
                     <div>
@@ -271,7 +270,7 @@
                             <span wire:loading>
                                 <x-Loading></x-Loading>
                             </span>
-                            S'inscrire
+                            {{ __('sign_up') }}
                             <i class="bi bi-arrow-right-circle-fill"></i>
                         </button>
                     </div>
