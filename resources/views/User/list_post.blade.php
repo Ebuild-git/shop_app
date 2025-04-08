@@ -13,7 +13,9 @@
                             <a href="/"><i class="fas fa-home"></i></a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Mes {{ $type }}s
+
+                            {{ \App\Traits\TranslateTrait::TranslateText('Mes ' . $type . 's') }}
+
                         </li>
                     </ol>
                 </nav>
@@ -28,9 +30,11 @@
         <div class="col-sm-4 my-auto">
             <b>
                 @if($type == 'vente')
-                    Nombre total de mes ventes :
+
+                    {{ \App\Traits\TranslateTrait::TranslateText('Nombre total de mes ventes :') }}
                 @else
-                    Nombre total de mes annonces :
+
+                    {{ \App\Traits\TranslateTrait::TranslateText('Nombre total de mes annonces :') }}
                 @endif
             </b> {{ $posts->count() }}
         </div>
@@ -41,42 +45,42 @@
                         <input type="hidden" name="type" value="{{ $type }}">
 
                         <!-- Icon inside the input field as a placeholder -->
-                        <input type="text" name="key" class="filter-select" value="{{ $key }}" placeholder="&#xF002; Mot clé" style="font-family:Arial, FontAwesome; min-width: 180px;">
+                        <input type="text" name="key" class="filter-select" value="{{ $key }}" placeholder="&#xF002; {{ __('keyword') }}" style="font-family:Arial, FontAwesome; min-width: 180px;">
 
                         <select class="filter-select" name="statut">
-                            <option value="">Status</option>
-                            <option value="validation">En validation</option>
-                            <option value="vente">En cours de vente</option>
-                            <option value="vendu">Vendu</option>
-                            <option value="livraison">En cours de livraison</option>
-                            <option value="livré">Déjà livré</option>
-                            <option value="refusé">Refusé</option>
-                            <option value="préparation">En préparation</option>
-                            <option value="en voyage">En voyage</option>
-                            <option value="en cours de livraison">En cours de livraison</option>
-                            <option value="ramassée">Ramassée</option>
-                            <option value="retourné">Retourné</option>
+                            <option value="">{{ __('status') }}</option>
+                            <option value="validation">{{ __('validation') }}</option>
+                            <option value="vente">{{ __('vente') }}</option>
+                            <option value="vendu">{{ __('vendu') }}</option>
+                            <option value="livraison">{{ __('livraison') }}</option>
+                            <option value="livré">{{ __('livré') }}</option>
+                            <option value="refusé">{{ __('refusé') }}</option>
+                            <option value="préparation">{{ __('préparation') }}</option>
+                            <option value="en voyage">{{ __('en voyage') }}</option>
+                            <option value="en cours de livraison">{{ __('en cours de livraison') }}</option>
+                            <option value="ramassée">{{ __('ramassée') }}</option>
+                            <option value="retourné">{{ __('retourné') }}</option>
                         </select>
 
 
                         <select class="filter-select" name="month">
-                            <option value="">Mois</option>
-                            <option value="01" {{ $month == '01' ? 'selected' : '' }}>Janvier</option>
-                            <option value="02" {{ $month == '02' ? 'selected' : '' }}>Février</option>
-                            <option value="03" {{ $month == '03' ? 'selected' : '' }}>Mars</option>
-                            <option value="04" {{ $month == '04' ? 'selected' : '' }}>Avril</option>
-                            <option value="05" {{ $month == '05' ? 'selected' : '' }}>Mai</option>
-                            <option value="06" {{ $month == '06' ? 'selected' : '' }}>Juin</option>
-                            <option value="07" {{ $month == '07' ? 'selected' : '' }}>Juillet</option>
-                            <option value="08" {{ $month == '08' ? 'selected' : '' }}>Août</option>
-                            <option value="09" {{ $month == '09' ? 'selected' : '' }}>Septembre</option>
-                            <option value="10" {{ $month == '10' ? 'selected' : '' }}>Octobre</option>
-                            <option value="11" {{ $month == '11' ? 'selected' : '' }}>Novembre</option>
-                            <option value="12" {{ $month == '12' ? 'selected' : '' }}>Décembre</option>
+                            <option value="">{{ __('month') }}</option>
+                            <option value="01" {{ $month == '01' ? 'selected' : '' }}>{{ __('january') }}</option>
+                            <option value="02" {{ $month == '02' ? 'selected' : '' }}>{{ __('february') }}</option>
+                            <option value="03" {{ $month == '03' ? 'selected' : '' }}>{{ __('march') }}</option>
+                            <option value="04" {{ $month == '04' ? 'selected' : '' }}>{{ __('april') }}</option>
+                            <option value="05" {{ $month == '05' ? 'selected' : '' }}>{{ __('may') }}</option>
+                            <option value="06" {{ $month == '06' ? 'selected' : '' }}>{{ __('june') }}</option>
+                            <option value="07" {{ $month == '07' ? 'selected' : '' }}>{{ __('july') }}</option>
+                            <option value="08" {{ $month == '08' ? 'selected' : '' }}>{{ __('august') }}</option>
+                            <option value="09" {{ $month == '09' ? 'selected' : '' }}>{{ __('september') }}</option>
+                            <option value="10" {{ $month == '10' ? 'selected' : '' }}>{{ __('october') }}</option>
+                            <option value="11" {{ $month == '11' ? 'selected' : '' }}>{{ __('november') }}</option>
+                            <option value="12" {{ $month == '12' ? 'selected' : '' }}>{{ __('december') }}</option>
                         </select>
 
                         <select class="filter-select" name="year" id="year-select">
-                            <option value="">Année</option>
+                            <option value="">{{ __('year') }}</option>
                         </select>
 
                         <script>
@@ -95,7 +99,7 @@
                         </script>
 
                         <button class="btn bg-red p-2" type="submit">
-                            <i class="bi bi-filter"></i> Filtrer
+                            <i class="bi bi-filter"></i> {{ __('filter') }}
                         </button>
                     </div>
                 </div>

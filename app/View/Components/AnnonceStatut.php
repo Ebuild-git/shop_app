@@ -16,39 +16,39 @@ class AnnonceStatut extends Component
     public function __construct($statut, $sellAt, $verifiedAt, $voyageMode)
     {
         if($verifiedAt !== null && $sellAt === null && $voyageMode === 1) {
-            $this->statut = "En mode voyage";
+            $this->statut = __('voyage_mode');
         } elseif($verifiedAt !== null && $sellAt === null) {
-            $this->statut = "En vente";
+            $this->statut = __('on_sale1');
         } elseif($sellAt !== null) {
-            $this->statut = "Vendu";
+            $this->statut = __('sold');
         } else {
             switch($statut) {
                 case 'validation':
-                    $this->statut = "En attente de validation";
+                    $this->statut = __('waiting_validation');
                     break;
                 case 'livraison':
-                    $this->statut = "En livraison";
+                    $this->statut = __('in_delivery');
                     break;
                 case 'livré':
-                    $this->statut = "Livré";
+                    $this->statut = __('delivered');
                     break;
                 case 'refusé':
-                    $this->statut = "Refusé";
+                    $this->statut = __('refused');
                     break;
                 case 'préparation':
-                    $this->statut = "Préparation";
+                    $this->statut = __('preparation');
                     break;
                 case 'en cours de livraison':
-                    $this->statut = "En cours de livraison";
+                    $this->statut = __('in_progress_delivery');
                     break;
                 case 'ramassée':
-                    $this->statut = "Ramassée";
+                    $this->statut = __('picked_up');
                     break;
                 case 'retourné':
-                    $this->statut = "Retourné";
+                    $this->statut = __('returned');
                     break;
                 default:
-                    $this->statut = "Statut inconnu";
+                    $this->statut = __('unknown_status');
             }
         }
     }

@@ -7,17 +7,16 @@
             <thead class="tb-head">
                 <tr>
                     <th scope="col" style="width: 51px;"></th>
-                    <th scope="col">Article</th>
-                    <th scope="col">Prix aprés réduction</th>
-                    <th scope="col">Prix de base</th>
-                    <th scope="col">Dernière modification de prix</th>
+                    <th scope="col">{{ __('article') }}</th>
+                    <th scope="col">{{ __('discount_price') }}</th>
+                    <th scope="col">{{ __('base_price') }}</th>
+                    <th scope="col">{{ __('last_price_update') }}</th>
                     @if($showRemainingTimeColumn)
-                    <th scope="col">Temps restant pour une nouvelle modification</th>
+                        <th scope="col">{{ __('remaining_time_to_update') }}</th>
                     @endif
-                    <th scope="col">Statut de l'annonce</th>
-                    <th scope="col">Raison de suppression par SHOPIN</th>
+                    <th scope="col">{{ __('ad_status') }}</th>
+                    <th scope="col">{{ __('deletion_reason') }}</th>
                     <th scope="col"></th>
-
                 </tr>
             </thead>
             <tbody>
@@ -31,14 +30,15 @@
                     <td>
                         <b>
                             <a href="/post/{{ $item->id }}" class="link h6">
-                                {{ Str::limit($item->titre, 20) }}
+                                {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($item->titre, 20)) }}
                             </a>
                         </b>
                         <br>
                         <span class="small">
-                            <i>Publié le :</i>
+                            <i>{{ __('Publié le') }} :</i>
                             <br>
-                            <i>{{ $item->created_at->format('d-m-Y \à H:i') }}</i>
+                            <i>{{ $item->created_at->format('d-m-Y') . ' ' . __('at') . ' ' . $item->created_at->format('H:i') }}
+                            </i>
                         </span>
 
 
@@ -57,8 +57,9 @@
                     </td>
                     <td>
                         <span class="small">
-                            {{ $item->updated_price_at ?
-                            \Carbon\Carbon::parse($item->updated_price_at)->format('d-m-Y \à H:m') : '-' }}
+                            {{ $item->updated_price_at
+                                ? \Carbon\Carbon::parse($item->updated_price_at)->format('d-m-Y') . ' ' . __('at') . ' ' . \Carbon\Carbon::parse($item->updated_price_at)->format('H:i')
+                                : '-' }}
                         </span>
                     </td>
                     @if($showRemainingTimeColumn)
@@ -73,18 +74,18 @@
                         <x-AnnonceStatut :statut="$item->statut" :sellAt="$item->sell_at" :verifiedAt="$item->verified_at" :voyageMode="$item->user_info->voyage_mode"></x-AnnonceStatut>
                         @if ($item->sell_at)
                         <div class="small">
-                            {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y \à H:m') }}
+                            {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y') . ' ' . __('at') . ' ' . \Carbon\Carbon::parse($item->sell_at)->format('H:i') }}
                         </div>
                         @endif
                         @else
                         <span class="badge" style="background-color:#ce0000; ">
-                            Supprimée par Shopin
+                            {{ __('deleted_by_shopin') }}
                         </span>
                         @endif
                     </td>
                     <td>
                         @if ($item->motif_suppression)
-                        {{ $item->motif_suppression }}
+                        {{ \App\Traits\TranslateTrait::TranslateText($item->motif_suppression) }}
                         @else
                         -
                         @endif
@@ -94,7 +95,7 @@
                             @if (!$item->id_user_buy)
                             <button class="btn btn-sm  bg-red" onclick="Update_post_price({{ $item->id }})">
                                 <i class="bi bi-graph-down-arrow"></i>
-                                Réduire le prix
+                                {{ __('Réduire le prix') }}
                             </button> &nbsp;
                             @endif
                             @if ($item->statut == 'validation' || $item->statut == 'vente')
@@ -113,7 +114,7 @@
                             <img width="100" height="100" src="https://img.icons8.com/ios/100/008080/empty-box.png"
                                 alt="empty-box" />
                             <br>
-                            Aucun article trouvé pour ces critères de recherche.
+                            {{ __('no_items_found') }}
                         </div>
                     </th>
                 </tr>
@@ -134,3 +135,15 @@
     </div>
 </div>
 
+<script>
+    const deletePostTranslation = {
+        title: @json(__('delete_post_title')),
+        text: @json(__('delete_post_text')),
+        confirm: @json(__('delete_post_confirm')),
+        cancel: @json(__('delete_post_cancel')),
+        success_title: @json(__('delete_post_success_title')),
+        success_text: @json(__('delete_post_success_text')),
+        error_title: @json(__('delete_post_error_title')),
+        error_text: @json(__('delete_post_error_text')),
+    };
+</script>

@@ -34,14 +34,14 @@ channel.bind("my-event", function (data) {
 //supprimer mon post
 function delete_my_post(id) {
     Swal.fire({
-        title: "Voulez-vous supprimer ?",
-        text: "Vous ne pourrez pas revenir en arrière !",
+        title: deletePostTranslation.title,
+        text: deletePostTranslation.text,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, supprimer",
-        cancelButtonText: "Annuler",
+        confirmButtonText: deletePostTranslation.confirm,
+        cancelButtonText: deletePostTranslation.cancel,
     }).then((result) => {
         if (result.isConfirmed) {
             $.post(
@@ -54,14 +54,14 @@ function delete_my_post(id) {
                     if (data.success) {
                         $("#tr-post-" + id).hide("slow");
                         Swal.fire({
-                            title: "Supprimé !",
-                            text: "Votre annonce a été supprimé",
+                            title: deletePostTranslation.success_title,
+                            text: deletePostTranslation.success_text,
                             icon: "success",
                         });
                     } else {
                         Swal.fire({
-                            title: "Erreur !",
-                            text: "Une erreur est survenue",
+                            title: deletePostTranslation.error_title,
+                            text: deletePostTranslation.error_text,
                             icon: "error",
                         });
                     }

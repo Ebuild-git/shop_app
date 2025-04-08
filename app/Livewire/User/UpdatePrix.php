@@ -96,8 +96,13 @@ class UpdatePrix extends Component
                 $history->old_price = $old_price;
                 $history->new_price = $this->prix;
                 $history->save();
-
-                session()->flash('success-special', "Le nouveau prix de $this->prix DH est accpeté. <br/> Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h et 59 min");
+                session()->flash(
+                    'success-special',
+                    __('price_reduction_success', [
+                        'price' => $this->prix,
+                        'countdown' => '6j 23h et 59 min'
+                    ])
+                );
                 $this->show = false;
                 $this->changed = true;
                 $this->prix = "";
