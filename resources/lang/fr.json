@@ -274,7 +274,12 @@
   "delete_post_success_title": "Supprimé !",
   "delete_post_success_text": "Votre annonce a été supprimé",
   "delete_post_error_title": "Erreur !",
-  "delete_post_error_text": "Une erreur est survenue"
+  "delete_post_error_text": "Une erreur est survenue",
+  "item_name": "Nom de l'article",
+  "purchase_date": "Date d'achat",
+  "purchase_price": "Prix d'achat",
+  "shopiner": "Shopiner",
+  "expedition_status": "Statut de l'expédition"
 
 
 }

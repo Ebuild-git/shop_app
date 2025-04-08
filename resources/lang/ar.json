@@ -281,7 +281,12 @@
   "delete_post_success_title": "تم الحذف!",
   "delete_post_success_text": "تم حذف إعلانك",
   "delete_post_error_title": "خطأ!",
-  "delete_post_error_text": "حدث خطأ ما"
+  "delete_post_error_text": "حدث خطأ ما",
+  "item_name": "اسم المنتج",
+  "purchase_date": "تاريخ الشراء",
+  "purchase_price": "سعر الشراء",
+  "shopiner": "شوپينر",
+  "expedition_status": "حالة الشحن"
 
 
 }

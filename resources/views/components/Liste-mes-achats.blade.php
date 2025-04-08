@@ -4,11 +4,11 @@
             <thead>
                 <tr>
                     <th scope="col" style="width: 51px;"></th>
-                    <th scope="col">Nom de l'article</th>
-                    <th scope="col">Date d'achat</th>
-                    <th scope="col">Prix d'achat</th>
-                    <th scope="col">Shopiner</th>
-                    <th scope="col" class="text-end">Satut de l'xpedition</th>
+                    <th scope="col">{{ __('item_name') }}</th>
+                    <th scope="col">{{ __('purchase_date') }}</th>
+                    <th scope="col">{{ __('purchase_price') }}</th>
+                    <th scope="col">{{ __('shopiner') }}</th>
+                    <th scope="col" class="text-end">{{ __('expedition_status') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +20,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }} </a>
+                            <a href="/post/{{ $achat->id }}" class="link h6"> {{ \App\Traits\TranslateTrait::TranslateText($achat->titre) }}</a>
                         </td>
                         <td>
                             {{  \Carbon\Carbon::parse($achat->sell_at)->format("d-m-Y") }}

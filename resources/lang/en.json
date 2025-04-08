@@ -273,7 +273,12 @@
   "delete_post_success_title": "Deleted!",
   "delete_post_success_text": "Your ad has been deleted",
   "delete_post_error_title": "Error!",
-  "delete_post_error_text": "An error occurred"
+  "delete_post_error_text": "An error occurred",
+  "item_name": "Item Name",
+  "purchase_date": "Purchase Date",
+  "purchase_price": "Purchase Price",
+  "shopiner": "Shopiner",
+  "expedition_status": "Expedition Status"
 
 
 

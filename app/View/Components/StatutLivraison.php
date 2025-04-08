@@ -15,13 +15,13 @@ class StatutLivraison extends Component
     public function __construct($statut)
     {
         if($statut == "vendu"){
-            $this->statut = "Préparation";
+            $this->statut = __('preparation');
         }elseif($statut == "livraison"){
-            $this->statut = "En cour de livraison";
+            $this->statut = __('in_progress_delivery');
         }else{
             $this->statut = $statut;
         }
-        
+
     }
 
     /**

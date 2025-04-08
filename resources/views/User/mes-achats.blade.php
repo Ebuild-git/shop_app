@@ -14,7 +14,7 @@
                             <a href="/"><i class="fas fa-home"></i></a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Mes Achats
+                            {{ __('my_purchases')}}
                         </li>
                     </ol>
                 </nav>
@@ -29,26 +29,26 @@
         <div class="filter-container">
             <div class="filter-group">
                 <select class="filter-select" name="month">
-                    <option value="">Mois</option>
-                    <option value="01">Janvier</option>
-                    <option value="02">Février</option>
-                    <option value="03">Mars</option>
-                    <option value="04">Avril</option>
-                    <option value="05">Mai</option>
-                    <option value="06">Juin</option>
-                    <option value="07">Juillet</option>
-                    <option value="08">Août</option>
-                    <option value="09">Septembre</option>
-                    <option value="10">Octobre</option>
-                    <option value="11">Novembre</option>
-                    <option value="12">Décembre</option>
+                    <option value="">{{ __('month') }}</option>
+                    <option value="01">{{ __('january') }}</option>
+                    <option value="02">{{ __('february') }}</option>
+                    <option value="03">{{ __('march') }}</option>
+                    <option value="04">{{ __('april') }}</option>
+                    <option value="05">{{ __('may') }}</option>
+                    <option value="06">{{ __('june') }}</option>
+                    <option value="07">{{ __('july') }}</option>
+                    <option value="08">{{ __('august') }}</option>
+                    <option value="09">{{ __('september') }}</option>
+                    <option value="10">{{ __('october') }}</option>
+                    <option value="11">{{ __('november') }}</option>
+                    <option value="12">{{ __('december') }}</option>
                 </select>
                 <select class="filter-select" name="year" id="year-select">
-                    <option value="">Année</option>
+                    <option value="">{{ __('year') }}</option>
                 </select>
                 <button class="btn bg-red p-2" type="submit">
                     <i class="bi bi-filter"></i>
-                    Filtrer
+                    {{ __('filter') }}
                 </button>
             </div>
         </div>
