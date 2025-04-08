@@ -138,7 +138,8 @@
   "message_placeholder": "Veuillez entrer un message expliquant clairement la raison de votre signalement. Votre message doit contenir au moins 20 caractères.",
   "send_report": "Envoyer le signalement",
   "reason":"Motif",
-  "caractères":"caractères"
+  "caractères":"caractères",
+  "Noter":"Noter le SHOP<span class=\"color strong\">IN</span>ER"
 
 
 

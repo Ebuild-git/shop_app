@@ -145,6 +145,8 @@
   "message_placeholder": "يرجى إدخال رسالة تشرح بوضوح سبب تقريرك. يجب أن تحتوي رسالتك على الأقل 20 حرفًا.",
   "send_report": "إرسال التقرير",
   "reason":"السبب",
-  "caractères":"حرف"
+  "caractères":"حرف",
+  "Noter":"تقييم الشو<span class=\"color\">ب</span>ينر"
+
 
 }

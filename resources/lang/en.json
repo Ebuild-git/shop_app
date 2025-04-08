@@ -140,7 +140,8 @@
   "message_placeholder": "Please enter a message clearly explaining the reason for your report. Your message must be at least 20 characters long.",
   "send_report": "Send the report",
   "reason":"Reason",
-  "caractères":"characters"
+  "caractères":"characters",
+  "Noter":"Rate the SHOP<span class=\"color strong\">IN</span>ER"
 
   }
 

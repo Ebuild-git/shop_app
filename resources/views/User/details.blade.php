@@ -296,7 +296,7 @@
                                 @if ($post->id_user != Auth::id())
                                     <button type="button"
                                         class="btn btn-block @if ($produit_in_cart) bg-dark @else hover-black @endif mb-2 p-3"
-                                        id="btn-add-to-card" onclick="add_cart({{ $post->id }})">
+                                        id="btn-add-to-card" onclick="add_cart({{ $post->id }})" data-retire="{{ __('Retire') }}" data-ajouter="{{ __('Ajouter') }}">
                                         <i class="lni lni-shopping-basket mr-2"></i>
                                         <span id="add-cart-text-btn">
                                             {{ $produit_in_cart ? __("Retire") : __("Ajouter") }}
@@ -325,12 +325,16 @@
                                 @endif
                                 @if (Auth::id() != $post->id_user && $post->statut !== 'vendu')
                                     <button
-                                        class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif "
+                                        class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif"
                                         type="button" @guest data-toggle="modal" data-target="#login" @endguest
-                                        data-id="{{ $post->id }}">
+                                        data-id="{{ $post->id }}"
+                                        data-add-text="{{ __('Ajouter aux favoris') }}"
+                                        data-remove-text="{{ __('Retirer des favoris') }}"
+                                        >
                                         <i class="lni lni-heart mr-2"></i>
                                         <span class="text">
                                             {{ $isFavorited ? __('Retirer des favoris') : __('Ajouter aux favoris') }}
+
                                         </span>
                                     </button>
                                     <br>
@@ -619,7 +623,7 @@
                 <div class="modal-body p-5">
                     <div class="text-center mb-4">
                         <h4 class="m-0 ft-regular">
-                            Noter le SHOP<span class="color strong">IN</span>ER
+                            {!! __('Noter') !!}
                         </h4>
                     </div>
                     @livewire('User.Rating',['id_user'=>$user->id])
@@ -662,14 +666,10 @@
     <script>
         $(document).ready(function() {
             $("#imgPrincipale").on('click', function() {
-                //get url in src on this
                 var url = $(this).attr("src");
-                //add image on modal-view
                 $('#modal-view-image').attr("src", url);
-                //open modal
                 $('#Modal-view').modal("show");
             });
-            //close modal
             $('#btn-close').click(function() {
                 $('#Modal-view').modal('hide');
             });

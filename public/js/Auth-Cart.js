@@ -184,11 +184,13 @@ function add_cart(id) {
 }
 
 function updateButtonState(isInCart) {
+    var textRetire = document.getElementById('btn-add-to-card').getAttribute('data-retire');
+    var textAjouter = document.getElementById('btn-add-to-card').getAttribute('data-ajouter');
     if (isInCart) {
-        $("#add-cart-text-btn").text("Retirer du panier");
+        $("#add-cart-text-btn").text(textRetire);
         $("#btn-add-to-card").addClass("bg-dark");
     } else {
-        $("#add-cart-text-btn").text("Ajouter au panier");
+        $("#add-cart-text-btn").text(textAjouter);
         $("#btn-add-to-card").removeClass("bg-dark");
     }
 }
@@ -314,10 +316,11 @@ function get_posts_motifs(id) {
 }
 
 $(document).ready(function () {
-    // Ajouter un post à mes favoris
     $(".btn-add-favoris").on("click", function () {
         var button = $(this);
         var id_post = button.data("id");
+        const addText = button.data("add-text");
+        const removeText = button.data("remove-text");
         $.get(
             "/ajouter_favoris",
             {
@@ -335,8 +338,7 @@ $(document).ready(function () {
                             timer: 2500,
                             customClass: "swal-wide",
                         });
-                        //change value of .text span in this bouton
-                        button.find(".text").text("Retirer de mes favoris");
+                        button.find(".text").text(removeText);
                     } else {
                         button.removeClass("btn-favoris-added");
                         Swal.fire({
@@ -346,7 +348,7 @@ $(document).ready(function () {
                             showConfirmButton: false,
                             timer: 2500,
                         });
-                        button.find(".text").text("Ajouter aux favoris");
+                        button.find(".text").text(addText);
                     }
                 }
             }
