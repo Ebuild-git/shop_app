@@ -2,13 +2,13 @@
     @if ($last_buy)
     <div class="alert alert-info">
         <i class="bi bi-bag-check"></i>
-        Votre achat le plus récent chez <b>{{ $user->username }}</b> date du  {{ $last_buy->sell_at }}
+        {{ __('recent_purchase', ['username' => $user->username, 'date' => $last_buy->sell_at]) }}
         <div>
             <b>
-                <i class="bi bi-arrow-right"></i> {{ Str::limit($last_buy->titre, 40) }}
+                <i class="bi bi-arrow-right"></i> {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($last_buy->titre, 40)) }}
             </b> <br>
             @if ($rate)
-            <i class="bi bi-arrow-right"></i> Note : {{ $rate->etoiles }} / 5
+            <i class="bi bi-arrow-right"></i> {{ __('rating', ['stars' => $rate->etoiles]) }}
             @for ($i = 0; $i < $rate->etoiles; $i++)
                 <i class="bi bi-star-fill"></i>
                 @endfor
@@ -30,16 +30,15 @@
     @else
     <div class="p-3 alert-danger">
         <b class="h5 text-danger">
-            Attention !
+            {{ __('attention') }}
         </b>
         @if (!$rate)
         <p>
-            Vous pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce
-            vendeur !
+            {{ __('leave_review_info') }}
         </p>
         @else
         <p>
-            Vous pouvez ne pouvez plus laisser un avis car vous l'avez déja fait !
+            {{ __('no_more_review') }}
         </p>
         @endif
     </div>

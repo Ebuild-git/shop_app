@@ -141,7 +141,14 @@
   "send_report": "Send the report",
   "reason":"Reason",
   "caractères":"characters",
-  "Noter":"Rate the SHOP<span class=\"color strong\">IN</span>ER"
+  "Noter":"Rate the SHOP<span class=\"color strong\">IN</span>ER",
+  "recent_purchase": "Your most recent purchase with :username was on :date",
+    "product_title": "Product: :title",
+    "rating": "Rating: :stars / 5",
+    "leave_review_info": "You can leave a review in the form of stars only if you have made a purchase from this seller!",
+    "no_more_review": "You can no longer leave a review because you have already done so!",
+    "attention": "Attention!",
+    "rate_button": "Rate :star"
 
   }
 

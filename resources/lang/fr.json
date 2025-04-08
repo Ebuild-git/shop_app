@@ -139,7 +139,14 @@
   "send_report": "Envoyer le signalement",
   "reason":"Motif",
   "caractères":"caractères",
-  "Noter":"Noter le SHOP<span class=\"color strong\">IN</span>ER"
+  "Noter":"Noter le SHOP<span class=\"color strong\">IN</span>ER",
+  "recent_purchase": "Votre achat le plus récent chez :username date du :date",
+  "product_title": "Produit : :title",
+  "rating": "Note : :stars / 5",
+  "leave_review_info": "Vous pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce vendeur !",
+  "no_more_review": "Vous ne pouvez plus laisser un avis car vous l'avez déjà fait !",
+  "attention": "Attention !",
+  "rate_button": "Notez :star"
 
 
 
