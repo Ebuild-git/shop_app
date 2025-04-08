@@ -30,8 +30,8 @@
                             <img src="/faq/1.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-1 pointer-title"><b>{{ \App\Traits\TranslateTrait::TranslateText('Mettez votre article en ligne en un clin d\'œil') }}</b></h4>
-                            <p class="text-justified">{{ \App\Traits\TranslateTrait::TranslateText('Ajoutez des photos attrayantes, décrivez votre article avec soin, et fixez un prix compétitif.') }}</p>
+                            <h4 class="title title-1 pointer-title"><b>{{ __('step_1_title') }}</b></h4>
+                            <p class="text-justified">{{ __('step_1_description') }}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(2)">
@@ -39,9 +39,8 @@
                             <img src="/faq/2.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-2 pointer-title"><b>{{ \App\Traits\TranslateTrait::TranslateText('Préparez votre article pour la livraison') }}</b></h4>
-                            <p class="text-justified">{{ \App\Traits\TranslateTrait::TranslateText('Emballez soigneusement votre article. Un livreur viendra le récupérer directement chez vous, sans effort de votre part.') }}</p>
-
+                            <h4 class="title title-2 pointer-title"><b>{{ __('step_2_title') }}</b></h4>
+                            <p class="text-justified">{{ __('step_2_description') }}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(3)">
@@ -49,8 +48,8 @@
                             <img src="/faq/3.png" alt="" height="50">
                         </td>
                         <td>
-                            <h4 class="title title-3 pointer-title"><b>{{ \App\Traits\TranslateTrait::TranslateText('Recevez votre argent rapidement') }}</b></h4>
-                            <p class="text-justified">{{ \App\Traits\TranslateTrait::TranslateText('24 heures après la livraison réussie, votre paiement sera effectué par versement selon les modalités convenues.') }}</p>
+                            <h4 class="title title-3 pointer-title"><b>{{ __('step_3_title') }}</b></h4>
+                            <p class="text-justified">{{ __('step_3_description') }}</p>
                         </td>
                     </tr>
                     <tr onmousemove="change_image(4)">
@@ -58,13 +57,13 @@
                             <img src="/faq/4.png" alt="" height="45">
                         </td>
                         <td>
-                            <h4 class="title title-4 pointer-title"><b>{{ \App\Traits\TranslateTrait::TranslateText('C’est à vous de jouer !') }}</b></h4>
-                            <p class="text-justified">{!! \App\Traits\TranslateTrait::TranslateText('Rejoignez SHOP<span class="color">IN</span> dès aujourd’hui, vendez vos articles, et découvrez des trésors uniques à acheter.') !!}</p>
+                            <h4 class="title title-4 pointer-title"><b>{{ __('step_4_title') }}</b></h4>
+                            <p class="text-justified">{!! __('step_4_description') !!}</p>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-8=4 text-center">
+            <div class="col-sm-4 text-center">
                 <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage" style="width: 100%;">
             </div>
         </div>

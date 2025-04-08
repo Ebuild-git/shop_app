@@ -22,7 +22,7 @@
     <div class="container pt-5 pb-5">
         <h2 class="mb-2 ft-bold">{!! \App\Traits\TranslateTrait::TranslateText('Comment Acheter?') !!}</h2>
         <br>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-sm-8">
                 <table class="">
                     <tr onmousemove="change_image(1)">
@@ -70,7 +70,57 @@
             <div class="col-sm-4 text-center">
                 <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage"  height="400" srcset="">
             </div>
+        </div> --}}
+        <div class="row">
+            <div class="col-sm-8">
+                <table class="">
+                    <tr onmousemove="change_image(1)">
+                        <td class="p-3 text-center align-top">
+                            <img src="/faq/1.png" alt="" height="50">
+                        </td>
+                        <td>
+                            <h4 class="title title-1 pointer-title">
+                                <b>{{ __('explore_your_way_title') }}</b>
+                            </h4>
+                            <p class="text-justified">{!! __('explore_your_way_description') !!}</p>
+                        </td>
+                    </tr>
+                    <tr onmousemove="change_image(2)">
+                        <td class="p-3 text-center align-top">
+                            <img src="/faq/2.png" alt="" height="50">
+                        </td>
+                        <td>
+                            <h4 class="title title-2 pointer-title">
+                                <b>{{ __('add_to_favorites_title') }}</b>
+                            </h4>
+                            <p class="text-justified">{{ __('add_to_favorites_description') }}</p>
+                        </td>
+                    </tr>
+                    <tr onmousemove="change_image(3)">
+                        <td class="p-3 text-center align-top">
+                            <img src="/faq/3.png" alt="" height="50">
+                        </td>
+                        <td>
+                            <h4 class="title title-3 pointer-title"><b>{{ __('validate_cart_title') }}</b></h4>
+                            <p class="text-justified">{{ __('validate_cart_description') }}</p>
+                        </td>
+                    </tr>
+                    <tr onmousemove="change_image(4)">
+                        <td class="p-3 text-center align-top">
+                            <img src="/faq/4.png" alt="" height="45">
+                        </td>
+                        <td>
+                            <h4 class="title title-4 pointer-title"><b>{{ __('receive_package_title') }}</b></h4>
+                            <p class="text-justified">{!! __('receive_package_description') !!}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4 text-center">
+                <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage" height="400" srcset="">
+            </div>
         </div>
+
     </div>
 
 
