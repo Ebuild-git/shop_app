@@ -118,7 +118,28 @@
     "Annonces": "Annonces",
     "Articles similaires": "Articles similaires",
     "title2": "Articles de <span class=\"ft-bold\">SHOP<span class=\"color\">IN</span>ER</span>",
-    "currency": "DH"
+    "currency": "DH",
+    "Thank you for your report!": "Merci pour votre signalement!",
+  "We will review this ad as soon as possible.": "Nous allons examiner cette annonce dans les plus brefs délais.",
+  "report_ad": "Signaler cette annonce",
+  "choose_reason": "Choisir un motif",
+  "ad_illegal_products": "Annonce de produits interdits ou illégaux",
+  "multiple_ads_same_item": "Annonce multiple du même article",
+  "other_policy_violations": "Autres violations des politiques du site",
+  "inappropriate_content": "Contenu inapproprié",
+  "misleading_description": "Description trompeuse de l'état de l'article",
+  "fraud_suspicious_activity": "Fraude ou activité suspecte",
+  "incorrect_info": "Information incorrecte sur la taille, la couleur, etc.",
+  "blurry_photos": "Photos floues ou de mauvaise qualité",
+  "excessive_price": "Prix excessif pour le produit mis en vente",
+  "counterfeit_product": "Produit contrefait ou non authentique",
+  "unauthorized_advertisement": "Publicité non autorisée ou spam",
+  "copyright_violation": "Violation des droits d'auteur ou de la propriété intellectuelle",
+  "message_placeholder": "Veuillez entrer un message expliquant clairement la raison de votre signalement. Votre message doit contenir au moins 20 caractères.",
+  "send_report": "Envoyer le signalement",
+  "reason":"Motif",
+  "caractères":"caractères"
+
 
 
 }

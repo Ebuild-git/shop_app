@@ -120,7 +120,27 @@
     "Annonces": "Listings",
     "Articles similaires": "Similar items",
     "title2": "Items from <span class=\"ft-bold\">SHOP<span class=\"color\">IN</span>ER</span>",
-    "currency": "DH"
+    "currency": "DH",
+    "Thank you for your report!": "Thank you for your report!",
+  "We will review this ad as soon as possible.": "We will review this ad as soon as possible.",
+  "report_ad": "Report this ad",
+  "choose_reason": "Choose a reason",
+  "ad_illegal_products": "Ad with prohibited or illegal products",
+  "multiple_ads_same_item": "Multiple ad of the same item",
+  "other_policy_violations": "Other violations of site policies",
+  "inappropriate_content": "Inappropriate content",
+  "misleading_description": "Misleading description of the item condition",
+  "fraud_suspicious_activity": "Fraud or suspicious activity",
+  "incorrect_info": "Incorrect information about size, color, etc.",
+  "blurry_photos": "Blurry or poor quality photos",
+  "excessive_price": "Excessive price for the listed product",
+  "counterfeit_product": "Counterfeit or non-authentic product",
+  "unauthorized_advertisement": "Unauthorized advertisement or spam",
+  "copyright_violation": "Violation of copyright or intellectual property rights",
+  "message_placeholder": "Please enter a message clearly explaining the reason for your report. Your message must be at least 20 characters long.",
+  "send_report": "Send the report",
+  "reason":"Reason",
+  "caractères":"characters"
 
   }
 

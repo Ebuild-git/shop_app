@@ -125,6 +125,26 @@
     "Annonces": "إعلانات",
     "Articles similaires": "عناصر مشابهة",
     "title2": "منتجات من <span class=\"ft-bold\">الشوب<span class=\"color\">إن</span>ر</span>",
-    "currency": "درهم"
+    "currency": "درهم",
+    "Thank you for your report!": "شكراً لتقاريرك!",
+  "We will review this ad as soon as possible.": "سوف نقوم بمراجعة هذا الإعلان في أقرب وقت ممكن.",
+  "report_ad": "إبلاغ عن هذا الإعلان",
+  "choose_reason": "اختر سببًا",
+  "ad_illegal_products": "إعلان لمنتجات محظورة أو غير قانونية",
+  "multiple_ads_same_item": "إعلانات متعددة لنفس العنصر",
+  "other_policy_violations": "انتهاكات أخرى لسياسات الموقع",
+  "inappropriate_content": "محتوى غير لائق",
+  "misleading_description": "وصف مضلل لحالة العنصر",
+  "fraud_suspicious_activity": "احتيال أو نشاط مشبوه",
+  "incorrect_info": "معلومات غير صحيحة عن الحجم أو اللون أو غيرها",
+  "blurry_photos": "صور ضبابية أو ذات جودة رديئة",
+  "excessive_price": "سعر مبالغ فيه للمنتج المدرج للبيع",
+  "counterfeit_product": "منتج مقلد أو غير أصلي",
+  "unauthorized_advertisement": "إعلان غير مصرح به أو بريد عشوائي",
+  "copyright_violation": "انتهاك حقوق الطبع والنشر أو حقوق الملكية الفكرية",
+  "message_placeholder": "يرجى إدخال رسالة تشرح بوضوح سبب تقريرك. يجب أن تحتوي رسالتك على الأقل 20 حرفًا.",
+  "send_report": "إرسال التقرير",
+  "reason":"السبب",
+  "caractères":"حرف"
 
 }
