@@ -68,14 +68,14 @@
                             <td>
                                 @if ($item->old_prix)
                                     <b class="text-danger">
-                                        {{ $item->prix }} <sup>DH</sup>
+                                        {{ $item->prix }} <sup>{{ __('currency') }}</sup>
                                     </b>
                                     <br>
                                     <strike class="color strong">
-                                        {{ $item->old_prix }} <sup>DH</sup>
+                                        {{ $item->old_prix }} <sup>{{ __('currency') }}</sup>
                                     </strike>
                                 @else
-                                    {{ $item->prix }} <sup>DH</sup>
+                                    {{ $item->prix }} <sup>{{ __('currency') }}</sup>
                                 @endif
                             </td>
                             <td>

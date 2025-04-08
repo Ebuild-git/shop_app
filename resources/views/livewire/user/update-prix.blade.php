@@ -13,7 +13,7 @@
                     <form wire:submit='form_update_prix'>
                         <div class="mb-2">
                             <b>Prix actuel :</b>
-                            {{ $old_price }} <sup>DH</sup>
+                            {{ $old_price }} <sup>{{ __('currency') }}</sup>
                             (
                             + Pourcentage de <b class="color">Shopin</b>
                             )

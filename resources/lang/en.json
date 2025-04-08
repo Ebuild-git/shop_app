@@ -93,6 +93,35 @@
     "sign_up": "Sign Up",
     "male": "Male",
     "female": "Female",
-    "seller": "Seller"
+    "seller": "Seller",
+    "title": "Here is the SHOP<span class=\"color\">IN</span>ER",
+    "avis": {
+    "one": "Review",
+    "other": "Reviews",
+    "SHOPIN_LUXURY": "SHOPIN LUXURY",
+    "Frais de Livraison": "Shipping Fee",
+    "Ajouter": "Add to cart",
+    "Retire": "Removed from cart",
+    "Réduire le prix": "Reduce price",
+    "Ajouter aux favoris": "Add to favorites",
+    "Retirer des favoris": "Remove from favorites",
+    "Signaler cette annonce": "Report this listing",
+    "Vous avez déjà signalé cette annonce !": "You have already reported this listing!",
+    "Détails": "Details",
+    "Condition": "Condition",
+    "Catégorie": "Category",
+    "Région": "Region",
+    "Publié le": "Published on",
+    "Description": "Description",
+    "Aucune description disponible !": "No description available!",
+    "Voilà le SHOPINER": "Here is the SHOPINER",
+    "avis": "reviews",
+    "Ventes": "Sales",
+    "Annonces": "Listings",
+    "Articles similaires": "Similar items",
+    "title2": "Items from <span class=\"ft-bold\">SHOP<span class=\"color\">IN</span>ER</span>",
+    "currency": "DH"
+
+  }
 
 }

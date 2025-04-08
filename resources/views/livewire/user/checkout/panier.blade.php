@@ -26,14 +26,14 @@
                                     <div class="text-end">
                                         @if ($item['is_solder'])
                                         <span class="text-muted-1">
-                                            <strike>{{ $item['old_prix'] }} <sup>DH</sup></strike>
+                                            <strike>{{ $item['old_prix'] }} <sup>{{ __('currency') }}</sup></strike>
                                         </span>
                                         <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} <sup>DH</sup>
+                                            {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
                                         </span>
                                         @else
                                         <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} <sup>DH</sup>
+                                            {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
                                         </span>
                                         @endif
                                     </div>
@@ -44,7 +44,7 @@
                                         <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
-                                            Frais de Livraison : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>DH</sup></b>
+                                            Frais de Livraison : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>{{ __('currency') }}</sup></b>
                                             @php
                                             $processedVendors[] = $item['vendeur'];
                                             @endphp
@@ -85,15 +85,15 @@
                         </tr>
                         <tr>
                             <td class="label">Sous-total</td>
-                            <td class="text-end value"><b>{{ number_format($total, 2, '.', '') }} <sup>DH</sup></b></td>
+                            <td class="text-end value"><b>{{ number_format($total, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                         <tr>
                             <td class="label">Total de frais</td>
-                            <td class="text-end value"><b>{{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>DH</sup></b></td>
+                            <td class="text-end value"><b>{{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                         <tr class="total-row">
                             <td><b class="total-label">TOTAL</b></td>
-                            <td class="text-end"><b class="total-value">{{ number_format($totalWithDelivery, 2, '.', '') }} <sup>DH</sup></b></td>
+                            <td class="text-end"><b class="total-value">{{ number_format($totalWithDelivery, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                     </table>
                 </div>

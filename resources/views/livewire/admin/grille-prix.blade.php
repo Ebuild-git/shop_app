@@ -32,7 +32,7 @@
                     <tr>
                         <td> {{ $item->categorie->titre ?? '/' }} </td>
                         <td> <i class="bi bi-globe-europe-africa"></i> {{ $item->region->nom ?? '/' }} </td>
-                        <td> {{ $item->prix ?? '/' }} <sup>DH</sup></td>
+                        <td> {{ $item->prix ?? '/' }} <sup>{{ __('currency') }}</sup></td>
                         <td> {{ $item->created_at ?? '/' }} </td>
                         <td style="text-align: right">
                             <button class="btn btn-sm btn-danger" type="button"

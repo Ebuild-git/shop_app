@@ -4,12 +4,12 @@
         <div class="d-flex justify-content-between mb-1">
             @if ($post->changements_prix->count())
             <strike class="elis_rty strong" style="font-size: 12px; color: 'a19e9e'; ">
-                {{ $post->getOldPrix() }} <sup>DH</sup>
+                {{ $post->getOldPrix() }} <sup>{{ __('currency') }}</sup>
             </strike>
             &nbsp;&nbsp;&nbsp;
             @endif
             <div class="@if ($post->changements_prix->count()) @endif ft-bold"  style="font-size: 12px; color: #008080;">
-                {{ $post->getPrix() }} <sup>DH</sup>
+                {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
             </div>
         </div>
         @if ($post->sous_categorie_info->categorie->luxury == 1)

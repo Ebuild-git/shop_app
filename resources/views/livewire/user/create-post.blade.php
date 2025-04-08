@@ -665,7 +665,7 @@
                                     </h3>
                                     <div>
                                         <span class="ft-bold color strong fs-lg">
-                                            {{ $data_post['prix'] }} <sup>DH</sup>
+                                            {{ $data_post['prix'] }} <sup>{{ __('currency') }}</sup>
                                         </span>
                                         <span class="badge-frais-details">
                                             <img width="25" height="25"

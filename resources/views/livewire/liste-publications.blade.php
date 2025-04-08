@@ -138,7 +138,7 @@
                         <td>{{ 'P' . $post->id }}</td>
                         <td style="left: 110px;">{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
-                        <td>{{ $post->prix }} <sup>DH</sup></td>
+                        <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td>{{ $post->deleted_at ? $post->deleted_at->format('d-m-Y') : '' }}</td>
                         <td>
@@ -206,7 +206,7 @@
                         <td>{{ 'P' . $post->id }}</td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
-                        <td>{{ $post->prix }} <sup>DH</sup></td>
+                        <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">
                             @if($post->verified_at !== null && $post->sell_at === null && $post->user_info->voyage_mode === 1)

@@ -14,7 +14,7 @@
             <div class="d-flex justify-content-between">
                 <div>
                     <span class="text-red small">
-                        <strong>{{ $post->prix }}</strong> <sup>DH</sup>
+                        <strong>{{ $post->prix }}</strong> <sup>{{ __('currency') }}</sup>
                     </span>
                 </div>
                 <div>

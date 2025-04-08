@@ -61,7 +61,7 @@
     <p>
         <i>{!! \App\Traits\TranslateTrait::TranslateText("Un article qui appartient à la catégorie SHOP<span class='color'>IN</span> LUXURY doit :") !!}</i><br>
 
-        {!! \App\Traits\TranslateTrait::TranslateText("dépasser 800 <sup>DH</sup>") !!} <br>
+        {!! \App\Traits\TranslateTrait::TranslateText("dépasser 800 <sup>{{ __('currency') }}</sup>") !!} <br>
 
         {!! \App\Traits\TranslateTrait::TranslateText("être authentifié avant de le livrer à l’acheteur") !!} <br>
 

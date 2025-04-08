@@ -45,14 +45,14 @@
                     </td>
                     <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#008080' : '' }}; font-size: 12px;">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
-                            {{ $item->getPrix() }} <sup>DH</sup>
+                            {{ $item->getPrix() }} <sup>{{ __('currency') }}</sup>
                         @endif
                     </td>
                     <td class="strong" style="color: {{ $item->getOldPrix() && $item->getOldPrix() > $item->getPrix() ? '#808080' : '#008080' }}; font-size: 12px;">
                         @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
-                            {{ $item->getOldPrix() }} <sup>DH</sup>
+                            {{ $item->getOldPrix() }} <sup>{{ __('currency') }}</sup>
                         @else
-                            {{ $item->getPrix() }} <sup>DH</sup>
+                            {{ $item->getPrix() }} <sup>{{ __('currency') }}</sup>
                         @endif
                     </td>
                     <td>

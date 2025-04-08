@@ -106,15 +106,15 @@
                                 <span style="color: grey; font-size: smaller;">
                                     <strike>
                                         {{ $favori->post->getOldPrix() }}
-                                    </strike> <sup>DH</sup>
+                                    </strike> <sup>{{ __('currency') }}</sup>
                                 </span>
                                 <br>
                                 <span style="color: #008080;">
-                                    {{ $favori->post->getPrix() }} <sup>DH</sup>
+                                    {{ $favori->post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                 </span>
                             @else
                                 <span style="color: #008080;">
-                                    {{ $favori->post->getPrix() }} <sup>DH</sup>
+                                    {{ $favori->post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                 </span>
                             @endif
                         </td>

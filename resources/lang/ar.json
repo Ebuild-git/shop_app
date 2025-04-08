@@ -93,9 +93,38 @@
   "accept_conditions": "أنا أوافق على <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>الشروط والأحكام</b></a>.",
   "sign_up": "التسجيل",
   "male": "ذكر",
-    "female": "أنثى",
-    "seller": "البائع"
-
-
+"female": "أنثى",
+"seller": "البائع",
+"title": "إليك الشو<span class=\"color\">ب</span>ينر",
+"avis": {
+    "zero": "لا توجد مراجعات",
+    "one": "مراجعة",
+    "two": "مراجعتان",
+    "few": "مراجعات",
+    "many": "مراجعة",
+    "other": "مراجعة"
+  },
+  "SHOPIN_LUXURY": "شوبين الفخامة",
+  "Frais de Livraison": "رسوم التوصيل",
+  "Ajouter": "أضف إلى السلة",
+    "Retire": "تمت الإزالة من السلة",
+    "Réduire le prix": "خفض السعر",
+    "Ajouter aux favoris": "أضف إلى المفضلة",
+    "Retirer des favoris": "إزالة من المفضلة",
+    "Signaler cette annonce": "الإبلاغ عن هذا الإعلان",
+    "Vous avez déjà signalé cette annonce !": "لقد أبلغت عن هذا الإعلان من قبل!",
+    "Détails": "تفاصيل",
+    "Condition": "الحالة",
+    "Catégorie": "الفئة",
+    "Région": "المنطقة",
+    "Publié le": "تاريخ النشر",
+    "Description": "الوصف",
+    "Aucune description disponible !": "لا يوجد وصف متاح!",
+    "Voilà le SHOPINER": "إليكم SHOPINER",
+    "Ventes": "مبيعات",
+    "Annonces": "إعلانات",
+    "Articles similaires": "عناصر مشابهة",
+    "title2": "منتجات من <span class=\"ft-bold\">الشوب<span class=\"color\">إن</span>ر</span>",
+    "currency": "درهم"
 
 }

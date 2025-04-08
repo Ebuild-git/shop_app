@@ -309,15 +309,15 @@
                                             <span class="strong color strong">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
-                                                </strike> <sup>DH</sup>
+                                                </strike> <sup>{{ __('currency') }}</sup>
                                             </span>
                                             <br>
                                             <span class="text-danger strong">
-                                                {{ $post->getPrix() }} <sup>DH</sup>
+                                                {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                             </span>
                                         @else
                                             <span class=" color strong ">
-                                                {{ $post->getPrix() }} <sup>DH</sup>
+                                                {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                             </span>
                                         @endif
                                     </td>

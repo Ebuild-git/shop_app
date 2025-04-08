@@ -59,7 +59,7 @@
                                     <span class="link">
                                         <i class="bi bi-tag"></i>
                                         {{ $achat->prix }}
-                                        <sup>DH</sup>
+                                        <sup>{{ __('currency') }}</sup>
                                     </span>
                                 </td>
                                 <td>

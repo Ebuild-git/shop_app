@@ -145,7 +145,7 @@
                             </td>
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <p>{{ $article['prix'] }} <sup>DH</sup></p>
+                                <p>{{ $article['prix'] }} <sup>{{ __('currency') }}</sup></p>
 
                             </td>
                         </tr>
@@ -156,8 +156,8 @@
                 </table>
 
                 <div class="total">
-                    <h4>Frais de livraison : {{ number_format($totalShippingFees, 2, '.', '') }} <sup>DH</sup></h4>
-                    <h3>Total : {{ number_format($total + $totalShippingFees, 2, '.', '') }} <sup>DH</sup></h3>
+                    <h4>Frais de livraison : {{ number_format($totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h4>
+                    <h3>Total : {{ number_format($total + $totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h3>
                 </div>
             </div>
 

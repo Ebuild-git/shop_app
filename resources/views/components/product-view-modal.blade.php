@@ -33,15 +33,15 @@
                                             <div class="elis_rty mt-2">
                                                 @if ($post->old_prix)
                                                     <span class="ft-bold color fs-lg">
-                                                        {{ $post->getPrix() }} <sup>DH</sup>
+                                                        {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                                     </span>
                                                     <br>
                                                     <strike class="text-danger">
-                                                        {{ $post->getOldPrix() }} <sup>DH</sup>
+                                                        {{ $post->getOldPrix() }} <sup>{{ __('currency') }}</sup>
                                                     </strike>
                                                 @else
                                                     <span class="ft-bold color fs-lg">
-                                                        {{ $post->getPrix() }} <sup>DH</sup>
+                                                        {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                                     </span>
                                                 @endif
                                             </div>

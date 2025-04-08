@@ -18,12 +18,12 @@
         <div class="ft-bold fs-sm text-end">
             @if ($produit->changements_prix->count())
                 <strike class="text-muted">
-                    {{ $produit->getOldPrix() }} <sup>DH</sup>
+                    {{ $produit->getOldPrix() }} <sup>{{ __('currency') }}</sup>
                 </strike>
 
             @endif
             <div class="@if ($produit->changements_prix->count()) color @else text-muted @endif ft-bold fs-sm">
-                {{ $produit->getPrix() }} <sup>DH</sup>
+                {{ $produit->getPrix() }} <sup>{{ __('currency') }}</sup>
             </div>
             <br>
         </div>

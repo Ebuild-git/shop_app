@@ -29,7 +29,7 @@
                             <span class="strong color">
                                 <i class="bi bi-tag"></i>
                                 {{ $achat->getPrix() }}
-                                <sup>DH</sup>
+                                <sup>{{ __('currency') }}</sup>
                             </span>
                         </td>
                         <td>

@@ -55,7 +55,6 @@
         function change_principal_image(url) {
             document.getElementById("imgPrincipale").src = url;
             document.getElementById("figure").style.backgroundImage = "url('" + url + "')";
-            //change data-url attibut value on figure
             document.getElementById("figure").setAttribute("data-url", url);
         }
     </script>
@@ -74,13 +73,14 @@
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 <a href="{{ route('shop') }}">
-                                    Catégories
+                                    {{ \App\Traits\TranslateTrait::TranslateText('Catégories') }}
                                 </a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a
                                     href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}">
-                                    {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+
+                                    {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre ?? '' ) }}
                                     @if($post->sous_categorie_info->categorie->luxury)
                                     <i class="bi bi-gem small color"></i>
                                     @endif
@@ -88,7 +88,9 @@
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id ?? '' }}&selected_sous_categorie={{ $post->sous_categorie_info->id ?? '' }}">
-                                    <b class="color">{{ $post->sous_categorie_info->titre }}</b>
+                                    <b class="color">
+                                        {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->titre) }}
+                                    </b>
                                 </a>
                             </li>
                         </ol>
@@ -149,7 +151,7 @@
                     <div class="shopiner-heading">
                         <hr>
                         <h5 style="font-size: 20px; margin-top:20px;">
-                            <b>Voilà le SHOP<span class="color">IN</span>ER</b>
+                            <b>{!! __('title') !!}</b>
                         </h5>
                         @php
                             $count = number_format($user->averageRating->average_rating ?? 1);
@@ -161,7 +163,6 @@
                                 <tr>
                                     <td>
                                         <div class="avatar-shopinner-details">
-                                            {{-- <img src="{{ $user->getAvatar() }}" alt="avatar" height="80" srcset=""> --}}
                                             @if ($user->avatar == 'avatar.png' || !$user->avatar)
                                                 <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
                                                     alt="Default Avatar" height="80">
@@ -184,7 +185,7 @@
                                             <div>
                                                 <div class="d-flex justify-content-between">
                                                     <div>
-                                                        {{ $avis }} Avis
+                                                        {{ trans_choice('messages.avis', $avis, ['count' => $avis]) }}
                                                     </div>
                                                     <div data-toggle="modal" data-target="#Noter">
                                                         @for ($i = 1; $i <= 5; $i++)
@@ -197,17 +198,27 @@
                                                 </div>
                                             </div>
                                             <div>
+                                                @php
+                                                    $salesCount = $user->total_sales->count();
+                                                    $adsCount = $user->voyage_mode ? 0 : $user->GetPosts->count();
+                                                    $categoriesCount = $user->categoriesWhereUserSell();
+                                                @endphp
+
                                                 <span>
-                                                    <b>{{ $user->total_sales->count() }}</b> Ventes
+                                                    <b>{{ $salesCount }}</b>
+                                                    {{ trans_choice('messages.sales', $salesCount) }}
                                                 </span>
                                                 |
                                                 <span>
-                                                    <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> Annonces
+                                                    <b>{{ $adsCount }}</b>
+                                                    {{ trans_choice('messages.annonces', $adsCount) }}
                                                 </span>
                                                 |
-                                                <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
-                                                    <b>{{ $user->categoriesWhereUserSell() }}</b> Catégories
+                                                <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cursor">
+                                                    <b>{{ $categoriesCount }}</b>
+                                                    {{ trans_choice('messages.categories', $categoriesCount) }}
                                                 </span>
+
                                             </div>
                                         </div>
                                     </td>
@@ -226,7 +237,7 @@
                                 @if ($post->sous_categorie_info->categorie->luxury == 1)
                                     <span class="text-success bg-light-success rounded strong px-2 py-1">
                                         <i class="bi bi-gem"></i>
-                                        SHOPIN LUXURY
+                                        {{ __('SHOPIN_LUXURY')}}
                                     </span>
                                     &nbsp;
                                 @endif
@@ -234,7 +245,7 @@
                                     class=" bg-light-info rounded color px-2 py-1 strong"
                                     style="background-color: #0080802d">
                                     <span class="color">
-                                        {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                        {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre ?? '') }}
                                     </span>
                                 </a>
                                 <span class="text-muted">
@@ -242,17 +253,15 @@
                                 </span>
                                 <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}&selected_sous_categorie={{ $post->sous_categorie_info->id }}"
                                     class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
-                                    {{ $post->sous_categorie_info->titre }}
+                                    {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->titre) }}
                                 </a>
                             </div>
                             <div class="prt_02 mb-5 mt-3">
-                                {{-- <h2 class=" mb-1 mt-2 text-capitalize">
-                                    {{ $post->titre }}
-                                </h2> --}}
-                                <h2 class="post-title mb-1 mt-2 text-capitalize">
-                                    {{ $post->titre }}
-                                </h2>
 
+                                <h2 class="post-title mb-1 mt-2 text-capitalize">
+
+                                    {{ \App\Traits\TranslateTrait::TranslateText($post->titre) }}
+                                </h2>
 
                                 <div class="text-left">
                                     <div class="elis_rty mt-2">
@@ -260,22 +269,22 @@
                                             <span class="strong fs-lg" style="color: ''; font-size: smaller;">
                                                 <strike>
                                                     {{ $post->getOldPrix() }}
-                                                </strike> <sup>DH</sup>
+                                                </strike> <sup>{{ __('currency') }}</sup>
                                             </span>
                                             <br>
                                             <span class="h5 strong" style="color: #008080;">
-                                                {{ $post->getPrix() }} <sup>DH</sup>
+                                                {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                             </span>
                                         @else
                                             <span class="ft-bold color strong fs-lg" style="color: #008080;">
-                                                {{ $post->getPrix() }} <sup>DH</sup>
+                                                {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                             </span>
                                         @endif
 
                                         <span class="badge-frais-details">
                                             <img width="25" height="25"
                                                 src="https://img.icons8.com/laces/25/018d8d/delivery.png" alt="delivery" />
-                                            + Frais de Livraison
+                                            + {{ __('Frais de Livraison')}}
                                         </span>
                                     </div>
                                 </div>
@@ -290,7 +299,7 @@
                                         id="btn-add-to-card" onclick="add_cart({{ $post->id }})">
                                         <i class="lni lni-shopping-basket mr-2"></i>
                                         <span id="add-cart-text-btn">
-                                            {{ $produit_in_cart ? 'Rétiré du panier' : 'Ajouter au panier' }}
+                                            {{ $produit_in_cart ? __("Retire") : __("Ajouter") }}
                                         </span>
                                     </button>
                                 @endif
@@ -300,7 +309,7 @@
                                 <button type="button" class="btn btn-block bg-dark mb-2 p-3 hover-black" data-toggle="modal"
                                     data-target="#login">
                                     <i class="lni lni-shopping-basket mr-2"></i>
-                                    Ajouter au panier
+                                    {{ __("Ajouter") }}
                                 </button>
                             @endguest
                         @endif
@@ -311,7 +320,7 @@
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"
                                         class="btn btn-default btn-block mb-2" type="button">
                                         <i class="bi bi-pencil-square"></i>
-                                        Réduire le prix
+                                        {{ __('Réduire le prix') }}
                                     </button>
                                 @endif
                                 @if (Auth::id() != $post->id_user && $post->statut !== 'vendu')
@@ -321,7 +330,7 @@
                                         data-id="{{ $post->id }}">
                                         <i class="lni lni-heart mr-2"></i>
                                         <span class="text">
-                                            {{ $isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+                                            {{ $isFavorited ? __('Retirer des favoris') : __('Ajouter aux favoris') }}
                                         </span>
                                     </button>
                                     <br>
@@ -329,12 +338,12 @@
                                         @if ($is_alredy_signaler)
                                             <span class=" text-danger cursor">
                                                 <i class="bi bi-exclamation-octagon"></i>
-                                                Vous avez déjà signalé cette annonce !
+                                                {{ __('Vous avez déjà signalé cette annonce !') }}
                                             </span>
                                         @else
                                             <span class=" text-danger cursor" data-toggle="modal" data-target="#signalModal_{{ $post->id }}">
                                                 <i class="bi bi-exclamation-octagon"></i>
-                                                Signaler cette annonce
+                                                {{ __('Signaler cette annonce') }}
                                             </span>
                                         @endif
 
@@ -344,25 +353,31 @@
                             @endauth
                             <hr>
                             <div class="prt_03 mb-4">
-                                <b class="text-black h5">Détails</b>
+                                <b class="text-black h5">{{ __('Détails') }}</b>
                                 <p>
                                 <table>
                                     <tr>
-                                        <td style="min-width: 130px" class="cell cell-bold">Condition </td>
-                                        <td class="text-black cell"> {{ $post->etat }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="cell cell-bold">Catégorie </td>
+                                        <td style="min-width: 130px" class="cell cell-bold">{{ __('Condition') }}</td>
                                         <td class="text-black cell">
-                                            {{ $post->sous_categorie_info->categorie->titre ?? '' }}
+                                             {{ \App\Traits\TranslateTrait::TranslateText($post->etat) }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="cell cell-bold">Région </td>
-                                        <td class="text-black cell"> {{ $post->region->nom ?? '' }}</td>
+                                        <td class="cell cell-bold">{{ __('Catégorie') }}</td>
+                                        <td class="text-black cell">
+
+                                            {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre ?? '') }}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="cell cell-bold">Publié le </td>
+                                        <td class="cell cell-bold">{{ __('Région') }}</td>
+                                        <td class="text-black cell">
+
+                                            {{ \App\Traits\TranslateTrait::TranslateText($post->region->nom ?? '') }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell cell-bold">{{ __('Publié le') }}</td>
                                         <td class="text-black cell">
                                             {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} </td>
                                     </tr>
@@ -387,7 +402,7 @@
                                                     @endif
                                                 @else
                                                     <span class="text-capitalize">
-                                                        {{ $value }}
+                                                        {{ \App\Traits\TranslateTrait::TranslateText($value) }}
                                                     </span>
                                                 @endif
                                             </td>
@@ -396,15 +411,16 @@
                                     @endforelse
                                 </table>
                                 </p>
-                                <b class="text-black h5">Description</b>
+                                <b class="text-black h5">{{ __('Description') }}</b>
                                 <p>
                                     @if ($post->description)
-                                        {!! $post->description !!}
+
+                                        {{ \App\Traits\TranslateTrait::TranslateText($post->description) }}
                                     @else
                                         <div class="text-muted text-center">
                                             <i>
                                                 <i class="bi bi-info-circle color"></i>
-                                                Aucune description disponible !
+                                                {{ __('Aucune description disponible !') }}
                                             </i>
                                         </div>
                                     @endif
@@ -413,7 +429,7 @@
                                 <div class="shopiner-heading mobile-only">
                                     <hr>
                                     <h5 style="font-size: 20px;">
-                                        <b>Voilà le SHOP<span class="color">IN</span>ER</b>
+                                        <b>{!! __('title') !!}</b>
                                     </h5>
                                     <div style="margin-top:20px;">
                                         <table>
@@ -448,15 +464,15 @@
 
                                                         <div>
                                                             <span>
-                                                                <b> {{ $avis }} </b> avis
+                                                                <b> {{ $avis }} </b> {{ trans_choice('messages.avis', $avis, ['count' => $avis]) }}
                                                             </span>
                                                             |
                                                             <span>
-                                                                <b>{{ $user->total_sales->count() }}</b> Ventes
+                                                                <b>{{ $user->total_sales->count() }}</b>  {{ trans_choice('messages.sales', $salesCount) }}
                                                             </span>
                                                             |
                                                             <span>
-                                                                <b>{{ $user->GetPosts->count() }}</b> Annonces
+                                                                <b>{{ $user->GetPosts->count() }}</b> {{ trans_choice('messages.annonces', $adsCount) }}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -484,7 +500,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative ">
                         <h3 class="ft-bold pt-3">
-                            Articles similaires
+                            {{ __('Articles similaires') }}
                         </h3>
                     </div>
                 </div>
@@ -525,7 +541,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative">
                         <h3 class="ft-bold pt-3">
-                            Articles de <span class="ft-bold">SHOP<span class="color">IN</span>ER</span> ({{ $user->username }})
+                            {!! __('title2') !!} ({{ $user->username }})
                         </h3>
                     </div>
                 </div>
