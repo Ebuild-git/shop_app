@@ -10,7 +10,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('contact')}}</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">
                         <p>{{ $configuration->adresse ?? '' }}</p>
-                        </p>
+
                     </div>
 
                     <div class="card-wrap-body mb-3">
@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <span class="h6">
-                                        <b>Chat</b><br>
+                                        <b>{{ __('chat') }}</b><br>
                                     </span>
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
                                 </td>
@@ -56,7 +56,7 @@
                                 </td>
                                 <td>
                                     <span class="h6">
-                                        <b>Email</b><br>
+                                        <b>{{ __('email1') }}</b><br>
                                     </span>
                                     <b>{{ $configuration->email ?? 'xxxxx@gmail.com' }}</b>
                                 </td>
@@ -71,7 +71,7 @@
                                 </td>
                                 <td>
                                     <span class="h6">
-                                        <b>Appelez-le</b><br>
+                                        <b>{{ __('call1') }}</b><br>
                                     </span>
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
                                 </td>
@@ -82,8 +82,7 @@
                     <div class="card-wrap-body mb-3">
 
                         <h4 class="ft-medium mb-3 ">
-                            Trouvez
-                            SHOP<span class="color">IN</span> sur
+                            {!! __('find_shopiner_on') !!}
                         </h4>
                         <div class="text-center">
                             @if ($configuration->facebook)
@@ -119,35 +118,35 @@
 
                 <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12">
                     <div class="sec_title position-relative ">
-                        <h2 class="ft-bold pt-3">Laissez-nous votre message ici</h2>
+                        <h2 class="ft-bold pt-3">{{ __('leave_us_message') }}</h2>
                     </div>
 
                     <form class="row">
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="small text-dark ft-medium">Votre nom *</label>
+                                <label class="small text-dark ft-medium">{{ __('your_name') }}</label>
                                 <input type="text" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="small text-dark ft-medium">Votre adresse email *</label>
+                                <label class="small text-dark ft-medium">{{ __('your_email_address') }}</label>
                                 <input type="text" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="small text-dark ft-medium">Sujet</label>
+                                <label class="small text-dark ft-medium">{{ __('subject') }}</label>
                                 <input type="text" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label class="small text-dark ft-medium">Message</label>
+                                <label class="small text-dark ft-medium">{{ __('message') }}</label>
                                 <textarea class="form-control ht-80"></textarea>
                             </div>
                         </div>
@@ -155,7 +154,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <button type="button" class="btn bg-red">
-                                    Envoyer le message
+                                    {{ __('send_message') }}
                                 </button>
                             </div>
                         </div>

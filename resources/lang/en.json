@@ -148,8 +148,18 @@
     "leave_review_info": "You can leave a review in the form of stars only if you have made a purchase from this seller!",
     "no_more_review": "You can no longer leave a review because you have already done so!",
     "attention": "Attention!",
-    "rate_button": "Rate :star"
-
+    "rate_button": "Rate :star",
+    "contact": "Contact",
+    "chat": "Chat",
+    "call1": "Call",
+    "email1": "Email",
+    "find_shopiner_on": "Find SHOP<span class=\"color\">IN</span> on",
+    "leave_us_message": "Leave us your message here",
+    "your_name": "Your Name *",
+    "your_email_address": "Your Email Address *",
+    "subject": "Subject",
+    "message": "Message",
+    "send_message": "Send Message"
   }
 
 }

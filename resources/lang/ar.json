@@ -153,7 +153,19 @@
     "leave_review_info": "يمكنك ترك مراجعة على شكل نجوم فقط إذا قمت بالشراء من هذا البائع!",
     "no_more_review": "لا يمكنك ترك مراجعة لأنك قد قمت بذلك بالفعل!",
     "attention": "تحذير!",
-    "rate_button": "قيم :star"
+    "rate_button": "قيم :star",
+    "contact": "اتصال",
+    "chat": "دردشة",
+    "call1": "اتصل بي",
+    "email1": "البريد الإلكتروني",
+    "find_shopiner_on": "ابحث عن شوب<span class=\"color\">ين</span> على",
+    "leave_us_message": "اترك لنا رسالتك هنا",
+    "your_name": "اسمك *",
+    "your_email_address": "عنوان بريدك الإلكتروني *",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "send_message": "إرسال الرسالة"
+
 
 
 }
