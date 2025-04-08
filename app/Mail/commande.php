@@ -22,7 +22,7 @@ class commande extends Mailable
         $this->user = $user;
         $this->articles_panier = $articles_panier;
         $this->totalShippingFees = $totalShippingFees;
-        $this->from("do-not-reply@apa.tn", 'SHOPIN');
+        $this->from("do-not-reply@b-and-b.website", 'SHOPIN');
         $this->subject("Confirmation de votre commande");
     }
 
