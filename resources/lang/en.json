@@ -95,9 +95,6 @@
     "female": "Female",
     "seller": "Seller",
     "title": "Here is the SHOP<span class=\"color\">IN</span>ER",
-    "avis": {
-    "one": "Review",
-    "other": "Reviews",
     "SHOPIN_LUXURY": "SHOPIN LUXURY",
     "Frais de Livraison": "Shipping Fee",
     "Ajouter": "Add to cart",
@@ -189,7 +186,6 @@
     "cookies_content": "The site uses cookies to distinguish users/visitors from other site users in order to help SHOP<span class=\"color\">IN</span> improve their experience while navigating the site.",
     "articles_for_sale_title": "5. Articles for Sale:",
     "articles_for_sale_content": "The seller commits to ensuring that any item listed for sale is free from defects (stains, holes, or tears...). The buyer, upon receiving such an item, has the right to return it. It is forbidden to resell counterfeit or illegal items. The seller agrees to provide real photos of the item being sold. The description of this item must correspond to its actual characteristics. SHOPIN has full rights to request the seller to change or remove their listing, or inform them that SHOPIN will do it directly in case of an error (e.g., incorrect category).",
-
     "return_title": "6. Return:",
     "return_content": "In case of delivery failure, the seller must be available to receive the returned item.",
     "luxury_title": "7. SHOP<span class=\"color\">IN</span> Luxury:",
@@ -205,7 +201,9 @@
     "luxury_item_delivery": "If the item is authentic, it will be delivered within 3 days",
     "luxury_payment_confirmation": "After the item is received by the buyer, your payment will be credited to your account within 24 hours",
     "luxury_return_policy": "Return policy for SHOP<span class=\"color\">IN</span> LUXURY items:",
-    "luxury_authentication_policy": "SHOP<span class=\"color\">IN</span> maintains a strict policy against counterfeits. If counterfeit products, defective items, illicit duplicates (copied, reproduced, or manufactured illegally), or items violating intellectual property rights are received, our team will contact the seller by email or phone to inform them of the return of the item, providing conclusive evidence of the counterfeit, and the order will be canceled. The item will be permanently removed from the SHOP<span class=\"color\">IN</span> catalog. Return and authentication fees of 120 dirhams will be charged to the seller. The seller's information will be recorded, prohibiting them from selling counterfeit products in the future. To avoid inconvenience, the seller must provide authentic and unchanged documents such as the certificate of authenticity, invoice, or price tag. Buyers are encouraged to carefully read the full description of the item and inquire in the comments section if the item is authentic or a replica."
+    "luxury_authentication_policy": "SHOP<span class=\"color\">IN</span> maintains a strict policy against counterfeits. If counterfeit products, defective items, illicit duplicates (copied, reproduced, or manufactured illegally), or items violating intellectual property rights are received, our team will contact the seller by email or phone to inform them of the return of the item, providing conclusive evidence of the counterfeit, and the order will be canceled. The item will be permanently removed from the SHOP<span class=\"color\">IN</span> catalog. Return and authentication fees of 120 dirhams will be charged to the seller. The seller's information will be recorded, prohibiting them from selling counterfeit products in the future. To avoid inconvenience, the seller must provide authentic and unchanged documents such as the certificate of authenticity, invoice, or price tag. Buyers are encouraged to carefully read the full description of the item and inquire in the comments section if the item is authentic or a replica.",
+    "Mode voyage": "Travel mode"
+
   }
 
-}
+
