@@ -190,7 +190,7 @@
     "return_content": "In case of delivery failure, the seller must be available to receive the returned item.",
     "luxury_title": "7. SHOP<span class=\"color\">IN</span> Luxury:",
     "luxury_description": "An item belonging to the SHOP<span class=\"color\">IN</span> LUXURY category must:",
-    "luxury_price_condition": "exceed 800 <sup>{{ __('currency') }}</sup>",
+    "luxury_price_condition": "exceed 800",
     "luxury_authentication_condition": "be authenticated before delivery to the buyer",
     "luxury_category_condition": "An item belonging to the SHOP<span class=\"color\">IN</span> LUXURY category will be:",
     "luxury_symbol_authentication": "authenticated by a symbol",

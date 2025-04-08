@@ -62,7 +62,7 @@
     <p>
         <i>{!! __('luxury_description') !!}</i><br>
 
-        {!! __('luxury_price_condition') !!} <br>
+        {!! __('luxury_price_condition') !!} {!! __('currency') !!} <br>
 
         {!! __('luxury_authentication_condition') !!} <br>
 

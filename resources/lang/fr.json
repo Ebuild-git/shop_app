@@ -191,7 +191,7 @@
     "return_content": "En cas d’échec de livraison le vendeur / la vendeuse doit se montrer disponible pour réceptionner son article retourné.",
     "luxury_title": "7. SHOP<span class=\"color\">IN</span> Luxury:",
     "luxury_description": "Un article qui appartient à la catégorie SHOP<span class=\"color\">IN</span> LUXURY doit :",
-    "luxury_price_condition": "dépasser 800 <sup>{{ __('currency') }}</sup>",
+    "luxury_price_condition": "dépasser 800",
     "luxury_authentication_condition": "être authentifié avant de le livrer à l’acheteur",
     "luxury_category_condition": "Un article qui appartient à la catégorie SHOP<span class=\"color\">IN</span> LUXURY sera :",
     "luxury_symbol_authentication": "authentifié par un symbole",

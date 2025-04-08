@@ -199,7 +199,7 @@
     "return_content": "في حالة فشل التسليم يجب أن يكون البائع/البائعة متاحًا لاستلام المنتج المرتجع.",
     "luxury_title": "7. شوب<span class=\"color\">إن</span> Luxury:",
     "luxury_description": "يجب أن يتجاوز العنصر الذي ينتمي إلى فئة شوب<span class=\"color\">إن</span> LUXURY :",
-    "luxury_price_condition": "أكثر من 800 <sup>{{ __('currency') }}</sup>",
+    "luxury_price_condition": "أكثر من 800",
     "luxury_authentication_condition": "يجب أن يتم التحقق من صحة العنصر قبل تسليمه للمشتري",
     "luxury_category_condition": "سيتم:",
     "luxury_symbol_authentication": "التحقق من صحته بواسطة رمز",
