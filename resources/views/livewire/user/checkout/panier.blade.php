@@ -1,7 +1,7 @@
 <div>
     <h3 class="text-center">
         <b class="color">
-            Mon panier
+            {{ __('my_cart')}}
         </b>
     </h3>
     <br>
@@ -21,7 +21,9 @@
                             <div class="ms-3 w-100">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="/post/{{ $item['id'] }}/{{ $item['titre'] }}" class="product-title" title="{{ $item['titre'] }}">
-                                        <b>{{ Str::limit($item['titre'], 30) }}</b>
+                                        <b>
+                                            {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($item['titre'], 30)) }}
+                                        </b>
                                     </a>
                                     <div class="text-end">
                                         @if ($item['is_solder'])
@@ -40,16 +42,16 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <div>
-                                        <span class="text-muted">Vendeur: {{ $item['vendeur'] }}</span> <br>
+                                        <span class="text-muted">{{ __('seller')}}: {{ $item['vendeur'] }}</span> <br>
                                         <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
-                                            Frais de Livraison : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>{{ __('currency') }}</sup></b>
+                                            {{ __('Frais de Livraison')}} : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>{{ __('currency') }}</sup></b>
                                             @php
                                             $processedVendors[] = $item['vendeur'];
                                             @endphp
                                             @else
-                                            <span class="text-muted" style="color: #008080;">Frais de Livraison déjà inclus pour ce vendeur.</span>
+                                            <span class="text-muted" style="color: #008080;">{{ __('shipping_fees_included')}}</span>
                                             <span class="info-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Les frais de livraison ne sont facturés qu'une seule fois par vendeur.">
                                                 <i class="bi bi-info-circle"></i>
                                             </span>
@@ -65,14 +67,14 @@
                     </div>
                     @empty
                     <div class="alert alert-warning text-center">
-                        Votre panier est vide !
+                        {{ __('empty_cart2') }}
                     </div>
                     @endforelse
                 </div>
                 @include('components.alert-livewire')
                 @if (is_null(auth()->user()->region))
                     <div class="alert alert-warning">
-                        <p>Veuillez entrer votre région <a href="/informations">ici</a> pour continuer votre commande.</p>
+                        <p>{!! __('enter_region') !!}</p>
                     </div>
                 @endif
             </div>
@@ -80,19 +82,19 @@
                 <div class="custom-checkout-card p-3 shadow-sm border-0 rounded-lg">
                     <table class="w-100 table-total-checkout mb-4">
                         <tr>
-                            <td class="label">Total des articles</td>
+                            <td class="label">{{ __('total_articles') }}</td>
                             <td class="text-end value"><b>{{ count($articles_panier) }}</b></td>
                         </tr>
                         <tr>
-                            <td class="label">Sous-total</td>
+                            <td class="label">{{ __('subtotal') }}</td>
                             <td class="text-end value"><b>{{ number_format($total, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                         <tr>
-                            <td class="label">Total de frais</td>
+                            <td class="label">{{ __('total_fees') }}</td>
                             <td class="text-end value"><b>{{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                         <tr class="total-row">
-                            <td><b class="total-label">TOTAL</b></td>
+                            <td><b class="total-label">{{ __('total') }}</b></td>
                             <td class="text-end"><b class="total-value">{{ number_format($totalWithDelivery, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></td>
                         </tr>
                     </table>
@@ -101,8 +103,8 @@
 
                 <div class="d-flex justify-content-end mt-3">
                     <button class="checkout-btn w-100" @disabled($nbre_article <= 0 || is_null(auth()->user()->region)) wire:click="valider()">
-                        <span wire:loading>Validation....</span>
-                        <span wire:loading.remove>Valider mon panier</span>
+                        <span wire:loading>{{ __('validating') }}</span>
+                        <span wire:loading.remove>{{ __('validate_cart') }}</span>
                     </button>
                 </div>
             </div>

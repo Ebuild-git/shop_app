@@ -278,7 +278,17 @@
   "purchase_date": "Purchase Date",
   "purchase_price": "Purchase Price",
   "shopiner": "Shopiner",
-  "expedition_status": "Expedition Status"
+  "expedition_status": "Expedition Status",
+  "shipping_fees_included": "Shipping fees already included for this seller.",
+  "empty_cart2": "Your cart is empty.",
+  "total_articles": "Total Items",
+  "subtotal": "Subtotal",
+  "total_fees": "Total Fees",
+  "total": "TOTAL",
+  "validate_cart": "Validate my cart",
+  "validating": "Validating....",
+  "enter_region": "Please enter your region <a href='/informations'>here</a> to continue your order."
+
 
 
 

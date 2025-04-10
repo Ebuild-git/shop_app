@@ -8,6 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="{{ App::getLocale() }}">
+{{-- <html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() === 'ar' ? 'rtl' : 'ltr' }}"> --}}
 
 <head>
     <meta charset="utf-8" />

@@ -279,7 +279,17 @@
   "purchase_date": "Date d'achat",
   "purchase_price": "Prix d'achat",
   "shopiner": "Shopiner",
-  "expedition_status": "Statut de l'expédition"
+  "expedition_status": "Statut de l'expédition",
+  "shipping_fees_included": "Frais de Livraison déjà inclus pour ce vendeur.",
+  "empty_cart2": "Votre panier est vide.",
+  "total_articles": "Total des articles",
+  "subtotal": "Sous-total",
+  "total_fees": "Total de frais",
+  "total": "TOTAL",
+  "validate_cart": "Valider mon panier",
+  "validating": "Validation....",
+  "enter_region": "Veuillez entrer votre région <a href='/informations'>ici</a> pour continuer votre commande."
+
 
 
 }

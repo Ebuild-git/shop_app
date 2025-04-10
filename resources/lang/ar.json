@@ -286,7 +286,17 @@
   "purchase_date": "تاريخ الشراء",
   "purchase_price": "سعر الشراء",
   "shopiner": "شوپينر",
-  "expedition_status": "حالة الشحن"
+  "expedition_status": "حالة الشحن",
+  "shipping_fees_included": "تم تضمين رسوم الشحن بالفعل لهذا البائع.",
+  "empty_cart2": "لا توجد منتجات في سلة التسوق الخاصة بك.",
+  "total_articles": "إجمالي العناصر",
+  "subtotal": "المجموع الفرعي",
+  "total_fees": "إجمالي الرسوم",
+  "total": "الإجمالي",
+  "validate_cart": "تحقق من سلة التسوق",
+  "validating": "جاري التحقق....",
+  "enter_region": "يرجى إدخال منطقتك <a href='/informations'>هنا</a> لمتابعة طلبك."
+
 
 
 }
