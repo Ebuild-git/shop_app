@@ -25,7 +25,7 @@
 
 <br>
 <div class="container">
-    <form method="get" action="{{ route('mes-achats') }}" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+    <form method="get" action="{{ route('mes-achats') }}" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="filter-container">
             <div class="filter-group">
                 <select class="filter-select" name="month">

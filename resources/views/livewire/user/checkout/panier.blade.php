@@ -5,7 +5,7 @@
         </b>
     </h3>
     <br>
-    <div class="container-fluid bg-light-blue p-4">
+    <div class="container-fluid bg-light-blue p-4" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="row">
             <div class="col-sm-8 col-12">
                 <div class="cart-checkout p-3 card">
@@ -18,7 +18,7 @@
                             <div class="product-image" style="max-width: 80px;">
                                 <img src="{{ Storage::url($item['photo']) }}" alt="Product Image">
                             </div>
-                            <div class="ms-3 w-100">
+                            <div class="ms-3 w-100" style="{{ app()->getLocale() == 'ar' ? 'margin-right: 10px;' : '' }}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="/post/{{ $item['id'] }}/{{ $item['titre'] }}" class="product-title" title="{{ $item['titre'] }}">
                                         <b>
@@ -42,8 +42,8 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <div>
-                                        <span class="text-muted" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">{{ __('seller')}}: {{ $item['vendeur'] }}</span> <br>
-                                        <span class="delivery-fee" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+                                        <span class="text-muted" >{{ __('seller')}}: {{ $item['vendeur'] }}</span> <br>
+                                        <span class="delivery-fee">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
                                             {{ __('Frais de Livraison')}} : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>{{ __('currency') }}</sup></b>

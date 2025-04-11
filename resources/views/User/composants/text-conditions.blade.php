@@ -1,5 +1,5 @@
 
-<div dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+<div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     <h2>{{ __('general_conditions_title') }}</h2>
 
 <h4>1. {{ __('registration_title') }}</h4>

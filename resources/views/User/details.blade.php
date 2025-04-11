@@ -62,7 +62,7 @@
 
 
     <!-- ======================= Top Breadcrubms ======================== -->
-    <div class="gray py-3">
+    <div class="gray py-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="container">
             <div class="row">
                 <div class="colxl-12 col-lg-12 col-md-12">
@@ -104,7 +104,7 @@
     <!-- ======================= Product Detail ======================== -->
     <section class="middle">
         <div class="container">
-            <div class="row">
+            <div class="row" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
                     <div>
                         <div class="row">
@@ -491,6 +491,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     <!-- ======================= Product Detail End ======================== -->
 
@@ -498,7 +499,7 @@
 
     <!-- ======================= Similar Products Start ============================ -->
     <section class="middle pt-0">
-        <div class="container">
+        <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -539,7 +540,7 @@
     <!-- ======================= Similar Products End ============================ -->
 
     <section class="middle pt-0">
-        <div class="container">
+        <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

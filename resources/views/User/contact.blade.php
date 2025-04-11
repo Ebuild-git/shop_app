@@ -24,7 +24,7 @@
         <div class="container">
 
 
-            <div class="row align-items-start justify-content-between">
+            <div class="row align-items-start justify-content-between" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">

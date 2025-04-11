@@ -364,7 +364,7 @@
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
                         <div class="top_first hide-ipad">
-                            <a href="/about" style="color: white !important;padding-right: 17px">{{ \App\Traits\TranslateTrait::TranslateText('À propos') }}</a>
+                            <a href="/about" style="color: white !important;padding-right: 17px">{{ __('about') }}</a>
                         </div>
                     </div>
                 </div>
@@ -417,7 +417,7 @@
                                     <i class="bi bi-caret-down"></i>
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
-                                <ul class="dropdown-menu popup-content p-3">
+                                <ul class="dropdown-menu popup-content p-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                                     <li>
                                         <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
                                             {{ __('my_ads') }}
@@ -552,7 +552,7 @@
                                     </span>
                                     @endauth
                                 </a>
-                                <ul class="dropdown-menu popup-content">
+                                <ul class="dropdown-menu popup-content" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}" >
                                     <li>
                                         <a href="/mes-publication?type=annonce" class="medium link-red text-medium">
                                             {{ __('my_ads') }}
@@ -626,7 +626,7 @@
                         @endauth
                             <button class="btn-publier-header cusor p-2 mobile-publish-btn" type="button">
                                 <i class="lni lni-circle-plus"></i>
-                                <span>{{ \App\Traits\TranslateTrait::TranslateText('Publier') }}</span>
+                                <span>{{ __('publish_article') }}</span>
                             </button>
                         </a>
                     </div>
@@ -720,7 +720,7 @@
                                         @endauth
                                         <span class="color small" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                             <i class="lni lni-circle-plus"></i>
-                                            {{ \App\Traits\TranslateTrait::TranslateText('Publier') }}
+                                            {{ __('publish_article') }}
                                         </span>
                                     </a>
                                     </div>
@@ -825,7 +825,7 @@
 
 
         <!-- ============================ Footer Start ================================== -->
-        <footer class="light-footer">
+        <footer class="light-footer" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
             <br>
             <div class="p-2 text-center">
                 <h3>
@@ -833,7 +833,7 @@
                 </h3>
             </div>
             <br>
-            <div class="container">
+            <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="card-footer-option p-3 no-border">
@@ -999,7 +999,7 @@
 
     <!-- Cart -->
     <div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Cart">
-        <div class="rightMenu-scroll">
+        <div class="rightMenu-scroll" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
             <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
                 <h4 class="cart_heading fs-md ft-medium mb-0">
                     {{ __('my_cart') }}

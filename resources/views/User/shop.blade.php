@@ -6,7 +6,7 @@
 
 
     <!-- ======================= Top Breadcrubms ======================== -->
-    <div class="gray py-3">
+    <div class="gray py-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="container">
             <div class="row">
                 <div class="colxl-12 col-lg-12 col-md-12">
@@ -85,7 +85,7 @@
         </div>
 
 <!-- ======================= New Filter Container for Category Level ======================== -->
-    <section class="middle" id="ancre">
+    <section class="middle" id="ancre" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="container">
             @if ($key)
                 <h5>

@@ -38,7 +38,7 @@
                 @endif
             </b> {{ $posts->count() }}
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-8" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
             <form method="get" action="{{ route('mes-publication') }}">
                 <div class="filter-container">
                     <div class="filter-group">

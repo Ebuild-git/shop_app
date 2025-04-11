@@ -19,7 +19,7 @@
 </div>
 <!-- ======================= Top Breadcrumbs ======================== -->
 
-    <div class="container pt-5 pb-5" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+    <div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <h2 class="mb-2 ft-bold">{!! \App\Traits\TranslateTrait::TranslateText('Comment Acheter?') !!}</h2>
         <br>
         {{-- <div class="row">

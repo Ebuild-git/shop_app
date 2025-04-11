@@ -68,7 +68,7 @@ class LikesController extends Controller
                 [
                     "status" => true,
                     "action" => "retiré",
-                    "message" => "Annonce disliké !",
+                    "message" => __("message.ad_disliked"),
                     "count" => $post->getLike->count(),
                 ]
             );
@@ -80,7 +80,7 @@ class LikesController extends Controller
             return response()->json(
                 [
                     "status" => true,
-                    "message" => "Annonce liké !",
+                    "message" => __("message.ad_liked"),
                     "action" => "ajouté",
                     "count" => $post->getLike->count(),
                 ]

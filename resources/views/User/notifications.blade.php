@@ -21,7 +21,7 @@
     </section>
     <!-- ============================= Filter Wrap ============================== -->
 
-    <div class="container pt-5 pb-5" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+    <div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card p-2">
@@ -40,7 +40,7 @@
                                     <img width="45" height="45" src="/icons/alarm--v1.png" alt="Notification Icon" class="me-4" />
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between">
-                                            <h6 class="mb-0 mt-2">
+                                            <h6 class="mb-0 mt-2" style="{{ app()->getLocale() == 'ar' ? 'margin-right: 5px;' : '' }}">
                                                 <b>
                                                     @if ($item->url)
                                                         <a href="{{ $item->url }}" class="link" style="margin-left: 10px;">

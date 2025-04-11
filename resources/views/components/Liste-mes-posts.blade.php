@@ -1,7 +1,7 @@
 
 
 
-<div id="table-wrapper">
+<div id="table-wrapper" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     <div id="table-scroll">
         <table class="table">
             <thead class="tb-head">

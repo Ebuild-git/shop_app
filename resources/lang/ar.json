@@ -18,7 +18,7 @@
     "notifications": "الإشعارات",
     "my_account": "حسابي",
     "logout": "تسجيل الخروج",
-    "about": "عن الموقع",
+    "about": "من نحن",
     "home": "الرئيسية",
     "shopiners_part1": "شوب",
     "shopiners_part2": "ين",
@@ -304,18 +304,27 @@
   "available": "متاح",
   "unavailable": "غير متاح",
   "remove": "إزالة",
-  "no_favorites_yet": "لم تُعجب بأي إعلان بعد!",
+  "no_favorites_yet": "لم تُعجب بأي إعلان بعد",
   "results": "النتائج",
   "article_status": "حالة المنتج",
   "added_on": "تمت الإضافة في",
-  "no_favorites": "ليس لديك أي مفضلات بعد!",
-  "favorite_removed": "تمت إزالة المنتج من المفضلة!",
-  "favorite_added": "تمت إضافة العنصر إلى المفضلة!",
+  "no_favorites": "ليس لديك أي مفضلات بعد",
+  "favorite_removed": "تمت إزالة المنتج من المفضل",
+  "favorite_added": "تمت إضافة العنصر إلى المفضلة",
   "remove_all": "حذف الكل",
   "notifications.new_order_title": "طلب جديد!",
   "notifications.new_order_message": ":salutation :seller، تم طلب منتجك <a href=':post_url' class='underlined-link'>:post_title</a> من قبل :buyer. يرجى تحضير المنتج للشحن. سيتواصل معك أحد مندوبي الشحن التابعين لنا قريبًا لاستلام المنتج.<br>يرجى <a href=':bank_info_url' class='underlined-link'>النقر هنا</a> لتأكيد أو تحديث معلوماتك البنكية (RIB)، حتى نتمكن من تحويل الأموال لك عند اكتمال عملية البيع.",
   "notifications.salutation_male": "عزيزي",
   "notifications.salutation_female": "عزيزتي",
-  "Shopiners": "شوبينرز"
+  "Shopiners": "شوبينرز",
+  "message.ad_disliked": "تم إلغاء الإعجاب بالإعلان",
+  "message.ad_liked": "تم الإعجاب بالإعلان",
+  "about.shopin": "حول شوب<span class=\"color\">إن</span>",
+  "welcome.shopin": "مرحبًا بك في عالم شوب<span class=\"color\">إن</span>، المنصة التي تُغير عاداتك في الشراء والبيع. هنا، كل عنصر يروي قصة، وكل عملية شراء تُعد فرصة للمشاركة في حركة عصرية ومسؤولة.",
+  "why.shopin": "لماذا تختار شوب<span class=\"color\">إن</span>؟ لأننا لسنا مجرد سوق إلكتروني، بل نحن مجتمع يقدّر احتياجاتك، ورغباتك، وتأثيرك. استكشف مجموعة متنوعة من المنتجات الجديدة والمستعملة، واكتشف قطعًا نادرة، وبِع أغراضك بكل سهولة.",
+  "join.shopin": "بانضمامك إلى شوب<span class=\"color\">إن</span>، فإنك تتبنى أسلوب استهلاك أذكى وأكثر استدامة. تساهم في تقليل الهدر مع اكتشاف كنوز فريدة تعبّر عن ذوقك وقيمك.",
+  "call.to.action": "لا تترك أغراضك غير المستعملة مكدسة في منزلك — حوّلها إلى دخل. وللباحثين عن الصفقات الرائعة، اكتشافك المفضل التالي ينتظرك بالفعل على شوب<span class=\"color\">إن</span>. انضم إلينا اليوم وكن <span class='color'>شوبينر</span>، وكن جزءًا من تغيير إيجابي وعملي ومفيد!"
+
+
 
 }
