@@ -295,8 +295,16 @@
   "total": "الإجمالي",
   "validate_cart": "تحقق من سلة التسوق",
   "validating": "جاري التحقق....",
-  "enter_region": "يرجى إدخال منطقتك <a href='/informations'>هنا</a> لمتابعة طلبك."
-
+  "enter_region": "يرجى إدخال منطقتك <a href='/informations'>هنا</a> لمتابعة طلبك.",
+  "categories": "الفئات",
+  "price": "السعر",
+  "popularity": "الشعبية",
+  "like_singular": "إعجاب",
+  "like_plural": "إعجابات",
+  "available": "متاح",
+  "unavailable": "غير متاح",
+  "remove": "إزالة",
+  "no_favorites_yet": "لم تُعجب بأي إعلان بعد!"
 
 
 }

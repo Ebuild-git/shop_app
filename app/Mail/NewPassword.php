@@ -21,7 +21,7 @@ class NewPassword extends Mailable
     {
         $this->user = $user;
         $this->token=$token;
-        $this->from('do-not-reply@b-and-b.website', 'SHOPIN');
+        $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
         $this->subject('REINITIALISATION DE MOT DE PASSE !');
     }
 

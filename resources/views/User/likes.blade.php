@@ -13,7 +13,7 @@
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Mes coups de coeur
+                                {{ __('my_favorites')}}
                             </li>
                         </ol>
                     </nav>
@@ -28,12 +28,12 @@
                 <table class="table">
                     <thead style="background-color: #008080;color: white !important;">
                         <tr>
-                            <td>Annonces</td>
-                            <td>Catégories</td>
-                            <td>Prix</td>
-                            <td>Vendeur</td>
-                            <td>Popularité</td>
-                            <td>Statut</td>
+                            <td>{{ __('Annonces')}}</td>
+                            <td>{{ __('categories') }}</td>
+                            <td>{{ __('price') }}</td>
+                            <td>{{ __('seller') }}</td>
+                            <td>{{ __('popularity') }}</td>
+                            <td>{{ __('status') }}</td>
                             <td></td>
                         </tr>
                     </thead>
@@ -49,18 +49,20 @@
                                             <div class="my-auto">
                                                 <a href="{{ route('details_post_single', ['id' => $like->post->id]) }}"
                                                     class="h6">
-                                                    {{ $like->post->titre }}
+
+                                                    {{ \App\Traits\TranslateTrait::TranslateText($like->post->titre) }}
                                                 </a>
                                                 <br>
                                                 <span class="small">
-                                                    Publié le {{ $like->post->created_at }}
+                                                    {{ __('Publié le')}} {{ $like->post->created_at }}
                                                 </span>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <span class="text-muted">
-                                            {{ $like->post->sous_categorie_info->categorie->titre }}
+
+                                            {{ \App\Traits\TranslateTrait::TranslateText($like->post->sous_categorie_info->categorie->titre) }}
                                         </span>
                                     </td>
                                     <td class="strong">
@@ -86,30 +88,23 @@
                                             {{ $like->post->user_info->username }}
                                         </a>
                                     </td>
+
                                     <td>
-                                        @if ($like->post->getLike->count() > 1)
-                                            {{ $like->post->getLike->count() }} j'aimes
-                                        @else
-                                            {{ $like->post->getLike->count() }} j'aime
-                                        @endif
+                                        {{ $like->post->getLike->count() }}
+                                        {{ $like->post->getLike->count() > 1 ? __('like_plural') : __('like_singular') }}
                                         <i class="bi bi-heart-fill text-danger"></i>
                                     </td>
+
                                     <td class="strong">
-                                        @if ($like->post->sell_at)
-                                            <span class="text-danger">
-                                                Indisponible
-                                            </span>
-                                        @else
-                                            <span class="text-success">
-                                                Disponible
-                                            </span>
-                                        @endif
+                                        <span class="{{ $like->post->sell_at ? 'text-danger' : 'text-success' }}">
+                                            {{ $like->post->sell_at ? __('unavailable') : __('available') }}
+                                        </span>
                                     </td>
                                     <td class="text-end">
                                         <button button class="text-danger btn btn-sm cusor" type="button"
                                             onclick="remove_liked({{ $like->id }})">
                                             <b>
-                                                <i class="bi bi-heartbreak"></i> Rétirer
+                                                <i class="bi bi-heartbreak"></i> {{ __('remove') }}
                                             </b>
                                         </button>
                                     </td>
@@ -128,7 +123,7 @@
                                             src="https://img.icons8.com/ios/100/008080/filled-like.png" alt="filled-like" />
                                         <br>
                                         <i class="color">
-                                            Vous n'avez pas encore aimé d'annonce !
+                                            {{ __('no_favorites_yet') }}
                                         </i>
                                     </div>
                                 </td>

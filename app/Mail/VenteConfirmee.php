@@ -25,7 +25,7 @@ class VenteConfirmee extends Mailable
         $this->buyerPseudo = $buyerPseudo;
         $this->articles_panier = $articles_panier;
         $this->gain = $gain;
-        $this->from('do-not-reply@b-and-b.website', 'SHOPIN');
+        $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
         $this->subject("Votre article a été commandé");
     }
 

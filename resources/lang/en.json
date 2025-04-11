@@ -287,8 +287,16 @@
   "total": "TOTAL",
   "validate_cart": "Validate my cart",
   "validating": "Validating....",
-  "enter_region": "Please enter your region <a href='/informations'>here</a> to continue your order."
-
+  "enter_region": "Please enter your region <a href='/informations'>here</a> to continue your order.",
+  "categories": "Categories",
+  "price": "Price",
+  "popularity": "Popularity",
+  "like_singular": "like",
+  "like_plural": "likes",
+  "available": "Available",
+  "unavailable": "Unavailable",
+  "remove": "Remove",
+  "no_favorites_yet": "You haven't liked any post yet!"
 
 
 
