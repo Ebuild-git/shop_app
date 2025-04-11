@@ -11,16 +11,7 @@ class FavorisController extends Controller
 {
     public function index(Request $request)
     {
-        // $date = $request->get('date') ?? null;
-        // $favoris = favoris::where('id_user',Auth::id());
-        // if($date){
-        //     $favoris->whereYear('Created_at', date('Y', strtotime($date)))
-        //     ->whereMonth('Created_at', date('m', strtotime($date)));
-        // }
-        // $favoris = $favoris->paginate(10);
-        // return view("User.favoris")
-        // ->with("favoris", $favoris)
-        // ->with("date", $date);
+
         $month = $request->input('month') ?? null;
         $year = $request->input('year') ?? null;
         $favoris = favoris::where('id_user',Auth::id());
@@ -45,7 +36,7 @@ class FavorisController extends Controller
             return response()->json(
                 [
                     "status" => true,
-                    "message" => "Article retiré de mes favoris !",
+                    "message" => __("favorite_removed"),
                     "count" => $count,
                 ]
             );
@@ -71,7 +62,7 @@ class FavorisController extends Controller
                         [
                             "status" => true,
                             "action" => "ajouté",
-                            "message" => "Article ajouté aux favoris !"
+                            "message" => __("favorite_added")
                         ]
                     );
                 }

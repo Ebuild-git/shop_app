@@ -13,7 +13,7 @@
                             <a href="/"><i class="fas fa-home"></i></a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Mes Favoris
+                            {{ __('my_liked')}}
                         </li>
                     </ol>
                 </nav>
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-sm-9 my-auto">
                     <b>
-                        Résultats :
+                        {{ __('results')}} :
                     </b>
                     {{ $favoris->count() }}
                 </div>
@@ -36,26 +36,26 @@
                     <div class="filter-container">
                         <div class="filter-group">
                             <select class="filter-select" name="month">
-                                <option value="">Mois</option>
-                                <option value="01">Janvier</option>
-                                <option value="02">Février</option>
-                                <option value="03">Mars</option>
-                                <option value="04">Avril</option>
-                                <option value="05">Mai</option>
-                                <option value="06">Juin</option>
-                                <option value="07">Juillet</option>
-                                <option value="08">Août</option>
-                                <option value="09">Septembre</option>
-                                <option value="10">Octobre</option>
-                                <option value="11">Novembre</option>
-                                <option value="12">Décembre</option>
+                                <option value="">{{ __('month') }}</option>
+                                <option value="01">{{ __('january') }}</option>
+                                <option value="02">{{ __('february') }}</option>
+                                <option value="03">{{ __('march') }}</option>
+                                <option value="04">{{ __('april') }}</option>
+                                <option value="05">{{ __('may') }}</option>
+                                <option value="06">{{ __('june') }}</option>
+                                <option value="07">{{ __('july') }}</option>
+                                <option value="08">{{ __('august') }}</option>
+                                <option value="09">{{ __('september') }}</option>
+                                <option value="10">{{ __('october') }}</option>
+                                <option value="11">{{ __('november') }}</option>
+                                <option value="12">{{ __('december') }}</option>
                             </select>
                             <select class="filter-select" name="year" id="year-select">
-                                <option value="">Année</option>
+                                <option value="">{{ __('year') }}</option>
                             </select>
                             <button class="btn bg-red p-2" type="submit">
                                 <i class="bi bi-filter"></i>
-                                Filtrer
+                                {{ __('filter') }}
                             </button>
                         </div>
                     </div>
@@ -66,12 +66,12 @@
             <table class="table">
                 <thead style="background-color: #008080;color: white !important;">
                     <tr>
-                        <th>Annonces</th>
-                        <th>Catégorie</th>
-                        <th>Prix</th>
-                        <th>Vendeur</th>
-                        <th>Statut de l’article</th>
-                        <th>Ajouté le</th>
+                        <th>{{ __('Annonces')}}</th>
+                        <th>{{ __('categories') }}</th>
+                        <th>{{ __('price') }}</th>
+                        <th>{{ __('seller') }}</th>
+                        <th>{{ __('article_status') }}</th>
+                        <th>{{ __('added_on') }}</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -87,7 +87,8 @@
                                 <div class="my-auto">
                                     <a href="{{ route('details_post_single', ['id' => $favori->post->id]) }}"
                                         class="h6">
-                                        {{ $favori->post->titre }}
+
+                                        {{ \App\Traits\TranslateTrait::TranslateText($favori->post->titre) }}
                                     </a>
                                     <br>
                                     <span class="small">
@@ -98,7 +99,8 @@
                         </td>
                         <td>
                             <span class="text-muted">
-                                {{ $favori->post->sous_categorie_info->categorie->titre }}
+
+                                {{ \App\Traits\TranslateTrait::TranslateText($favori->post->sous_categorie_info->categorie->titre) }}
                             </span>
                         </td>
                         <td class="strong">
@@ -127,11 +129,12 @@
                         <td class="strong">
                             @if ($favori->post->sell_at)
                             <span class="text-danger">
-                                {{ $favori->post->statut }}
+
+                                {{ \App\Traits\TranslateTrait::TranslateText($favori->post->statut) }}
                             </span>
                             @else
                             <span class="text-success">
-                                Disponible
+                                {{ __('available')}}
                             </span>
                             @endif
                         </td>
@@ -152,7 +155,7 @@
                                     alt="favorites" />
                                 <br>
                                 <i class="color">
-                                    Vous n'avez pas encore de favoris !
+                                    {{ __('no_favorites')}}
                                 </i>
                             </div>
                         </td>

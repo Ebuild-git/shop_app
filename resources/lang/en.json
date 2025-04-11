@@ -296,7 +296,14 @@
   "available": "Available",
   "unavailable": "Unavailable",
   "remove": "Remove",
-  "no_favorites_yet": "You haven't liked any post yet!"
+  "no_favorites_yet": "You haven't liked any post yet!",
+  "results": "Results",
+  "article_status": "Article Status",
+  "added_on": "Added On",
+  "no_favorites": "You don't have any favorites yet!",
+  "favorite_removed": "Item removed from favorites!",
+  "favorite_added": "Item added to favorites!"
+
 
 
 

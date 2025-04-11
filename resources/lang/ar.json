@@ -304,7 +304,12 @@
   "available": "متاح",
   "unavailable": "غير متاح",
   "remove": "إزالة",
-  "no_favorites_yet": "لم تُعجب بأي إعلان بعد!"
-
+  "no_favorites_yet": "لم تُعجب بأي إعلان بعد!",
+  "results": "النتائج",
+  "article_status": "حالة المنتج",
+  "added_on": "تمت الإضافة في",
+  "no_favorites": "ليس لديك أي مفضلات بعد!",
+  "favorite_removed": "تمت إزالة المنتج من المفضلة!",
+  "favorite_added": "تمت إضافة العنصر إلى المفضلة!"
 
 }
