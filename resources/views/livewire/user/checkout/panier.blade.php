@@ -42,8 +42,8 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <div>
-                                        <span class="text-muted">{{ __('seller')}}: {{ $item['vendeur'] }}</span> <br>
-                                        <span class="delivery-fee">
+                                        <span class="text-muted" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">{{ __('seller')}}: {{ $item['vendeur'] }}</span> <br>
+                                        <span class="delivery-fee" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                             @if (!in_array($item['vendeur'], $processedVendors))
                                             <i class="bi bi-truck" style="color: #008080;"></i>
                                             {{ __('Frais de Livraison')}} : <b class="frais-font">{{ $item['frais'] ?? 0 }} <sup>{{ __('currency') }}</sup></b>
@@ -78,7 +78,7 @@
                     </div>
                 @endif
             </div>
-            <div class="col-sm-4 col-12">
+            <div class="col-sm-4 col-12" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                 <div class="custom-checkout-card p-3 shadow-sm border-0 rounded-lg">
                     <table class="w-100 table-total-checkout mb-4">
                         <tr>

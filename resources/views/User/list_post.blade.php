@@ -3,7 +3,7 @@
 @section('body')
 
 <!-- ======================= Top Breadcrubms ======================== -->
-<div class="gray py-3">
+<div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div class="container">
         <div class="row">
             <div class="colxl-12 col-lg-12 col-md-12">

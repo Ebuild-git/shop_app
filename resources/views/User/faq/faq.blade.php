@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
    <!-- ======================= Top Breadcrubms ======================== -->
-   <div class="gray py-3">
+   <div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div class="container">
         <div class="row">
             <div class="colxl-12 col-lg-12 col-md-12">
@@ -19,7 +19,7 @@
 </div>
 <!-- ======================= Top Breadcrubms ======================== -->
 
-    <div class="container pt-5 pb-5">
+    <div class="container pt-5 pb-5" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <h2 class="mb-2 ft-bold">{{ __('how_sell') }}</h2>
         <br>
         <div class="row">

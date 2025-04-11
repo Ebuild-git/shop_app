@@ -1,5 +1,5 @@
 <div>
-    <div class="row">
+    <div class="row" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="col-md-12">
             <div class="d-flex justify-content-end">
                 <div class="me-2">
@@ -20,7 +20,7 @@
     </div>
     <br>
 
-    <div class="row">
+    <div class="row" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         @forelse ($shopiners as $key=>$shopiner)
             <div class="col-sm-4">
                 @include('components.CardShopinner', ['user' => $shopiner, 'page' => 'shopiners'])

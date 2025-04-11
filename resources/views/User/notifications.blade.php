@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
     <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <section class="gray py-3">
+    <section class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -12,7 +12,7 @@
                             <li class="breadcrumb-item">
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"> Notifications </li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('notifications')}}</li>
                         </ol>
                     </nav>
                 </div>
@@ -21,7 +21,7 @@
     </section>
     <!-- ============================= Filter Wrap ============================== -->
 
-    <div class="container pt-5 pb-5">
+    <div class="container pt-5 pb-5" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card p-2">
@@ -29,7 +29,7 @@
                         <div class="text-end mb-2">
                             <button class="btn btn-sm" onclick="delete_all_notification()">
                                 <i class="bi bi-x-lg text-danger"></i>
-                                <span class="text-danger">Tout supprimer</span>
+                                <span class="text-danger">{{ __('remove_all') }}</span>
                             </button>
                         </div>
                     @endif

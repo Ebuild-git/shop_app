@@ -7,7 +7,7 @@
 
 
     <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <div class="gray py-3">
+    <div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item">
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Shopiners</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('Shopiners')}}</li>
                         </ol>
                     </nav>
                 </div>

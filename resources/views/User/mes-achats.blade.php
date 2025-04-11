@@ -4,7 +4,7 @@
 @section('body')
 
 <!-- ======================= Top Breadcrumbs ======================== -->
-<div class="gray py-3">
+<div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div class="container">
         <div class="row">
             <div class="colxl-12 col-lg-12 col-md-12">
@@ -25,7 +25,7 @@
 
 <br>
 <div class="container">
-    <form method="get" action="{{ route('mes-achats') }}">
+    <form method="get" action="{{ route('mes-achats') }}" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="filter-container">
             <div class="filter-group">
                 <select class="filter-select" name="month">

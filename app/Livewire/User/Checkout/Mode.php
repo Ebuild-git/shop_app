@@ -307,11 +307,11 @@ class Mode extends Component
 
 
                 $seller = User::find($post->id_user);
-                $salutation = 'Cher';
+                $salutation = __('notifications.salutation_male');
                 if ($seller) {
                     $gender = $seller->gender;
                     if ($gender === 'female') {
-                        $salutation = 'Chère';
+                        $salutation = __('notifications.salutation_female');
                     }
                 }
                 $buyerPseudo = Auth::user()->username;
@@ -320,17 +320,18 @@ class Mode extends Component
                     Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo, $this->articles_panier, $gain));
                 }
                 $notification = new notifications();
-                $notification->titre = "Une nouvelle commande !";
+                $notification->titre = __('notifications.new_order_title');
                 $notification->id_user_destination = $post->id_user;
                 $notification->type = "alerte";
                 $notification->url = "/post/" . $post->id;
-                $notification->message = "$salutation " . $seller->username . ", "
-                . "Nous vous informons que votre article <a href='" . route('details_post2', ['id' => $post->id, 'titre' => $post->titre]) . "' class='underlined-link'>{$post->titre}</a> a été commandé par $buyerPseudo. "
-                . "Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique "
-                . "vous contactera bientôt et passera pour récupérer l'article.<br>"
-                . "Merci de bien vouloir <a href='/informations?section=cord' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), "
-                . "afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé."
-                ;
+                $notification->message = __('notifications.new_order_message', [
+                    'salutation' => $salutation,
+                    'seller' => $seller->username,
+                    'post_url' => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
+                    'post_title' => $post->titre,
+                    'buyer' => $buyerPseudo,
+                    'bank_info_url' => url('/informations?section=cord'),
+                ]);
                 $notification->save();
                 event(new UserEvent($post->id_user));
             }

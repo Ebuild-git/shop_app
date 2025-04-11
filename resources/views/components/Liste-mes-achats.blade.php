@@ -1,4 +1,4 @@
-<div id="table-wrapper">
+<div id="table-wrapper" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div id="table-scroll">
         <table class="table">
             <thead>

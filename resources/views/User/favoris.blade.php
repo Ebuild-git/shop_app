@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
 <!-- ======================= Top Breadcrubms ======================== -->
-<div class="gray py-3">
+<div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div class="container">
         <div class="row">
             <div class="colxl-12 col-lg-12 col-md-12">
@@ -24,7 +24,7 @@
 
 <section class="middle">
     <div class="container">
-        <form method="get" action="{{ route('favoris') }}">
+        <form method="get" action="{{ route('favoris') }}" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
             <div class="row">
                 <div class="col-sm-9 my-auto">
                     <b>
@@ -63,7 +63,7 @@
             </div>
         </form>
         <div>
-            <table class="table">
+            <table class="table" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                 <thead style="background-color: #008080;color: white !important;">
                     <tr>
                         <th>{{ __('Annonces')}}</th>

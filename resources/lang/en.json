@@ -302,7 +302,13 @@
   "added_on": "Added On",
   "no_favorites": "You don't have any favorites yet!",
   "favorite_removed": "Item removed from favorites!",
-  "favorite_added": "Item added to favorites!"
+  "favorite_added": "Item added to favorites!",
+  "remove_all": "Remove all",
+  "notifications.new_order_title": "A new order!",
+  "notifications.new_order_message": ":salutation :seller, your item <a href=':post_url' class='underlined-link'>:post_title</a> has been ordered by :buyer. Please prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item.<br>Thank you for <a href=':bank_info_url' class='underlined-link'>clicking here</a> to confirm or update your bank details (RIB), so we can transfer the funds when the sale process is complete.",
+  "notifications.salutation_male": "Dear",
+  "notifications.salutation_female": "Dear",
+  "Shopiners": "Shopiners"
 
 
 

@@ -355,7 +355,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                         {{ __('call')}}:
                         <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
                             {{ $configurations->phone_number ?? '' }}
@@ -396,7 +396,7 @@
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#login">
                                     @endauth
-                                    <button class=" btn-publier-header cusor p-2 " type="button">
+                                    <button class=" btn-publier-header cusor p-2 " type="button" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
                                             {{ __('publish_article') }}
@@ -407,7 +407,7 @@
 
                     </div>
                 </div>
-                <div class="col-sm-3 mx-auto my-auto" style="   top: -32px;width: 84px;position: relative;left: 55%; ">
+                <div class="col-sm-3 mx-auto my-auto" style="top: -32px;width: 84px;position: relative;left: 55%;">
                     <div class="currency-selector dropdown js-dropdown ml-3">
                         <a href="javascript:void(0);" class="text-light medium text-capitalize" data-toggle="dropdown"
                             title="Language" aria-label="Language dropdown">
@@ -417,7 +417,7 @@
                                     <i class="bi bi-caret-down"></i>
                                 </span>
                                 <i class="fa fa-angle-down medium text-light"></i>
-                                <ul class="dropdown-menu popup-content p-3 ">
+                                <ul class="dropdown-menu popup-content p-3">
                                     <li>
                                         <a href="/mes-publication?type=annonce" class=" medium link-red text-medium">
                                             {{ __('my_ads') }}
@@ -718,7 +718,7 @@
                                         @else
                                             <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
                                         @endauth
-                                        <span class="color small">
+                                        <span class="color small" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                             <i class="lni lni-circle-plus"></i>
                                             {{ \App\Traits\TranslateTrait::TranslateText('Publier') }}
                                         </span>
@@ -769,7 +769,7 @@
                                             </a>
                                         </li>
 
-                                        <li class="text-capitalize comment-position">
+                                        <li class="text-capitalize comment-position" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                             <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
                                             <ul class="nav-dropdown nav-submenu left-aligned">
                                                 @foreach ($categories as $tarif)
@@ -788,7 +788,6 @@
                                                 <!-- Separator and phrase -->
                                                 <li class="tarif-separator"></li>
                                                 <li class="tarif-note">
-
                                                     {{ __('commission_note') }}
                                                 </li>
                                             </ul>
