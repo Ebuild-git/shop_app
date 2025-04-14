@@ -78,7 +78,7 @@
   "rue": "Rue",
   "batiment": "Nom Bâtiment",
   "etage": "Étage",
-  "num_appartement": "Numéro appartement",
+  "num_appartement": "Numéro d'appartement",
   "mot_de_passe": "Mot de passe",
   "confirmation_mot_de_passe": "Confirmation du mot de passe",
   "conditions": "Conditions générales",
@@ -319,8 +319,31 @@
   "call.to.action": "Ne laissez pas vos objets inutilisés dormir chez vous – transformez-les en revenus. Et pour les chasseurs de bonnes affaires, votre prochaine trouvaille coup de cœur vous attend déjà sur SHOP<span class='color'>IN</span>. Rejoignez-nous dès aujourd’hui et devenez un SHOP<span class='color'>IN</span>ER, acteur d’un changement positif, pratique et enrichissant !",
 
   "Panier": "Panier",
-    "Adresse de livraison": "Adresse de livraison",
-    "Paiement": "Paiement"
+"Adresse de livraison": "Adresse de livraison",
+"Paiement": "Paiement",
+"Choix de l'adresse de Livraison": "Choix de l'adresse de Livraison",
+"Utiliser ma localisation": "Utiliser ma localisation",
+"Modifier l'adresse de livraison": "Modifier l'adresse de livraison",
+"address_info_note": "<strong><i class=\"bi bi-info-circle\"></i>Note:</strong> Vous modifiez l'adresse principale de votre compte. Les modifications apportées à cette adresse mettront à jour vos informations d'adresse dans <b>\"Mon compte\"</b>.",
+"save_button": "Enregistrer",
+"select_region": "Sélectionnez une région",
+"current_address": "Adresse de livraison actuelle",
+"gender_male": "M.",
+"gender_female": "Mme",
+"incomplete_address": "Adresse non complète",
+"other_addresses": "Autres adresses de livraison",
+"default_address": "Adresse par défaut",
+"set_as_default": "Définir par défaut",
+"edit_address": "Modifier l'adresse",
+"add_new_address": "Ajouter une nouvelle adresse",
+"add": "Ajouter",
+"continue": "Continuer",
+"complete_address_info": "Veuillez compléter toutes les informations de l'adresse par défaut pour continuer la commande.",
+"complete_main_address_info": "Veuillez compléter toutes les informations de votre adresse principale pour continuer la commande."
+
+
+
+
 
 
 

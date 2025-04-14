@@ -326,7 +326,30 @@
   "call.to.action": "لا تترك أغراضك غير المستعملة مكدسة في منزلك — حوّلها إلى دخل. وللباحثين عن الصفقات الرائعة، اكتشافك المفضل التالي ينتظرك بالفعل على شوب<span class=\"color\">إن</span>. انضم إلينا اليوم وكن <span class='color'>شوبينر</span>، وكن جزءًا من تغيير إيجابي وعملي ومفيد!",
   "Panier": "عربة التسوق",
   "Adresse de livraison": "عنوان التوصيل",
-  "Paiement": "الدفع"
+  "Paiement": "الدفع",
+  "Choix de l'adresse de Livraison": "اختيار عنوان التوصيل",
+  "Utiliser ma localisation": "استخدام موقعي الحالي",
+  "Modifier l'adresse de livraison": "تعديل عنوان التوصيل",
+  "address_info_note": "<strong><i class=\"bi bi-info-circle\"></i>ملاحظة:</strong> أنت تقوم بتعديل العنوان الرئيسي لحسابك. التعديلات التي تطرأ على هذا العنوان ستقوم بتحديث معلومات العنوان الخاصة بك في <b>\"حسابي\"</b>.",
+  "save_button": "حفظ",
+  "select_region": "اختر منطقة",
+  "current_address": "عنوان التوصيل الحالي",
+  "gender_male": "السيد",
+"gender_female": "السيدة",
+"incomplete_address": "عنوان غير مكتمل",
+"other_addresses": "عناوين توصيل أخرى",
+"default_address": "العنوان الافتراضي",
+"set_as_default": "تعيين كافتراضي",
+"edit_address": "تعديل العنوان",
+  "add_new_address": "إضافة عنوان جديد",
+  "add": "إضافة",
+  "continue": "استمر",
+  "complete_address_info": "يرجى إكمال جميع معلومات العنوان الافتراضي لمتابعة الطلب.",
+  "complete_main_address_info": "يرجى إكمال جميع معلومات عنوانك الرئيسي لمتابعة الطلب."
+
+
+
+
 
 
 

@@ -318,7 +318,35 @@
   "call.to.action": "Don’t let your unused items collect dust — turn them into income. And for bargain hunters, your next favorite find is already waiting for you on SHOP<span class='color'>IN</span>. Join us today and become a SHOP<span class='color'>IN</span>ER — a part of a positive, practical, and rewarding change!",
   "Panier": "Cart",
     "Adresse de livraison": "Delivery Address",
-    "Paiement": "Payment"
+    "Paiement": "Payment",
+    "Choix de l'adresse de Livraison": "Choose Delivery Address",
+    "Utiliser ma localisation": "Use my location",
+    "Modifier l'adresse de livraison": "Edit Delivery Address",
+    "address_info_note": "<strong><i class=\"bi bi-info-circle\"></i>Note:</strong> You are editing the primary address of your account. Changes made to this address will update your address information in <b>\"My Account\"</b>.",
+    "save_button": "Save",
+    "select_region": "Select a region",
+    "current_address": "Current delivery address",
+    "gender_male": "Mr.",
+    "gender_female": "Mrs.",
+    "incomplete_address": "Incomplete address",
+    "other_addresses": "Other delivery addresses",
+    "default_address": "Default address",
+    "set_as_default": "Set as default",
+    "edit_address": "Edit address",
+  "add_new_address": "Add new address",
+  "add": "Add",
+  "continue": "Continue",
+  "complete_address_info": "Please complete all the default address information to continue the order.",
+  "complete_main_address_info": "Please complete all the information of your main address to continue the order."
+
+
+
+
+
+
+
+
+
   }
 
 
