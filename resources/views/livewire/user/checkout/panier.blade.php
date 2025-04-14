@@ -25,18 +25,19 @@
                                             {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($item['titre'], 30)) }}
                                         </b>
                                     </a>
-                                    <div class="text-end">
+
+                                    <div class="{{ app()->getLocale() == 'ar' ? 'text-start ar-mobile-style' : 'text-end' }}">
                                         @if ($item['is_solder'])
-                                        <span class="text-muted-1">
-                                            <strike>{{ $item['old_prix'] }} <sup>{{ __('currency') }}</sup></strike>
-                                        </span>
-                                        <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
-                                        </span>
+                                            <span class="text-muted-1 d-block ar-price">
+                                                <strike>{{ $item['old_prix'] }} <sup>{{ __('currency') }}</sup></strike>
+                                            </span>
+                                            <span class="price d-block ar-price" style="color: #008080;">
+                                                {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
+                                            </span>
                                         @else
-                                        <span class="price" style="color: #008080;">
-                                            {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
-                                        </span>
+                                            <span class="price d-block ar-price" style="color: #008080;">
+                                                {{ $item['prix'] }} <sup>{{ __('currency') }}</sup>
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
@@ -58,9 +59,13 @@
                                             @endif
                                         </span>
                                     </div>
-                                    <button class="btn btn-outline-danger btn-sm delete-btn" wire:click="delete({{ $item['id'] }})">
-                                        <i class="bi bi-trash3"></i>
+
+                                    <button
+                                        class="btn btn-outline-danger btn-sm delete-btn {{ app()->getLocale() == 'ar' ? 'ar-mobile-btn' : '' }}"
+                                        wire:click="delete({{ $item['id'] }})">
+                                        <i class="bi bi-trash3 {{ app()->getLocale() == 'ar' ? 'ar-mobile-icon' : '' }}"></i>
                                     </button>
+
                                 </div>
                             </div>
                         </div>

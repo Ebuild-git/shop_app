@@ -3269,3 +3269,24 @@ input:checked + .slider:before {
 .align-top {
     vertical-align: top; /* Aligns text properly with images */
 }
+
+
+@media (max-width: 768px) {
+    .ar-mobile-style {
+        margin-left: -12px !important;
+    }
+
+    .ar-mobile-btn {
+        margin-right: -89px !important;
+        top: -39px !important;
+        font-size: 10px !important;
+        padding: 2px 5px !important;
+    }
+
+    .ar-mobile-icon {
+        font-size: 12px !important;
+    }
+    html[lang="ar"] .ar-price {
+        font-size: 10px !important;
+    }
+}
