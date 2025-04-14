@@ -317,8 +317,21 @@ class Mode extends Component
                 $buyerPseudo = Auth::user()->username;
 
                 if ($seller) {
-                    Mail::to($seller->email)->send(new VenteConfirmee($seller, $post, $buyerPseudo, $this->articles_panier, $gain));
+                    $articlesPourCeVendeur = collect($this->articles_panier)->filter(function ($article) use ($seller) {
+                        return isset($article['vendeur']) && $article['vendeur'] === $seller->username;
+                    });
+
+                    if ($articlesPourCeVendeur->isNotEmpty()) {
+                        Mail::to($seller->email)->send(new VenteConfirmee(
+                            $seller,
+                            $post,
+                            $buyerPseudo,
+                            $articlesPourCeVendeur,
+                            $gain
+                        ));
+                    }
                 }
+
                 $notification = new notifications();
                 $notification->titre = __('notifications.new_order_title');
                 $notification->id_user_destination = $post->id_user;
