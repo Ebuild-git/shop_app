@@ -687,6 +687,7 @@ body {
     background-color: transparent !important;
     border: solid 2px #018d8d;
     font-weight: 500;
+    font-size: 12px;
 }
 
 .multi-color-btn {
@@ -3289,4 +3290,19 @@ input:checked + .slider:before {
     html[lang="ar"] .ar-price {
         font-size: 10px !important;
     }
+}
+.rounded-link {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #f1f1f1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    color: #008080;
+    text-decoration: none;
+}
+.rounded-link:hover {
+    background-color: #e2e2e2;
+    text-decoration: none;
+    color: gray;
 }

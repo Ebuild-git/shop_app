@@ -8,7 +8,6 @@
 
 <!DOCTYPE html>
 <html lang="{{ App::getLocale() }}">
-{{-- <html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() === 'ar' ? 'rtl' : 'ltr' }}"> --}}
 
 <head>
     <meta charset="utf-8" />
@@ -392,11 +391,11 @@
 
                         <div class="col-4" style="text-align: left !important;">
                             @auth
-                                <a href="/publication">
-                                @else
-                                    <a href="#" data-toggle="modal" data-target="#login">
-                                    @endauth
-                                    <button class=" btn-publier-header cusor p-2 " type="button" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+                                <a href="#" onclick="checkCinBeforePublish(event)">
+                            @else
+                                <a href="#" data-toggle="modal" data-target="#login">
+                            @endauth
+                                    <button class="btn-publier-header cusor p-2" type="button" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                         <i class="lni lni-circle-plus"></i>
                                         <span class="hide-mobile-version">
                                             {{ __('publish_article') }}
@@ -404,6 +403,10 @@
                                     </button>
                                 </a>
                         </div>
+
+
+
+
 
                     </div>
                 </div>
@@ -620,7 +623,7 @@
 
                     <div class="ml-3 mobile-publish-btn-container">
                         @auth
-                        <a href="/publication">
+                        <a href="#" onclick="checkCinBeforePublish(event)">
                         @else
                         <a href="#" data-toggle="modal" data-target="#login">
                         @endauth
@@ -714,7 +717,7 @@
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
                                     <div class="div-scroll-publier">
                                         @auth
-                                        <a href="/publication" class="btn-publier-header cusor p-1">
+                                        <a href="#" onclick="checkCinBeforePublish(event)" class="btn-publier-header cusor p-1">
                                         @else
                                             <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
                                         @endauth
@@ -1195,12 +1198,45 @@
     </div>
     <!-- End Modal -->
 
+    <!-- CIN Warning Modal -->
+    <div class="modal fade" id="cinModal" tabindex="-1" role="dialog" aria-labelledby="cinModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="padding: 0.75rem 1.25rem; background-color:#008080;">
+            <h5 class="modal-title text-white mb-0" id="cinModalLabel">{{ __('Attention!') }}</h5>
+            <button type="button" class="close m-0 p-0" data-dismiss="modal" aria-label="{{ __('Close') }}" style="font-size: 15px; line-height: 1;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body text-center py-4">
+            {{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}
+            </div>
+            <div class="modal-footer justify-content-center border-0 pt-0 pb-3">
+            <a href="{{ route('mes_informations') }}" class="rounded-link">
+               {{ __('Ajouter maintenant') }}
+            </a>
+            </div>
+        </div>
+        </div>
+    </div>
+
     @auth
+    <script>
+        function checkCinBeforePublish(e) {
+            e.preventDefault();
+
+            @if (Auth::user()->cin_img)
+                window.location.href = "/publication";
+            @else
+                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
+                modal.show();
+            @endif
+        }
+    </script>
+    @endauth
 
 
-
-
-
+    @auth
         <!-- Modal pour voir la liste des motifs d'un post réfuser -->
         <div class="modal fade" id="modal_motifs_des_refus" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
             aria-hidden="true">

@@ -366,7 +366,11 @@
     "update_password": "Update my password",
     "create_first_post": "Create Your First Post",
   "create_post": "Create a Post",
-  "now": "Now"
+  "now": "Now",
+  "Attention!": "Attention!",
+  "Veuillez ajouter une image de votre carte d'identité avant de publier.": "Please upload your ID image before publishing.",
+  "Ajouter maintenant": "Add now",
+  "Close": "Close"
 
 
 

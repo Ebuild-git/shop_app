@@ -374,7 +374,11 @@
 "update_password": "تحديث كلمة المرور الخاصة بي",
 "create_first_post": "أنشئ أول منشور لك",
   "create_post": "أنشئ منشورًا",
-  "now": "الآن"
+  "now": "الآن",
+  "Attention!": "تنبيه!",
+  "Veuillez ajouter une image de votre carte d'identité avant de publier.": "يرجى إضافة صورة لبطاقة الهوية قبل النشر.",
+  "Ajouter maintenant": "أضف الآن",
+  "Close": "إغلاق"
 
 
 

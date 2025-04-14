@@ -368,7 +368,11 @@
     "update_password": "Modifier mon mot de passe",
     "create_first_post": "Créer Votre Première publication",
     "create_post": "Créer une publication",
-    "now": "Maintenant"
+    "now": "Maintenant",
+    "Attention!": "Attention !",
+  "Veuillez ajouter une image de votre carte d'identité avant de publier.": "Veuillez ajouter une image de votre carte d'identité avant de publier.",
+  "Ajouter maintenant": "Ajouter maintenant",
+  "Close": "Fermer"
 
 
 

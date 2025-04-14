@@ -191,7 +191,6 @@ class CreatePost extends Component
         $subcategoryRequired = DB::table('sous_categories')
         ->where('id', $this->selectedSubcategory)
         ->value('required');
-        // $subcategoryRequired = json_decode($subcategoryRequired, true);
         $subcategoryRequired = json_decode($subcategoryRequired ?? '[]', true);
         $requiredProps = [];
         if (is_array($subcategoryRequired)) {
@@ -237,9 +236,7 @@ class CreatePost extends Component
         $sous_categorie = sous_categories::find($this->selectedSubcategory);
         $category = $sous_categorie->categorie;
 
-        // $jsonProprietes = array_filter($this->article_propriete, function($value) {
-        //     return !empty($value);
-        // });
+
         $jsonProprietes = array_filter((array) $this->article_propriete, function($value) {
             return !empty($value);
         });
