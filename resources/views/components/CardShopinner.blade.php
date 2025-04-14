@@ -2,14 +2,23 @@
      style="{{ auth()->check() && $user->id === auth()->id() ? 'border: 2px solid #008080; background-color: #f9fbfc;' : '' }}">
     <div>
         <div class="d-flex justify-content-between">
-            <div class="pl-3" style="text-align: left">
-                <div>
-                    <h4 class="h6">
-                        <a href="/user/{{ $user->id }}" class="link">
-                            {{ $user->username }}
-                        </a>
-                    </h4>
-                </div>
+            <div class="d-flex align-items-center pl-3" style="text-align: left">
+                @if ($user->avatar == 'avatar.png' || !$user->avatar)
+                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                         alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
+                @elseif (!is_null($user->photo_verified_at))
+                    <img src="{{ Storage::url($user->avatar) }}"
+                         alt="User Avatar" class="rounded-circle mr-2" width="40" height="40">
+                @else
+                    <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                         alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
+                @endif
+
+                <h4 class="h6 mb-0" style="{{ app()->getLocale() == 'ar' ? 'margin-right: 10px;' : '' }}">
+                    <a href="/user/{{ $user->id }}" class="link">
+                        {{ $user->username }}
+                    </a>
+                </h4>
             </div>
             @if ($page == 'shopiners')
                 <div style="text-align: right;">
