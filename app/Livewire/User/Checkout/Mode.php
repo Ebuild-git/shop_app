@@ -109,6 +109,7 @@ class Mode extends Component
         $totalArticles = count($this->articles_panier);
         $totalWeight = 0;
         $totalShippingFees = 0;
+        $processedSellers = [];
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             $gain = $post->calculateGain();
@@ -133,16 +134,15 @@ class Mode extends Component
                 $id_region = Auth::user()->region ?? null;
                 $frais = 0;
 
-                if ($id_categorie && $id_region) {
+                if (!in_array($post->id_user, $processedSellers) && $id_categorie && $id_region) {
                     $regionCategory = regions_categories::where('id_region', $id_region)
                         ->where('id_categorie', $id_categorie)
                         ->first();
                     $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                    $totalShippingFees += $frais;
+
+                    $processedSellers[] = $post->id_user;
                 }
-
-                // Add shipping fee to total shipping cost
-                $totalShippingFees += $frais;
-
 
                 $shippingDateTime = new DateTime();
                 $dueDate = (new DateTime())->modify('+4 days');
