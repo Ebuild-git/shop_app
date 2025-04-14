@@ -43,10 +43,13 @@ class ListeUtilisateurs extends Component
                     ->orWhere('etage', 'like', '%' . $this->key . '%')
                     ->orWhere('num_appartement', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
+
                     if (is_numeric($this->key)) {
-                        $modifiedKey = $this->key - 1000;
                         $query->orWhere('id', $this->key)
-                              ->orWhere('id', $modifiedKey);
+                              ->orWhere('id', $this->key - 1000);
+                    } elseif (preg_match('/^U\d+$/i', $this->key)) {
+                        $rawId = (int)substr($this->key, 1) - 1000;
+                        $query->orWhere('id', $rawId);
                     }
 
 
