@@ -95,6 +95,9 @@
             height: auto;
             object-fit: cover;
         }
+        .content .order-summary table .product-info {
+            padding-left: 15px;
+        }
         .content .order-summary table .product-info h3 {
             font-size: 18px;
             margin: 0;
@@ -145,8 +148,8 @@
                             </td>
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
+                                <p style="color: #555;">Vendeur : <strong>{{ $article['vendeur'] ?? 'N/A' }}</strong></p>
                                 <p>{{ $article['prix'] }} <sup>{{ __('currency') }}</sup></p>
-
                             </td>
                         </tr>
                         @php
