@@ -687,7 +687,8 @@ body {
     background-color: transparent !important;
     border: solid 2px #018d8d;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 14px;
+    white-space: nowrap;
 }
 
 .multi-color-btn {
