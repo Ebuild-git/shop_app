@@ -371,7 +371,10 @@
 "current_password": "كلمة المرور الحالية",
 "new_password": "كلمة المرور الجديدة",
 "confirm_password": "تأكيد كلمة المرور",
-"update_password": "تحديث كلمة المرور الخاصة بي"
+"update_password": "تحديث كلمة المرور الخاصة بي",
+"create_first_post": "أنشئ أول منشور لك",
+  "create_post": "أنشئ منشورًا",
+  "now": "الآن"
 
 
 

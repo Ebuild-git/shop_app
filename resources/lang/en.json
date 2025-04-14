@@ -363,7 +363,10 @@
     "current_password": "Current password",
     "new_password": "New password",
     "confirm_password": "Confirm password",
-    "update_password": "Update my password"
+    "update_password": "Update my password",
+    "create_first_post": "Create Your First Post",
+  "create_post": "Create a Post",
+  "now": "Now"
 
 
 

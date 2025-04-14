@@ -365,7 +365,10 @@
     "current_password": "Mot de passe actuel",
     "new_password": "Nouveau mot de passe",
     "confirm_password": "Confirmation du mot de passe",
-    "update_password": "Modifier mon mot de passe"
+    "update_password": "Modifier mon mot de passe",
+    "create_first_post": "Créer Votre Première publication",
+    "create_post": "Créer une publication",
+    "now": "Maintenant"
 
 
 

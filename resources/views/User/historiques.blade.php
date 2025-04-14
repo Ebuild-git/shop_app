@@ -3,24 +3,24 @@
 @section('content')
 @section('body')
 
-<div class="container pt-5 pb-5 ">
+<div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
     <div class="card p-3">
         <div class="d-flex justify-content-between">
             <div class="h4 my-auto">
                 @if ($count == 0)
-                Créer Votre Première publication
-                <span class="text-red">Maintenant </span> !
+                {{ __('create_first_post') }}
+                <span class="text-red">{{ __('now') }}</span> !
                 @else
-                Créer une publication
-                <span class="text-red">Maintenant </span> !
+                {{ __('create_post') }}
+                <span class="text-red">{{ __('now') }}</span> !
                 @endif
             </div>
             <div style="text-align: right">
                 <a href="/publication">
                     <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
                         <i class="bi bi-plus-circle-fill"></i>
-                        Publier un article
+                        {{ __('publish_article') }}
                     </button>
                 </a>
             </div>
@@ -31,15 +31,15 @@
         <div>
             <a href="{{ route('historique',['type'=>'achats']) }}" class="btn btn-achat  shadow-none @if($type == "achats") bg-red @endif">
                 <i class="bi bi-bag"></i>
-                Mes achats
+                {{ __('my_purchases') }}
             </a>
             <a href="{{ route('historique',['type'=>'ventes']) }}" class="btn btn-vente shadow-none @if($type == "ventes") bg-red @endif">
                 <i class="bi bi-cash-coin"></i>
-                Mes ventes
+                {{ __('my_sales') }}
             </a>
             <a href="{{ route('historique',['type'=>'annonces']) }}" class="btn btn-pub shadow-none @if($type == "annonces") bg-red @endif">
                 <i class="bi bi-upload"></i>
-                Mes annonces
+                {{ __('my_ads') }}
             </a>
         </div>
         <br>
