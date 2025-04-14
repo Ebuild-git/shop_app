@@ -16,7 +16,9 @@
                             <li class="breadcrumb-item">
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('Shopiners')}}</li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="{{ route('shopiners') }}">{{ __('Shopiners') }}</a>
+                            </li>
                         </ol>
                     </nav>
                 </div>
