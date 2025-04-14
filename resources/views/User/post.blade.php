@@ -40,11 +40,9 @@
                 <h2 class="ft-bold mb-2">Coordonnées Personnelles</h2>
                 <p class="text-muted">Veuillez remplir ces informations pour compléter votre profil.</p>
             </div>
-            <div id="ribMessage" class="mb-3"></div>
             <form id="ribForm" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4 position-relative">
-                    {{-- <i class="fas fa-user-circle form-icon"></i> --}}
                     <label for="titulaireName" class="form-label">Nom du Titulaire</label>
                     <input
                         type="text"
@@ -72,7 +70,6 @@
                 </div>
 
                 <div class="mb-4 position-relative">
-                    {{-- <i class="fas fa-credit-card form-icon"></i> --}}
                     <label for="ribNumber" class="form-label">Numéro RIB</label>
                     <input
                         type="text"
@@ -121,6 +118,7 @@
                 <button type="submit" class="btn-prim w-30-custom">
                     {{ $isDataAvailable ? 'Modifier' : 'Sauvegarder' }}
                 </button>
+                <div id="ribMessage" class="mt-4"></div>
             </form>
         </div>
     </div>
