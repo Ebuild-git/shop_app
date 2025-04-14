@@ -345,7 +345,30 @@
 "back_to_addresses": "Back to delivery addresses",
 "thank_you": "Thank you for your order",
 "confirmation_message": "You will receive a confirmation email including a summary of your order.",
-"back_home": "Back to homepage"
+"back_home": "Back to homepage",
+"personal_info": "Personal Information",
+"bank_details": "Bank Details",
+"security": "Security",
+"my_personal_info": "My Personal Information",
+"my_bank_details": "My Bank Details",
+"profile_photo": "Profile photo",
+"delete_account": "Delete my account",
+"save_changes2": "Save changes",
+"choose_file": "Choose a file",
+"current_rib_number": "Current RIB number",
+    "bank_name": "Bank name",
+    "account_holder_name": "Account holder name",
+    "cin_image": "CIN image (National Identity Card)",
+    "save_bank_info_changes": "Save changes to my bank information",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm password",
+    "update_password": "Update my password"
+
+
+
+
+
 
 
 

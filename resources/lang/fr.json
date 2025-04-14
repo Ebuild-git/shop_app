@@ -347,7 +347,30 @@
 "back_to_addresses": "Retour aux adresses de livraison",
 "thank_you": "Merci pour votre commande",
 "confirmation_message": "Vous allez reçevoir un email de confirmation comprenant un récapitulatif de votre commande.",
-"back_home": "Retour à la page d'accueil"
+"back_home": "Retour à la page d'accueil",
+"personal_info": "Informations personnelles",
+"bank_details": "Coordonnées bancaires",
+"security": "Sécurité",
+"my_personal_info": "Mes informations personnelles",
+"my_bank_details": "Mes coordonnées bancaires",
+"profile_photo": "Photo de profil",
+"delete_account": "Supprimer mon compte",
+"save_changes2": "Enregistrer les modifications",
+"choose_file": "Choisir un fichier",
+"current_rib_number": "Numéro de RIB actuel",
+    "bank_name": "Nom de la banque",
+    "account_holder_name": "Nom du titulaire",
+    "cin_image": "Image du CIN (Carte d'Identité Nationale)",
+    "save_bank_info_changes": "Sauvegarder les modifications de mes informations bancaires",
+    "current_password": "Mot de passe actuel",
+    "new_password": "Nouveau mot de passe",
+    "confirm_password": "Confirmation du mot de passe",
+    "update_password": "Modifier mon mot de passe"
+
+
+
+
+
 
 
 

@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Photo de profil</label>
-                <div class="custom-file">
+                <label>{{ __('profile_photo') }}</label>
+                <div class="custom-file" style="{{ app()->getLocale() == 'ar' ? 'text-align: left; direction: ltr;' : 'text-align: left; direction: ltr;' }}">
                     <input type="file" class="custom-file-input" wire:model="avatar" id="avatar" accept="image/*">
-                    <label class="custom-file-label" for="avatar">Choisir une image</label>
+                    <label class="custom-file-label" for="avatar">{{ __('choose_file') }}</label>
                 </div>
 
                 @if ($avatar)
@@ -34,21 +34,21 @@
         </div>
 
         <div class="col-sm-4">*
-            <label>Nom </label>
+            <label>{{ __('nom') }}</label>
             <span class="text-danger">*</span>
             <div class="form-group">
                 <input type="text" class="form-control border-r shadow-none" value="{{ Auth::user()->lastname }}" readonly>
             </div>
         </div>
         <div class="col-sm-4">
-            <label>Prénom </label>
+            <label>{{ __('prenom') }}</label>
             <span class="text-danger">*</span>
             <div class="form-group">
                 <input type="text" class="form-control border-r shadow-none" value="{{ Auth::user()->firstname }}" readonly>
             </div>
         </div>
         <div class="col-sm-4">
-            <label>Pseudonyme </label>
+            <label>{{ __('pseudonyme') }} </label>
                 <span class="text-danger">*</span>
             <div class="form-group">
                 <input type="text" class="form-control border-r shadow-none" value="{{ Auth::user()->username }}" readonly>
@@ -56,7 +56,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Adresse email</label>
+                <label>{{ __('email') }}</label>
                 <span class="text-danger">*</span>
                 <input type="email" class="form-control border-r shadow-none" @error('email') is-invalid @enderror
                     wire:model="email" required>
@@ -67,7 +67,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Numéro de téléphone</label>
+                <label>{{ __('telephone') }}</label>
                 <span class="text-danger">*</span>
                 <input type="tel" class="form-control border-r shadow-none" oninput="formatTelephone(this)" maxlength="14"
                     @error('phone_number') is-invalid @enderror wire:model="phone_number" required>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-sm-4 mt-1">
             <div class="form-group">
-                <span for="small">Date de naissance</span>
+                <span for="small">{{ __('date_naissance') }}</span>
                 <span class="text-danger">*</span>
                 <div class="input-group">
                     <select wire:model="jour" class="form-control">
@@ -117,7 +117,7 @@
 
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Région</label>
+                <label>{{ __('Région') }}</label>
                 <span class="text-danger">*</span>
                 <select class="form-control border-r shadow-none" wire:model="region" >
                     <option value=""></option>
@@ -132,7 +132,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Ville</label>
+                <label>{{ __('ville') }}</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="address">
@@ -143,7 +143,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Rue</label>
+                <label>{{ __('rue') }}</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="rue">
@@ -154,7 +154,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>Nom Bâtiment</label>
+                <label>{{ __('batiment') }}</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="nom_batiment">
@@ -165,7 +165,7 @@
         </div>
         <div class="col-sm-2">
             <div class="form-group">
-                <label>Étage</label>
+                <label>{{ __('etage') }}</label>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="etage">
                 @error('etage')
@@ -175,7 +175,7 @@
         </div>
         <div class="col-sm-2">
             <div class="form-group">
-                <label>Numéro d'appartement</label>
+                <label>{{ __('num_appartement') }}</label>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="num_appartement">
                 @error('num_appartement')
@@ -188,13 +188,13 @@
     <br>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount({{ Auth::id() }}, @this)">
-            Supprimer mon compte
+            {{ __('delete_account') }}
         </button>
 
         <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 wire:loading></span>
-            Enregistrer les modifications
+                {{ __('save_changes2') }}
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>

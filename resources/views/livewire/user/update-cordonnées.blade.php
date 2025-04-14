@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <label>Numéro de RIB actuel</label>
+                <label>{{ __('current_rib_number') }}</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control border-r shadow-none" @error('rib_number') is-invalid @enderror
                     wire:model="rib_number" required>
@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm-6">
             <div>
-                <label>Nom de la banque</label>
+                <label>{{ __('bank_name') }}</label>
                 <span class="text-danger">*</span>
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="bank-name"
@@ -28,7 +28,7 @@
         </div>
         <div class="col-sm-6">
             <div>
-                <label>Nom du titulaire</label>
+                <label>{{ __('account_holder_name') }}</label>
                 <span class="text-danger">*</span>
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
@@ -42,7 +42,7 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="cin_img">Image du CIN (Carte d'Identité Nationale)</label>
+                <label for="cin_img">{{ __('cin_image') }}</label>
                 <span class="text-danger">*</span>
                 <input type="file" class="form-control" id="cin_img" wire:model="cin_img" accept="image/*">
                 @error('cin_img')
@@ -54,7 +54,7 @@
     <div class="modal-footer mt-3">
         <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-            Sauvegarder les modifications de mes informations bancaires
+            {{ __('save_bank_info_changes') }}
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>

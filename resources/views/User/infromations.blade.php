@@ -17,34 +17,34 @@
                 </div>
             </div>
         </div>
-        <div class="p-3">
+        <div class="p-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
             <div>
                 <button class="btn btn-perso bg-red shadow-none" onclick="change('perso')">
                     <i class="bi bi-person"></i>
-                    Informations personnelles
+                    {{ __('personal_info') }}
                 </button>
                 <button class="btn btn-cord shadow-none" onclick="change('cord')">
                     <i class="fas fa-credit-card"></i>
-                    Coordonnées bancaires
+                    {{ __('bank_details') }}
                 </button>
                 <button class="btn btn-secu shadow-none" onclick="change('secu')">
                     <i class="bi bi-lock"></i>
-                    Sécurité
+                    {{ __('security') }}
                 </button>
             </div>
             <div class="border border-1 p-3 rounded card">
                 <div id="div-perso">
-                    <h4 class="text-muted">Mes informations personnelles</h4>
+                    <h4 class="text-muted">{{ __('my_personal_info') }}</h4>
                     <hr>
                     @livewire('User.UpdateInformations')
                 </div>
                 <div id="div-cordonnées" style="display: none;">
-                    <h4 class="text-muted">Mes coordonnées bancaires</h4>
+                    <h4 class="text-muted">{{ __('my_bank_details') }}</h4>
                     <hr>
                     @livewire('User.UpdateCordonnées')
                 </div>
                 <div id="div-secu" style="display: none;">
-                    <h4 class="text-muted">Sécurité</h4>
+                    <h4 class="text-muted">{{ __('security') }}</h4>
                     <hr>
                     @livewire('User.UpdateMySecurity')
                 </div>

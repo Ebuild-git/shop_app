@@ -353,7 +353,30 @@
 "back_to_addresses": "العودة إلى عناوين التوصيل",
 "thank_you": "شكرًا على طلبك",
 "confirmation_message": "ستتلقى بريدًا إلكترونيًا يحتوي على ملخص لطلبك.",
-"back_home": "العودة إلى الصفحة الرئيسية"
+"back_home": "العودة إلى الصفحة الرئيسية",
+"personal_info": "المعلومات الشخصية",
+"bank_details": "المعلومات البنكية",
+"security": "الأمان",
+"my_personal_info": "معلوماتي الشخصية",
+"my_bank_details": "معلوماتي البنكية",
+"profile_photo": "صورة الملف الشخصي",
+"delete_account": "حذف حسابي",
+"save_changes2": "حفظ التغييرات",
+"choose_file": "اختر صورة",
+"current_rib_number": "رقم RIB الحالي",
+"bank_name": "اسم البنك",
+"account_holder_name": "اسم صاحب الحساب",
+"cin_image": "صورة CIN (بطاقة الهوية الوطنية)",
+"save_bank_info_changes": "حفظ التغييرات على معلوماتي البنكية",
+"current_password": "كلمة المرور الحالية",
+"new_password": "كلمة المرور الجديدة",
+"confirm_password": "تأكيد كلمة المرور",
+"update_password": "تحديث كلمة المرور الخاصة بي"
+
+
+
+
+
 
 
 
