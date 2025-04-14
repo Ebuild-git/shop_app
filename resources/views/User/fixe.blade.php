@@ -1212,7 +1212,7 @@
             {{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}
             </div>
             <div class="modal-footer justify-content-center border-0 pt-0 pb-3">
-            <a href="{{ route('mes_informations') }}" class="rounded-link">
+            <a href="/informations?section=cord" class="rounded-link">
                {{ __('Ajouter maintenant') }}
             </a>
             </div>
