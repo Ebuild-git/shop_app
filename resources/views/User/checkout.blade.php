@@ -41,18 +41,18 @@
         @endif
 
         @if ($step == 4)
-            <div class="mt-5 mb-5">
+            <div class="mt-5 mb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <div class="text-center">
                     <h2 class="color">
                         <img src="/icons/icons8-coche.gif" alt="" srcset=""> <br>
-                        Merci pour votre commande
+                        {{ __('thank_you') }}
                     </h2>
                     <p>
-                        Vous allez reçevoir un email de confirmation comprenant un recapitulatif de votre commande.
+                        {{ __('confirmation_message') }}
                     </p>
                     <a href="/" class="btn btn-outline-dark">
                         <i class="bi bi-house-door-fill"></i>
-                        Retour à la page d'accueil
+                        {{ __('back_home') }}
                     </a>
                 </div>
             </div>

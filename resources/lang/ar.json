@@ -345,7 +345,17 @@
   "add": "إضافة",
   "continue": "استمر",
   "complete_address_info": "يرجى إكمال جميع معلومات العنوان الافتراضي لمتابعة الطلب.",
-  "complete_main_address_info": "يرجى إكمال جميع معلومات عنوانك الرئيسي لمتابعة الطلب."
+  "complete_main_address_info": "يرجى إكمال جميع معلومات عنوانك الرئيسي لمتابعة الطلب.",
+  "payment_shipping": "طريقة الدفع والتوصيل",
+  "cash_on_delivery": "الدفع عند الاستلام",
+"cash_on_delivery_info": "تدفع عند الاستلام (في العنوان الذي تختاره) وتتلقى طلبك بأمان.",
+"terms_notice": "بمتابعة طلبك، فإنك تقبل <span data-toggle=\"modal\" data-target=\"#conditions\" class=\"color cursor\"><b>الشروط والأحكام</b></span> الخاصة بـ <b style=\"color: black\">شوب<span class=\"color\">إن</span></b>.",
+"back_to_addresses": "العودة إلى عناوين التوصيل",
+"thank_you": "شكرًا على طلبك",
+"confirmation_message": "ستتلقى بريدًا إلكترونيًا يحتوي على ملخص لطلبك.",
+"back_home": "العودة إلى الصفحة الرئيسية"
+
+
 
 
 

@@ -2,22 +2,22 @@
     <div class="container">
         <div class="text-center">
             <h3>
-                <b class="color">Mode de paiement & livraison</b>
+                <b class="color">{{ __('payment_shipping')}}</b>
             </h3>
         </div>
         <br>
-        <div class="row">
+        <div class="row" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
             <!-- Payment Info Section -->
             <div class="col-lg-8 col-md-7 col-sm-12 mx-auto mb-4">
                 <div class="card p-4 modern-card">
                     <h5 class="mb-3 payment-title">
-                        <b><i class="bi bi-credit-card-2-front"></i> Paiement à la livraison</b>
+                        <b><i class="bi bi-credit-card-2-front"></i> {{ __('cash_on_delivery') }}</b>
                     </h5>
                     <p class="payment-description">
-                        Vous payez à la livraison (à l'adresse de votre choix) et recevez votre commande en toute sécurité.
+                        {{ __('cash_on_delivery_info') }}
                     </p>
                     <hr class="my-3">
-                    <b class="delivery-title"><i class="bi bi-geo-alt"></i> Adresse de livraison</b>
+                    <b class="delivery-title"><i class="bi bi-geo-alt"></i> {{ __('Adresse de livraison') }}</b>
                     <div class="address-card mt-3 p-3">
                         <p class="address-text">
                             <i class="bi bi-house-door"></i>
@@ -43,20 +43,20 @@
             <div class="col-lg-4 col-md-5 col-sm-12 mx-auto">
                 <div class="card p-4 summary-card">
                     <div class="d-flex justify-content-between summary-item mb-3">
-                        <b>Total des articles :</b>
+                        <b>{{ __('total_articles') }} :</b>
                         <span>{{ $nbre_article }}</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between summary-item">
-                        <span>Sous-total :</span>
+                        <span>{{ __('subtotal')}} :</span>
                         <b>{{ number_format($total, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b>
                     </div>
                     <div class="d-flex justify-content-between summary-item">
-                        <span>Total de frais :</span>
+                        <span>{{ __('total_fees')}} :</span>
                         <b>{{ number_format($totalDeliveryFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b>
                     </div>
                     <div class="d-flex justify-content-between summary-item total-section">
-                        <h4 class="color"><b>TOTAL :</b></h4>
+                        <h4 class="color"><b>{{ __('total') }} :</b></h4>
                         <h4><b>{{ number_format($totalWithDelivery, 2, '.', '') }} <sup>{{ __('currency') }}</sup></b></h4>
                     </div>
                     @if ($total > 0)
@@ -64,20 +64,20 @@
                         <div class="text-center terms-section">
                             <p class="terms-text">
                                 <input type="checkbox" id="acceptCond" onclick="enableButtonOnCheck()">
-                                En poursuivant votre commande, vous acceptez les
+                                {{-- En poursuivant votre commande, vous acceptez les
                                 <span data-toggle="modal" data-target="#conditions" class="color cursor">
                                     <b>Conditions générales</b>
-                                </span> de <b style="color: black">SHOP<span class="color">IN</span></b>.
-
+                                </span> de <b style="color: black">SHOP<span class="color">IN</span></b>. --}}
+                                {!! __('terms_notice') !!}
                             </p>
 
                             <button type="button" class="btn-validate w-100 mt-2" id="validateCartButton" wire:click="confirm()" disabled>
                                 <span wire:loading><x-Loading></x-Loading></span>
-                                Valider mon panier
+                                {{ __('validate_cart') }}
                             </button>
 
                             <div class="mt-3">
-                                <a href="{{ route('checkout') }}?step=2" class="return-link">Retour aux adresses de livraison</a>
+                                <a href="{{ route('checkout') }}?step=2" class="return-link">{{ __('back_to_addresses') }}</a>
                             </div>
                         </div>
                     @endif
@@ -86,7 +86,7 @@
         </div>
         <div class="d-flex justify-content-between responsive-btn-wrapper" style="position: relative; top: -40px;">
             <a href="{{ route('checkout') }}?step=2" class="btn btn-dark address-btn">
-                <i class="bi bi-arrow-left"></i> Adresse de livraison
+                <i class="bi bi-arrow-left"></i> {{ __('Adresse de livraison') }}
             </a>
         </div>
 

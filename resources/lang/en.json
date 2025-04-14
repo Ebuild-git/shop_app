@@ -337,7 +337,18 @@
   "add": "Add",
   "continue": "Continue",
   "complete_address_info": "Please complete all the default address information to continue the order.",
-  "complete_main_address_info": "Please complete all the information of your main address to continue the order."
+  "complete_main_address_info": "Please complete all the information of your main address to continue the order.",
+  "payment_shipping": "Payment & Delivery Method",
+  "cash_on_delivery": "Cash on Delivery",
+"cash_on_delivery_info": "You pay upon delivery (at your chosen address) and receive your order safely.",
+"terms_notice": "By proceeding with your order, you accept the <span data-toggle=\"modal\" data-target=\"#conditions\" class=\"color cursor\"><b>Terms and Conditions</b></span> of <b style=\"color: black\">SHOP<span class=\"color\">IN</span></b>.",
+"back_to_addresses": "Back to delivery addresses",
+"thank_you": "Thank you for your order",
+"confirmation_message": "You will receive a confirmation email including a summary of your order.",
+"back_home": "Back to homepage"
+
+
+
 
 
 

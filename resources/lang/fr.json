@@ -339,11 +339,15 @@
 "add": "Ajouter",
 "continue": "Continuer",
 "complete_address_info": "Veuillez compléter toutes les informations de l'adresse par défaut pour continuer la commande.",
-"complete_main_address_info": "Veuillez compléter toutes les informations de votre adresse principale pour continuer la commande."
-
-
-
-
+"complete_main_address_info": "Veuillez compléter toutes les informations de votre adresse principale pour continuer la commande.",
+"payment_shipping": "Mode de paiement & livraison",
+"cash_on_delivery": "Paiement à la livraison",
+"cash_on_delivery_info": "Vous payez à la livraison (à l'adresse de votre choix) et recevez votre commande en toute sécurité.",
+"terms_notice": "En poursuivant votre commande, vous acceptez les <span data-toggle=\"modal\" data-target=\"#conditions\" class=\"color cursor\"><b>Conditions générales</b></span> de <b style=\"color: black\">SHOP<span class=\"color\">IN</span></b>.",
+"back_to_addresses": "Retour aux adresses de livraison",
+"thank_you": "Merci pour votre commande",
+"confirmation_message": "Vous allez reçevoir un email de confirmation comprenant un récapitulatif de votre commande.",
+"back_home": "Retour à la page d'accueil"
 
 
 
