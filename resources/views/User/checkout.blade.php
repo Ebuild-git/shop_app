@@ -5,21 +5,21 @@
     <div class="bg-red @if ($step == 4) d-none @endif">
         <div class="container">
             <fiv class="row">
-                <div class="col-sm-10 mx-auto p-3">
+                <div class="col-sm-10 mx-auto p-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                     <div class="d-flex justify-content-around timeline">
                         <a href="{{ route('checkout') }}?step=1"
                             class="step @if ($step == 1) active @endif ">
                             <i class="bi bi-cart"></i>
-                            Panier
+                            {{ __('Panier') }}
                         </a>
                         <a href="{{ route('checkout') }}?step=2" class="step @if ($step == 2) active @endif">
                             <i class="bi bi-geo-alt"></i>
-                            Adresse de livraison
+                            {{ __('Adresse de livraison') }}
                         </a>
                         <a href="#"
                             class="step @if ($step == 3) active @endif">
                             <i class="bi bi-wallet2"></i>
-                            Paiement
+                            {{ __('Paiement') }}
                         </a>
                     </div>
                 </div>
