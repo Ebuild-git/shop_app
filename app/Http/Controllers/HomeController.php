@@ -343,6 +343,7 @@ class HomeController extends Controller
         } else {
             $posts = posts::where("id_user", $user->id)
             ->where("statut", "!=", "validation")
+            ->orderBy('created_at', 'desc')
             ->get()->map(function($post) {
                 $post->discountPercentage = null;
                 if ($post->old_prix && $post->old_prix > $post->prix) {
