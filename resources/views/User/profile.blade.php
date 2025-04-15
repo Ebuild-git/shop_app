@@ -84,7 +84,7 @@
                                     </span>
                                     |
                                     <span>
-                                        <b>{{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
+                                        <b>{{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
                                     </span>
                                     |
                                     <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">

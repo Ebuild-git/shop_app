@@ -58,7 +58,7 @@
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} : {{ $user->voyage_mode ? 0 : $user->GetPosts->count() }}
+                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} : {{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}
                     </a>
                 </div>
             </div>

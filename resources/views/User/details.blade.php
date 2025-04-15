@@ -200,7 +200,7 @@
                                             <div>
                                                 @php
                                                     $salesCount = $user->total_sales->count();
-                                                    $adsCount = $user->voyage_mode ? 0 : $user->GetPosts->count();
+                                                    $adsCount = $user->voyage_mode ? 0 : $user->ValidatedPosts->count();
                                                     $categoriesCount = $user->categoriesWhereUserSell();
                                                 @endphp
 
@@ -476,7 +476,7 @@
                                                             </span>
                                                             |
                                                             <span>
-                                                                <b>{{ $user->GetPosts->count() }}</b> {{ trans_choice('messages.annonces', $adsCount) }}
+                                                                <b>{{ $user->ValidatedPosts->count() }}</b> {{ trans_choice('messages.annonces', $adsCount) }}
                                                             </span>
                                                         </div>
                                                     </div>

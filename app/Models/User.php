@@ -72,6 +72,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(posts::class, 'id_user', 'id');
     }
 
+    public function ValidatedPosts()
+    {
+        return $this->hasMany(Posts::class, 'id_user', 'id')
+                    ->where('statut', '!=', 'validation');
+    }
+
 
     public function region()
     {
