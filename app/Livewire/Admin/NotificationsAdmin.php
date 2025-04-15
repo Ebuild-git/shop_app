@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\notifications;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationsAdmin extends Component
 {
@@ -50,4 +51,12 @@ class NotificationsAdmin extends Component
         }
         $this->notifications = $this->getList();
     }
+
+    public function deleteAll()
+    {
+        notifications::where("destination", "admin")->delete();
+        $this->notifications = $this->getList();
+    }
+
+
 }

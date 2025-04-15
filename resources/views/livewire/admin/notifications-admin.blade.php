@@ -8,6 +8,7 @@
             </span>
         @endif
     </a>
+
     <ul class="dropdown-menu dropdown-menu-end py-0">
         <li class="dropdown-menu-header border-bottom">
             <div class="dropdown-header d-flex align-items-center py-3">
@@ -15,6 +16,10 @@
                 <a href="javascript:void(0)" wire:click="all_read()" class="dropdown-notifications-all text-body"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read">
                     <i class="ti ti-mail-opened fs-4"></i>
+                </a>
+                <a href="javascript:void(0)" wire:click="deleteAll()" class="dropdown-notifications-all text-danger ms-2"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer toutes les notifications">
+                    <i class="ti ti-trash fs-4"></i>
                 </a>
             </div>
         </li>
@@ -63,18 +68,10 @@
 
             </ul>
         </li>
-
-        {{--  <li class="dropdown-menu-footer border-top">
-            <a href="javascript:void(0);"
-                class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
-                View all notifications
-            </a>
-        </li> --}}
     </ul>
 
 </li>
 <script>
-    // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
     var pusher = new Pusher('5b6f7ad6a8cf384098d9', {
