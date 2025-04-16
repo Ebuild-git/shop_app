@@ -9,6 +9,17 @@
             </div>
 
             <div class="mb-3">
+                <label for="title_en" class="form-label">Titre de la catégorie(Englais)</label>
+                <input type="text" wire:model="title_en" id="title_en" class="form-control" required>
+                @error('title_en') <div class="text-danger">{{ $message }}</div> @enderror
+            </div>
+            <div class="mb-3">
+                <label for="title_ar" class="form-label">Titre de la catégorie(Arabe)</label>
+                <input type="text" wire:model="title_ar" id="title_ar" class="form-control" required>
+                @error('title_ar') <div class="text-danger">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="mb-3">
                 <label for="pourcentage_gain" class="form-label">Marge de gain (%)</label>
                 <input type="number" wire:model="pourcentage_gain" id="pourcentage_gain" class="form-control" min="0" step="0.1">
                 @error('pourcentage_gain') <div class="text-danger">{{ $message }}</div> @enderror

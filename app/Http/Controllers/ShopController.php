@@ -56,7 +56,6 @@ class ShopController extends Controller
             ->whereNotIn('id_user', $usersWithVoyageMode);
 
         if ($luxury_only == "true") {
-            //sachant que le post est lier a une sous categorie qui est lier a une categoerie, je veux tout les post donc la categorie est luxuryt true
             $query->whereHas('sous_categorie_info.categorie', function ($q) {
                 $q->where('luxury', true);
             });
@@ -218,7 +217,9 @@ class ShopController extends Controller
                 });
 
             $query->orWhereHas('sous_categorie_info', function ($query) use ($q) {
-                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . $q . '%']);
+                $query->whereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($q) . '%'])
+                ->orWhereRaw('LOWER(title_en) LIKE ?', ['%' . strtolower($q) . '%'])
+                ->orWhereRaw('LOWER(title_ar) LIKE ?', ['%' . strtolower($q) . '%']);
             });
         }
 

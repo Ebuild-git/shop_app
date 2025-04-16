@@ -11,6 +11,27 @@
                 </div>
             @enderror
         </div>
+        <div>
+            <label class="form-label" for="modalAddCardName">Titre en anglais</label>
+            <input type="text" wire:model="title_en" class="form-control" required
+                placeholder="Titre en anglais de la sous-catégorie" />
+            @error('title_en')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div>
+            <label class="form-label" for="modalAddCardName">Titre en arabe</label>
+            <input type="text" wire:model="title_ar" class="form-control" required
+                placeholder="Titre en arabe de la sous-catégorie" />
+            @error('title_ar')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
         <br>
         <div>
             <label for="" class="mb-2">Propriétés des annonce de cette sous-catégorie </label>

@@ -28,8 +28,16 @@
             </h4>
             <div class="d-flex justify-content-between">
                 <div class="categorie-title1">
-
-                    {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->titre) }}
+                    @switch(app()->getLocale())
+                    @case('en')
+                        {{ $post->sous_categorie_info->title_en }}
+                        @break
+                    @case('ar')
+                        {{ $post->sous_categorie_info->title_ar }}
+                        @break
+                    @default
+                        {{ $post->sous_categorie_info->titre }}
+                    @endswitch
                 </div>
                 @if ($post->proprietes)
                     <div class="strong1">

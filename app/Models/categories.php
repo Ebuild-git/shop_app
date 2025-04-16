@@ -14,6 +14,8 @@ class categories extends Model
         'photo',
         'order',
         'active',
+        'title_en',
+        'title_ar'
     ];
 
     protected $casts = [

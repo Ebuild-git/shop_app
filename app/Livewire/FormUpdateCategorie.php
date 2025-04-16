@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $icon, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon, $active;
+    public $categorie, $titre, $icon, $title_ar, $title_en, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon, $active;
     public $region_prix = [];
 
     public function mount($id)
@@ -27,6 +27,8 @@ class FormUpdateCategorie extends Component
         $this->region_prix = [];
         $this->categorie = categories::find($this->id);
         $this->titre = $this->categorie->titre;
+        $this->title_ar = $this->categorie->title_ar;
+        $this->title_en = $this->categorie->title_en;
         $this->icon = $this->categorie->icon;
         $this->pourcentage_gain = $this->categorie->pourcentage_gain ?? 0;
         $this->description = $this->categorie->description;
@@ -56,6 +58,8 @@ class FormUpdateCategorie extends Component
         // Apply validation
         $this->validate([
             'titre' => ['required', 'string'],
+            'title_en' => ['nullable', 'string'],
+            'title_ar' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'photo' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', 'max:10048'],
             'small_icon' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp,svg', 'max:1048'],
@@ -83,6 +87,8 @@ class FormUpdateCategorie extends Component
             }
 
             $categorie->titre = $this->titre;
+            $categorie->title_en = $this->title_en;
+            $categorie->title_ar = $this->title_ar;
             $categorie->description = $this->description ?: '';
             $categorie->pourcentage_gain = $this->pourcentage_gain;
             $categorie->active = $this->active;

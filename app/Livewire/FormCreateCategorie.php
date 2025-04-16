@@ -13,7 +13,7 @@ use Livewire\Component;
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo,  $pourcentage_gain, $list_regions,$small_icon, $active = true;
+    public $titre, $description, $photo, $title_ar, $title_en,  $pourcentage_gain, $list_regions,$small_icon, $active = true;
 
     public $regions = [];
     protected $listeners = ['regionCreated' => '$refresh'];
@@ -29,6 +29,8 @@ class FormCreateCategorie extends Component
 
         $this->validate([
             'titre' => ['required', 'string'],
+            '$title_en' => ['nullable', 'string'],
+            '$title_ar' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:10048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
@@ -40,6 +42,8 @@ class FormCreateCategorie extends Component
 
         $categorie = new categories();
         $categorie->titre = $this->titre;
+        $categorie->title_en = $this->title_en;
+        $categorie->title_ar = $this->title_ar;
         $categorie->description = $this->description;
         $categorie->icon = $newName;
         $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
@@ -56,7 +60,7 @@ class FormCreateCategorie extends Component
                 $regions_categorie->prix =  $valeur;
                 $regions_categorie->save();
             }
-            $this->reset(['titre', 'description', 'photo']);
+            $this->reset(['titre', 'description', 'photo', 'title_en', 'title_ar']);
             session()->flash("success", "La catégorie a été ajoutée avec succès");
             $this->dispatch('alert', ['message' => "La catégorie a été ajoutée avec succès",'type'=>'success']);
             $this->list_regions = "";

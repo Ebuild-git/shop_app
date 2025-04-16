@@ -12,6 +12,8 @@ class FormCreateSousCategorie extends Component
     public $proprios = [];
     public $required = [];
     public $titre, $proprietes, $id_categorie;
+    public $title_en;
+    public $title_ar;
 
     public function render()
     {
@@ -27,6 +29,8 @@ class FormCreateSousCategorie extends Component
 
     protected $rules = [
         'titre' => 'required|min:3',
+        'title_en' => 'nullable|string',
+        'title_ar' => 'nullable|string',
     ];
     public function save()
     {
@@ -48,6 +52,8 @@ class FormCreateSousCategorie extends Component
         $jsonIndexes = $indexesArray;
         $sous_categorie = new sous_categories();
         $sous_categorie->titre = $this->titre;
+        $sous_categorie->title_en = $this->title_en;
+        $sous_categorie->title_ar = $this->title_ar;
         $sous_categorie->id_categorie = $this->id_categorie;
         $sous_categorie->proprietes = $jsonIndexes ?? [];
         $sous_categorie->required = json_encode($test) ?? [];

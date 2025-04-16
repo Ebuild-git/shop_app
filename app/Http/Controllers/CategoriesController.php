@@ -62,6 +62,8 @@ class CategoriesController extends Controller
         //validation
         $this->validate($request, [
             'titre' => 'required|string',
+            'title_en' => 'nullable|string',
+            'title_ar' => 'nullable|string',
             'id_categorie' => 'integer|exists:categories,id',
             'option.*' => 'nullable|integer|exists:proprietes,id',
             'required.*' => 'nullable|string',
@@ -97,10 +99,12 @@ class CategoriesController extends Controller
         $sous_categorie->id_categorie = $request->id_categorie;
         $sous_categorie->proprietes = $jsonIndexes ?? [];
         $sous_categorie->titre = $request->titre;
+        $sous_categorie->title_en = $request->title_en;
+        $sous_categorie->title_ar = $request->title_ar;
         $sous_categorie->required = json_encode($test) ?? [];
         $sous_categorie->save();
 
-        return redirect()->back()->with('success', 'La modification a été enregidtré !');
+        return redirect()->back()->with('success', 'La modification a été enregistré !');
     }
 
 

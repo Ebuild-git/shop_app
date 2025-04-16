@@ -22,6 +22,7 @@
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <a href="shop?id_categorie={{ $selected_categorie->id }}">
                                         {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre) }}
+
                                         @if ($selected_categorie->luxury == 1)
                                             <i class="bi bi-gem small color"></i>
                                         @endif
@@ -31,7 +32,17 @@
                             @if ($selected_sous_categorie)
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <b class="color">
-                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre) }}
+                                        {{-- {{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre) }} --}}
+                                        @switch(app()->getLocale())
+                                            @case('en')
+                                                {{ $selected_sous_categorie->title_en }}
+                                                @break
+                                            @case('ar')
+                                                {{ $selected_sous_categorie->title_ar }}
+                                                @break
+                                            @default
+                                                {{ $selected_sous_categorie->titre }}
+                                        @endswitch
                                     </b>
                                 </li>
                             @endif
@@ -104,7 +115,19 @@
                                     @if ($selected_categorie)
                                         @if ($selected_sous_categorie)
                                             <h3 class="p-2">
-                                                <b>{{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre )}}</b>
+                                                <b>
+                                                    {{-- {{ \App\Traits\TranslateTrait::TranslateText($selected_sous_categorie->titre )}} --}}
+                                                    @switch(app()->getLocale())
+                                                        @case('en')
+                                                            {{ $selected_sous_categorie->title_en }}
+                                                            @break
+                                                        @case('ar')
+                                                            {{ $selected_sous_categorie->title_ar }}
+                                                            @break
+                                                        @default
+                                                            {{ $selected_sous_categorie->titre }}
+                                                    @endswitch
+                                                </b>
                                             </h3>
                                         @else
                                             <div class="bg-color p-2">
@@ -113,7 +136,10 @@
                                             <div class="strong p-2 pl-3">
                                                 <a href="/shop" class="h6">
                                                     <i class="bi bi-arrow-left"></i>
-                                                    <span class="strong">{{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}}</span>
+                                                    <span class="strong">
+                                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}}
+
+                                                    </span>
                                                     @if ($selected_categorie->luxury == 1)
                                                         <span class="small color">
                                                             <i class="bi bi-gem"></i> {{ __('luxury') }}
@@ -185,7 +211,18 @@
                                                                 <button class="btn w-100 mb-1 d-flex btn-sm justify-content-between"
                                                                     onclick="select_sous_categorie({{ $sous_categorie->id }})">
                                                                     <span>
-                                                                        {{ $sous_categorie->titre }}
+
+                                                                        {{-- {{ \App\Traits\TranslateTrait::TranslateText($sous_categorie->titre) }} --}}
+                                                                        @switch(app()->getLocale())
+                                                                            @case('en')
+                                                                                {{ $sous_categorie->title_en }}
+                                                                                @break
+                                                                            @case('ar')
+                                                                                {{ $sous_categorie->title_ar }}
+                                                                                @break
+                                                                            @default
+                                                                                {{ $sous_categorie->titre }}
+                                                                        @endswitch
                                                                         @if ($selected_categorie->luxury == 1)
                                                                             <span class="color">
                                                                                 <b><i class="bi bi-gem"></i></b>
@@ -344,6 +381,8 @@
                                                     <div style="height: 15px; margin-top: 5px;">
                                                         <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
                                                     </div>
+
+
                                                     <div style="height: 25px; margin-top: 5px;">
                                                         @if ($categorie->luxury == 1)
                                                             <span class="luxury-icon color small">
@@ -367,7 +406,19 @@
 
                                                 <button class="subcategory-btn d-flex flex-column align-items-center p-1" style="height: auto;">
                                                     <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
-                                                        <span>{{ \App\Traits\TranslateTrait::TranslateText($sous_categorie->titre) }}</span>
+                                                        {{-- <span>{{ \App\Traits\TranslateTrait::TranslateText($sous_categorie->titre) }}</span> --}}
+                                                        <span>
+                                                            @switch(app()->getLocale())
+                                                                @case('en')
+                                                                    {{ $sous_categorie->title_en }}
+                                                                    @break
+                                                                @case('ar')
+                                                                    {{ $sous_categorie->title_ar }}
+                                                                    @break
+                                                                @default
+                                                                    {{ $sous_categorie->titre }}
+                                                            @endswitch
+                                                        </span>
                                                     </div>
 
                                                     <div class="d-flex align-items-center justify-content-center" style="width: 100%;gap: 5px;">

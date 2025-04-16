@@ -52,6 +52,27 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
+                                        <label>Titre en anglais :</label>
+                                        <input type="text" required name="title_en" value="{{ $sous_categorie->title_en }}"
+                                            class="form-control">
+                                        @error('title_en')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Titre en arabe :</label>
+                                        <input type="text" required name="title_ar" value="{{ $sous_categorie->title_ar }}"
+                                            class="form-control">
+                                        @error('title_ar')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
                                         <label>Catégorie d'appartenance :</label>
                                         <select name="id_categorie" class="form-control">
                                             <option value=""></option>
