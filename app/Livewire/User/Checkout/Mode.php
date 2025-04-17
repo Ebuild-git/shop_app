@@ -306,44 +306,42 @@ class Mode extends Component
                 }
 
                 $buyerPseudo = Auth::user()->username;
-                $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
 
-                $emailedSellers = [];
+                $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
+                dd($groupedBySeller);
+                $vendeurUsernames = $groupedBySeller->keys();
+                $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
 
                 foreach ($groupedBySeller as $sellerUsername => $articlesPourCeVendeur) {
-                    if (in_array($sellerUsername, $emailedSellers)) {
+                    $seller = $vendeurs[$sellerUsername] ?? null;
+
+                    if (!$seller || $articlesPourCeVendeur->isEmpty()) {
                         continue;
                     }
 
-                    $seller = User::where('username', $sellerUsername)->first();
+                    // Determine salutation based on gender
+                    $salutation = $seller->gender === 'female'
+                        ? __('notifications.salutation_female')
+                        : __('notifications.salutation_male');
 
-                    if ($seller && $articlesPourCeVendeur->isNotEmpty()) {
-                        // Determine salutation based on gender
-                        $salutation = __('notifications.salutation_male');
-                        if ($seller->gender === 'female') {
-                            $salutation = __('notifications.salutation_female');
-                        }
+                    // Get IDs of the posts
+                    $postIds = $articlesPourCeVendeur->pluck('id')->filter();
+                    $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
 
-                        // Fetch posts and calculate gain
-                        $postIds = $articlesPourCeVendeur->pluck('id')->filter();
-                        $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
+                    // Attach gain to each article
+                    $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
+                        $post = $posts[$article['id']] ?? null;
+                        $article['gain'] = $post ? $post->calculateGain() : 0;
+                        return $article;
+                    });
 
-                        $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
-                            $post = $posts[$article['id']] ?? null;
-                            $article['gain'] = $post ? $post->calculateGain() : 0;
-                            return $article;
-                        });
-
-                        // Send email with salutation included in the mailable
-                        Mail::to($seller->email)->send(new VenteConfirmee(
-                            $seller,
-                            $buyerPseudo,
-                            $articlesWithGain,
-                            $salutation
-                        ));
-
-                        $emailedSellers[] = $sellerUsername;
-                    }
+                    // Send the email
+                    Mail::to($seller->email)->send(new VenteConfirmee(
+                        $seller,
+                        $buyerPseudo,
+                        $articlesWithGain,
+                        $salutation
+                    ));
                 }
 
                 $notification = new notifications();
