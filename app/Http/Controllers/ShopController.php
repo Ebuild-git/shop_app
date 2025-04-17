@@ -299,7 +299,7 @@ class ShopController extends Controller
                             . ($discountPercentage ? '
                                 <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
                             . ($post->statut === 'vendu' ? '
-                                <div class="badge-new badge-sale bg-danger text-white">Vendu</div>' : '') .
+                                <div class="badge-new badge-sale bg-danger text-white">' . \App\Traits\TranslateTrait::TranslateText('vendu') . '</div>' : '') .
                             '</div>
 
                             <!-- Like Button -->

@@ -370,7 +370,9 @@
   "Attention!": "Attention!",
   "Veuillez ajouter une image de votre carte d'identité avant de publier.": "Please upload your ID image before publishing.",
   "Ajouter maintenant": "Add now",
-  "Close": "Close"
+  "Close": "Close",
+   "article_added_successfully": "Article added successfully",
+  "article_removed_from_cart": "Article removed from your cart"
 
 
 

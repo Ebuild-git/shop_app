@@ -378,7 +378,9 @@
   "Attention!": "تنبيه!",
   "Veuillez ajouter une image de votre carte d'identité avant de publier.": "يرجى إضافة صورة لبطاقة الهوية قبل النشر.",
   "Ajouter maintenant": "أضف الآن",
-  "Close": "إغلاق"
+  "Close": "إغلاق",
+  "article_added_successfully": "تم إضافة المنتج بنجاح",
+  "article_removed_from_cart": "تم إزالة المنتج من سلة التسوق الخاصة بك"
 
 
 

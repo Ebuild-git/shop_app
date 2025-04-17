@@ -641,7 +641,7 @@ class HomeController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => "Article ajouté avec succès",
+                'message' => __('article_added_successfully'),
                 'exist' => true,
             ]);
         } else {
@@ -652,7 +652,7 @@ class HomeController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Article retiré de votre panier",
+                'message' => __('article_removed_from_cart'),
                 'exist' => false,
             ]);
         }
