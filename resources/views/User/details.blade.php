@@ -387,7 +387,10 @@
                                     </tr>
                                     @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
-                                            <td class="cell cell-bold">{{ ucfirst($key) }} </td>
+                                            <td class="cell cell-bold">
+                                                {{-- {{ ucfirst($key) }} --}}
+                                                {{ \App\Traits\TranslateTrait::TranslateText(ucfirst($key)) }}
+                                            </td>
                                             <td class="text-black cell">
                                                 @if ($key == 'Couleur')
                                                     @if ($value == '#000000000')
