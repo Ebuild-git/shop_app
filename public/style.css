@@ -1411,6 +1411,11 @@ tbody td {
         top: -10px !important;
         margin-left: -6px !important;
     }
+
+    .mobile-display-luxe{
+        top: -2px !important;
+        margin-left: -6px !important;
+    }
 }
 .badge-new {
     font-size: 12px;

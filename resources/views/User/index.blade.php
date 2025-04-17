@@ -52,7 +52,7 @@
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
 
-                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">
+                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;">
                                         @if($lux->discountPercentage)
                                             <div class="badge-new badge-discount">
                                                 -{{ $lux->discountPercentage }}%
