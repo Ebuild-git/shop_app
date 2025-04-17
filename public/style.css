@@ -1398,8 +1398,16 @@ tbody td {
 .badge-container {
     padding: 8px;
     margin-top: 4px;
+    flex-direction: column;
+    gap: 4px;
 }
-
+@media (min-width: 776px) {
+    .badge-container {
+        padding: 8px;
+        margin-top: 4px;
+        flex-direction: row;
+    }
+}
 .badge-new {
     font-size: 12px;
     font-weight: bold;

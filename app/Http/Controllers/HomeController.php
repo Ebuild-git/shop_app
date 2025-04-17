@@ -40,9 +40,9 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->where("statut", '!=', 'validation')
-            ->whereNull('posts.sell_at')
+            // ->whereNull('posts.sell_at')
             ->whereNotIn('id_user', $usersWithVoyageMode)
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
             ->orderBy("posts.created_at", "Desc")
             ->orderBy("posts.updated_price_at", "Desc")
             ->take(12)
@@ -52,9 +52,9 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
             ->where("statut", '!=', 'validation')
-            ->whereNull('posts.sell_at')
+            // ->whereNull('posts.sell_at')
             ->orderBy("posts.created_at", "Desc")
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
             ->take(9)->get();
 
 

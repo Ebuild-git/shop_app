@@ -52,12 +52,24 @@
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <!-- Discount Badge -->
-                                    @if($lux->discountPercentage)
+                                    {{-- @if($lux->discountPercentage)
                                         <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
                                             <div class="badge-new badge-discount">-{{ $lux->discountPercentage }}%</div>
                                         </div>
-                                    @endif
+                                    @endif --}}
+                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-2" style="z-index: 5;">
+                                        @if($lux->discountPercentage)
+                                            <div class="badge-new badge-discount">
+                                                -{{ $lux->discountPercentage }}%
+                                            </div>
+                                        @endif
 
+                                        @if($lux->statut === 'vendu')
+                                            <div class="badge-new badge-sale bg-danger text-white">
+                                                {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
+                                            </div>
+                                        @endif
+                                    </div>
                                     <!-- Like Button -->
                                     <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
                                             id="post-{{ $lux->id }}" data-post-id="{{ $lux->id }}"
@@ -123,13 +135,21 @@
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <!-- Discount Badge -->
-                                    @if($last->discountPercentage)
-                                        <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+
+                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4" style="z-index: 5;">
+                                        @if($last->discountPercentage)
                                             <div class="badge-new badge-discount">
                                                 -{{ $last->discountPercentage }}%
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+
+                                        @if($last->statut === 'vendu')
+                                            <div class="badge-new badge-sale bg-danger text-white">
+                                                {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
 
                                     <!-- Product Image -->
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
