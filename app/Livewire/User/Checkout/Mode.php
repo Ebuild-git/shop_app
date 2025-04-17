@@ -308,7 +308,6 @@ class Mode extends Component
                 $buyerPseudo = Auth::user()->username;
 
                 $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
-                dd($groupedBySeller);
                 $vendeurUsernames = $groupedBySeller->keys();
                 $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
 
