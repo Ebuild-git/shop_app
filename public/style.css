@@ -1398,14 +1398,18 @@ tbody td {
 .badge-container {
     padding: 8px;
     margin-top: 4px;
-    flex-direction: column;
+    flex-direction: row;
     gap: 4px;
 }
-@media (min-width: 776px) {
+@media (max-width: 600px) {
     .badge-container {
-        padding: 8px;
         margin-top: 4px;
-        flex-direction: row;
+        flex-direction: column;
+
+    }
+    .mobile-display{
+        top: -10px !important;
+        margin-left: -6px !important;
     }
 }
 .badge-new {

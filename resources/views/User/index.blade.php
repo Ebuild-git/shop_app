@@ -57,7 +57,7 @@
                                             <div class="badge-new badge-discount">-{{ $lux->discountPercentage }}%</div>
                                         </div>
                                     @endif --}}
-                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-2" style="z-index: 5;">
+                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">
                                         @if($lux->discountPercentage)
                                             <div class="badge-new badge-discount">
                                                 -{{ $lux->discountPercentage }}%
@@ -136,7 +136,7 @@
                                 <div class="shop_thumb position-relative">
                                     <!-- Discount Badge -->
 
-                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4" style="z-index: 5;">
+                                    <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">
                                         @if($last->discountPercentage)
                                             <div class="badge-new badge-discount">
                                                 -{{ $last->discountPercentage }}%
