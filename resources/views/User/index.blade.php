@@ -45,22 +45,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="row align-items-center">
                 @foreach ($luxurys as $lux)
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <!-- Like Button -->
-                            <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
-                                    id="post-{{ $lux->id }}" data-post-id="{{ $lux->id }}"
-                                    onclick="btn_like_post({{ $lux->id }})">
-                                <i class="bi bi-suit-heart-fill"></i>
-                                <span class="count">{{ $lux->getLike->count() }}</span>
-                            </button>
-
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
-                                    <!-- Discount Badge -->
 
                                     <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">
                                         @if($lux->discountPercentage)
@@ -75,7 +65,13 @@
                                             </div>
                                         @endif
                                     </div>
-
+                                    <!-- Like Button -->
+                                    <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
+                                            id="post-{{ $lux->id }}" data-post-id="{{ $lux->id }}"
+                                            onclick="btn_like_post({{ $lux->id }})">
+                                        <i class="bi bi-suit-heart-fill"></i>
+                                        <span class="count">{{ $lux->getLike->count() }}</span>
+                                    </button>
 
                                     <!-- Product Image -->
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
@@ -90,7 +86,6 @@
                 @endforeach
             </div>
 
-            <!-- row -->
             @if ($luxurys->count() > 0)
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -99,13 +94,11 @@
                                 <span class="voir-plus-home-texte">
                                     {{ \App\Traits\TranslateTrait::TranslateText('Voir Plus') }}
                                 </span>
-                                <i class="lni lni-arrow-right ml-2"></i>
-                            </a>
+                                <i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>
             @endif
-
         </div>
     </section>
 
