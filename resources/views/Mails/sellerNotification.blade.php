@@ -114,18 +114,29 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{ config('app.url') }}/icons/logo.png" alt="logo" class="logo" />
+            <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo" class="logo" />
         </div>
+
         <div class="content">
-            <h2>{{ $seller->gender === 'female' ? 'Chère' : 'Cher' }} {{ $seller->username }},</h2>
+            <h2>
+                {{ $seller->gender === 'female' ? 'Chère' : 'Cher' }} {{ $seller->username }},
+            </h2>
+
             <p>
-                Nous vous informons que votre article "{{ $post->titre }}" a été commandé par {{ $buyerPseudo }}.
-                Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt et passera pour récupérer l'article.
+                Nous vous informons que
+                {{ $articlesWithGain->count() > 1 ? 'vos articles' : 'votre article' }}
+                {{ $articlesWithGain->count() > 1
+                    ? '"' . $articlesWithGain->pluck('titre')->join('", "') . '"'
+                    : '"' . ($articlesWithGain->first()['titre'] ?? '') . '"'
+                }}
+                {{ $articlesWithGain->count() > 1 ? 'ont' : 'a' }} été commandés par {{ $buyerPseudo }}.
+                Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.
             </p>
+
             <div class="order-summary">
                 <h3>Récapitulatif de la commande</h3>
                 <table>
-                    @foreach ($articles_panier as $article)
+                    @foreach ($articlesWithGain as $article)
                         <tr class="product-row">
                             <td class="image-cell">
                                 <img src="{{ $article['photo'] }}" alt="{{ $article['titre'] }}" width="60" height="60">
@@ -133,18 +144,15 @@
                             <td class="details-cell">
                                 <h3>{{ $article['titre'] }}</h3>
                                 <span class="price-info">
-                                    La somme que vous allez recevoir dans votre compte bancaire en Dhs est:
-                                    <span style="color: #008080; font-size:500;">{{$gain}}</span><sup style="color: #008080;">DH</sup>
+                                    La somme que vous allez recevoir dans votre compte bancaire en Dhs est :
+                                    <span style="color: #008080; font-size: 18px;">{{ $article['gain'] }}</span><sup style="color: #008080;">DH</sup>
                                 </span>
                             </td>
                         </tr>
                     @endforeach
                 </table>
-
             </div>
-            {{-- <p>
-                Merci de bien vouloir <a href="{{ config('app.url') }}/informations?section=cord" class="underlined-link">cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
-            </p> --}}
+
             <p>
                 Merci de bien vouloir
                 <a href="{{ auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login') }}" class="underlined-link">
@@ -152,12 +160,13 @@
                 </a>
                 pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
             </p>
-
         </div>
+
         <div class="footer">
             Merci pour votre confiance et à bientôt !
         </div>
     </div>
 </body>
+
 
 </html>

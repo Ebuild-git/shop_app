@@ -112,7 +112,7 @@ class Mode extends Component
         $processedSellers = [];
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
-            $gain = $post->calculateGain();
+            // $gain = $post->calculateGain();
             if ($post) {
                 $proprietes = $post->proprietes;
                 if (isset($proprietes['Poids']) && $proprietes['Poids'] !== null) {
@@ -317,19 +317,30 @@ class Mode extends Component
                 $buyerPseudo = Auth::user()->username;
 
                 if ($seller) {
-                    $articlesPourCeVendeur = collect($this->articles_panier)->filter(function ($article) use ($seller) {
-                        return isset($article['vendeur']) && $article['vendeur'] === $seller->username;
-                    });
 
-                    if ($articlesPourCeVendeur->isNotEmpty()) {
-                        Mail::to($seller->email)->send(new VenteConfirmee(
-                            $seller,
-                            $post,
-                            $buyerPseudo,
-                            $articlesPourCeVendeur,
-                            $gain
-                        ));
+                    $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
+
+                    foreach ($groupedBySeller as $sellerUsername => $articlesPourCeVendeur) {
+                        $seller = User::where('username', $sellerUsername)->first();
+
+                        if ($seller && $articlesPourCeVendeur->isNotEmpty()) {
+                            $postIds = $articlesPourCeVendeur->pluck('id')->filter();
+                            $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
+
+                            $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
+                                $post = $posts[$article['id']] ?? null;
+                                $article['gain'] = $post ? $post->calculateGain() : 0;
+                                return $article;
+                            });
+
+                            Mail::to($seller->email)->send(new VenteConfirmee(
+                                $seller,
+                                $buyerPseudo,
+                                $articlesWithGain
+                            ));
+                        }
                     }
+
                 }
 
                 $notification = new notifications();
