@@ -380,7 +380,10 @@
   "Ajouter maintenant": "أضف الآن",
   "Close": "إغلاق",
   "article_added_successfully": "تم إضافة المنتج بنجاح",
-  "article_removed_from_cart": "تم إزالة المنتج من سلة التسوق الخاصة بك"
+  "article_removed_from_cart": "تم إزالة المنتج من سلة التسوق الخاصة بك",
+  "remove_item_from_cart": "هل تريد إزالة هذا المنتج من سلتك؟",
+  "validate": "تأكيد",
+  "cancel": "إلغاء"
 
 
 

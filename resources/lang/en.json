@@ -372,7 +372,10 @@
   "Ajouter maintenant": "Add now",
   "Close": "Close",
    "article_added_successfully": "Article added successfully",
-  "article_removed_from_cart": "Article removed from your cart"
+  "article_removed_from_cart": "Article removed from your cart",
+  "remove_item_from_cart": "Do you want to remove this item from your cart?",
+  "validate": "Validate",
+  "cancel": "Cancel"
 
 
 

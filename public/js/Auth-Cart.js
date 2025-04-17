@@ -115,12 +115,12 @@ function resetNotificationCount() {
 function remove_to_card(id) {
     Swal.fire({
         // title: "Es-tu sûr?",
-        title: '<small>Voulez-vous retirer cet article de votre panier?</small>',
+        title: `<small>${cartTranslations.title}</small>`,
         showCancelButton: true,
         confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Valider",
-        cancelButtonText: "Annuler",
+        confirmButtonText: cartTranslations.confirm,
+        cancelButtonText: cartTranslations.cancel,
         iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
     }).then((result) => {
         if (result.isConfirmed) {
@@ -132,7 +132,7 @@ function remove_to_card(id) {
                         CountPanier();
 
                         if (data.status && !data.exist) {
-                            $("#add-cart-text-btn").text("Ajouter au panier");
+                            $("#add-cart-text-btn").text(cartTranslations.success_add);
                             $("#btn-add-to-card").removeClass("bg-dark");
 
                             Swal.fire({

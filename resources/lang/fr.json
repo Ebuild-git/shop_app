@@ -374,7 +374,10 @@
   "Ajouter maintenant": "Ajouter maintenant",
   "Close": "Fermer",
   "article_added_successfully": "Article ajouté avec succès",
-  "article_removed_from_cart": "Article retiré de votre panier"
+  "article_removed_from_cart": "Article retiré de votre panier",
+  "remove_item_from_cart": "Voulez-vous retirer cet article de votre panier?",
+  "validate": "Valider",
+  "cancel": "Annuler"
 
 
 

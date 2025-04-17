@@ -1045,6 +1045,7 @@
                             </div>
                         </div>
                     </div>
+
                 @endauth
                 <div class="text-center p-3" id="empty-card-div">
                     <b>
@@ -1423,7 +1424,14 @@
             document.getElementById("Cart").style.display = "none";
         }
     </script>
-
+    <script>
+        const cartTranslations = {
+            title: @json(__('remove_item_from_cart')),
+            confirm: @json(__('validate')),
+            cancel: @json(__('cancel')),
+            success_add: @json(__('Ajouter')),
+        };
+    </script>
      <script>
         //initialisation
         var check_luxury_only = {{ $luxury_only ?? 'false' }};

@@ -594,7 +594,7 @@ class HomeController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => "Article retiré de votre panier",
+                'message' => __('article_removed_from_cart'),
                 'exist' => false,
             ]);
         }
