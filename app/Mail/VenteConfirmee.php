@@ -13,19 +13,32 @@ class VenteConfirmee extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $seller, $buyerPseudo, $articlesWithGain;
+    // public $seller, $buyerPseudo, $articlesWithGain;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($seller, $buyerPseudo, $articlesWithGain)
+    // /**
+    //  * Create a new message instance.
+    //  */
+    // public function __construct($seller, $buyerPseudo, $articlesWithGain)
+    // {
+    //     $this->seller = $seller;
+    //     $this->buyerPseudo = $buyerPseudo;
+    //     $this->articlesWithGain = $articlesWithGain;
+    //     $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
+    //     $this->subject("Votre article a été commandé");
+    // }
+    public $seller, $buyerPseudo, $articlesWithGain, $salutation;
+
+    public function __construct($seller, $buyerPseudo, $articlesWithGain, $salutation)
     {
         $this->seller = $seller;
         $this->buyerPseudo = $buyerPseudo;
         $this->articlesWithGain = $articlesWithGain;
+        $this->salutation = $salutation;
+
         $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
         $this->subject("Votre article a été commandé");
     }
+
 
     /**
      * Build the message.

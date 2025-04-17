@@ -119,17 +119,11 @@
 
         <div class="content">
             <h2>
-                {{ $seller->gender === 'female' ? 'Chère' : 'Cher' }} {{ $seller->username }},
+                {{ $salutation }} {{ $seller->username }},
             </h2>
 
             <p>
-                Nous vous informons que
-                {{ $articlesWithGain->count() > 1 ? 'vos articles' : 'votre article' }}
-                {{ $articlesWithGain->count() > 1
-                    ? '"' . $articlesWithGain->pluck('titre')->join('", "') . '"'
-                    : '"' . ($articlesWithGain->first()['titre'] ?? '') . '"'
-                }}
-                {{ $articlesWithGain->count() > 1 ? 'ont' : 'a' }} été commandés par {{ $buyerPseudo }}.
+                Nous vous informons que vous avez reçu une nouvelle commande de la part de {{ $buyerPseudo }}.
                 Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.
             </p>
 

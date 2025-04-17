@@ -305,42 +305,45 @@ class Mode extends Component
                     session()->flash('error', 'Erreur interne: ' . $e->getMessage());
                 }
 
-
-                $seller = User::find($post->id_user);
-                $salutation = __('notifications.salutation_male');
-                if ($seller) {
-                    $gender = $seller->gender;
-                    if ($gender === 'female') {
-                        $salutation = __('notifications.salutation_female');
-                    }
-                }
                 $buyerPseudo = Auth::user()->username;
+                $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
 
-                if ($seller) {
+                $emailedSellers = [];
 
-                    $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
-
-                    foreach ($groupedBySeller as $sellerUsername => $articlesPourCeVendeur) {
-                        $seller = User::where('username', $sellerUsername)->first();
-
-                        if ($seller && $articlesPourCeVendeur->isNotEmpty()) {
-                            $postIds = $articlesPourCeVendeur->pluck('id')->filter();
-                            $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
-
-                            $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
-                                $post = $posts[$article['id']] ?? null;
-                                $article['gain'] = $post ? $post->calculateGain() : 0;
-                                return $article;
-                            });
-
-                            Mail::to($seller->email)->send(new VenteConfirmee(
-                                $seller,
-                                $buyerPseudo,
-                                $articlesWithGain
-                            ));
-                        }
+                foreach ($groupedBySeller as $sellerUsername => $articlesPourCeVendeur) {
+                    if (in_array($sellerUsername, $emailedSellers)) {
+                        continue;
                     }
 
+                    $seller = User::where('username', $sellerUsername)->first();
+
+                    if ($seller && $articlesPourCeVendeur->isNotEmpty()) {
+                        // Determine salutation based on gender
+                        $salutation = __('notifications.salutation_male');
+                        if ($seller->gender === 'female') {
+                            $salutation = __('notifications.salutation_female');
+                        }
+
+                        // Fetch posts and calculate gain
+                        $postIds = $articlesPourCeVendeur->pluck('id')->filter();
+                        $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
+
+                        $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
+                            $post = $posts[$article['id']] ?? null;
+                            $article['gain'] = $post ? $post->calculateGain() : 0;
+                            return $article;
+                        });
+
+                        // Send email with salutation included in the mailable
+                        Mail::to($seller->email)->send(new VenteConfirmee(
+                            $seller,
+                            $buyerPseudo,
+                            $articlesWithGain,
+                            $salutation
+                        ));
+
+                        $emailedSellers[] = $sellerUsername;
+                    }
                 }
 
                 $notification = new notifications();
