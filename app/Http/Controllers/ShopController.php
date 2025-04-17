@@ -46,15 +46,15 @@ class ShopController extends Controller
         $luxury_only = $request->input('check_luxury') ?? null;
         $html = "";
 
-        $total = posts::where('statut', 'vente')->count();
+        $total = posts::whereIn('statut', ['vente', 'vendu'])->count();
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
         $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
-            ->where('statut', 'vente')
-            ->whereNotIn('statut', ['vendu', 'livraison', 'livré', 'refusé'])
-            ->whereNotIn('id_user', $usersWithVoyageMode);
-
+            ->whereIn('statut', ['vente', 'vendu'])
+            ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
+            ->whereNotIn('id_user', $usersWithVoyageMode)
+            ->whereNull('deleted_at');
         if ($luxury_only == "true") {
             $query->whereHas('sous_categorie_info.categorie', function ($q) {
                 $q->where('luxury', true);
@@ -269,7 +269,7 @@ class ShopController extends Controller
 
 
         foreach ($posts as $post) {
-            if ($post->statut == "vente") {
+            if ($post->statut == "vente" || $post->statut == "vendu") {
                 // Calculate discount percentage if there is a price change
                 $originalPrice = $post->getOldPrix();
                 $currentPrice = $post->getPrix();
@@ -290,31 +290,35 @@ class ShopController extends Controller
                 $photo = isset($post->photos[0]) ? Storage::url($post->photos[0]) : "/icons/no-image.jpg";
 
                 $html .= '<div class="col-xl-4 col-lg-4 col-md-6 col-6">
-                            <div class="product_grid card b-0">
-                                <div class="card-body p-0">
-                                    <div class="shop_thumb position-relative">
-                                         <!-- Discount Badge -->
-                        ' . ($discountPercentage ? '
-                        <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
-                            <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>
-                        </div>' : '') . '
+                <div class="product_grid card b-0">
+                    <div class="card-body p-0">
+                        <div class="shop_thumb position-relative">
 
-                                        <!-- Like Button -->
-                                        <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
-                                            id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="btn_like_post(' . $post->id . ')">
-                                            <i class="bi bi-suit-heart-fill"></i>
-                                            <span class="count">' . $post->getLike->count() . '</span>
-                                        </button>
+                            <!-- Discount & Vendu Badges -->
+                            <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;">'
+                            . ($discountPercentage ? '
+                                <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
+                            . ($post->statut === 'vendu' ? '
+                                <div class="badge-new badge-sale bg-danger text-white">Vendu</div>' : '') .
+                            '</div>
 
-                                        <!-- Product Image -->
-                                        <a class="card-img-top d-block overflow-hidden" href="' . $url . '">
-                                            <img src="' . $photo . '" alt="...">
-                                        </a>
-                                    </div>
-                                </div>
-                                ' . $subCardPostHtml . '
-                            </div>
-                        </div>';
+                            <!-- Like Button -->
+                            <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
+                                id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="btn_like_post(' . $post->id . ')">
+                                <i class="bi bi-suit-heart-fill"></i>
+                                <span class="count">' . $post->getLike->count() . '</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <a class="card-img-top d-block overflow-hidden" href="' . $url . '">
+                                <img src="' . $photo . '" alt="...">
+                            </a>
+                        </div>
+                    </div>
+                    ' . $subCardPostHtml . '
+                </div>
+            </div>';
+
             }
         }
 
