@@ -37,7 +37,6 @@
     <!-- ======================= Product List ======================== -->
     <section class="middle">
         <div class="container">
-
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
@@ -47,7 +46,7 @@
             </div>
             <div class="row align-items-center">
                 @foreach ($luxurys as $lux)
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-6">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
@@ -111,7 +110,6 @@
 
     <section class="middle">
         <div class="container">
-
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
