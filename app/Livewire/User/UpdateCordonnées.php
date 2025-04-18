@@ -22,11 +22,9 @@ class UpdateCordonnées extends Component
     {
         $user = User::find(Auth::id());
         if ($user) {
-            // Load the user's existing data into the component properties
             $this->rib_number = $user->rib_number ? Crypt::decryptString($user->rib_number) : '';
             $this->bank_name = $user->bank_name;
             $this->titulaire_name = $user->titulaire_name;
-            $this->cin_img = $user->cin_img;
         }
     }
 
