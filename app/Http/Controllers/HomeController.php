@@ -390,12 +390,13 @@ class HomeController extends Controller
 
         if ($type == "achats") {
             $achats = posts::where("id_user_buy", Auth::id())
+                ->Orderby("sell_at", "Desc")
                 ->paginate(20);
             return view('User.historiques', compact("type", "count", "achats"));
         }
         if ($type == "ventes") {
             $ventes = posts::where("id_user", Auth::user()->id)
-                ->Orderby("id", "Desc")
+                ->Orderby("created_at", "Desc")
                 ->where('statut', "vendu")
                 ->paginate(20);
 
@@ -413,7 +414,7 @@ class HomeController extends Controller
         }
         if ($type == "annonces") {
             $annonces = posts::where("id_user", Auth::user()->id)
-                ->Orderby("id", "Desc")
+                ->Orderby("created_at", "Desc")
                 ->where('statut', "vente")
                 ->paginate(20);
 
