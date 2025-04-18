@@ -108,6 +108,25 @@
             font-size: 14px;
             color: white;
         }
+        .shop, .in, .er, .pseudo {
+            font-weight: bold;
+        }
+        .shop {
+            color: black;
+        }
+
+        .in {
+            color: #008080;
+        }
+
+        .er {
+            color: black;
+        }
+
+        .pseudo {
+            color: #008080;
+        }
+
     </style>
 </head>
 
@@ -123,7 +142,7 @@
             </h2>
 
             <p>
-                Nous vous informons que vous avez reçu une nouvelle commande de la part de {{ $buyerPseudo }}.
+                Nous vous informons que vous avez reçu une nouvelle commande de la part du <span class="shop">SHOP</span><span class="in">IN</span><span class="er">ER</span> ( <span class="pseudo">{{ $buyerPseudo }}</span> ).
                 Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.
             </p>
 

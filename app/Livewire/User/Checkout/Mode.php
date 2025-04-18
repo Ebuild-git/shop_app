@@ -110,6 +110,7 @@ class Mode extends Component
         $totalWeight = 0;
         $totalShippingFees = 0;
         $processedSellers = [];
+        $sellerPostMap = [];
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             // $gain = $post->calculateGain();
@@ -312,11 +313,9 @@ class Mode extends Component
 
         }
 
-
         $vendeurUsernames = array_keys($sellerPostMap);
         $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
         $buyerPseudo = Auth::user()->username;
-
         foreach ($sellerPostMap as $sellerUsername => $articlesPourCeVendeur) {
             $seller = $vendeurs[$sellerUsername] ?? null;
             if (!$seller || empty($articlesPourCeVendeur)) {
@@ -336,12 +335,17 @@ class Mode extends Component
                 return $article;
             });
 
-            Mail::to($seller->email)->send(new VenteConfirmee(
-                $seller,
-                $buyerPseudo,
-                $articlesWithGain,
-                $salutation
-            ));
+            try {
+                Mail::to($seller->email)->send(new VenteConfirmee(
+                    $seller,
+                    $buyerPseudo,
+                    $articlesWithGain,
+                    $salutation
+                ));
+                logger("✅ Email sent to: {$seller->email}");
+            } catch (\Exception $e) {
+                logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
+            }
 
             foreach ($postIds as $postId) {
                 $post = $posts[$postId];
