@@ -113,7 +113,6 @@ class Mode extends Component
         $sellerPostMap = [];
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
-            // $gain = $post->calculateGain();
             if ($post) {
                 $proprietes = $post->proprietes;
                 if (isset($proprietes['Poids']) && $proprietes['Poids'] !== null) {
@@ -300,8 +299,26 @@ class Mode extends Component
                         ]);
                         $shipment->save();
 
+                        $buyer = Auth::user();
+
+                        $salutations = $buyer->gender === 'female'
+                        ? __('notifications.salutation_female')
+                        : __('notifications.salutation_male');
+
+                        $notification = new notifications();
+                        $notification->titre = __('notifications.order_confirmed_title');
+                        $notification->id_user_destination = $buyer->id;
+                        $notification->type = "alerte";
+                        $notification->url = "/informations?section=commandes";
+                        $notification->message = __('notifications.order_confirmed_message', [
+                            'salutations' => $salutations,
+                            'shipment_id' => $shipment->shipment_id,
+                        ]);
+                        $notification->save();
+
+                        event(new UserEvent($buyer->id));
+
                     } else {
-                        // Log and display each error
                         foreach ($response['Notifications'] as $notification) {
                             session()->flash('error', 'Erreur: ' . $notification['Message']);
                         }

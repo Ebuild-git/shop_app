@@ -377,8 +377,9 @@
   "article_removed_from_cart": "Article retiré de votre panier",
   "remove_item_from_cart": "Voulez-vous retirer cet article de votre panier?",
   "validate": "Valider",
-  "cancel": "Annuler"
-
+  "cancel": "Annuler",
+"notifications.order_confirmed_title": "Commande confirmée",
+  "notifications.order_confirmed_message": ":salutations client, votre commande a été confirmée avec succès. L’identifiant de votre commande est :shipment_id."
 
 
 

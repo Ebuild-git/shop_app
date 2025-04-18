@@ -375,7 +375,9 @@
   "article_removed_from_cart": "Article removed from your cart",
   "remove_item_from_cart": "Do you want to remove this item from your cart?",
   "validate": "Validate",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "notifications.order_confirmed_title": "Order Confirmed",
+  "notifications.order_confirmed_message": ":salutations customer, your order has been successfully confirmed. Your order ID is :shipment_id."
 
 
 

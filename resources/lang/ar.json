@@ -383,8 +383,9 @@
   "article_removed_from_cart": "تم إزالة المنتج من سلة التسوق الخاصة بك",
   "remove_item_from_cart": "هل تريد إزالة هذا المنتج من سلتك؟",
   "validate": "تأكيد",
-  "cancel": "إلغاء"
-
+  "cancel": "إلغاء",
+    "notifications.order_confirmed_title": "تم تأكيد الطلب",
+  "notifications.order_confirmed_message": ":salutations العميل، تم تأكيد طلبك بنجاح. رقم طلبك هو :shipment_id."
 
 
 
