@@ -308,60 +308,6 @@ class Mode extends Component
                 } catch (\Exception $e) {
                     session()->flash('error', 'Erreur interne: ' . $e->getMessage());
                 }
-
-                // $buyerPseudo = Auth::user()->username;
-
-                // $groupedBySeller = collect($this->articles_panier)->groupBy('vendeur');
-                // $vendeurUsernames = $groupedBySeller->keys();
-                // $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
-
-                // foreach ($groupedBySeller as $sellerUsername => $articlesPourCeVendeur) {
-                //     $seller = $vendeurs[$sellerUsername] ?? null;
-
-                //     if (!$seller || $articlesPourCeVendeur->isEmpty()) {
-                //         continue;
-                //     }
-
-                //     // Determine salutation based on gender
-                //     $salutation = $seller->gender === 'female'
-                //         ? __('notifications.salutation_female')
-                //         : __('notifications.salutation_male');
-
-                //     // Get IDs of the posts
-                //     $postIds = $articlesPourCeVendeur->pluck('id')->filter();
-                //     $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
-
-                //     // Attach gain to each article
-                //     $articlesWithGain = $articlesPourCeVendeur->map(function ($article) use ($posts) {
-                //         $post = $posts[$article['id']] ?? null;
-                //         $article['gain'] = $post ? $post->calculateGain() : 0;
-                //         return $article;
-                //     });
-
-                //     // Send the email
-                //     Mail::to($seller->email)->send(new VenteConfirmee(
-                //         $seller,
-                //         $buyerPseudo,
-                //         $articlesWithGain,
-                //         $salutation
-                //     ));
-                // }
-
-                // $notification = new notifications();
-                // $notification->titre = __('notifications.new_order_title');
-                // $notification->id_user_destination = $post->id_user;
-                // $notification->type = "alerte";
-                // $notification->url = "/post/" . $post->id;
-                // $notification->message = __('notifications.new_order_message', [
-                //     'salutation' => $salutation,
-                //     'seller' => $seller->username,
-                //     'post_url' => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
-                //     'post_title' => $post->titre,
-                //     'buyer' => $buyerPseudo,
-                //     'bank_info_url' => url('/informations?section=cord'),
-                // ]);
-                // $notification->save();
-                // event(new UserEvent($post->id_user));
             }
 
         }
@@ -389,6 +335,13 @@ class Mode extends Component
                 $article['gain'] = $post ? $post->calculateGain() : 0;
                 return $article;
             });
+
+            dd([
+                'seller' => $seller,
+                'buyerPseudo' => $buyerPseudo,
+                'articlesWithGain' => $articlesWithGain,
+                'salutation' => $salutation,
+            ]);
 
             Mail::to($seller->email)->send(new VenteConfirmee(
                 $seller,
