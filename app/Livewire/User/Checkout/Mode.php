@@ -347,25 +347,31 @@ class Mode extends Component
                 logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
             }
 
-            foreach ($postIds as $postId) {
-                $post = $posts[$postId];
-                $notification = new notifications();
-                $notification->titre = __('notifications.new_order_title');
-                $notification->id_user_destination = $post->id_user;
-                $notification->type = "alerte";
-                $notification->url = "/post/" . $post->id;
-                $notification->message = __('notifications.new_order_message', [
-                    'salutation' => $salutation,
-                    'seller' => $seller->username,
-                    'post_url' => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
-                    'post_title' => $post->titre,
-                    'buyer' => $buyerPseudo,
-                    'bank_info_url' => url('/informations?section=cord'),
-                ]);
-                $notification->save();
+            $articlesLinks = $posts->map(function ($post) {
+                $url = route('details_post2', ['id' => $post->id, 'titre' => $post->titre]);
+                return "<a href='{$url}' class='underlined-link'>" . e($post->titre) . "</a>";
+            });
 
-                event(new UserEvent($post->id_user));
-            }
+            $postTitles = $articlesLinks->count() === 1
+                ? $articlesLinks->first()
+                : $articlesLinks->implode(', ');
+
+
+            $notification = new notifications();
+            $notification->titre = __('notifications.new_order_title');
+            $notification->id_user_destination = $seller->id;
+            $notification->type = "alerte";
+            $notification->url = "/informations?section=commandes";
+            $notification->message = __('notifications.new_order_message', [
+                'salutation' => $salutation,
+                'seller' => $seller->username,
+                'buyer' => $buyerPseudo,
+                'post_title' => $postTitles,
+                'bank_info_url' => url('/informations?section=cord'),
+            ]);
+            $notification->save();
+
+            event(new UserEvent($seller->id));
         }
 
 
