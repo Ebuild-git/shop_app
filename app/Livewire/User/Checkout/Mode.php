@@ -336,13 +336,6 @@ class Mode extends Component
                 return $article;
             });
 
-            dd([
-                'seller' => $seller,
-                'buyerPseudo' => $buyerPseudo,
-                'articlesWithGain' => $articlesWithGain,
-                'salutation' => $salutation,
-            ]);
-
             Mail::to($seller->email)->send(new VenteConfirmee(
                 $seller,
                 $buyerPseudo,
