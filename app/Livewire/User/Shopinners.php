@@ -47,7 +47,9 @@ class Shopinners extends Component
                 ->leftJoin('pings', function ($join) use ($userId) {
                     $join->on('users.id', '=', 'pings.pined')
                         ->where('pings.id_user', $userId);
-                });
+                })
+                ->where('users.role', '!=', 'admin')
+                ->where('users.locked', false);
 
             // Si on a une recherche en
             if (!empty($this->key)) {
@@ -77,8 +79,9 @@ class Shopinners extends Component
                 )
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-                ->groupBy('users.id', 'users.lastname', 'users.username')
-                ->where('users.role', '!=', 'admin');
+                ->where('users.role', '!=', 'admin')
+                ->where('users.locked', false)
+                ->groupBy('users.id', 'users.lastname', 'users.username');
 
             // Si on a une recherche en
             if (!empty($this->key)) {

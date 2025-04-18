@@ -26,6 +26,15 @@ class UserController extends Controller
         return view("Admin.clients.index")->with("type", $type);
     }
 
+    public function liste_utilisateurs_locked(Request $request)
+    {
+        $type = "all";
+        $locked = "yes";
+        return view("Admin.clients.index")
+        ->with("type", $type)
+        ->with("locked", $locked);
+    }
+
     public function details_user(Request $request)
     {
         $id = $request->id;

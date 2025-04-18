@@ -3,7 +3,12 @@
      <div class="row p-3 card-header">
          <div class="col-sm-4 my-auto">
              <h5 class="">
-                 Liste des utilisateurs du site ({{ $users->total() }})
+
+                @if($locked === 'yes')
+                    Liste des utilisateurs bloqués ({{ $users->total() }})
+                @else
+                    Liste des utilisateurs du site ({{ $users->total() }})
+                @endif
              </h5>
          </div>
          <div class="col-sm-8 my-auto">
@@ -15,11 +20,11 @@
                          <option value="1">Verifié</option>
                          <option value="0">Non verifié</option>
                      </select>
-                     <select wire:model ="etat" class="form-control">
+                     {{-- <select wire:model ="etat" class="form-control">
                          <option value="">Tous les étas</option>
                          <option value="1">Bloquer</option>
                          <option value="0">Actif</option>
-                     </select>
+                     </select> --}}
                      <button class="btn btn-primary" type="submit" id="button-addon2">
                          <span wire:loading>
                              <x-loading></x-loading>
@@ -158,11 +163,11 @@
                                 </button>
 
                                 @if ($user->locked == true)
-                                 <button class="btn btn-sm btn-success" wire:click="locked({{ $user->id }})"
+                                 <button class="btn btn-sm btn-success" wire:click="toggleLock({{ $user->id }})"
                                      type="button" title="Débloquer cet utilisateur">
                                      <i class="bi bi-play-fill"></i>
                                  @else
-                                     <button class="btn btn-sm btn-danger" wire:click="locked({{ $user->id }})"
+                                     <button class="btn btn-sm btn-danger" wire:click="toggleLock({{ $user->id }})"
                                          type="button" title="Bloquer cet utilisateur">
                                          <i class="bi bi-stop-fill"></i>
                                     </button>

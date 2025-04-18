@@ -10,15 +10,18 @@ use Livewire\Component;
 class ListeUtilisateurs extends Component
 {
     public $type, $list, $key, $statut,$etat;
+    public $locked = "no";
+
     use WithPagination;
 
-    public function mount($type)
+    public function mount($type, $locked = null)
     {
         if ($type == "shop") {
             $this->type = "shop";
         } else {
             $this->type = "user";
         }
+        $this->locked = $locked;
     }
 
     public function updatedKey($value)
@@ -30,6 +33,12 @@ class ListeUtilisateurs extends Component
     public function render()
     {
         $users = User::orderBy("id", "desc")->where("type", $this->type)->where("role", "!=", "admin");
+
+        if ($this->locked === 'yes') {
+            $users->where('locked', true);
+        }else {
+            $users->where('locked', false);
+        }
 
         if (!empty($this->key)) {
             $users = $users->where(function ($query) {
@@ -59,9 +68,9 @@ class ListeUtilisateurs extends Component
             });
         }
 
-        if (strlen($this->etat) > 0) {
-            $users->where('locked', $this->etat);
-        }
+        // if (strlen($this->etat) > 0) {
+        //     $users->where('locked', $this->etat);
+        // }
 
         if ($this->statut != '') {
             if ($this->statut == 1) {
@@ -97,13 +106,12 @@ class ListeUtilisateurs extends Component
             $user->delete();
             session()->flash('message', 'Utilisateur supprimé avec succès !');
         } catch (\Throwable $th) {
-            //throw $th;
             session()->flash('error', 'Impossible de supprimer cet utilisateur !');
         }
     }
 
 
-    public function locked($id)
+    public function toggleLock($id)
     {
         $user = User::findOrFail($id);
         if ($user->locked == false) {
