@@ -34,9 +34,6 @@ class VenteConfirmee extends Mailable
         $this->buyerPseudo = $buyerPseudo;
         $this->articlesWithGain = $articlesWithGain;
         $this->salutation = $salutation;
-
-        $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
-        $this->subject("Votre article a été commandé");
     }
 
 
@@ -45,6 +42,8 @@ class VenteConfirmee extends Mailable
      */
     public function build()
     {
-        return $this->view('Mails.sellerNotification');
+        return $this->from('no_reply@purah-tunisie.shop', 'SHOPIN')
+                    ->subject("Votre article a été commandé")
+                    ->view('Mails.sellerNotification');
     }
 }
