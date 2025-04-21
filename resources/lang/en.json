@@ -377,8 +377,8 @@
   "validate": "Validate",
   "cancel": "Cancel",
   "notifications.order_confirmed_title": "Order Confirmed",
-  "notifications.order_confirmed_message": ":salutations customer, your order has been successfully confirmed. Your order ID is :shipment_id."
-
+  "notifications.order_confirmed_message": ":salutations customer, your order has been successfully confirmed. Your order ID is :shipment_id.",
+"cannot_like_own_post": "You cannot like your own post!"
 
 
 

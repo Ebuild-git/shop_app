@@ -41,21 +41,14 @@ class LikesController extends Controller
 
         //verification de l'existance du post
         $post = posts::find($id_post);
-        // if (!$post) {
-        //     return response()->json(
-        //         [
-        //             "status" => false,
-        //             "message" => "Annonce rétiré !"
-        //         ]
-        //     );
-        // }
+
 
         //verifier que celui qui like nest pas le proprietaie du post
         if ($post->id_user == $user->id) {
             return response()->json(
                 [
                     "status" => false,
-                    "message" => "Vous ne pouvez pas liker votre propre annonce !"
+                    "message" =>  __("cannot_like_own_post")
                 ]
             );
         }
@@ -86,7 +79,6 @@ class LikesController extends Controller
                 ]
             );
         }
-
 
     }
 }

@@ -379,7 +379,9 @@
   "validate": "Valider",
   "cancel": "Annuler",
 "notifications.order_confirmed_title": "Commande confirmée",
-  "notifications.order_confirmed_message": ":salutations client, votre commande a été confirmée avec succès. L’identifiant de votre commande est :shipment_id."
+  "notifications.order_confirmed_message": ":salutations client, votre commande a été confirmée avec succès. L’identifiant de votre commande est :shipment_id.",
+  "cannot_like_own_post": "Vous ne pouvez pas liker votre propre annonce !"
+
 
 
 

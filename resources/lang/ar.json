@@ -385,7 +385,8 @@
   "validate": "تأكيد",
   "cancel": "إلغاء",
     "notifications.order_confirmed_title": "تم تأكيد الطلب",
-  "notifications.order_confirmed_message": ":salutations العميل، تم تأكيد طلبك بنجاح. رقم طلبك هو :shipment_id."
+  "notifications.order_confirmed_message": ":salutations العميل، تم تأكيد طلبك بنجاح. رقم طلبك هو :shipment_id.",
+  "cannot_like_own_post": "لا يمكنك الإعجاب بمنشورك الخاص"
 
 
 
