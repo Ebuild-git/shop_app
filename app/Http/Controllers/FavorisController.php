@@ -72,7 +72,7 @@ class FavorisController extends Controller
                     [
                         "status" => true,
                         "action" => "retiré",
-                        "message" => "Article retiré des favoris !"
+                        "message" => __("favorite_removed")
                     ]
                 );
             }

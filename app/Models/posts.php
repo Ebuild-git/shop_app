@@ -199,5 +199,8 @@ class posts extends Model
         return $lastSignalement ? $lastSignalement->created_at : $this->created_at; // Fall back to post creation date if no signalement exists
     }
 
-
+    public function isFavoritedByUser($userId)
+    {
+        return $this->favoris()->where('id_user', $userId)->exists();
+    }
 }

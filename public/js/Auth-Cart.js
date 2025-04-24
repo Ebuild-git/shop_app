@@ -531,5 +531,52 @@ function ShowPostsCatgorie(id) {
     });
 }
 
+function toggleFavorite(postId) {
+    $.ajax({
+        url: '/ajouter_favoris',
+        type: 'GET',
+        data: {
+            id_post: postId
+        },
+        success: function(response) {
+            if (response.status) {
+                // Update the UI
+                const button = $(`#post-${postId}`);
+                const countElement = button.find('.count');
+                const currentCount = parseInt(countElement.text());
 
+                // Toggle visual state and update count
+                if (response.action === "ajouté") {
+                    button.addClass('active');
+                    countElement.text(currentCount + 1);
+                } else {
+                    button.removeClass('active');
+                    countElement.text(currentCount - 1);
+                }
 
+                // Show centered alert with default styling
+                Swal.fire({
+                    text: response.message,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            } else {
+                Swal.fire({
+                    text: response.message,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        },
+        error: function(xhr) {
+            Swal.fire({
+                text: 'An error occurred. Please try again.',
+                position: 'center',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    });
+}

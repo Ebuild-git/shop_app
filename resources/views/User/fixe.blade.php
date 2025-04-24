@@ -441,11 +441,7 @@
                                             {{ __('my_cart') }}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ route('liked') }}" class=" medium link-red text-medium">
-                                            {{ __('my_favorites') }}
-                                        </a>
-                                    </li>
+
                                     <li>
                                         <a href="{{ route('favoris') }}" class=" medium link-red text-medium">
                                             {{ __('my_liked') }}
@@ -576,11 +572,7 @@
                                             {{ __('my_cart') }}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{{ route('liked') }}" class="medium link-red text-medium">
-                                            {{ __('my_favorites') }}
-                                        </a>
-                                    </li>
+
                                     <li>
                                         <a href="{{ route('favoris') }}" class="medium link-red text-medium">
                                             {{ __('my_liked') }}

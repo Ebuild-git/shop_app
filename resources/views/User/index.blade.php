@@ -66,11 +66,11 @@
                                         @endif
                                     </div>
                                     <!-- Like Button -->
-                                    <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
-                                            id="post-{{ $lux->id }}" data-post-id="{{ $lux->id }}"
-                                            onclick="btn_like_post({{ $lux->id }})">
-                                        <i class="bi bi-suit-heart-fill"></i>
-                                        <span class="count">{{ $lux->getLike->count() }}</span>
+                                    <button type="button" class="badge badge-like-post-count btn-favorite-post position-absolute ab-right cusor {{ $lux->isFavoritedByUser(Auth::id()) ? 'active' : '' }}"
+                                        id="post-{{ $lux->id }}" data-post-id="{{ $lux->id }}"
+                                        onclick="toggleFavorite({{ $lux->id }})">
+                                    <i class="bi bi-suit-heart-fill"></i>
+                                    <span class="count">{{ $lux->favoris->count() }}</span>
                                     </button>
 
                                     <!-- Product Image -->
@@ -117,12 +117,12 @@
                 @foreach ($last_post as $last)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <!-- Like Button -->
-                            <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
-                                    id="post-{{ $last->id }}" data-post-id="{{ $last->id }}"
-                                    onclick="btn_like_post({{ $last->id }})">
-                                <i class="bi bi-suit-heart-fill"></i>
-                                <span class="count">{{ $last->getLike->count() }}</span>
+
+                            <button type="button" class="badge badge-like-post-count btn-favorite-post position-absolute ab-right cusor {{ $last->isFavoritedByUser(Auth::id()) ? 'active' : '' }}"
+                                id="post-{{ $last->id }}" data-post-id="{{ $last->id }}"
+                                onclick="toggleFavorite({{ $last->id }})">
+                            <i class="bi bi-suit-heart-fill"></i>
+                            <span class="count">{{ $last->favoris->count() }}</span>
                             </button>
 
                             <div class="card-body p-0">
