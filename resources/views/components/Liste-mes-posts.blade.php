@@ -92,7 +92,7 @@
                     </td>
                     <td style="text-align: right;">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            @if (!$item->id_user_buy)
+                            @if (!$item->id_user_buy && $item->statut !== 'validation')
                             <button class="btn btn-sm  bg-red" onclick="Update_post_price({{ $item->id }})">
                                 <i class="bi bi-graph-down-arrow"></i>
                                 {{ __('Réduire le prix') }}
