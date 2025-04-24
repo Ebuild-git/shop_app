@@ -303,11 +303,12 @@ class ShopController extends Controller
                             '</div>
 
                             <!-- Like Button -->
-                            <button type="button" class="badge badge-like-post-count btn-like-post position-absolute ab-right cusor"
-                                id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="btn_like_post(' . $post->id . ')">
-                                <i class="bi bi-suit-heart-fill"></i>
-                                <span class="count">' . $post->getLike->count() . '</span>
+                            <button type="button" class="badge badge-like-post-count btn-favorite-post position-absolute ab-right cusor ' . ($post->isFavoritedByUser(Auth::id()) ? 'active' : '') . '"
+                            id="post-' . $post->id . '" data-post-id="' . $post->id . '" onclick="toggleFavorite(' . $post->id . ')">
+                            <i class="bi bi-suit-heart-fill"></i>
+                            <span class="count">' . $post->favoris->count() . '</span>
                             </button>
+
 
                             <!-- Product Image -->
                             <a class="card-img-top d-block overflow-hidden" href="' . $url . '">

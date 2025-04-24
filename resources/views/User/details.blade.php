@@ -121,7 +121,7 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    <button type="button"
+                                    {{-- <button type="button"
                                         class="btn-like-details btn-like-post @if ($isLiked) btn-favoris-added @endif"
                                         @guest data-toggle="modal" data-target="#login" @endguest
                                         data-id="{{ $post->id }}">
@@ -133,7 +133,7 @@
                                                 <i class="bi bi-heart"></i>
                                             </span>
                                         </div>
-                                    </button>
+                                    </button> --}}
 
                                     <span class="zoom-up-details">
                                         <img src="/icons/icons8-dézoomer-58.png" alt="" srcset="">
@@ -541,7 +541,12 @@
                             <!-- single Item -->
                             <div class="single_itesm">
                                 <div class="product_grid card b-0 mb-0">
-                                    @livewire('LikeCard', ['id' => $other->id])
+                                    <button type="button" class="badge badge-like-post-count btn-favorite-post position-absolute ab-right cusor {{ $other->isFavoritedByUser(Auth::id()) ? 'active' : '' }}"
+                                        id="post-{{ $other->id }}" data-post-id="{{ $other->id }}"
+                                        onclick="toggleFavorite({{ $other->id }})">
+                                    <i class="bi bi-suit-heart-fill"></i>
+                                    <span class="count">{{ $other->favoris->count() }}</span>
+                                    </button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
@@ -582,7 +587,12 @@
                             <!-- single Item -->
                             <div class="single_itesm">
                                 <div class="product_grid card b-0 mb-0">
-                                    @livewire('LikeCard', ['id' => $product->id])
+                                    <button type="button" class="badge badge-like-post-count btn-favorite-post position-absolute ab-right cusor {{ $product->isFavoritedByUser(Auth::id()) ? 'active' : '' }}"
+                                        id="post-{{ $product->id }}" data-post-id="{{ $product->id }}"
+                                        onclick="toggleFavorite({{ $product->id }})">
+                                    <i class="bi bi-suit-heart-fill"></i>
+                                    <span class="count">{{ $product->favoris->count() }}</span>
+                                    </button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
