@@ -395,7 +395,7 @@ class CreatePost extends Component
             $notification->save();
         }
 
-        return redirect()->route('details_post_single', ['id' => $post->id]);
+        return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
     }
 
 
