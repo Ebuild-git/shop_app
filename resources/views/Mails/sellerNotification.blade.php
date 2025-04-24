@@ -142,7 +142,7 @@
             </h2>
 
             <p>
-                Nous vous informons que vous avez reçu une nouvelle commande de la part du <span class="shop">SHOP</span><span class="in">IN</span><span class="er">ER</span> ( <span class="pseudo">{{ $buyerPseudo }}</span> ).
+                Nous vous informons que vous avez reçu une nouvelle commande de la part de <span class="pseudo">{{ $buyerPseudo }}</span> .
                 Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.
             </p>
 
