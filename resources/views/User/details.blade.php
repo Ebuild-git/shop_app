@@ -248,10 +248,10 @@
                                         <span class="color">
                                             @switch(app()->getLocale())
                                                 @case('en')
-                                                    {{ $post->sous_categorie_info->categorie->title_en ?: $post->sous_categorie_info->categorie->titre }}
+                                                    {{ $post->sous_categorie_info->categorie->title_en ?: \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre) : '' }}
                                                     @break
                                                 @case('ar')
-                                                    {{ $post->sous_categorie_info->categorie->title_ar ?: $post->sous_categorie_info->categorie->titre }}
+                                                    {{ $post->sous_categorie_info->categorie->title_ar ?: \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre) : '' }}
                                                     @break
                                                 @default
                                                     {{ $post->sous_categorie_info->categorie->titre }}
