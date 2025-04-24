@@ -88,7 +88,7 @@
                                     <a href="{{ route('details_post_single', ['id' => $favori->post->id]) }}"
                                         class="h6">
 
-                                        {{ \App\Traits\TranslateTrait::TranslateText($favori->post->titre) }}
+                                        {{ $favori->post->titre}}
                                     </a>
                                     <br>
                                     <span class="small">

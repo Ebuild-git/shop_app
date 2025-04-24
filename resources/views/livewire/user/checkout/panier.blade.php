@@ -22,7 +22,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="/post/{{ $item['id'] }}/{{ $item['titre'] }}" class="product-title" title="{{ $item['titre'] }}">
                                         <b>
-                                            {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($item['titre'], 30)) }}
+                                            {{ Str::limit($item['titre'], 30) }}
                                         </b>
                                     </a>
 

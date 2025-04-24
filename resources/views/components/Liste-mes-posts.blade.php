@@ -30,7 +30,7 @@
                     <td>
                         <b>
                             <a href="/post/{{ $item->id }}" class="link h6">
-                                {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($item->titre, 20)) }}
+                                {{ Str::limit($item->titre, 20) }}
                             </a>
                         </b>
                         <br>

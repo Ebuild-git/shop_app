@@ -7,7 +7,7 @@
             <div class="cart_single_caption pl-2" style="{{ app()->getLocale() == 'ar' ? 'margin-right: 10px;' : '' }}">
                 <a href="/post/{{$produit->id}}">
                     <h4 class="product_title fs-sm ft-medium mb-0 lh-1 text-capitalize">
-                        {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($produit->titre, 15)) }}
+                        {{ Str::limit($produit->titre, 15) }}
                     </h4>
                 </a>
                 <div class="text-muted ">
