@@ -245,7 +245,19 @@
                                     class=" bg-light-info rounded color px-2 py-1 strong"
                                     style="background-color: #0080802d">
                                     <span class="color">
-                                        {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->categorie->titre ?? '') }}
+                                        <span class="color">
+                                            @switch(app()->getLocale())
+                                                @case('en')
+                                                    {{ $post->sous_categorie_info->categorie->title_en ?: $post->sous_categorie_info->categorie->titre }}
+                                                    @break
+                                                @case('ar')
+                                                    {{ $post->sous_categorie_info->categorie->title_ar ?: $post->sous_categorie_info->categorie->titre }}
+                                                    @break
+                                                @default
+                                                    {{ $post->sous_categorie_info->categorie->titre }}
+                                            @endswitch
+                                        </span>
+
                                     </span>
                                 </a>
                                 <span class="text-muted">
@@ -253,14 +265,23 @@
                                 </span>
                                 <a href="{{ route('shop') }}?id_categorie={{ $post->sous_categorie_info->categorie->id }}&selected_sous_categorie={{ $post->sous_categorie_info->id }}"
                                     class=" rounded px-2 py-1 mr-2 strong" style="background-color: #ecedf1">
-                                    {{ \App\Traits\TranslateTrait::TranslateText($post->sous_categorie_info->titre) }}
+                                    @switch(app()->getLocale())
+                                        @case('en')
+                                            {{ $post->sous_categorie_info->title_en ?: $post->sous_categorie_info->titre }}
+                                            @break
+                                        @case('ar')
+                                            {{ $post->sous_categorie_info->title_ar ?: $post->sous_categorie_info->titre }}
+                                            @break
+                                        @default
+                                            {{ $post->sous_categorie_info->titre }}
+                                    @endswitch
+
                                 </a>
                             </div>
                             <div class="prt_02 mb-5 mt-3">
 
                                 <h2 class="post-title mb-1 mt-2 text-capitalize">
-
-                                    {{ \App\Traits\TranslateTrait::TranslateText($post->titre) }}
+                                    {{ $post->titre }}
                                 </h2>
 
                                 <div class="text-left">
@@ -421,8 +442,7 @@
                                 <b class="text-black h5">{{ __('Description') }}</b>
                                 <p>
                                     @if ($post->description)
-
-                                        {{ \App\Traits\TranslateTrait::TranslateText($post->description) }}
+                                        {{$post->description}}
                                     @else
                                         <div class="text-muted text-center">
                                             <i>
