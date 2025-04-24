@@ -23,7 +23,7 @@
         <div class="text-left">
             <h4 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                 <a href="/post/{{ $post->id }}/{{ Str::slug($post->titre) }}" class="text-capitalize">
-                {{ \App\Traits\TranslateTrait::TranslateText(strtolower(Str::limit($post->titre, 25))) }}
+                {{ Str::limit($post->titre, 25)}}
                 </a>
             </h4>
             <div class="d-flex justify-content-between">
