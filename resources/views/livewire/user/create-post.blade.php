@@ -5,7 +5,7 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-1-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Veuillez choisir les images de votre article</b>
+                <b>{{ __('choose_images')}}</b>
             </span>
         </div>
     </div>
@@ -132,7 +132,7 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-2-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Renseigner plus de détails sur votre article</b>
+                <b>{{ __('add_more_details')}}</b>
             </span>
         </div>
     </div>
@@ -142,7 +142,7 @@
         <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-6">
-                    <label>Titre de la publication</label>
+                    <label>{{ __('post_title')}}</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <input type="text" class="form-control cusor border-r " placeholder="Titre"
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <label>Prix de votre article</label>
+                    <label>{{ __('price1')}}</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <input type="number" class="form-control cusor border-r" placeholder="Prix" required
@@ -166,7 +166,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <label>Etat de votre article</label>
+                    <label>{{ __('condition')}}</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <select name="etat" wire:model="etat" class="form-control cusor border-r" required>
@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <label>Prix d'achat initial de votre article</label>
+                    <label>{{ __('original_price') }}</label>
                     <div class="form-group">
                         <input type="number" class="form-control cusor border-r " placeholder="Prix initial"
                             wire:model.live="prix_achat">
@@ -197,7 +197,7 @@
         <div class="col-sm-4">
 
             <div class="form-group ">
-                <label>Région</label>
+                <label>{{__('Région')}}</label>
                 <span class="bold text-danger">*</span>
                 <div class="position-relative">
                     <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
@@ -215,7 +215,7 @@
             </div>
 
             <div class="form-group">
-                <label>Catégorie</label>
+                <label>{{__('Catégorie')}}</label>
                 <span class="bold text-danger">*</span>
                 <select class="form-control cusor border-r" id="select2-dropdown" wire:model.live="selectedCategory">
                     <option selected value="x">Veuilez selectionner une catégorie*</option>
@@ -358,13 +358,13 @@
         <div class="align-self-start ">
             <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
-                <b>Entrez une description de votre article ci-dessous</b>
+                <b>{{ __('description')}}</b>
             </span>
         </div>
     </div>
     <div class="form-group">
         <textarea wire:model="description" class="form-control cusor border-r "
-            placeholder="veuillez entrer la description de votre article" rows="7">
+            placeholder="{{ __('description_placeholder')}}" rows="7">
 
         </textarea>
         @error('description')

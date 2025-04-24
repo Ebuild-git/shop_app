@@ -99,7 +99,7 @@
   "SHOPIN_LUXURY": "SHOPIN LUXURY",
   "Frais de Livraison": "Frais de Livraison",
   "Ajouter": "Ajouter au panier",
-"Retire": "Rétiré du panier",
+"Retire": "Rétirer du panier",
 "Réduire le prix": "Réduire le prix",
     "Ajouter aux favoris": "Ajouter aux favoris",
     "Retirer des favoris": "Retirer des favoris",
@@ -380,7 +380,23 @@
   "cancel": "Annuler",
 "notifications.order_confirmed_title": "Commande confirmée",
   "notifications.order_confirmed_message": ":salutations client, votre commande a été confirmée avec succès. L’identifiant de votre commande est :shipment_id.",
-  "cannot_like_own_post": "Vous ne pouvez pas liker votre propre annonce !"
+  "cannot_like_own_post": "Vous ne pouvez pas liker votre propre annonce !",
+  "personal_details": "Coordonnées Personnelles",
+    "subtitle": "Veuillez remplir ces informations pour compléter votre profil.",
+    "rib_number": "Numéro RIB",
+    "cin_upload": "Télécharger l'image de votre CIN",
+    "download_image": "Télécharger l'image",
+    "save": "Sauvegarder",
+    "update": "Modifier",
+    "choose_images": "Veuillez choisir les images de votre article",
+    "add_more_details": "Renseigner plus de détails sur votre article",
+    "post_title": "Titre de la publication",
+    "price1": "Prix de votre article",
+        "condition": "Etat de votre article",
+        "original_price": "Prix d'achat initial de votre article",
+        "description": "Entrez une description de votre article ci-dessous",
+        "description_placeholder": "Décrivez votre article en détail (caractéristiques, taille, matériaux...)"
+
 
 
 

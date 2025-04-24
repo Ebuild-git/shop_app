@@ -378,7 +378,23 @@
   "cancel": "Cancel",
   "notifications.order_confirmed_title": "Order Confirmed",
   "notifications.order_confirmed_message": ":salutations customer, your order has been successfully confirmed. Your order ID is :shipment_id.",
-"cannot_like_own_post": "You cannot like your own post!"
+"cannot_like_own_post": "You cannot like your own post!",
+"personal_details": "Personal Details",
+    "subtitle": "Please fill in this information to complete your profile.",
+    "rib_number": "RIB Number",
+    "cin_upload": "Upload Your ID Card (CIN)",
+    "download_image": "Download Image",
+    "save": "Save",
+    "update": "Update",
+    "choose_images": "Please choose images for your product",
+    "add_more_details": "Provide more details about your product",
+    "price1": "Your Product Price",
+        "condition": "Product Condition",
+        "original_price": "Original Purchase Price",
+        "description": "Product Description",
+        "description_placeholder": "Please enter your product description"
+
+
 
 
 

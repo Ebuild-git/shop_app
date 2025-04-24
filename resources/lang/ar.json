@@ -386,7 +386,22 @@
   "cancel": "إلغاء",
     "notifications.order_confirmed_title": "تم تأكيد الطلب",
   "notifications.order_confirmed_message": ":salutations العميل، تم تأكيد طلبك بنجاح. رقم طلبك هو :shipment_id.",
-  "cannot_like_own_post": "لا يمكنك الإعجاب بمنشورك الخاص"
+  "cannot_like_own_post": "لا يمكنك الإعجاب بمنشورك الخاص",
+"personal_details": "معلومات الشخصية",
+"subtitle": "يرجى ملء هذه المعلومات لإكمال ملفك الشخصي.",
+"rib_number": "رقم RIB",
+"cin_upload": "رفع صورة بطاقة الهوية (CIN)",
+"download_image": "تحميل الصورة",
+"save": "حفظ",
+"update": "تحديث",
+"choose_images": "الرجاء اختيار صور للمنتج الخاص بك",
+"add_more_details": "أضف المزيد من التفاصيل عن منتجك",
+"post_title": "عنوان المنتج",
+"price1": "سعر المنتج",
+"condition": "حالة المنتج",
+"original_price": "سعر الشراء الأصلي",
+"description": "وصف المنتج",
+"description_placeholder": "الرجاء إدخال وصف المنتج الخاص بك"
 
 
 

@@ -10,11 +10,11 @@
                 <div class="d-flex justify-content-around timeline">
                     <button id="showArticle" class="step active">
                         <i class="fas fa-plus"></i>
-                        Publier un article
+                        {{ __('publish_article')}}
                     </button>
                     <button id="showRib" class="step">
                         <i class="fas fa-credit-card"></i>
-                        Coordonnées Personnelles
+                        {{ __('personal_details')}}
                     </button>
                 </div>
             </div>
@@ -23,11 +23,11 @@
 </div>
 
 <!-- Step Content -->
-<div class="container pt-5 pb-5">
+<div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     <div id="articleSection" class="content-section">
         <!-- Publier un article section -->
         <div class="text-center">
-            <h2 class="mb-2 ft-bold">Publier un article ?</h2>
+            <h2 class="mb-2 ft-bold">{{ __('publish_article')}} ?</h2>
         </div>
         <div>
             @livewire('User.CreatePost', ['id' => $id ?? ''])
@@ -37,13 +37,13 @@
     <div id="ribSection" class="content-section">
         <div class="form-container">
             <div class="text-center mb-4">
-                <h2 class="ft-bold mb-2">Coordonnées Personnelles</h2>
-                <p class="text-muted">Veuillez remplir ces informations pour compléter votre profil.</p>
+                <h2 class="ft-bold mb-2">{{ __('personal_details')}}</h2>
+                <p class="text-muted">{{ __('subtitle')}}</p>
             </div>
             <form id="ribForm" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4 position-relative">
-                    <label for="titulaireName" class="form-label">Nom du Titulaire</label>
+                    <label for="titulaireName" class="form-label">{{ __('account_holder_name')}}</label>
                     <input
                         type="text"
                         class="form-control form-control-lg"
@@ -51,13 +51,13 @@
                         name="titulaireName"
                         value="{{ old('titulaireName', Auth::user()->titulaire_name ?? '') }}"
                         required
-                        placeholder="Entrez le nom du titulaire"
+                        placeholder="{{ __('account_holder_name')}}"
                     >
                 </div>
 
                 <div class="mb-4 position-relative">
                     {{-- <i class="fas fa-building form-icon"></i> --}}
-                    <label for="bankName" class="form-label">Nom de la Banque</label>
+                    <label for="bankName" class="form-label">{{ __('bank_name')}}</label>
                     <input
                         type="text"
                         class="form-control form-control-lg"
@@ -65,12 +65,12 @@
                         name="bankName"
                         value="{{ old('bankName', Auth::user()->bank_name ?? '') }}"
                         required
-                        placeholder="Entrez le nom de la banque"
+                        placeholder="{{ __('bank_name')}}"
                     >
                 </div>
 
                 <div class="mb-4 position-relative">
-                    <label for="ribNumber" class="form-label">Numéro RIB</label>
+                    <label for="ribNumber" class="form-label">{{ __('rib_number')}}</label>
                     <input
                         type="text"
                         class="form-control form-control-lg"
@@ -78,16 +78,16 @@
                         name="ribNumber"
                         value="{{ old('ribNumber', Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : '') }}"
                         required
-                        placeholder="Entrez votre numéro RIB"
+                        placeholder="{{ __('rib_number')}}"
                     >
                 </div>
                 <div class="mb-4 position-relative">
-                    <label for="cinImg" class="form-label">Télécharger l'image de votre CIN</label>
+                    <label for="cinImg" class="form-label">{{ __('cin_upload')}}</label>
                     <div class="file-upload-container">
                         @if(Auth::user()->cin_img)
                             <div class="file-upload-preview">
                                 <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview">
-                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">Télécharger l'image</a>
+                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">{{ __('download_image')}}</a>
                             </div>
                         @else
                             <div class="file-upload-preview">
@@ -107,7 +107,7 @@
                         <!-- Custom upload button -->
                         <label for="cinImg" class="upload-icon-label">
                             <i class="fas fa-upload"></i>
-                            <span>Choisir un fichier</span>
+                            <span>{{ __('choose_file')}}</span>
                         </label>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->rib_number;
                 @endphp
                 <button type="submit" class="btn-prim w-30-custom">
-                    {{ $isDataAvailable ? 'Modifier' : 'Sauvegarder' }}
+                    {{ $isDataAvailable ? __('update') : __('save') }}
                 </button>
                 <div id="ribMessage" class="mt-4"></div>
             </form>

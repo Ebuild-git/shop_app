@@ -137,7 +137,7 @@ class HomeController extends Controller
         $type = $request->get('type') ?? "annonce";
         $statut = $request->input('statut') ?? null;
         $key = $request->input("key") ?? null;
-        $Query = posts::where("id_user", Auth::user()->id)->Orderby('sell_at', 'desc');
+        $Query = posts::where("id_user", Auth::user()->id);
         if ($key) {
             $Query->where("titre", "LIKE", "%{$key}%")
                 ->orWhere("description", "LIKE", "%{$key}%");
@@ -155,7 +155,6 @@ class HomeController extends Controller
             }
             $Query->orderBy('sell_at', 'desc');
         } else {
-            $Query = $Query->where('statut', "vente");
 
             if ($month && $year) {
                 $Query->whereYear('created_at', $year)
@@ -415,7 +414,6 @@ class HomeController extends Controller
         if ($type == "annonces") {
             $annonces = posts::where("id_user", Auth::user()->id)
                 ->Orderby("created_at", "Desc")
-                ->where('statut', "vente")
                 ->paginate(20);
 
 
