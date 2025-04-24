@@ -26,11 +26,28 @@
                             {{  \Carbon\Carbon::parse($achat->sell_at)->format("d-m-Y") }}
                         </td>
                         <td>
-                            <span class="strong color">
-                                <i class="bi bi-tag"></i>
-                                {{ $achat->getPrix() }}
-                                <sup>{{ __('currency') }}</sup>
-                            </span>
+                            @if ($achat->changements_prix->count())
+                                <div class="d-inline-block text-start">
+                                    <span class="strong color d-block">
+                                        <i class="bi bi-tag"></i>
+                                        {{ $achat->getPrix() }}
+                                        <sup>{{ __('currency') }}</sup>
+                                    </span>
+                                    <span class="strong text-muted d-block" style="font-size: smaller;">
+                                        <strike>
+                                            <i class="bi bi-tag"></i>
+                                            {{ $achat->getOldPrix() }}
+                                        </strike>
+                                        <sup>{{ __('currency') }}</sup>
+                                    </span>
+                                </div>
+                            @else
+                                <span class="strong color">
+                                    <i class="bi bi-tag"></i>
+                                    {{ $achat->getPrix() }}
+                                    <sup>{{ __('currency') }}</sup>
+                                </span>
+                            @endif
                         </td>
                         <td>
                             @if ($achat->user_info)

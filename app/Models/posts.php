@@ -81,7 +81,7 @@ class posts extends Model
 
     public function calculateGain()
     {
-        $price = $this->old_prix ?: $this->prix;
+        $price = $this->prix;
         return $price;
     }
 

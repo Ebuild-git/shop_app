@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', 'Créer une publication')
+@section('titre', 'Mes achats')
 @section('content')
 @section('body')
 
