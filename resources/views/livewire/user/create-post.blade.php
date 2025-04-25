@@ -750,7 +750,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-md bg-dark btn-sm text-light fs-md ft-medium" type="button"
-                                wire:click="submit" id="submit-form" wire:loading.attr="disabled">
+                                wire:click="submit" id="submit-form" onclick="this.onclick=null; this.disabled=true;">
                                 <span wire:loading>
                                     <x-Loading></x-Loading>
                                 </span>
