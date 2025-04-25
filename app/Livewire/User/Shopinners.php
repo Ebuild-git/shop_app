@@ -38,6 +38,8 @@ class Shopinners extends Component
                 'users.lastname',
                 'users.username',
                 'users.voyage_mode',
+                'users.avatar',
+                'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts'),
                 DB::raw('COUNT(ratings.id) as total_reviews')
@@ -62,7 +64,7 @@ class Shopinners extends Component
 
             $shopiners =  $Query
                 // ->where('users.id', '!=', Auth::id())
-                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'pings.id_user')
+                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'users.avatar', 'users.photo_verified_at', 'pings.id_user')
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
                 ->orderBy('total_reviews', 'desc')
                 ->orderBy('users.username')
@@ -72,6 +74,8 @@ class Shopinners extends Component
 
         } else {
             $Query = User::select('users.id', 'users.name', 'users.username', 'users.voyage_mode',
+                'users.avatar',
+                'users.photo_verified_at',
                 DB::raw('AVG(etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts'),
                 DB::raw('COUNT(ratings.id) as total_reviews')
@@ -81,7 +85,7 @@ class Shopinners extends Component
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->where('users.role', '!=', 'admin')
                 ->where('users.locked', false)
-                ->groupBy('users.id', 'users.lastname', 'users.username');
+                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.avatar', 'users.photo_verified_at');
 
             // Si on a une recherche en
             if (!empty($this->key)) {
