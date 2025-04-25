@@ -145,7 +145,7 @@
                     <label>{{ __('post_title')}}</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="text" class="form-control cusor border-r " placeholder="Titre"
+                        <input type="text" class="form-control cusor border-r " placeholder="{{ __('placeholder_title') }}"
                             wire:model="titre" required>
                         @error('titre')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -156,7 +156,7 @@
                     <label>{{ __('price1')}}</label>
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
-                        <input type="number" class="form-control cusor border-r" placeholder="Prix" required
+                        <input type="number" class="form-control cusor border-r" placeholder="{{ __('placeholder_price') }}" required
                             wire:model.live="prix">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -170,12 +170,12 @@
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <select name="etat" wire:model="etat" class="form-control cusor border-r" required>
-                            <option value="">Veuillez selectionner l'état*</option>
-                            <option value="Neuf avec étiquettes">Neuf avec étiquettes</option>
-                            <option value="Neuf sans étiquettes">Neuf sans étiquettes</option>
-                            <option value="Très bon état">Très bon état</option>
-                            <option value="Bon état">Bon état</option>
-                            <option value="Usé">Usé</option>
+                            <option value="">{{ __('select_condition') }}</option>
+                            <option value="Neuf avec étiquettes">{{ __('new_with_tags')}}</option>
+                            <option value="Neuf sans étiquettes">{{ __('new_without_tags')}}</option>
+                            <option value="Très bon état">{{ __('very_good_condition')}}</option>
+                            <option value="Bon état">{{ __('good_condition')}}</option>
+                            <option value="Usé">{{ __('used')}}</option>
                         </select>
                         @error('etat')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -185,7 +185,7 @@
                 <div class="col-sm-6">
                     <label>{{ __('original_price') }}</label>
                     <div class="form-group">
-                        <input type="number" class="form-control cusor border-r " placeholder="Prix initial"
+                        <input type="number" class="form-control cusor border-r " placeholder="{{ __('placeholder_initial_price') }}"
                             wire:model.live="prix_achat">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -203,9 +203,11 @@
                     <i class="bi bi-globe-europe-africa" style="position: absolute;left: 10px;top: 15px"></i>
                     <select class="form-control cusor border-r pl-4" wire:model.live="region" required
                         style="">
-                        <option value="">Veuillez selectionner la region</option>
+                        <option value="">{{ __('select_region1') }}</option>
                         @foreach ($regions as $item)
-                            <option value="{{ $item->id }}">{{ $item->nom }}</option>
+                            <option value="{{ $item->id }}">
+                                {{ $item->nom }}
+                            </option>
                         @endforeach
                     </select>
                     @error('region')
@@ -218,13 +220,14 @@
                 <label>{{__('Catégorie')}}</label>
                 <span class="bold text-danger">*</span>
                 <select class="form-control cusor border-r" id="select2-dropdown" wire:model.live="selectedCategory">
-                    <option selected value="x">Veuilez selectionner une catégorie*</option>
+                    <option selected value="x">{{ __('select_category') }}</option>
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
-                            {{ $categorie->titre }}
+
+                            {!! \App\Traits\TranslateTrait::TranslateText($categorie->titre) !!}
                             @if ($categorie->luxury == 1)
                                 <span class="luxury">
-                                    (luxury)
+                                    ({{ __('luxury')}})
                                 </span>
                             @endif
                         </option>
@@ -238,13 +241,22 @@
 
             @if ($selectedCategory)
                 <div class="form-group">
-                    <label>Sous-catégorie</label>
+                    <label>{{ __('subcategory')}}</label>
                     <span class="bold text-danger">*</span>
                     <select class="form-control cusor border-r" wire:model.live="selectedSubcategory">
-                        <option selected value="x">Veuilez selectionner une sous-catégorie</option>
+                        <option selected value="x">{{ __('select_subcategory')}}</option>
                         @foreach ($sous_categories as $sous)
                             <option value="{{ $sous->id }}">
-                                {{ $sous->titre }}
+                                @switch(app()->getLocale())
+                                @case('en')
+                                    {{ $sous->title_en }}
+                                    @break
+                                @case('ar')
+                                    {{ $sous->title_ar }}
+                                    @break
+                                @default
+                                    {{ $sous->titre}}
+                                @endswitch
                             </option>
                         @endforeach
                     </select>
@@ -264,7 +276,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="text-capitalize">
-                                        {{ $propriete_info->nom }}
+                                        {!! \App\Traits\TranslateTrait::TranslateText($propriete_info->nom) !!}
                                     </label>
 
                                     @php
@@ -287,9 +299,11 @@
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 @required($requi)
                                                 class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
-                                                <option value="">Veuillez sélectionner</option>
+                                                <option value="">{{ __('please_select')}}</option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
-                                                    <option value="{{ $option }}">{{ $option }}</option>
+                                                    <option value="{{ $option }}">
+                                                        {{ $option }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @error("article_propriete.{$propriete_info->nom}")
@@ -374,10 +388,9 @@
 
     <br>
     <div class="text-muted text-center">
-        Veuillez vous rassurer que votre publication est complète et exacte car vous ne pouvez plus la modifier après
-        validation.
+        {{ __('publication_warning')}}
         <div class=" text-danger">
-            -Tous les champs contenant (*) sont obligatoires
+            - {{ __('required_fields_note')}}
         </div>
     </div>
     <div>

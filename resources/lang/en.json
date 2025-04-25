@@ -389,10 +389,23 @@
     "choose_images": "Please choose images for your product",
     "add_more_details": "Provide more details about your product",
     "price1": "Your Product Price",
-        "condition": "Product Condition",
-        "original_price": "Original Purchase Price",
-        "description": "Product Description",
-        "description_placeholder": "Please enter your product description"
+    "condition": "Product Condition",
+    "original_price": "Original Purchase Price",
+    "description": "Product Description",
+    "description_placeholder": "Please enter your product description",
+    "publication_warning": "Please make sure your post is complete and accurate as you won't be able to edit it after validation.",
+    "required_fields_note": "All fields marked with (*) are required.",
+    "placeholder_title": "Title",
+  "placeholder_price": "Price",
+  "select_condition": "Please select the condition*",
+  "placeholder_initial_price": "Initial Price",
+  "select_region1": "Please select the region",
+  "select_category": "Please select a category*",
+  "subcategory": "Sub-category",
+  "select_subcategory": "Please select a sub-category",
+  "please_select": "Please select"
+
+
 
 
 

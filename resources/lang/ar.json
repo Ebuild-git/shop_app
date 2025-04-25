@@ -401,7 +401,20 @@
 "condition": "حالة المنتج",
 "original_price": "سعر الشراء الأصلي",
 "description": "وصف المنتج",
-"description_placeholder": "الرجاء إدخال وصف المنتج الخاص بك"
+"description_placeholder": "الرجاء إدخال وصف المنتج الخاص بك",
+"publication_warning": "يرجى التأكد من أن إعلانك مكتمل ودقيق، لأنه لا يمكنك تعديله بعد التحقق.",
+"required_fields_note": "جميع الحقول التي تحتوي على (*) مطلوبة.",
+"placeholder_title": "العنوان",
+"placeholder_price": "السعر",
+"select_condition": "يرجى اختيار الحالة*",
+"placeholder_initial_price": "السعر الأصلي",
+"select_region1": "يرجى اختيار المنطقة",
+"select_category": "يرجى اختيار فئة*",
+"subcategory": "الفئة الفرعية",
+"select_subcategory": "يرجى اختيار فئة فرعية",
+"please_select": "يرجى الاختيار"
+
+
 
 
 

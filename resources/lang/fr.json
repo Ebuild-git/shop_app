@@ -392,10 +392,23 @@
     "add_more_details": "Renseigner plus de détails sur votre article",
     "post_title": "Titre de la publication",
     "price1": "Prix de votre article",
-        "condition": "Etat de votre article",
-        "original_price": "Prix d'achat initial de votre article",
-        "description": "Entrez une description de votre article ci-dessous",
-        "description_placeholder": "Décrivez votre article en détail (caractéristiques, taille, matériaux...)"
+    "condition": "Etat de votre article",
+    "original_price": "Prix d'achat initial de votre article",
+    "description": "Entrez une description de votre article ci-dessous",
+    "description_placeholder": "Décrivez votre article en détail (caractéristiques, taille, matériaux...)",
+    "publication_warning": "Veuillez vous rassurer que votre publication est complète et exacte car vous ne pouvez plus la modifier après validation.",
+    "required_fields_note": "Tous les champs contenant (*) sont obligatoires.",
+    "placeholder_title": "Titre",
+  "placeholder_price": "Prix",
+  "select_condition": "Veuillez sélectionner l'état*",
+  "placeholder_initial_price": "Prix initial",
+  "select_region1": "Veuillez sélectionner la région",
+  "select_category": "Veuillez sélectionner une catégorie*",
+  "subcategory": "Sous-catégorie",
+  "select_subcategory": "Veuillez sélectionner une sous-catégorie",
+  "please_select": "Veuillez sélectionner"
+
+
 
 
 
