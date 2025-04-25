@@ -272,20 +272,17 @@ class HomeController extends Controller
                 ->where('id_post', $post->id)->count();
         }
 
+        $produit_in_cart = false;
 
-        //verifier si j'ai cet article dans mon panier
-        $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
-        $productExists = false;
-        foreach ($cart ?? [] as $item) {
-            if ($item['id'] == $post->id) {
-                $productExists = true;
-                break;
-            }
+        if (Auth::check()) {
+            $produit_in_cart = UserCart::where('user_id', Auth::id())
+                ->where('post_id', $post->id)
+                ->exists();
         }
-        if ($productExists) {
-            $produit_in_cart = true;
-        } else {
-            $produit_in_cart = false;
+
+        if (!$produit_in_cart) {
+            $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
+            $produit_in_cart = collect($cart)->contains('id', $post->id);
         }
 
         $ma_note = null;
