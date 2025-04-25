@@ -14,7 +14,8 @@ class FavorisController extends Controller
 
         $month = $request->input('month') ?? null;
         $year = $request->input('year') ?? null;
-        $favoris = favoris::where('id_user',Auth::id());
+        $favoris = favoris::where('id_user',Auth::id())
+        ->orderBy('created_at', 'desc');
         if ($month && $year) {
             $favoris->whereYear('created_at', $year)
                   ->whereMonth('created_at', $month);
