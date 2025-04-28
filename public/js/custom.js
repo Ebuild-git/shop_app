@@ -1,19 +1,19 @@
 function confirmDeleteAccount(userId, livewireInstance) {
     Swal.fire({
-        title: 'Êtes-vous sûr?',
-        text: "Cette action est irréversible!",
+        title: translations.confirm_title,
+        text: translations.confirm_text,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#008080',
         cancelButtonColor: '#000',
-        confirmButtonText: 'Oui, supprimer!',
-        cancelButtonText: 'Annuler'
+        confirmButtonText: translations.confirm_button,
+        cancelButtonText: translations.cancel_button
     }).then((result) => {
         if (result.isConfirmed) {
             livewireInstance.call('delete', userId);
             Swal.fire(
-                'Supprimé!',
-                'Votre compte a été supprimé.',
+                translations.deleted_title,
+                translations.deleted_text,
                 'success'
             );
         }

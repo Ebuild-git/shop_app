@@ -116,7 +116,7 @@ class Shopinners extends Component
                 $user->delete();
                 $this->dispatch('alert',
                 [
-                    'message' => "SHOPINER retiré de votre TOPLISTE de SHOPINERS",
+                    'message' => __('alert_removed'),
                  'type' => 'warning'
                  ]
             );
@@ -129,7 +129,7 @@ class Shopinners extends Component
                 );
                 $this->dispatch('alert',
                 [
-                    'message' => "SHOPINER épinglé a votre TOPLISTE de SHOPINERS !",
+                    'message' => __('alert_pinned'),
                      'type' => 'success'
             ]);
             }

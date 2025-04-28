@@ -58,18 +58,17 @@ class UpdateInformations extends Component
             'address' => 'string|nullable|max:255',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
         ],[
-            "required" => "Veuillez rensigner ce champs",
-            "veuillez entrer une valeur de type texte",
-            "string" => "Veuillez entrer une valeur de type texte",
-            "avatar.max" => "Veuillez choisir une image de maximnu 2048",
-            "mimes" => "Veuillez choisir une image de type jpg, png, jpeg, webp",
-            "email" => "Veuillez entrer une adresse email",
+            'required' => __('required'),
+            'string' => __('string'),
+            'avatar.max' => __('avatar_max'),
+            'mimes' => __('mimes'),
+            'email' => __('email_validation'),
         ]);
 
         $date = \Carbon\Carbon::createFromDate( $this->annee, $this->mois, $this->jour);
         $age = $date->diffInYears(\Carbon\Carbon::now());
         if ($age < 13) {
-            $this->addError('jour', 'Vous devez doit être âgé d\'au moins 13 ans');
+            $this->addError('jour', __('must_be_13'));
             return;
         }
         $user = User::find(Auth::user()->id);
@@ -77,7 +76,7 @@ class UpdateInformations extends Component
         if ($this->email != Auth::user()->email) {
             $existingEmail = User::where('email', $this->email)->first();
             if ($existingEmail) {
-                $this->addError('email', 'Cet email existe déja!');
+                $this->addError('email', __('email_already_exists'));
             } else {
                 $user->email = $this->email;
             }
@@ -103,10 +102,10 @@ class UpdateInformations extends Component
                     $notification->save();
                 }
                 $user->photo_verified_at = null;
-                $photoValidationMessage = "Votre photo de profil sera validée dans les prochaines 24 heures.";
+                $photoValidationMessage = __('photo_validation_pending');
             } else {
                 $user->photo_verified_at = now();
-                $photoValidationMessage = "Votre photo de profil a été mise à jour avec succès.";
+                $photoValidationMessage = __('photo_updated_successfully');
             }
         }
 
@@ -120,7 +119,7 @@ class UpdateInformations extends Component
         $user->num_appartement = $this->num_appartement;
         $user->save();
 
-        $this->dispatch('alert', ['message' => "Informations mises à jour avec succès !" . ($photoValidationMessage ?? ''), 'type' => 'info']);
+        $this->dispatch('alert', ['message' => __('info_updated') . ($photoValidationMessage ?? ''), 'type' => 'info']);
 
         $this->dispatch('refreshAlluser-information');
     }

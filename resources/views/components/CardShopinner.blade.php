@@ -45,13 +45,13 @@
                     <div>
                         <img width="20" height="20" src="/icons/sac-de-courses.svg" alt="sale" />
                     </div>
-                    {!! \App\Traits\TranslateTrait::TranslateText('Ventes') !!} : {{ $user->total_sales()->count() }}
+                    {{ __('Ventes') }} : {{ $user->total_sales()->count() }}
                 </div>
                 <div class="col text-center cursor" onclick="ShowPostsCatgorie({{ $user->id }})">
                     <div>
                         <img width="20" height="20" src="/icons/menu.svg" alt="category" />
                     </div>
-                    {!! \App\Traits\TranslateTrait::TranslateText('Catégories') !!} : {{ $user->categoriesWhereUserSell() }}
+                    {{ __('Catégories') }} : {{ $user->categoriesWhereUserSell() }}
                 </div>
                 <div class="col text-center">
                     <a href="/user/{{ $user->id }}">
@@ -72,7 +72,7 @@
                         $avis = $user->getReviewsAttribute->count();
                     @endphp
                     <x-Etoiles :count="$count" :avis="$avis" :user="$user"></x-Etoiles>
-                    {{ $avis }} {!! \App\Traits\TranslateTrait::TranslateText('Avis') !!}
+                    {{ $avis }} {{ __('avis') }}
                 </b>
             </div>
 

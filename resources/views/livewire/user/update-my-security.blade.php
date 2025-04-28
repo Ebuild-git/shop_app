@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label>{{ __('current_password') }}</label>
                 <input type="text" class="form-control border-r shadow-none" @error('old_password') is-invalid @enderror
-                    wire:model="old_password" required>
+                    wire:model="old_password">
                 @error('old_password')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -18,7 +18,7 @@
                 <label>{{ __('new_password') }}</label>
                 <div class="form-group" style="position: relative;">
                     <input type="password" class="form-control border-r shadow-none" id="password-1"
-                        @error('password') is-invalid @enderror wire:model="password" required>
+                        @error('password') is-invalid @enderror wire:model="password">
                     <button class="password_show" type="button" onclick="showPassword(1)" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 22%; transform: translateY(-50%);">
                         <span class="input-group-text">
                             <i class="bi bi-eye"></i>
@@ -36,7 +36,7 @@
                 <div class="form-group" style="position: relative;">
                     <input type="password" class="form-control border-r shadow-none" id="password-2"
                         @error('password_confirmation') is-invalid @enderror wire:model="password_confirmation"
-                        required>
+                        >
                     <button class="password_show" type="button" onclick="showPassword(2)" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 22%; transform: translateY(-50%);">
                         <span class="input-group-text">
                             <i class="bi bi-eye"></i>

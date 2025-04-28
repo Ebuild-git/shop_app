@@ -31,22 +31,20 @@ class UpdateMySecurity extends Component
                 'regex:/[@$!%*#?&]/',
             ]
         ],[
-            'old_password.required' => 'Veuillez saisir votre ancien mot de passe',
-            'password.required' => 'Veuillez saisir votre nouveau mot de passe',
-            'password.confirmed' => 'La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe',
-            'password.min' => 'Votre nouveau mot de passe doit contenir au moins 8 caractères',
-            'password.regex' => 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial(-!@# etc.).',
+            'old_password.required' => __('old_password_required'),
+            'password.required' => __('password_required'),
+            'password.confirmed' => __('password_confirmed'),
+            'password.min' => __('password_min'),
+            'password.regex' => __('password_regex'),
         ]);
 
         $user = User::find(Auth::id());
         if ($user) {
-            //verifier si le mot de passe actuelle est le meme que $old_password
             if (Hash::check($this->old_password, $user->password)) {
-                //si c'est le cas on peut modifier le password
                 $user->password = Hash::make($this->password);
                 $user->save();
                 session()->flash('success', 'Votre mot de passe a été mis à jour avec succès!');
-                $this->dispatch('alert', ['message' => "Votre mot de passe a été mis à jour avec succès!", 'type' => 'info']);
+                $this->dispatch('alert', ['message' => __('password_updated_successfully'), 'type' => 'info']);
             } else {
                 session()->flash('error', 'Le mot de passe actuel fourni est incorrecte!');
             };

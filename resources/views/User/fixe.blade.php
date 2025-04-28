@@ -490,7 +490,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/shop">{{ \App\Traits\TranslateTrait::TranslateText('Catégories') }}({{$categories->count()}})</a>
+                                    <a href="/shop">{{ __('Catégories') }}({{$categories->count()}})</a>
                                     <ul class="categories-list p-0">
                                         @forelse ($categories as $item)
                                             <li class="category-item">
@@ -679,7 +679,7 @@
                                 <a href="/" style="padding-left: 0px !important">{{ __('home') }}</a>
                             </li>
                             <li>
-                                <a href="/shop">{{ \App\Traits\TranslateTrait::TranslateText('CATÉGORIES') }}</a>
+                                <a href="/shop">{{ __('Catégories') }}</a>
                             </li>
                             <li>
                                 <a href="{{ Auth::check() ? route('shopiners') : '#' }}"
@@ -689,7 +689,7 @@
 
                             </li>
                             <li class="desktop-only">
-                                <a href="{{ route('contact') }}">{{ \App\Traits\TranslateTrait::TranslateText('Contact') }}</a>
+                                <a href="{{ route('contact') }}">{{ __('contact')}}</a>
                             </li>
                             <li class="elementToHideBeforeScroll d-none" style="margin-left: 50px; display: flex; align-items: center;">
                                 <div class="div-sroll-recherche">
@@ -961,7 +961,7 @@
 
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                                 <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ \App\Traits\TranslateTrait::TranslateText('Nos Partenaires') }}</h4>
+                                    <h4 class="widget_title"> {{ __('our_partners') }}</h4>
                                     <div class="address mt-3">
                                         <div class="container-logo-home">
                                             <div class="logo-list-logo-home">

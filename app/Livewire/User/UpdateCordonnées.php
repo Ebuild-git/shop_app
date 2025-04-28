@@ -41,12 +41,12 @@ class UpdateCordonnées extends Component
             'titulaire_name' => 'required|string',
             'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ],[
-            'rib_number.required' => 'Veuillez saisir votre numéro de RIB',
-            'rib_number.min' => 'Votre numéro de RIB doit contenir au moins 13 caractères',
-            'rib_number.max' => 'Votre numéro de RIB ne peut pas dépasser 32 caractères',
-            'bank_name.required' => 'Veuillez saisir le nom de la banque',
-            'titulaire_name.required' => 'Veuillez saisir le nom du titulaire du compte',
-            'cin_img.image' => 'Veuillez télécharger une image valide.',
+            'rib_number.required' => __('rib_number_required'),
+            'rib_number.min' => __('rib_number_min'),
+            'rib_number.max' => __('rib_number_max'),
+            'bank_name.required' => __('bank_name_required'),
+            'titulaire_name.required' => __('titulaire_name_required'),
+            'cin_img.image' => __('cin_img_image'),
         ]);
 
         $user = User::find(Auth::id());
@@ -83,9 +83,9 @@ class UpdateCordonnées extends Component
             // Save changes if any
             if ($changes) {
                 $user->save();
-                $this->dispatch('alert', ['message' => "Informations mises à jour avec succès !", 'type' => 'info']);
+                $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
             } else {
-                $this->dispatch('alert', ['message' => "Aucune modification n'a été effectuée.", 'type' => 'info']);
+                $this->dispatch('alert', ['message' => __('no_changes_made'), 'type' => 'info']);
             }
 
             // Refresh the user information

@@ -199,4 +199,14 @@
         </button>
     </div>
 </form>
+<script>
+    window.translations = {
+        confirm_title: "{{ __('confirm_title') }}",
+        confirm_text: "{{ __('confirm_text') }}",
+        confirm_button: "{{ __('confirm_button') }}",
+        cancel_button: "{{ __('cancel_button') }}",
+        deleted_title: "{{ __('deleted_title') }}",
+        deleted_text: "{{ __('deleted_text') }}"
+    };
+</script>
 

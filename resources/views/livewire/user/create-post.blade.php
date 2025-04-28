@@ -405,11 +405,11 @@
         </span>
         <a href="/publication" class="btn btn-danger">
             <i class="bi bi-x-lg"></i>
-            Effacer
+             {{ __('Effacer')}}
         </a>
         <button type="button" class="btn btn-info" wire:click="preview">
             <i class="bi bi-eye"></i>
-            Aperçu
+            {{ __('Aperçu')}}
         </button>
     </div>
 
