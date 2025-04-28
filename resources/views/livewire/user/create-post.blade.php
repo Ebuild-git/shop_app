@@ -223,8 +223,16 @@
                     <option selected value="x">{{ __('select_category') }}</option>
                     @foreach ($categories as $category => $categorie)
                         <option value="{{ $categorie->id }}">
-
-                            {!! \App\Traits\TranslateTrait::TranslateText($categorie->titre) !!}
+                            @switch(app()->getLocale())
+                                @case('en')
+                                    {{ $categorie->title_en }}
+                                    @break
+                                @case('ar')
+                                    {{ $categorie->title_ar }}
+                                    @break
+                                @default
+                                    {{ $categorie->titre }}
+                            @endswitch
                             @if ($categorie->luxury == 1)
                                 <span class="luxury">
                                     ({{ __('luxury')}})

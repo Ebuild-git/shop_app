@@ -149,7 +149,7 @@ class CreatePost extends Component
             $this->post = $post;
         }
 
-        $categories = categories::where('active', true)->orderBy('order', 'asc')->get(['id', 'titre', 'luxury']);
+        $categories = categories::where('active', true)->orderBy('order', 'asc')->get(['id', 'titre', 'title_en', 'title_ar', 'luxury']);
         $regions = regions::all(['id', 'nom']);
 
         return view('livewire.user.create-post')
