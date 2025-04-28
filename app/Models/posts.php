@@ -129,18 +129,23 @@ class posts extends Model
             $expiryDate = $updatedPriceDate->addWeeks(1);
             $now = Carbon::now();
 
-            // Vérifier si la date d'expiration est supérieure à la date actuelle
             if ($expiryDate <= $now) {
                 return false;
             }
-
-            // Calculer la différence en jours, heures et minutes
             $diffInDays = $now->diffInDays($expiryDate);
             $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
             $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
 
-            // Formater le temps restant
-            return sprintf('%dj %02dh %02dm', $diffInDays, $diffInHours, $diffInMinutes);
+             // Translate and pluralize days, hours, and minutes
+            $daysRemaining = trans_choice('days_remaining', $diffInDays, ['count' => $diffInDays]);
+            $hoursRemaining = trans_choice('hours_remaining', $diffInHours, ['count' => $diffInHours]);
+            $minutesRemaining = trans_choice('minutes_remaining', $diffInMinutes, ['count' => $diffInMinutes]);
+
+            return __("time_remaining", [
+                'daysRemaining' => $daysRemaining,
+                'hoursRemaining' => $hoursRemaining,
+                'minutesRemaining' => $minutesRemaining,
+            ]);
         } else {
             return false;
         }

@@ -8,6 +8,7 @@
     "login": "Log in",
     "search_article": "Search for an item",
     "publish_article": "Add an item",
+    "publish_article1": "Add an item",
     "my_ads": "My ads",
     "my_sales": "My sales",
     "my_purchases": "My purchases",
@@ -253,7 +254,7 @@
   "modification_blocked_message": "because it was changed less than a week ago.",
   "time_remaining_to_edit": "Time remaining before you can modify:",
   "ad_not_found": "Ad not found / Report!",
-  "price_reduction_success": "The new price of :price DH has been accepted. <br/> You will be able to reduce the price of this item again in :countdown",
+  "price_reduction_success": "The new price of :price DH has been accepted. <br/> You will be able to reduce the price of this item again in 6d 23h and 59 min.",
 "voyage_mode": "In voyage mode",
   "on_sale1": "On sale",
   "sold": "Sold",
@@ -443,7 +444,18 @@
         "password_confirmed": "Passwords do not match",
         "password_min": "Your new password must be at least 8 characters long",
         "password_regex": "The password must contain at least one uppercase letter, one lowercase letter, a number, and a special character (-!@# etc.)",
-        "password_updated_successfully": "Your password has been updated successfully!"
+        "password_updated_successfully": "Your password has been updated successfully!",
+        "price_update_success": "The price has been successfully updated.",
+    "price_reduction_success2": "The new price of :price DH has been accepted. <br/> You will be able to reduce the price of this item again in 6d 23h and 59 min.",
+    "prix.required": "Price is required",
+    "prix.numeric": "The price must be a number",
+    "prix.min": "The price must be greater than 1 DH",
+    "price_change_limit": "You have already made a price change in the last 7 days. You will be able to make a new change in :daysRemaining days and :hoursRemaining hours.",
+    "price_change_error": "Please enter a price lower than your current price.",
+    "time_remaining": ":daysRemaining and :hoursRemaining and :minutesRemaining",
+    "days_remaining": "{0} No days remaining|{1} :count day|[2,*] :count days",
+    "hours_remaining": "{0} No hours remaining|{1} :count hour|[2,*] :count hours",
+    "minutes_remaining": "{0} No minutes remaining|{1} :count minute|[2,*] :count minutes"
 
 
 

@@ -9,6 +9,7 @@
     "login": "Se connecter",
     "search_article": "Rechercher un article",
     "publish_article": "Publier un article",
+    "publish_article1": "Publier un article",
     "my_ads": "Mes annonces",
     "my_sales": "Mes ventes",
     "my_purchases": "Mes achats",
@@ -254,7 +255,7 @@
   "modification_blocked_message": "car elle a été modifiée il y a moins d'une semaine.",
   "time_remaining_to_edit": "Temps restant avant de pouvoir modifier :",
   "ad_not_found": "Annonce introuvable / Signaler !",
-  "price_reduction_success": "Le nouveau prix de :price DH est accpeté. <br/> Vous pourrez réduire le prix de cet article de nouveau dans :countdown",
+  "price_reduction_success": "Le nouveau prix de :price DH est accpeté. <br/> Vous pourrez réduire le prix de cet article de nouveau dans 6j 23h et 59 min.",
   "voyage_mode": "En mode voyage",
   "on_sale1": "En vente",
   "sold": "Vendu",
@@ -445,7 +446,18 @@
     "password_confirmed": "Les mots de passe ne correspondent pas",
     "password_min": "Votre nouveau mot de passe doit contenir au moins 8 caractères",
     "password_regex": "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (-!@# etc.)",
-    "password_updated_successfully": "Votre mot de passe a été mis à jour avec succès!"
+    "password_updated_successfully": "Votre mot de passe a été mis à jour avec succès!",
+    "price_update_success": "Le prix a été mis à jour avec succès.",
+    "price_reduction_success2": "Le nouveau prix de :price DH a été accepté. <br/> Vous pourrez à nouveau réduire le prix de cet article dans 6j 23h et 59 min.",
+    "prix.required": "Le prix est obligatoire",
+    "prix.numeric": "Le prix doit être un nombre",
+    "prix.min": "Le prix doit être supérieur à 1 DH",
+    "price_change_limit": "Vous avez déjà fait un changement de prix dans les 7 derniers jours. Vous pourrez effectuer un nouveau changement dans :daysRemaining jours et :hoursRemaining heures.",
+    "price_change_error": "Veuillez entrer un prix inférieur à votre prix actuel.",
+    "time_remaining": ":daysRemaining et :hoursRemaining et :minutesRemaining",
+    "days_remaining": "{0} Aucun jour restant|{1} :count jour|[2,*] :count jours",
+    "hours_remaining": "{0} Aucune heure restante|{1} :count heure|[2,*] :count heures",
+    "minutes_remaining": "{0} Aucune minute restante|{1} :count minute|[2,*] :count minutes"
 
 
 

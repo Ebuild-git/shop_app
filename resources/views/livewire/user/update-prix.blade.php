@@ -1,4 +1,4 @@
-<div>
+<div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     @include('components.alert-livewire')
     @if (!$loading)
         @if (!$changed)
@@ -28,7 +28,7 @@
                         </label>
                         <input type="number"
                             class="form-control border-r @error('prix') is-invalid @endif" placeholder="{{ __('less_than_price') }} {{ $old_price }} {{ __('currency') }}"
-                required step="0.1" wire:model='prix'>
+                step="0.1" wire:model='prix'>
             @error('prix')
                 <div class="small text-center text-danger alert p-2">
                     <img width="30" height="30" src="/icons/error--v1.png"

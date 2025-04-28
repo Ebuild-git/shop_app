@@ -49,9 +49,9 @@ class UpdatePrix extends Component
         $this->validate([
             'prix' => 'required|numeric|min:1',
         ], [
-            'prix.required' => 'Le prix est obligatoire',
-            'prix.numeric' => 'Le prix doit être un nombre',
-            'prix.min' => 'Le prix doit être supérieur à 1 DH',
+            'prix.required' => __('prix.required'),
+            'prix.numeric' => __('prix.numeric'),
+            'prix.min' => __('prix.min'),
         ]);
 
         $oneWeekAgo = Carbon::now()->subWeek();
@@ -62,7 +62,7 @@ class UpdatePrix extends Component
             $old_price = $post->prix;
 
             if ($this->prix == $old_price) {
-                $this->addError('prix', 'Le nouveau prix doit être différent du prix actuel <br> Veuillez réduire le prix.');
+                $this->addError('prix', __('price_change_error'));
                 return;
             }
 
@@ -75,11 +75,17 @@ class UpdatePrix extends Component
                 $daysRemaining = $now->diffInDays($nextChangeAllowed);
                 $hoursRemaining = $now->copy()->addDays($daysRemaining)->diffInHours($nextChangeAllowed);
 
+                $daysText = trans_choice('days_remaining', $daysRemaining, ['count' => $daysRemaining]);
+                $hoursText = trans_choice('hours_remaining', $hoursRemaining, ['count' => $hoursRemaining]);
+                dd($daysText);
                 $this->show = false;
-                session()->flash('warning', "Vous avez déjà fait un changement de prix dans les 7 derniers jours. Vous pourrez effectuer un nouveau changement dans $daysRemaining jours et $hoursRemaining heures.");
+                session()->flash('warning', __("price_change_limit", [
+                    'daysRemaining' => $daysText,
+                    'hoursRemaining' => $hoursText,
+                ]));
             } else {
                 if ($this->prix > $old_price) {
-                    session()->flash('error', "Veuillez entrer un prix inférieur à votre prix actuel.");
+                    session()->flash('error', __("price_change_error"));
                     return;
                 }
 
@@ -99,8 +105,7 @@ class UpdatePrix extends Component
                 session()->flash(
                     'success-special',
                     __('price_reduction_success', [
-                        'price' => $this->prix,
-                        'countdown' => '6j 23h et 59 min'
+                        'price' => $this->prix
                     ])
                 );
                 $this->show = false;
