@@ -37,7 +37,7 @@ class AramexService
 
     public function trackShipment(array $payload)
     {
-        $endpoint = 'Tracking/Service_1_0.svc/json/TrackShipments';
+        $endpoint = '/Tracking/Service_1_0.svc/json/TrackShipments';
         return $this->sendRequest($endpoint, $payload);
     }
 

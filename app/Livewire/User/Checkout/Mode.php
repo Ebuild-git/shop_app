@@ -281,7 +281,7 @@ class Mode extends Component
                 ];
 
                 try {
-                    $response = $aramexService->sendRequest('Shipping/Service_1_0.svc/json/CreateShipments', $shipmentDetails);
+                    $response = $aramexService->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $shipmentDetails);
                     if (!isset($response['HasErrors']) || !$response['HasErrors']) {
                         session()->flash('success', 'Expédition créée avec succès!');
                         session()->flash('success_details', json_encode($response, JSON_PRETTY_PRINT));
