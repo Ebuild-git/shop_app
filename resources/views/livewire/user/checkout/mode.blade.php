@@ -64,10 +64,7 @@
                         <div class="text-center terms-section">
                             <p class="terms-text">
                                 <input type="checkbox" id="acceptCond" onclick="enableButtonOnCheck()">
-                                {{-- En poursuivant votre commande, vous acceptez les
-                                <span data-toggle="modal" data-target="#conditions" class="color cursor">
-                                    <b>Conditions générales</b>
-                                </span> de <b style="color: black">SHOP<span class="color">IN</span></b>. --}}
+
                                 {!! __('terms_notice') !!}
                             </p>
 
