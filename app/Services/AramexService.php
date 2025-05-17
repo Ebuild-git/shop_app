@@ -35,32 +35,12 @@ class AramexService
         }
     }
 
-    public function trackShipment($shipmentId)
+    public function trackShipment(array $payload)
     {
         $endpoint = 'Tracking/Service_1_0.svc/json/TrackShipments';
-        $payload = [
-            'ClientInfo' => [
-                'UserName' => env('ARAMEX_API_USERNAME'),
-                'Password' => env('ARAMEX_API_PASSWORD'),
-                'Version' => env('ARAMEX_API_VERSION'),
-                'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
-                'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
-                'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
-                'Source' => env('ARAMEX_SOURCE'),
-            ],
-            'Transaction' => [
-                'Reference1' => '',
-                'Reference2' => '',
-                'Reference3' => '',
-                'Reference4' => '',
-                'Reference5' => ''
-            ],
-            'GetLastTrackingUpdateOnly' => false,
-            'Shipments' => [$shipmentId],
-        ];
         return $this->sendRequest($endpoint, $payload);
     }
+
     private function addClientInfo($payload)
     {
         $payload['ClientInfo'] = [

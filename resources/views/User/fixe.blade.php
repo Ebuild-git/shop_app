@@ -453,6 +453,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="/my-orders" class=" medium link-red text-medium">
+                                            Suivre mes commandes
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="/informations" class=" medium link-red text-medium">
                                             {{ __('my_account') }}
                                         </a>
@@ -581,6 +586,11 @@
                                     <li>
                                         <a href="/user-notifications" class="medium link-red text-medium">
                                             {{ __('notifications') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/my-orders" class=" medium link-red text-medium">
+                                           Suivre mes commandes
                                         </a>
                                     </li>
                                     <li>
