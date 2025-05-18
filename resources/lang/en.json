@@ -455,7 +455,16 @@
     "time_remaining": ":daysRemaining and :hoursRemaining and :minutesRemaining",
     "days_remaining": "{0} No days remaining|{1} :count day|[2,*] :count days",
     "hours_remaining": "{0} No hours remaining|{1} :count hour|[2,*] :count hours",
-    "minutes_remaining": "{0} No minutes remaining|{1} :count minute|[2,*] :count minutes"
+    "minutes_remaining": "{0} No minutes remaining|{1} :count minute|[2,*] :count minutes",
+    "shipment_tracking.title": "Track Your Order",
+    "shipment_tracking.label": "Shipment ID",
+    "shipment_tracking.placeholder": "Enter your ID (e.g., 12345678)",
+    "shipment_tracking.track_button": "Track Shipment",
+    "shipment_tracking.no_info": "No tracking information available at the moment.",
+    "shipment_tracking.details": "Tracking Details",
+    "shipment_tracking.number": "Number",
+    "orders.my_orders": "My Orders",
+    "orders.track_my_orders": "Track My Orders"
 
 
 

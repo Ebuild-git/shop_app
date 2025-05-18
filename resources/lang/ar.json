@@ -456,7 +456,17 @@
     "time_remaining": ":daysRemaining و :hoursRemaining و :minutesRemaining",
     "days_remaining": "{0} لا أيام متبقية|{1} :count يوم |[2,*] :count أيام",
     "hours_remaining": "{0} لا ساعات متبقية|{1} :count ساعة |[2,*] :count ساعة",
-    "minutes_remaining": "{0} لا دقائق متبقية|{1} :count دقيقة |[2,*] :count دقيقة"
+    "minutes_remaining": "{0} لا دقائق متبقية|{1} :count دقيقة |[2,*] :count دقيقة",
+    "shipment_tracking.title": "تتبع طلبك",
+    "shipment_tracking.label": "رقم الشحنة",
+    "shipment_tracking.placeholder": "أدخل رقم الشحنة (مثال: 12345678)",
+    "shipment_tracking.track_button": "تتبع الشحنة",
+    "shipment_tracking.no_info": "لا توجد معلومات تتبع حالياً.",
+    "shipment_tracking.details": "تفاصيل التتبع",
+    "shipment_tracking.number": "الرقم",
+    "orders.my_orders": "طلباتي",
+    "orders.track_my_orders": "تتبع طلباتي"
+
 
 
 

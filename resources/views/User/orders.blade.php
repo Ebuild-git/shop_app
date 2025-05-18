@@ -1,5 +1,5 @@
 @extends('User.fixe')
-@section('titre', 'Mes Informations')
+@section('titre', 'Mes Commandes')
 @section('content')
 @section('body')
     <div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
@@ -12,7 +12,7 @@
                                 <a href="/"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Mes commandes
+                                {{ __('orders.my_orders') }}
                             </li>
                         </ol>
                     </nav>
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="container pt-5 pb-5 ">
+    <div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         @livewire('User.Orders')
     </div>
 @endsection

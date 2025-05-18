@@ -1,20 +1,24 @@
-<div>
-    <div class="container py-5">
-        <div class="mx-auto" style="max-width: 600px;">
-            <div class="bg-white border border-secondary-subtle rounded-3 shadow-sm p-4">
+<div class="container py-5">
+    <div class="mx-auto" style="max-width: 600px;">
+        <div class="bg-white border rounded-4 shadow p-4">
 
-                <h3 class="text-center mb-4 fw-bold text-black">Suivi de l'expédition</h3>
+            <h2 class="text-center fw-bold text-dark mb-4">
+                📦 {{ __('shipment_tracking.title')}}
+            </h2>
 
-                <div class="mb-4">
-                    <label for="shipmentId" class="form-label fw-semibold">ID d'expédition</label>
-                    <input
-                        type="text"
-                        id="shipmentId"
-                        wire:model="shipmentId"
-                        class="form-control border-r shadow-none form-control-lg"
-                        placeholder="Entrez l'ID de l'expédition"
-                    >
-                </div>
+            <div class="mb-3">
+                <label for="shipmentId" class="form-label fw-semibold">{{ __('shipment_tracking.label')}}</label>
+                <input
+                    type="text"
+                    id="shipmentId"
+                    wire:model="shipmentId"
+                    class="form-control form-control-lg"
+                    placeholder="{{ __('shipment_tracking.placeholder')}}"
+                    aria-label="ID d'expédition"
+                >
+            </div>
+
+            <div class="d-grid">
                 <button
                     wire:click="trackShipment"
                     wire:loading.attr="disabled"
@@ -22,53 +26,63 @@
                     type="button"
                 >
                     <span>
-                        Suivre l'expédition
+                        🔍 {{ __('shipment_tracking.track_button')}}
                     </span>
                     <span wire:loading wire:target="trackShipment">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
                     </span>
                 </button>
+            </div>
+            @if ($error)
+                <div class="alert alert-danger mt-4 rounded-3" role="alert">
+                    {{ $error }}
+                </div>
+            @endif
 
-                @if ($error)
-                    <div class="alert alert-danger py-2 px-3 mb-3 rounded-2 shadow-sm" role="alert">
-                        {{ $error }}
+            @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
+                @php $results = $trackingResponse['TrackingResults']; @endphp
+
+                @if (empty($results))
+                    <div class="alert alert-info mt-4">
+                        {{ __('shipment_tracking.no_info')}}
+                    </div>
+                @else
+                    <div class="mt-4 bg-light p-3 rounded-3 border" style="max-height: 400px; overflow-y: auto;">
+                        <h5 class="fw-semibold mb-3">🗂️ {{ __('shipment_tracking.details')}}</h5>
+
+                        @foreach ($results as $tracking)
+                            @foreach ($tracking['Value'] as $entry)
+                                @php
+                                    preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
+                                    $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
+                                    $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y ') : '';
+                                @endphp
+                                <div class="mb-3 p-3 bg-white border-start border-4 border-primary rounded shadow-sm">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <p class="mb-1 text-muted small">{{ __('shipment_tracking.number')}} : <strong>{{ $entry['WaybillNumber'] }}</strong></p>
+                                            <h6 class="fw-bold mb-1">
+                                                <span class="badge bg-primary">
+                                                    {{ \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']) }}
+                                                </span>
+                                            </h6>
+                                            @if ($date)
+                                                <p class="mb-0 text-muted"><i class="bi bi-calendar-event"></i> {{ $date }}</p>
+                                            @endif
+                                            @if (!empty($entry['UpdateLocation']))
+                                                <p class="mb-0 text-muted"><i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}</p>
+                                            @endif
+                                            @if (!empty($entry['Comments']))
+                                                <p class="mb-0 text-muted"><i class="bi bi-chat-dots"></i> {{ \App\Traits\TranslateTrait::TranslateText($entry['Comments']) }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endforeach
                     </div>
                 @endif
-                @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
-                    @php
-                        $results = $trackingResponse['TrackingResults'];
-                    @endphp
-
-                    @if (empty($results))
-                        <div class="alert alert-info mt-3">
-                            Aucune information de suivi disponible pour le moment.
-                        </div>
-                    @else
-                        <div class="bg-light border border-secondary rounded-3 p-3 mt-3" style="max-height: 350px; overflow-y: auto;">
-                            <h5 class="fw-semibold mb-3">Détails du suivi :</h5>
-
-                            @foreach ($results as $tracking)
-                                @foreach ($tracking['Value'] as $entry)
-                                    <div class="mb-3 p-3 border rounded bg-white shadow-sm">
-                                        <p class="mb-1"><strong>Numéro de suivi :</strong> {{ $entry['WaybillNumber'] }}</p>
-                                        <p class="mb-1"><strong>Statut :</strong> {{ $entry['UpdateDescription'] }}</p>
-                                        <p class="mb-1"><strong>Date :</strong>
-                                            {{ \Carbon\Carbon::parse(substr($entry['UpdateDateTime'], 6, 10))->format('d/m/Y H:i') }}
-                                        </p>
-                                        <p class="mb-1"><strong>Lieu :</strong> {{ $entry['UpdateLocation'] }}</p>
-                                        @if (!empty($entry['Comments']))
-                                            <p class="mb-1"><strong>Commentaires :</strong> {{ $entry['Comments'] }}</p>
-                                        @endif
-                                    </div>
-                                @endforeach
-                            @endforeach
-                        </div>
-                    @endif
-                @endif
-
-
-            </div>
+            @endif
         </div>
     </div>
 </div>
-

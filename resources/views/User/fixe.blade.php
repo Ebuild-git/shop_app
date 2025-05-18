@@ -454,7 +454,7 @@
                                     </li>
                                     <li>
                                         <a href="/my-orders" class=" medium link-red text-medium">
-                                            Suivre mes commandes
+                                            {{ __('orders.track_my_orders') }}
                                         </a>
                                     </li>
                                     <li>
@@ -590,7 +590,7 @@
                                     </li>
                                     <li>
                                         <a href="/my-orders" class=" medium link-red text-medium">
-                                           Suivre mes commandes
+                                           {{ __('orders.track_my_orders') }}
                                         </a>
                                     </li>
                                     <li>
