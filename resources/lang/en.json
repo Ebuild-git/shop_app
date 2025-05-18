@@ -464,7 +464,16 @@
     "shipment_tracking.details": "Tracking Details",
     "shipment_tracking.number": "Number",
     "orders.my_orders": "My Orders",
-    "orders.track_my_orders": "Track My Orders"
+    "orders.track_my_orders": "Track My Orders",
+    "shipment_status.created": "Shipment Created",
+    "shipment_status.picked_up": "Shipment Picked Up",
+    "shipment_status.out_for_delivery": "Out for Delivery",
+    "shipment_status.delivered": "Delivered",
+    "shipment_status.attempted_delivery": "Delivery Attempted",
+    "shipment_status.delayed": "Delayed",
+    "shipment_status.returned": "Returned to Sender",
+    "shipment_status.not_delivered": "Not Delivered",
+    "shipment_status.unknown": "Unknown Status"
 
 
 

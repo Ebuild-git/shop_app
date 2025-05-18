@@ -465,7 +465,16 @@
     "shipment_tracking.details": "تفاصيل التتبع",
     "shipment_tracking.number": "الرقم",
     "orders.my_orders": "طلباتي",
-    "orders.track_my_orders": "تتبع طلباتي"
+    "orders.track_my_orders": "تتبع طلباتي",
+     "shipment_status.created": "تم إنشاء الشحنة",
+    "shipment_status.picked_up": "تم استلام الشحنة",
+    "shipment_status.out_for_delivery": "خرجت للتسليم",
+    "shipment_status.delivered": "تم التسليم",
+    "shipment_status.attempted_delivery": "تمت محاولة التسليم",
+    "shipment_status.delayed": "تأخرت الشحنة",
+    "shipment_status.returned": "تم إرجاع الشحنة إلى المرسل",
+    "shipment_status.not_delivered": "لم يتم التسليم",
+    "shipment_status.unknown": "حالة غير معروفة"
 
 
 

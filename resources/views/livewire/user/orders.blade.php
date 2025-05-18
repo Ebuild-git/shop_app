@@ -40,49 +40,70 @@
             @endif
 
             @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
-                @php $results = $trackingResponse['TrackingResults']; @endphp
+            @php $results = $trackingResponse['TrackingResults']; @endphp
 
-                @if (empty($results))
-                    <div class="alert alert-info mt-4">
-                        {{ __('shipment_tracking.no_info')}}
-                    </div>
-                @else
-                    <div class="mt-4 bg-light p-3 rounded-3 border" style="max-height: 400px; overflow-y: auto;">
-                        <h5 class="fw-semibold mb-3">🗂️ {{ __('shipment_tracking.details')}}</h5>
+            @if (empty($results))
+                <div class="alert alert-info mt-4">
+                    {{ __('shipment_tracking.no_info') }}
+                </div>
+            @else
+                <div class="mt-4 bg-light p-3 rounded-3 border" style="max-height: 400px; overflow-y: auto;">
+                    <h5 class="fw-semibold mb-3">🗂️ {{ __('shipment_tracking.details') }}</h5>
 
-                        @foreach ($results as $tracking)
-                            @foreach ($tracking['Value'] as $entry)
-                                @php
-                                    preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
-                                    $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
-                                    $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y ') : '';
-                                @endphp
-                                <div class="mb-3 p-3 bg-white border-start border-4 border-primary rounded shadow-sm">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="mb-1 text-muted small">{{ __('shipment_tracking.number')}} : <strong>{{ $entry['WaybillNumber'] }}</strong></p>
-                                            <h6 class="fw-bold mb-1">
-                                                <span class="badge bg-primary">
-                                                    {{ \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']) }}
-                                                </span>
-                                            </h6>
-                                            @if ($date)
-                                                <p class="mb-0 text-muted"><i class="bi bi-calendar-event"></i> {{ $date }}</p>
-                                            @endif
-                                            @if (!empty($entry['UpdateLocation']))
-                                                <p class="mb-0 text-muted"><i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}</p>
-                                            @endif
-                                            @if (!empty($entry['Comments']))
-                                                <p class="mb-0 text-muted"><i class="bi bi-chat-dots"></i> {{ \App\Traits\TranslateTrait::TranslateText($entry['Comments']) }}</p>
-                                            @endif
-                                        </div>
+                    @foreach ($results as $tracking)
+                        @foreach ($tracking['Value'] as $entry)
+                            @php
+                                preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
+                                $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
+                                $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y') : '';
+
+                                $statusKey = $entry['NormalizedStatus'] ?? 'unknown';
+                                $label = __('shipment_status.' . $statusKey);
+                                if ($label === 'shipment_status.' . $statusKey) {
+                                    $label = \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']);
+                                }
+                            @endphp
+                            <div class="mb-3 p-3 bg-white border-start border-4 border-primary rounded shadow-sm">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="mb-1 text-muted small">
+                                            {{ __('shipment_tracking.number') }} :
+                                            <strong>{{ $entry['WaybillNumber'] }}</strong>
+                                        </p>
+
+                                        <h6 class="fw-bold mb-1">
+                                            <span class="badge bg-primary">
+                                                {{ $label }}
+                                            </span>
+                                        </h6>
+
+                                        @if ($date)
+                                            <p class="mb-0 text-muted">
+                                                <i class="bi bi-calendar-event"></i> {{ $date }}
+                                            </p>
+                                        @endif
+
+                                        @if (!empty($entry['UpdateLocation']))
+                                            <p class="mb-0 text-muted">
+                                                <i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}
+                                            </p>
+                                        @endif
+
+                                        @if (!empty($entry['Comments']))
+                                            <p class="mb-0 text-muted">
+                                                <i class="bi bi-chat-dots"></i>
+                                                {{ \App\Traits\TranslateTrait::TranslateText($entry['Comments']) }}
+                                            </p>
+                                        @endif
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         @endforeach
-                    </div>
-                @endif
+                    @endforeach
+                </div>
             @endif
+        @endif
+
         </div>
     </div>
 </div>

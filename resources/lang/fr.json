@@ -466,7 +466,16 @@
     "shipment_tracking.details": "Détails de suivi",
     "shipment_tracking.number": "Numéro",
     "orders.my_orders": "Mes commandes",
-    "orders.track_my_orders": "Suivre mes commandes"
+    "orders.track_my_orders": "Suivre mes commandes",
+    "shipment_status.created": "Expédition créée",
+    "shipment_status.picked_up": "Colis récupéré",
+    "shipment_status.out_for_delivery": "En cours de livraison",
+    "shipment_status.delivered": "Livré",
+    "shipment_status.attempted_delivery": "Tentative de livraison",
+    "shipment_status.delayed": "Retardé",
+    "shipment_status.returned": "Retourné à l'expéditeur",
+    "shipment_status.not_delivered": "Non livré",
+    "shipment_status.unknown": "Statut inconnu"
 
 
 

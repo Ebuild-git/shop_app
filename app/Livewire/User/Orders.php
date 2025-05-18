@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use App\Services\AramexService;
 use App\Models\Shipment;
+use App\Traits\ShipmentStatusTrait;
+
 class Orders extends Component
 {
     public $clientInfo = [];
@@ -52,6 +54,13 @@ class Orders extends Component
         try {
             $aramexService = new AramexService();
             $response = $aramexService->trackShipment($payload);
+            if (isset($response['TrackingResults'])) {
+                foreach ($response['TrackingResults'] as &$tracking) {
+                    foreach ($tracking['Value'] as &$entry) {
+                        $entry['NormalizedStatus'] = ShipmentStatusTrait::getShipmentStatus($entry['UpdateCode']);
+                    }
+                }
+            }
             $this->trackingResponse = $response;
         } catch (\Exception $e) {
             $this->error = "Tracking failed: " . $e->getMessage();
