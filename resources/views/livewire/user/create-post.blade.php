@@ -333,7 +333,7 @@
                                             @php
                                             $textColor = $selected_color_code === '#FFFFFF' ? '#000000' : $selected_color_code;
                                             @endphp
-                                            : <b style="color: {{ $textColor }};">{{ $selected_color }}</b>
+                                            : <b style="color: {{ $textColor }};">{{ __($selected_color) }}</b>
                                         @endif
                                         <br>
                                         @foreach ($colors as $item)

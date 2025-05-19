@@ -543,7 +543,32 @@
   "3-5 ans": "3-5 ans",
   "6-8 ans": "6-8 ans",
   "9-12 ans": "9-12 ans",
-  "13+": "13+"
+  "13+": "13+",
+  "Noir": "Noir",
+"Blanc": "Blanc",
+"Rouge": "Rouge",
+"Bleu": "Bleu",
+"Vert": "Vert",
+"Jaune": "Jaune",
+"Rose": "Rose",
+"Orange": "Orange",
+"Violet": "Violet",
+"Marron": "Marron",
+"Gris": "Gris",
+"Multicolore": "Multicolore",
+"Beige": "Beige",
+"Turquoise": "Turquoise",
+"Or": "Or",
+"Argent": "Argent",
+"Nude": "Nude",
+"Bleu-vert": "Bleu-vert",
+"Taupe": "Taupe",
+"Argenté": "Argenté",
+"Fushia": "Fushia",
+"Doré": "Doré",
+"Corail": "Corail",
+"Camel": "Camel",
+"Bordeaux": "Bordeaux"
 
 
 

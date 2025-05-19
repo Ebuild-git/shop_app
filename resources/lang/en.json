@@ -541,7 +541,32 @@
   "3-5 ans": "3-5 years",
   "6-8 ans": "6-8 years",
   "9-12 ans": "9-12 years",
-  "13+": "13+"
+  "13+": "13+",
+  "Noir": "Black",
+        "Blanc": "White",
+        "Rouge": "Red",
+        "Bleu": "Blue",
+        "Vert": "Green",
+        "Jaune": "Yellow",
+        "Rose": "Pink",
+        "Orange": "Orange",
+        "Violet": "Purple",
+        "Marron": "Brown",
+        "Gris": "Gray",
+        "Multicolore": "Multicolor",
+        "Beige": "Beige",
+        "Turquoise": "Turquoise",
+        "Or": "Gold",
+        "Argent": "Silver",
+        "Nude": "Nude",
+        "Bleu-vert": "Teal",
+        "Taupe": "Taupe",
+        "Argenté": "Silver",
+        "Fushia": "Fuchsia",
+        "Doré": "Gold",
+        "Corail": "Coral",
+        "Camel": "Camel",
+        "Bordeaux": "Burgundy"
 
 
 
