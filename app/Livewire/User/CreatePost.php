@@ -221,7 +221,7 @@ class CreatePost extends Component
         }
         try {
             $this->validate($rules, [
-                'required' => "Veuillez remplir tous les champs obligatoires",
+                'required' => __('required2'),
                 'prix.min' => 'Le prix doit être supérieur à 50 DH.',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -263,7 +263,7 @@ class CreatePost extends Component
             $photos[] = $name;
         }
         if (count($photos) < 3) {
-            $this->addError('photos', 'Vous devez ajouter au moins 3 photos!');
+            $this->addError('photos', __('min_photos'));
             return false;
         }
         $this->data_post = [
@@ -331,7 +331,7 @@ class CreatePost extends Component
 
         if (count($this->data_post["photos"]) < 3) {
             $this->dispatch('alert', [
-                'message' => "Vous devez ajouter au moins 3 photos!",
+                'message' => __('min_photos'),
                 'type' => 'warning'
             ]);
             return;
@@ -345,7 +345,7 @@ class CreatePost extends Component
         if ($this->data_post) {
 
             if (count($this->data_post["photos"]) < 3) {
-                $this->dispatch('alert', ['message' => "Vous devez ajouter au moins 3 photos!", 'type' => 'warning']);
+                $this->dispatch('alert', ['message' => __('min_photos'), 'type' => 'warning']);
                 return;
             } else {
                 $this->make_post($this->data_post);

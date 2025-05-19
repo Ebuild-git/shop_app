@@ -284,7 +284,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="text-capitalize">
-                                        {!! \App\Traits\TranslateTrait::TranslateText($propriete_info->nom) !!}
+                                        {{ __($propriete_info->nom) }}
                                     </label>
 
                                     @php
@@ -310,7 +310,7 @@
                                                 <option value="">{{ __('please_select')}}</option>
                                                 @foreach (json_decode($propriete_info->options) as $option)
                                                     <option value="{{ $option }}">
-                                                        {{ $option }}
+                                                        {{ __($option) }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -796,9 +796,11 @@
 </form>
 <script>
     document.addEventListener('livewire:init', function () {
+                const publishWarning = @json(__('publish_warning'));
+
         Livewire.on('remplir-alert', function () {
             Swal.fire({
-                title: "<span style='font-size: 20px;'>Veuillez remplir tout les champs obligatoires avant de publier !</span>",
+                title: `<span style='font-size: 20px;'>${publishWarning}</span>`,
                 showCloseButton: true,
                 showConfirmButton: false,
                 iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
