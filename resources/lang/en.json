@@ -360,7 +360,7 @@
 "current_rib_number": "Current RIB number",
     "bank_name": "Bank name",
     "account_holder_name": "Account holder name",
-    "cin_image": "CIN image (Photo of the registration card)",
+    "cin_image": "Photo of the registration card",
     "save_bank_info_changes": "Save changes to my bank information",
     "current_password": "Current password",
     "new_password": "New password",
