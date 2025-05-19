@@ -409,8 +409,7 @@
                                     @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
                                             <td class="cell cell-bold">
-                                                {{-- {{ ucfirst($key) }} --}}
-                                                {{ \App\Traits\TranslateTrait::TranslateText(ucfirst($key)) }}
+                                                {{ __(ucfirst($key)) }}
                                             </td>
                                             <td class="text-black cell">
                                                 @if ($key == 'Couleur')
@@ -425,12 +424,11 @@
 
                                                         <div style="display: flex; align-items: center;">
                                                             <div style="width: 24px; height: 24px; background-color: {{ $value }}; border-radius: 50%; border: 2px solid #ccc; margin-right: 8px;"></div>
-                                                            {{-- <span id="colorName" style="color: #333; font-weight: bold;"></span> --}}
                                                         </div>
                                                     @endif
                                                 @else
                                                     <span class="text-capitalize">
-                                                        {{ \App\Traits\TranslateTrait::TranslateText($value) }}
+                                                        {{ __($value) }}
                                                     </span>
                                                 @endif
                                             </td>
