@@ -3334,3 +3334,49 @@ input:checked + .slider:before {
     background: transparent !important;
     box-shadow: none !important;
 }
+figure.zoom {
+    background-position: 50% 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+figure.zoom img:hover {
+    opacity: 0;
+    min-width: 100%;
+}
+
+figure.zoom img {
+    transition: opacity .5s;
+    display: block;
+    width: 100%;
+}
+
+.zoom-up-details {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: rgba(255, 255, 255, 0.616);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer !important;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.zoom-up-details img {
+    width: 30px !important;
+}
+
+.modal-view-img {
+    max-height: 80vh !important;
+    height: auto !important;
+}
+.card-ps {
+    border: solid 1px #00808065;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.text-end {
+    text-align: right !important;
+}

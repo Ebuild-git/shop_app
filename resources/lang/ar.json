@@ -613,7 +613,10 @@
   "voyage.activated.title": "تم تفعيل وضع السفر",
   "voyage.activated.description": "ستكون إعلاناتك غير مرئية مؤقتًا للمستخدمين الآخرين. ستظهر تلقائيًا عند إلغاء تفعيل هذا الوضع",
   "voyage.deactivated.title": "لقد خرجت من وضع السفر",
-  "voyage.deactivated.description": "إعلاناتك مرئية مرة أخرى"
+  "voyage.deactivated.description": "إعلاناتك مرئية مرة أخرى",
+   "Membre depuis le": "عضو منذ",
+     "Noter le SHOP": "قيّم الشوب<span class=\"color strong\">ين</span>ر"
+
 
 
 

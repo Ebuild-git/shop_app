@@ -5,7 +5,7 @@
         {{ __('recent_purchase', ['username' => $user->username, 'date' => $last_buy->sell_at]) }}
         <div>
             <b>
-                <i class="bi bi-arrow-right"></i> {{ \App\Traits\TranslateTrait::TranslateText(Str::limit($last_buy->titre, 40)) }}
+                <i class="bi bi-arrow-right"></i> {{ Str::limit($last_buy->titre, 40) }}
             </b> <br>
             @if ($rate)
             <i class="bi bi-arrow-right"></i> {{ __('rating', ['stars' => $rate->etoiles]) }}

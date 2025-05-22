@@ -3,19 +3,8 @@
 @section('content')
 @section('body')
 
-<style>
-    .card-ps {
-        border: solid 1px #00808065;
-        border-radius: 5px;
-        display: inline-block;
-    }
-
-    .text-end {
-        text-align: right !important;
-    }
-</style>
 <!-- ======================= Filter Wrap Style 1 ======================== -->
-<section class="py-3 ">
+<section class="py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
     <div class="container">
         <div class="row align-items-center justify-content-between">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -34,7 +23,7 @@
 <!-- ============================= Filter Wrap ============================== -->
 
 
-<div class="container pb-3 pt-3">
+<div class="container pb-3 pt-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     <div class="row">
         <div class="col-sm-4">
             <div>
@@ -66,7 +55,7 @@
                                 <div>
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            {{ $avis }} {!! \App\Traits\TranslateTrait::TranslateText('Avis') !!}
+                                            {{ $avis }} {{ trans_choice('messages.avis', $avis, ['count' => $avis]) }}
                                         </div>
                                         <div data-toggle="modal" data-target="#Noter">
                                             @for ($i = 1; $i <= 5; $i++)
@@ -80,11 +69,11 @@
                                 </div>
                                 <div>
                                     <span>
-                                        <b>{{ $user->total_sales->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Ventes') !!}
+                                        <b>{{ $user->total_sales->count() }}</b> {{ trans_choice('messages.sales', $user->total_sales->count()) }}
                                     </span>
                                     |
                                     <span>
-                                        <b>{{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}</b> {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
+                                        <b>{{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}</b> {{ trans_choice('messages.annonces', $user->ValidatedPosts->count()) }}
                                     </span>
                                     |
                                     <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cusor">
@@ -99,31 +88,32 @@
             <br>
             <div>
                 <p>
-                    <i class="bi bi-calendar-check"></i> {!! \App\Traits\TranslateTrait::TranslateText('Membre dépuis le') !!} {{ $user->created_at }}
+                    <i class="bi bi-calendar-check"></i> {{ __('Membre depuis le') }} {{ $user->created_at }}
                     <br>
-                    <i class="bi bi-envelope"></i> {!! \App\Traits\TranslateTrait::TranslateText('Email vérifié') !!} <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
-                    </b>
+                    {{-- <i class="bi bi-envelope"></i> {!! \App\Traits\TranslateTrait::TranslateText('Email vérifié') !!} <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
+                    </b> --}}
                 </p>
             </div>
         </div>
         <div class="col-sm-8">
             <div>
                 <b class="text-black">
-                    {{ $posts->count() }} {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!}
+                    {{ $posts->count() }} {{ trans_choice('messages.annonces', $posts->count()) }}
                 </b>
             </div>
             <div class="row">
                 @forelse ($posts as $post)
                 <div class="col-xl-4 col-sm-4 col-lg-4 col-md-6 col-6">
                     <div class="product_grid card b-0">
-                        <div class="badge-container position-absolute top-0 start-0" style="z-index: 5;">
+                        <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe"
+                            style="z-index: 5; {{ app()->getLocale() === 'ar' ? 'left: 4px; right: auto; text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                             @if ($post->sell_at)
                             <div class="badge-new badge-danger-new mb-4">
                                 {!! \App\Traits\TranslateTrait::TranslateText('Vendu') !!}
                             </div>
                             @endif
                             @if ($post->discountPercentage)
-                            <div class="badge-new badge-discount">
+                            <div class="badge-new badge-discount" style="{{ app()->getLocale() === 'ar' ? 'margin-top: -24px;' : '' }}">
                                 -{{ $post->discountPercentage }}%
                             </div>
                             @endif
@@ -161,7 +151,7 @@
 
 
 <!-- Log In Modal -->
-<div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" >
+<div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
     <div class="modal-dialog modal-xl login-pop-form" role="document">
         <div class="modal-content" id="loginmodal">
             <div class="modal-headers">
@@ -172,7 +162,7 @@
             <div class="modal-body p-5">
                 <div class="text-center mb-4">
                     <h4 class="m-0 ft-regular">
-                        {!! \App\Traits\TranslateTrait::TranslateText('Noter le SHOP') !!}<span class="color strong">IN</span>{!! \App\Traits\TranslateTrait::TranslateText('ER') !!}
+                            {!! __('Noter le SHOP') !!}
                     </h4>
                 </div>
                 @livewire('User.Rating',['id_user'=>$user->id])

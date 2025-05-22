@@ -615,7 +615,10 @@
   "voyage.activated.title": "Mode voyage activé",
   "voyage.activated.description": "Vos annonces seront temporairement invisibles pour les autres utilisateurs. Elles réapparaîtront automatiquement lorsque vous désactiverez ce mode.",
   "voyage.deactivated.title": "Vous avez quitté le Mode voyage",
-  "voyage.deactivated.description": "Vos annonces sont de nouveau visibles."
+  "voyage.deactivated.description": "Vos annonces sont de nouveau visibles.",
+  "Membre depuis le": "Membre depuis le",
+"Noter le SHOP": "Noter le SHOP<span class=\"color strong\">IN</span>ER"
+
 
 
 

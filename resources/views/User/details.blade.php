@@ -3,64 +3,6 @@
 @section('body')
 
 
-    <style>
-        figure.zoom {
-            background-position: 50% 50%;
-            position: relative;
-            overflow: hidden;
-            cursor: zoom-in;
-        }
-
-        figure.zoom img:hover {
-            opacity: 0;
-            min-width: 100%;
-        }
-
-        figure.zoom img {
-            transition: opacity .5s;
-            display: block;
-            width: 100%;
-        }
-
-        .zoom-up-details {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            background-color: rgba(255, 255, 255, 0.616);
-            padding: 5px;
-            border-radius: 5px;
-            cursor: pointer !important;
-            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .zoom-up-details img {
-            width: 30px !important;
-        }
-
-        .modal-view-img {
-            max-height: 80vh !important;
-            height: auto !important;
-        }
-    </style>
-    <script>
-        function zoom(e) {
-            var zoomer = e.currentTarget;
-            e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
-            e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
-            x = offsetX / zoomer.offsetWidth * 100
-            y = offsetY / zoomer.offsetHeight * 100
-            zoomer.style.backgroundPosition = x + '% ' + y + '%';
-        }
-
-        function change_principal_image(url) {
-            document.getElementById("imgPrincipale").src = url;
-            document.getElementById("figure").style.backgroundImage = "url('" + url + "')";
-            document.getElementById("figure").setAttribute("data-url", url);
-        }
-    </script>
-
-
-
     <!-- ======================= Top Breadcrubms ======================== -->
     <div class="gray py-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="container">
@@ -121,19 +63,6 @@
                                 <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
-                                    {{-- <button type="button"
-                                        class="btn-like-details btn-like-post @if ($isLiked) btn-favoris-added @endif"
-                                        @guest data-toggle="modal" data-target="#login" @endguest
-                                        data-id="{{ $post->id }}">
-                                        <div class="d-flex justify-content-between">
-                                            <span class="my-auto count">
-                                                {{ $post->getLike->count() }}
-                                            </span>
-                                            <span class="my-auto">
-                                                <i class="bi bi-heart"></i>
-                                            </span>
-                                        </div>
-                                    </button> --}}
 
                                     <span class="zoom-up-details">
                                         <img src="/icons/icons8-dézoomer-58.png" alt="" srcset="">
@@ -644,7 +573,7 @@
     </div>
     <!-- End Modal -->
 
-    <div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" >
+    <div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="modal-dialog modal-xl login-pop-form" role="document">
             <div class="modal-content" id="loginmodal">
                 <div class="modal-headers">
@@ -664,7 +593,7 @@
         </div>
     </div>
     @if (session('show_validation_modal'))
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(56, 54, 54, 0.5); display: flex; justify-content: center; align-items: center; z-index:9999;">
             <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; max-width: 400px; width: 100%;">
                 <h2 style="font-size: 1.25rem; font-weight: bold;">Votre publication est en cours de validation</h2>
