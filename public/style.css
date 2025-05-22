@@ -3324,3 +3324,13 @@ input:checked + .slider:before {
     text-decoration: none;
     color: gray;
 }
+.custom-info-icon {
+    color: #008080; /* Change the color to what you want */
+    font-size: 80px; /* Adjust size */
+}
+
+.swal2-icon {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}

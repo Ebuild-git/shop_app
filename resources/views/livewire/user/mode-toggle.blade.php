@@ -6,42 +6,13 @@
             <span class="slider round"></span>
         </label>
     </li>
-    <style>
-        .custom-info-icon {
-            color: #008080; /* Change the color to what you want */
-            font-size: 80px; /* Adjust size */
-        }
-
-        .swal2-icon {
-            border: none !important;
-            background: transparent !important;
-            box-shadow: none !important;
-        }
-    </style>
     <script>
-        document.addEventListener('livewire:init', function () {
-            Livewire.on('voyage-mode-activated', function () {
-                Swal.fire({
-                    title: '<strong>Mode voyage activé</strong>',
-                    html: "<span style='font-size: 16px;'>Vos annonces seront temporairement invisibles pour les autres utilisateurs. Elles réapparaîtront automatiquement lorsque vous désactiverez ce mode.</span>",
-                    showCloseButton: true,
-                    showConfirmButton: false,
-                    iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
-
-                });
-            });
-
-            // When voyage mode is deactivated
-            Livewire.on('voyage-mode-deactivated', function () {
-                Swal.fire({
-                    title: 'Vous avez quitté le Mode voyage',
-                    text: 'Vos annonces sont de nouveau visibles.',
-                    iconHtml: '<i class="bi bi-info-circle-fill custom-info-icon"></i>',
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                });
-            });
-        });
+        window.translations = {
+        voyage_activated_title: @json(__('voyage.activated.title')),
+        voyage_activated_description: @json(__('voyage.activated.description')),
+        voyage_deactivated_title: @json(__('voyage.deactivated.title')),
+        voyage_deactivated_description: @json(__('voyage.deactivated.description'))
+        };
     </script>
 </div>
 

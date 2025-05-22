@@ -611,7 +611,11 @@
   "validation.password.min": "Votre mot de passe doit contenir au minimum 8 caractères.",
   "validation.password.confirmed": "Les mots de passe ne correspondent pas. Veuillez les vérifier et réessayer.",
   "validation.password.regex": "Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (-!@# etc.).",
-  "username_invalid": "Le pseudonyme doit contenir uniquement des lettres , des chiffres et des caractères spéciaux (-!@# etc.)."
+  "username_invalid": "Le pseudonyme doit contenir uniquement des lettres , des chiffres et des caractères spéciaux (-!@# etc.).",
+  "voyage.activated.title": "Mode voyage activé",
+  "voyage.activated.description": "Vos annonces seront temporairement invisibles pour les autres utilisateurs. Elles réapparaîtront automatiquement lorsque vous désactiverez ce mode.",
+  "voyage.deactivated.title": "Vous avez quitté le Mode voyage",
+  "voyage.deactivated.description": "Vos annonces sont de nouveau visibles."
 
 
 
