@@ -615,7 +615,10 @@
   "voyage.deactivated.title": "لقد خرجت من وضع السفر",
   "voyage.deactivated.description": "إعلاناتك مرئية مرة أخرى",
    "Membre depuis le": "عضو منذ",
-     "Noter le SHOP": "قيّم الشوب<span class=\"color strong\">ين</span>ر"
+     "Noter le SHOP": "قيّم الشوب<span class=\"color strong\">ين</span>ر",
+     "Votre publication est en cours de validation": "يتم حاليًا مراجعة منشورك",
+  "Vous recevrez une notification une fois qu'elle sera approuvée.": "ستتلقى إشعارًا بمجرد الموافقة عليه",
+  "Fermer": "إغلاق"
 
 
 

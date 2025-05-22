@@ -617,7 +617,10 @@
   "voyage.deactivated.title": "Vous avez quitté le Mode voyage",
   "voyage.deactivated.description": "Vos annonces sont de nouveau visibles.",
   "Membre depuis le": "Membre depuis le",
-"Noter le SHOP": "Noter le SHOP<span class=\"color strong\">IN</span>ER"
+"Noter le SHOP": "Noter le SHOP<span class=\"color strong\">IN</span>ER",
+"Votre publication est en cours de validation": "Votre publication est en cours de validation",
+  "Vous recevrez une notification une fois qu'elle sera approuvée.": "Vous recevrez une notification une fois qu'elle sera approuvée.",
+  "Fermer": "Fermer"
 
 
 

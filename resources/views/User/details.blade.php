@@ -596,11 +596,11 @@
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(56, 54, 54, 0.5); display: flex; justify-content: center; align-items: center; z-index:9999;">
             <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center; max-width: 400px; width: 100%;">
-                <h2 style="font-size: 1.25rem; font-weight: bold;">Votre publication est en cours de validation</h2>
-                <p style="margin-top: 0.5rem;">Vous recevrez une notification une fois qu'elle sera approuvée.</p>
+                <h2 style="font-size: 1.25rem; font-weight: bold;">{{ __('Votre publication est en cours de validation') }}</h2>
+                <p style="margin-top: 0.5rem;">{{ __('Vous recevrez une notification une fois qu\'elle sera approuvée.') }}</p>
                 <a href="{{ route('home') }}"
                 style="margin-top: 1rem; display:inline-block; padding: 0.5rem 1rem; background: #008080; color: white; border: none; border-radius: 5px;">
-                    Fermer
+                    {{ __('Fermer') }}
                 </a>
             </div>
         </div>
