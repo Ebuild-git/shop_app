@@ -34,37 +34,37 @@ class Connexion extends Component
                     ->first();
 
         if (!$user) {
-            session()->flash("error", "Cet utilisateur n'existe pas");
+            session()->flash("error", __("auth.user_not_found"));
             $this->reset(['email', 'password']);
             return;
         }
 
         // Verify that the password is correct
         if (!password_verify($this->password, $user->password)) {
-            session()->flash("error", "Mot de passe incorrect");
+            session()->flash("error", __("auth.incorrect_password"));
             $this->error++;
             $this->password = "";
 
             if ($this->error == 5) {
                 return redirect("/forget")
-                    ->with("error", "Tentatives dépassées. Veuillez réessayer plus tard ou réinitialiser votre mot de passe.");
+                    ->with("error", __("auth.too_many_attempts"));
             }
 
             return;
         }
 
         if (!$user->hasVerifiedEmail()) {
-            session()->flash("info", "Veuillez vérifier votre boite mail pour activer votre compte.");
+            session()->flash("info", __("auth.verify_email"));
             return;
         }
 
         if ($user->hasRole('admin')) {
-            session()->flash("error", "Vous n'avez pas l'autorisation de vous connecter.");
+            session()->flash("error", __("auth.no_permission"));
             return;
         }
 
         if ($user->locked == true) {
-            session()->flash("error", "Compte bloqué. Veuillez <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>cliquer ici</a> pour contacter un administrateur et réactiver votre compte.");
+            session()->flash("error", __("auth.account_locked"));
             return;
         }
         $user->update(['last_login_at' => now()]);

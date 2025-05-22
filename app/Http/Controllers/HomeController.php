@@ -435,10 +435,20 @@ class HomeController extends Controller
         $requestData = $request->all();
 
         $forbiddenFields = ['email', 'username', 'nom', 'prenom'];
+        $fieldLabels = [
+            'email' => __('email'),
+            'username' => __('pseudonyme'),
+            'nom' => __('nom'),
+            'prenom' => __('prenom'),
+        ];
 
         foreach ($forbiddenFields as $field) {
             if (stripos($requestData[$field], $forbiddenWord) !== false) {
-                return redirect()->back()->with("error", "Le mot 'shopin' n'est pas autorisé dans le $field.")->withInput();
+                $translatedField = $fieldLabels[$field] ?? $field;
+                return redirect()->back()->with("error", __("error.forbidden_word", [
+                    'word' => $forbiddenWord,
+                    'field' => $translatedField
+                ]))->withInput();
             }
         }
         $validator = Validator::make($request->all(), [
@@ -470,21 +480,21 @@ class HomeController extends Controller
             'etage' => ['nullable', 'string'],
             'num_appartement' => ['nullable', 'string'],
         ], [
-            'required' => "Veuillez renseigner ce lien.",
-            'adresse.required' => "Veuillez renseigner la ville.",
-            'ruee.required' => "Veuillez renseigner la rue.",
-            'username.unique' => "Ce pseudo est déja utilisé.",
-            'email.unique' => "Cette adresse email est déja utilisé.",
-            "string" => "Veuillez entrer une valeur de type texte.",
-            "password.min" => "Votre mot de passe doit contenir minimun 8 caractères.",
-            "password.confirmed" => "Les mots de passe ne correspondent pas. Veuillez les vérifier et réessayer.",
-            'password.regex' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial(-!@# etc.).',
-            "interger" => "Veuillez entrer une valeur de type entier.",
-            "in.genre" => "Veuillez choisir votre sexe.",
-            "mimes" => "Veuillez choisir un format de fichier valide.",
-            "image" => "Veuillez choisir une image valide.",
-            "max" => "Veuillez choisir un fichier de taille inférieur à 2Mo.",
-            "between" => "Veuillez choisir une date valide.",
+            'required' => __("validation.required"),
+            'adresse.required' => __("validation.city_required"),
+            'ruee.required' => __("validation.street_required"),
+            'username.unique' => __("error.username_exists"),
+            'email.unique' => __("error.email_exists"),
+            'string' => __("error.invalid_type"),
+            'password.min' => __("validation.password.min"),
+            'password.confirmed' => __("validation.password.confirmed"),
+            'password.regex' => __("validation.password.regex"),
+            'integer' => __("error.invalid_integer"),
+            'genre.in' => __("error.gender_required"),
+            'mimes' => __("error.invalid_file_type"),
+            'image' => __("error.invalid_image"),
+            'max' => __("error.max_size"),
+            'between' => __("error.invalid_date"),
 
         ]);
         if ($validator->fails()) {
@@ -500,7 +510,7 @@ class HomeController extends Controller
         $age = $date->diffInYears(\Carbon\Carbon::now());
         //l'age doit etres superieur a 13 ans return with information
         if ($age < 13) {
-            return redirect()->back()->with("error", "L'âge minimal est de 13 ans")->withInput();
+            return redirect()->back()->with("error", __("error.age_limit"))->withInput();
         }
 
 
@@ -542,10 +552,10 @@ class HomeController extends Controller
         try{
             Mail::to($user->email)->send(new VerifyMail($user, $token));
         }catch(\Exception $e){
-            return redirect("/connexion")->with("error", "Une erreur s'est produite lors de l'envoi du mail de validation. mais les compte a été créer !");
+            return redirect("/connexion")->with("error", __("error.email_send"));
         }
 
-        return redirect("/connexion")->with("success", "Votre compte a été créé avec succès!<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail. Merci et bienvenue parmi nous!");
+        return redirect("/connexion")->with("success", __("success.account_created"));
         //reset form
     }
 

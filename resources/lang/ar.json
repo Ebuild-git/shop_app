@@ -583,7 +583,34 @@
 "email.region": "المنطقة",
 "email.phone_number": "رقم الهاتف",
 "email.footer": "شكرًا لثقتك ونراك قريبًا!",
-"day": "اليوم"
+"day": "اليوم",
+"auth.user_not_found": "هذا المستخدم غير موجود",
+"auth.incorrect_password": "كلمة المرور غير صحيحة",
+"auth.too_many_attempts": "عدد المحاولات تجاوز الحد. يرجى المحاولة لاحقًا أو إعادة تعيين كلمة المرور.",
+"auth.verify_email": "يرجى التحقق من بريدك الإلكتروني لتفعيل حسابك.",
+"auth.no_permission": "ليست لديك صلاحية تسجيل الدخول.",
+"auth.account_locked": "تم حظر الحساب. يرجى <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>الضغط هنا</a> للتواصل مع المسؤول لإعادة تفعيل حسابك.",
+"error.forbidden_word": "الكلمة ':word' غير مسموح بها في حقل :field.",
+  "error.email_exists": "عنوان البريد الإلكتروني هذا مستخدم بالفعل.",
+  "error.username_exists": "اسم المستخدم هذا مستخدم بالفعل.",
+  "error.invalid_file_type": "يرجى اختيار تنسيق ملف صالح.",
+  "error.invalid_image": "يرجى اختيار صورة صالحة.",
+  "error.max_size": "يرجى اختيار ملف بحجم أقل من 2 ميغابايت.",
+  "error.invalid_date": "يرجى اختيار تاريخ صالح.",
+  "error.invalid_type": "يرجى إدخال قيمة نصية.",
+  "error.invalid_integer": "يرجى إدخال قيمة عددية صحيحة.",
+  "error.gender_required": "يرجى اختيار جنسك.",
+  "error.age_limit": "الحد الأدنى للعمر هو 13 سنة.",
+  "error.email_send": "حدث خطأ أثناء إرسال بريد التحقق، لكن تم إنشاء الحساب!",
+  "success.account_created": "تم إنشاء حسابك بنجاح!<br>لإكمال التسجيل، انقر على رابط التحقق الذي أرسلناه إلى بريدك الإلكتروني. شكرًا ومرحبًا بك!",
+  "validation.required": "هذا الحقل مطلوب.",
+  "validation.city_required": "يرجى إدخال المدينة.",
+  "validation.street_required": "يرجى إدخال الشارع.",
+  "validation.password.min": "يجب أن يحتوي كلمة المرور على 8 أحرف على الأقل.",
+  "validation.password.confirmed": "كلمات المرور غير متطابقة. يرجى التحقق والمحاولة مرة أخرى.",
+  "validation.password.regex": "يجب أن تحتوي كلمة المرور على حرف كبير وحرف صغير ورقم ورمز خاص واحد على الأقل (-!@# إلخ).",
+  "username_invalid": "يجب أن يحتوي اسم المستخدم على أحرف وأرقام ورموز خاصة فقط (-!@# وما إلى ذلك)."
+
 
 
 

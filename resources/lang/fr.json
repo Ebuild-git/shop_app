@@ -585,7 +585,35 @@
 "email.region": "Région",
 "email.phone_number": "Numéro de téléphone",
 "email.footer": "Merci pour votre confiance et à bientôt !",
-"day": "Jour"
+"day": "Jour",
+"auth.user_not_found": "Cet utilisateur n'existe pas",
+"auth.incorrect_password": "Mot de passe incorrect",
+"auth.too_many_attempts": "Tentatives dépassées. Veuillez réessayer plus tard ou réinitialiser votre mot de passe.",
+"auth.verify_email": "Veuillez vérifier votre boite mail pour activer votre compte.",
+"auth.no_permission": "Vous n'avez pas l'autorisation de vous connecter.",
+"auth.account_locked": "Compte bloqué. Veuillez <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>cliquer ici</a> pour contacter un administrateur et réactiver votre compte.",
+"error.forbidden_word": "Le mot ':word' n'est pas autorisé dans le champ :field.",
+  "error.email_exists": "Cette adresse email est déjà utilisée.",
+  "error.username_exists": "Ce pseudo est déjà utilisé.",
+  "error.invalid_file_type": "Veuillez choisir un format de fichier valide.",
+  "error.invalid_image": "Veuillez choisir une image valide.",
+  "error.max_size": "Veuillez choisir un fichier de taille inférieure à 2Mo.",
+  "error.invalid_date": "Veuillez choisir une date valide.",
+  "error.invalid_type": "Veuillez entrer une valeur de type texte.",
+  "error.invalid_integer": "Veuillez entrer une valeur de type entier.",
+  "error.gender_required": "Veuillez choisir votre sexe.",
+  "error.age_limit": "L'âge minimal est de 13 ans.",
+  "error.email_send": "Une erreur s'est produite lors de l'envoi du mail de validation, mais le compte a été créé !",
+  "success.account_created": "Votre compte a été créé avec succès !<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail. Merci et bienvenue parmi nous !",
+  "validation.required": "Ce champ est requis.",
+  "validation.city_required": "Veuillez renseigner la ville.",
+  "validation.street_required": "Veuillez renseigner la rue.",
+  "validation.password.min": "Votre mot de passe doit contenir au minimum 8 caractères.",
+  "validation.password.confirmed": "Les mots de passe ne correspondent pas. Veuillez les vérifier et réessayer.",
+  "validation.password.regex": "Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (-!@# etc.).",
+  "username_invalid": "Le pseudonyme doit contenir uniquement des lettres , des chiffres et des caractères spéciaux (-!@# etc.)."
+
+
 
 
 

@@ -20,7 +20,7 @@
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <li>{!! $error !!}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -313,6 +313,9 @@
         }
 
 
+        const translations = @json([
+            'username_invalid' => __('username_invalid'),
+        ]);
         //gestion pseudonyme
         $(document).ready(function() {
             $('#username').on('input', function(event) {
@@ -322,8 +325,7 @@
                 // Expression régulière pour valider le format du nom d'utilisateur
                 var regex = /^[a-zA-Z0-9-!@#\$%\^&\*\(\)_\+]+$/;
                 if (!regex.test(input)) {
-                    errorMessage =
-                        "Le pseudonyme doit contenir uniquement des lettres , des chiffres et des caractères spéciaux (-!@# etc.).";
+                    errorMessage = translations.username_invalid;
                 }
 
                 // Afficher le message d'erreur

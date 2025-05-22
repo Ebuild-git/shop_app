@@ -583,7 +583,35 @@
 "email.region": "Region",
 "email.phone_number": "Phone Number",
 "email.footer": "Thank you for your trust and see you soon!",
-"day": "Day"
+"day": "Day",
+"auth.user_not_found": "This user does not exist",
+"auth.incorrect_password": "Incorrect password",
+"auth.too_many_attempts": "Too many attempts. Please try again later or reset your password.",
+"auth.verify_email": "Please check your inbox to verify your account.",
+"auth.no_permission": "You do not have permission to log in.",
+"auth.account_locked": "Account locked. Please <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>click here</a> to contact an administrator and reactivate your account.",
+  "error.forbidden_word": "The word ':word' is not allowed in the :field field.",
+  "error.email_exists": "This email address is already in use.",
+  "error.username_exists": "This username is already taken.",
+  "error.invalid_file_type": "Please choose a valid file format.",
+  "error.invalid_image": "Please choose a valid image.",
+  "error.max_size": "Please select a file smaller than 2MB.",
+  "error.invalid_date": "Please select a valid date.",
+  "error.invalid_type": "Please enter a text value.",
+  "error.invalid_integer": "Please enter an integer value.",
+  "error.gender_required": "Please select your gender.",
+  "error.age_limit": "The minimum age is 13 years.",
+  "error.email_send": "An error occurred while sending the verification email, but the account has been created!",
+  "success.account_created": "Your account has been successfully created!<br>To complete your registration, click the verification link we sent to your email. Thank you and welcome!",
+  "validation.required": "This field is required.",
+  "validation.city_required": "Please enter the city.",
+  "validation.street_required": "Please enter the street.",
+  "validation.password.min": "Your password must be at least 8 characters long.",
+  "validation.password.confirmed": "Passwords do not match. Please verify and try again.",
+  "validation.password.regex": "Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (-!@# etc.).",
+    "username_invalid": "The username may only contain letters, numbers, and special characters (-!@# etc.)."
+
+
 
 
 
