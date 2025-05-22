@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
 
-    <div class="container pt-5 pb-5">
+    <div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="row">
             <div class="col-sm-6 ">
                 <div class="p-3 ">
@@ -67,12 +67,12 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="form-group" style="position: relative; min-height: 80px;">
                                 <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
-                                    style="bottom:30px;left: 30px;border-radius: 100%;">
+                                    style="bottom:18px; {{ app()->getLocale() == 'ar' ? 'right: 14px;' : 'left: 14px;' }}; border-radius: 100%;">
                                 <span for="small">{{ __('telephone') }}</span>
                                 <span class="text-danger">*</span>
-                                <input type="tel" style="padding-left: 50px;" class="form-control" maxlength="14"
+                                <input type="tel" style="{{ app()->getLocale() == 'ar' ? 'padding-right: 50px;' : 'padding-left: 50px;' }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}" class="form-control" maxlength="14"
                                     value="{{ old('telephone') }}" oninput="formatTelephone(this)" id="telephone"
                                     placeholder="00 00 00 00 00" name="telephone" required>
                                 @error('telephone')
@@ -111,7 +111,7 @@
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
                                     <select name="jour" class="form-control">
-                                        <option value="">Jour</option>
+                                        <option value="">{{ __('day') }}</option>
                                         @for ($i = 1; $i <= 31; $i++)
                                             <option value="{{ $i }}" @selected($i == old('jour'))>
                                                 {{ $i }}</option>
@@ -121,22 +121,22 @@
                                         setlocale(LC_TIME, 'fr_FR');
                                     @endphp
                                     <select name="mois" class="form-control" required>
-                                        <option value="">Mois</option>
-                                        <option @selected(1 == old('mois')) value="1">Janvier</option>
-                                        <option @selected(2 == old('mois')) value="2">Février</option>
-                                        <option @selected(3 == old('mois')) value="3">Mars</option>
-                                        <option @selected(4 == old('mois')) value="4">Avril</option>
-                                        <option @selected(5 == old('mois')) value="5">Mai</option>
-                                        <option @selected(6 == old('mois')) value="6">Juin</option>
-                                        <option @selected(7 == old('mois')) value="7">Juillet</option>
-                                        <option @selected(8 == old('mois')) value="8">Août</option>
-                                        <option @selected(9 == old('mois')) value="9">Septembre</option>
-                                        <option @selected(10 == old('mois')) value="10">Octobre</option>
-                                        <option @selected(11 == old('mois')) value="11">Novembre</option>
-                                        <option @selected(12 == old('mois')) value="12">Décembre</option>
+                                        <option value="">{{ __('month')}}</option>
+                                        <option @selected(1 == old('mois')) value="1">{{ __('january')}}</option>
+                                        <option @selected(2 == old('mois')) value="2">{{ __('february') }}</option>
+                                        <option @selected(3 == old('mois')) value="3">{{ __('march') }}</option>
+                                        <option @selected(4 == old('mois')) value="4">{{ __('april') }}</option>
+                                        <option @selected(5 == old('mois')) value="5">{{ __('may') }}</option>
+                                        <option @selected(6 == old('mois')) value="6">{{ __('june') }}</option>
+                                        <option @selected(7 == old('mois')) value="7">{{ __('july') }}</option>
+                                        <option @selected(8 == old('mois')) value="8">{{ __('august') }}</option>
+                                        <option @selected(9 == old('mois')) value="9">{{ __('september') }}</option>
+                                        <option @selected(10 == old('mois')) value="10">{{ __('october') }}</option>
+                                        <option @selected(11 == old('mois')) value="11">{{ __('november') }}</option>
+                                        <option @selected(12 == old('mois')) value="12">{{ __('december') }}</option>
                                     </select>
                                     <select name="annee" class="form-control" required>
-                                        <option value="">Année</option>
+                                        <option value="">{{ __('year')}}</option>
                                         @for ($year = date('Y'); $year >= date('Y') - 100; $year--)
                                         <option value="{{ $year }}" @selected($year == old('annee'))>{{ $year }}</option>
                                         @endfor
@@ -224,7 +224,7 @@
                                 <span class="text-danger">*</span>
                                 <input type="password" placeholder="{{ __('password_placeholder') }}" class="form-control" id="password-1"
                                     name="password" value="{{ old('password') }}" minlength="8" required>
-                                <button class="password_show" type="button" onclick="showPassword(1)">
+                                <button class="password_show" type="button" onclick="showPassword(1)" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 45%; transform: translateY(-50%);">
                                     <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>
@@ -241,7 +241,7 @@
                                 <input type="password" placeholder="{{ __('password_placeholder') }}" class="form-control"
                                     value="{{ old('password_confirmation') }}" minlength="8" id="password-2"
                                     name="password_confirmation" required>
-                                <button class="password_show" type="button" onclick="showPassword(2)">
+                                <button class="password_show" type="button" onclick="showPassword(2)" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 45%; transform: translateY(-50%);">
                                     <span class="input-group-text">
                                         <i class="bi bi-eye"></i>
                                     </span>

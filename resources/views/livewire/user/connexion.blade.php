@@ -18,7 +18,7 @@
                 <input type="{{ $showPassword ? 'text' : 'password' }}" name="password" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
                     wire:model="password" placeholder="*****">
-                <button class="password_show2" type="button" wire:click="$toggle('showPassword')">
+                <button class="password_show2" type="button" wire:click="$toggle('showPassword')" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 22%; transform: translateY(-50%);">
                     <span class="input-group-text">
                         <i class="bi bi-eye"></i>
                     </span>

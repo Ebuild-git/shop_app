@@ -584,7 +584,9 @@
 "email.delivery_address": "Adresse de livraison",
 "email.region": "Région",
 "email.phone_number": "Numéro de téléphone",
-"email.footer": "Merci pour votre confiance et à bientôt !"
+"email.footer": "Merci pour votre confiance et à bientôt !",
+"day": "Jour"
+
 
 
 

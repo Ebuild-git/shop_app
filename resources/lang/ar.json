@@ -572,8 +572,8 @@
 "email.thank_you": "شكرًا على شرائك، :username!",
 "email.order_received": "يسعدنا إبلاغك بأنه تم استلام طلبك بنجاح.",
 "email.order_details": "فيما يلي ملخص طلبك، ويمكنك أيضًا عرضه في حسابك (مشترياتي).",
-  "email.order_details_with_link": "فيما يلي ملخص طلبك، ويمكنك أيضًا مشاهدته في حسابك (<span style=\"font-weight: 500;\">مشترياتي</span>).",
-  "email.order_summary": "ملخص الطلب",
+"email.order_details_with_link": "فيما يلي ملخص طلبك، ويمكنك أيضًا مشاهدته في حسابك (<span style=\"font-weight: 500;\">مشترياتي</span>).",
+"email.order_summary": "ملخص الطلب",
 "email.seller": "البائع",
 "email.shipping_fees": "رسوم الشحن",
 "email.total": "الإجمالي",
@@ -582,7 +582,9 @@
 "email.delivery_address": "عنوان التسليم",
 "email.region": "المنطقة",
 "email.phone_number": "رقم الهاتف",
-"email.footer": "شكرًا لثقتك ونراك قريبًا!"
+"email.footer": "شكرًا لثقتك ونراك قريبًا!",
+"day": "اليوم"
+
 
 
 

@@ -11,10 +11,10 @@
                 <img src="/icons/login.webp"
                     class="img" alt="" srcset="">
             </div>
-            <div class="col-sm-6 ">
+            <div class="col-sm-6" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <hr>
                 <h4>
-                    Connexion
+                    {{ __('login') }}
                 </h4>
 
                 @if(session('success'))

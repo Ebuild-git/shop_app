@@ -582,7 +582,9 @@
 "email.delivery_address": "Delivery Address",
 "email.region": "Region",
 "email.phone_number": "Phone Number",
-"email.footer": "Thank you for your trust and see you soon!"
+"email.footer": "Thank you for your trust and see you soon!",
+"day": "Day"
+
 
 
 
