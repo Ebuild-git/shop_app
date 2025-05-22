@@ -626,7 +626,7 @@
 
     <!-- Modal pour voir la liste des motifs d'un post réfuser -->
     <div class="modal fade" id="modal_motifs_preview_post" tabindex="1" role="dialog"
-        aria-labelledby="UpdatePrice" aria-hidden="true">
+        aria-labelledby="UpdatePrice" aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="modal-dialog modal-lg login-pop-form" role="document">
             <div class="modal-content" id="UpdatePrice">
                 <div class="modal-headers">
@@ -663,19 +663,39 @@
                                             @if ($data_post['categorie']->luxury == 1)
                                                 <span class="text-success bg-light-success rounded strong px-2 py-1 d-inline-block">
                                                     <i class="bi bi-gem"></i>
-                                                    SHOPIN LUXURY
+                                                    {{ __('SHOPIN_LUXURY')}}
                                                 </span>
                                             @endif
 
                                             <span class="bg-light-info rounded strong px-2 py-1 d-inline-block" style="background-color: #0080802d; margin-left: 5px;">
                                                 <span class="color">
-                                                    {{ $data_post['categorie']->titre ?? '' }}
+
+                                                    @switch(app()->getLocale())
+                                                        @case('en')
+                                                            {{ $data_post['categorie']->title_en ?? ''  }}
+                                                            @break
+                                                        @case('ar')
+                                                            {{ $data_post['categorie']->title_ar ?? '' }}
+                                                            @break
+                                                        @default
+                                                            {{ $data_post['categorie']->titre ?? '' }}
+                                                    @endswitch
                                                 </span>
                                             </span>
 
                                             <span class="bg-light-info rounded strong px-2 py-1 d-inline-block mt-1" style="background-color: #ecedf1; margin-left: 5px;">
                                                 <span style="color: black;">
-                                                    {{ $data_post['sous_categorie']->titre ?? '' }}
+
+                                                    @switch(app()->getLocale())
+                                                        @case('en')
+                                                            {{ $data_post['sous_categorie']->title_en ?? ''  }}
+                                                            @break
+                                                        @case('ar')
+                                                            {{ $data_post['sous_categorie']->title_ar ?? '' }}
+                                                            @break
+                                                        @default
+                                                            {{ $data_post['sous_categorie']->titre ?? '' }}
+                                                    @endswitch
                                                 </span>
                                             </span>
                                         @endif
@@ -692,37 +712,46 @@
                                             <img width="25" height="25"
                                                 src="https://img.icons8.com/laces/25/018d8d/delivery.png"
                                                 alt="delivery" />
-                                            + Frais de Livraison
+                                            + {{ __('Frais de Livraison')}}
                                         </span>
                                     </div>
                                     <div class="mt-3">
-                                        <b class="text-black h6">Détails</b>
+                                        <b class="text-black h6">{{ __('Détails')}}</b>
                                         <table>
                                             <tr>
-                                                <td style="min-width: 130px">Condition </td>
-                                                <td class="text-black space-td"> {{ $data_post['etat'] }} </td>
+                                                <td style="min-width: 130px">{{ __('Condition')}}</td>
+                                                <td class="text-black space-td">  {{ \App\Traits\TranslateTrait::TranslateText($data_post['etat']) }} </td>
                                             </tr>
                                             <tr>
-                                                <td>Catégorie </td>
+                                                <td>{{ __('Catégorie')}} </td>
                                                 <td class="text-black text-capitalize space-td">
-                                                    {{ $data_post['categorie']->titre ?? '' }}
+                                                    @switch(app()->getLocale())
+                                                        @case('en')
+                                                            {{ $data_post['categorie']->title_en ?? ''  }}
+                                                            @break
+                                                        @case('ar')
+                                                            {{ $data_post['categorie']->title_ar ?? '' }}
+                                                            @break
+                                                        @default
+                                                            {{ $data_post['categorie']->titre ?? '' }}
+                                                    @endswitch
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Région </td>
+                                                <td>{{ __('Région')}}</td>
                                                 <td class="text-black text-capitalize space-td">
                                                     {{ $data_post['region']->nom }}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Publié le </td>
+                                                <td>{{ __('Publié le')}}</td>
                                                 <td class="text-black space-td">
                                                     {{ Carbon\Carbon::parse($data_post['created_at'])->format('d/m/Y') }}
                                                 </td>
                                             </tr>
                                             @foreach ($data_post['proprietes'] ?? [] as $key => $value)
                                                 <tr>
-                                                    <td>{{ ucfirst($key) }} </td>
+                                                    <td>{{ __(ucfirst($key)) }} </td>
                                                     <td class="text-black space-td">
                                                         @if ($key == 'Couleur')
                                                             @if ($value == '#000000000')
@@ -742,7 +771,7 @@
 
                                                         @else
                                                             <span class="text-capitalize">
-                                                                {{ $value }}
+                                                                {{ __($value) }}
                                                             </span>
                                                         @endif
                                                     </td>
@@ -751,7 +780,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-3">
-                                        <b class="text-black h6">Description</b>
+                                        <b class="text-black h6">{{ __('Publié le')}}</b>
                                         <p class="text-capitalize">
                                             @if ($data_post['description'])
                                                 {!! $data_post['description'] !!}
@@ -759,7 +788,7 @@
                                                 <div class="text-muted text-center">
                                                     <i>
                                                         <i class="bi bi-info-circle color"></i>
-                                                        Aucune description disponible !
+                                                        {{ __('Aucune description disponible !')}}
                                                     </i>
                                                 </div>
                                             @endif
@@ -776,7 +805,7 @@
                                     <x-Loading></x-Loading>
                                 </span>
                                 <i class="bi bi-send"></i>
-                                Publier
+                                {{ __('Publier')}}
                             </button>
 
                         </div>
