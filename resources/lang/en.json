@@ -611,9 +611,9 @@
   "validation.password.regex": "Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (-!@# etc.).",
 "username_invalid": "The username may only contain letters, numbers, and special characters (-!@# etc.).",
 "voyage.activated.title": "Travel mode activated",
-  "voyage.activated.description": "Your listings will be temporarily invisible to other users. They will reappear automatically when you deactivate this mode.",
+  "voyage.activated.description": "Your items will be temporarily invisible to other users. They will reappear automatically when you deactivate this mode.",
   "voyage.deactivated.title": "You have exited Travel Mode",
-  "voyage.deactivated.description": "Your listings are visible again."
+  "voyage.deactivated.description": "Your items are visible again."
 
 
 
