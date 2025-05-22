@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Merci pour votre achat</title>
+    <title>{{ __('email.thank_you1') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,17 +126,17 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="header">
             <img src="{{ config('app.url') }}/icons/logo.png" alt="logo" class="logo" srcset="">
         </div>
         <div class="content">
-            <h2>Merci pour votre achat, {{ $user->username }} !</h2>
-            <p>Nous sommes ravis de vous informer que votre commande a été prise en charge avec succès.</p>
-            <p>Voici le récapitulatif de votre commande, que vous pouvez également consulter dans votre compte(<span style="font-weight: 500;">Mes achats</span>).</p>
+            <h2>{{ __('email.thank_you', ['username' => $user->username]) }}</h2>
+            <p>{{ __('email.order_received') }}</p>
+            <p>{!! __('email.order_details_with_link') !!}</p>
 
             <div class="order-summary">
-                <h3>Récapitulatif de votre commande</h3>
+                <h3>{{ __('email.order_summary') }}</h3>
                 <table>
                     @php
                         $total = 0;
@@ -148,7 +148,7 @@
                             </td>
                             <td class="product-info">
                                 <h3>{{ $article['titre'] }}</h3>
-                                <p style="color: #555;">Vendeur : <strong>{{ $article['vendeur'] ?? 'N/A' }}</strong></p>
+                                <p style="color: #555;">{{ __('email.seller') }} : <strong>{{ $article['vendeur'] ?? 'N/A' }}</strong></p>
                                 <p>{{ $article['prix'] }} <sup>{{ __('currency') }}</sup></p>
                             </td>
                         </tr>
@@ -159,26 +159,26 @@
                 </table>
 
                 <div class="total">
-                    <h4>Frais de livraison : {{ number_format($totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h4>
-                    <h3>Total : {{ number_format($total + $totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h3>
+                    <h4>{{ __('email.shipping_fees') }} : {{ number_format($totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h4>
+                    <h3>{{ __('email.total') }} : {{ number_format($total + $totalShippingFees, 2, '.', '') }} <sup>{{ __('currency') }}</sup></h3>
                 </div>
             </div>
 
             <div class="delivery-info">
-                <p><strong>Mode de paiement :</strong> Paiement à la livraison</p>
-                <p><strong>Adresse de livraison :</strong>
+                <p><strong>{{ __('email.payment_method') }} :</strong> {{ __('email.payment_method1') }}</p>
+                <p><strong>{{ __('email.delivery_address') }} :</strong>
                     {{ $user->rue ? $user->rue . ', ' : '' }}
                     {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
                     {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
                     {{ $user->num_appartement ? 'Appartement ' . $user->num_appartement . ', ' : '' }}
                     {{ $user->address }}
                 </p>
-                <p><strong>Région :</strong> {{ $user->region_info->nom ?? '-' }}</p>
-                <p><strong>Numéro de téléphone :</strong> {{ $user->phone_number ?? "-"}}</p>
+                <p><strong>{{ __('email.region') }} :</strong> {{ $user->region_info->nom ?? '-' }}</p>
+                <p><strong>{{ __('email.phone_number') }} :</strong> {{ $user->phone_number ?? "-"}}</p>
             </div>
         </div>
         <div class="footer">
-            Merci pour votre confiance et à bientôt !
+            {{ __('email.footer') }}
         </div>
     </div>
 </body>

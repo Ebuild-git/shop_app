@@ -43,22 +43,6 @@
         @if ($step == 4)
             <div class="mt-5 mb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <div class="text-center">
-                    @if (session('success'))
-                        <div class="alert alert-success mt-3 text-start" style="max-width: 800px; margin: auto;">
-                            <strong>✅ {{ session('success') }}</strong>
-                            @if (session('success_details'))
-                                <pre class="mt-2 small bg-light p-3 rounded border" style="white-space: pre-wrap; font-family: monospace;">
-                    {{ session('success_details') }}
-                                </pre>
-                            @endif
-                        </div>
-                    @endif
-
-                    @if (session('error'))
-                        <div class="alert alert-danger mt-3 text-start" style="max-width: 800px; margin: auto;">
-                            <strong>❌ {{ session('error') }}</strong>
-                        </div>
-                    @endif
 
                     <h2 class="color">
                         <img src="/icons/icons8-coche.gif" alt="" srcset=""> <br>
