@@ -632,7 +632,9 @@
   "10 ans": "10 years",
   "11 ans": "11 years",
   "12 ans": "12 years",
-  "13 ans": "13 years"
+  "13 ans": "13 years",
+   "price_luxury_error_high": "The sale price must exceed 800 DH to be added to the LUXURY category",
+  "price_luxury_error_low": "The sale price must be less than 800 DH for the non-luxury version of this category."
 
 
 

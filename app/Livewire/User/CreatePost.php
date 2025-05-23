@@ -177,9 +177,9 @@ class CreatePost extends Component
         if (!$category) return;
 
         if ($category->luxury && $this->prix < 800) {
-            $this->addError('prix', 'Le prix de vente doit dépasser les 800 DH pour être ajouté à la catégorie LUXURY');
+            $this->addError('prix', __('price_luxury_error_high'));
         } elseif (!$category->luxury && $this->prix >= 800) {
-            $this->addError('prix', 'Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.');
+            $this->addError('prix', __('price_luxury_error_low'));
         } else {
             $this->resetErrorBag('prix');
         }
