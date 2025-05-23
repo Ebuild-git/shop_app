@@ -439,19 +439,24 @@ function delete_all_notification() {
         },
         buttonsStyling: false,
     });
+
     swalWithBootstrapButtons
         .fire({
-            title: "Es-tu sûr?",
-            text: "Vous ne pourrez pas revenir en arrière !",
+            title: translations.delete_confirm_title,
+            text: translations.delete_post_text,
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Oui, supprimer !",
-            cancelButtonText: "Non",
+            confirmButtonText: translations.delete_post_confirm,
+            cancelButtonText: translations.delete_post_cancel,
             reverseButtons: true,
+            customClass: {
+                confirmButton: 'custom-confirm-btn',
+                cancelButton: 'custom-cancel-btn'
+            },
+
         })
         .then((result) => {
             if (result.isConfirmed) {
-                //go to url
                 window.location.href = "/delete/all_notifications";
             }
             {
@@ -465,7 +470,7 @@ var result_location = "";
 
 function get_location() {
     if (navigator.geolocation) {
-        $("#location-modal").modal("toggle");  // Show the modal to indicate the process has started
+        $("#location-modal").modal("toggle");
 
         navigator.geolocation.getCurrentPosition(
             function (position) {

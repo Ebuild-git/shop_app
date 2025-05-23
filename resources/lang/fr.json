@@ -269,6 +269,7 @@
 "returned": "Retourné",
 "unknown_status": "Statut inconnu",
 "at": "à",
+"delete_confirm_title": "Es-tu sûr?",
 "delete_post_title": "Voulez-vous supprimer ?",
 "delete_post_text": "Vous ne pourrez pas revenir en arrière !",
 "delete_post_confirm": "Oui, supprimer",

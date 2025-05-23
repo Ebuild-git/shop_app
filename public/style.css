@@ -3380,3 +3380,57 @@ figure.zoom img {
 .text-end {
     text-align: right !important;
 }
+
+@media (max-width: 767px) {
+    .card .d-flex .text-end .small {
+        font-size: 0.60rem; /* Smaller font size for time */
+        margin-top: 10px;
+    }
+
+    .card .d-flex .text-end .bi-app-indicator,
+    .card .d-flex .text-end .bi-trash3 {
+        font-size: 0.855rem; /* Even smaller icon size */
+        margin-top: 10px;
+    }
+
+    .card a {
+        font-size: 0.855rem; /* Smaller font size for URL */
+    }
+}
+.custom-confirm-btn {
+    background-color: #008080; /* Green */
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.custom-confirm-btn:hover {
+    background-color: #0c9797;
+}
+
+.custom-cancel-btn {
+    background-color: #F33066;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.custom-cancel-btn:hover {
+    background-color: #c82333;
+}
+
+body:not([dir="rtl"]) .custom-confirm-btn {
+    margin-left: 10px;
+}
+
+/* Margin for RTL */
+body[dir="rtl"] .custom-cancel-btn {
+    margin-left: 10px;
+}

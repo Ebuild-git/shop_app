@@ -41,9 +41,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script>
+        let translations = {
+            delete_confirm_title: @json(__('delete_confirm_title')),
+            delete_post_text: @json(__('delete_post_text')),
+            delete_post_confirm: @json(__('delete_post_confirm')),
+            delete_post_cancel: @json(__('delete_post_cancel')),
+        };
+    </script>
     @auth
         <script src="{{ asset('js/Auth-Cart.js?v=') . time() }}"></script>
     @endauth
+
     <script src="{{ asset('js/Shop.js?v=') . time() }}"></script>
     <script src="{{ asset('js/custom.js?v=') . time() }}"></script>
     <style>

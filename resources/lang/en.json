@@ -268,6 +268,7 @@
 "returned": "Returned",
 "unknown_status": "Unknown status",
 "at": "at",
+"delete_confirm_title": "Are you sure?",
 "delete_post_title": "Do you want to delete?",
 "delete_post_text": "You won't be able to revert this!",
 "delete_post_confirm": "Yes, delete",

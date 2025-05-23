@@ -83,22 +83,4 @@
     </div>
 
 @endsection
-<style>
-/* Base styles for mobile */
-@media (max-width: 767px) {
-    .card .d-flex .text-end .small {
-        font-size: 0.60rem; /* Smaller font size for time */
-        margin-top: 10px;
-    }
 
-    .card .d-flex .text-end .bi-app-indicator,
-    .card .d-flex .text-end .bi-trash3 {
-        font-size: 0.855rem; /* Even smaller icon size */
-        margin-top: 10px;
-    }
-
-    .card a {
-        font-size: 0.855rem; /* Smaller font size for URL */
-    }
-}
-</style>
