@@ -116,119 +116,26 @@
         </div>
         <!--/ Card Border Shadow -->
         <div class="row">
-            <!-- Vehicles overview -->
+
+            <!-- Reasons for delivery exceptions -->
             <div class="col-xxl-6 mb-4 order-5 order-xxl-0">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
-                            <h5 class="m-0">Vehicles overview</h5>
+                            <h5 class="m-0 me-2">
+                                Statistiques d'inscription par genre.
+                            </h5>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="d-none d-lg-flex vehicles-progress-labels mb-4">
-                            <div class="vehicles-progress-label on-the-way-text" style="width: 39.7%">On the way</div>
-                            <div class="vehicles-progress-label unloading-text" style="width: 28.3%">Unloading</div>
-                            <div class="vehicles-progress-label loading-text" style="width: 17.4%">
-                                Loading</div>
-                            <div class="vehicles-progress-label waiting-text text-nowrap" style="width: 14.6%">Waiting</div>
-                        </div>
-                        <div class="vehicles-overview-progress progress rounded-2 my-4" style="height: 46px">
-                            <div class="progress-bar fw-medium text-start bg-body text-dark px-3 rounded-0"
-                                role="progressbar" style="width: 39.7%" aria-valuenow="39.7" aria-valuemin="0"
-                                aria-valuemax="100">
-                                39.7%
-                            </div>
-                            <div class="progress-bar fw-medium text-start bg-primary px-3" role="progressbar"
-                                style="width: 28.3%" aria-valuenow="28.3" aria-valuemin="0" aria-valuemax="100">
-                                28.3%
-                            </div>
-                            <div class="progress-bar fw-medium text-start text-bg-info px-3" role="progressbar"
-                                style="width: 17.4%" aria-valuenow="17.4" aria-valuemin="0" aria-valuemax="100">
-                                17.4%
-                            </div>
-                            <div class="progress-bar fw-medium text-start bg-gray-900 px-2 rounded-0 px-lg-2 px-xxl-3"
-                                role="progressbar" style="width: 14.6%" aria-valuenow="14.6" aria-valuemin="0"
-                                aria-valuemax="100">
-                                14.6%
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table card-table">
-                                <tbody class="table-border-bottom-0">
-                                    <tr>
-                                        <td class="w-50 ps-0">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <div class="me-2">
-                                                    <i class="ti ti-truck mt-n1"></i>
-                                                </div>
-                                                <h6 class="mb-0 fw-normal">On the way</h6>
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-0 text-nowrap">
-                                            <h6 class="mb-0">2hr 10min</h6>
-                                        </td>
-                                        <td class="text-end pe-0">
-                                            <span class="fw-medium">39.7%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="w-50 ps-0">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <div class="me-2">
-                                                    <i class="ti ti-circle-arrow-down mt-n1"></i>
-                                                </div>
-                                                <h6 class="mb-0 fw-normal">Unloading</h6>
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-0 text-nowrap">
-                                            <h6 class="mb-0">3hr 15min</h6>
-                                        </td>
-                                        <td class="text-end pe-0">
-                                            <span class="fw-medium">28.3%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="w-50 ps-0">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <div class="me-2">
-                                                    <i class="ti ti-circle-arrow-up mt-n1"></i>
-                                                </div>
-                                                <h6 class="mb-0 fw-normal">Loading</h6>
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-0 text-nowrap">
-                                            <h6 class="mb-0">1hr 24min</h6>
-                                        </td>
-                                        <td class="text-end pe-0">
-                                            <span class="fw-medium">17.4%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="w-50 ps-0">
-                                            <div class="d-flex justify-content-start align-items-center">
-                                                <div class="me-2">
-                                                    <i class="ti ti-clock mt-n1"></i>
-                                                </div>
-                                                <h6 class="mb-0 fw-normal">Waiting</h6>
-                                            </div>
-                                        </td>
-                                        <td class="text-end pe-0 text-nowrap">
-                                            <h6 class="mb-0">5hr 19min</h6>
-                                        </td>
-                                        <td class="text-end pe-0">
-                                            <span class="fw-medium">14.6%</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <div id="deliveryExceptionsChart" class="pt-md-4" data-genres="{{ json_encode($genres) }}"></div>
                     </div>
                 </div>
             </div>
-            <!--/ Vehicles overview -->
+            <!--/ Reasons for delivery exceptions -->
             <!-- Shipment statistics-->
-            <div class="col-lg-6 col-xxl-6 mb-4 order-3 order-xxl-1">
-                <div class="card">
+            <div class="col-lg-6 col-xxl-6 mb-4 order-5 order-xxl-0">
+                <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Statistiques du trafic</h5>
@@ -260,156 +167,8 @@
                 </div>
             </div>
             <!--/ Shipment statistics -->
-            <!-- Delivery Performance -->
-            <div class="col-lg-6 col-xxl-4 mb-4 order-2 order-xxl-2">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between mb-2">
-                        <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">Delivery Performance</h5>
-                            <small class="text-muted">12% increase in this month</small>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="deliveryPerformance" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deliveryPerformance">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-package"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Packages in transit</h6>
-                                        <small class="text-success fw-normal d-block">
-                                            <i class="ti ti-chevron-up mb-1"></i>
-                                            25.8%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">10k</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-info"><i class="ti ti-truck"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Packages out for delivery</h6>
-                                        <small class="text-success fw-normal d-block">
-                                            <i class="ti ti-chevron-up mb-1"></i>
-                                            4.3%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">5k</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-circle-check"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Packages delivered</h6>
-                                        <small class="text-danger fw-normal d-block">
-                                            <i class="ti ti-chevron-down mb-1"></i>
-                                            12.5%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">15k</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-warning"><i
-                                            class="ti ti-percentage"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Delivery success rate</h6>
-                                        <small class="text-success fw-normal d-block">
-                                            <i class="ti ti-chevron-up mb-1"></i>
-                                            35.6%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">95%</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-secondary"><i
-                                            class="ti ti-clock"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Average delivery time</h6>
-                                        <small class="text-danger fw-normal d-block">
-                                            <i class="ti ti-chevron-down mb-1"></i>
-                                            2.15%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">2.5 Days</h6>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <span class="avatar-initial rounded bg-label-danger"><i
-                                            class="ti ti-users"></i></span>
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                    <div class="me-2">
-                                        <h6 class="mb-0 fw-normal">Customer satisfaction</h6>
-                                        <small class="text-success fw-normal d-block">
-                                            <i class="ti ti-chevron-up mb-1"></i>
-                                            5.7%
-                                        </small>
-                                    </div>
-                                    <div class="user-progress">
-                                        <h6 class="mb-0">4.5/5</h6>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!--/ Delivery Performance -->
-            <!-- Reasons for delivery exceptions -->
-            <div class="col-md-6 col-xxl-4 mb-4 order-1 order-xxl-3">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">
-                                Statistiques d'inscription par genre.
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="deliveryExceptionsChart" class="pt-md-4" data-genres="{{ json_encode($genres) }}"></div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Reasons for delivery exceptions -->
+
+
             <!-- Orders by Countries -->
             <div class="col-md-6 col-xxl-4 mb-4 order-0 order-xxl-4">
                 <div class="card h-100">
@@ -640,71 +399,6 @@
                 </div>
             </div>
             <!--/ Orders by Countries -->
-
-            <!-- On route vehicles Table -->
-
-            <div class="col-12 order-5">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">
-                                <i class="fa-solid fa-car-side"></i>
-                                Commandes en cour...
-                            </h5>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="routeVehicles" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="routeVehicles">
-                                <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-datatable table-responsive">
-                        <table class=" table">
-                            <thead class="border-top">
-                                <tr>
-                                    <th></th>
-                                    <th>Article</th>
-                                    <th>localisation</th>
-                                    <th>Date de vente</th>
-                                    <th>Gouvernorat</th>
-                                    <th>Statut</th>
-                                    <th class="w-20">progress</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($commandes_en_cour as $item)
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="7">
-                                        <div class="alert alert-warning text-center">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                            Aucune commande en cours
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!--/ On route vehicles Table -->
         </div>
     </div>
     <!--/ Content -->
