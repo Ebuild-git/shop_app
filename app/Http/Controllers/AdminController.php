@@ -29,6 +29,7 @@ class AdminController extends Controller
             $stats_inscription[] = User::whereYear('created_at', $currentDate->year)
                 ->whereMonth('created_at', $currentDate->month)
                 ->where('role', '!=', 'admin')
+                ->where('locked', false)
                 ->count();
             $stats_publication[] = posts::whereYear('created_at', $currentDate->year)
                 ->whereMonth('created_at', $currentDate->month)
@@ -42,8 +43,8 @@ class AdminController extends Controller
 
         $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
         $genres = [
-            "homme" => User::where('gender', 'male')->where('role', '!=', 'admin')->count(),
-            "femme" => User::where('gender', 'female')->where('role', '!=', 'admin')->count()
+            "homme" => User::where('gender', 'male')->where('role', '!=', 'admin')->where('locked', false)->count(),
+            "femme" => User::where('gender', 'female')->where('role', '!=', 'admin')->where('locked', false)->count()
         ];
 
         return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication", "genres"));
