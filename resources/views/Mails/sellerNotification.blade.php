@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Notification de commande</title>
+    <title>{{ __('order_notification') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -131,7 +131,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="header">
             <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo" class="logo" />
         </div>
@@ -140,14 +140,10 @@
             <h2>
                 {{ $salutation }} {{ $seller->username }},
             </h2>
-
-            <p>
-                Nous vous informons que vous avez reçu une nouvelle commande de la part de <span class="pseudo">{{ $buyerPseudo }}</span> .
-                Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.
-            </p>
+            <p>{!! __('new_order_message', ['buyer_pseudo' => $buyerPseudo]) !!}</p>
 
             <div class="order-summary">
-                <h3>Récapitulatif de la commande</h3>
+                <h3>{{ __('order_summary') }}</h3>
                 <table>
                     @foreach ($articlesWithGain as $article)
                         <tr class="product-row">
@@ -157,7 +153,7 @@
                             <td class="details-cell">
                                 <h3>{{ $article['titre'] }}</h3>
                                 <span class="price-info">
-                                    La somme que vous allez recevoir dans votre compte bancaire en Dhs est :
+                                    {{ __('receive_amount') }}
                                     <span style="color: #008080; font-size: 18px;">{{ $article['gain'] }}</span><sup style="color: #008080;">DH</sup>
                                 </span>
                             </td>
@@ -167,17 +163,20 @@
                 </table>
             </div>
 
-            <p>
+            {{-- <p>
                 Merci de bien vouloir
                 <a href="{{ auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login') }}" class="underlined-link">
                     cliquer ici
                 </a>
                 pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
-            </p>
+            </p> --}}
+            <p>{!! __('bank_info_confirmation', [
+                'link' => auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login')
+            ]) !!}</p>
         </div>
 
         <div class="footer">
-            Merci pour votre confiance et à bientôt !
+            {{ __('footer_thanks') }}
         </div>
     </div>
 </body>

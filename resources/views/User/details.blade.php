@@ -246,10 +246,10 @@
                                 @if ($post->id_user != Auth::id())
                                     <button type="button"
                                         class="btn btn-block @if ($produit_in_cart) bg-dark @else hover-black @endif mb-2 p-3"
-                                        id="btn-add-to-card" onclick="add_cart({{ $post->id }})" data-retire="{{ __('Retire') }}" data-ajouter="{{ __('Ajouter') }}">
+                                        id="btn-add-to-card" onclick="add_cart({{ $post->id }})" data-retire="{{ __('Retire2') }}" data-ajouter="{{ __('Ajouter') }}">
                                         <i class="lni lni-shopping-basket mr-2"></i>
                                         <span id="add-cart-text-btn">
-                                            {{ $produit_in_cart ? __("Retire") : __("Ajouter") }}
+                                            {{ $produit_in_cart ? __("Retire2") : __("Ajouter") }}
                                         </span>
                                     </button>
                                 @endif
