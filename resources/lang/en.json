@@ -651,7 +651,13 @@
 "thanks": "Thank you and welcome to our community!",
 "team": "The <strong style=\"color:black;\">SHOP</strong><span class=\"color\"><strong>IN</strong></span> Team",
 "ignore_notice": "If you did not attempt to register on our platform, please ignore this email.",
-"follow_us": "Follow us on our social media!"
+"follow_us": "Follow us on our social media!",
+"new_message": "You have received a new message with the following subject:",
+"message1": "Message:",
+"for_article": "For the article:",
+"thanks1": "Thank you for your attention!",
+"team1": "The team of",
+"shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>"
 
 
 

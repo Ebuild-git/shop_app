@@ -653,7 +653,13 @@
 "thanks": "Merci et bienvenue parmi nous !",
 "team": "L’équipe de <strong style=\"color:black;\">SHOP</strong><span class=\"color\"><strong>IN</strong></span>",
 "ignore_notice": "Si vous n'avez pas tenté de vous inscrire à notre plateforme, veuillez ignorer cet e-mail.",
-"follow_us": "Suivez-nous sur nos réseaux sociaux !"
+"follow_us": "Suivez-nous sur nos réseaux sociaux !",
+ "new_message": "Vous avez reçu un nouveau message avec le sujet suivant :",
+        "message1": "Message:",
+        "for_article": "Pour l'article :",
+        "thanks1": "Merci pour votre attention !",
+        "team1": "L'équipe de",
+        "shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>"
 
 
 

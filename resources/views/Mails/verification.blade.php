@@ -95,7 +95,7 @@
                 <p>
                     {{ __('thanks') }}
                     <br>
-                    {!! __('team') !!}
+                    @lang('team1')  <strong style="color:black;">@lang('shopin')</strong>
                 </p>
                 <br>
                 <p>

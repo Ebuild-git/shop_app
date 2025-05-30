@@ -652,8 +652,13 @@
 "thanks": "شكرًا لك ومرحبًا بك بيننا!",
 "team": "فريق <strong style=\"color:black;\">SHOP</strong><span class=\"color\"><strong>IN</strong></span>",
 "ignore_notice": "إذا لم تحاول التسجيل في منصتنا، يرجى تجاهل هذا البريد الإلكتروني.",
-"follow_us": "تابعنا على وسائل التواصل الاجتماعي!"
-
+"follow_us": "تابعنا على وسائل التواصل الاجتماعي!",
+"new_message": "لقد تلقيت رسالة جديدة بخصوص الموضوع التالي:",
+"message1": "الرسالة:",
+"for_article": "للمنتج:",
+"thanks1": "شكرًا لاهتمامكم!",
+"team1": "فريق",
+"shopin": "<span style=\"color:black;\">شوب</span><strong style=\"color:#008080;\">ين</strong>"
 
 
 
