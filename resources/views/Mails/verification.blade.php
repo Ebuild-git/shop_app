@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <!-- Bootstrap Font Icon CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <title>Bienvenue</title>
+    <title>{{ __('welcome1') }}</title>
 
     <style>
         .header-image img {
@@ -64,7 +64,7 @@
 
 </head>
 
-<body class=" pt-5 fw-light" style="background-color: #f4f8fb;">
+<body class=" pt-5 fw-light" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl; background-color: #f4f8fb;' : 'text-align: left; direction: ltr; background-color: #f4f8fb;' }}">
 
     <div class="container">
         <div class="text-center">
@@ -73,7 +73,7 @@
 
         <div class="text-center mt-3">
             <h3>
-                Bienvenue sur <b class="color">{{ config('app.name') }}</b> !
+                {!! __('welcome', ['app' => config('app.name')]) !!}
             </h3>
         </div>
         <br>
@@ -81,28 +81,25 @@
             <div class="col-sm-6 mx-auto bg-white p-1">
 
                 <p>
-                    Bonjour {{ $user->username }}, <br>
+                    {!! __('greeting', ['username' => $user->username]) !!}<br>
 
-                    Vous venez de créer un compte SHOPIN. <br>
-                    Avant de pouvoir utiliser votre compte, vous devez vérifier que cette adresse
-                    e-mail est bien la votre.
+                    {{ __('account_created') }}<br>
+                    {{ __('verify_email') }}
                 </p>
                 <a href=" {{ route('verify_account', ['id_user' => $user->id, 'token' => $token]) }} "
                     class="btn btn-confirm">
                     <img width="20" height="20" src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png" alt="link--v1" />
-                    Confirmer maintenant
+                    {{ __('confirm_now') }}
                 </a>
                 <br>
                 <p>
-                    Merci et bienvenue parmi nous !
+                    {{ __('thanks') }}
                     <br>
-                    L’équipe de <strong style="color:black;">SHOP</strong><span class="color"><strong>IN</strong></span>
+                    {!! __('team') !!}
                 </p>
                 <br>
                 <p>
-                    Si vous n'avez pas tenté de vous inscrire à notre
-                    plateforme,
-                    veuillez ignorer cet e-mail.
+                    {{ __('ignore_notice') }}
                 </p>
 
             </div>
@@ -113,7 +110,7 @@
         {{ config('app.name') }}
         <br>
         <div class="small">
-            Suivez-nous sur nos réseaux sociaux !
+            {{ __('follow_us') }}
         </div>
         <div class="mb-5 mt-2">
             <a href>

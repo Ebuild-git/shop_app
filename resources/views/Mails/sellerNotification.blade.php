@@ -162,14 +162,6 @@
 
                 </table>
             </div>
-
-            {{-- <p>
-                Merci de bien vouloir
-                <a href="{{ auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login') }}" class="underlined-link">
-                    cliquer ici
-                </a>
-                pour confirmer ou mettre à jour vos informations bancaires (RIB), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.
-            </p> --}}
             <p>{!! __('bank_info_confirmation', [
                 'link' => auth()->check() ? route('mes_informations', ['section' => 'cord']) : route('login')
             ]) !!}</p>

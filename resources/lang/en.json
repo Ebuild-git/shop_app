@@ -641,7 +641,17 @@
 "order_summary": "Order Summary",
 "receive_amount": "The amount you will receive in your bank account in Dhs is:",
 "bank_info_confirmation": "Please <a href=\":link\" class=\"underlined-link\">click here</a> to confirm or update your banking information (RIB), so we can transfer the funds to you when the sale process is completed.",
-"footer_thanks": "Thank you for your trust and see you soon!"
+"footer_thanks": "Thank you for your trust and see you soon!",
+"welcome1": "Welcome",
+"welcome": "Welcome to <b class=\"color\">:app</b>!",
+"greeting": "Hello :username,",
+"account_created": "You have just created a SHOPIN account.",
+"verify_email": "Before you can use your account, you must verify that this email address is indeed yours.",
+"confirm_now": "Confirm now",
+"thanks": "Thank you and welcome to our community!",
+"team": "The <strong style=\"color:black;\">SHOP</strong><span class=\"color\"><strong>IN</strong></span> Team",
+"ignore_notice": "If you did not attempt to register on our platform, please ignore this email.",
+"follow_us": "Follow us on our social media!"
 
 
 
