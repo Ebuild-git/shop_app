@@ -4,6 +4,7 @@
 "email_placeholder": "Email / Pseudonyme",
 "password_label": "Mot de passe",
 "forgot_password": "Mot de passe oublié ?",
+"forgot_password1": "Mot de passe oublié",
 "no_account": "Vous n'avez pas encore de compte?",
 "register": "S'inscrire",
 "login": "Se connecter",
@@ -662,7 +663,14 @@
 "shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>",
 "password_reset_request": "Vous avez demandé à réinitialiser le mot de passe de votre compte <strong style=\"color:black;\">SHOP</strong><span style=\"color:#008080;\"><strong>IN</strong></span>. Veuillez cliquer sur le bouton ci-dessous pour continuer.",
 "reset_now": "Réinitialiser maintenant",
-"not_you": "Vous avez reçu cet e-mail sans vous inscrire ? <a href=\":link\">Cliquez ici</a>"
+"not_you": "Vous avez reçu cet e-mail sans vous inscrire ? <a href=\":link\">Cliquez ici</a>",
+"reset_link_sent_title": "Le Lien De Réinitialisation a été envoyé !",
+"reset_link_sent_message": "Un email contenant le lien pour mettre à jour votre mot de passe a été envoyé. Veuillez vérifier votre boîte de réception.",
+"back_to_login": "Retour à la page de connexion",
+"reset_password_instruction": "Veuillez entrer votre adresse mail liée à votre compte pour réinitialiser votre mot de passe",
+"enter_your_email": "Veuillez entrer votre email",
+  "reset": "Réinitialiser"
+
 
 
 

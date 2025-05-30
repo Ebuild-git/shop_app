@@ -4,15 +4,14 @@
         <div class="alert alert-info">
             <img width="64" height="64" src="https://img.icons8.com/sf-black/64/008080/checked.png" alt="checked" />
             <h5>
-                <b>Le Lien De Réinitialisation a été envoyé !</b>
+                <b>{{ __('reset_link_sent_title') }}</b>
             </h5>
             <p class="text-muted">
-                Un email contenant le lien pour mettre à jour votre mot de passe a été envoyé.
-                Veuillez vérifier votre boîte de réception.
+                {{ __('reset_link_sent_message') }}
             </p>
             <br>
             <a href="{{ route('connexion') }}" class="btn btn-dark btn-block">
-                Retour à la page de connexion
+                {{ __('back_to_login') }}
             </a>
         </div>
     @else
@@ -23,15 +22,15 @@
 
 
             <p class="text-center alert alert-info">
-                Veuillez entrer votre adresse mail lier à votre compte pour réinitialiser votre mot de passe
+                {{ __('reset_password_instruction') }}
             </p>
 
 
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">{{ __('email1') }}</label>
                 <input type="email" required class="form-control shadow-none @error('email') is-invalid @enderror"
-                    wire:model="email" placeholder="Veuillez entrer votre email">
+                    wire:model="email" placeholder="{{ __('enter_your_email') }}">
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -40,13 +39,13 @@
             <br>
             <div class="d-flex justify-content-between">
                 <div class="my-auto">
-                    <a href="{{ route('connexion') }}" id="#login" class="link">Connexion</a>
+                    <a href="{{ route('connexion') }}" id="#login" class="link">{{ __('connexion') }}</a>
                 </div>
                 <div>
                     <button type="submit" class="btn bg-red shadow-none" id="btn-submit">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                             wire:loading></span>
-                        Réinitialiser
+                        {{ __('reset') }}
                         <i class="bi bi-arrow-right-circle-fill"></i>
                     </button>
                 </div>

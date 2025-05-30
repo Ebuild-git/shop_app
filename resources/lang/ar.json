@@ -4,6 +4,7 @@
 "email_placeholder": "البريد الإلكتروني / اسم المستخدم",
 "password_label": "كلمة المرور",
 "forgot_password": "هل نسيت كلمة المرور؟",
+"forgot_password1": "نسيت كلمة المرور",
 "no_account": "ليس لديك حساب بعد؟",
 "register": "تسجيل",
 "login": "تسجيل الدخول",
@@ -661,7 +662,13 @@
 "shopin": "<span style=\"color:black;\">شوب</span><strong style=\"color:#008080;\">ين</strong>",
 "password_reset_request": "لقد طلبت إعادة تعيين كلمة المرور لحسابك في <strong style=\"color:black;\">شوب</strong><span style=\"color:#008080;\"><strong>ين</strong></span>. يرجى النقر على الزر أدناه للمتابعة.",
 "reset_now": "إعادة التعيين الآن",
-"not_you": "تلقيت هذا البريد الإلكتروني دون التسجيل؟ <a href=\":link\">انقر هنا</a>"
+"not_you": "تلقيت هذا البريد الإلكتروني دون التسجيل؟ <a href=\":link\">انقر هنا</a>",
+"reset_link_sent_title": "تم إرسال رابط إعادة التعيين!",
+"reset_link_sent_message": "تم إرسال بريد إلكتروني يحتوي على رابط لتحديث كلمة المرور الخاصة بك. يرجى التحقق من بريدك الإلكتروني.",
+"back_to_login": "العودة إلى صفحة تسجيل الدخول",
+"reset_password_instruction": "يرجى إدخال عنوان البريد الإلكتروني المرتبط بحسابك لإعادة تعيين كلمة المرور الخاصة بك",
+"enter_your_email": "يرجى إدخال بريدك الإلكتروني",
+  "reset": "إعادة تعيين"
 
 
 
