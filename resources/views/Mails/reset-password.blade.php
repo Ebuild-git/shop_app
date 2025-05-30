@@ -77,34 +77,32 @@
 
 <body>
 
-    <div class="email-container">
+    <div class="email-container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="email-header">
             <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo">
         </div>
 
         <div class="email-content">
-            <p>Bonjour {{ $user->username }},</p>
+            <p>{{ __('greeting', ['username' => $user->username]) }}</p>
 
             <p>
-                Vous avez demandé à réinitialiser le mot de passe de votre compte <strong style="color:black;">SHOP</strong><span style="color:#008080;"><strong>IN</strong></span>.
-                Veuillez cliquer sur le bouton ci-dessous pour continuer.
+                {!! __('password_reset_request') !!}
             </p>
             <a href="{{ route('reset_password', ['token' => $token]) }}" class="btn-infos">
                 <img src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png" alt="Lien" style="vertical-align: middle; margin-right: 5px;">
-                Réinitialiser maintenant
+                {{ __('reset_now') }}
             </a>
             <br><br>
-            <p>L’équipe de  <strong style="color:black;">SHOP</strong><span style="color:#008080;"><strong>IN</strong></span></p>
+            <p>@lang('team1')  <strong style="color:black;">@lang('shopin')</strong></p>
 
             <p>
-                Vous avez reçu cet e-mail sans vous inscrire ?
-                <a href="{{ route('contact') }}">Cliquez ici</a>
+                {!! __('not_you', ['link' => route('contact')]) !!}
             </p>
         </div>
 
         <div class="email-footer">
             <p>{{ config('app.name') }}</p>
-            <p class="small">Suivez-nous sur nos réseaux sociaux !</p>
+            <p class="small">{{ __('follow_us') }}</p>
             <div class="social-icons">
                 <a href="#"><img src="https://img.icons8.com/glyph-neue/30/FFFFFF/facebook-new.png" alt="Facebook"></a>
                 <a href="#"><img src="https://img.icons8.com/ios-filled/30/FFFFFF/instagram-new--v1.png" alt="Instagram"></a>

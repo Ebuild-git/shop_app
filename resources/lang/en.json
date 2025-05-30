@@ -657,7 +657,11 @@
 "for_article": "For the article:",
 "thanks1": "Thank you for your attention!",
 "team1": "The team of",
-"shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>"
+"shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>",
+"password_reset_request": "You requested to reset your password for your <strong style=\"color:black;\">SHOP</strong><span style=\"color:#008080;\"><strong>IN</strong></span> account. Please click the button below to proceed.",
+"reset_now": "Reset now",
+"not_you": "You received this email without signing up? <a href=\":link\">Click here</a>"
+
 
 
 

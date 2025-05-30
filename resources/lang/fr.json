@@ -654,12 +654,16 @@
 "team": "L’équipe de <strong style=\"color:black;\">SHOP</strong><span class=\"color\"><strong>IN</strong></span>",
 "ignore_notice": "Si vous n'avez pas tenté de vous inscrire à notre plateforme, veuillez ignorer cet e-mail.",
 "follow_us": "Suivez-nous sur nos réseaux sociaux !",
- "new_message": "Vous avez reçu un nouveau message avec le sujet suivant :",
-        "message1": "Message:",
-        "for_article": "Pour l'article :",
-        "thanks1": "Merci pour votre attention !",
-        "team1": "L'équipe de",
-        "shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>"
+"new_message": "Vous avez reçu un nouveau message avec le sujet suivant :",
+"message1": "Message:",
+"for_article": "Pour l'article :",
+"thanks1": "Merci pour votre attention !",
+"team1": "L'équipe de",
+"shopin": "SHOP<strong style=\"color:#008080;\">IN</strong>",
+"password_reset_request": "Vous avez demandé à réinitialiser le mot de passe de votre compte <strong style=\"color:black;\">SHOP</strong><span style=\"color:#008080;\"><strong>IN</strong></span>. Veuillez cliquer sur le bouton ci-dessous pour continuer.",
+"reset_now": "Réinitialiser maintenant",
+"not_you": "Vous avez reçu cet e-mail sans vous inscrire ? <a href=\":link\">Cliquez ici</a>"
+
 
 
 
