@@ -667,7 +667,15 @@
 "back_to_login": "Back to login page",
 "reset_password_instruction": "Please enter the email address linked to your account to reset your password",
 "enter_your_email": "Please enter your email",
-  "reset": "Reset"
+"reset": "Reset",
+"enter_new_password": "Please enter your new password",
+"enter_password": "Enter your password",
+"confirm_password_placeholder": "Confirm your password",
+"password_required1": "Please enter your password",
+"password_min1": "The password must be at least 8 characters long",
+"password_confirmed1": "Passwords do not match",
+"success": "The password has been successfully updated!"
+
 
 
 

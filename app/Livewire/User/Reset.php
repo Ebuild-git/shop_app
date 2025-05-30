@@ -24,9 +24,9 @@ class Reset extends Component
         $this->validate([
             'password' => 'required|confirmed|min:8',
         ], [
-            "password.required" => "Veuillez entrer votre mot de passe",
-            "password.min" => "Le mot de passe doit contenir au moins 8 caractères",
-            "password.confirmed" => "Les mots de passes ne correspondent pas",
+            "password.required" => __("password_required1"),
+            "password.min" => __("password_min1"),
+            "password.confirmed" => __("password_confirmed1"),
         ]);
 
         $user = User::find($this->user->id);
@@ -34,7 +34,7 @@ class Reset extends Component
         if ($user) {
             $user->password = bcrypt($this->password);
             $user->save();
-            return redirect("connexion")->with('success', 'Le mot de passe a été mis à jour avec succès !');
+            return redirect("connexion")->with('success', __("success"));
         }
     }
 }

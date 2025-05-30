@@ -669,7 +669,15 @@
 "back_to_login": "Retour à la page de connexion",
 "reset_password_instruction": "Veuillez entrer votre adresse mail liée à votre compte pour réinitialiser votre mot de passe",
 "enter_your_email": "Veuillez entrer votre email",
-  "reset": "Réinitialiser"
+"reset": "Réinitialiser",
+"enter_new_password": "Veuillez entrer votre nouveau mot de passe",
+"enter_password": "Entrez votre mot de passe",
+"confirm_password_placeholder": "Confirmation du mot de passe",
+"password_required1": "Veuillez entrer votre mot de passe",
+"password_min1": "Le mot de passe doit contenir au moins 8 caractères",
+"password_confirmed1": "Les mots de passes ne correspondent pas",
+"success": "Le mot de passe a été mis à jour avec succès !"
+
 
 
 

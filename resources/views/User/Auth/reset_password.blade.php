@@ -3,7 +3,7 @@
 @section('content')
 @section('body')
 
-    <div class="container pt-5 pb-5">
+    <div class="container pt-5 pb-5" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="col-sm-6 mx-auto border border-1 p-3 rounded card">
             <div class="p-3 rounded">
                 <div class="d-flex justify-content-between">
