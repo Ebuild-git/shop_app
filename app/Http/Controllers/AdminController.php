@@ -19,17 +19,16 @@ class AdminController extends Controller
 
     public function show_admin_dashboard(Request $request)
     {
-        // Récupérer l'année spécifiée dans la requête ou utiliser l'année actuelle
         $date = $request->input('das_date', date("Y"));
 
         $stats_inscription = [];
         $stats_publication = [];
 
-        // Boucle sur les 12 mois
         for ($i = 1; $i <= 12; $i++) {
             $currentDate = Carbon::createFromDate($date, $i, 1);
             $stats_inscription[] = User::whereYear('created_at', $currentDate->year)
                 ->whereMonth('created_at', $currentDate->month)
+                ->where('role', '!=', 'admin')
                 ->count();
             $stats_publication[] = posts::whereYear('created_at', $currentDate->year)
                 ->whereMonth('created_at', $currentDate->month)
@@ -43,8 +42,8 @@ class AdminController extends Controller
 
         $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
         $genres = [
-            "homme" => User::where('gender', 'male')->count(),
-            'femme' => User::where('gender', 'female')->count()
+            "homme" => User::where('gender', 'male')->where('role', '!=', 'admin')->count(),
+            "femme" => User::where('gender', 'female')->where('role', '!=', 'admin')->count()
         ];
 
         return view('Admin.dashboard', compact("commandes_en_cour", "date", "stats_inscription_publication", "genres"));
