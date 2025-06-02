@@ -102,13 +102,13 @@
                                         <td style="text-align: center;">
                                             <b class="text-danger">
                                                 <i class="bi bi-exclamation-octagon"></i>
-                                                {{ $post->signalements_count }}
+                                                {{ $post->signalements->count() }}
                                             </b>
                                         </td>
                                         <td>
-                                            <b class="text-danger">
-                                                {{ $post->motif_suppression }}
-                                            </b>
+                                            @foreach($post->signalements as $signalement)
+                                                <b class="text-danger">{{ $signalement->type }}</b><br>
+                                            @endforeach
                                         </td>
                                         <td><b class="
                                             @if($post->status === 'Actif') status-actif
