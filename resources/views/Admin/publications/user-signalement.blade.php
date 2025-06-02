@@ -13,7 +13,7 @@
                 Liste des signalements ({{ $user->username }})
             </h1>
             <div class="row">
-                @forelse ($user->violations as $violation)
+                @forelse ($signalements as $violation)
                     <div class="col-sm-4 mb-3">
                         <div class="card p-3 shadow-sm hover-card">
                             <div class="d-flex justify-content-between align-items-start mb-2">

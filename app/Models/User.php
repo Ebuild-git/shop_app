@@ -201,5 +201,14 @@ class User extends Authenticatable implements JWTSubject
             ->get();
     }
 
+    public function signalementsOnMyPosts()
+    {
+        return signalements::whereIn('id_post', function($query) {
+            $query->select('id')
+                ->from('posts')
+                ->where('id_user', $this->id);
+        })->orderBy('created_at', 'desc')->get();
+    }
+
 
 }

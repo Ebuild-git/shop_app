@@ -66,11 +66,14 @@ class SignalementsController extends Controller
     {
         $user = User::find($user_id);
         if ($user) {
-            return view("Admin.publications.user-signalement")->with("user", $user);
+            $signalements = $user->signalementsOnMyPosts();
+            return view("Admin.publications.user-signalement", [
+                'user' => $user,
+                'signalements' => $signalements,
+            ]);
         } else {
             return redirect()->route('post_signalers');
         }
-
     }
 
 
