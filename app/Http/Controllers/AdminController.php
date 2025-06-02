@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Commande;
 
 class AdminController extends Controller
 {
@@ -44,14 +45,14 @@ class AdminController extends Controller
             'publication' => $stats_publication,
         ];
 
-        $commandes_en_cour = posts::where("statut", "livraison")->get(["titre", "id", "id_region", "sell_at", "photos"]);
-
+        $commandes = Commande::OrderBy('created_at', 'desc')
+                            ->paginate(10);
         $genres = [
             "homme" => User::where('gender', 'male')->where('role', '!=', 'admin')->where('locked', false)->count(),
             "femme" => User::where('gender', 'female')->where('role', '!=', 'admin')->where('locked', false)->count(),
         ];
 
-        return view('Admin.dashboard', compact("commandes_en_cour", "year", "stats_inscription_publication", "genres"));
+        return view('Admin.dashboard', compact("commandes", "year", "stats_inscription_publication", "genres"));
     }
 
     public function add_sous_categorie($id)

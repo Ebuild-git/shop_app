@@ -168,234 +168,61 @@
             </div>
 
             <!--/ Shipment statistics -->
-
-
-            <!-- Orders by Countries -->
-            <div class="col-md-6 col-xxl-4 mb-4 order-0 order-xxl-4">
+            <div class="col-lg-12 col-xxl-12 mb-4 order-5 order-xxl-4">
                 <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between pb-2">
-                        <div class="card-title mb-1">
-                            <h5 class="m-0 me-2">Orders</h5>
-                            <small class="text-muted">62 Deliveries in Progress</small>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="salesByCountryTabs" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="salesByCountryTabs">
-                                <a class="dropdown-item" href="javascript:void(0);">Download</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            </div>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-title mb-0">
+                            <h5 class="m-0 me-2">Liste Des Commandes</h5>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="nav-align-top">
-                            <ul class="nav nav-tabs nav-fill" role="tablist">
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-new" aria-controls="navs-justified-new"
-                                        aria-selected="true">
-                                        New
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-link-preparing"
-                                        aria-controls="navs-justified-link-preparing" aria-selected="false">
-                                        Preparing
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-link-shipping"
-                                        aria-controls="navs-justified-link-shipping" aria-selected="false">
-                                        Shipping
-                                    </button>
-                                </li>
-                            </ul>
-                            <div class="tab-content px-2 mx-1 pb-0">
-                                <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
-                                    <ul class="timeline mb-0 pb-1">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                        <div class="table-responsive">
+                            <table class="table w-100 table-custom">
+                                <thead class="th-white">
+                                    <tr>
+                                        <th>Vendeur</th>
+                                        <th>Acheteur</th>
+                                        <th>Article</th>
+                                        <th>ID Expédition</th>
+                                        <th>Frais Livraison</th>
+                                        <th>État</th>
+                                        <th>Statut</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($commandes as $commande)
+                                        <tr>
+                                            <td>{{ $commande->vendor->username }}</td>
+                                            <td>{{ $commande->buyer->username }}</td>
+                                            <td>{{ $commande->post->titre }}</td>
+                                            <td>{{ $commande->shipment_id ?? '—' }}</td>
+                                            <td>{{ $commande->frais_livraison }} <sup>DH</sup></td>
+                                            <td>
+                                                <span class="badge-etat
+                                                    @if($commande->etat === 'attente') etat-attente
+                                                    @elseif($commande->etat === 'confirmé') etat-confirmé
+                                                    @elseif($commande->etat === 'annulé') etat-annulé
+                                                    @endif">
+                                                    {{ $commande->etat }}
+                                                </span>
+                                            </td>
+                                            <td><span class="statut-badge">{{ $commande->statut }}</span></td>
+                                            <td>{{ $commande->created_at->format('d/m/Y H:i') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="8"> <!-- Corrected colspan to 8 -->
+                                                <div class="p-3">
+                                                    Aucune commande trouvée
                                                 </div>
-                                                <h6 class="mb-1">Myrtle Ullrich</h6>
-                                                <p class="text-muted mb-0">101 Boulder,
-                                                    California(CA), 95959</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Barry Schowalter</h6>
-                                                <p class="text-muted mb-0">939 Orange, California(CA),
-                                                    92118</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
-                                    <ul class="timeline mb-0">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
-                                                </div>
-                                                <h6 class="mb-1">Veronica Herman</h6>
-                                                <p class="text-muted mb-0">162 Windsor,
-                                                    California(CA), 95492</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Helen Jacobs</h6>
-                                                <p class="text-muted mb-0">487 Sunset, California(CA),
-                                                    94043</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="tab-pane fade" id="navs-justified-link-preparing" role="tabpanel">
-                                    <ul class="timeline mb-0 pb-1">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
-                                                </div>
-                                                <h6 class="mb-1">Barry Schowalter</h6>
-                                                <p class="text-muted mb-0">939 Orange, California(CA),
-                                                    92118</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Myrtle Ullrich</h6>
-                                                <p class="text-muted mb-0">101 Boulder,
-                                                    California(CA), 95959</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
-                                    <ul class="timeline mb-0">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
-                                                </div>
-                                                <h6 class="mb-1">Veronica Herman</h6>
-                                                <p class="text-muted mb-0">162 Windsor,
-                                                    California(CA), 95492</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Helen Jacobs</h6>
-                                                <p class="text-muted mb-0">487 Sunset, California(CA),
-                                                    94043</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tab-pane fade" id="navs-justified-link-shipping" role="tabpanel">
-                                    <ul class="timeline mb-0 pb-1">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
-                                                </div>
-                                                <h6 class="mb-1">Veronica Herman</h6>
-                                                <p class="text-muted mb-0">101 Boulder,
-                                                    California(CA), 95959</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Barry Schowalter</h6>
-                                                <p class="text-muted mb-0">939 Orange, California(CA),
-                                                    92118</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
-                                    <ul class="timeline mb-0">
-                                        <li class="timeline-item ps-4 border-left-dashed pb-1">
-                                            <span class="timeline-indicator-advanced timeline-indicator-success">
-                                                <i class="ti ti-circle-check"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-success text-uppercase fw-medium">sender</small>
-                                                </div>
-                                                <h6 class="mb-1">Myrtle Ullrich</h6>
-                                                <p class="text-muted mb-0">162 Windsor,
-                                                    California(CA), 95492</p>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item ps-4 border-transparent">
-                                            <span class="timeline-indicator-advanced timeline-indicator-primary">
-                                                <i class="ti ti-map-pin"></i>
-                                            </span>
-                                            <div class="timeline-event px-0 pb-0">
-                                                <div class="timeline-header">
-                                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
-                                                </div>
-                                                <h6 class="mb-1">Helen Jacobs</h6>
-                                                <p class="text-muted mb-0">487 Sunset, California(CA),
-                                                    94043</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
+                        <div class="p-3">{{ $commandes->links('pagination::bootstrap-4') }}</div>
                     </div>
                 </div>
             </div>

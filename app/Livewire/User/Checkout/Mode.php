@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserCart;
 use App\Models\User;
+use App\Models\Commande as CommandeModel;
 use App\Models\sous_categories;
 use App\Models\regions_categories;
 use App\Models\Shipment;
@@ -298,6 +299,17 @@ class Mode extends Component
                             'response_data' => $response
                         ]);
                         $shipment->save();
+
+                        $commande = new CommandeModel();
+                        $commande->id_vendor = $post->id_user;
+                        $commande->id_buyer = Auth::id();
+                        $commande->id_post = $post->id;
+                        $commande->shipment_id = $shipment->shipment_id;
+                        $commande->frais_livraison = $frais;
+                        $commande->etat = 'En attente';
+                        $commande->statut = 'crée';
+                        $commande->save();
+
 
                         $buyer = Auth::user();
 
