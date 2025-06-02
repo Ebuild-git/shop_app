@@ -33,26 +33,27 @@
   // Shipment statistics Chart
   // --------------------------------------------------------------------
 
- 
+
   const shipmentEl = document.querySelector('#shipmentStatisticsChart');
   const inscription = JSON.parse(shipmentEl.getAttribute('data-inscription'));
   const publication = JSON.parse(shipmentEl.getAttribute('data-publication'));
-  var register = Array.from(inscription);
-  var posts = Array.from(publication);
-  var combinedArray = register.concat(posts);
-  var maxValue = Math.max(...combinedArray);
+
+var inscriptions = Array.from(inscription);
+var publications = Array.from(publication);
+var combinedArray = inscriptions.concat(publications);
+var maxValue = Math.max(...combinedArray);
 
    const shipmentConfig = {
       series: [
         {
           name: 'Publications',
           type: 'column',
-          data: register
+          data: publications
         },
         {
           name: 'Inscriptions',
           type: 'line',
-          data:  posts
+          data:  inscriptions
         }
       ],
       chart: {

@@ -139,33 +139,34 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Statistiques du trafic</h5>
-                            <small class="text-muted">
-
-                            </small>
+                            <small class="text-muted">Inscriptions et publications par mois</small>
                         </div>
                         <div class="dropdown">
                             <button type="button" class="btn btn-label-primary dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $date }}
+                                {{ $year }}
                             </button>
                             <ul class="dropdown-menu">
-                                @for ($i =  date("Y") ; $i <  date("Y")+10 ; $i++)
-                                <li>
-                                    <a class="dropdown-item" href="/dashboard?das_date={{ $i }}">
-                                        {{ $i }}
-                                    </a>
-                                </li>
+                                @for ($i = date("Y"); $i < date("Y") + 10; $i++)
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url('/dashboard?das_date=' . $i) }}">
+                                            {{ $i }}
+                                        </a>
+                                    </li>
                                 @endfor
-
                             </ul>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <div id="shipmentStatisticsChart" data-inscription='@json($stats_inscription_publication['inscription'])' data-publication='@json($stats_inscription_publication['publication'])'>
+                        <div id="shipmentStatisticsChart"
+                            data-inscription='@json($stats_inscription_publication["inscription"])'
+                            data-publication='@json($stats_inscription_publication["publication"])'>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!--/ Shipment statistics -->
 
 
