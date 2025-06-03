@@ -167,66 +167,6 @@
                 </div>
             </div>
 
-            <!--/ Shipment statistics -->
-            <div class="col-lg-12 col-xxl-12 mb-4 order-5 order-xxl-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="card-title mb-0">
-                            <h5 class="m-0 me-2">Liste Des Commandes</h5>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table w-100 table-custom">
-                                <thead class="th-white">
-                                    <tr>
-                                        <th>Vendeur</th>
-                                        <th>Acheteur</th>
-                                        <th>Article</th>
-                                        <th>ID Expédition</th>
-                                        <th>Frais Livraison</th>
-                                        <th>État</th>
-                                        <th>Statut</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($commandes as $commande)
-                                        <tr>
-                                            <td>{{ $commande->vendor->username }}</td>
-                                            <td>{{ $commande->buyer->username }}</td>
-                                            <td>{{ $commande->post->titre }}</td>
-                                            <td>{{ $commande->shipment_id ?? '—' }}</td>
-                                            <td>{{ $commande->frais_livraison }} <sup>DH</sup></td>
-                                            <td>
-                                                <span class="badge-etat
-                                                    @if($commande->etat === 'attente') etat-attente
-                                                    @elseif($commande->etat === 'confirmé') etat-confirmé
-                                                    @elseif($commande->etat === 'annulé') etat-annulé
-                                                    @endif">
-                                                    {{ $commande->etat }}
-                                                </span>
-                                            </td>
-                                            <td><span class="statut-badge">{{ $commande->statut }}</span></td>
-                                            <td>{{ $commande->created_at->format('d/m/Y H:i') }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="8"> <!-- Corrected colspan to 8 -->
-                                                <div class="p-3">
-                                                    Aucune commande trouvée
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="p-3">{{ $commandes->links('pagination::bootstrap-4') }}</div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Orders by Countries -->
         </div>
     </div>
     <!--/ Content -->

@@ -7,6 +7,7 @@ use App\Models\posts;
 use App\Models\proprietes;
 use App\Models\User;
 use App\Models\UserCart;
+use App\Models\regions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -153,22 +154,42 @@ class AdminController extends Controller
         Auth::logout();
         setcookie('cart', '', time() - 3600, '/', null, null, true);
         return redirect('/')->with('clearLocalStorage', true);
-        }
+    }
 
-        public function index_categories()
-        {
+    public function index_categories()
+    {
         $categories = categories::all();
         $totalCategories = $categories->count();
         return view("Admin.categories.index" , compact("totalCategories"));
-        }
-        public function index_proprietes(){
-            $proprietes = proprietes::all();
-            $totalProprietes = $proprietes->count();
-            return view("Admin.categories.index_proprietes" , compact("totalProprietes"));
+    }
+    public function index_proprietes(){
+        $proprietes = proprietes::all();
+        $totalProprietes = $proprietes->count();
+        return view("Admin.categories.index_proprietes" , compact("totalProprietes"));
+    }
 
+    public function orders(Request $request){
+
+        $query = Commande::orderBy('created_at', 'desc');
+
+        if ($request->filled('region_id')) {
+            $regionId = $request->region_id;
+
+            $query->where(function ($subQuery) use ($regionId) {
+                $subQuery->whereHas('vendor', function ($q) use ($regionId) {
+                    $q->where('region', $regionId);
+                })->orWhereHas('buyer', function ($q) use ($regionId) {
+                    $q->where('region', $regionId);
+                });
+            });
         }
 
-        public function shipment(){
-            return view("Admin.shipement.shipement");
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
         }
+
+        $commandes = $query->paginate(10);
+        $regions = regions::all();
+        return view("Admin.shipement.shipement", compact("commandes", "regions"));
+    }
 }

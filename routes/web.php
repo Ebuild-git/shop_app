@@ -184,8 +184,10 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 
     //SHIPEMENT
 
-    Route::get('/admin/shipment', [AdminController::class, 'shipment'])->name('shipment');
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('orders');
     Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
+
+
 
 });
 

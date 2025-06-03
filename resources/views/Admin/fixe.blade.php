@@ -416,6 +416,13 @@
                                     </ul>
                                 </li>
 
+                                <li class="menu-item">
+                                    <a href="{{ route('orders') }}" class="menu-link ">
+                                        <i class="menu-icon tf-icons bi bi-truck"></i>
+                                        <div data-i18n="Les Commandes">Les Commandes</div>
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </aside>
@@ -517,7 +524,6 @@
             $("#destinataire").html(username);
             $('#MessageModal').modal('show');
         }
-
 
         function OpenModalDeletePost(id_post) {
             Livewire.dispatch('sendDataPostForDelete', {
