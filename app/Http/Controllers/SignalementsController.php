@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\posts;
 use App\Models\User;
-
+use App\Models\signalements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Colors\Rgb\Channels\Red;
@@ -13,8 +13,6 @@ use App\Events\UserEvent;
 
 class SignalementsController extends Controller
 {
-
-
 
     public function liste_publications_signaler(Request $request)
     {
@@ -117,4 +115,17 @@ class SignalementsController extends Controller
 
         }
     }
+
+    public function deleteAll()
+    {
+        signalements::query()->delete();
+        return back()->with('success', 'Tous les signalements ont été supprimés.');
+    }
+
+    public function destroy($id)
+    {
+        signalements::findOrFail($id)->delete();
+        return back()->with('success', 'Signalement supprimé.');
+    }
+
 }

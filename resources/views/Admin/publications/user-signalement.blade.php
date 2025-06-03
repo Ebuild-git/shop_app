@@ -5,85 +5,78 @@
 
 
 @section('body')
-    <!-- Content -->
-
+    <!--/ Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="card p-4">
-            <h1 class="h4 mb-4">
-                Liste des signalements ({{ $user->username }})
-            </h1>
-            <div class="row">
-                @forelse ($signalements as $violation)
-                    <div class="col-sm-4 mb-3">
-                        <div class="card p-3 shadow-sm hover-card">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <span class="text-danger">
-                                        <i class="bi bi-exclamation-octagon"></i>
-                                        {{ $violation->type }}
-                                    </span>
-                                </div>
-                                <div class="small text-muted">
-                                    <div>Auteur</div>
-                                    <a href="/admin/client/{{$violation->auteur->id}}/view" class="text-decoration-none">
-                                        <i class="bi bi-person-circle"></i>
-                                        {{ '@'. $violation->auteur->username }}
-                                    </a>
-                                </div>
-                            </div>
+    <div class="card border-0 shadow-sm rounded-3 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 fw-bold text-dark mb-0">
+                <i class="bi bi-shield-exclamation text-danger me-2"></i>Historique des violations ({{ $user->username }})
+            </h2>
 
-                            <p class="text-muted">{{ $violation->message }}</p>
+            <form method="POST" action="{{ route('violations.deleteAll') }}">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash3 me-1"></i> Supprimer tout
+                </button>
+            </form>
+        </div>
 
-                            @if ($violation->post)
-                                <div class="post-info mt-2">
-                                    <h5 class="mt-1">{{ $violation->post->titre }}</h5>
-                                    @if (!empty($violation->post->photos) && count($violation->post->photos) > 0)
-                                        @foreach ($violation->post->photos as $key => $image)
-                                            @if ($key == 0) <!-- Show only the first image -->
-                                                <div class="image-cell mb-2">
-                                                    <a href="{{ url('/admin/publication/' . $violation->post->id . '/view') }}">
-                                                        <img src="{{ Storage::url($image) }}" alt="{{ $violation->post->titre }} - Image 1" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
-                                                    </a>
-                                                </div>
-                                            @endif
-                                            @break <!-- Exit after the first iteration -->
-                                        @endforeach
-                                    @endif
-                                </div>
-                            @endif
-
-                            <div class="modal-footer border-0">
-                                <span class="small text-muted">
-                                    {{ $violation->created_at }}
-                                </span>
+        <div class="row">
+            @forelse ($signalements as $violation)
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow transition p-3 rounded-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="text-danger fw-semibold">
+                                <i class="bi bi-exclamation-octagon me-1"></i>{{ $violation->type }}
+                            </span>
+                            <div class="text-muted text-end small">
+                                <div class="fw-semibold">Auteur</div>
+                                <a href="/admin/client/{{ $violation->auteur->id }}/view" class="text-decoration-none text-primary">
+                                    <i class="bi bi-person-circle me-1"></i>{{ $violation->auteur->username }}
+                                </a>
                             </div>
                         </div>
+
+                        <p class="text-secondary small mb-3">{{ $violation->message }}</p>
+
+                        @if ($violation->post)
+                            <div class="mb-3">
+                                <h6 class="fw-semibold">{{ $violation->post->titre }}</h6>
+                                @if (!empty($violation->post->photos) && count($violation->post->photos) > 0)
+                                    @foreach ($violation->post->photos as $key => $image)
+                                        @if ($key == 0)
+                                            <a href="{{ url('/admin/publication/' . $violation->post->id . '/view') }}">
+                                                <img src="{{ Storage::url($image) }}" alt="{{ $violation->post->titre }}" class="img-fluid rounded-3 shadow-sm" style="max-height: 200px; object-fit: cover;">
+                                            </a>
+                                        @endif
+                                        @break
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endif
+
+                        <div class="d-flex justify-content-between align-items-center small text-muted mt-auto">
+                            <span>{{ $violation->created_at->translatedFormat('d F Y H:i')  }}</span>
+                            <form method="POST" action="{{ route('violations.destroy', $violation->id) }}" class="mb-0 ms-2">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-link text-danger p-0" title="Supprimer">
+                                    <i class="bi bi-trash3 fs-5"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                @empty
-                    <div class="col-12">
-                        <p class="text-center text-muted">Aucun signalement trouvé.</p>
-                    </div>
-                @endforelse
-            </div>
+                </div>
+            @empty
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted fs-6">Aucun signalement trouvé.</p>
+                </div>
+            @endforelse
         </div>
     </div>
+</div>
 
-    <style>
-    .hover-card {
-        transition: transform 0.2s;
-    }
-    .hover-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-    .table-image {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-    </style>
-
-    <!--/ Content -->
 @endsection
 @section('script')
     <script src="/assets-admin/vendor/libs/jquery/jquery.js"></script>

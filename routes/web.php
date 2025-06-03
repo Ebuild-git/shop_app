@@ -187,6 +187,8 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('orders');
     Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
 
+    Route::delete('/admin/violations/delete-all', [SignalementsController::class, 'deleteAll'])->name('violations.deleteAll');
+    Route::delete('/admin/violations/{id}', [SignalementsController::class, 'destroy'])->name('violations.destroy');
 
 
 });
