@@ -60,16 +60,7 @@
                                 @endforeach
                             </div>
                             <div class="col-10 p-1 ">
-                                {{-- <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
-                                    data-url="{{ Storage::url($post->photos[0] ?? '') }}"
-                                    style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
 
-                                    <span class="zoom-up-details">
-                                        <img src="/icons/icons8-dézoomer-58.png" alt="" srcset="">
-                                    </span>
-                                    <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale"
-                                        class="w-100 sp-current-big" alt="image">
-                                </figure> --}}
                                 <div class="col-10 p-1 position-relative">
                                     <figure class="zoom w-100 position-relative" id="figure"
                                         onmousemove="zoom(event)"
