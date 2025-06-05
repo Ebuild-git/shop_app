@@ -674,7 +674,11 @@
 "password_required1": "Please enter your password",
 "password_min1": "The password must be at least 8 characters long",
 "password_confirmed1": "Passwords do not match",
-"success": "The password has been successfully updated!"
+"success": "The password has been successfully updated!",
+  "notification_deleted": "Notification has been deleted",
+    "no_notifications": "No Notifications",
+  "no_notifications_message": "You currently have no notifications."
+
 
 
 

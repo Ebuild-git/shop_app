@@ -55,7 +55,7 @@ class NotificationsController extends Controller
                 return response()->json(
                     [
                         'success' => true,
-                        'message' => 'Notification a été supprimé',
+                        'message' => __('notification_deleted'),
                     ]
                 );
             }

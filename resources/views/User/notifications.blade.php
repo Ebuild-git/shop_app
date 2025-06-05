@@ -71,9 +71,9 @@
                         <div class="pb-5 pt-5 text-center">
                             <img src="https://static.vecteezy.com/system/resources/thumbnails/023/570/826/small/still-empty-no-notification-yet-concept-illustration-line-icon-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-vector.jpg"
                                 alt="No Notifications" />
-                            <h6 class="text-center">Pas de Notifications</h6>
+                            <h6 class="text-center">{{ __('no_notifications') }}</h6>
                             <span class="text-muted">
-                                <i> Vous n'avez pas de notification actuellement.</i>
+                                <i> {{ __('no_notifications_message') }}</i>
                             </span>
                         </div>
                     @endforelse

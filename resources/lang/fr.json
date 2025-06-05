@@ -677,7 +677,11 @@
 "password_required1": "Veuillez entrer votre mot de passe",
 "password_min1": "Le mot de passe doit contenir au moins 8 caractères",
 "password_confirmed1": "Les mots de passes ne correspondent pas",
-"success": "Le mot de passe a été mis à jour avec succès !"
+"success": "Le mot de passe a été mis à jour avec succès !",
+  "notification_deleted": "Notification a été supprimée",
+  "no_notifications": "Pas de Notifications",
+  "no_notifications_message": "Vous n'avez pas de notification actuellement."
+
 
 
 
