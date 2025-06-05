@@ -60,7 +60,7 @@
                                 @endforeach
                             </div>
                             <div class="col-10 p-1 ">
-                                <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
+                                {{-- <figure class="zoom w-100 position-relative " id="figure" onmousemove="zoom(event)"
                                     data-url="{{ Storage::url($post->photos[0] ?? '') }}"
                                     style="background-image: url({{ Storage::url($post->photos[0] ?? '') }})">
 
@@ -69,7 +69,14 @@
                                     </span>
                                     <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale"
                                         class="w-100 sp-current-big" alt="image">
-                                </figure>
+                                </figure> --}}
+                                <div class="col-10 p-1 position-relative">
+                                    <figure class="zoom w-100 position-relative" id="figure"
+                                        onmousemove="zoom(event)"
+                                        style="background-image: url({{ Storage::url($post->photos[0] ?? '') }}); background-size: 200%; background-repeat: no-repeat; background-position: center;">
+                                        <img src="{{ Storage::url($post->photos[0] ?? '') }}" id="imgPrincipale" class="w-100 sp-current-big" alt="image" />
+                                    </figure>
+                                </div>
                             </div>
                         </div>
                     </div>
