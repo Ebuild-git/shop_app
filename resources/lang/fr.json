@@ -149,7 +149,7 @@
 "rating": "Note : :stars / 5",
 "leave_review_info": "Vous pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce vendeur !",
 "no_more_review": "Vous ne pouvez plus laisser un avis car vous l'avez déjà fait !",
-"attention": "Attention !",
+"attention": "Attention!",
 "rate_button": "Notez :star",
 "contact": "Contact",
 "chat": "Chat",
@@ -678,9 +678,14 @@
 "password_min1": "Le mot de passe doit contenir au moins 8 caractères",
 "password_confirmed1": "Les mots de passes ne correspondent pas",
 "success": "Le mot de passe a été mis à jour avec succès !",
-  "notification_deleted": "Notification a été supprimée",
-  "no_notifications": "Pas de Notifications",
-  "no_notifications_message": "Vous n'avez pas de notification actuellement."
+"notification_deleted": "Notification a été supprimée",
+"no_notifications": "Pas de Notifications",
+"no_notifications_message": "Vous n'avez pas de notification actuellement.",
+"error.rating_required": "Vous devez donner une note entre 1 et 5",
+"error.no_purchase": "Vous ne pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce vendeur!",
+"error.already_rated": "Vous ne pouvez pas modifier votre avis!",
+"error.too_late": "Vous ne pouvez pas donner une note plus de 2 semaine après votre achat!",
+"success.rating_saved": "Votre note a été enregistré !"
 
 
 

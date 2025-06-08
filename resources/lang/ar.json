@@ -676,9 +676,14 @@
 "password_min1": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل",
 "password_confirmed1": "كلمتا المرور غير متطابقتين",
 "success": "تم تحديث كلمة المرور بنجاح!",
-  "notification_deleted": "تم حذف الإشعار",
-    "no_notifications": "لا توجد إشعارات",
-  "no_notifications_message": "ليس لديك أي إشعارات حالياً."
+"notification_deleted": "تم حذف الإشعار",
+"no_notifications": "لا توجد إشعارات",
+"no_notifications_message": "ليس لديك أي إشعارات حالياً.",
+"error.rating_required": "يجب أن تعطي تقييماً من 1 إلى 5",
+"error.no_purchase": "لا يمكنك ترك تقييم بنجوم إلا إذا قمت بشراء من هذا البائع!",
+"error.already_rated": "لا يمكنك تعديل تقييمك!",
+"error.too_late": "لا يمكنك إعطاء تقييم بعد مرور أكثر من أسبوعين على الشراء!",
+"success.rating_saved": "تم حفظ تقييمك بنجاح!"
 
 
 

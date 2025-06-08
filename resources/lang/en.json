@@ -147,7 +147,7 @@
 "rating": "Rating: :stars / 5",
 "leave_review_info": "You can leave a review in the form of stars only if you have made a purchase from this seller!",
 "no_more_review": "You can no longer leave a review because you have already done so!",
-"attention": "Attention!",
+"attention": "Warning!",
 "rate_button": "Rate :star",
 "contact": "Contact",
 "chat": "Chat",
@@ -675,9 +675,14 @@
 "password_min1": "The password must be at least 8 characters long",
 "password_confirmed1": "Passwords do not match",
 "success": "The password has been successfully updated!",
-  "notification_deleted": "Notification has been deleted",
-    "no_notifications": "No Notifications",
-  "no_notifications_message": "You currently have no notifications."
+"notification_deleted": "Notification has been deleted",
+"no_notifications": "No Notifications",
+"no_notifications_message": "You currently have no notifications.",
+"error.rating_required": "You must give a rating between 1 and 5",
+"error.no_purchase": "You can only leave a star rating if you have made a purchase from this seller!",
+"error.already_rated": "You cannot modify your rating!",
+"error.too_late": "You cannot give a rating more than 2 weeks after your purchase!",
+"success.rating_saved": "Your rating has been saved!"
 
 
 
