@@ -16,34 +16,32 @@
         </div>
     </div>
     @endif
-    @if ($can_rate)
+
+    @if ($can_rate && !$ratingSubmitted)
     <div>
         <div class="d-flex justify-content-between">
-            @for ($i = 0; $i < 5; $i++) <button type="button" class="w-100 btn-note-rating"
-                wire:click="rate_action({{ $i + 1 }})">
-                <i class="bi bi-star-fill"></i> {{ $i + 1 }}
+            @for ($i = 0; $i < 5; $i++)
+                <button type="button" class="w-100 btn-note-rating" wire:click="rate_action({{ $i + 1 }})">
+                    <i class="bi bi-star-fill"></i> {{ $i + 1 }}
                 </button>
-                @endfor
-
+            @endfor
         </div>
     </div>
-    @else
+    @elseif(!$ratingSubmitted)
     <div class="p-3 alert-danger">
         <b class="h5 text-danger">
             {{ __('attention') }}
         </b>
         @if (!$rate)
-        <p>
-            {{ __('leave_review_info') }}
-        </p>
+            <p>{{ __('leave_review_info') }}</p>
         @else
-        <p>
-            {{ __('no_more_review') }}
-        </p>
+            <p>{{ __('no_more_review') }}</p>
         @endif
     </div>
     @endif
+
     @include('components.alert-livewire')
+
     <div class="text-center">
         <span wire:loading>
             <x-Loading></x-Loading>

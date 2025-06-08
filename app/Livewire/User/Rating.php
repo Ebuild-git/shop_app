@@ -13,6 +13,7 @@ class Rating extends Component
 {
     public $id_user, $user, $last_buy, $rate;
     public $can_rate = true;
+    public $ratingSubmitted = false;
 
     public function mount($id_user)
     {
@@ -84,8 +85,8 @@ class Rating extends Component
         $rate->id_post = $this->last_buy->id;
         $rate->etoiles = $value;
         $rate->save();
-        $this->dispatch('alert', ['message' => __("success.rating_saved"), 'type' => 'success']);
-
+        $this->ratingSubmitted = true;
         $this->mount($this->id_user);
+        $this->dispatch('alert', ['message' => __("success.rating_saved"), 'type' => 'success']);
     }
 }
