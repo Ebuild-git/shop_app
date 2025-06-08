@@ -85,18 +85,18 @@
                                 <span for="small">{{ __('genre') }}</span>
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
-                                    <buttonn type="button" class="form-control register-button"
+                                    <button type="button" class="form-control register-button"
                                         onclick="selectButton(this,'male')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/sf-black/20/008080/male.png" alt="male" />
                                             {{ __('male') }}
-                                    </buttonn>
-                                    <buttonn type="button" class="form-control register-button"
+                                    </button>
+                                    <button type="button" class="form-control register-button"
                                         onclick="selectButton(this,'female')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
                                             {{ __('female') }}
-                                    </buttonn>
+                                    </button>
                                 </div>
                                 <input type="hidden" id="sexe-input" name="genre" value="{{ old('genre') }}">
                                 @error('genre')
@@ -280,8 +280,18 @@
         </div>
     </div>
 
-
-
+    <script>
+        function selectButton(button, sexe) {
+            var buttons = document.querySelectorAll('.register-button');
+            buttons.forEach(function(btn) {
+                if (btn !== button) {
+                    btn.classList.remove('selected-register');
+                }
+            });
+            button.classList.toggle('selected-register');
+            document.getElementById('sexe-input').value = sexe;
+        }
+    </script>
     <script>
         //formatage du numero de telephone
         function formatTelephone(input) {
@@ -295,21 +305,6 @@
                 }
             }
             input.value = formattedPhoneNumber;
-        }
-
-
-
-
-        //gestion de a selection des sexes
-        function selectButton(button, sexe) {
-            var buttons = document.querySelectorAll('.register-button');
-            buttons.forEach(function(btn) {
-                if (btn !== button) {
-                    btn.classList.remove('selected-register');
-                }
-            });
-            button.classList.toggle('selected-register');
-            document.getElementById('sexe-input').value = sexe;
         }
 
 
