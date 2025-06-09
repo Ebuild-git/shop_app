@@ -350,12 +350,21 @@ class HomeController extends Controller
         }
 
         $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
-        $ma_note = ratings::where('id_user_buy', Auth::user()->id)
-            ->where("id_user_sell", $user->id)
+        // $ma_note = ratings::where('id_user_buy', Auth::user()->id)
+        //     ->where("id_user_sell", $user->id)
+        //     ->first();
+        // if ($ma_note) {
+        //     $ma_note = $ma_note->etoiles;
+        // }
+        $moyenne_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
+        $nombre_avis = ratings::where('id_user_sell', $user->id)->count();
+        $ma_note = null;
+        $ma_note_record = ratings::where('id_user_buy', Auth::id())
+            ->where('id_user_sell', $user->id)
             ->first();
-        if ($ma_note) {
-            $ma_note = $ma_note->etoiles;
-        }
+
+        $ma_note = $ma_note_record ? $ma_note_record->etoiles : null;
+
         $count = number_format($user->averageRating->average_rating ?? 1);
         $avis = $user->getReviewsAttribute->count();
 

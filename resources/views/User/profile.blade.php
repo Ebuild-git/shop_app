@@ -60,11 +60,11 @@
                                             @if(auth()->check() && auth()->id() !== $user->id)
                                                 <div data-toggle="modal" data-target="#Noter">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                    <button type="button"
-                                                        class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
-                                                        <i class="bi bi-star-fill"></i>
+                                                        <button type="button"
+                                                            class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
+                                                            <i class="bi bi-star-fill"></i>
                                                         </button>
-                                                        @endfor
+                                                    @endfor
                                                 </div>
                                             @endif
                                     </div>
