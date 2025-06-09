@@ -15,6 +15,8 @@ use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Commande;
+use App\Events\UserEvent;
+use App\Models\notifications;
 
 class AdminController extends Controller
 {
@@ -191,5 +193,34 @@ class AdminController extends Controller
         $commandes = $query->paginate(10);
         $regions = regions::all();
         return view("Admin.shipement.shipement", compact("commandes", "regions"));
+    }
+
+    public function approveCIN($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->cin_approved = true;
+            $user->save();
+
+            event(new UserEvent($user->id));
+            $notification = new notifications();
+            $notification->titre = __('cin_notification_title');
+            $notification->id_user_destination = $user->id;
+            $notification->type = "alerte";
+            $notification->destination = "user";
+            $notification->message = __('cin_notification_message');
+            $notification->save();
+
+
+            return response()->json([
+                'success' => true,
+                'message' => 'CIN approved successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error approving CIN: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

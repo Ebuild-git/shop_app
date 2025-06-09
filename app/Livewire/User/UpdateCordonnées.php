@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use App\Events\AdminEvent;
+use App\Models\notifications;
 
 class UpdateCordonnées extends Component
 {
@@ -53,14 +55,12 @@ class UpdateCordonnées extends Component
         if ($user) {
             $changes = false;
 
-            // Check if the RIB number exists before decrypting
             if ($user->rib_number) {
                 $current_rib_number = Crypt::decryptString($user->rib_number);
             } else {
                 $current_rib_number = null;
             }
 
-            // Check if the RIB number has changed
             if ($current_rib_number !== $this->rib_number) {
                 $user->rib_number = Crypt::encryptString($this->rib_number);
                 $changes = true;
@@ -77,10 +77,20 @@ class UpdateCordonnées extends Component
             if ($this->cin_img) {
                 $path = $this->cin_img->store('cin_images', 'public');
                 $user->cin_img = $path;
+                $user->cin_approved = false;
                 $changes = true;
+
+                event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
+                $notification = new notifications();
+                $notification->type = "photo";
+                $notification->titre = Auth::user()->username . " a mis à jour sa carte d'identité.";
+                $notification->url = "/admin/client/" . $user->id . "/view";
+                $notification->message = "Carte d'identité en attente de validation.";
+                $notification->id_user = Auth::user()->id;
+                $notification->destination = "admin";
+                $notification->save();
             }
 
-            // Save changes if any
             if ($changes) {
                 $user->save();
                 $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
@@ -88,7 +98,6 @@ class UpdateCordonnées extends Component
                 $this->dispatch('alert', ['message' => __('no_changes_made'), 'type' => 'info']);
             }
 
-            // Refresh the user information
             $this->dispatch('refreshAlluser-information');
         } else {
             $this->dispatch('alert', ['message' => "Une erreur est survenue !", 'type' => 'warning']);

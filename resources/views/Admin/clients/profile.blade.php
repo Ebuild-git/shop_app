@@ -232,7 +232,6 @@
                     <div class="card-body">
                         <h5 class="card-title">Images CIN</h5>
 
-                        <!-- Display the current CIN image if it exists -->
                         @if ($currentCinImg)
                             <div class="mb-3">
                                 <h6>Image du CIN actuelle :</h6>
@@ -240,6 +239,23 @@
                                 <a href="{{ $currentCinImg }}" download="CIN_actuelle.jpg" class="btn btn-sm btn-success mt-2">
                                     <i class="bi bi-download"></i> Télécharger l'image actuelle
                                 </a>
+
+                                @if (!$user->cin_approved)
+                                    <button
+                                        id="approveCinBtn"
+                                        class="btn btn-sm btn-primary mt-2"
+                                        onclick="approveCIN({{ $user->id }})">
+                                        <i class="bi bi-check-circle"></i> Approuver la carte d'identité
+                                    </button>
+
+                                    <div id="approveMessage" class="text-success mt-2" style="display: none;">
+                                        ✅ Carte d'identité approuvée avec succès.
+                                    </div>
+                                @else
+                                    <div class="text-gray mt-2">
+                                        ✅ Cette carte d'identité est déjà approuvée.
+                                    </div>
+                                @endif
                             </div>
                         @endif
 
@@ -364,6 +380,32 @@
 
     <!-- Main JS -->
     <script src="/assets-admin/js/main.js"></script>
+
+    <script>
+        function approveCIN(userId) {
+            fetch(`/admin/users/${userId}/approve-cin`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de l\'approbation');
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('approveMessage').style.display = 'block';
+                document.getElementById('approveCinBtn').disabled = true;
+            })
+            .catch(error => {
+                alert('❌ Une erreur est survenue.');
+                console.error(error);
+            });
+        }
+    </script>
+
 @endsection
 @section('css')
     <link rel="stylesheet" href="/assets-admin/vendor/css/pages/page-profile.css" />

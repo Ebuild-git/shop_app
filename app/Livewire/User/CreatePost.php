@@ -295,12 +295,18 @@ class CreatePost extends Component
 
         if (!$user->cin_img) {
             $this->dispatch('alert', [
-                'message' => "Vous devez ajouter une image de votre carte d'identité avant de publier un post !<br>Veuillez aller dans <strong>Mon compte</strong> → <strong>Coordonnées bancaires</strong> pour l'ajouter.",
+                'message' => __('cin_required_warning'),
                 'type' => 'warning'
             ]);
             return;
         }
-
+        if (!$user->cin_approved) {
+            $this->dispatch('alert', [
+                'message' => __('cin_pending_warning'),
+                'type' => 'warning'
+            ]);
+            return;
+        }
 
         if (!$this->before_post()) {
             if ($this->getErrorBag()->has('prix')) {

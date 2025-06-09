@@ -190,6 +190,8 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::delete('/admin/violations/delete-all', [SignalementsController::class, 'deleteAll'])->name('violations.deleteAll');
     Route::delete('/admin/violations/{id}', [SignalementsController::class, 'destroy'])->name('violations.destroy');
 
+    Route::post('/admin/users/{id}/approve-cin', [AdminController::class, 'approveCIN'])->name('admin.cin.approve');
+
 
 });
 

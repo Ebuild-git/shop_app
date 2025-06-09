@@ -685,7 +685,13 @@
 "error.no_purchase": "Vous ne pouvez laisser un avis sous forme d'étoiles uniquement si vous avez effectué un achat auprès de ce vendeur!",
 "error.already_rated": "Vous ne pouvez pas modifier votre avis!",
 "error.too_late": "Vous ne pouvez pas donner une note plus de 2 semaine après votre achat!",
-"success.rating_saved": "Votre note a été enregistré !"
+"success.rating_saved": "Votre note a été enregistré !",
+"cin_notification_title": "Votre carte d’immatriculation a été validée !",
+"cin_notification_message": "Nous vous informons que votre carte d’immatriculation a été validée par les administrateurs.",
+"cin_required_warning": "Vous devez ajouter une image de votre carte d’immatriculation avant de publier un post !<br>Veuillez aller dans <strong>Mon compte</strong> → <strong>Coordonnées bancaires</strong> pour l'ajouter.",
+"cin_pending_warning": "Votre carte d’immatriculation est en cours de validation. Vous recevrez une notification une fois qu'elle aura été approuvée."
+
+
 
 
 
