@@ -120,8 +120,8 @@
                                                             <button type="button"
                                                                 class="btn-rating-modal {{ $ma_note   >= $i ? 'rating-yellow-color' : 'none' }} ">
                                                                 <i class="bi bi-star-fill"></i>
-                                                                </button>
-                                                                @endfor
+                                                            </button>
+                                                            @endfor
                                                         </div>
                                                         @endif
                                                 </div>
