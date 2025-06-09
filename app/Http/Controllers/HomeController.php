@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -891,6 +892,7 @@ class HomeController extends Controller
             ]);
         }
 
+        $locale = App::getLocale();
         $categories = [];
         $posts = posts::where('id_user', $user->id)
             ->whereIn('statut', ['livré', 'vendu', 'livraison'])
@@ -901,10 +903,21 @@ class HomeController extends Controller
             if ($sous_categorie) {
                 $categorie = categories::find($sous_categorie->id_categorie);
                 if ($categorie) {
-                    if (isset($categories[$categorie->titre])) {
-                        $categories[$categorie->titre]++;
+                    // if (isset($categories[$categorie->titre])) {
+                    //     $categories[$categorie->titre]++;
+                    // } else {
+                    //     $categories[$categorie->titre] = 1;
+                    // }
+                    $nom = match ($locale) {
+                        'ar' => $categorie->title_ar,
+                        'en' => $categorie->title_en,
+                        default => $categorie->titre,
+                    };
+
+                    if (isset($categories[$nom])) {
+                        $categories[$nom]++;
                     } else {
-                        $categories[$categorie->titre] = 1;
+                        $categories[$nom] = 1;
                     }
                 }
             }

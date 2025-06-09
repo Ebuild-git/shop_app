@@ -1182,7 +1182,7 @@
 
 
     <div class="modal fade" id="CategoryPostsModal" tabindex="1" role="dialog" aria-labelledby="loginmodal"
-        aria-hidden="true">
+        aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="modal-dialog modal-xl login-pop-form" role="document">
             <div class="modal-content" id="loginmodal">
                 <div class="modal-headers">
@@ -1194,10 +1194,10 @@
                 <div class="modal-body p-5">
                     <div class="text-center mb-4">
                         <h2 class=" h5">
-                            {{ \App\Traits\TranslateTrait::TranslateText('Catégories vendus!') }}
+                            {{ __('Catégories des articles vendus!') }}
                         </h2>
                         <h4 class="h6 color">
-                            {{ \App\Traits\TranslateTrait::TranslateText('Par ') }}: <span id="username_user_modal_categorie"> [ username ] </span>
+                            {{ __('Par ') }}: <span id="username_user_modal_categorie"> [ username ] </span>
                         </h4>
                     </div>
                     <hr>
