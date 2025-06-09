@@ -8,24 +8,11 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class VenteConfirmee extends Mailable
 {
     use Queueable, SerializesModels;
-
-    // public $seller, $buyerPseudo, $articlesWithGain;
-
-    // /**
-    //  * Create a new message instance.
-    //  */
-    // public function __construct($seller, $buyerPseudo, $articlesWithGain)
-    // {
-    //     $this->seller = $seller;
-    //     $this->buyerPseudo = $buyerPseudo;
-    //     $this->articlesWithGain = $articlesWithGain;
-    //     $this->from('no_reply@purah-tunisie.shop', 'SHOPIN');
-    //     $this->subject("Votre article a été commandé");
-    // }
     public $seller, $buyerPseudo, $articlesWithGain, $salutation;
 
     public function __construct($seller, $buyerPseudo, $articlesWithGain, $salutation)
@@ -42,6 +29,7 @@ class VenteConfirmee extends Mailable
      */
     public function build()
     {
+        App::setLocale(session('locale', config('app.locale')));
         return $this->from('no_reply@purah-tunisie.shop', 'SHOPIN')
                     ->subject("Votre article a été commandé")
                     ->view('Mails.sellerNotification');

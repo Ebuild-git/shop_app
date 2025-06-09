@@ -371,7 +371,6 @@ class Mode extends Component
                     $articlesWithGain,
                     $salutation
                 ));
-                logger("✅ Email sent to: {$seller->email}");
             } catch (\Exception $e) {
                 logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
             }
