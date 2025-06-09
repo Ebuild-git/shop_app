@@ -285,15 +285,9 @@ class HomeController extends Controller
             $produit_in_cart = collect($cart)->contains('id', $post->id);
         }
 
-        $moyenne_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
-        $nombre_avis = ratings::where('id_user_sell', $user->id)->count();
         $ma_note = null;
         if (Auth::check()) {
-            $ma_note_record = ratings::where('id_user_buy', Auth::id())
-                ->where('id_user_sell', $user->id)
-                ->first();
-
-            $ma_note = $ma_note_record ? $ma_note_record->etoiles : null;
+            $ma_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
         }
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
@@ -350,21 +344,7 @@ class HomeController extends Controller
         }
 
         $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
-        // $ma_note = ratings::where('id_user_buy', Auth::user()->id)
-        //     ->where("id_user_sell", $user->id)
-        //     ->first();
-        // if ($ma_note) {
-        //     $ma_note = $ma_note->etoiles;
-        // }
-        $moyenne_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
-        $nombre_avis = ratings::where('id_user_sell', $user->id)->count();
-        $ma_note = null;
-        $ma_note_record = ratings::where('id_user_buy', Auth::id())
-            ->where('id_user_sell', $user->id)
-            ->first();
-
-        $ma_note = $ma_note_record ? $ma_note_record->etoiles : null;
-
+        $ma_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
         $count = number_format($user->averageRating->average_rating ?? 1);
         $avis = $user->getReviewsAttribute->count();
 
