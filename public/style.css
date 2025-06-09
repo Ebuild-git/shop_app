@@ -3434,3 +3434,91 @@ body:not([dir="rtl"]) .custom-confirm-btn {
 body[dir="rtl"] .custom-cancel-btn {
     margin-left: 10px;
 }
+
+/* style post */
+.step {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    background-color: #008080;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step i {
+    margin-right: 8px;
+}
+
+.step:hover {
+    background-color: #006666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.step:active {
+    background-color: #004d4d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.step.active {
+    background-color: #878080; /* Black color for the active button */
+}
+.timeline {
+    gap: 20px;
+}
+
+.content-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.form-icon {
+    position: absolute;
+    top: 65%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #008080;
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333333;
+}
+
+.btn-prim {
+    background-color: #008080;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 12px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-left: auto;
+    display: block;
+    color: white;
+}
+
+.btn-prim:hover {
+    background-color: #008080;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
