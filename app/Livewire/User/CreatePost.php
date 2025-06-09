@@ -171,16 +171,34 @@ class CreatePost extends Component
         }
     }
 
+    // public function validateCategoryPrice()
+    // {
+    //     $category = categories::find($this->selectedCategory);
+    //     if (!$category) return;
+
+    //     if ($category->luxury && $this->prix < 800) {
+    //         $this->addError('prix', __('price_luxury_error_high'));
+    //     } elseif (!$category->luxury && $this->prix >= 800) {
+    //         $this->addError('prix', __('price_luxury_error_low'));
+    //     } else {
+    //         $this->resetErrorBag('prix');
+    //     }
+    // }
     public function validateCategoryPrice()
     {
+        logger('validateCategoryPrice called');
+
         $category = categories::find($this->selectedCategory);
         if (!$category) return;
 
         if ($category->luxury && $this->prix < 800) {
+            logger('luxury category and low price');
             $this->addError('prix', __('price_luxury_error_high'));
         } elseif (!$category->luxury && $this->prix >= 800) {
+            logger('non-luxury category and high price');
             $this->addError('prix', __('price_luxury_error_low'));
         } else {
+            logger('price valid');
             $this->resetErrorBag('prix');
         }
     }
@@ -308,13 +326,17 @@ class CreatePost extends Component
             return;
         }
 
+        $this->validateCategoryPrice();
+
+        if ($this->getErrorBag()->has('prix')) {
+            $this->dispatch('alert', [
+                'message' => $this->getErrorBag()->first('prix'),
+                'type' => 'warning'
+            ]);
+            return;
+        }
+
         if (!$this->before_post()) {
-            if ($this->getErrorBag()->has('prix')) {
-                $this->dispatch('alert', [
-                    'message' => $this->getErrorBag()->first('prix'),
-                    'type' => 'warning',
-                ]);
-            }
             if ($this->getErrorBag()->has('cin_img')) {
                 $this->dispatch('alert', [
                     'message' => $this->getErrorBag()->first('cin_img'),
