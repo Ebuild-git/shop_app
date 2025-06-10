@@ -375,9 +375,6 @@ class Mode extends Component
                 logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
             }
 
-            $originalLocale = app()->getLocale();
-            app()->setLocale($seller->locale ?? 'fr');
-
             $articlesLinks = $posts->map(function ($post) {
                 $url = route('details_post2', ['id' => $post->id, 'titre' => $post->titre]);
                 return "<a href='{$url}' class='underlined-link'>" . e($post->titre) . "</a>";
@@ -402,7 +399,6 @@ class Mode extends Component
             ]);
             $notification->save();
             event(new UserEvent($seller->id));
-            app()->setLocale($originalLocale);
         }
 
 
