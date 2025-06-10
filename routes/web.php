@@ -18,6 +18,7 @@ use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use App\Models\HomeController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +35,13 @@ use Illuminate\Support\Facades\Route;
 
 //lang
 
-Route::get('/change-lang/{lang}', function ($lang) {
-    if (in_array($lang, ['fr', 'ar', 'en'])) {
-        session(['locale' => $lang]);
-    }
-    return redirect()->back();
-})->name('change.lang');
+// Route::get('/change-lang/{lang}', function ($lang) {
+//     if (in_array($lang, ['fr', 'ar', 'en'])) {
+//         session(['locale' => $lang]);
+//     }
+//     return redirect()->back();
+// })->name('change.lang');
+Route::get('/change-lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change.lang');
 
 //gestion de la connexion admin
 Route::get('login', [AdminController::class, 'index_login'])->name('login');

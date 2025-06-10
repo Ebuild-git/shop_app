@@ -69,6 +69,13 @@ class Connexion extends Component
         }
         $user->update(['last_login_at' => now()]);
         auth()->login($user);
+
+        $locale = session('locale') ?? request()->cookie('locale');
+        if (in_array($locale, ['en', 'fr', 'ar']) && $user->locale !== $locale) {
+            $user->update(['locale' => $locale]);
+        }
+
+
         $savedCart = UserCart::where('user_id', $user->id)->get();
         $cart = [];
 
