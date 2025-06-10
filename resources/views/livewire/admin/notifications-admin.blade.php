@@ -54,8 +54,10 @@
                             </div>
                             <div class="flex-shrink-0 dropdown-notifications-actions"
                                 wire:click="delete({{ $item->id }} )">
+                                @if($item->statut == "unread")
                                 <a href="javascript:void(0)" class="dropdown-notifications-read"><span
                                         class="badge badge-dot"></span></a>
+                                @endif
                                 <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
                                         class="ti ti-x"></span>
                                 </a>
