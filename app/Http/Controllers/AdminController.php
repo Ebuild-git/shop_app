@@ -223,4 +223,12 @@ class AdminController extends Controller
             ], 500);
         }
     }
+    public function markAsRead($id)
+    {
+        $notification = notifications::findOrFail($id);
+        $notification->statut = 'read';
+        $notification->save();
+
+        return redirect($notification->url);
+    }
 }

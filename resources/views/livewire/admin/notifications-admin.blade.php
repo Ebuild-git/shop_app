@@ -42,9 +42,10 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <a href="{{ $item->url }}?statut={{ $item->statut }}">
+                                <a href="{{ route('notifications.read', $item->id) }}">
                                     <h6 class="mb-1">{{ $item->titre }}</h6>
                                 </a>
+
                                 <p class="mb-0">{{ $item->message }}</p>
                                 <small class="text-muted">
                                     {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}

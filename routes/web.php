@@ -34,13 +34,6 @@ use Illuminate\Support\Facades\Route;
 
 
 //lang
-
-// Route::get('/change-lang/{lang}', function ($lang) {
-//     if (in_array($lang, ['fr', 'ar', 'en'])) {
-//         session(['locale' => $lang]);
-//     }
-//     return redirect()->back();
-// })->name('change.lang');
 Route::get('/change-lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change.lang');
 
 //gestion de la connexion admin
@@ -193,6 +186,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::delete('/admin/violations/{id}', [SignalementsController::class, 'destroy'])->name('violations.destroy');
 
     Route::post('/admin/users/{id}/approve-cin', [AdminController::class, 'approveCIN'])->name('admin.cin.approve');
+    Route::get('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
 
 
 });
