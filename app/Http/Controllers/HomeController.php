@@ -496,9 +496,7 @@ class HomeController extends Controller
 
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
-        // Calculer l'âge avec précision
         $age = $date->diffInYears(\Carbon\Carbon::now());
-        //l'age doit etres superieur a 13 ans return with information
         if ($age < 13) {
             return redirect()->back()->with("error", __("error.age_limit"))->withInput();
         }
@@ -521,7 +519,6 @@ class HomeController extends Controller
         $user->username = $request->username;
         $user->ip_address = request()->ip();
         $user->remember_token = $token;
-        // Assign new fields
         $user->rue = $request->ruee;
         $user->nom_batiment = $request->nom_batiment;
         $user->etage = $request->etage;
@@ -535,10 +532,18 @@ class HomeController extends Controller
 
         $user->photo_verified_at = now();
         $user->save();
-        //donner le role user
         $user->assignRole('user');
 
-        //envoi du mail avec le lien de validation
+        event(new AdminEvent("Un nouvel utilisateur s'est inscrit."));
+        $notification = new notifications();
+        $notification->type = "photo";
+        $notification->titre = "Nouvel utilisateur : " . $user->username;
+        $notification->url = "/admin/client/" . $user->id . "/view";
+        $notification->message = "Un nouveau compte a été créé";
+        $notification->id_user = $user->id;
+        $notification->destination = "admin";
+        $notification->save();
+
         try{
             Mail::to($user->email)->send(new VerifyMail($user, $token));
         }catch(\Exception $e){
@@ -546,7 +551,6 @@ class HomeController extends Controller
         }
 
         return redirect("/connexion")->with("success", __("success.account_created"));
-        //reset form
     }
 
 
