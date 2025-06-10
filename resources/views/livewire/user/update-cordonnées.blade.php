@@ -45,6 +45,9 @@
                 <label for="cin_img">{{ __('cin_image') }}</label>
                 <span class="text-danger">*</span>
                 <input type="file" class="form-control" id="cin_img" wire:model="cin_img" accept="image/*">
+                <small class="form-text text-muted">
+                    {{ __('cin_img_info') }}
+                </small>
                 @error('cin_img')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror

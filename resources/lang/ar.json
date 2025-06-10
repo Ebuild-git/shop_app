@@ -689,7 +689,8 @@
 "cin_required_warning": "يجب عليك تحميل صورة من بطاقة التسجيل الخاصة بك قبل نشر منشور!<br>يرجى الذهاب إلى <strong>حسابي</strong> → <strong>المعلومات البنكية</strong> لإضافتها",
 "cin_pending_warning": "بطاقة التسجيل الخاصة بك قيد التحقق. ستتلقى إشعارًا بمجرد الموافقة عليها",
 "Catégories des articles vendus!": "فئات المنتجات المباعة!",
-"Par ": "بواسطة "
+"Par ": "بواسطة ",
+"cin_img_info": "الأنواع المسموح بها: jpeg، png، jpg، gif، svg، webp"
 
 
 

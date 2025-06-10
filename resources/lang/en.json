@@ -689,7 +689,9 @@
 "cin_required_warning": "You must upload an image of your registration card before publishing a post!<br>Please go to <strong>My Account</strong> → <strong>Bank details</strong> to add it.",
 "cin_pending_warning": "Your registration card is being verified. You will receive a notification once it is approved.",
 "Catégories des articles vendus!": "Categories of sold items!",
-"Par ": "By "
+"Par ": "By ",
+"cin_img_info": "Allowed types: jpeg, png, jpg, gif, svg, webp"
+
 
 
 

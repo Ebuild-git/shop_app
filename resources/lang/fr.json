@@ -691,7 +691,8 @@
 "cin_required_warning": "Vous devez ajouter une image de votre carte d’immatriculation avant de publier un post !<br>Veuillez aller dans <strong>Mon compte</strong> → <strong>Coordonnées bancaires</strong> pour l'ajouter.",
 "cin_pending_warning": "Votre carte d’immatriculation est en cours de validation. Vous recevrez une notification une fois qu'elle aura été approuvée.",
 "Catégories des articles vendus!": "Catégories des articles vendus!",
-"Par ": "Par "
+"Par ": "Par ",
+"cin_img_info": "Types autorisés : jpeg, png, jpg, gif, svg, webp"
 
 
 
