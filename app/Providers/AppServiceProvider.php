@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
-        // app()->setLocale(config('app.locale'));
         $locale = Cookie::get('locale', Session::get('locale', config('app.locale')));
         App::setLocale($locale);
     }
