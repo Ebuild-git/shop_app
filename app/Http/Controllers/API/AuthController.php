@@ -97,11 +97,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        //checking if the old password is correct or not
         if (!Hash::check($request['oldPassword'], $user['password'])) {
             return response()->json(['message' => 'Old Password Does Not Match Our Records']);
         } else {
-            //updating new password in database
             User::where('id', '=', $user['id'])->update([
                 'password' => Hash::make($request['newPassword']),
             ]);
@@ -127,15 +125,13 @@ class AuthController extends Controller
             'birthdate' => 'required|date',
         ]);
 
-        // Si la validation échoue, retourner les erreurs sous forme de réponse JSON
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => $validator->errors()->all()
-            ], 400); // 422 Unprocessable Entity
+            ], 400);
         }
 
-        //generer un token pour la verification de mail
         $token = md5(time());
 
         $user = new User();
@@ -165,10 +161,7 @@ class AuthController extends Controller
         }
         $user->save();
 
-        //donner le role user
         $user->assignRole('user');
-
-        //envoi du mail avec le lien de validation
         Mail::to($user->email)->send(new VerifyMail($user, $token));
         return response()->json(
             [
@@ -181,7 +174,6 @@ class AuthController extends Controller
 
     public function update_information(Request $request)
     {
-        // update user informations  lastname, firstname,email,phone_number,birthdate
         $validator = Validator::make($request->all(), [
             'firstname' => ['required', 'string'],
             'lastname' => ['required', 'string'],
@@ -205,7 +197,6 @@ class AuthController extends Controller
             'birthdate' => Carbon::parse($request->input('birthdate'))
         ]);
 
-        //success mmessage
         return response()->json(
             ['message' => "La mise a jour a été effectué !"],
             200
@@ -239,8 +230,6 @@ class AuthController extends Controller
             ]
         ]);
     }
-
-
 
 
 

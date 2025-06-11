@@ -14,7 +14,6 @@ class AramexService
     public function __construct()
     {
         $this->client = new Client();
-        // This should be just the base part of the URL
         $this->baseUrl = env('ARAMEX_API_BASE_URL', 'https://ws.aramex.net/ShippingAPI.V2');
     }
 
@@ -55,5 +54,20 @@ class AramexService
         ];
 
         return $payload;
+    }
+    public function getClientInfo(): array
+    {
+        return [
+            'ClientInfo' => [
+                'UserName' => env('ARAMEX_API_USERNAME'),
+                'Password' => env('ARAMEX_API_PASSWORD'),
+                'Version' => env('ARAMEX_API_VERSION'),
+                'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
+                'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
+                'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
+                'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
+                'Source' => env('ARAMEX_SOURCE'),
+            ]
+        ];
     }
 }

@@ -20,4 +20,21 @@ trait ShipmentStatusTrait
         };
     }
 
+    public static function mapAramexToStatut($updateCode)
+    {
+        $status = self::getShipmentStatus($updateCode);
+
+        return match ($status) {
+            'created'          => 'préparation',
+            'picked_up'        => 'ramassée',
+            'out_for_delivery' => 'en cours de livraison',
+            'delivered'        => 'livré',
+            'attempted_delivery' => 'en cours de livraison',
+            'delayed'          => 'en voyage',
+            'returned'         => 'retourné',
+            'not_delivered'   => 'refusé',
+            default           => 'livraison',
+        };
+    }
+
 }

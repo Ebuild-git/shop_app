@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('app:update-aramex-status')
+             ->hourly()
+             ->withoutOverlapping()
+             ->appendOutputTo(storage_path('logs/aramex-tracking.log'));
     }
 
     /**
@@ -27,5 +30,6 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         Commands\MigrationOrder::class,
+        Commands\UpdateAramexStatus::class,
     ];
 }

@@ -110,14 +110,14 @@
                         <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe"
                             style="z-index: 5; {{ app()->getLocale() === 'ar' ? 'left: 4px; right: auto; text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                             @if ($post->sell_at)
-                            <div class="badge-new badge-danger-new mb-4">
-                                {!! \App\Traits\TranslateTrait::TranslateText('Vendu') !!}
-                            </div>
+                                <div class="badge-new badge-danger-new mb-4">
+                                    {!! \App\Traits\TranslateTrait::TranslateText('Vendu') !!}
+                                </div>
                             @endif
                             @if ($post->discountPercentage)
-                            <div class="badge-new badge-discount" style="{{ app()->getLocale() === 'ar' ? 'margin-top: -24px;' : '' }}">
-                                -{{ $post->discountPercentage }}%
-                            </div>
+                                <div class="badge-new badge-discount" style="{{ app()->getLocale() === 'ar' ? 'margin-top: -24px;' : '' }}">
+                                    -{{ $post->discountPercentage }}%
+                                </div>
                             @endif
                         </div>
 

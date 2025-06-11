@@ -59,7 +59,7 @@
                                             </div>
                                         @endif
 
-                                        @if($lux->statut === 'vendu')
+                                        @if($lux->statut !== 'vente')
                                             <div class="badge-new badge-sale bg-danger text-white">
                                                 {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
                                             </div>
@@ -136,7 +136,7 @@
                                             </div>
                                         @endif
 
-                                        @if($last->statut === 'vendu')
+                                        @if($last->statut !== 'vente')
                                             <div class="badge-new badge-sale bg-danger text-white">
                                                 {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
                                             </div>
