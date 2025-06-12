@@ -272,7 +272,7 @@ class Mode extends Component
                         ],
                         'Contact' => [
                             'Department' => '',
-                            'PersonName' => $this->user->username,
+                            'PersonName' => $this->user->firstname . ' ' . $this->user->lastname,
                             'Title' => '',
                             'CompanyName' => $this->user->username,
                             'PhoneNumber1' => $this->user->phone_number,

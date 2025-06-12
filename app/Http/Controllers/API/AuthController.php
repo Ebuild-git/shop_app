@@ -64,11 +64,31 @@ class AuthController extends Controller
         ], 200);
     }
 
-
-
-
-
-
+    /**
+     * @OA\Get(
+     *     path="/api/regions",
+     *     summary="Récupère toutes les régions",
+     *     description="Retourne la liste complète des régions disponibles.",
+     *     operationId="getRegions",
+     *     tags={"Régions"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des régions",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nom", type="string", example="Tunis")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erreur serveur"
+     *     )
+     * )
+     */
 
     public function regions()
     {

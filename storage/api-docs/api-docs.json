@@ -1,0 +1,48 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SHOPIN",
+        "description": "SHOPIN API's integration",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/regions": {
+            "get": {
+                "tags": [
+                    "Régions"
+                ],
+                "summary": "Récupère toutes les régions",
+                "description": "Retourne la liste complète des régions disponibles.",
+                "operationId": "getRegions",
+                "responses": {
+                    "200": {
+                        "description": "Liste des régions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nom": {
+                                                "type": "string",
+                                                "example": "Tunis"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            }
+        }
+    }
+}
