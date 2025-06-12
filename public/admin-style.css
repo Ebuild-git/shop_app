@@ -79,3 +79,27 @@
     height: auto;
     border-radius: 10px;
 }
+.badge-etat {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #fff;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* Status-specific colors */
+.etat-validation           { background-color: #6c757d; }  /* Gray */
+.etat-vente               { background-color: #0d6efd; }  /* Blue */
+.etat-vendu               { background-color: #198754; }  /* Green */
+.etat-livraison           { background-color: #0dcaf0; }  /* Cyan */
+.etat-livre               { background-color: #20c997; }  /* Teal */
+.etat-refuse              { background-color: #dc3545; }  /* Red */
+.etat-preparation         { background-color: #fd7e14; }  /* Orange */
+.etat-en-voyage           { background-color: #6610f2; }  /* Indigo */
+.etat-en-cours            { background-color: #ffc107; color: #212529; } /* Yellow w/ dark text */
+.etat-ramassee            { background-color: #17a2b8; }  /* Light Blue */
+.etat-retourne            { background-color: #343a40; }  /* Dark Gray */

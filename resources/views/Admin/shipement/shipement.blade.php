@@ -53,7 +53,6 @@
                                     <th>ID Expédition (Aramex)</th>
                                     <th>Frais Livraison</th>
                                     <th>État</th>
-                                    <th>Statut</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
@@ -93,14 +92,22 @@
                                         <td>{{ $commande->frais_livraison }} <sup>DH</sup></td>
                                         <td>
                                             <span class="badge-etat
-                                                @if($commande->etat === 'attente') etat-attente
-                                                @elseif($commande->etat === 'confirmé') etat-confirmé
-                                                @elseif($commande->etat === 'annulé') etat-annulé
+                                                @if($commande->post->statut === 'validation') etat-validation
+                                                @elseif($commande->post->statut === 'vente') etat-vente
+                                                @elseif($commande->post->statut === 'vendu') etat-vendu
+                                                @elseif($commande->post->statut === 'livraison') etat-livraison
+                                                @elseif($commande->post->statut === 'livré') etat-livre
+                                                @elseif($commande->post->statut === 'refusé') etat-refuse
+                                                @elseif($commande->post->statut === 'préparation') etat-preparation
+                                                @elseif($commande->post->statut === 'en voyage') etat-en-voyage
+                                                @elseif($commande->post->statut === 'en cours de livraison') etat-en-cours
+                                                @elseif($commande->post->statut === 'ramassée') etat-ramassee
+                                                @elseif($commande->post->statut === 'retourné') etat-retourne
                                                 @endif">
-                                                {{ $commande->etat }}
+                                                {{ $commande->post->statut }}
                                             </span>
                                         </td>
-                                        <td><span class="statut-badge">{{ $commande->statut }}</span></td>
+
                                         <td>{{ $commande->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 @empty
