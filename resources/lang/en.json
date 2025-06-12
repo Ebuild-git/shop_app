@@ -690,7 +690,9 @@
 "cin_pending_warning": "Your registration card is being verified. You will receive a notification once it is approved.",
 "Catégories des articles vendus!": "Categories of sold items!",
 "Par ": "By ",
-"cin_img_info": "Allowed types: jpeg, png, jpg, gif, svg, webp"
+"cin_img_info": "Allowed types: jpeg, png, jpg, gif, svg, webp",
+"invalid_status_to_rate": "You can only rate a post after it has been delivered."
+
 
 
 

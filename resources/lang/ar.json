@@ -690,7 +690,9 @@
 "cin_pending_warning": "بطاقة التسجيل الخاصة بك قيد التحقق. ستتلقى إشعارًا بمجرد الموافقة عليها",
 "Catégories des articles vendus!": "فئات المنتجات المباعة!",
 "Par ": "بواسطة ",
-"cin_img_info": "الأنواع المسموح بها: jpeg، png، jpg، gif، svg، webp"
+"cin_img_info": "الأنواع المسموح بها: jpeg، png، jpg، gif، svg، webp",
+"invalid_status_to_rate": "يمكنك تقييم المنتج فقط بعد تسليمه."
+
 
 
 

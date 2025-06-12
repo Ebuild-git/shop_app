@@ -692,7 +692,9 @@
 "cin_pending_warning": "Votre carte d’immatriculation est en cours de validation. Vous recevrez une notification une fois qu'elle aura été approuvée.",
 "Catégories des articles vendus!": "Catégories des articles vendus!",
 "Par ": "Par ",
-"cin_img_info": "Types autorisés : jpeg, png, jpg, gif, svg, webp"
+"cin_img_info": "Types autorisés : jpeg, png, jpg, gif, svg, webp",
+"invalid_status_to_rate": "Vous pouvez évaluer une annonce uniquement après sa livraison."
+
 
 
 

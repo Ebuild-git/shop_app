@@ -67,6 +67,12 @@ class Rating extends Component
         }
 
 
+        $allowedStatuts = ['livré'];
+        if (!in_array($this->last_buy->statut, $allowedStatuts)) {
+            session()->flash("warning", __("invalid_status_to_rate"));
+            return;
+        }
+
         if ($old_rate) {
             $this->dispatch('alert', ['message' => __("error.already_rated"), 'type' => 'warning']);
             return;
