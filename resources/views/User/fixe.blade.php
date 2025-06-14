@@ -55,160 +55,17 @@
 
     <script src="{{ asset('js/Shop.js?v=') . time() }}"></script>
     <script src="{{ asset('js/custom.js?v=') . time() }}"></script>
-    <style>
-    #comment_position {
-        position: absolute;
-        z-index: 150;
-    }
 
-    #comment_position .nav-dropdown {
-        position: absolute;
-        z-index: 150;
-    }
-    .left-aligned {
-        right: 100%;
-        left: auto !important;
-        top: 0;
-    }
-    .tarif-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.25rem 1rem;
-        background-color: white;
-        color: #565656;
-        font-size: bold;
-        margin-bottom: 0.25rem;
-    }
-    .nav-dropdown.nav-submenu.left-aligned {
-        width: 400px;
-        padding: 0.5rem; /* Reduced padding */
-        background-color: #f8f9fa;
-    }
-    .tarif-title {
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-    }
-    .luxury-icon, .luxury-text {
-        color: #008080;
-        font-weight: 800;
-        margin-left: 0.5rem;
-    }
+        @guest
+        <style>
+            .comment-position-top {
+                position: absolute;
+                right: 67px;
+                top: -64px !important;
+            }
+        </style>
+        @endguest
 
-    .tarif-percentage {
-        font-weight: small;
-        color: #808080;
-        margin-left: 1rem;
-    }
-
-    .tarif-item:hover {
-        background-color: #f8f9fa;
-    }
-
-    .tarif-separator {
-        border-top: 1px solid #f0f0f0;
-        margin: 4px 0;
-    }
-
-    .tarif-note {
-        padding: 0.5rem 1rem; /* Reduced padding */
-        font-size: 0.85rem;
-        color: #808080;
-        text-align: center;
-        white-space: normal;
-    }
-
-    #agreeConditionButton {
-    background-color: #008080; /* Green color to attract attention */
-    color: white; /* White text for good contrast */
-    padding: 10px 20px; /* Increase the padding for a larger button */
-    font-size: 1.1rem; /* Slightly larger text */
-    border: none; /* Remove default borders */
-    border-radius: 5px; /* Rounded corners for a modern look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow to lift the button */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    #agreeConditionButton:hover {
-        background-color: #008080;
-        transform: scale(1.05);
-    }
-
-    #agreeConditionButton:active {
-        transform: scale(0.98);
-    }
-
-    #agreeConditionButton::before {
-        content: '\2714';
-        margin-right: 8px;
-        font-size: 1.2rem;
-    }
-
-    #agreeConditionButton.pulsing {
-        animation: pulse 1.5s infinite;
-    }
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 #008080;
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
-    }
-}
-
-@media (max-width: 768px) {
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .logo-container img {
-        margin: 0 auto;
-    }
-
-    .nav-brand {
-        display: block;
-    }
-
-    .col-sm-2,
-    .col-sm-7,
-    .col-sm-3 {
-        flex: 100%;
-        max-width: 100%;
-    }
-
-    .logo {
-        margin-bottom: 10px;
-    }
-
-    .form-control {
-        width: 100%;
-        margin-bottom: 10px;
-        margin-top: 5px;
-    }
-
-    .btn-publier-header {
-        width: 100%;
-        margin-bottom: 10px;
-        margin-top: 5px;
-    }
-
-    .dropdown-menu {
-        position: absolute;
-        right: 0;
-        left: 0;
-        width: 50%;
-    }
-}
-
-
-</style>
 </head>
 
 <body class="custom-scrollbar">
@@ -218,96 +75,6 @@
             src="https://img.icons8.com/external-creatype-outline-colourcreatype/40/FFFFFF/external-close-essential-ui-v4-creatype-outline-colourcreatype.png"
             alt="external-close-essential-ui-v4-creatype-outline-colourcreatype" />
     </button>
-    <script>
-        function showPassword(id) {
-            var x = document.getElementById("password-" + id);
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('alert', (parametres) => {
-                const message = parametres[0].message;
-                const type = parametres[0].type;
-                Swal.fire({
-                    position: "center",
-                    icon: type,
-                    title: message,
-                    showConfirmButton: true,
-                    timer: 10000,
-                    customClass: "swal-wide",
-                    confirmButtonColor: "#008080"
-                });
-            });
-        });
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('alert2', (parametres) => {
-                console.log(parametres);
-                const message = parametres[0].message;
-                const type = parametres[0].type;
-                const time = parametres[0].time;
-
-                Swal.fire({
-                    position: "center",
-                    icon: type,
-                    title: message,
-                    showConfirmButton: false,
-                    timer: time,
-                    customClass: "swal-wide",
-                });
-            });
-        });
-
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('openmodalpreview', (data) => {
-                console.log(data);
-                $("#modal_motifs_preview_post").modal("toggle");
-            });
-        });
-
-        function formatTelephone(input) {
-            var phoneNumber = input.value.replace(/\D/g, '');
-            var formattedPhoneNumber = '';
-            for (var i = 0; i < phoneNumber.length; i++) {
-                formattedPhoneNumber += phoneNumber[i];
-                if ((i + 1) % 2 === 0 && i < phoneNumber.length - 1) {
-                    formattedPhoneNumber += ' ';
-                }
-            }
-            input.value = formattedPhoneNumber;
-        }
-    </script>
-    <script>
-        window.onload = function() {
-        document.getElementById('agreeConditionButton').classList.add('pulsing');
-    }
-    </script>
-    @auth
-        <style>
-            .comment-position-top {
-                position: absolute;
-                right: 67px;
-                top: -84px;
-            }
-            @media (max-width: 1024px) {
-                .comment-position-top {
-                    right: 81px;
-                    top: -63px;
-                }
-            }
-        </style>
-    @endauth
-    @guest
-        <style>
-            .comment-position-top {
-                position: absolute;
-                right: 0px;
-                top: -63px;
-            }
-        </style>
-    @endguest
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -647,42 +414,7 @@
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            const navToggle = document.querySelector('.nav-toggle');
-            const sidebarWrapper = document.querySelector('.sidebar-wrapper');
-            const closeMenu = document.querySelector('.close-menu');
 
-            navToggle.addEventListener('click', function() {
-            sidebarWrapper.classList.toggle('open');
-            });
-
-            closeMenu.addEventListener('click', function() {
-            sidebarWrapper.classList.remove('open');
-            });
-            });
-        </script>
-        <script>
-            $(window).scroll(function() {
-                var elementToHide = $('.elementToHideBeforeScroll');
-                var icons_position = $('#icons_position');
-                var comment_position = $('#comment_position');
-                var scrollPosition = $(window).scrollTop();
-
-                if (scrollPosition === 0) {
-                    elementToHide.addClass('d-none');
-                    comment_position.addClass("comment-position").removeClass("comment-position-top");
-                    icons_position.removeClass("comment-position").addClass("comment-position-top");
-                    icons_position.find('.icon-icon-header').css('margin-left', '3px');
-                } else {
-                    icons_position.addClass("comment-position").removeClass("comment-position-top");
-                    icons_position.find('.icon-icon-header').css('margin-left', '-10px');
-                    comment_position.removeClass("comment-position").addClass("comment-position-top");
-                    elementToHide.removeClass('d-none');
-                }
-
-            });
-        </script>
         <!-- Start Navigation -->
         <div class="header header-light dark-text desktop-only">
             <div class="container">
@@ -724,110 +456,98 @@
                                 </div>
                             </li>
 
-
                             <li class="elementToHideBeforeScroll hide-mobile-version d-none">
-                                    <div class="div-scroll-publier">
-                                        @auth
-                                        <a href="#" onclick="checkCinBeforePublish(event)" class="btn-publier-header cusor p-1">
-                                        @else
-                                            <a href="#" class="btn-publier-header cusor p-1" data-toggle="modal" data-target="#login">
+                                <div class="div-scroll-publier">
+                                    <a
+                                        href="#"
+                                        class="btn-publier-header cusor p-1"
+                                        @auth onclick="checkCinBeforePublish(event)"
+                                        @else data-toggle="modal" data-target="#login"
                                         @endauth
+                                    >
                                         <span class="color small" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                             <i class="lni lni-circle-plus"></i>
                                             {{ __('publish_article') }}
                                         </span>
                                     </a>
-                                    </div>
-                                </li>
-                                <li class="option-icon-header comment-position-top" id="icons_position">
-                                    @auth
-                                    <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                        <i class="bi lni bi-clock-history icon-icon-header"></i>
-                                    </a>
-                                    @endauth
-                                    <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important;">
-                                        <i class="bi lni bi-bag icon-icon-header"></i>
-                                        <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
-                                    </a>
+                                </div>
+                            </li>
 
-                                    @guest
-                                    <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                        <i class="bi lni bi-person-circle icon-icon-header"></i>
-                                    </a>
-                                    @endguest
+                            <li class="option-icon-header comment-position-top" id="icons_position">
+                                @auth
+                                <a href="{{ route('historique',['type'=>'achats']) }}" class="ml-2 icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                    <i class="bi lni bi-clock-history icon-icon-header"></i>
+                                </a>
+                                @endauth
+                                <a href="#" onclick="openCart()" class="position-relative icon-icon-header" style="color: black !important;">
+                                    <i class="bi lni bi-bag icon-icon-header"></i>
+                                    <span class="dn-counter bg-success-ps" id="CountPanier-value">0</span>
+                                </a>
 
-                                    @auth
-                                    <a href="{{ route('user-notifications') }}" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
-                                        <i class="lni bi bi-bell icon-icon-header"></i>
-                                        <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
-                                    </a>
-                                    @endauth
-                                </li>
+                                @guest
+                                <a href="#" data-toggle="modal" data-target="#login" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                    <i class="bi lni bi-person-circle icon-icon-header"></i>
+                                </a>
+                                @endguest
 
-                                <li class="text-capitalize comment-position" id="comment_position">
-                                    <a href="#">{{ __('how_it_works') }}</a>
-                                    <ul class="nav-dropdown nav-submenu">
-                                        <li>
-                                            <a href="{{ route('how_sell') }}">
-                                                {{ __('how_sell') }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('how_buy') }}">
-                                                {{ __('how_buy') }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/conditions">
-                                                {{ __('terms_and_conditions') }}
-                                            </a>
-                                        </li>
+                                @auth
+                                <a href="{{ route('user-notifications') }}" class="icon-icon-header" style="color: black !important; margin-left: 8px;">
+                                    <i class="lni bi bi-bell icon-icon-header"></i>
+                                    <span class="dn-counter bg-success-ps" id="CountNotification-value">0</span>
+                                </a>
+                                @endauth
+                            </li>
 
-                                        <li class="text-capitalize comment-position" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-                                            <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
-                                            <ul class="nav-dropdown nav-submenu left-aligned">
-                                                @foreach ($categories as $tarif)
-                                                <li class="tarif-item">
-                                                    <span class="tarif-title">
-                                                        {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}
-                                                        @if ($tarif->luxury == 1)
-                                                        <span class="luxury-text">
-                                                            <i class="bi bi-gem luxury-icon"></i> {{ __('luxury') }}
-                                                        </span>
-                                                        @endif
+                            <li class="text-capitalize comment-position" id="comment_position">
+                                <a href="#">{{ __('how_it_works') }}</a>
+                                <ul class="nav-dropdown nav-submenu">
+                                    <li>
+                                        <a href="{{ route('how_sell') }}">
+                                            {{ __('how_sell') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('how_buy') }}">
+                                            {{ __('how_buy') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/conditions">
+                                            {{ __('terms_and_conditions') }}
+                                        </a>
+                                    </li>
+
+                                    <li class="text-capitalize comment-position" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+                                        <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
+                                        <ul class="nav-dropdown nav-submenu left-aligned">
+                                            @foreach ($categories as $tarif)
+                                            <li class="tarif-item">
+                                                <span class="tarif-title">
+                                                    {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}
+                                                    @if ($tarif->luxury == 1)
+                                                    <span class="luxury-text">
+                                                        <i class="bi bi-gem luxury-icon"></i> {{ __('luxury') }}
                                                     </span>
-                                                    <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
-                                                </li>
-                                                @endforeach
-                                                <!-- Separator and phrase -->
-                                                <li class="tarif-separator"></li>
-                                                <li class="tarif-note">
-                                                    {{ __('commission_note') }}
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
+                                                    @endif
+                                                </span>
+                                                <span class="tarif-percentage">{{ intval($tarif->pourcentage_gain) }}%</span>
+                                            </li>
+                                            @endforeach
+                                            <!-- Separator and phrase -->
+                                            <li class="tarif-separator"></li>
+                                            <li class="tarif-note">
+                                                {{ __('commission_note') }}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
 
-                            </ul>
+                        </ul>
                     </div>
                 </nav>
             </div>
         </div>
-
-
-
-        <script>
-            // Close the navbar when any link is clicked unless it's within a modal
-            document.querySelectorAll('.nav-menu a').forEach(item => {
-                item.addEventListener('click', function (event) {
-                    // Check if the click is outside the modal
-                    if (!event.target.closest('.modal')) {
-                        document.querySelector('.nav-menus-wrapper').classList.remove('nav-menus-wrapper-open');
-                    }
-                });
-            });
-        </script>
         <!-- End Navigation -->
         <div class="clearfix"></div>
         <!-- ============================================================== -->
@@ -1177,10 +897,6 @@
 
 
     <!-- Modal -->
-
-
-
-
     <div class="modal fade" id="CategoryPostsModal" tabindex="1" role="dialog" aria-labelledby="loginmodal"
         aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -1233,18 +949,18 @@
     </div>
 
     @auth
-    <script>
-        function checkCinBeforePublish(e) {
-            e.preventDefault();
+        <script>
+            function checkCinBeforePublish(e) {
+                e.preventDefault();
 
-            @if (Auth::user()->cin_img)
-                window.location.href = "/publication";
-            @else
-                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
-                modal.show();
-            @endif
-        }
-    </script>
+                @if (Auth::user()->cin_img)
+                    window.location.href = "/publication";
+                @else
+                    let modal = new bootstrap.Modal(document.getElementById('cinModal'));
+                    modal.show();
+                @endif
+            }
+        </script>
     @endauth
 
 
@@ -1287,9 +1003,6 @@
         </div>
         <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
 
-
-
-
         <!-- Modal pour modifier le prix -->
         <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
             aria-labelledby="UpdatePrice" aria-hidden="true">
@@ -1308,11 +1021,7 @@
                 </div>
             </div>
         </div>
-        <script>
-            function close_update_price() {
-                location.reload();
-            }
-        </script>
+
         <!-- Condition Modal -->
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
             aria-hidden="true">
@@ -1346,8 +1055,6 @@
         </div>
         <!-- End Modal -->
 
-
-
         @yield('modal')
 
         @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
@@ -1364,30 +1071,30 @@
 
   <script>
     $(document).ready(function() {
-    @if(session('clearLocalStorage'))
-        localStorage.clear();
-    @endif
-    var storedUserId = localStorage.getItem('userId');
-    var currentUserId = "{{ Auth::id() }}";
-    if (storedUserId !== currentUserId) {
-        localStorage.clear();
-        localStorage.setItem('userId', currentUserId);
-    }
-    var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-    if (conditionsAccepted) {
-        $("#validateCartButton").prop('disabled', false);
-    }
-    $("#agree_condition").click(function() {
-        localStorage.setItem('conditionsAccepted', true);
-        $('#conditions').modal('hide');
-        $("#validateCartButton").prop('disabled', false);
-        window.location.href = '/checkout?step=3'; // Redirect to the specified path
-    });
+        @if(session('clearLocalStorage'))
+            localStorage.clear();
+        @endif
+        var storedUserId = localStorage.getItem('userId');
+        var currentUserId = "{{ Auth::id() }}";
+        if (storedUserId !== currentUserId) {
+            localStorage.clear();
+            localStorage.setItem('userId', currentUserId);
+        }
+        var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+        if (conditionsAccepted) {
+            $("#validateCartButton").prop('disabled', false);
+        }
+        $("#agree_condition").click(function() {
+            localStorage.setItem('conditionsAccepted', true);
+            $('#conditions').modal('hide');
+            $("#validateCartButton").prop('disabled', false);
+            window.location.href = '/checkout?step=3';
+        });
 
-    document.getElementById('conditiondiv').addEventListener('scroll', function() {
-        document.getElementById('agreeConditionButton').disabled = false;
+        document.getElementById('conditiondiv').addEventListener('scroll', function() {
+            document.getElementById('agreeConditionButton').disabled = false;
+        });
     });
-});
   </script>
 
 
@@ -1415,26 +1122,6 @@
     <!-- ============================================================== -->
 
 
-
-    <script>
-        function openWishlist() {
-            document.getElementById("Wishlist").style.display = "block";
-        }
-
-        function closeWishlist() {
-            document.getElementById("Wishlist").style.display = "none";
-        }
-    </script>
-
-    <script>
-        function openCart() {
-            document.getElementById("Cart").style.display = "block";
-        }
-
-        function closeCart() {
-            document.getElementById("Cart").style.display = "none";
-        }
-    </script>
     <script>
         const cartTranslations = {
             title: @json(__('remove_item_from_cart')),

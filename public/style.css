@@ -36,7 +36,6 @@ body {
     }
 }
 
-
 .header-1 {
     background-color: #018d8d;
     color: white;
@@ -1328,22 +1327,6 @@ tbody td {
     }
 }
 
-/* @media (min-width: 991px) {
-    .option-icon-header {
-        position: absolute;
-    }
-
-    .hide-desktop {
-        display: none;
-    }
-
-
-
-    .comment-position {
-        position: absolute;
-        right: 0px;
-    }
-} */
 @media (min-width: 991px) {
     .option-icon-header {
         display: none;
@@ -1661,8 +1644,8 @@ tbody td {
     }
     .div-scroll-publier .btn-publier-header{
         position: absolute;
-        right: -160px;
-        top: 2px;
+        right: -85px;
+        top: 16px;
     }
 
     .option-icon-header {
@@ -3519,3 +3502,170 @@ body[dir="rtl"] .custom-cancel-btn {
     background-color: #008080;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+
+/* fixe style */
+
+    #comment_position {
+        position: absolute;
+        z-index: 150;
+    }
+
+    #comment_position .nav-dropdown {
+        position: absolute;
+        z-index: 150;
+    }
+    .left-aligned {
+        right: 100%;
+        left: auto !important;
+        top: 0;
+    }
+    .tarif-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.25rem 1rem;
+        background-color: white;
+        color: #565656;
+        font-size: bold;
+        margin-bottom: 0.25rem;
+    }
+    .nav-dropdown.nav-submenu.left-aligned {
+        width: 400px;
+        padding: 0.5rem; /* Reduced padding */
+        background-color: #f8f9fa;
+    }
+    .tarif-title {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+    .luxury-icon, .luxury-text {
+        color: #008080;
+        font-weight: 800;
+        margin-left: 0.5rem;
+    }
+
+    .tarif-percentage {
+        font-weight: small;
+        color: #808080;
+        margin-left: 1rem;
+    }
+
+    .tarif-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .tarif-separator {
+        border-top: 1px solid #f0f0f0;
+        margin: 4px 0;
+    }
+
+    .tarif-note {
+        padding: 0.5rem 1rem; /* Reduced padding */
+        font-size: 0.85rem;
+        color: #808080;
+        text-align: center;
+        white-space: normal;
+    }
+
+    #agreeConditionButton {
+    background-color: #008080; /* Green color to attract attention */
+    color: white; /* White text for good contrast */
+    padding: 10px 20px; /* Increase the padding for a larger button */
+    font-size: 1.1rem; /* Slightly larger text */
+    border: none; /* Remove default borders */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow to lift the button */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    #agreeConditionButton:hover {
+        background-color: #008080;
+        transform: scale(1.05);
+    }
+
+    #agreeConditionButton:active {
+        transform: scale(0.98);
+    }
+
+    #agreeConditionButton::before {
+        content: '\2714';
+        margin-right: 8px;
+        font-size: 1.2rem;
+    }
+
+    #agreeConditionButton.pulsing {
+        animation: pulse 1.5s infinite;
+    }
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 #008080;
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .logo-container img {
+        margin: 0 auto;
+    }
+
+    .nav-brand {
+        display: block;
+    }
+
+    .col-sm-2,
+    .col-sm-7,
+    .col-sm-3 {
+        flex: 100%;
+        max-width: 100%;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    .btn-publier-header {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        left: 0;
+        width: 50%;
+    }
+}
+
+
+.comment-position-top {
+    position: absolute;
+    right: 67px;
+    top: -84px !important;
+}
+@media (max-width: 1024px) {
+    .comment-position-top {
+        right: 81px;
+        top: -63px;
+    }
+}
+

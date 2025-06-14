@@ -4,8 +4,6 @@
 @section('body')
 
 
-
-
     <!-- ======================= Filter Wrap Style 1 ======================== -->
     <div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="container">

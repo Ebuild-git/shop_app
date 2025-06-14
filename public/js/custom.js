@@ -57,3 +57,133 @@ document.addEventListener('livewire:init', function () {
         });
     });
 });
+
+// fixe script
+
+function showPassword(id) {
+    var x = document.getElementById("password-" + id);
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+document.addEventListener('livewire:init', () => {
+    Livewire.on('alert', (parametres) => {
+        const message = parametres[0].message;
+        const type = parametres[0].type;
+        Swal.fire({
+            position: "center",
+            icon: type,
+            title: message,
+            showConfirmButton: true,
+            timer: 10000,
+            customClass: "swal-wide",
+            confirmButtonColor: "#008080"
+        });
+    });
+});
+document.addEventListener('livewire:init', () => {
+    Livewire.on('alert2', (parametres) => {
+        console.log(parametres);
+        const message = parametres[0].message;
+        const type = parametres[0].type;
+        const time = parametres[0].time;
+
+        Swal.fire({
+            position: "center",
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+            customClass: "swal-wide",
+        });
+    });
+});
+
+document.addEventListener('livewire:init', () => {
+    Livewire.on('openmodalpreview', (data) => {
+        console.log(data);
+        $("#modal_motifs_preview_post").modal("toggle");
+    });
+});
+
+function formatTelephone(input) {
+    var phoneNumber = input.value.replace(/\D/g, '');
+    var formattedPhoneNumber = '';
+    for (var i = 0; i < phoneNumber.length; i++) {
+        formattedPhoneNumber += phoneNumber[i];
+        if ((i + 1) % 2 === 0 && i < phoneNumber.length - 1) {
+            formattedPhoneNumber += ' ';
+        }
+    }
+    input.value = formattedPhoneNumber;
+}
+
+// ##############
+window.onload = function() {
+    document.getElementById('agreeConditionButton').classList.add('pulsing');
+}
+
+// ###############
+
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+    const closeMenu = document.querySelector('.close-menu');
+
+    navToggle.addEventListener('click', function() {
+        sidebarWrapper.classList.toggle('open');
+    });
+
+    closeMenu.addEventListener('click', function() {
+        sidebarWrapper.classList.remove('open');
+    });
+});
+
+$(window).scroll(function() {
+    var elementToHide = $('.elementToHideBeforeScroll');
+    var icons_position = $('#icons_position');
+    var comment_position = $('#comment_position');
+    var scrollPosition = $(window).scrollTop();
+
+    if (scrollPosition === 0) {
+        elementToHide.addClass('d-none');
+        comment_position.addClass("comment-position").removeClass("comment-position-top");
+        icons_position.removeClass("comment-position").addClass("comment-position-top");
+        icons_position.find('.icon-icon-header').css('margin-left', '3px');
+    } else {
+        icons_position.addClass("comment-position").removeClass("comment-position-top");
+        icons_position.find('.icon-icon-header').css('margin-left', '-10px');
+        comment_position.removeClass("comment-position").addClass("comment-position-top");
+        elementToHide.removeClass('d-none');
+    }
+});
+
+// Close the navbar when any link is clicked unless it's within a modal
+document.querySelectorAll('.nav-menu a').forEach(item => {
+    item.addEventListener('click', function (event) {
+        if (!event.target.closest('.modal')) {
+            document.querySelector('.nav-menus-wrapper').classList.remove('nav-menus-wrapper-open');
+        }
+    });
+});
+
+function close_update_price() {
+    location.reload();
+}
+
+function openWishlist() {
+    document.getElementById("Wishlist").style.display = "block";
+}
+
+function closeWishlist() {
+    document.getElementById("Wishlist").style.display = "none";
+}
+function openCart() {
+    document.getElementById("Cart").style.display = "block";
+}
+
+function closeCart() {
+    document.getElementById("Cart").style.display = "none";
+}
