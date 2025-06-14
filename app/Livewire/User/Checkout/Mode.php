@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\VenteConfirmee;
 use App\Services\AramexService;
 use DateTime;
+use App\Events\AdminEvent;
 use Livewire\Component;
 
 class Mode extends Component
@@ -110,10 +111,27 @@ class Mode extends Component
         $this->sendBuyerNotification();
         $this->notifySellers();
         $this->sendConfirmationEmail();
+        $this->notifyAdminAboutPurchase();
 
         $token = md5(uniqid(rand(), true));
         Cookie::queue(Cookie::forget('cart'));
         return Redirect("/checkout?step=4&action=$token");
+    }
+
+    private function notifyAdminAboutPurchase()
+    {
+        $buyer = Auth::user();
+        $itemCount = count($this->articles_panier);
+
+        $notification = new notifications();
+        $notification->type = "new_post";
+        $notification->titre = $buyer->username . " a acheté $itemCount article(s)";
+        $notification->url = "/admin/orders";
+        $notification->message = "Nouvelle commande passée par " . $buyer->username;
+        $notification->destination = "admin";
+        $notification->save();
+
+        event(new AdminEvent('Une nouvelle commande a été passée.'));
     }
 
     private function processCartItems()

@@ -178,7 +178,6 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::post('/admin/nos_partenaires/delete', [PartenairesController::class, 'delete'])->name('delete_partenaires');
 
     //SHIPEMENT
-
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('orders');
     Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
 
