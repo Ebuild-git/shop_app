@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\shopinerController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +38,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
     Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
     Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
-    
+
+    //shopiners
+    Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
+
 });
 
 

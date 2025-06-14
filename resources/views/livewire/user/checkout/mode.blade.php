@@ -64,7 +64,6 @@
                         <div class="text-center terms-section">
                             <p class="terms-text">
                                 <input type="checkbox" id="acceptCond" onclick="enableButtonOnCheck()">
-
                                 {!! __('terms_notice') !!}
                             </p>
 
@@ -81,8 +80,8 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between responsive-btn-wrapper" style="position: relative; top: -40px;">
-            <a href="{{ route('checkout') }}?step=2" class="btn btn-dark address-btn">
+        <div class="d-flex justify-content-between responsive-btn-wrapper" style="position: relative; top: -75px;">
+            <a href="{{ route('checkout') }}?step=2" class="address-btn">
                 <i class="bi bi-arrow-left"></i> {{ __('Adresse de livraison') }}
             </a>
         </div>

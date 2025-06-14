@@ -2374,6 +2374,9 @@ ul.nav-dropdown-xxx {
     transition: background-color 0.3s, opacity 0.3s;
     cursor: not-allowed;
     opacity: 0.6;
+    padding: 13px 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .btn-validate:enabled {
@@ -2404,15 +2407,16 @@ ul.nav-dropdown-xxx {
 
 /* Styles for the button */
 .address-btn {
+    background-color: #000;
+    color: #fff;
     font-size: 14px;
     padding: 10px 20px;
     border-radius: 6px;
     transition: background-color 0.3s, transform 0.2s;
-    margin-top: 15px;
 }
 
 .address-btn:hover {
-    background-color: #005555;
+    color: #fff;
     transform: translateY(-2px);
 }
 
@@ -3121,11 +3125,11 @@ input:checked + .slider:before {
 /* Breathing pulse animation with glow */
 @keyframes softPulse {
     0%, 100% {
-        box-shadow: 0 0 0px rgb(0, 128, 128);
+        box-shadow: 0 0 0px #cb2126;
         opacity: 2;
     }
     50% {
-        box-shadow: 0 0 8px rgb(0, 128, 128);
+        box-shadow: 0 0 8px #cb2126;
         opacity: 0.8;
     }
 }
@@ -3134,7 +3138,10 @@ input:checked + .slider:before {
 #acceptCond.soft-pulse-effect {
     animation: softPulse 2s infinite;
 }
-
+#acceptCond {
+  width: 15px;
+  height: 15px;
+}
 .flag-icon2 {
     position: absolute;
     height: 30px;
