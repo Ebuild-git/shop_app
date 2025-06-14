@@ -410,18 +410,17 @@ class CreatePost extends Component
         $post->save();
 
 
-        if ($config->valider_publication == 1) {
-            event(new AdminEvent('Un post a été créé avec succès.'));
-            $notification = new notifications();
-            $notification->type = "new_post";
-            $notification->titre = Auth::user()->username . " vient de publier un article ";
-            $notification->url = "/admin/publication/" . $post->id . "/view";
-            $notification->message = $post->titre;
-            $notification->id_post = $post->id;
-            $notification->id_user = Auth::user()->id;
-            $notification->destination = "admin";
-            $notification->save();
-        }
+        event(new AdminEvent('Un post a été créé avec succès.'));
+        $notification = new notifications();
+        $notification->type = "new_post";
+        $notification->titre = Auth::user()->username . " vient de publier un article ";
+        $notification->url = "/admin/publication/" . $post->id . "/view";
+        $notification->message = $post->titre;
+        $notification->id_post = $post->id;
+        $notification->id_user = Auth::user()->id;
+        $notification->destination = "admin";
+        $notification->save();
+
 
         return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
     }
