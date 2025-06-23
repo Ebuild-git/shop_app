@@ -8,7 +8,7 @@
             <div class="col-sm-6 ">
                 <div class="position-absolute">
                 </div>
-                <img src="/icons/login.webp"
+                <img src="/icons/login.png"
                     class="img" alt="" srcset="">
             </div>
             <div class="col-sm-6" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">

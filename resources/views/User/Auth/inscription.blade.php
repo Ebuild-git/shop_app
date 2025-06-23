@@ -11,7 +11,7 @@
                         <h4>
                             {!! __('login_to_sell_and_buy') !!}
                         </h4>
-                        <img style="width: 80%;" src="/icons/illus-register.png" alt="" srcset="">
+                        <img style="width: 80%;" src="/icons/illus-register2.png" alt="" srcset="">
                     </div>
                 </div>
             </div>

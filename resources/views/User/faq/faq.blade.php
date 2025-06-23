@@ -63,8 +63,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-4 text-center">
-                <img src="/faq/etape-1.png" alt="f1.jpg" id="myImage" style="width: 100%;">
+            <div class="col-sm-4 d-flex justify-content-center align-items-center">
+                <img id="myImage" src="/faq/etape-1.jpg" alt="f1.jpg" class="img-fluid rounded" style="max-height: 400px;">
             </div>
         </div>
     </div>
@@ -78,12 +78,16 @@
 
     <script>
         function change_image(id) {
-            //alert(id);
             $(".title").removeClass("color");
             $(".title-"+id).addClass("color");
 
             //change image source
             var img = document.getElementById('myImage');
+            img.onerror = function () {
+                img.onerror = null;
+                img.src = "/faq/etape-" + id + ".jpg";
+            };
+
             img.src = "/faq/etape-" + id + ".png";
         }
     </script>
