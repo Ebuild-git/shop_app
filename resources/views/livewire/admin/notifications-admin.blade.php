@@ -30,15 +30,17 @@
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
-                                    @if ($item->type == 'new_post')
-                                        <img src="{{ $item->getUser->getAvatar() }}" alt
-                                            class="h-auto rounded-circle" />
-                                    @elseif($item->type == 'photo')
-                                        <img src="{{ $item->getUser->getAvatar() }}" alt
-                                            class="h-auto rounded-circle" />
+
+                                    @if ($item->type == 'new_post' || $item->type == 'photo')
+                                        @if ($item->getUser)
+                                            <img src="{{ $item->getUser->getAvatar() }}" alt class="h-auto rounded-circle" />
+                                        @else
+                                            <img src="/assets-admin/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                        @endif
                                     @else
                                         <img src="/assets-admin/img/avatars/1.png" alt class="h-auto rounded-circle" />
                                     @endif
+
                                 </div>
                             </div>
                             <div class="flex-grow-1">
