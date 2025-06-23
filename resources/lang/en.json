@@ -373,7 +373,7 @@
 "create_post": "Create a Post",
 "now": "Now",
 "Attention!": "Attention!",
-"Veuillez ajouter une image de votre carte d'identité avant de publier.": "Please upload your ID image before publishing.",
+"Veuillez ajouter une image de votre carte d'identité avant de publier.": "Please upload your registration card image before publishing.",
 "Ajouter maintenant": "Add now",
 "Close": "Close",
 "article_added_successfully": "Article added successfully",
@@ -692,38 +692,10 @@
 "Catégories des articles vendus!": "Categories of sold items!",
 "Par ": "By ",
 "cin_img_info": "Allowed types: jpeg, png, jpg, gif, svg, webp",
-"invalid_status_to_rate": "You can only rate a post after it has been delivered."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"invalid_status_to_rate": "You can only rate a post after it has been delivered.",
+"title_thanks": "Thank you!",
+"message_updated": "Your registration card has been updated and is awaiting validation.",
+"message_notification": "We will send you a notification once validated."
 
 
 

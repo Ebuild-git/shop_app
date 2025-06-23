@@ -89,6 +89,7 @@ class UpdateCordonnées extends Component
                 $notification->id_user = Auth::user()->id;
                 $notification->destination = "admin";
                 $notification->save();
+
             }
 
             if ($changes) {

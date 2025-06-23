@@ -64,3 +64,31 @@
 
 
 </form>
+<script>
+    window.translations = {
+        titleThanks: "{{ __('title_thanks') }}",
+        messageUpdated: "{{ __('message_updated') }}",
+        messageNotification: "{{ __('message_notification') }}",
+    };
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    Livewire.on('refreshAlluser-information', () => {
+        document.getElementById('cinModalLabel').innerText = window.translations.titleThanks;
+
+        document.querySelector('#cinModal .modal-body').innerHTML = `
+            <div>
+                ${window.translations.messageUpdated}<br>
+                ${window.translations.messageNotification}
+            </div>
+        `;
+
+        const footer = document.querySelector('#cinModal .modal-footer');
+        if (footer) {
+            footer.remove();
+        }
+    });
+});
+</script>
+
+

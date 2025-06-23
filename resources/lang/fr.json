@@ -375,7 +375,7 @@
 "create_post": "Créer une publication",
 "now": "Maintenant",
 "Attention!": "Attention !",
-"Veuillez ajouter une image de votre carte d'identité avant de publier.": "Veuillez ajouter une image de votre carte d'identité avant de publier.",
+"Veuillez ajouter une image de votre carte d'identité avant de publier.": "Veuillez ajouter une image de votre carte d’immatriculation avant de publier.",
 "Ajouter maintenant": "Ajouter maintenant",
 "Close": "Fermer",
 "article_added_successfully": "Article ajouté avec succès",
@@ -693,7 +693,10 @@
 "Catégories des articles vendus!": "Catégories des articles vendus!",
 "Par ": "Par ",
 "cin_img_info": "Types autorisés : jpeg, png, jpg, gif, svg, webp",
-"invalid_status_to_rate": "Vous pouvez évaluer une annonce uniquement après sa livraison."
+"invalid_status_to_rate": "Vous pouvez évaluer une annonce uniquement après sa livraison.",
+"title_thanks": "Merci !",
+"message_updated": "Votre carte d’immatriculation a été mise à jour et est en attente de validation.",
+"message_notification": "Nous vous enverrons une notification une fois validée."
 
 
 

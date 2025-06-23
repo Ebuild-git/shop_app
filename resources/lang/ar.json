@@ -374,7 +374,7 @@
 "create_post": "أنشئ منشورًا",
 "now": "الآن",
 "Attention!": "تنبيه!",
-"Veuillez ajouter une image de votre carte d'identité avant de publier.": "يرجى إضافة صورة لبطاقة الهوية قبل النشر.",
+"Veuillez ajouter une image de votre carte d'identité avant de publier.": "يرجى إضافة صورة لبطاقة التسجيل قبل النشر",
 "Ajouter maintenant": "أضف الآن",
 "Close": "إغلاق",
 "article_added_successfully": "تم إضافة المنتج بنجاح",
@@ -691,32 +691,10 @@
 "Catégories des articles vendus!": "فئات المنتجات المباعة!",
 "Par ": "بواسطة ",
 "cin_img_info": "الأنواع المسموح بها: jpeg، png، jpg، gif، svg، webp",
-"invalid_status_to_rate": "يمكنك تقييم المنتج فقط بعد تسليمه."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"invalid_status_to_rate": "يمكنك تقييم المنتج فقط بعد تسليمه.",
+"title_thanks": "شكراً لك!",
+"message_updated": "تم تحديث بطاقة التسجيل الخاصة بك وهي في انتظار التحقق.",
+"message_notification": "سنرسل لك إشعارًا بمجرد التحقق منها."
 
 
 
