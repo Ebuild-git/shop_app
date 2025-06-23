@@ -3675,3 +3675,7 @@ body[dir="rtl"] .custom-cancel-btn {
     }
 }
 
+.left-space{
+    margin-left: -20px;
+}
+

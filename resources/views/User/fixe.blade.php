@@ -263,6 +263,19 @@
                         <div class="sidebar-wrapper">
                             <div class="close-menu">×</div>
                             <ul class="text-uppercase-mobile">
+                                <li class="has-submenu">
+                                    <a href="javascript:void(0);" onclick="toggleSubmenu(this)" style="padding-left: 0px !important">
+                                        {{ __('how_it_works') }} <i class="bi bi-chevron-down"></i>
+                                    </a>
+                                    <ul class="submenu d-none">
+                                        <li class="left-space"><a href="/how_sell">{{ __('how_sell') }}</a></li>
+                                        <li class="left-space"><a href="/how_buy">{{ __('how_buy') }}</a></li>
+                                        <li class="left-space"><a href="/conditions">{{ __('terms_and_conditions') }}</a></li>
+                                        <li class="left-space"><a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a></li>
+                                    </ul>
+                                </li>
+
+
                                 <li><a href="/about" style="padding-left: 0px !important">{{ __('about') }}</a></li>
                                 <li><a href="/" style="padding-left: 0px !important">{{ __('home') }}</a></li>
                                 <li>
@@ -1686,6 +1699,15 @@
             fetchProducts(page);
             ancre();
         });
+    </script>
+
+    <script>
+        function toggleSubmenu(link) {
+            const submenu = link.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('d-none');
+            }
+        }
     </script>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
