@@ -497,7 +497,7 @@ class HomeController extends Controller
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
         $age = $date->diffInYears(\Carbon\Carbon::now());
-        if ($age < 13) {
+        if ($age < 18) {
             return redirect()->back()->with("error", __("error.age_limit"))->withInput();
         }
 

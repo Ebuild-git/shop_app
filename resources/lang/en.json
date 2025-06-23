@@ -603,7 +603,7 @@
 "error.invalid_type": "Please enter a text value.",
 "error.invalid_integer": "Please enter an integer value.",
 "error.gender_required": "Please select your gender.",
-"error.age_limit": "The minimum age is 13 years.",
+"error.age_limit": "The minimum age is 18 years.",
 "error.email_send": "An error occurred while sending the verification email, but the account has been created!",
 "success.account_created": "Your account has been successfully created!<br>To complete your registration, click the verification link we sent to your email. Thank you and welcome!",
 "validation.required": "This field is required.",
