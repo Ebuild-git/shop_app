@@ -45,17 +45,25 @@
                         <div class="d-flex align-items-start">
                             <div class="d-flex align-items-start">
                                 <div class="avatar me-2">
-                                    <img src="/assets-admin/img/avatars/2.png" alt="Avatar"
-                                        class="rounded-circle">
+                                    <img src="{{$post->acheteur->getAvatar()}}" alt="Avatar"
+                                        class="rounded-circle" style="width:30px;height:30px;">
                                 </div>
                                 <div class="me-2 ms-1">
                                     <h6 class="mb-0">
-                                        {{ $post->acheteur->name }}
+                                        {{ $post->acheteur->firstname . " " . $post->acheteur->lastname}} ({{ $post->acheteur->username }})
                                     </h6>
                                     <small class="text-muted">
                                         {{ $post->acheteur->GetPosts->count() }} publications. <br>
                                        <b> Numéro de Téléphone :</b> {{ $post->acheteur->phone_number ?? '/' }} <br>
-                                       <b> Adresse :</b> {{ $post->acheteur->address ?? '/' }} <br>
+                                       <b>Adresse :</b>
+                                            {{ $post->acheteur->nom_batiment ? $post->acheteur->nom_batiment . ', ' : '' }}
+                                            {{ $post->acheteur->rue ? $post->acheteur->rue . ', ' : '' }}
+                                            {{ $post->acheteur->etage ? __('etage') . ' ' . $post->acheteur->etage . ', ' : '' }}
+                                            {{ $post->acheteur->num_appartement ? __('num_appartement') . ' ' . $post->acheteur->num_appartement . ', ' : '' }}
+                                            {{ $post->acheteur->address ? $post->acheteur->address . ', ' : '' }}
+                                            {{ optional($post->acheteur->region_info)->nom ?? '' }}
+                                            <br>
+                                        <b>RIB : </b> {{ $rib_decrypted ?? "Non Disponible." }}
                                     </small>
                                 </div>
                             </div>
@@ -69,18 +77,21 @@
                     </li>
                 </ul>
             </div>
-            <div class="btn-group btn-block">
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
                 @if ($post->statut != 'livré')
-                    <button type="button" class="btn btn-primary btn-block" wire:click=mark_as_livrer()>
-                        Marquer Livré !
+                    <button type="button" class="btn btn-sm btn-primary" wire:click="mark_as_livrer">
+                        <i class="bi bi-check2-circle me-1"></i>
+                        Livré
                     </button>
                 @endif
-                <button type="button" class="btn btn-dark btn-block" wire:click=remettre()>
-                    <i class="bi bi-x-lg"></i>
-                    &nbsp;
-                    Remettre a la vente
+
+                <button type="button" class="btn btn-sm btn-outline-dark" wire:click="remettre">
+                    <i class="bi bi-x-lg me-1"></i>
+                    Remettre
                 </button>
             </div>
+
         </div>
     @endif
 

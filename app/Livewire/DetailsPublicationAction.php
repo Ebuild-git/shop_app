@@ -8,11 +8,13 @@ use App\Models\posts;
 use App\Models\propositions;
 use App\Models\ratings;
 use Livewire\Component;
+use Illuminate\Support\Facades\Crypt;
 
 class DetailsPublicationAction extends Component
 {
     public $post, $id, $verified_at;
     public $motif_suppression;
+    public $rib_decrypted;
 
 
     public function mount($id)
@@ -22,6 +24,14 @@ class DetailsPublicationAction extends Component
     public function render()
     {
         $this->post = posts::withTrashed()->find($this->id);
+        $this->rib_decrypted = null;
+        try {
+            if ($this->post?->acheteur?->rib_number) {
+                $this->rib_decrypted = Crypt::decryptString($this->post->acheteur->rib_number);
+            }
+        } catch (\Exception $e) {
+            $this->rib_decrypted = null;
+        }
         return view('livewire.details-publication-action');
     }
 
