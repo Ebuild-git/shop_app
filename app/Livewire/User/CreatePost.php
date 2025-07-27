@@ -171,19 +171,6 @@ class CreatePost extends Component
         }
     }
 
-    // public function validateCategoryPrice()
-    // {
-    //     $category = categories::find($this->selectedCategory);
-    //     if (!$category) return;
-
-    //     if ($category->luxury && $this->prix < 800) {
-    //         $this->addError('prix', __('price_luxury_error_high'));
-    //     } elseif (!$category->luxury && $this->prix >= 800) {
-    //         $this->addError('prix', __('price_luxury_error_low'));
-    //     } else {
-    //         $this->resetErrorBag('prix');
-    //     }
-    // }
     public function validateCategoryPrice()
     {
         logger('validateCategoryPrice called');

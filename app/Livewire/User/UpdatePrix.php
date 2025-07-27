@@ -7,6 +7,8 @@ use App\Models\posts;
 use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Events\AdminEvent;
+use App\Models\notifications;
 
 class UpdatePrix extends Component
 {
@@ -77,7 +79,6 @@ class UpdatePrix extends Component
 
                 $daysText = trans_choice('days_remaining', $daysRemaining, ['count' => $daysRemaining]);
                 $hoursText = trans_choice('hours_remaining', $hoursRemaining, ['count' => $hoursRemaining]);
-                dd($daysText);
                 $this->show = false;
                 session()->flash('warning', __("price_change_limit", [
                     'daysRemaining' => $daysText,
@@ -111,6 +112,17 @@ class UpdatePrix extends Component
                 $this->show = false;
                 $this->changed = true;
                 $this->prix = "";
+
+                event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
+
+                $notification = new notifications();
+                $notification->type = "photo";
+                $notification->titre = Auth::user()->username . " a réduit le prix d’un article.";
+                $notification->url = "/admin/publication/" . $post->id . "/view";
+                $notification->message = "Prix mis à jour de {$post->old_prix} à {$post->prix}.";
+                $notification->id_user = Auth::id();
+                $notification->destination = "admin";
+                $notification->save();
             }
         }
     }
