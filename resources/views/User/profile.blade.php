@@ -92,8 +92,7 @@
                 <p>
                     <i class="bi bi-calendar-check"></i> {{ __('Membre depuis le') }} {{ $user->created_at }}
                     <br>
-                    {{-- <i class="bi bi-envelope"></i> {!! \App\Traits\TranslateTrait::TranslateText('Email vérifié') !!} <b> : {{ $user->photo_verified_at ? 'Oui' : 'Non' }}
-                    </b> --}}
+
                 </p>
             </div>
         </div>

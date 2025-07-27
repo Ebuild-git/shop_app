@@ -133,15 +133,18 @@
                                                     $categoriesCount = $user->categoriesWhereUserSell();
                                                 @endphp
 
-                                                <span>
-                                                    <b>{{ $salesCount }}</b>
-                                                    {{ trans_choice('messages.sales', $salesCount) }}
-                                                </span>
-                                                |
-                                                <span>
-                                                    <b>{{ $adsCount }}</b>
-                                                    {{ trans_choice('messages.annonces', $adsCount) }}
-                                                </span>
+                                                <a href="{{ url('/user/' . $user->id) }}" style="color:#707070;">
+                                                    <span>
+                                                        <b>{{ $salesCount }}</b>
+                                                        {{ trans_choice('messages.sales', $salesCount) }}
+                                                    </span>
+                                                    |
+                                                    <span>
+                                                        <b>{{ $adsCount }}</b>
+                                                        {{ trans_choice('messages.annonces', $adsCount) }}
+                                                    </span>
+                                                </a>
+
                                                 |
                                                 <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cursor">
                                                     <b>{{ $categoriesCount }}</b>
