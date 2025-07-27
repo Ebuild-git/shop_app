@@ -43,15 +43,6 @@ class NotificationsAdmin extends Component
     }
 
 
-    public function delete($id)
-    {
-        if ($id) {
-            $row =  notifications::findOrFail($id);
-            $row->delete();
-        }
-        $this->notifications = $this->getList();
-    }
-
     public function deleteAll()
     {
         notifications::where("destination", "admin")->delete();

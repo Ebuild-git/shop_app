@@ -23,10 +23,10 @@
                 </a>
             </div>
         </li>
-        <li class="dropdown-notifications-list scrollable-container">
+        <div wire:key="notifications-list-{{ time() }}" class="dropdown-notifications-list scrollable-container">
             <ul class="list-group list-group-flush">
                 @forelse ($notifications as $item)
-                    <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <li id="notif-{{ $item->id }}" class="list-group-item list-group-item-action dropdown-notifications-item">
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
@@ -54,16 +54,20 @@
                                 </small>
 
                             </div>
-                            <div class="flex-shrink-0 dropdown-notifications-actions"
-                                wire:click="delete({{ $item->id }} )">
+
+                            <div class="flex-shrink-0 dropdown-notifications-actions">
                                 @if($item->statut == "unread")
-                                <a href="javascript:void(0)" class="dropdown-notifications-read"><span
-                                        class="badge badge-dot"></span></a>
+                                    <a href="javascript:void(0)" class="dropdown-notifications-read">
+                                        <span class="badge badge-dot"></span>
+                                    </a>
                                 @endif
-                                <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
-                                        class="ti ti-x"></span>
+                                <a href="javascript:void(0)"
+                                onclick="deleteNotification({{ $item->id }})"
+                                class="dropdown-notifications-archive">
+                                    <span class="ti ti-x"></span>
                                 </a>
                             </div>
+
                         </div>
                     </li>
                 @empty
@@ -72,7 +76,7 @@
                 @endforelse
 
             </ul>
-        </li>
+        </div>
     </ul>
 
 </li>
@@ -88,4 +92,59 @@
         window.Livewire.dispatch('notificationReceived');
 
     });
+</script>
+<script>
+    function deleteNotification(id) {
+        Swal.fire({
+            title: 'Êtes-vous sûr ?',
+            text: "Cette notification sera supprimée définitivement.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Oui, supprimer',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/delete/notifications/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const notifElement = document.getElementById(`notif-${id}`);
+                        if (notifElement) notifElement.remove();
+
+                        const badge = document.querySelector('.badge-notifications');
+                        if (badge) {
+                            const currentCount = parseInt(badge.textContent);
+                            if (currentCount > 1) {
+                                badge.textContent = currentCount - 1;
+                            } else {
+                                badge.remove();
+                            }
+                        }
+
+                        Swal.fire({
+                            title: 'Supprimée !',
+                            text: 'La notification a été supprimée.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire('Erreur', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur AJAX:', error);
+                    Swal.fire('Erreur', 'Une erreur est survenue.', 'error');
+                });
+            }
+        });
+    }
 </script>

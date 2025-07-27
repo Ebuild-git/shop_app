@@ -80,17 +80,14 @@ class NotificationsController extends Controller
     public function user_notifications() {
         $user_id = Auth::id();
 
-        // Automatically mark notifications as read when viewed
         notifications::where("id_user_destination", $user_id)
             ->where("statut", "unread")
             ->update(["statut" => "read"]);
 
-        // Fetch notifications
         $notifications = notifications::where("id_user_destination", $user_id)
             ->orderBy("id", "desc")
             ->get();
 
-        // Should be 0 as they are all marked as read now
         $unreadCount = 0;
 
         return view('User.notifications', compact("notifications", "unreadCount"));
@@ -106,4 +103,18 @@ class NotificationsController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        try {
+            $notif = notifications::where('id', $id)
+                ->where('destination', 'admin')
+                ->firstOrFail();
+
+            $notif->delete();
+
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
 }
