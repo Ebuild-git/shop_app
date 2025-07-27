@@ -20,6 +20,8 @@ class UpdateCordonnées extends Component
     public $titulaire_name;
     public $cin_img;
 
+    public $existingCinImg;
+
     public function mount()
     {
         $user = User::find(Auth::id());
@@ -27,6 +29,7 @@ class UpdateCordonnées extends Component
             $this->rib_number = $user->rib_number ? Crypt::decryptString($user->rib_number) : '';
             $this->bank_name = $user->bank_name;
             $this->titulaire_name = $user->titulaire_name;
+            $this->existingCinImg = $user->cin_img;
         }
     }
 

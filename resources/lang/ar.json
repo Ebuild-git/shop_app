@@ -365,6 +365,7 @@
 "bank_name": "اسم البنك",
 "account_holder_name": "اسم صاحب الحساب",
 "cin_image": "صورة عن بطاقة التسجيل",
+"current_cin_image": "صورة بطاقة التسجيل الحالية",
 "save_bank_info_changes": "حفظ التغييرات على معلوماتي البنكية",
 "current_password": "كلمة المرور الحالية",
 "new_password": "كلمة المرور الجديدة",

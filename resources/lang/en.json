@@ -364,6 +364,7 @@
 "bank_name": "Bank name",
 "account_holder_name": "Account holder name",
 "cin_image": "Photo of the registration card",
+"current_cin_image": "Current photo of the registration card",
 "save_bank_info_changes": "Save changes to my bank information",
 "current_password": "Current password",
 "new_password": "New password",
