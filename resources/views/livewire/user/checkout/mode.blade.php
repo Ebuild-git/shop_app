@@ -81,9 +81,16 @@
             </div>
 
             <div class="d-flex justify-content-between responsive-btn-wrapper" style="position: relative; top: -75px;">
-                <a href="{{ route('checkout') }}?step=2" class="address-btn {{ app()->getLocale() == 'ar' ? 'rtl-margin' : '' }}">
-                    <i class="bi bi-arrow-left"></i> {{ __('Adresse de livraison') }}
+                <a href="{{ route('checkout') }}?step=2" class="address-btn">
+                    @if (app()->getLocale() == 'ar')
+                        {{ __('Adresse de livraison') }}
+                        <i class="bi bi-arrow-left"></i>
+                    @else
+                        <i class="bi bi-arrow-left"></i>
+                        {{ __('Adresse de livraison') }}
+                    @endif
                 </a>
+
             </div>
         </div>
 

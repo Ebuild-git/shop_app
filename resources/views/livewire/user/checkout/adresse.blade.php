@@ -485,7 +485,7 @@
                     @if ($isDefaultExtraAddressComplete)
                         <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
                             @if (app()->getLocale() == 'ar')
-                                <i class="bi bi-arrow-right"></i> {{ __('continue') }}
+                                <i class="bi bi-arrow-left"></i> {{ __('continue') }}
                             @else
                                 {{ __('continue') }} <i class="bi bi-arrow-right"></i>
                             @endif
