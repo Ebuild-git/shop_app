@@ -968,17 +968,26 @@
             function checkCinBeforePublish(e) {
                 e.preventDefault();
 
-                @if (Auth::user()->cin_img)
+                @php
+                    $user = Auth::user();
+                @endphp
+
+                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
+                let modalBody = document.querySelector('#cinModal .modal-body');
+                let modalTitle = document.getElementById('cinModalLabel');
+                @if ($user->cin_img && $user->cin_approved)
                     window.location.href = "/publication";
                 @else
-                    let modal = new bootstrap.Modal(document.getElementById('cinModal'));
+                    modalTitle.innerText = "{{ __('Attention!') }}";
+                    if ("{{ $user->cin_img }}" && !{{ $user->cin_approved ? 'true' : 'false' }}) {
+                        modalBody.innerText = "{{ __('attente_validation') }}";
+                    } else {
+                        modalBody.innerText = "{{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}";
+                    }
                     modal.show();
                 @endif
             }
-
         </script>
-
-
 
     @endauth
 

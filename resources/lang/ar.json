@@ -374,7 +374,7 @@
 "create_first_post": "أنشئ أول منشور لك",
 "create_post": "أنشئ منشورًا",
 "now": "الآن",
-"Attention!": "تنبيه!",
+"Attention!": "تنبيه",
 "Veuillez ajouter une image de votre carte d'identité avant de publier.": "يرجى إضافة صورة لبطاقة التسجيل قبل النشر",
 "Ajouter maintenant": "أضف الآن",
 "Close": "إغلاق",
@@ -695,7 +695,9 @@
 "invalid_status_to_rate": "يمكنك تقييم المنتج فقط بعد تسليمه.",
 "title_thanks": "شكراً لك!",
 "message_updated": "تم تحديث بطاقة التسجيل الخاصة بك وهي في انتظار التحقق.",
-"message_notification": "سنرسل لك إشعارًا بمجرد التحقق منها."
+"message_notification": "سنرسل لك إشعارًا بمجرد التحقق منها.",
+"attente_validation" : "بطاقة التسجيل الخاصة بك  قيد المراجعة"
+
 
 
 

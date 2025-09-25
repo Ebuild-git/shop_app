@@ -697,7 +697,8 @@
 "invalid_status_to_rate": "Vous pouvez évaluer une annonce uniquement après sa livraison.",
 "title_thanks": "Merci !",
 "message_updated": "Votre carte d’immatriculation a été mise à jour et est en attente de validation.",
-"message_notification": "Nous vous enverrons une notification une fois validée."
+"message_notification": "Nous vous enverrons une notification une fois validée.",
+"attente_validation" : "Votre carte d’immatriculation est en attente de validation"
 
 
 
