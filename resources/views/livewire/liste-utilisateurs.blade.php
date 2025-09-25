@@ -53,8 +53,8 @@
                  <tr>
                     <th>ID</th>
                     <th style="left: 50px;">Pseudonyme</th>
-                     <th style="left: 160px;">Nom</th>
-                     <th>Prénom</th>
+                     <th style="left: 160px;">Prénom</th>
+                     <th>Nom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
                      <th>Nb articles en vente</th>
