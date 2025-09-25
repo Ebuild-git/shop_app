@@ -71,53 +71,31 @@ class DetailsPublicationAction extends Component
     }
 
 
-
-
-
     public function remettre()
     {
-        $post = posts::find($this->post->id);
-        if ($post) {
-            //update post
-            $post->update(
-                [
-                    'sell_at' => null,
-                    'id_user_buy' => null,
-                    'statut' => 'vente'
-                ]
-            );
+    $post = posts::find($this->post->id);
+    if ($post) {
+        $post->update([
+            'sell_at' => null,
+            'id_user_buy' => null,
+            'statut' => 'vente',
+        ]);
 
-            //reinitialiser les propositions
-            $proposition = propositions::where("id_post", $post->id)->where("etat", 'accepté')->first();
-            if ($proposition) {
-                $proposition->update(
-                    [
-                        'etat' => "traitement"
-                    ]
-                );
-            }
+        event(new UserEvent($post->id_user));
 
-            //envoie de la notification a celui qui a poster pour l'informer
-            //make notification
-            event(new UserEvent($post->id_user));
-
-            $notification = new notifications();
-            $notification->titre = "Une vente a été retouner ";
-            $notification->id_user_destination  =  $post->id_user;
-            $notification->type = "alerte";
-            $notification->url = "/post/".$post->id;
-            $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
-            $notification->save();
-
-            //show success message
-            session()->flash('success', 'La publication à bien été remise');
+        $notification = new notifications();
+        $notification->titre = "Une vente a été retournée";
+        $notification->id_user_destination = $post->id_user;
+        $notification->type = "alerte";
+        $notification->url = "/post/" . $post->id;
+        $notification->message = "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !";
+        $notification->save();
+        session()->flash('success', 'La publication a bien été remise');
         } else {
-            //show error message
+            // Show error message
             session()->flash("error", "Une erreur est survenue, veuillez réessayer plus tard.");
         }
     }
-
-
 
     public function refuser(){
 
