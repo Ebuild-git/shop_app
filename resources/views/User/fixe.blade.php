@@ -7,7 +7,9 @@
 
 
 <!DOCTYPE html>
-<html lang="{{ App::getLocale() }}">
+<html lang="{{ in_array(app()->getLocale(), config('app.supported_locales', ['fr', 'en']))
+    ? app()->getLocale()
+    : config('app.fallback_locale') }}">
 
 <head>
     <meta charset="utf-8" />
