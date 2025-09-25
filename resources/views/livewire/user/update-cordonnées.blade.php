@@ -80,22 +80,20 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    Livewire.on('refreshAlluser-information', () => {
-        document.getElementById('cinModalLabel').innerText = window.translations.titleThanks;
+        Livewire.on('refreshAlluser-information', () => {
+            document.getElementById('cinModalLabel').innerText = window.translations.titleThanks;
+            document.querySelector('#cinModal .modal-body').innerHTML = `
+                <div>
+                    ${window.translations.messageUpdated}<br>
+                    ${window.translations.messageNotification}
+                </div>
+            `;
+            const footer = document.querySelector('#cinModal .modal-footer');
+            if (footer) footer.remove();
+        });
 
-        document.querySelector('#cinModal .modal-body').innerHTML = `
-            <div>
-                ${window.translations.messageUpdated}<br>
-                ${window.translations.messageNotification}
-            </div>
-        `;
-
-        const footer = document.querySelector('#cinModal .modal-footer');
-        if (footer) {
-            footer.remove();
-        }
+        window.addEventListener('cin-updated', () => {
+            $('#cinModal').modal('hide');
+        });
     });
-});
 </script>
-
-

@@ -97,6 +97,8 @@ class UpdateCordonnées extends Component
 
             if ($changes) {
                 $user->save();
+                $this->existingCinImg = $user->cin_img;
+                $this->dispatch('cin-updated');
                 $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
             } else {
                 $this->dispatch('alert', ['message' => __('no_changes_made'), 'type' => 'info']);
