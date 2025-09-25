@@ -7,38 +7,30 @@
     <div class="position-relative">
         <div class="carousel">
             @forelse ($categories_carousel as $cat)
-                {{-- <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
+                <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
                     <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
-                        {{ \App\Traits\TranslateTrait::TranslateText($cat->titre) }}
+                        @php
+                            $locale = app()->getLocale();
+                            switch ($locale) {
+                                case 'en':
+                                    $catTitle = $cat->title_en ?? $cat->titre;
+                                    break;
+                                case 'ar':
+                                    $catTitle = $cat->title_ar ?? $cat->titre;
+                                    break;
+                                default:
+                                    $catTitle = $cat->titre;
+                                    break;
+                            }
+                        @endphp
+
+                        {{ $catTitle }}
+
                         @if ($cat->luxury)
                             <i class="bi bi-gem gem-icon"></i>
                         @endif
                     </a>
-                </div> --}}
-                <div class="carousel-item text-center" style="background-image: url('{{ Storage::url($cat->icon) }}');">
-    <a href="{{ route('shop', ['id_categorie' => $cat->id]) }}" class="carousel-btn">
-        @php
-            $locale = app()->getLocale();
-            switch ($locale) {
-                case 'en':
-                    $catTitle = $cat->title_en ?? $cat->titre;
-                    break;
-                case 'ar':
-                    $catTitle = $cat->title_ar ?? $cat->titre;
-                    break;
-                default:
-                    $catTitle = $cat->titre;
-                    break;
-            }
-        @endphp
-
-        {{ $catTitle }}
-
-        @if ($cat->luxury)
-            <i class="bi bi-gem gem-icon"></i>
-        @endif
-    </a>
-</div>
+                </div>
 
             @empty
             @endforelse
