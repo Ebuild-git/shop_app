@@ -316,7 +316,8 @@
                                     <tr>
                                         <td style="min-width: 130px" class="cell cell-bold">{{ __('Condition') }}</td>
                                         <td class="text-black cell">
-                                             {{ \App\Traits\TranslateTrait::TranslateText($post->etat) }}
+                                             {{-- {{ \App\Traits\TranslateTrait::TranslateText($post->etat) }} --}}
+                                             {{ __($post->etat) }}
                                         </td>
                                     </tr>
                                     <tr>
