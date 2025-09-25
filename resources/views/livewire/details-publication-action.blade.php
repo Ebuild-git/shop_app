@@ -79,12 +79,6 @@
             </div>
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                @if ($post->statut != 'livré')
-                    <button type="button" class="btn btn-sm btn-primary" wire:click="mark_as_livrer">
-                        <i class="bi bi-check2-circle me-1"></i>
-                        Livré
-                    </button>
-                @endif
 
                 <button type="button" class="btn btn-sm btn-outline-dark" wire:click="remettre">
                     <i class="bi bi-x-lg me-1"></i>
