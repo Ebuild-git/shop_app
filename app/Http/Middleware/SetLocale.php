@@ -15,7 +15,7 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $supported = config('app.supported_locales', ['fr', 'en']);
+        $supported = config('app.supported_locales', ['fr', 'en', 'ar']);
         $fallback  = config('app.fallback_locale', 'fr');
 
         $locale = session('locale', config('app.locale'));
