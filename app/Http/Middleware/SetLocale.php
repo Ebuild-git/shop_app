@@ -15,11 +15,17 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session()->has('locale')) {
-            app()->setLocale(session('locale'));
-        } else {
-            app()->setLocale(config('app.locale'));
+        $supported = config('app.supported_locales', ['fr', 'en']);
+        $fallback  = config('app.fallback_locale', 'fr');
+
+        $locale = session('locale', config('app.locale'));
+
+        if (!in_array($locale, $supported)) {
+            $locale = $fallback;
         }
+
+        app()->setLocale($locale);
+
         return $next($request);
     }
 }
