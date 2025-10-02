@@ -67,7 +67,18 @@ class UpdateCordonnées extends Component
             if ($current_rib_number !== $this->rib_number) {
                 $user->rib_number = Crypt::encryptString($this->rib_number);
                 $changes = true;
+
+                event(new AdminEvent("Un utilisateur a mis à jour son RIB."));
+                $notification = new notifications();
+                $notification->type = "rib";
+                $notification->titre = Auth::user()->username . " a mis à jour son RIB.";
+                $notification->url = "/admin/client/" . $user->id . "/view";
+                $notification->message = "RIB en attente de vérification.";
+                $notification->id_user = Auth::user()->id;
+                $notification->destination = "admin";
+                $notification->save();
             }
+
             if ($user->bank_name !== $this->bank_name) {
                 $user->bank_name = $this->bank_name;
                 $changes = true;
