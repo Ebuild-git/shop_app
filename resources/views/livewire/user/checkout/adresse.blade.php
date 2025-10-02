@@ -108,7 +108,7 @@
                                         <select id="region" wire:model="region" class="form-select modern-input" required>
                                             <option value="">{{ __('select_region') }}</option>
                                             @foreach($regions as $regionItem)
-                                                <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
+                                                <option value="{{ $regionItem->id }}">{{ __($regionItem->nom) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -390,7 +390,7 @@
                                         <select wire:model="extraRegion" id="extraRegion" class="form-control">
                                             <option value="">{{ __('select_region')}}</option>
                                             @foreach($regions as $regionItem)
-                                                <option value="{{ $regionItem->id }}">{{ $regionItem->nom }}</option>
+                                                <option value="{{ $regionItem->id }}">{{ __($regionItem->nom) }}</option>
                                             @endforeach
                                         </select>
                                         @error('extraRegion') <span class="error">{{ $message }}</span> @enderror
@@ -491,7 +491,7 @@
                             @endif
                         </button>
                     @else
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning alert-clickable" data-scroll-to="extra-addresses">
                             {{ __('complete_address_info') }}
                         </div>
                     @endif
@@ -505,7 +505,7 @@
                             @endif
                         </button>
                     @else
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning alert-clickable" data-scroll-to="saved-address">
                             {{ __('complete_main_address_info') }}
                         </div>
                     @endif
@@ -527,27 +527,49 @@
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
  @livewireScripts
 
- <script>
-     window.addEventListener('addressUpdated', event => {
-         var myModalEl = document.getElementById('editAddressModal');
-         var modal = bootstrap.Modal.getInstance(myModalEl);
-         if (modal) {
-             modal.hide();
-         }
-         alert('Adresse modifiée avec succès.');
-     });
- </script>
-
+<script>
+    window.addEventListener('addressUpdated', event => {
+        var myModalEl = document.getElementById('editAddressModal');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        if (modal) {
+            modal.hide();
+        }
+        alert('Adresse modifiée avec succès.');
+    });
+</script>
 
 <script>
     document.addEventListener('refreshAddresses', () => {
-        // Show the loader
         document.getElementById('loader').style.display = 'block';
-
-        // Reload the page
         setTimeout(() => {
             location.reload();
         }, 50);
     });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.alert-clickable').forEach(alert => {
+        alert.style.cursor = 'pointer';
+        alert.addEventListener('click', function() {
+            const containerClass = this.getAttribute('data-scroll-to');
+            const container = document.querySelector('.' + containerClass);
+            if (container) {
+                const rect = container.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const top = rect.top + scrollTop - 20;
+                window.scrollTo({
+                    top: top,
+                    behavior: 'smooth'
+                });
+
+                container.style.transition = 'background 0.5s';
+                container.style.background = '#fff3cd';
+                setTimeout(() => {
+                    container.style.background = '';
+                }, 1500);
+            }
+        });
+    });
+});
+</script>
