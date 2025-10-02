@@ -27,7 +27,7 @@
     <div id="articleSection" class="content-section">
         <!-- Publier un article section -->
         <div class="text-center">
-            <h2 class="mb-2 ft-bold">{{ __('publish_article1')}} ?</h2>
+            <h2 class="mb-2 ft-bold">{{ __('publish_article1')}}</h2>
         </div>
         <div>
             @livewire('User.CreatePost', ['id' => $id ?? ''])
