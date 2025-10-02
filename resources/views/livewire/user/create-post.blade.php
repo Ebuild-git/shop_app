@@ -171,11 +171,11 @@
                     <div class="form-group">
                         <select name="etat" wire:model="etat" class="form-control cusor border-r" required>
                             <option value="">{{ __('select_condition') }}</option>
-                            <option value="Neuf avec étiquettes">{{ __('new_with_tags')}}</option>
-                            <option value="Neuf sans étiquettes">{{ __('new_without_tags')}}</option>
-                            <option value="Très bon état">{{ __('very_good_condition')}}</option>
-                            <option value="Bon état">{{ __('good_condition')}}</option>
-                            <option value="Usé">{{ __('used')}}</option>
+                            <option value="Neuf avec étiquettes">{{ __('Neuf avec étiquettes')}}</option>
+                            <option value="Neuf sans étiquettes">{{ __('Neuf sans étiquettes')}}</option>
+                            <option value="Très bon état">{{ __('Très bon état')}}</option>
+                            <option value="Bon état">{{ __('Bon état')}}</option>
+                            <option value="Usé">{{ __('Usé')}}</option>
                         </select>
                         @error('etat')
                             <small class="form-text text-danger">{{ $message }}</small>
