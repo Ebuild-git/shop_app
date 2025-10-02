@@ -23,7 +23,7 @@ class SendMessage extends Component
     protected $listeners = ['sendDataUser'];
 
 
-    public function sendDataUser($user_id, $username, $titre, $post_id, $image)
+    public function sendDataUser($user_id = null, $username = null, $titre = null, $post_id = null, $image = null)
     {
         $user = User::find($user_id);
         if ($user) {
@@ -77,21 +77,20 @@ class SendMessage extends Component
         }
         try {
             Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
-
-            $notification = new notifications();
-            $notification->titre = "Nouveau message de l'equipe de Shopin !";
-            $notification->id_user_destination = $this->user_id;
-            $notification->type = "alerte";
-            $notification->url = "#";
-            $notification->message = "$salutation " . $this->username . ",<br>"
-            . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
-            . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
-            . "Le contenu du message est : {$this->message}.<br>"
-            . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
-            $notification->save();
-            event(new UserEvent($this->user_id));
-
-
+            if (!empty($this->post_id)) {
+                $notification = new notifications();
+                $notification->titre = "Nouveau message de l'equipe de Shopin !";
+                $notification->id_user_destination = $this->user_id;
+                $notification->type = "alerte";
+                $notification->url = "#";
+                $notification->message = "$salutation " . $this->username . ",<br>"
+                . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
+                . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
+                . "Le contenu du message est : {$this->message}.<br>"
+                . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
+                $notification->save();
+                event(new UserEvent($this->user_id));
+            }
             session()->flash("success", "Votre message a été envoyé avec succès.");
             $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.",'type'=>'success']);
             $this->dispatch('closeModal');

@@ -84,23 +84,22 @@
     <br>
     <div class="email-content">
             <p>
-                @lang('new_message') <strong>{!! \App\Traits\TranslateTrait::TranslateText($data['sujet']) !!}
-</strong>
+                @lang('new_message') <strong>{!! \App\Traits\TranslateTrait::TranslateText($data['sujet']) !!}</strong>
             </p>
             <p>
                 <strong>@lang('message1')</strong><br>
                 {!! \App\Traits\TranslateTrait::TranslateText($data['message']) !!}
             </p>
-            <p>
-                @lang('for_article') <a href="{{ route('details_post_single', ['id' => $data['post_id']]) }}" class="underlined-link">{{$data['titre']}}</a>
-            </p>
-
+            @if(!empty($data['post_id']) && !empty($data['titre']))
+                <p>
+                    @lang('for_article') <a href="{{ route('details_post_single', ['id' => $data['post_id']]) }}" class="underlined-link">{{$data['titre']}}</a>
+                </p>
+            @endif
             @if($data['image'])
                 <p>
                     <img src="{{$data['image']}}" alt="Post Image" style="max-width: 50%; height: auto;">
                 </p>
             @endif
-
             <span>@lang('thanks1')</span>
             <br>
             <p>@lang('team1')  <strong style="color:black;">@lang('shopin')</strong></p>
