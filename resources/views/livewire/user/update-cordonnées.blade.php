@@ -53,8 +53,13 @@
                 @enderror
             </div>
         </div>
-        @if ($existingCinImg)
-            <div class="col-sm-12">
+
+        @if ($cin_img)
+            <div class="mt-2">
+                <img src="{{ $cin_img->temporaryUrl() }}" alt="CIN Preview" class="img-fluid rounded" style="max-height: 200px;">
+            </div>
+        @elseif ($existingCinImg)
+            <div class="mt-2">
                 <label class="form-label d-block">{{ __('current_cin_image') }}</label>
                 <img src="{{ asset('storage/' . $existingCinImg) }}" alt="CIN Image" class="img-fluid rounded" style="max-height: 200px;">
             </div>
