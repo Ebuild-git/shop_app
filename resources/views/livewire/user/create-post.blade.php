@@ -720,7 +720,7 @@
                                         <table>
                                             <tr>
                                                 <td style="min-width: 130px">{{ __('Condition')}}</td>
-                                                <td class="text-black space-td">  {{ \App\Traits\TranslateTrait::TranslateText($data_post['etat']) }} </td>
+                                                <td class="text-black space-td">  {{ __($data_post['etat']) }} </td>
                                             </tr>
                                             <tr>
                                                 <td>{{ __('Catégorie')}} </td>
