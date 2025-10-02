@@ -949,13 +949,16 @@
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
-            <div class="modal-body text-center py-4">
+            {{-- <div class="modal-body text-center py-4">
             {{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}
+            </div> --}}
+            <div class="modal-body text-center py-4" id="cinModalBody">
+                {{-- content will be filled dynamically --}}
             </div>
-            <div class="modal-footer justify-content-center border-0 pt-0 pb-3">
-            <a href="/informations?section=cord" class="rounded-link">
-               {{ __('Ajouter maintenant') }}
-            </a>
+            <div class="modal-footer justify-content-center border-0 pt-0 pb-3" id="cinModalFooter">
+                <a href="/informations?section=cord" class="rounded-link" id="cinAddBtn">
+                {{ __('Ajouter maintenant') }}
+                </a>
             </div>
         </div>
         </div>
@@ -966,32 +969,35 @@
             function checkCinBeforePublish(e) {
                 e.preventDefault();
 
+                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
+                let modalBody = document.getElementById('cinModalBody');
+                let modalFooter = document.getElementById('cinModalFooter');
+                let addBtn = document.getElementById('cinAddBtn');
+
                 @php
                     $user = Auth::user();
+                    $hasCin = $user->cin_img ? true : false;
+                    $approved = $user->cin_approved ? true : false;
                 @endphp
 
-                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
-                let modalBody = document.querySelector('#cinModal .modal-body');
-                let modalTitle = document.getElementById('cinModalLabel');
-                @if ($user->cin_img && $user->cin_approved)
+                @if ($hasCin && $approved)
                     window.location.href = "/publication";
+                @elseif ($hasCin && !$approved)
+                    modalBody.innerText = "{{ __('attente_validation') }}";
+                    addBtn.style.display = 'none';
+                    modal.show();
                 @else
-                    modalTitle.innerText = "{{ __('Attention!') }}";
-                    if ("{{ $user->cin_img }}" && !{{ $user->cin_approved ? 'true' : 'false' }}) {
-                        modalBody.innerText = "{{ __('attente_validation') }}";
-                    } else {
-                        modalBody.innerText = "{{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}";
-                    }
+                    modalBody.innerText = "{{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}";
+                    addBtn.style.display = 'inline-block';
                     modal.show();
                 @endif
             }
         </script>
+        @endauth
 
-    @endauth
 
 
     @auth
-        <!-- Modal pour voir la liste des motifs d'un post réfuser -->
         <div class="modal fade" id="modal_motifs_des_refus" tabindex="1" role="dialog" aria-labelledby="UpdatePrice"
             aria-hidden="true">
             <div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -1027,9 +1033,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Modal pour voir la liste des motifs d'un post réfuser -->
 
-        <!-- Modal pour modifier le prix -->
         <div class="modal fade" id="Modal-Update-Post-Price" tabindex="1" role="dialog"
             aria-labelledby="UpdatePrice" aria-hidden="true">
             <div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -1048,7 +1052,6 @@
             </div>
         </div>
 
-        <!-- Condition Modal -->
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
             aria-hidden="true">
             <div class="modal-dialog " role="document">
@@ -1079,7 +1082,6 @@
                 </div>
             </div>
         </div>
-        <!-- End Modal -->
 
         @yield('modal')
 
@@ -1095,37 +1097,33 @@
         @endif
     @endauth
 
-  <script>
-    $(document).ready(function() {
-        @if(session('clearLocalStorage'))
-            localStorage.clear();
-        @endif
-        var storedUserId = localStorage.getItem('userId');
-        var currentUserId = "{{ Auth::id() }}";
-        if (storedUserId !== currentUserId) {
-            localStorage.clear();
-            localStorage.setItem('userId', currentUserId);
-        }
-        var conditionsAccepted = localStorage.getItem('conditionsAccepted');
-        if (conditionsAccepted) {
-            $("#validateCartButton").prop('disabled', false);
-        }
-        $("#agree_condition").click(function() {
-            localStorage.setItem('conditionsAccepted', true);
-            $('#conditions').modal('hide');
-            $("#validateCartButton").prop('disabled', false);
-            window.location.href = '/checkout?step=3';
+    <script>
+        $(document).ready(function() {
+            @if(session('clearLocalStorage'))
+                localStorage.clear();
+            @endif
+            var storedUserId = localStorage.getItem('userId');
+            var currentUserId = "{{ Auth::id() }}";
+            if (storedUserId !== currentUserId) {
+                localStorage.clear();
+                localStorage.setItem('userId', currentUserId);
+            }
+            var conditionsAccepted = localStorage.getItem('conditionsAccepted');
+            if (conditionsAccepted) {
+                $("#validateCartButton").prop('disabled', false);
+            }
+            $("#agree_condition").click(function() {
+                localStorage.setItem('conditionsAccepted', true);
+                $('#conditions').modal('hide');
+                $("#validateCartButton").prop('disabled', false);
+                window.location.href = '/checkout?step=3';
+            });
+
+            document.getElementById('conditiondiv').addEventListener('scroll', function() {
+                document.getElementById('agreeConditionButton').disabled = false;
+            });
         });
-
-        document.getElementById('conditiondiv').addEventListener('scroll', function() {
-            document.getElementById('agreeConditionButton').disabled = false;
-        });
-    });
-  </script>
-
-
-    <!-- end Condition Modal -->
-
+    </script>
 
 
     <!-- ============================================================== -->
