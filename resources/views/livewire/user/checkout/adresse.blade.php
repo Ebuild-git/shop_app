@@ -483,11 +483,11 @@
 
                 @if ($defaultAddress)
                     @if ($isDefaultExtraAddressComplete)
-                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
+                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue {{ app()->getLocale() == 'ar' ? 'rtl-left-arrow' : '' }}">
                             @if (app()->getLocale() == 'ar')
-                                <i class="bi bi-arrow-left"></i> {{ __('continue') }}
+                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @else
-                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
+                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @endif
                         </button>
                     @else
@@ -499,9 +499,9 @@
                     @if ($isPrimaryAddressComplete)
                         <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
                             @if (app()->getLocale() == 'ar')
-                                <i class="bi bi-arrow-right"></i> {{ __('continue') }}
+                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @else
-                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
+                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @endif
                         </button>
                     @else

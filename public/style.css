@@ -3679,3 +3679,8 @@ body[dir="rtl"] .custom-cancel-btn {
     margin-left: -20px;
 }
 
+.rtl-arrow {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}

@@ -12,6 +12,9 @@
         <div class=" container card">
             <h5 class="card-header">
                 {{ $post->titre }}
+                @if($post->statut === 'vendu')
+                    <span class="badge bg-danger">Vendu</span>
+                @endif
             </h5>
             <hr>
             <div class="row">
