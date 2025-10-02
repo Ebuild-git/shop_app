@@ -206,7 +206,7 @@
                         <option value="">{{ __('select_region1') }}</option>
                         @foreach ($regions as $item)
                             <option value="{{ $item->id }}">
-                                {{ $item->nom }}
+                                {{ __($item->nom) }}
                             </option>
                         @endforeach
                     </select>
@@ -740,7 +740,7 @@
                                             <tr>
                                                 <td>{{ __('Région')}}</td>
                                                 <td class="text-black text-capitalize space-td">
-                                                    {{ $data_post['region']->nom }}
+                                                    {{ __($data_post['region']->nom) }}
                                                 </td>
                                             </tr>
                                             <tr>

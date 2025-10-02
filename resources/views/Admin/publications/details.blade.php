@@ -77,8 +77,8 @@
                                             {{ $post->user_info->username }}
                                         </h6>
                                         <small class="text-muted">
-                                            {{ $post->user_info->GetPosts->count() }} publications 
-                                        </small> - 
+                                            {{ $post->user_info->GetPosts->count() }} publications
+                                        </small> -
                                         <span>
                                             <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
                                             {{ number_format( $post->user_info->averageRating->average_rating ?? 0, 1) }}
@@ -102,11 +102,11 @@
                     <b>Prix : </b> {{ $post->prix }} DT <br>
                     <b>Sous-Catégorie :</b> {{ $post->sous_categorie_info->titre ?? "N/A"}} <br>
                     <b>Catégorie :</b> {{ $post->sous_categorie_info->categorie->titre ?? "N/A"}} <br>
-                    <b>Région : </b> {{ $post->region->nom ?? "N/A" }} <br>
+                    <b>Région : </b> {{ __($post->region->nom) ?? "N/A" }} <br>
                     <b>Etat :</b> {{ $post->etat }}
                     <div class="p-2">
                         <hr>
-                       
+
                     </div>
                     @livewire('DetailsPublicationAction', ['id' => $post->id])
                 </div>

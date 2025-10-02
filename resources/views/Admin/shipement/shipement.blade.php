@@ -21,7 +21,7 @@
                                     <option value="">Toutes les régions</option>
                                     @foreach ($regions as $region)
                                         <option value="{{ $region->id }}" {{ request('region_id') == $region->id ? 'selected' : '' }}>
-                                            {{ $region->nom }}
+                                            {{ __($region->nom) }}
                                         </option>
                                     @endforeach
                                 </select>

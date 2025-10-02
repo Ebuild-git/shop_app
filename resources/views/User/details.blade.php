@@ -330,8 +330,7 @@
                                     <tr>
                                         <td class="cell cell-bold">{{ __('Région') }}</td>
                                         <td class="text-black cell">
-
-                                            {{ \App\Traits\TranslateTrait::TranslateText($post->region->nom ?? '') }}
+                                            {{ __($post->region->nom ?? '') }}
                                         </td>
                                     </tr>
                                     <tr>

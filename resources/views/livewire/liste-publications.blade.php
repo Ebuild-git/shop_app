@@ -148,7 +148,7 @@
                         </td>
                         <td>{{ $post->motif_suppression }}</td>
                         <td>{{ $post->etat }}</td>
-                        <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
+                        <td>{{ __($post->region->nom) ?? '' }}, {{ $post->user_info->address }}</td>
                         <td style="text-align: center;">{{ $post->views }}</td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>
@@ -255,7 +255,7 @@
                         </td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>{{ $post->etat }}</td>
-                        <td>{{ $post->region->nom ?? '' }}, {{ $post->user_info->address }}</td>
+                        <td>{{ __($post->region->nom) ?? '' }}, {{ $post->user_info->address }}</td>
                         <td style="text-align: center;">{{ $post->updated_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">{{ $post->sell_at ? 'Oui' : 'Non' }}</td>
                         <td>
