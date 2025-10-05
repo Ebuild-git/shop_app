@@ -19,7 +19,7 @@ class AnnonceStatut extends Component
             $this->statut = __('voyage_mode');
         } elseif($verifiedAt !== null && $sellAt === null) {
             $this->statut = __('on_sale1');
-        } elseif($sellAt !== null) {
+        } elseif($sellAt !== null && $this->statut === 'livré') {
             $this->statut = __('sold');
         } else {
             switch($statut) {

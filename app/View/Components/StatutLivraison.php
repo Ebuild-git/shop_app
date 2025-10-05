@@ -14,9 +14,9 @@ class StatutLivraison extends Component
     public $statut;
     public function __construct($statut)
     {
-        if($statut == "vendu"){
-            $this->statut = __('preparation');
-        }elseif($statut == "livraison"){
+        if($statut == "préparation"){
+            $this->statut = __('préparation');
+        }elseif($statut == "en cours de livraison"){
             $this->statut = __('in_progress_delivery');
         }else{
             $this->statut = $statut;

@@ -298,7 +298,7 @@ class ShopController extends Controller
                             <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;' . (app()->getLocale() == 'ar' ? ' left: 4px; right: auto;' : '') . '">'
                             . ($discountPercentage ? '
                                 <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
-                            . ($post->statut === 'vendu' ? '
+                            . ($post->statut === 'préparation' ? '
                                 <div class="badge-new badge-sale bg-danger text-white">' . \App\Traits\TranslateTrait::TranslateText('vendu') . '</div>' : '') .
                             '</div>
 

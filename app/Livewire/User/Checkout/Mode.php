@@ -175,7 +175,7 @@ class Mode extends Component
     private function updatePostStatus($post)
     {
         $post->update([
-            'statut' => 'vendu',
+            'statut' => 'préparation',
             'sell_at' => now(),
             'id_user_buy' => Auth::id()
         ]);
