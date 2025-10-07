@@ -213,8 +213,6 @@
                                 <span class="badge badge-warning">En voyage</span>
                             @elseif($post->verified_at !== null && $post->sell_at === null)
                                 <span class="badge badge-info">En vente</span>
-                            @elseif($post->sell_at !== null)
-                                <span class="badge badge-success">Vendu</span>
                             @else
                                 @switch($post->statut)
                                     @case('validation')
@@ -225,6 +223,9 @@
                                         @break
                                     @case('livré')
                                         <span class="badge badge-success">Livré</span>
+                                        @break
+                                    @case('vendu')
+                                        <span class="badge badge-success">Vendu</span>
                                         @break
                                     @case('refusé')
                                         <span class="badge badge-danger">Refusé</span>
