@@ -5,12 +5,7 @@
 
 
 @section('body')
-
     <div class="container-xxl flex-grow-1 container-p-y">
-        {{-- <h5 class="py-3 mb-4">
-            <span class="text-muted fw-light text-capitalize">{{ $post->titre }}</span>
-        </h5> --}}
-
         <div class="card p-4 shadow-sm">
             <h1 class="h4 mb-4">
                 Historique des violations

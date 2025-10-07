@@ -109,7 +109,7 @@ class posts extends Model
 
     public function signalements()
     {
-        return $this->hasMany(signalements::class, 'id_post', 'id');
+        return $this->hasMany(signalements::class, 'id_post', 'id')->withTrashed();
     }
 
     public function FirstImage()
