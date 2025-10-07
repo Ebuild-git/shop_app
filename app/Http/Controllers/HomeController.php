@@ -148,7 +148,7 @@ class HomeController extends Controller
             $type = "vente";
         }
         if ($type == "vente") {
-            $Query = $Query->where('statut', "vendu");
+            $Query = $Query->where('statut', '!=', 'vente');
 
             if ($month && $year) {
                 $Query->whereYear('sell_at', $year)
