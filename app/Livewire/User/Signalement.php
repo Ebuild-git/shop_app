@@ -5,6 +5,8 @@ namespace App\Livewire\User;
 use App\Models\signalements;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use App\Events\AdminEvent;
+use App\Models\notifications;
 
 class Signalement extends Component
 {
@@ -30,7 +32,6 @@ class Signalement extends Component
     {
         $this->validate();
 
-        //verifier si cet utilisateur a deja un signalement pour  ce post
         if (signalements::where('id_user_make', Auth::user()->id)
             ->where('id_post', $this->post->id)->exists()
         ) {
@@ -47,6 +48,18 @@ class Signalement extends Component
         $signalement->save();
         session()->flash("success", "Votre signalement a été enregistré");
         $this->is_send = true;
+
+        event(new AdminEvent('Un post a été signalé.'));
+
+        $notification = new notifications();
+        $notification->type = "new_post";
+        $notification->titre = Auth::user()->username . " a signalé une publication";
+        $notification->url = "/admin/publication/" . $this->post->id . "/view";
+        $notification->message = "Raison : " . $this->type . " — " . $this->message;
+        $notification->id_post = $this->post->id;
+        $notification->id_user = Auth::user()->id;
+        $notification->destination = "admin";
+        $notification->save();
 
         //reset form
         $this->reset(['type','message']);
