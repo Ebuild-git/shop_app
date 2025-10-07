@@ -66,7 +66,7 @@
                                             <br>
                                             <small><b class="text-color2">Région:</b> {{ $commande->vendor->region_info->nom ?? "/" }}</small>
                                             <div>
-                                                <span class="message-style" onclick="OpenModalMessage('{{ $commande->vendor->id }}','{{ $commande->vendor->username }}', '{{ $commande->post->titre }}', '{{ $commande->post->id }}', '{{ config('app.url').Storage::url($commande->post->photos[0]) }}')">
+                                                <span class="message-style" onclick="OpenModalMessage('{{ $commande->vendor->id }}','{{ $commande->vendor->username ?? '—' }}', '{{ $commande->post->titre ?? '—' }}', '{{ $commande->post->id }}', '{{ config('app.url').Storage::url($commande->post->photos[0]) ?? '—' }}')">
                                                     <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                                 </span>
                                             </div>
