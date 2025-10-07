@@ -14,8 +14,6 @@ class posts extends Model
     use HasFactory;
     use SoftDeletes;
 
-
-
     protected $fillable = [
         'sell_at',
         'id_user_buy',
@@ -109,7 +107,7 @@ class posts extends Model
 
     public function signalements()
     {
-        return $this->hasMany(signalements::class, 'id_post', 'id')->withTrashed();
+        return $this->hasMany(signalements::class, 'id_post', 'id');
     }
 
     public function FirstImage()
