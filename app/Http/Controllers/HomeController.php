@@ -899,7 +899,7 @@ class HomeController extends Controller
         $locale = App::getLocale();
         $categories = [];
         $posts = posts::where('id_user', $user->id)
-            ->whereIn('statut', ['livré', 'vendu', 'livraison'])
+            ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation'])
             ->get();
 
         foreach ($posts as $post) {
