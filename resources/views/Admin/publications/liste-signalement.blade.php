@@ -13,7 +13,7 @@
 
         <div class="card p-4 shadow-sm">
             <h1 class="h4 mb-4">
-                Liste des signalements
+                Historique des violations
             </h1>
             <div class="row">
                 @forelse ($post->signalements as $signalement)
@@ -46,7 +46,7 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <p class="text-center text-muted">Aucun signalement trouvé.</p>
+                        <p class="text-center text-muted">Aucune historique des violations trouvée.</p>
                     </div>
                 @endforelse
             </div>
