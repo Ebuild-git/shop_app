@@ -261,7 +261,7 @@
                                     <div class="widget-boxed-header">
                                         <h4>
                                             <button class="collapse-toggle" data-target="#types">
-                                                état
+                                                {{__('état')}}
                                                 <span class="collapse-icon">
                                                     <i class="bi bi-plus-lg"></i>
                                                 </span>
@@ -301,7 +301,7 @@
                                     <div class="widget-boxed-header">
                                         <h4>
                                             <button class="collapse-toggle" data-target="#prixs">
-                                                prix
+                                                {{__('prix')}}
                                                 <span class="collapse-icon">
                                                     <i class="bi bi-plus-lg"></i>
                                                 </span>

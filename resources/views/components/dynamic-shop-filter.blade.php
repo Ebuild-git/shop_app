@@ -23,7 +23,7 @@
                 <div class="widget-boxed-header">
                     <h4>
                         <button class="collapse-toggle" data-target="#types{{ $propriete->id }}">
-                            {{ \App\Traits\TranslateTrait::TranslateText($propriete->nom) }}
+                            {{ __($propriete->nom) }}
                             <span class="collapse-icon">
                                 <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
                             </span>

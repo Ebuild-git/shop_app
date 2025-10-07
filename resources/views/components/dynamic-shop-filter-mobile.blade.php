@@ -23,7 +23,7 @@
                             $unique_id = 'collapse-' . md5($propriete->id . $propriete->nom);
                         @endphp
                         <button class="collapse-toggle" data-target="#{{ $unique_id }}">
-                            {{ \App\Traits\TranslateTrait::TranslateText($propriete->nom) }}
+                            {{ __($propriete->nom) }}
                             <span class="collapse-icon">
                                 <i class="bi bi-plus-lg"></i>
                             </span>
