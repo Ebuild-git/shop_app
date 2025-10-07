@@ -115,7 +115,7 @@ class Mode extends Component
 
         $token = md5(uniqid(rand(), true));
         Cookie::queue(Cookie::forget('cart'));
-        return Redirect("/checkout?step=4&action=$token");
+        return redirect("/checkout?step=4&action=$token");
     }
 
     private function notifyAdminAboutPurchase()
@@ -136,261 +136,37 @@ class Mode extends Component
 
     private function processCartItems()
     {
-        $aramexService = new AramexService();
-        $totalArticles = count($this->articles_panier);
-        $totalWeight = 0;
-        $totalShippingFees = 0;
-        $processedSellers = [];
-        $this->sellerPostMap = [];
-
         foreach ($this->articles_panier as $article) {
-            $post = $this->processSingleArticle($article, $aramexService, $totalArticles, $totalWeight, $totalShippingFees, $processedSellers);
-        }
-    }
+            $post = posts::find($article['id']);
+            if (!$post) continue;
 
-    private function processSingleArticle($article, $aramexService, $totalArticles, &$totalWeight, &$totalShippingFees, &$processedSellers)
-    {
-        $post = posts::find($article['id']);
-        if (!$post) return null;
+            // Update post status
+            $post->update([
+                'statut' => 'préparation',
+                'sell_at' => now(),
+                'id_user_buy' => Auth::id()
+            ]);
 
-        $totalWeight = $this->calculateTotalWeight($post, $totalWeight);
-        $this->updatePostStatus($post);
-
-        $frais = $this->calculateShippingFees($post, $processedSellers, $totalShippingFees);
-        $this->mapSellerPosts($article, $post);
-
-        $shipmentDetails = $this->prepareShipmentDetails($post, $totalArticles, $totalWeight);
-        $this->processShipment($aramexService, $shipmentDetails, $post, $frais);
-
-        return $post;
-    }
-
-    private function calculateTotalWeight($post, $totalWeight)
-    {
-        $proprietes = $post->proprietes;
-        $poids = isset($proprietes['Poids']) && $proprietes['Poids'] !== null ? $proprietes['Poids'] : 1.0;
-        return $totalWeight + $poids;
-    }
-
-    private function updatePostStatus($post)
-    {
-        $post->update([
-            'statut' => 'préparation',
-            'sell_at' => now(),
-            'id_user_buy' => Auth::id()
-        ]);
-    }
-
-    private function calculateShippingFees($post, &$processedSellers, &$totalShippingFees)
-    {
-        $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
-        $id_region = Auth::user()->region ?? null;
-        $frais = 0;
-
-        if (!in_array($post->id_user, $processedSellers) && $id_categorie && $id_region) {
-            $regionCategory = regions_categories::where('id_region', $id_region)
-                ->where('id_categorie', $id_categorie)
-                ->first();
-            $frais = $regionCategory ? (float) $regionCategory->prix : 0;
-            $totalShippingFees += $frais;
-            $processedSellers[] = $post->id_user;
-        }
-
-        return $frais;
-    }
-
-    private function mapSellerPosts($article, $post)
-    {
-        $sellerUsername = $article['vendeur'];
-        if (!isset($this->sellerPostMap)) {
-            $this->sellerPostMap = [];
-        }
-        $this->sellerPostMap[$sellerUsername][] = $article;
-    }
-
-    private function prepareShipmentDetails($post, $totalArticles, $totalWeight)
-    {
-        $shippingDateTime = new DateTime();
-        $dueDate = (new DateTime())->modify('+4 days');
-        $shippingDateTimeAramex = "/Date(" . $shippingDateTime->getTimestamp() * 1000 . "-0000)/";
-        $dueDateAramex = "/Date(" . $dueDate->getTimestamp() * 1000 . "-0000)/";
-
-        return [
-            'ClientInfo' => [
-                'UserName' => env('ARAMEX_API_USERNAME'),
-                'Password' => env('ARAMEX_API_PASSWORD'),
-                'Version' => env('ARAMEX_API_VERSION'),
-                'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
-                'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
-                'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
-                'Source' => env('ARAMEX_SOURCE'),
-            ],
-            'Shipments' => [
-                [
-                    'Reference1' => 'Order' . $post->id,
-                    'Reference2' => '',
-                    'Reference3' => '',
-                    'Shipper' => [
-                        'Reference1' => 'Shop Address',
-                        'Reference2' => '',
-                        'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                        'PartyAddress' => [
-                            'Line1' => $this->user->address,
-                            'Line2' => '',
-                            'Line3' => '',
-                            'City' =>  trim($this->user->address),
-                            'StateOrProvinceCode' => '',
-                            'PostCode' => '23000',
-                            'CountryCode' => 'MA',
-                            'Longitude' => 0,
-                            'Latitude' => 0,
-                            'BuildingNumber' => null,
-                            'BuildingName' => null,
-                            'Floor' => null,
-                            'Apartment' => null,
-                            'POBox' => null,
-                            'Description' => null
-                        ],
-                        'Contact' => [
-                            'Department' => '',
-                            'PersonName' => 'Shopin',
-                            'Title' => '',
-                            'CompanyName' => 'Shopin',
-                            'PhoneNumber1' => '1234567890',
-                            'PhoneNumber1Ext' => '',
-                            'PhoneNumber2' => '1234567890',
-                            'PhoneNumber2Ext' => '',
-                            'FaxNumber' => '',
-                            'CellPhone' => '1234567890',
-                            'EmailAddress' => 'hazarne14@gmail.com',
-                            'Type' => ''
-                        ]
-                    ],
-                    'Consignee' => [
-                        'Reference1' => '',
-                        'Reference2' => '',
-                        'AccountNumber' => '',
-                        'PartyAddress' => [
-                            'Line1' => $this->user->address,
-                            'Line2' => '',
-                            'Line3' => '',
-                            'City' => $this->user->address,
-                            'StateOrProvinceCode' => '',
-                            'PostCode' => '23000',
-                            'CountryCode' => 'MA',
-                            'Longitude' => 0,
-                            'Latitude' => 0,
-                            'BuildingNumber' => '',
-                            'BuildingName' => '',
-                            'Floor' => '',
-                            'Apartment' => '',
-                            'POBox' => null,
-                            'Description' => ''
-                        ],
-                        'Contact' => [
-                            'Department' => '',
-                            'PersonName' => $this->user->firstname . ' ' . $this->user->lastname,
-                            'Title' => '',
-                            'CompanyName' => $this->user->username,
-                            'PhoneNumber1' => $this->user->phone_number,
-                            'PhoneNumber1Ext' => '',
-                            'PhoneNumber2' => $this->user->phone_number,
-                            'PhoneNumber2Ext' => '',
-                            'FaxNumber' => '',
-                            'CellPhone' => $this->user->phone_number,
-                            'EmailAddress' => $this->user->email,
-                            'Type' => ''
-                        ]
-                    ],
-                    'Details' => [
-                        'Dimensions' => null,
-                        'ActualWeight' => ['Value' => $totalWeight, 'Unit' => 'KG'],
-                        'ChargeableWeight' => null,
-                        'DescriptionOfGoods' => $post->titre,
-                        'GoodsOriginCountry' => "MA",
-                        'NumberOfPieces' => $totalArticles,
-                        'ProductGroup' => 'DOM',
-                        'ProductType' => 'CDS',
-                        'PaymentType' => 'P',
-                        'PaymentOptions' => '',
-                        'CustomsValueAmount' => null,
-                        'CashOnDeliveryAmount' => null,
-                        'InsuranceAmount' => null,
-                        'CashAdditionalAmount' => null,
-                        'CashAdditionalAmountDescription' => '',
-                        'CollectAmount' => null,
-                        'Services' => '',
-                        'Items' => []
-                    ],
-                    'ShippingDateTime' => $shippingDateTimeAramex,
-                    'DueDate'  => $dueDateAramex,
-                    'Attachments' => [],
-                    'ForeignHAWB' => '',
-                    'TransportType' => 0,
-                    'PickupGUID' => '',
-                    'Number' => null,
-                    'ScheduledDelivery' => null
-                ]
-            ],
-            'Transaction' => [
-                'Reference1' => '',
-                'Reference2' => '',
-                'Reference3' => '',
-                'Reference4' => '',
-                'Reference5' => ''
-            ]
-        ];
-    }
-
-    private function processShipment($aramexService, $shipmentDetails, $post, $frais)
-    {
-        try {
-            $response = $aramexService->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $shipmentDetails);
-            if (!isset($response['HasErrors']) || !$response['HasErrors']) {
-                $this->handleSuccessfulShipment($response, $shipmentDetails, $post, $frais);
-            } else {
-                $this->handleShipmentErrors($response);
+            // Calculate delivery fees
+            $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
+            $id_region = Auth::user()->region ?? null;
+            $frais = 0;
+            if ($id_categorie && $id_region) {
+                $regionCategory = regions_categories::where('id_region', $id_region)
+                    ->where('id_categorie', $id_categorie)
+                    ->first();
+                $frais = $regionCategory ? (float)$regionCategory->prix : 0;
             }
-        } catch (\Exception $e) {
-            session()->flash('error', 'Erreur interne: ' . $e->getMessage());
-        }
-    }
 
-    private function handleSuccessfulShipment($response, $shipmentDetails, $post, $frais)
-    {
-        session()->flash('success', 'Expédition créée avec succès!');
-        session()->flash('success_details', json_encode($response, JSON_PRETTY_PRINT));
-
-        $shipment = new Shipment([
-            'shipment_id' => $response['Shipments'][0]['ID'],
-            'client_info' => $shipmentDetails['ClientInfo'],
-            'shipment_details' => $response['Shipments'][0],
-            'origin' => $response['Shipments'][0]['ShipmentDetails']['Origin'],
-            'destination' => $response['Shipments'][0]['ShipmentDetails']['DestinationCity'],
-            'status' => 'created',
-            'tracking_number' => $response['Shipments'][0]['ID'],
-            'request_data' => $shipmentDetails,
-            'response_data' => $response
-        ]);
-        $shipment->save();
-        $this->lastShipmentId = $response['Shipments'][0]['ID'];
-
-        $commande = new CommandeModel();
-        $commande->id_vendor = $post->id_user;
-        $commande->id_buyer = Auth::id();
-        $commande->id_post = $post->id;
-        $commande->shipment_id = $shipment->shipment_id;
-        $commande->frais_livraison = $frais;
-        $commande->etat = 'En attente';
-        $commande->statut = 'crée';
-        $commande->save();
-    }
-
-    private function handleShipmentErrors($response)
-    {
-        foreach ($response['Notifications'] as $notification) {
-            session()->flash('error', 'Erreur: ' . $notification['Message']);
+            // Create order
+            $commande = new CommandeModel();
+            $commande->id_vendor = $post->id_user;
+            $commande->id_buyer = Auth::id();
+            $commande->id_post = $post->id;
+            $commande->frais_livraison = $frais;
+            $commande->etat = 'En attente';
+            $commande->statut = 'crée';
+            $commande->save();
         }
     }
 
@@ -401,6 +177,10 @@ class Mode extends Component
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
 
+        $lastCommandeId = CommandeModel::where('id_buyer', $buyer->id)
+                    ->latest('created_at')
+                    ->value('id');
+
         $notification = new notifications();
         $notification->titre = __('notifications.order_confirmed_title');
         $notification->id_user_destination = $buyer->id;
@@ -408,7 +188,7 @@ class Mode extends Component
         $notification->url = "/informations?section=commandes";
         $notification->message = __('notifications.order_confirmed_message', [
             'salutations' => $salutations,
-            'shipment_id' => $this->lastShipmentId ?? '',
+            'shipment_id' => 'CMD-' . $lastCommandeId,
         ]);
         $notification->save();
 
@@ -417,13 +197,16 @@ class Mode extends Component
 
     private function notifySellers()
     {
-        $vendeurUsernames = array_keys($this->sellerPostMap);
+        $vendeurUsernames = array_unique(array_column($this->articles_panier, 'vendeur'));
         $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
         $buyerPseudo = Auth::user()->username;
 
-        foreach ($this->sellerPostMap as $sellerUsername => $articlesPourCeVendeur) {
+        foreach ($vendeurUsernames as $sellerUsername) {
             $seller = $vendeurs[$sellerUsername] ?? null;
-            if (!$seller || empty($articlesPourCeVendeur)) continue;
+            if (!$seller) continue;
+
+            $articlesPourCeVendeur = array_filter($this->articles_panier, fn($a) => $a['vendeur'] === $sellerUsername);
+            if (empty($articlesPourCeVendeur)) continue;
 
             $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur);
             $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
