@@ -40,7 +40,7 @@ class UserController extends Controller
         $id = $request->id;
         try {
             $user = User::findOrFail($id);
-            $posts = Posts::where('id_user', $user->id)->paginate(30);
+            $posts = Posts::where('id_user', $user->id)->orderBy('created_at', 'desc')->paginate(30);
             $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
             $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
