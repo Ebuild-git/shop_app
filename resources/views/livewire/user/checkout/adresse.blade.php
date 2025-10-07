@@ -462,7 +462,6 @@
 
             <div class="d-flex justify-content-end mt-3">
                 @php
-                    // Check if there is a default extra address and validate it
                     $isDefaultExtraAddressComplete = $defaultAddress &&
                         !empty($defaultAddress->region) &&
                         !empty($defaultAddress->city) &&
@@ -472,7 +471,6 @@
                         !empty($defaultAddress->apartment_number) &&
                         !empty($defaultAddress->phone_number);
 
-                    // Check completeness for the primary address only if no default extra address is set
                     $isPrimaryAddressComplete = !$defaultAddress &&
                         !empty($user->region) &&
                         !empty($user->address) &&

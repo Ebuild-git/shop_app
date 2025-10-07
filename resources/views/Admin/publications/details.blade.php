@@ -12,7 +12,7 @@
         <div class=" container card">
             <h5 class="card-header">
                 {{ $post->titre }}
-                @if($post->statut === 'vendu')
+                @if($post->statut !== 'vente' && $post->statut !== 'validation')
                     <span class="badge bg-danger">Vendu</span>
                 @endif
             </h5>
