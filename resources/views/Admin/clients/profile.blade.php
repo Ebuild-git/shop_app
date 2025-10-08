@@ -72,8 +72,9 @@
                                     </h4>
                                     <ul
                                         class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                        <li class="list-inline-item d-flex gap-1 cusor">
-                                            <i class="ti ti-color-swatch"></i> {{ $user->email }}
+                                        <li class="list-inline-item d-flex gap-1 cusor" style="cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                            <i class="ti ti-color-swatch"></i>
+                                            <span style="color: #008080;">{{ $user->email }}</span>
                                         </li>
                                         <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>
                                             {{ $user->ville ?? '/' }}</li>
@@ -193,7 +194,7 @@
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">Email:</span>
-                                <span>{{ $user->email ?? '/' }}</span>
+                                <span style="color: #008080;cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">{{ $user->email ?? '/' }}</span>
                             </li>
                         </ul>
                         <small class="card-text text-uppercase">Informations Supplémentaires</small>
