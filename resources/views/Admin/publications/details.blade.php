@@ -62,7 +62,8 @@
                                 <i class="bi bi-telephone"></i> Contact<br> {{ $post->user_info->phone_number }}
                             </div>
                             <div class="col">
-                                <i class="bi bi-envelope"></i> Email<br> {{ $post->user_info->email }}
+                                <i class="bi bi-envelope"></i> Email<br>
+                                <span style="color: #008080;cursor: pointer;" onclick="OpenModalMessage('{{ $post->user_info->id }}','{{ $post->user_info->username }}')">{{ $post->user_info->email }}</span>
                             </div>
                         </div>
                     </div>
