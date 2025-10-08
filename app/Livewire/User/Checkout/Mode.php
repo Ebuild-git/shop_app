@@ -147,7 +147,6 @@ class Mode extends Component
                 'id_user_buy' => Auth::id()
             ]);
 
-            // Calculate delivery fees
             $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
             $id_region = Auth::user()->region ?? null;
             $frais = 0;
@@ -158,7 +157,6 @@ class Mode extends Component
                 $frais = $regionCategory ? (float)$regionCategory->prix : 0;
             }
 
-            // Create order
             $commande = new CommandeModel();
             $commande->id_vendor = $post->id_user;
             $commande->id_buyer = Auth::id();
