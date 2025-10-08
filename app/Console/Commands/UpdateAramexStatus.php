@@ -50,7 +50,7 @@ class UpdateAramexStatus extends Command
                     'GetLastTrackingUpdateOnly' => true,
                     'Shipments' => [$commande->shipment_id],
                     'Transaction' => [
-                        'Reference1' => 'Commande_' . $commande->id,
+                        'Reference1' => 'CMD-' . $commande->id,
                         'Reference2' => '',
                         'Reference3' => '',
                         'Reference4' => '',
