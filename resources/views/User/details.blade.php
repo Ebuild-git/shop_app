@@ -452,7 +452,7 @@
 
     <!-- ======================= Similar Products Start ============================ -->
     <section class="middle pt-0">
-        <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
+        <div class="container">
 
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -498,7 +498,7 @@
     <!-- ======================= Similar Products End ============================ -->
 
     <section class="middle pt-0">
-        <div class="container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
+        <div class="container">
 
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
