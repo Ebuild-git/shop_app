@@ -168,7 +168,23 @@
                                                                     <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
-                                                                <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
+                                                                @php
+                                                                    $locale = app()->getLocale();
+                                                                    switch ($locale) {
+                                                                        case 'en':
+                                                                            $catTitle = $categorie->title_en ?? $categorie->titre;
+                                                                            break;
+                                                                        case 'ar':
+                                                                            $catTitle = $categorie->title_ar ?? $categorie->titre;
+                                                                            break;
+                                                                        default:
+                                                                            $catTitle = $categorie->titre;
+                                                                            break;
+                                                                    }
+                                                                @endphp
+
+                                                                <span>{{ $catTitle }}</span>
+                                                                {{-- <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span> --}}
                                                             </div>
                                                             <div>
                                                                 <span>
