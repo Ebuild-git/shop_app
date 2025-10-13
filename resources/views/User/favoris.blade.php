@@ -128,10 +128,9 @@
                         </td>
                         <td class="strong">
                             @if ($favori->post->sell_at)
-                            <span class="text-danger">
-
-                                {{ \App\Traits\TranslateTrait::TranslateText($favori->post->statut) }}
-                            </span>
+                                <span class="text-danger">
+                                    {{ __('vendu1')}}
+                                </span>
                             @else
                             <span class="text-success">
                                 {{ __('available')}}
