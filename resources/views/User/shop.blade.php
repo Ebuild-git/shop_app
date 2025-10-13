@@ -21,8 +21,10 @@
                             @if ($selected_categorie)
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <a href="shop?id_categorie={{ $selected_categorie->id }}">
-                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre) }}
-
+                                        {{-- {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre) }} --}}
+                                        {!! app()->getLocale() === 'en' ? ($selected_categorie->title_en ?: $selected_categorie->titre)
+                                            : (app()->getLocale() === 'ar' ? ($selected_categorie->title_ar ?: $selected_categorie->titre)
+                                            : $selected_categorie->titre) !!}
                                         @if ($selected_categorie->luxury == 1)
                                             <i class="bi bi-gem small color"></i>
                                         @endif
@@ -137,7 +139,10 @@
                                                 <a href="/shop" class="h6">
                                                     <i class="bi bi-arrow-left"></i>
                                                     <span class="strong">
-                                                        {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}}
+                                                        {{-- {{ \App\Traits\TranslateTrait::TranslateText($selected_categorie->titre)}} --}}
+                                                        {!! app()->getLocale() === 'en' ? ($selected_categorie->title_en ?: $selected_categorie->titre)
+                                                        : (app()->getLocale() === 'ar' ? ($selected_categorie->title_ar ?: $selected_categorie->titre)
+                                                        : $selected_categorie->titre) !!}
 
                                                     </span>
                                                     @if ($selected_categorie->luxury == 1)
@@ -168,7 +173,24 @@
                                                                     <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" />
                                                                     &nbsp;
                                                                 </span>
-                                                                <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
+                                                                <span>
+                                                                    @php
+                                                                        $locale = app()->getLocale();
+                                                                        switch ($locale) {
+                                                                            case 'en':
+                                                                                $catTitle = $categorie->title_en ?? $categorie->titre;
+                                                                                break;
+                                                                            case 'ar':
+                                                                                $catTitle = $categorie->title_ar ?? $categorie->titre;
+                                                                                break;
+                                                                            default:
+                                                                                $catTitle = $categorie->titre;
+                                                                                break;
+                                                                        }
+                                                                    @endphp
+
+                                                                    {{ $catTitle }}
+                                                                </span>
                                                             </div>
                                                             <div>
                                                                 <span>
@@ -379,7 +401,12 @@
                                                         <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
                                                     </div>
                                                     <div style="height: 15px; margin-top: 5px;">
-                                                        <span>{{ \App\Traits\TranslateTrait::TranslateText($categorie->titre) }}</span>
+                                                        <span>
+                                                            {!! app()->getLocale() === 'en' ? ($categorie->title_en ?: $categorie->titre)
+                                                            : (app()->getLocale() === 'ar' ? ($categorie->title_ar ?: $categorie->titre)
+                                                            : $categorie->titre) !!}
+
+                                                        </span>
                                                     </div>
 
 

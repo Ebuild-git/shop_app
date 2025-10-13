@@ -41,7 +41,6 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', false)
             ->where("statut", '!=', 'validation')
-            // ->whereNull('posts.sell_at')
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
             ->orderBy("posts.created_at", "Desc")
@@ -53,7 +52,6 @@ class HomeController extends Controller
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
             ->where('categories.luxury', true)
             ->where("statut", '!=', 'validation')
-            // ->whereNull('posts.sell_at')
             ->orderBy("posts.created_at", "Desc")
             ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
             ->take(9)->get();
@@ -850,7 +848,7 @@ class HomeController extends Controller
         $id_selected_sous_categorie = $request->get("selected_sous_categorie") ?? null;
         if ($id_selected_categorie) {
             $selected_categorie = categories::where('id', $id_selected_categorie)
-                ->select("titre", "id", "luxury", "small_icon", "icon")
+                ->select("titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar")
                 ->first();
         }
         if ($id_selected_sous_categorie) {
@@ -859,7 +857,7 @@ class HomeController extends Controller
 
         $liste_categories = categories::where('active', true)
         ->orderBy('order')
-        ->get(["titre", "id", "luxury", "small_icon", "icon"]);
+        ->get(["titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar"]);
 
         $key = $request->input("key") ?? null;
 
