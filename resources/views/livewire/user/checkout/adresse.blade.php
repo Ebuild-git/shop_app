@@ -448,6 +448,7 @@
 
                                 </div>
 
+
                                 <!-- Submit Button -->
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-dark btn-continue" id="modalSubmitBtn">{{ $isEditMode ? __('save_button') : __('add')  }}</button>
@@ -489,7 +490,18 @@
                             @endif
                         </button>
                     @else
-                        <div class="alert alert-warning alert-clickable" data-scroll-to="extra-addresses">
+                        <div class="alert alert-warning alert-clickable"
+                            wire:click="prepareForUpdate({{ $address->id }})"
+                                data-bs-toggle="modal"
+                                data-bs-target="#extraAddressModal"
+                                data-region="{{ $address->region }}"
+                                data-city="{{ $address->city }}"
+                                data-street="{{ $address->street }}"
+                                data-building="{{ $address->building_name }}"
+                                data-floor="{{ $address->floor }}"
+                                data-apartment="{{ $address->apartment_number }}"
+                                data-phone="{{ $address->phone_number }}"
+                                onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
                             {{ __('complete_address_info') }}
                         </div>
                     @endif
@@ -514,6 +526,7 @@
         </div>
     </div>
 
+
     <div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         Loading...
     </div>
@@ -524,6 +537,7 @@
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
  @livewireScripts
+
 
 <script>
     window.addEventListener('addressUpdated', event => {
@@ -546,28 +560,40 @@
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.alert-clickable').forEach(alert => {
-        alert.style.cursor = 'pointer';
-        alert.addEventListener('click', function() {
-            const containerClass = this.getAttribute('data-scroll-to');
-            const container = document.querySelector('.' + containerClass);
-            if (container) {
-                const rect = container.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const top = rect.top + scrollTop - 20;
-                window.scrollTo({
-                    top: top,
-                    behavior: 'smooth'
-                });
+function populateModal(button) {
+    const region = button.getAttribute('data-region');
+    const city = button.getAttribute('data-city');
+    const street = button.getAttribute('data-street');
+    const building = button.getAttribute('data-building');
+    const floor = button.getAttribute('data-floor');
+    const apartment = button.getAttribute('data-apartment');
+    const phone = button.getAttribute('data-phone');
 
-                container.style.transition = 'background 0.5s';
-                container.style.background = '#fff3cd';
-                setTimeout(() => {
-                    container.style.background = '';
-                }, 1500);
-            }
+    document.getElementById('extraRegion').value = region;
+    document.getElementById('extraCity').value = city;
+    document.getElementById('extraStreet').value = street;
+    document.getElementById('extraBuilding').value = building;
+    document.getElementById('extraFloor').value = floor;
+    document.getElementById('extraApartment').value = apartment;
+    document.getElementById('extraPhoneNumber').value = phone;
+}
+
+</script>
+<script>
+    document.addEventListener('livewire:init', function () {
+        document.querySelectorAll('.alert-clickable').forEach(alert => {
+            alert.style.cursor = 'pointer';
+            alert.addEventListener('click', function () {
+                const target = this.getAttribute('data-scroll-to');
+                if (target === 'saved-address') {
+                    const myModalEl = document.getElementById('editAddressModal');
+                    const modal = new bootstrap.Modal(myModalEl);
+                    modal.show();
+                }
+
+            });
         });
     });
-});
 </script>
+
+

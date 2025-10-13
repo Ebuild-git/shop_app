@@ -181,9 +181,8 @@ function closeLocationModal() {
 }
 
 </script>
-<script>
+{{-- <script>
 function populateModal(button) {
-    // Retrieve data from data attributes
     const region = button.getAttribute('data-region');
     const city = button.getAttribute('data-city');
     const street = button.getAttribute('data-street');
@@ -192,7 +191,6 @@ function populateModal(button) {
     const apartment = button.getAttribute('data-apartment');
     const phone = button.getAttribute('data-phone');
 
-    // Populate the modal inputs
     document.getElementById('extraRegion').value = region;
     document.getElementById('extraCity').value = city;
     document.getElementById('extraStreet').value = street;
@@ -202,4 +200,5 @@ function populateModal(button) {
     document.getElementById('extraPhoneNumber').value = phone;
 }
 
-</script>
+</script> --}}
+
