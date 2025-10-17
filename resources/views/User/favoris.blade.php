@@ -129,7 +129,7 @@
                         <td class="strong">
                             @if ($favori->post->sell_at)
                                 @if (auth()->id() === $favori->post->id_user_buy)
-                                    <span class="text-success">
+                                    <span class="text-info">
                                         {{ $favori->post->statut ?? '—' }}
                                     </span>
                                 @else
