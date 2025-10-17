@@ -342,7 +342,7 @@
 "add_new_address": "Add new address",
 "add": "Add",
 "continue": "Continue",
-"complete_address_info": "Please complete all the default address information to continue the order.",
+"complete_address_info": "Please complete all the default address information to continue the order. <strong class=\"info-complete\">Click here</strong>",
 "complete_main_address_info": "Please complete all the information of your main address to continue the order.",
 "payment_shipping": "Payment & Delivery Method",
 "cash_on_delivery": "Cash on Delivery",

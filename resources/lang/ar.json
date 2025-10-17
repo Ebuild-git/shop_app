@@ -343,7 +343,7 @@
 "add_new_address": "إضافة عنوان جديد",
 "add": "إضافة",
 "continue": "استمر",
-"complete_address_info": "يرجى إكمال جميع معلومات العنوان الحالي لمتابعة الطلب.",
+"complete_address_info": "يرجى إكمال جميع معلومات العنوان الحالي لمتابعة الطلب. <strong class=\"info-complete\">اضغط هنا</strong>",
 "complete_main_address_info": "يرجى إكمال جميع معلومات عنوانك الحالي لمتابعة الطلب.",
 "payment_shipping": "طريقة الدفع والتوصيل",
 "cash_on_delivery": "الدفع عند الاستلام",

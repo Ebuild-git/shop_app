@@ -344,7 +344,7 @@
 "add_new_address": "Ajouter une nouvelle adresse",
 "add": "Ajouter",
 "continue": "Continuer",
-"complete_address_info": "Veuillez compléter toutes les informations de l'adresse par défaut pour continuer la commande.",
+"complete_address_info": "Veuillez compléter toutes les informations de l'adresse par défaut pour continuer la commande. <strong class=\"info-complete\">Cliquez ici</strong>",
 "complete_main_address_info": "Veuillez compléter toutes les informations de votre adresse principale pour continuer la commande.",
 "payment_shipping": "Mode de paiement & livraison",
 "cash_on_delivery": "Paiement à la livraison",

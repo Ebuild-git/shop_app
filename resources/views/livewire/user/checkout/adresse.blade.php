@@ -502,7 +502,7 @@
                                 data-apartment="{{ $address->apartment_number }}"
                                 data-phone="{{ $address->phone_number }}"
                                 onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
-                            {{ __('complete_address_info') }}
+                            {!! __('complete_address_info') !!}
                         </div>
                     @endif
                 @else

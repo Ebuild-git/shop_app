@@ -3709,3 +3709,7 @@ body[dir="rtl"] .custom-cancel-btn {
 .custom-alert b {
     color: #d80a0a;
 }
+.info-complete{
+    color: #454949;
+    text-decoration: underline;
+}
