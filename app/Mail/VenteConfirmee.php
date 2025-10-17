@@ -30,7 +30,7 @@ class VenteConfirmee extends Mailable
     public function build()
     {
         App::setLocale($this->seller->locale ?? 'fr');
-        return $this->from('no_reply@purah-tunisie.shop', 'SHOPIN')
+        return $this->from('shopin@becker-brand.store', 'SHOPIN')
                     ->subject("Votre article a été commandé")
                     ->view('Mails.sellerNotification');
     }
