@@ -130,7 +130,7 @@
                             @if ($favori->post->sell_at)
                                 @if (auth()->id() === $favori->post->id_user_buy)
                                     <span class="text-info">
-                                        {{ $favori->post->statut ?? '—' }}
+                                        {{ __($favori->post->statut) }}
                                     </span>
                                 @else
                                     <span class="text-danger">
