@@ -486,7 +486,7 @@
                             @if (app()->getLocale() == 'ar')
                                 {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @else
-                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
+                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
                             @endif
                         </button>
                     @else
@@ -511,7 +511,7 @@
                             @if (app()->getLocale() == 'ar')
                                 {{ __('continue') }} <i class="bi bi-arrow-left"></i>
                             @else
-                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
+                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
                             @endif
                         </button>
                     @else
