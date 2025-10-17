@@ -192,8 +192,21 @@ class AdminController extends Controller
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
         }
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                if (str_starts_with(strtolower($search), 'cmd-')) {
+                    $id = str_replace('CMD-', '', strtoupper($search));
+                    $q->orWhere('id', $id);
+                } else {
+                    $q->orWhere('shipment_id', 'like', "%{$search}%")
+                    ->orWhereHas('vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
+                    ->orWhereHas('buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"));
+                }
+            });
+        }
 
-        $commandes = $query->paginate(10);
+        $commandes = $query->paginate(10)->appends($request->all());
         $regions = regions::all();
         return view("Admin.shipement.shipement", compact("commandes", "regions"));
     }

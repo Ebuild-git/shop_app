@@ -13,9 +13,15 @@
             </div>
             <div class="card-body">
                 <form id="filter-form">
-                    <div class="row mb-4 align-items-end">
-                        <div class="col-md-4">
-                            <label for="regionFilter" class="form-label">Filtrer par région</label>
+                    <div class="row mb-4 align-items-end g-2"> <!-- g-2 for small gaps -->
+                        <div class="col-auto">
+                            <label for="searchFilter" class="form-label">Rechercher</label>
+                            <input type="text" name="search" id="searchFilter" class="form-control form-control-sm"
+                                value="{{ request('search') }}" placeholder="ID commande, ID expédition, nom vendeur/acheteur">
+                        </div>
+
+                        <div class="col-auto">
+                            <label for="regionFilter" class="form-label">Région</label>
                             <select name="region_id" class="form-select form-select-sm" id="regionFilter">
                                 <option value="">Toutes les régions</option>
                                 @foreach ($regions as $region)
@@ -26,26 +32,22 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
-                            <label for="dateFilter" class="form-label">Filtrer par date</label>
+                        <div class="col-auto">
+                            <label for="dateFilter" class="form-label">Date</label>
                             <input name="date" type="date" value="{{ request('date') }}" class="form-control form-control-sm" id="dateFilter">
                         </div>
 
-                        <div class="col-md-5 d-flex gap-2">
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-sm btn-primary">Appliquer</button>
-                            </div>
-                            <div class="mt-3">
-                                <button type="button" id="reset-btn" class="btn btn-sm btn-outline-secondary">Réinitialiser</button>
-                            </div>
+                        <div class="col-auto d-flex align-items-end gap-2">
+                            <button type="submit" class="btn btn-sm btn-primary">Appliquer</button>
+                            <button type="button" id="reset-btn" class="btn btn-sm btn-outline-secondary">Réinitialiser</button>
                         </div>
                     </div>
                 </form>
-
                 <div class="table-responsive">
                     <table class="table w-100 table-custom">
                         <thead class="th-white">
                             <tr>
+                                <th>ID Commande</th>
                                 <th>Vendeur</th>
                                 <th>Acheteur</th>
                                 <th>Article</th>
@@ -60,6 +62,7 @@
                         <tbody id="commande-table-body">
                             @forelse ($commandes as $commande)
                                 <tr>
+                                    <td>CMD-{{$commande->id}}</td>
                                     <td>
                                         @if($commande->vendor)
                                             <a href="/admin/client/{{ $commande->vendor->id }}/view">
@@ -252,6 +255,7 @@ document.getElementById('filter-form').addEventListener('submit', function (e) {
 document.getElementById('reset-btn').addEventListener('click', function () {
     document.getElementById('regionFilter').value = '';
     document.getElementById('dateFilter').value = '';
+    document.getElementById('searchFilter').value = '';
     document.getElementById('filter-form').dispatchEvent(new Event('submit'));
 });
 
