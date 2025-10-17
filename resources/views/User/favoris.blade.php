@@ -128,9 +128,15 @@
                         </td>
                         <td class="strong">
                             @if ($favori->post->sell_at)
-                                <span class="text-danger">
-                                    {{ __('vendu1')}}
-                                </span>
+                                @if (auth()->id() === $favori->post->id_user_buy)
+                                    <span class="text-success">
+                                        {{ $favori->post->statut ?? '—' }}
+                                    </span>
+                                @else
+                                    <span class="text-danger">
+                                        {{ __('vendu1') }}
+                                    </span>
+                                @endif
                             @else
                             <span class="text-success">
                                 {{ __('available')}}
