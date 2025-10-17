@@ -77,11 +77,7 @@
                     @endforelse
                 </div>
                 @include('components.alert-livewire')
-                @if (is_null(auth()->user()->region))
-                    <div class="alert alert-warning">
-                        <p>{!! __('enter_region') !!}</p>
-                    </div>
-                @endif
+
             </div>
             <div class="col-sm-4 col-12" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                 <div class="custom-checkout-card p-3 shadow-sm border-0 rounded-lg">
@@ -112,6 +108,14 @@
                         <span wire:loading.remove>{{ __('validate_cart') }}</span>
                     </button>
                 </div>
+
+                @if (is_null(auth()->user()->region))
+                    <div class="custom-alert mt-3">
+                        <div class="icon">⚠️</div>
+                        <div class="message">{!! __('enter_region') !!}</div>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>

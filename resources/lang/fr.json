@@ -294,7 +294,7 @@
 "total": "TOTAL",
 "validate_cart": "Valider mon panier",
 "validating": "Validation....",
-"enter_region": "Veuillez entrer votre région <a href='/informations'>ici</a> pour continuer votre commande.",
+"enter_region": "Veuillez entrer votre <b>région</b> <a href='/informations'>ici</a> pour continuer votre commande.",
 "categories": "Catégories",
 "price": "Prix",
 "popularity": "Popularité",

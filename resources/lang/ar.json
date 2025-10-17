@@ -294,7 +294,7 @@
 "total": "الإجمالي",
 "validate_cart": "تأكيد طلبك",
 "validating": "جاري التحقق....",
-"enter_region": "يرجى إدخال منطقتك <a href='/informations'>هنا</a> لمتابعة طلبك.",
+"enter_region": "يرجى إدخال <b>منطقتك</b> <a href='/informations'>هنا</a> لمتابعة طلبك.",
 "categories": "الفئات",
 "price": "السعر",
 "popularity": "الشعبية",
