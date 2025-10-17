@@ -29,8 +29,8 @@ class FormCreateCategorie extends Component
 
         $this->validate([
             'titre' => ['required', 'string'],
-            '$title_en' => ['nullable', 'string'],
-            '$title_ar' => ['nullable', 'string'],
+            'title_en' => ['nullable', 'string'],
+            'title_ar' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:10048',
             'pourcentage_gain' => 'numeric|nullable|min:0',
