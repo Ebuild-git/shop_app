@@ -59,7 +59,7 @@
                 <label>{{ __('email') }}</label>
                 <span class="text-danger">*</span>
                 <input type="email" class="form-control border-r shadow-none" @error('email') is-invalid @enderror
-                    wire:model="email" required>
+                    wire:model="email">
                 @error('email')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -70,7 +70,7 @@
                 <label>{{ __('telephone') }}</label>
                 <span class="text-danger">*</span>
                 <input type="tel" class="form-control border-r shadow-none" oninput="formatTelephone(this)" maxlength="14"
-                    @error('phone_number') is-invalid @enderror wire:model="phone_number" required>
+                    @error('phone_number') is-invalid @enderror wire:model="phone_number">
                 @error('phone_number')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror

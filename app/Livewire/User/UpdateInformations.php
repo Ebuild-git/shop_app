@@ -53,9 +53,16 @@ class UpdateInformations extends Component
     {
         $this->validate([
             'email' => 'required|email|max:100',
-            'phone_number' => 'nullable|string|max:14',
-            'region' => 'nullable|integer|exists:regions,id',
-            'address' => 'string|nullable|max:255',
+            'phone_number' => 'required|string|max:14',
+            'region' => 'required|integer|exists:regions,id',
+            'address' => 'required|nullable|max:255',
+            'rue'          => 'required|string|max:255',
+            'nom_batiment' => 'required|string|max:255',
+            'etage'        => 'required|string|max:255',
+            'num_appartement' => 'required|string|max:255',
+            'jour'         => 'required|integer|min:1|max:31',
+            'mois'         => 'required|integer|min:1|max:12',
+            'annee'        => 'required|integer',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
         ],[
             'required' => __('required'),
