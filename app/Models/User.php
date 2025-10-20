@@ -184,7 +184,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function isIdentityVerified()
     {
-        if ($this->email_verified_at && $this->photo_verified_at) {
+        if ($this->email_verified_at) {
             return true;
         }
         return false;
