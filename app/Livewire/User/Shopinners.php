@@ -51,7 +51,8 @@ class Shopinners extends Component
                         ->where('pings.id_user', $userId);
                 })
                 ->where('users.role', '!=', 'admin')
-                ->where('users.locked', false);
+                ->where('users.locked', false)
+                ->whereNotNull('users.email_verified_at');
 
             // Si on a une recherche en
             if (!empty($this->key)) {
@@ -85,6 +86,7 @@ class Shopinners extends Component
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
                 ->where('users.role', '!=', 'admin')
                 ->where('users.locked', false)
+                ->whereNotNull('users.email_verified_at')
                 ->groupBy('users.id', 'users.lastname', 'users.username', 'users.avatar', 'users.photo_verified_at');
 
             // Si on a une recherche en

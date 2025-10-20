@@ -187,7 +187,7 @@ class User extends Authenticatable implements JWTSubject
         if ($this->email_verified_at && $this->photo_verified_at) {
             return true;
         }
-            return false;
+        return false;
     }
 
     public function violations()
