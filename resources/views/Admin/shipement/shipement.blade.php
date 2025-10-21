@@ -51,6 +51,7 @@
                                 <th>ID Commande</th>
                                 <th>Vendeur</th>
                                 <th>Acheteur</th>
+                                <th>État de compte</th>
                                 <th>Article</th>
                                 <th>ID Expédition (Aramex)</th>
                                 <th>Frais Livraison</th>
@@ -123,6 +124,22 @@
                                                 </div>
                                             @else
                                                 <span class="text-muted">—</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @php
+                                                $acheteurSupprime = $order->buyer?->deleted_at ? true : false;
+                                                $vendeurSupprime = $item->vendor?->deleted_at ? true : false;
+                                            @endphp
+
+                                            @if(!$acheteurSupprime && !$vendeurSupprime)
+                                                <span style="font-size: 1.2rem;">🟢</span> OK
+                                            @elseif($acheteurSupprime && !$vendeurSupprime)
+                                                <span style="font-size: 1.2rem;">🔴</span> Acheteur supprimé
+                                            @elseif(!$acheteurSupprime && $vendeurSupprime)
+                                                <span style="font-size: 1.2rem;">🟠</span> Vendeur supprimé
+                                            @else
+                                                <span style="font-size: 1.2rem;">🔴🟠</span> Les deux supprimés
                                             @endif
                                         </td>
 
