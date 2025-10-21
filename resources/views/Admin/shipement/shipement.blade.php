@@ -76,16 +76,20 @@
                                                     <b class="text-color2">Région:</b> {{ $item->vendor->region_info->nom ?? '/' }}
                                                 </small>
                                                 <div>
-                                                    <span class="message-style"
-                                                        onclick="OpenModalMessage(
-                                                            '{{ $item->vendor->id ?? 0 }}',
-                                                            '{{ $item->vendor->username ?? '—' }}',
-                                                            '{{ $item->post->titre ?? '—' }}',
-                                                            '{{ $item->post->id ?? 0 }}',
-                                                            '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                        )">
-                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                    </span>
+                                                        @if($item->vendor->deleted_at))
+                                                        <span class="text-danger">(Utilisateur supprimé)</span>
+                                                        @else
+                                                            <span class="message-style"
+                                                                onclick="OpenModalMessage(
+                                                                    '{{ $item->vendor->id ?? 0 }}',
+                                                                    '{{ $item->vendor->username ?? '—' }}',
+                                                                    '{{ $item->post->titre ?? '—' }}',
+                                                                    '{{ $item->post->id ?? 0 }}',
+                                                                    '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
+                                                                )">
+                                                                <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                                            </span>
+                                                    @endif
                                                 </div>
                                             @else
                                                 <span class="text-muted">—</span>
@@ -102,6 +106,9 @@
                                                     <b class="text-color2">Région:</b> {{ $order->buyer->region_info->nom ?? '/' }}
                                                 </small>
                                                 <div>
+                                                    @if( $order->buyer->deleted_at)
+                                                        <span class="text-danger">(Utilisateur supprimé)</span>
+                                                    @else
                                                     <span class="message-style"
                                                         onclick="OpenModalMessage(
                                                             '{{ $order->buyer->id ?? 0 }}',
@@ -112,6 +119,7 @@
                                                         )">
                                                         <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                                     </span>
+                                                    @endif
                                                 </div>
                                             @else
                                                 <span class="text-muted">—</span>

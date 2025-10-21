@@ -39,6 +39,8 @@ class HomeController extends Controller
         // Fetch non-luxury posts
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+            ->join('users', 'posts.id_user', '=', 'users.id') // join users
+            ->whereNull('users.deleted_at')
             ->where('categories.luxury', false)
             ->where("statut", '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
@@ -50,6 +52,8 @@ class HomeController extends Controller
         // Fetch luxury posts
         $luxurys = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
+            ->join('users', 'posts.id_user', '=', 'users.id')
+            ->whereNull('users.deleted_at')
             ->where('categories.luxury', true)
             ->where("statut", '!=', 'validation')
             ->orderBy("posts.created_at", "Desc")

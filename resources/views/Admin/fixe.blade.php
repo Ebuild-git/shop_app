@@ -349,6 +349,12 @@
                                                 <div data-i18n="Liste des utilisateurs Bloqués">Liste des utilisateurs bloqués</div>
                                             </a>
                                         </li>
+                                        <li class="menu-item">
+                                            <a href="{{ route('liste_utilisateurs_supprime') }}?type=all&showTrashed=yes" class="menu-link">
+                                                <i class="menu-icon tf-icons ti ti-menu-2"></i>
+                                                <div data-i18n="Liste des utilisateurs supprimés">Liste des utilisateurs supprimés</div>
+                                            </a>
+                                        </li>
 
                                     </ul>
                                 </li>

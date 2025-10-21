@@ -8,7 +8,7 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        @livewire('ListeUtilisateurs', ['type' => $type, 'locked' => $locked ?? 'no'])
+        @livewire('ListeUtilisateurs', ['type' => $type, 'locked' => $locked ?? 'no', 'showTrashed' => $showTrashed ?? 'no'])
     </div>
     <!--/ Content -->
 

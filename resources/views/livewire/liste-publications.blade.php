@@ -142,9 +142,14 @@
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td>{{ $post->deleted_at ? $post->deleted_at->format('d-m-Y') : '' }}</td>
                         <td>
-                            <a href="/admin/client/{{ $post->user_info->id }}/view">
-                            {{ $post->user_info->username }}
-                            </a>
+                            @if($post->user_info->deleted_at)
+                                <span>{{ $post->user_info->username }}</span><br/>
+                                <span class="text-danger">(Utilisateur supprimé)</span>
+                            @else
+                                <a href="/admin/client/{{ $post->user_info->id }}/view">
+                                {{ $post->user_info->username }}
+                                </a>
+                            @endif
                         </td>
                         <td>{{ $post->motif_suppression }}</td>
                         <td>{{ $post->etat }}</td>
@@ -250,9 +255,14 @@
 
 
                         <td>
-                            <a href="/admin/client/{{ $post->user_info->id }}/view">
-                            {{ $post->user_info->username }}
-                            </a>
+                            @if($post->user_info->deleted_at)
+                                <span>{{ $post->user_info->username }}</span><br/>
+                                <span class="text-danger">(Utilisateur supprimé)</span>
+                            @else
+                                <a href="/admin/client/{{ $post->user_info->id }}/view">
+                                {{ $post->user_info->username }}
+                                </a>
+                            @endif
                         </td>
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>{{ $post->etat }}</td>

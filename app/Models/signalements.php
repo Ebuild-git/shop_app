@@ -15,6 +15,6 @@ class signalements extends Model
     }
 
     public function auteur(){
-        return $this->belongsTo(User::class, 'id_user_make');
+        return $this->belongsTo(User::class, 'id_user_make')->withTrashed();
     }
 }

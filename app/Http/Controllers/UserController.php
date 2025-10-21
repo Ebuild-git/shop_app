@@ -34,6 +34,14 @@ class UserController extends Controller
         ->with("type", $type)
         ->with("locked", $locked);
     }
+    public function liste_utilisateurs_supprime(Request $request)
+    {
+        $type = "all";
+        $showTrashed = "yes";
+        return view("Admin.clients.index")
+        ->with("type", $type)
+        ->with("showTrashed", $showTrashed);
+    }
 
     public function details_user(Request $request)
     {

@@ -85,7 +85,7 @@ class posts extends Model
 
     public function user_info()
     {
-        return $this->hasOne(User::class, 'id', "id_user");
+        return $this->hasOne(User::class, 'id', "id_user")->withTrashed();
     }
 
 

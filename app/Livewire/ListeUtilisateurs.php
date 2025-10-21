@@ -11,10 +11,12 @@ class ListeUtilisateurs extends Component
 {
     public $type, $list, $key, $statut,$etat;
     public $locked = "no";
+    public $showTrashed = "no";
+
 
     use WithPagination;
 
-    public function mount($type, $locked = null)
+    public function mount($type, $locked = null, $showTrashed = null)
     {
         if ($type == "shop") {
             $this->type = "shop";
@@ -22,6 +24,7 @@ class ListeUtilisateurs extends Component
             $this->type = "user";
         }
         $this->locked = $locked;
+        $this->showTrashed = $showTrashed ?? "no";
     }
 
     public function updatedKey($value)
@@ -33,6 +36,10 @@ class ListeUtilisateurs extends Component
     public function render()
     {
         $users = User::orderBy("id", "desc")->where("type", $this->type)->where("role", "!=", "admin");
+
+        if ($this->showTrashed === 'yes') {
+            $users = $users->onlyTrashed();
+        }
 
         if ($this->locked === 'yes') {
             $users->where('locked', true);
@@ -120,4 +127,26 @@ class ListeUtilisateurs extends Component
             $user->update(['locked' => false]);
         }
     }
+    public function restore($id)
+    {
+        User::withTrashed()->where('id', $id)->restore();
+        $this->dispatch('swal:success', [
+            'title' => 'Restauré !',
+            'text' => 'Utilisateur restauré avec succès.',
+            'icon' => 'success'
+        ]);
+    }
+
+    public function forceDelete($id)
+    {
+        User::withTrashed()->where('id', $id)->forceDelete();
+        $this->dispatch('swal:success', [
+            'title' => 'Supprimé !',
+            'text' => 'Utilisateur supprimé définitivement.',
+            'icon' => 'success'
+        ]);
+    }
+
+
+
 }

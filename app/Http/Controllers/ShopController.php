@@ -54,6 +54,9 @@ class ShopController extends Controller
             ->whereIn('statut', ['vente', 'vendu'])
             ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
             ->whereNotIn('id_user', $usersWithVoyageMode)
+            ->whereHas('user_info', function ($q) {
+                $q->whereNull('deleted_at');
+            })
             ->whereNull('deleted_at');
         if ($luxury_only == "true") {
             $query->whereHas('sous_categorie_info.categorie', function ($q) {

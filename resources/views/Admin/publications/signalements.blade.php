@@ -69,6 +69,7 @@
                                             </div>
                                         </td>
                                         <td>
+                                            @if(!$post->user_info->deleted_at)
                                             <a href="/admin/client/{{ $post->user_info->id }}/view">
                                                 {{ $post->user_info->username }}
                                             </a>
@@ -76,20 +77,30 @@
                                             <span class="message-style" onclick="OpenModalMessage('{{ $post->user_info->id }}','{{ $post->user_info->username }}', '{{ $post->titre }}', '{{ $post->id }}', '{{ config('app.url').Storage::url($post->photos[0]) }}')">
                                                 <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                             </span>
+                                            @else
+                                                <span>{{ $post->user_info->username }}</span><br/>
+                                                <span class="text-danger">(Utilisateur supprimé)</span>
+                                            @endif
                                         </td>
 
                                         <td>
                                             @foreach($post->signalements as $signalement)
-                                                <div>
-                                                    <a href="/admin/client/{{ $signalement->auteur->id }}/view">
-                                                        {{ $signalement->auteur->username }}
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <span class="message-style" onclick="OpenModalMessage('{{ $signalement->auteur->id }}','{{ $signalement->auteur->username }}', '{{ $post->titre }}', '{{ $post->id }}', '{{ config('app.url').Storage::url($post->photos[0]) }}')">
-                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                    </span>
-                                                </div>
+                                                @if(!$signalement->auteur->deleted_at)
+                                                    <div>
+                                                        <a href="/admin/client/{{ $signalement->auteur->id }}/view">
+                                                            {{ $signalement->auteur->username }}
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <span class="message-style" onclick="OpenModalMessage('{{ $signalement->auteur->id }}','{{ $signalement->auteur->username }}', '{{ $post->titre }}', '{{ $post->id }}', '{{ config('app.url').Storage::url($post->photos[0]) }}')">
+                                                            <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                                        </span>
+                                                    </div>
+                                                @else
+                                                    <span>{{ $signalement->auteur->username }}</span><br/>
+                                                    <span class="text-danger">(Utilisateur supprimé)</span>
+                                                @endif
+
                                             @endforeach
                                         </td>
 

@@ -6,6 +6,8 @@
 
                 @if($locked === 'yes')
                     Liste des utilisateurs bloqués ({{ $users->total() }})
+                @elseif($showTrashed === 'yes')
+                    Liste des utilisateurs supprimés ({{ $users->total() }})
                 @else
                     Liste des utilisateurs du site ({{ $users->total() }})
                 @endif
@@ -44,6 +46,8 @@
 
      </div>
 
+     @include('components.alert-livewire')
+
      <div class="card">
         <div class="card-body">
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
@@ -57,18 +61,24 @@
                      <th>Nom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
+                     @if($showTrashed !== 'yes')
                      <th>Nb articles en vente</th>
                      <th>Total des ventes</th>
                      <th>Évaluation</th>
+                     @endif
                     <th>Statut du compte</th>
+                    @if($showTrashed !== 'yes')
                     <th>Statut des informations RIB</th>
+                    @endif
                      <th>Vérification d'identité</th>
                      <th>Email</th>
                      <th>Téléphone</th>
                      <th>Adresse</th>
+                     @if($showTrashed !== 'yes')
                      <th>Historique des violations</th>
+                     @endif
                      <th>Actions</th>
-                        <th></th>
+                    <th></th>
                  </tr>
 
 
@@ -98,7 +108,9 @@
                                 </span>
                             @endif
                         </td>
+                        @if($showTrashed !== 'yes')
                         <td style="text-align: center;"> {{ $user->GetPosts->count() }}</td>
+
                         <td style="text-align: center;">
                             {{ $venduCountPerUser[$user->id] }}
                         </td>
@@ -106,13 +118,17 @@
                             <i class="bi bi-star-fill" style="color: #ffb74e;"></i>
                             {{ number_format($user->averageRating->average_rating ?? 0, 1) }}
                         </td>
+                        @endif
                         <td style="text-align: center;">
-                            @if ($user->locked)
+                            @if($user->locked)
                                 suspendu
+                            @elseif($user->deleted_at)
+                                <span class="text-danger">supprimé</span>
                             @else
-                                actif
+                                <span class="text-success">actif</span>
                             @endif
                         </td>
+                        @if($showTrashed !== 'yes')
                         <td>
                             @if (empty($user->rib_number) && empty($user->bank_name) && empty($user->titulaire_name))
                                 <span class="badge bg-danger">Non fournies</span>
@@ -124,6 +140,7 @@
                                 <span class="badge bg-dark">Rejetées</span>
                             @endif
                         </td>
+                        @endif
                         <td>
                             @if($user->isIdentityVerified())
                             <span class="text-success">Vérifié</span>
@@ -131,6 +148,7 @@
                                 <span class="text-danger">Non vérifié</span>
                             @endif
                         </td>
+                        @if($showTrashed !== 'yes')
                         <td>
                             <span style="cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
                                 {{ $user->email }}
@@ -140,6 +158,13 @@
                                 <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                             </span>
                         </td>
+                        @else
+                            <td>
+                                <span style="cursor: pointer;">
+                                    {{ $user->email }}
+                                </span>
+                            </td>
+                        @endif
                         <td> {{ $user->phone_number ?? '/' }} </td>
                         <td>
                             {!! $user->num_appartement ? 'App. ' . $user->num_appartement . '<br>' : '' !!}
@@ -148,46 +173,68 @@
                             {!! $user->rue ? $user->rue . '<br>' : '' !!}
                             {!! $user->address ?? '' !!}
                         </td>
-
-                        <td style="text-align: center;">
-                            <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_by_user', ['user_id' => $user->id]) }}'">
-                                <i class="bi bi-clock-history" style="font-size: 14px;"></i>
-                            </button>
-                        </td>
-                         <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-sm btn-dark"
-                                    onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
-                                    <i class="bi bi-person-circle"></i>
-                                    </a>
+                        @if($showTrashed !== 'yes')
+                            <td style="text-align: center;">
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_by_user', ['user_id' => $user->id]) }}'">
+                                    <i class="bi bi-clock-history" style="font-size: 14px;"></i>
                                 </button>
-
-                                @if ($user->locked == true)
-                                 <button class="btn btn-sm btn-success" wire:click="toggleLock({{ $user->id }})"
-                                     type="button" title="Débloquer cet utilisateur">
-                                     <i class="bi bi-play-fill"></i>
-                                 @else
-                                     <button class="btn btn-sm btn-danger" wire:click="toggleLock({{ $user->id }})"
-                                         type="button" title="Bloquer cet utilisateur">
-                                         <i class="bi bi-stop-fill"></i>
+                            </td>
+                        @endif
+                        <td>
+                            @if($showTrashed !== 'yes')
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-dark"
+                                        onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
+                                        <i class="bi bi-person-circle"></i>
                                     </button>
-                                @endif
 
-                            </div>
-                         </td>
-
-                         <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="confirmDeleteUser({{ $user->id }}, @this)">
-                                        <i class="ti ti-trash me-1"></i> Supprimer
-                                    </a>
+                                    @if ($user->locked == true)
+                                        <button class="btn btn-sm btn-success" wire:click="toggleLock({{ $user->id }})"
+                                            type="button" title="Débloquer cet utilisateur">
+                                            <i class="bi bi-play-fill"></i>
+                                        </button>
+                                    @else
+                                        <button class="btn btn-sm btn-danger" wire:click="toggleLock({{ $user->id }})"
+                                            type="button" title="Bloquer cet utilisateur">
+                                            <i class="bi bi-stop-fill"></i>
+                                        </button>
+                                    @endif
                                 </div>
-                            </div>
+                            @else
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-success" onclick="confirmRestoreUser({{ $user->id }})">
+            Restaurer
+        </button>
+                                </div>
+                            @endif
                         </td>
+
+                        <td>
+                            @if($showTrashed !== 'yes')
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="ti ti-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="confirmDeleteUser({{ $user->id }}, @this)">
+                                            <i class="ti ti-trash me-1"></i> Supprimer
+                                        </a>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="ti ti-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="btn btn-sm btn-danger" onclick="confirmForceDeleteUser({{ $user->id }})">
+                                            Supprimer Définitivement
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
+                        </td>
+
                      </tr>
                  @empty
                      <tr>
@@ -267,4 +314,54 @@
         XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
         XLSX.writeFile(workbook, filename);
     }
-    </script>
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        function confirmRestore(userId) {
+            Swal.fire({
+                title: 'Restaurer cet utilisateur ?',
+                text: "Êtes-vous sûr de vouloir le restaurer ?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, restaurer',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.restore(userId);
+                }
+            });
+        }
+
+        function confirmForceDelete(userId) {
+            Swal.fire({
+                title: 'Supprimer définitivement ?',
+                text: "Cette action est irréversible !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, supprimer',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.forceDelete(userId);
+                }
+            });
+        }
+
+        window.confirmRestoreUser = confirmRestore;
+        window.confirmForceDeleteUser = confirmForceDelete;
+
+    });
+</script>
+
+<script>
+    window.addEventListener('swal:success', event => {
+    Swal.fire({
+        title: event.detail[0].title,
+        text: event.detail[0].text,
+        icon: event.detail[0].icon,
+        timer: 2500,
+        showConfirmButton: false
+    });
+});
+</script>
