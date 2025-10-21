@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\UserCart;
 use App\Models\regions;
 use Carbon\Carbon;
+use App\Models\Order;
+use App\Models\OrdersItem;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
@@ -173,43 +175,7 @@ class AdminController extends Controller
         return view("Admin.categories.index_proprietes" , compact("totalProprietes"));
     }
 
-    public function orders(Request $request){
 
-        $query = Commande::orderBy('created_at', 'desc');
-
-        if ($request->filled('region_id')) {
-            $regionId = $request->region_id;
-
-            $query->where(function ($subQuery) use ($regionId) {
-                $subQuery->whereHas('vendor', function ($q) use ($regionId) {
-                    $q->where('region', $regionId);
-                })->orWhereHas('buyer', function ($q) use ($regionId) {
-                    $q->where('region', $regionId);
-                });
-            });
-        }
-
-        if ($request->filled('date')) {
-            $query->whereDate('created_at', $request->date);
-        }
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                if (str_starts_with(strtolower($search), 'cmd-')) {
-                    $id = str_replace('CMD-', '', strtoupper($search));
-                    $q->orWhere('id', $id);
-                } else {
-                    $q->orWhere('shipment_id', 'like', "%{$search}%")
-                    ->orWhereHas('vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
-                    ->orWhereHas('buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"));
-                }
-            });
-        }
-
-        $commandes = $query->paginate(10)->appends($request->all());
-        $regions = regions::all();
-        return view("Admin.shipement.shipement", compact("commandes", "regions"));
-    }
 
     public function approveCIN($id)
     {
@@ -248,207 +214,265 @@ class AdminController extends Controller
         return redirect($notification->url);
     }
 
+    public function orders(Request $request)
+    {
+        $query = Order::with([
+            'items.post',
+            'items.vendor',
+            'buyer'
+        ])->orderBy('created_at', 'desc');
+
+        if ($request->filled('region_id')) {
+            $regionId = $request->region_id;
+            $query->whereHas('items.vendor', fn($q) => $q->where('region', $regionId))
+                ->orWhereHas('buyer', fn($q) => $q->where('region', $regionId));
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function($q) use ($search) {
+
+                if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
+                    $id = $matches[1];
+                    $q->where('id', $id);
+                } else {
+                    $q->whereHas('items.vendor', function($q2) use ($search) {
+                        $q2->where('username', 'like', "%{$search}%");
+                    })->orWhereHas('buyer', function($q2) use ($search) {
+                        $q2->where('username', 'like', "%{$search}%");
+                    })->orWhere('shipment_id', 'like', "%{$search}%");
+                }
+            });
+        }
+
+        $orders = $query->paginate(10)->appends($request->all());
+        $regions = regions::all();
+
+        return view('Admin.shipement.shipement', compact('orders', 'regions'));
+    }
+
     public function syncWithAramex($id)
     {
-        $commande = Commande::with(['post', 'vendor', 'buyer'])->find($id);
+        $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
 
-        if (!$commande) {
+        if (!$order) {
             return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
         }
 
-        if ($commande->shipment_id) {
-            return response()->json(['success' => false, 'message' => 'Cette commande est déjà synchronisée.']);
+        $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
+
+        if ($unsyncedItems->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'Tous les articles de cette commande sont déjà synchronisés.']);
         }
 
-        try {
-            $aramex = new AramexService();
-            $shipmentDetails = $this->buildShipmentPayload($commande);
+        $aramex = new AramexService();
+        $results = [];
 
-            $response = $aramex->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $shipmentDetails);
+        foreach ($unsyncedItems as $item) {
+            try {
+                $payload = $this->buildShipmentPayloadItem($order, $item);
 
+                $response = $aramex->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $payload);
 
-            if (!isset($response['HasErrors']) || !$response['HasErrors']) {
+                if (!isset($response['HasErrors']) || !$response['HasErrors']) {
 
-                $shipmentId = $response['Shipments'][0]['ID']
+                    $shipmentId = $response['Shipments'][0]['ID']
                     ?? $response['Shipments'][0]['ShipmentNumber']
                     ?? $response['Shipments'][0]['ShipmentLabel']
                     ?? null;
 
-                if (!$shipmentId) {
-                    Log::warning('⚠️ No shipment ID found in Aramex response', [
-                        'commande_id' => $commande->id,
-                        'response' => $response,
-                    ]);
+                    if (!$shipmentId) {
+                        Log::warning('⚠️ No shipment ID for item', [
+                            'order_id' => $order->id,
+                            'item_id' => $item->id,
+                            'response' => $response,
+                        ]);
+                    }
+
+                    $item->shipment_id = $shipmentId;
+                    $item->status = 'expédiée';
+                    $item->save();
+
+                    $results[] = [
+                        'item_id' => $item->id,
+                        'success' => true,
+                        'shipment_id' => $shipmentId,
+                    ];
+
+                } else {
+                    $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+                    $results[] = [
+                        'item_id' => $item->id,
+                        'success' => false,
+                        'message' => $msg,
+                    ];
                 }
-
-                $commande->shipment_id = $shipmentId;
-                $commande->statut = 'expédiée';
-                $commande->etat = 'En transit';
-                $commande->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => $shipmentId
-                        ? 'Expédition créée avec succès sur Aramex (ID : ' . $shipmentId . ').'
-                        : 'Expédition créée, mais aucun ID n’a été retourné par Aramex.'
+            } catch (\Exception $e) {
+                Log::error('🔥 Exception during Aramex sync', [
+                    'order_id' => $order->id,
+                    'item_id' => $item->id,
+                    'error' => $e->getMessage(),
                 ]);
-            } else {
-                $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-                Log::error('❌ Aramex API error', [
-                    'commande_id' => $commande->id,
-                    'response' => $response,
-                ]);
-                return response()->json(['success' => false, 'message' => 'Erreur Aramex : ' . $msg]);
+                $results[] = [
+                    'item_id' => $item->id,
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ];
             }
-
-        } catch (\Exception $e) {
-            Log::error('🔥 Exception during Aramex sync', [
-                'commande_id' => $commande->id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            return response()->json(['success' => false, 'message' => 'Erreur interne : ' . $e->getMessage()]);
         }
+
+        if ($order->items->every(fn($item) => $item->shipment_id)) {
+            $order->status = 'expédiée';
+            $order->save();
+        }
+
+        return response()->json(['success' => true, 'results' => $results]);
     }
 
-    private function buildShipmentPayload($commande)
+    private function buildShipmentPayloadItem($order, $item)
     {
-        $buyer = $commande->buyer;
-        $vendor = $commande->vendor;
-        $post = $commande->post;
+        $buyer = $order->buyer;
+        $vendor = $item->vendor;
+        $post = $item->post;
+        $totalArticles = 1;
 
         $shippingDateTime = new DateTime();
         $dueDate = (new DateTime())->modify('+4 days');
         $shippingDateTimeAramex = "/Date(" . ($shippingDateTime->getTimestamp() * 1000) . "-0000)/";
         $dueDateAramex = "/Date(" . ($dueDate->getTimestamp() * 1000) . "-0000)/";
-        $totalArticles = $commande->post->count() ?: 1;
-        $timestamp = fn($date) => "/Date(" . ($date->getTimestamp() * 1000) . "-0000)/";
 
         return [
-            'ClientInfo' => [
-                'UserName' => env('ARAMEX_API_USERNAME'),
-                'Password' => env('ARAMEX_API_PASSWORD'),
-                'Version' => env('ARAMEX_API_VERSION'),
-                'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
-                'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
-                'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
-                'Source' => env('ARAMEX_SOURCE'),
-            ],
-            'Shipments' => [
-                [
-                    'Reference1' => 'CMD-' . $commande->id,
-                    'Reference2' => '',
-                    'Reference3' => '',
-                    'Shipper' => [
-                        'Reference1' => 'Shop Address',
-                        'Reference2' => '',
-                        'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                        'PartyAddress' => [
-                            'Line1' => $vendor->address,
-                            'Line2' => '',
-                            'Line3' => '',
-                            'City' =>  trim($vendor->address),
-                            'StateOrProvinceCode' => '',
-                            'PostCode' => '23000',
-                            'CountryCode' => 'MA',
-                            'Longitude' => 0,
-                            'Latitude' => 0,
-                            'BuildingNumber' => null,
-                            'BuildingName' => null,
-                            'Floor' => null,
-                            'Apartment' => null,
-                            'POBox' => null,
-                            'Description' => null
-                        ],
-                        'Contact' => [
-                            'Department' => '',
-                            'PersonName' => 'Shopin',
-                            'Title' => '',
-                            'CompanyName' => 'Shopin',
-                            'PhoneNumber1' => '1234567890',
-                            'PhoneNumber1Ext' => '',
-                            'PhoneNumber2' => '1234567890',
-                            'PhoneNumber2Ext' => '',
-                            'FaxNumber' => '',
-                            'CellPhone' => '1234567890',
-                            'EmailAddress' => 'hazarne14@gmail.com',
-                            'Type' => ''
-                        ]
-                    ],
-                    'Consignee' => [
-                        'Reference1' => '',
-                        'Reference2' => '',
-                        'AccountNumber' => '',
-                        'PartyAddress' => [
-                            'Line1' => $buyer->address,
-                            'Line2' => '',
-                            'Line3' => '',
-                            'City' => $buyer->address,
-                            'StateOrProvinceCode' => '',
-                            'PostCode' => '23000',
-                            'CountryCode' => 'MA',
-                            'Longitude' => 0,
-                            'Latitude' => 0,
-                            'BuildingNumber' => '',
-                            'BuildingName' => '',
-                            'Floor' => '',
-                            'Apartment' => '',
-                            'POBox' => null,
-                            'Description' => ''
-                        ],
-                        'Contact' => [
-                            'Department' => '',
-                            'PersonName' => $buyer->firstname . ' ' . $buyer->lastname,
-                            'Title' => '',
-                            'CompanyName' => $buyer->username,
-                            'PhoneNumber1' => $buyer->phone_number,
-                            'PhoneNumber1Ext' => '',
-                            'PhoneNumber2' => $buyer->phone_number,
-                            'PhoneNumber2Ext' => '',
-                            'FaxNumber' => '',
-                            'CellPhone' => $buyer->phone_number,
-                            'EmailAddress' => $buyer->email,
-                            'Type' => ''
-                        ]
-                    ],
-                    'Details' => [
-                        'Dimensions' => null,
-                        'ActualWeight' => ['Value' => '1', 'Unit' => 'KG'],
-                        'ChargeableWeight' => null,
-                        'DescriptionOfGoods' => $post->titre,
-                        'GoodsOriginCountry' => "MA",
-                        'NumberOfPieces' => $totalArticles,
-                        'ProductGroup' => 'DOM',
-                        'ProductType' => 'CDS',
-                        'PaymentType' => 'P',
-                        'PaymentOptions' => '',
-                        'CustomsValueAmount' => null,
-                        'CashOnDeliveryAmount' => null,
-                        'InsuranceAmount' => null,
-                        'CashAdditionalAmount' => null,
-                        'CashAdditionalAmountDescription' => '',
-                        'CollectAmount' => null,
-                        'Services' => '',
-                        'Items' => []
-                    ],
-                    'ShippingDateTime' => $shippingDateTimeAramex,
-                    'DueDate'  => $dueDateAramex,
-                    'Attachments' => [],
-                    'ForeignHAWB' => '',
-                    'TransportType' => 0,
-                    'PickupGUID' => '',
-                    'Number' => null,
-                    'ScheduledDelivery' => null
-                ]
-            ],
-            'Transaction' => [
-                'Reference1' => 'CMD-' . $commande->id,
+        'ClientInfo' => [
+            'UserName' => env('ARAMEX_API_USERNAME'),
+            'Password' => env('ARAMEX_API_PASSWORD'),
+            'Version' => env('ARAMEX_API_VERSION'),
+            'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
+            'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
+            'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
+            'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
+            'Source' => env('ARAMEX_SOURCE'),
+        ],
+        'Shipments' => [
+            [
+                'Reference1' => 'CMD-' . $order->id,
                 'Reference2' => '',
                 'Reference3' => '',
-                'Reference4' => '',
-                'Reference5' => ''
+                'Shipper' => [
+                    'Reference1' => 'Shop Address',
+                    'Reference2' => '',
+                    'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
+                    'PartyAddress' => [
+                        'Line1' => $vendor->address,
+                        'Line2' => '',
+                        'Line3' => '',
+                        'City' =>  trim($vendor->address),
+                        'StateOrProvinceCode' => '',
+                        'PostCode' => '23000',
+                        'CountryCode' => 'MA',
+                        'Longitude' => 0,
+                        'Latitude' => 0,
+                        'BuildingNumber' => null,
+                        'BuildingName' => null,
+                        'Floor' => null,
+                        'Apartment' => null,
+                        'POBox' => null,
+                        'Description' => null
+                    ],
+                    'Contact' => [
+                        'Department' => '',
+                        'PersonName' => 'Shopin',
+                        'Title' => '',
+                        'CompanyName' => 'Shopin',
+                        'PhoneNumber1' => '1234567890',
+                        'PhoneNumber1Ext' => '',
+                        'PhoneNumber2' => '1234567890',
+                        'PhoneNumber2Ext' => '',
+                        'FaxNumber' => '',
+                        'CellPhone' => '1234567890',
+                        'EmailAddress' => 'hazarne14@gmail.com',
+                        'Type' => ''
+                    ]
+                ],
+                'Consignee' => [
+                    'Reference1' => '',
+                    'Reference2' => '',
+                    'AccountNumber' => '',
+                    'PartyAddress' => [
+                        'Line1' => $buyer->address,
+                        'Line2' => '',
+                        'Line3' => '',
+                        'City' => $buyer->address,
+                        'StateOrProvinceCode' => '',
+                        'PostCode' => '23000',
+                        'CountryCode' => 'MA',
+                        'Longitude' => 0,
+                        'Latitude' => 0,
+                        'BuildingNumber' => '',
+                        'BuildingName' => '',
+                        'Floor' => '',
+                        'Apartment' => '',
+                        'POBox' => null,
+                        'Description' => ''
+                    ],
+                    'Contact' => [
+                        'Department' => '',
+                        'PersonName' => $buyer->firstname . ' ' . $buyer->lastname,
+                        'Title' => '',
+                        'CompanyName' => $buyer->username,
+                        'PhoneNumber1' => $buyer->phone_number,
+                        'PhoneNumber1Ext' => '',
+                        'PhoneNumber2' => $buyer->phone_number,
+                        'PhoneNumber2Ext' => '',
+                        'FaxNumber' => '',
+                        'CellPhone' => $buyer->phone_number,
+                        'EmailAddress' => $buyer->email,
+                        'Type' => ''
+                    ]
+                ],
+                'Details' => [
+                    'Dimensions' => null,
+                    'ActualWeight' => ['Value' => '1', 'Unit' => 'KG'],
+                    'ChargeableWeight' => null,
+                    'DescriptionOfGoods' => $post->titre,
+                    'GoodsOriginCountry' => "MA",
+                    'NumberOfPieces' => $totalArticles,
+                    'ProductGroup' => 'DOM',
+                    'ProductType' => 'CDS',
+                    'PaymentType' => 'P',
+                    'PaymentOptions' => '',
+                    'CustomsValueAmount' => null,
+                    'CashOnDeliveryAmount' => null,
+                    'InsuranceAmount' => null,
+                    'CashAdditionalAmount' => null,
+                    'CashAdditionalAmountDescription' => '',
+                    'CollectAmount' => null,
+                    'Services' => '',
+                    'Items' => []
+                ],
+                'ShippingDateTime' => $shippingDateTimeAramex,
+                'DueDate'  => $dueDateAramex,
+                'Attachments' => [],
+                'ForeignHAWB' => '',
+                'TransportType' => 0,
+                'PickupGUID' => '',
+                'Number' => null,
+                'ScheduledDelivery' => null
             ]
+        ],
+        'Transaction' => [
+            'Reference1' => 'CMD-' . $order->id,
+            'Reference2' => '',
+            'Reference3' => '',
+            'Reference4' => '',
+            'Reference5' => ''
+        ]
         ];
     }
+
 
 }

@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
                 <form id="filter-form">
-                    <div class="row mb-4 align-items-end g-2"> <!-- g-2 for small gaps -->
+                    <div class="row mb-4 align-items-end g-2">
                         <div class="col-auto">
                             <label for="searchFilter" class="form-label">Rechercher</label>
                             <input type="text" name="search" id="searchFilter" class="form-control form-control-sm"
@@ -43,6 +43,7 @@
                         </div>
                     </div>
                 </form>
+
                 <div class="table-responsive">
                     <table class="table w-100 table-custom">
                         <thead class="th-white">
@@ -60,134 +61,132 @@
                             </tr>
                         </thead>
                         <tbody id="commande-table-body">
-                            @forelse ($commandes as $commande)
-                                <tr>
-                                    <td>CMD-{{$commande->id}}</td>
-                                    <td>
-                                        @if($commande->vendor)
-                                            <a href="/admin/client/{{ $commande->vendor->id }}/view">
-                                                {{ $commande->vendor?->username ?? '—' }}
-                                            </a>
-                                            <br>
-                                            <small>
-                                                <b class="text-color2">Région:</b> {{ $commande->vendor?->region_info?->nom ?? '/' }}
-                                            </small>
-                                            <div>
-                                                <span class="message-style"
-                                                    onclick="OpenModalMessage(
-                                                        '{{ $commande->vendor?->id ?? 0 }}',
-                                                        '{{ $commande->vendor?->username ?? '—' }}',
-                                                        '{{ $commande->post?->titre ?? '—' }}',
-                                                        '{{ $commande->post?->id ?? 0 }}',
-                                                        '{{ $commande->post?->photos[0] ? config('app.url') . Storage::url($commande->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                    )">
-                                                    <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                </span>
-                                            </div>
-                                        @else
-                                            <span class="text-muted">—</span>
-                                        @endif
-                                    </td>
+                            @forelse ($orders as $order)
+                                @foreach ($order->items as $item)
+                                    <tr>
+                                        <td>CMD-{{ $order->id }}</td>
 
-                                    <td>
-                                        @if($commande->buyer)
-                                            <a href="/admin/client/{{ $commande->buyer->id }}/view">
-                                                {{ $commande->buyer?->username ?? '—' }}
-                                            </a>
-                                            <br>
-                                            <small>
-                                                <b class="text-color2">Région:</b> {{ $commande->buyer?->region_info?->nom ?? '/' }}
-                                            </small>
-                                            <div>
-                                                <span class="message-style"
-                                                    onclick="OpenModalMessage(
-                                                        '{{ $commande->buyer?->id ?? 0 }}',
-                                                        '{{ $commande->buyer?->username ?? '—' }}',
-                                                        '{{ $commande->post?->titre ?? '—' }}',
-                                                        '{{ $commande->post?->id ?? 0 }}',
-                                                        '{{ $commande->post?->photos[0] ? config('app.url') . Storage::url($commande->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                    )">
-                                                    <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                </span>
-                                            </div>
-                                        @else
-                                            <span class="text-muted">—</span>
-                                        @endif
-                                    </td>
+                                        <td>
+                                            @if($item->vendor)
+                                                <a href="/admin/client/{{ $item->vendor->id }}/view">
+                                                    {{ $item->vendor->username ?? '—' }}
+                                                </a>
+                                                <br>
+                                                <small>
+                                                    <b class="text-color2">Région:</b> {{ $item->vendor->region_info->nom ?? '/' }}
+                                                </small>
+                                                <div>
+                                                    <span class="message-style"
+                                                        onclick="OpenModalMessage(
+                                                            '{{ $item->vendor->id ?? 0 }}',
+                                                            '{{ $item->vendor->username ?? '—' }}',
+                                                            '{{ $item->post->titre ?? '—' }}',
+                                                            '{{ $item->post->id ?? 0 }}',
+                                                            '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
+                                                        )">
+                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <span class="text-muted">—</span>
+                                            @endif
+                                        </td>
 
-                                    <td>
-                                        @if($commande->post)
-                                            <a href="/admin/publication/{{ $commande->post->id }}/view">
-                                                {{ $commande->post?->titre ?? '—' }}
-                                            </a>
-                                        @else
-                                            <span class="text-muted">Post supprimé</span>
-                                        @endif
-                                    </td>
+                                        <td>
+                                            @if($order->buyer)
+                                                <a href="/admin/client/{{ $order->buyer->id }}/view">
+                                                    {{ $order->buyer->username ?? '—' }}
+                                                </a>
+                                                <br>
+                                                <small>
+                                                    <b class="text-color2">Région:</b> {{ $order->buyer->region_info->nom ?? '/' }}
+                                                </small>
+                                                <div>
+                                                    <span class="message-style"
+                                                        onclick="OpenModalMessage(
+                                                            '{{ $order->buyer->id ?? 0 }}',
+                                                            '{{ $order->buyer->username ?? '—' }}',
+                                                            '{{ $item->post->titre ?? '—' }}',
+                                                            '{{ $item->post->id ?? 0 }}',
+                                                            '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
+                                                        )">
+                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <span class="text-muted">—</span>
+                                            @endif
+                                        </td>
 
-                                    <td>
-                                        {{ $commande->shipment_id ?? '—' }}
+                                        <td>
+                                            @if($item->post)
+                                                <a href="/admin/publication/{{ $item->post->id }}/view">
+                                                    {{ $item->post->titre ?? '—' }}
+                                                </a>
+                                            @else
+                                                <span class="text-muted">Post supprimé</span>
+                                            @endif
+                                        </td>
 
-                                    </td>
+                                        <td>{{ $item->shipment_id ?? '—' }}</td>
 
-                                    <td>{{ $commande->frais_livraison ?? 0 }} <sup>DH</sup></td>
+                                        <td>{{ $item->delivery_fee ?? 0 }} <sup>DH</sup></td>
 
-                                    @php $statut = $commande->post?->statut ?? '—'; @endphp
-                                    <td>
-                                        <span class="badge-etat
-                                            @if($statut === 'validation') etat-validation
-                                            @elseif($statut === 'vente') etat-vente
-                                            @elseif($statut === 'vendu') etat-vendu
-                                            @elseif($statut === 'livraison') etat-livraison
-                                            @elseif($statut === 'livré') etat-livre
-                                            @elseif($statut === 'refusé') etat-refuse
-                                            @elseif($statut === 'préparation') etat-preparation
-                                            @elseif($statut === 'en voyage') etat-en-voyage
-                                            @elseif($statut === 'en cours de livraison') etat-en-cours
-                                            @elseif($statut === 'ramassée') etat-ramassee
-                                            @elseif($statut === 'retourné') etat-retourne
-                                            @endif">
-                                            {{ $statut }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @switch($commande->statut)
-                                            @case('crée')
-                                                <span class="badge bg-secondary">Crée</span>
-                                                @break
+                                        <td>
+                                            @php $statut = $item->post?->statut ?? '—'; @endphp
+                                            <span class="badge-etat
+                                                @if($statut === 'validation') etat-validation
+                                                @elseif($statut === 'vente') etat-vente
+                                                @elseif($statut === 'vendu') etat-vendu
+                                                @elseif($statut === 'livraison') etat-livraison
+                                                @elseif($statut === 'livré') etat-livre
+                                                @elseif($statut === 'refusé') etat-refuse
+                                                @elseif($statut === 'préparation') etat-preparation
+                                                @elseif($statut === 'en voyage') etat-en-voyage
+                                                @elseif($statut === 'en cours de livraison') etat-en-cours
+                                                @elseif($statut === 'ramassée') etat-ramassee
+                                                @elseif($statut === 'retourné') etat-retourne
+                                                @endif">
+                                                {{ $statut }}
+                                            </span>
+                                        </td>
 
-                                            @case('expédiée')
-                                                <span class="badge bg-info text-dark">Expédiée</span>
-                                                @break
+                                        <td>
+                                            @switch($order->status)
+                                                @case('pending')
+                                                    <span class="badge bg-secondary">Crée</span>
+                                                    @break
+                                                @case('expédiée')
+                                                    <span class="badge bg-info text-dark">Expédiée</span>
+                                                    @break
+                                                @case('livrée')
+                                                    <span class="badge bg-success">Livrée</span>
+                                                    @break
+                                                @case('annulée')
+                                                    <span class="badge bg-danger">Annulée</span>
+                                                    @break
+                                                @default
+                                                    <span class="badge bg-light text-dark">{{ ucfirst($order->status) }}</span>
+                                            @endswitch
+                                        </td>
 
-                                            @case('livrée')
-                                                <span class="badge bg-success">Livrée</span>
-                                                @break
+                                        <td>{{ $order->created_at ? $order->created_at->format('d/m/Y H:i') : '—' }}</td>
 
-                                            @case('annulée')
-                                                <span class="badge bg-danger">Annulée</span>
-                                                @break
-
-                                            @default
-                                                <span class="badge bg-light text-dark">{{ ucfirst($commande->statut) }}</span>
-                                        @endswitch
-
-                                    </td>
-                                    <td>{{ $commande->created_at ? $commande->created_at->format('d/m/Y H:i') : '—' }}</td>
-                                    <td>
-                                        @if(!$commande->shipment_id)
-                                            <button class="btn btn-sm btn-outline-primary mt-1"
-                                                onclick="synchronizeWithAramex({{ $commande->id }})">
-                                                Synchroniser avec Aramex
-                                            </button>
-                                        @else
-                                            <span class="badge bg-success mt-1">Synchronisé</span>
-                                        @endif
-                                    </td>
-                                </tr>
+                                        <td>
+                                            @if(!$item->shipment_id)
+                                                <button class="btn btn-sm btn-outline-primary mt-1"
+                                                    onclick="synchronizeWithAramex({{ $order->id }})">
+                                                    Synchroniser avec Aramex
+                                                </button>
+                                            @else
+                                                <span class="badge bg-success mt-1">Synchronisé</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @empty
                                 <tr>
-                                    <td colspan="8">
+                                    <td colspan="10">
                                         <div class="p-3">Aucune commande trouvée</div>
                                     </td>
                                 </tr>
@@ -195,7 +194,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="p-3">{{ $commandes->links('pagination::bootstrap-4') }}</div>
+
+                <div class="p-3">{{ $orders->links('pagination::bootstrap-4') }}</div>
             </div>
         </div>
     </div>

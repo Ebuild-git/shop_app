@@ -22,6 +22,8 @@ use App\Services\AramexService;
 use DateTime;
 use App\Events\AdminEvent;
 use Livewire\Component;
+use App\Models\Order;
+use App\Models\OrdersItem;
 
 class Mode extends Component
 {
@@ -107,8 +109,9 @@ class Mode extends Component
     }
     public function confirm()
     {
-        $this->processCartItems();
-        $this->sendBuyerNotification();
+        // $this->processCartItems();
+        $order = $this->processCartItems();
+        $this->sendBuyerNotification($order);
         $this->notifySellers();
         $this->sendConfirmationEmail();
         $this->notifyAdminAboutPurchase();
@@ -136,20 +139,33 @@ class Mode extends Component
 
     private function processCartItems()
     {
+        $buyerId = Auth::id();
+
+        $order = Order::create([
+            'buyer_id' => $buyerId,
+            'total' => 0,
+            'total_delivery_fees' => 0,
+            'status' => 'pending',
+            'state' => 'created',
+        ]);
+
+        $total = 0;
+        $totalDeliveryFees = 0;
+        $vendorsCounted = [];
+
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
             if (!$post) continue;
-
-            // Update post status
             $post->update([
                 'statut' => 'préparation',
                 'sell_at' => now(),
-                'id_user_buy' => Auth::id()
+                'id_user_buy' => $buyerId
             ]);
 
             $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
             $id_region = Auth::user()->region ?? null;
             $frais = 0;
+
             if ($id_categorie && $id_region) {
                 $regionCategory = regions_categories::where('id_region', $id_region)
                     ->where('id_categorie', $id_categorie)
@@ -157,27 +173,43 @@ class Mode extends Component
                 $frais = $regionCategory ? (float)$regionCategory->prix : 0;
             }
 
-            $commande = new CommandeModel();
-            $commande->id_vendor = $post->id_user;
-            $commande->id_buyer = Auth::id();
-            $commande->id_post = $post->id;
-            $commande->frais_livraison = $frais;
-            $commande->etat = 'En attente';
-            $commande->statut = 'crée';
-            $commande->save();
+            if (!isset($vendorsCounted[$post->id_user])) {
+                $totalDeliveryFees += $frais;
+                $vendorsCounted[$post->id_user] = true;
+            }
+
+            OrdersItem::create([
+                'order_id' => $order->id,
+                'post_id' => $post->id,
+                'vendor_id' => $post->id_user,
+                'price' => $post->getPrix(),
+                'delivery_fee' => $frais,
+                'status' => 'pending',
+            ]);
+
+            $total += $post->getPrix();
         }
+
+        $order->update([
+            'total' => $total,
+            'total_delivery_fees' => $totalDeliveryFees,
+        ]);
+
+        return $order;
     }
 
-    private function sendBuyerNotification()
+
+
+    private function sendBuyerNotification(Order $order)
     {
         $buyer = Auth::user();
         $salutations = $buyer->gender === 'female'
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
 
-        $lastCommandeId = CommandeModel::where('id_buyer', $buyer->id)
-                    ->latest('created_at')
-                    ->value('id');
+        // $lastCommandeId = CommandeModel::where('id_buyer', $buyer->id)
+        //             ->latest('created_at')
+        //             ->value('id');
 
         $notification = new notifications();
         $notification->titre = __('notifications.order_confirmed_title');
@@ -186,7 +218,7 @@ class Mode extends Component
         $notification->url = "/informations?section=commandes";
         $notification->message = __('notifications.order_confirmed_message', [
             'salutations' => $salutations,
-            'shipment_id' => 'CMD-' . $lastCommandeId,
+            'shipment_id' => 'CMD-' . $order->id,
         ]);
         $notification->save();
 
