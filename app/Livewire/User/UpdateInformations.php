@@ -136,7 +136,20 @@ class UpdateInformations extends Component
         try {
             $user = User::findOrFail($userId);
             $isCurrentUser = Auth::id() == $user->id;
+
+            $username = $user->username;
+            $userPk   = $user->id;
+
             $user->delete();
+            $notification = new notifications();
+            $notification->type = "new_post";
+            $notification->titre = "Un utilisateur a supprimé son compte";
+            $notification->url = "/admin/utilisateurs/supprime";
+            $notification->message = "L'utilisateur {$username} a supprimé son compte.";
+            $notification->id_user = $userPk;
+            $notification->destination = "admin";
+            $notification->save();
+
             session()->flash('message', 'Utilisateur supprimé avec succès !');
             if ($isCurrentUser) {
                 Auth::logout();

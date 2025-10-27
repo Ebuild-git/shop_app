@@ -14,22 +14,23 @@ function change_principal_image(url) {
     document.getElementById("figure").style.backgroundImage = "url('" + url + "')";
     document.getElementById("figure").setAttribute("data-url", url);
 }
+
 function confirmDeleteAccount(userId, livewireInstance) {
     Swal.fire({
-        title: translations.confirm_title,
-        text: translations.confirm_text,
+        title: translations_swal.confirm_title,
+        text: translations_swal.confirm_text,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#008080',
         cancelButtonColor: '#000',
-        confirmButtonText: translations.confirm_button,
-        cancelButtonText: translations.cancel_button
+        confirmButtonText: translations_swal.confirm_button,
+        cancelButtonText: translations_swal.cancel_button
     }).then((result) => {
         if (result.isConfirmed) {
             livewireInstance.call('delete', userId);
             Swal.fire(
-                translations.deleted_title,
-                translations.deleted_text,
+                translations_swal.deleted_title,
+                translations_swal.deleted_text,
                 'success'
             );
         }

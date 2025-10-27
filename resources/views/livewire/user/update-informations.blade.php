@@ -200,7 +200,7 @@
     </div>
 </form>
 <script>
-    window.translations = {
+    window.translations_swal = {
         confirm_title: "{{ __('confirm_title') }}",
         confirm_text: "{{ __('confirm_text') }}",
         confirm_button: "{{ __('confirm_button') }}",
