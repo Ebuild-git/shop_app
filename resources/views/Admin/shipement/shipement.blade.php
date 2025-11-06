@@ -58,6 +58,7 @@
                                 <th>État</th>
                                 <th>Statut</th>
                                 <th>Date</th>
+                                <th>Note</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -156,44 +157,6 @@
                                         <td>{{ $item->shipment_id ?? '—' }}</td>
 
                                         <td>{{ $item->delivery_fee ?? 0 }} <sup>DH</sup></td>
-
-                                        {{-- <td>
-                                            @php $statut = $item->post?->statut ?? '—'; @endphp
-                                            <span class="badge-etat
-                                                @if($statut === 'validation') etat-validation
-                                                @elseif($statut === 'vente') etat-vente
-                                                @elseif($statut === 'vendu') etat-vendu
-                                                @elseif($statut === 'livraison') etat-livraison
-                                                @elseif($statut === 'livré') etat-livre
-                                                @elseif($statut === 'refusé') etat-refuse
-                                                @elseif($statut === 'préparation') etat-preparation
-                                                @elseif($statut === 'en voyage') etat-en-voyage
-                                                @elseif($statut === 'en cours de livraison') etat-en-cours
-                                                @elseif($statut === 'ramassée') etat-ramassee
-                                                @elseif($statut === 'retourné') etat-retourne
-                                                @endif">
-                                                {{ $statut }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @switch($order->status)
-                                                @case('pending')
-                                                    <span class="badge bg-secondary">Crée</span>
-                                                    @break
-                                                @case('expédiée')
-                                                    <span class="badge bg-info text-dark">Expédiée</span>
-                                                    @break
-                                                @case('livrée')
-                                                    <span class="badge bg-success">Livrée</span>
-                                                    @break
-                                                @case('annulée')
-                                                    <span class="badge bg-danger">Annulée</span>
-                                                    @break
-                                                @default
-                                                    <span class="badge bg-light text-dark">{{ ucfirst($order->status) }}</span>
-                                            @endswitch
-                                        </td> --}}
-
                                         <td>
                                             @php $statut = $item->post?->statut ?? '—'; @endphp
                                             <div class="d-flex align-items-center gap-1">
@@ -262,6 +225,14 @@
                                         </td>
                                         <td>{{ $order->created_at ? $order->created_at->format('d/m/Y H:i') : '—' }}</td>
 
+                                        <td class="text-wrap" style="max-width: 250px;">
+                                            @if($order->note)
+                                                <span>{{ Str::limit($order->note, 120) }}</span>
+                                            @else
+                                                <span>Aucune note</span>
+                                            @endif
+                                        </td>
+
                                         <td>
                                             @if(!$item->shipment_id)
                                                 <button class="btn btn-sm btn-outline-primary mt-1"
@@ -271,7 +242,10 @@
                                             @else
                                                 <span class="badge bg-success mt-1">Synchronisé</span>
                                             @endif
-
+                                            <button class="btn btn-sm btn-outline-secondary mt-1"
+                                                onclick="openNoteModal({{ $order->id }}, '{{ addslashes($order->note ?? '') }}')">
+                                                <i class="bi bi-journal-text"></i> Note
+                                            </button>
                                             <button class="btn btn-sm btn-outline-danger mt-1"
                                                 onclick="confirmDeleteOrder({{ $order->id }})">
                                                 <i class="bi bi-trash"></i>
@@ -459,6 +433,51 @@ function confirmDeleteOrder(orderId) {
         }
     });
 }
+
+function openNoteModal(orderId, currentNote) {
+    Swal.fire({
+        title: "Ajouter / Modifier la note",
+        input: "textarea",
+        inputLabel: "Note pour la commande",
+        inputValue: currentNote,
+        showCancelButton: true,
+        confirmButtonText: "Enregistrer",
+        cancelButtonText: "Annuler",
+        inputPlaceholder: "Saisissez ici votre note...",
+        inputAttributes: {
+            rows: 6
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/orders/${orderId}/note`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ note: result.value })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Note enregistrée",
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => location.reload());
+                } else {
+                    Swal.fire("Erreur", data.message || "Impossible d’enregistrer la note", "error");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire("Erreur", "Une erreur est survenue", "error");
+            });
+        }
+    });
+}
+
 </script>
 
 <script>
@@ -529,5 +548,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
 
 @endsection

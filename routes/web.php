@@ -194,6 +194,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::post('/admin/users/{id}/approve-cin', [AdminController::class, 'approveCIN'])->name('admin.cin.approve');
     Route::get('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/admin/update-status/{id}', [OrdersController::class, 'updateStatus'])->name('update.status');
+    Route::post('/admin/orders/{order}/note', [OrdersController::class, 'updateNote'])->name('orders.updateNote');
 
 
 });
