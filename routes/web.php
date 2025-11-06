@@ -183,12 +183,17 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('orders');
     Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
     Route::post('/admin/commande/{commande}/sync-aramex', [AdminController::class, 'syncWithAramex']);
+    Route::delete('/admin/orders/{order}', [OrdersController::class, 'destroy'])->name('admin.orders.destroy');
+    Route::get('/admin/orders/deleted', [OrdersController::class, 'deletedOrders'])->name('admin.orders.deleted');
+    Route::post('/admin/orders/{order}/restore', [OrdersController::class, 'restore'])->name('admin.orders.restore');
+    Route::delete('/admin/orders/{order}/force-delete', [OrdersController::class, 'forceDelete'])->name('admin.orders.forceDelete');
 
     Route::delete('/admin/violations/delete-all', [SignalementsController::class, 'deleteAll'])->name('violations.deleteAll');
     Route::delete('/admin/violations/{id}', [SignalementsController::class, 'destroy'])->name('violations.destroy');
 
     Route::post('/admin/users/{id}/approve-cin', [AdminController::class, 'approveCIN'])->name('admin.cin.approve');
     Route::get('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/admin/update-status/{id}', [OrdersController::class, 'updateStatus'])->name('update.status');
 
 
 });

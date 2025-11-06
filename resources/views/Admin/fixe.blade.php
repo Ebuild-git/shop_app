@@ -424,10 +424,25 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="{{ route('orders') }}" class="menu-link ">
-                                        <i class="menu-icon tf-icons bi bi-truck"></i>
-                                        <div data-i18n="Les Commandes">Les Commandes</div>
+                                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                                        <i class="menu-icon bi bi-gear"></i>
+                                        <div data-i18n="Commandes">Commandes</div>
                                     </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="{{ route('orders') }}" class="menu-link ">
+                                                <i class="menu-icon tf-icons ti ti-files"></i>
+                                                <div data-i18n="Liste des Commandes">Liste des Commandes</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="{{route('admin.orders.deleted')}}" class="menu-link ">
+                                                <i class="menu-icon tf-icons ti ti-files"></i>
+                                                <div data-i18n="Commandes supprimées">Commandes supprimées</div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
                                 </li>
 
                             </ul>
