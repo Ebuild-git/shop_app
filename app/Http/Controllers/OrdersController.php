@@ -89,5 +89,16 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function updateNote(Request $request, $id)
+    {
+        $request->validate([
+            'note' => 'nullable|string',
+        ]);
+        $order = Order::findOrFail($id);
+        $order->note = $request->note;
+        $order->save();
+
+        return response()->json(['success' => true]);
+    }
 
 }
