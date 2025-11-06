@@ -55,8 +55,21 @@
                                     {{ $achat->user_info->username }}
                                 </a>
                             @endif
+                            <br/>
+                            @if ($achat->user_info->deleted_at)
+                                <span class="text-danger">
+                                    ( {{ __('shopiner supprimé') }} )
+                                </span>
+                            @endif
+
                         </td>
                         <td class="text-end">
+                            @if ($achat->user_info->deleted_at)
+                                <span class="badge bg-danger">
+                                    {{ __('commande annulée') }}
+                                </span>
+                            @endif
+                            <br/>
                             <x-StatutLivraison :statut="$achat->statut"></x-StatutLivraison>
                         </td>
                     </tr>
