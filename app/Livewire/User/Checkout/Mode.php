@@ -306,7 +306,29 @@ class Mode extends Component
 
     private function sendConfirmationEmail()
     {
-        $totalShippingFees = 0;
+        $groupedByVendor = collect($this->articles_panier)->groupBy('vendeur');
+        $uniqueVendorsCount = $groupedByVendor->count();
+
+        $frais = 0;
+        if (!empty($this->articles_panier)) {
+            $firstArticle = $this->articles_panier[0];
+            $post = posts::find($firstArticle['id']);
+            if ($post) {
+                $id_categorie = $post->id_sous_categorie
+                    ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                    : null;
+                $id_region = Auth::user()->region ?? null;
+
+                if ($id_categorie && $id_region) {
+                    $regionCategory = regions_categories::where('id_region', $id_region)
+                        ->where('id_categorie', $id_categorie)
+                        ->first();
+                    $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                }
+            }
+        }
+
+        $totalShippingFees = $uniqueVendorsCount > 0 ? $frais * $uniqueVendorsCount : 0;
         Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier, $totalShippingFees));
     }
 
