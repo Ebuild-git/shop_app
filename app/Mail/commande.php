@@ -22,7 +22,7 @@ class commande extends Mailable
         $this->user = $user;
         $this->articles_panier = $articles_panier;
         $this->totalShippingFees = $totalShippingFees;
-        $this->from('shopin@becker-brand.store', 'SHOPIN');
+        $this->from('shopin@ebuild.website', 'SHOPIN');
         $this->subject("Confirmation de votre commande");
     }
 

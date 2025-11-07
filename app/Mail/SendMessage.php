@@ -10,7 +10,7 @@ class SendMessage extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
-        $this->from('shopin@becker-brand.store', 'SHOPIN');
+        $this->from('shopin@ebuild.website', 'SHOPIN');
         $this->subject($data['sujet']);
     }
 
