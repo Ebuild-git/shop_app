@@ -713,7 +713,12 @@
 "prix" : "السعر",
 "état" : "الحالة",
 "shopiner supprimé": "تم حذف الشوبينر",
-"commande annulée": "تم إلغاء الطلب"
+"commande annulée": "تم إلغاء الطلب",
+"Ordre croissant":"ترتيب تصاعدي",
+"Ordre décroissant":"ترتيب تنازلي",
+"Articles soldés":"المنتجات المخفضة",
+"only": "فقط",
+"no_results": "لا توجد نتائج لمعايير البحث الخاصة بك."
 
 
 

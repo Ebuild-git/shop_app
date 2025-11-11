@@ -50,7 +50,7 @@
                                     <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
                                         onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
 
-                                        {{ \App\Traits\TranslateTrait::TranslateText($option) }}
+                                        {{ __($option) }}
                                     </button>
                                 @endforeach
                             @endif

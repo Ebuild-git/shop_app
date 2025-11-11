@@ -714,7 +714,12 @@
 "prix" : "Price",
 "état" : "Status",
 "shopiner supprimé": "shopiner deleted",
-"commande annulée": "order cancelled"
+"commande annulée": "order cancelled",
+"Ordre croissant":"Ascending order",
+"Ordre décroissant":"Descending order",
+"Articles soldés":"On sale items",
+"only": "Only",
+"no_results": "No results for your search criteria."
 
 
 

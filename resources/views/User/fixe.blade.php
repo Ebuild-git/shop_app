@@ -1632,6 +1632,7 @@
                     MatiereSac: MatiereSac,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 }, // Passer la valeur de la recherche comme paramètre
+
                 function(data, status) {
                     if (status === "success") {
                         $(".rows-products").empty();

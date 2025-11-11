@@ -25,7 +25,7 @@
                         <button class="collapse-toggle" data-target="#types{{ $propriete->id }}">
                             {{ __($propriete->nom) }}
                             <span class="collapse-icon">
-                                <i class="bi bi-plus-lg"></i> <!-- Initial icon as plus -->
+                                <i class="bi bi-plus-lg"></i>
                             </span>
                         </button>
                     </h4>
@@ -49,7 +49,7 @@
                                 @foreach (json_decode($propriete->options ?? []) as $option)
                                     <button class="btn btn-sm w-1" id="btn-option-{{ str_replace(' ', '', $option) }}"
                                         onclick="filtre_propriete('{{ $propriete->nom }}','{{ $option }}')">
-                                        {{ $option }}
+                                        {{ __($option) }}
                                     </button>
                                 @endforeach
                             @endif

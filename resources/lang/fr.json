@@ -715,7 +715,13 @@
 "prix" : "Prix",
 "état" : "État",
 "shopiner supprimé": "shopiner supprimé",
-"commande annulée": "commande annulée"
+"commande annulée": "commande annulée",
+"Ordre croissant":"Ordre croissant",
+"Ordre décroissant":"Ordre décroissant",
+"Articles soldés":"Articles soldés",
+"only": "Uniquement",
+"no_results": "Aucun résultat pour vos critères de recherche."
+
 
 
 

@@ -85,11 +85,11 @@
                             </div>
                             <!-- Condition Options Dropdown -->
                             <div class="custom-dropdown-container etat-dropdown" id="condition-options-category-mobile">
-                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">{{ __('new_with_tags') }}</div>
-                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">{{ __('new_without_tags') }}</div>
-                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">{{ __('very_good_condition') }}</div>
-                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">{{ __('good_condition') }}</div>
-                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">{{ __('used') }}</div>
+                                <div class="custom-dropdown-item" data-value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">{{ __('Neuf avec étiquettes')}}</div>
+                                <div class="custom-dropdown-item" data-value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">{{ __('Neuf sans étiquettes')}}</div>
+                                <div class="custom-dropdown-item" data-value="Très bon état" onclick="updateConditionFilter('Très bon état')">{{ __('Très bon état')}}</div>
+                                <div class="custom-dropdown-item" data-value="Bon état" onclick="updateConditionFilter('Bon état')">{{ __('Bon état')}}</div>
+                                <div class="custom-dropdown-item" data-value="Usé" onclick="updateConditionFilter('Usé')">{{ __('Usé')}}</div>
                             </div>
                         </div>
                     </div>
@@ -294,23 +294,23 @@
                                         <div class="side-list no-border">
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Neuf avec étiquettes" onclick="updateConditionFilter('Neuf avec étiquettes')">
-                                                <button type="button" class="btn-etat-shop">Neuf avec étiquettes</button>
+                                                <button type="button" class="btn-etat-shop">{{ __('Neuf avec étiquettes')}}</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Neuf sans étiquettes" onclick="updateConditionFilter('Neuf sans étiquettes')">
-                                                <button type="button" class="btn-etat-shop">Neuf sans étiquettes</button>
+                                                <button type="button" class="btn-etat-shop">{{ __('Neuf sans étiquettes')}}</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Très bon état" onclick="updateConditionFilter('Très bon état')">
-                                                <button type="button" class="btn-etat-shop">Très bon état</button>
+                                                <button type="button" class="btn-etat-shop">{{ __('Très bon état')}}</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Bon état" onclick="updateConditionFilter('Bon état')">
-                                                <button type="button" class="btn-etat-shop">Bon état</button>
+                                                <button type="button" class="btn-etat-shop">{{ __('Bon état')}}</button>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="etat" value="Usé" onclick="updateConditionFilter('Usé')">
-                                                <button type="button" class="btn-etat-shop">Usé</button>
+                                                <button type="button" class="btn-etat-shop">{{ __('Usé')}}</button>
                                             </div>
                                             @error('etat')
                                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -334,20 +334,20 @@
                                         <div class="side-list no-border">
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="ordre_prix" value="low_to_high" onclick="updatePriceFilter('low_to_high')" id="prix_asc">
-                                                <span class="btn-etat-shop">Ordre croissant</span>
+                                                <span class="btn-etat-shop">{{ __("Ordre croissant")}}</span>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="ordre_prix" value="high_to_low" onclick="updatePriceFilter('high_to_low')" id="prix_desc">
-                                                <span class="btn-etat-shop">Ordre décroissant</span>
+                                                <span class="btn-etat-shop">{{ __("Ordre décroissant")}}</span>
                                             </div>
                                             <div class="d-flex justify-content-start">
                                                 <input type="radio" name="ordre_prix" value="soldé" onclick="updatePriceFilter('soldé')" id="solder">
-                                                <span class="btn-etat-shop">Articles soldés</span>
+                                                <span class="btn-etat-shop">{{ __("Articles soldés")}}</span>
                                             </div>
                                             @if (!$selected_categorie)
                                                 <div class="d-flex justify-content-start">
                                                     <input type="checkbox" name="ordre_prix" value="luxury" onclick="updatePriceFilter('luxury')">
-                                                    <span class="btn-etat-shop color">Uniquement <b><i class="bi bi-gem"></i> Luxury</b></span>
+                                                    <span class="btn-etat-shop color">{{__('only')}} <b><i class="bi bi-gem"></i> {{__('luxury2')}}</b></span>
                                                 </div>
                                             @endif
                                             @error('ordre')
