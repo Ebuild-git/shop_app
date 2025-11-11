@@ -69,18 +69,28 @@
                         </span>
                     </td>
                     @endif
+                    @php
+                        $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
+                        $hasDeletedOrder = $item->hasDeletedOrders();
+                    @endphp
                     <td class="text-capitalize my-auto">
                         @if (!$item->motif_suppression)
                         <x-AnnonceStatut :statut="$item->statut" :sellAt="$item->sell_at" :verifiedAt="$item->verified_at" :voyageMode="$item->user_info->voyage_mode"></x-AnnonceStatut>
+
                         @if ($item->sell_at)
-                        <div class="small">
-                            {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y') . ' ' . __('at') . ' ' . \Carbon\Carbon::parse($item->sell_at)->format('H:i') }}
-                        </div>
+                            <div class="small">
+                                {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y') . ' ' . __('at') . ' ' . \Carbon\Carbon::parse($item->sell_at)->format('H:i') }}
+                            </div>
                         @endif
+                            @if ($isUserDeleted || $hasDeletedOrder)
+                            <span class="badge bg-danger">
+                                {{ __('commande annulée') }}
+                            </span>
+                            @endif
                         @else
-                        <span class="badge" style="background-color:#ce0000; ">
-                            {{ __('deleted_by_shopin') }}
-                        </span>
+                            <span class="badge" style="background-color:#ce0000; ">
+                                {{ __('deleted_by_shopin') }}
+                            </span>
                         @endif
                     </td>
                     <td>

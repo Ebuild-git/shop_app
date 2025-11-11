@@ -64,7 +64,12 @@
 
                         </td>
                         <td class="text-end">
-                            @if ($achat->user_info->deleted_at)
+                            @php
+                                $hasDeletedOrder = $achat->orderItems()->whereHas('order', function ($q) {
+                                    $q->onlyTrashed();
+                                })->exists();
+                            @endphp
+                            @if ($achat->user_info->deleted_at || $hasDeletedOrder)
                                 <span class="badge bg-danger">
                                     {{ __('commande annulée') }}
                                 </span>
