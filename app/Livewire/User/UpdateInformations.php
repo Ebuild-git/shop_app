@@ -140,6 +140,11 @@ class UpdateInformations extends Component
             $username = $user->username;
             $userPk   = $user->id;
 
+            $user->email_deleted = $user->email;
+            $user->email = null;
+            $user->save();
+
+
             $user->delete();
             $notification = new notifications();
             $notification->type = "new_post";

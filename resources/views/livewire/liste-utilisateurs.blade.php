@@ -161,7 +161,7 @@
                         @else
                             <td>
                                 <span style="cursor: pointer;">
-                                    {{ $user->email }}
+                                    {{ $user->email ?? $user->email_deleted}}
                                 </span>
                             </td>
                         @endif
@@ -201,11 +201,13 @@
                                     @endif
                                 </div>
                             @else
-                                <div class="action-buttons">
-                                    <button class="btn btn-sm btn-success" onclick="confirmRestoreUser({{ $user->id }})">
-            Restaurer
-        </button>
-                                </div>
+                                @if(!$user->email_deleted)
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-success" onclick="confirmRestoreUser({{ $user->id }})">
+                                            Restaurer
+                                        </button>
+                                    </div>
+                                @endif
                             @endif
                         </td>
 
