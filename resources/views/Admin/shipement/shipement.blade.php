@@ -387,7 +387,7 @@ function synchronizeWithAramex(commandeId) {
                     Swal.fire({
                         icon: "error",
                         title: "Échec de la synchronisation",
-                        text: data.message,
+                        html: data.message + "<br><br><pre>" + JSON.stringify(data.results, null, 2) + "</pre>",
                         confirmButtonColor: "#d33",
                     });
                 }

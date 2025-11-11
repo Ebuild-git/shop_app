@@ -256,18 +256,101 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
+    // public function syncWithAramex($id)
+    // {
+    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
+
+    //     if (!$order) {
+    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
+    //     }
+
+    //     $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
+
+    //     if ($unsyncedItems->isEmpty()) {
+    //         return response()->json(['success' => false, 'message' => 'Tous les articles de cette commande sont déjà synchronisés.']);
+    //     }
+
+    //     $aramex = new AramexService();
+    //     $results = [];
+
+    //     foreach ($unsyncedItems as $item) {
+    //         try {
+    //             $payload = $this->buildShipmentPayloadItem($order, $item);
+
+    //             $response = $aramex->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $payload);
+
+    //             if (!isset($response['HasErrors']) || !$response['HasErrors']) {
+
+    //                 $shipmentId = $response['Shipments'][0]['ID']
+    //                 ?? $response['Shipments'][0]['ShipmentNumber']
+    //                 ?? $response['Shipments'][0]['ShipmentLabel']
+    //                 ?? null;
+
+    //                 if (!$shipmentId) {
+    //                     Log::warning('⚠️ No shipment ID for item', [
+    //                         'order_id' => $order->id,
+    //                         'item_id' => $item->id,
+    //                         'response' => $response,
+    //                     ]);
+    //                 }
+
+    //                 $item->shipment_id = $shipmentId;
+    //                 $item->status = 'expédiée';
+    //                 $item->save();
+
+    //                 $results[] = [
+    //                     'item_id' => $item->id,
+    //                     'success' => true,
+    //                     'shipment_id' => $shipmentId,
+    //                 ];
+
+    //             } else {
+    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+    //                 $results[] = [
+    //                     'item_id' => $item->id,
+    //                     'success' => false,
+    //                     'message' => $msg,
+    //                 ];
+    //             }
+    //         } catch (\Exception $e) {
+    //             Log::error('🔥 Exception during Aramex sync', [
+    //                 'order_id' => $order->id,
+    //                 'item_id' => $item->id,
+    //                 'error' => $e->getMessage(),
+    //             ]);
+    //             $results[] = [
+    //                 'item_id' => $item->id,
+    //                 'success' => false,
+    //                 'message' => $e->getMessage(),
+    //             ];
+    //         }
+    //     }
+
+    //     if ($order->items->every(fn($item) => $item->shipment_id)) {
+    //         $order->status = 'expédiée';
+    //         $order->save();
+    //     }
+
+    //     return response()->json(['success' => true, 'results' => $results]);
+    // }
     public function syncWithAramex($id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
 
         if (!$order) {
-            return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Commande introuvable.'
+            ]);
         }
 
         $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
 
         if ($unsyncedItems->isEmpty()) {
-            return response()->json(['success' => false, 'message' => 'Tous les articles de cette commande sont déjà synchronisés.']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Tous les articles de cette commande sont déjà synchronisés.'
+            ]);
         }
 
         $aramex = new AramexService();
@@ -282,12 +365,12 @@ class AdminController extends Controller
                 if (!isset($response['HasErrors']) || !$response['HasErrors']) {
 
                     $shipmentId = $response['Shipments'][0]['ID']
-                    ?? $response['Shipments'][0]['ShipmentNumber']
-                    ?? $response['Shipments'][0]['ShipmentLabel']
-                    ?? null;
+                        ?? $response['Shipments'][0]['ShipmentNumber']
+                        ?? $response['Shipments'][0]['ShipmentLabel']
+                        ?? null;
 
                     if (!$shipmentId) {
-                        Log::warning('⚠️ No shipment ID for item', [
+                        Log::warning('⚠️ No shipment ID returned', [
                             'order_id' => $order->id,
                             'item_id' => $item->id,
                             'response' => $response,
@@ -303,13 +386,12 @@ class AdminController extends Controller
                         'success' => true,
                         'shipment_id' => $shipmentId,
                     ];
-
                 } else {
                     $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
                     $results[] = [
                         'item_id' => $item->id,
                         'success' => false,
-                        'message' => $msg,
+                        'message' => $msg ?: 'Erreur inconnue retournée par Aramex.'
                     ];
                 }
             } catch (\Exception $e) {
@@ -318,6 +400,7 @@ class AdminController extends Controller
                     'item_id' => $item->id,
                     'error' => $e->getMessage(),
                 ]);
+
                 $results[] = [
                     'item_id' => $item->id,
                     'success' => false,
@@ -326,12 +409,24 @@ class AdminController extends Controller
             }
         }
 
-        if ($order->items->every(fn($item) => $item->shipment_id)) {
+        $allSucceeded = collect($results)->every(fn($r) => $r['success']);
+
+        if ($allSucceeded) {
             $order->status = 'expédiée';
             $order->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Synchronisation Aramex réussie pour tous les articles.',
+                'results' => $results,
+            ]);
         }
 
-        return response()->json(['success' => true, 'results' => $results]);
+        return response()->json([
+            'success' => false,
+            'message' => 'Certains articles n’ont pas pu être synchronisés avec Aramex.',
+            'results' => $results,
+        ]);
     }
 
     private function buildShipmentPayloadItem($order, $item)
