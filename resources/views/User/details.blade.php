@@ -269,14 +269,14 @@
 
 
                             @auth
-                                @if (Auth::id() == $post->id_user && $post->statut !== 'vendu')
+                                @if (Auth::id() == $post->id_user && !$post->sell_at)
                                     <button type="button" onclick="Update_post_price({{ $post->id }})"
                                         class="btn btn-default btn-block mb-2" type="button">
                                         <i class="bi bi-pencil-square"></i>
                                         {{ __('Réduire le prix') }}
                                     </button>
                                 @endif
-                                @if (Auth::id() != $post->id_user && $post->statut !== 'vendu')
+                                @if (Auth::id() != $post->id_user && !$post->sell_at)
                                     <button
                                         class="btn btn-default btn-block btn-add-favoris @if ($isFavorited) btn-favoris-added @endif"
                                         type="button" @guest data-toggle="modal" data-target="#login" @endguest
