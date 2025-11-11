@@ -206,4 +206,18 @@ class posts extends Model
     {
         return $this->favoris()->where('id_user', $userId)->exists();
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrdersItem::class, 'post_id');
+    }
+
+    public function hasDeletedOrders(): bool
+    {
+        return $this->orderItems()
+            ->whereHas('order', fn($q) => $q->onlyTrashed())
+            ->exists();
+    }
+
+
 }
