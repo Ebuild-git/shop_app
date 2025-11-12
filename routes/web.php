@@ -19,6 +19,7 @@ use App\Http\Controllers\UserController;
 use App\Models\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,7 @@ Route::get('/forget', [ControllersHomeController::class, 'forget'])->name('forge
 Route::get('/post/{id}', [ControllersHomeController::class, 'details_post'])->name('details_post_single');
 Route::get('/post/{id}/{titre}', [ControllersHomeController::class, 'details_post'])->name('details_post2');
 Route::get('/color-name', [ColorController::class, 'getColorName']);
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
 Route::post('/recherche', [ShopController::class, 'index'])->name('recherche');

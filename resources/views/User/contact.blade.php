@@ -121,50 +121,97 @@
                         <h2 class="ft-bold pt-3">{{ __('leave_us_message') }}</h2>
                     </div>
 
-                    <form class="row">
+                    <form id="contactForm" class="row" action="{{ route('contact.send') }}" method="POST">
+                        @csrf
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">{{ __('your_name') }}</label>
-                                <input type="text" class="form-control">
+                                <input type="text" name="name" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">{{ __('your_email_address') }}</label>
-                                <input type="text" class="form-control">
+                                <input type="email" name="email" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">{{ __('subject') }}</label>
-                                <input type="text" class="form-control">
+                                <input type="text" name="subject" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">{{ __('message') }}</label>
-                                <textarea class="form-control ht-80"></textarea>
+                                <textarea name="message" class="form-control ht-80" required></textarea>
                             </div>
                         </div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12">
                             <div class="form-group">
-                                <button type="button" class="btn bg-red">
+                                <button id="submitBtn" type="submit" class="btn bg-red">
                                     {{ __('send_message') }}
                                 </button>
                             </div>
                         </div>
-
                     </form>
+                    <div id="successMessage" class="alert alert-success mt-3 d-none">
+                        {{ __('Your message has been sent successfully!') }}
+                    </div>
                 </div>
 
             </div>
         </div>
     </section>
     <!-- ======================= Contact Page End ======================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        submitBtn.disabled = true;
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ __('Sending...') }}
+        `;
+
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(() => {
+            form.classList.add('d-none');
+            successMsg.classList.remove('d-none');
+        })
+        .catch(error => {
+            console.error(error);
+        })
+        .finally(() => {
+            if (!form.classList.contains('d-none')) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    });
+});
+</script>
+
 
 @endsection

@@ -39,17 +39,6 @@
             margin: 0 0 10px;
         }
 
-        .email-content a.btn-infos {
-            display: inline-block;
-            background-color: #008080;
-            color: #ffffff !important;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin-top: 20px;
-        }
-
         .email-footer {
             text-align: center;
             background-color: #008080;
@@ -62,10 +51,6 @@
         .email-footer .social-icons img {
             width: 30px;
             margin: 0 5px;
-        }
-
-        .email-footer p {
-            margin: 5px 0;
         }
 
         .email-footer .small {
@@ -82,26 +67,20 @@
         </div>
 
         <div class="email-content">
-            <p>{{ __('greeting', ['username' => $user->username]) }}</p>
-
-            <p>
-                {!! __('password_reset_request') !!}
-            </p>
-            <a href="{{ route('reset_password', ['token' => $token]) }}" class="btn-infos">
-                <img src="https://img.icons8.com/ios-filled/20/FFFFFF/link--v1.png" alt="Lien" style="vertical-align: middle; margin-right: 5px;">
-                {{ __('reset_now') }}
-            </a>
-            <br><br>
-            <p>@lang('team1')  <strong style="color:black;">@lang('shopin')</strong></p>
-
-            <p>
-                {!! __('not_you', ['link' => route('contact')]) !!}
-            </p>
+            <h3 style="color: #008080;">📩 Nouveau message de contact</h3>
+            <hr>
+            <p><strong>Nom :</strong> {{ $name }}</p>
+            <p><strong>Email :</strong> {{ $email }}</p>
+            <p><strong>Sujet :</strong> {{ $subject }}</p>
+            <p><strong>Message :</strong></p>
+            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                {!! nl2br(e($userMessage)) !!}
+            </div>
         </div>
 
         <div class="email-footer">
-            <p>{{ config('app.name') }}</p>
-            <p class="small">{{ __('follow_us') }}</p>
+            <p><strong>{{ config('app.name') }}</strong></p>
+            <p class="small">Message automatique envoyé depuis le formulaire de contact</p>
             <div class="social-icons">
                 <a href="#"><img src="https://img.icons8.com/glyph-neue/30/FFFFFF/facebook-new.png" alt="Facebook"></a>
                 <a href="#"><img src="https://img.icons8.com/ios-filled/30/FFFFFF/instagram-new--v1.png" alt="Instagram"></a>
@@ -112,5 +91,4 @@
     </div>
 
 </body>
-
 </html>
