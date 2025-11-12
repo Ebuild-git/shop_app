@@ -259,7 +259,6 @@ class HomeController extends Controller
             $post->save();
         }
 
-        //si un user est connecter verifier si ce post est dans ses favoris
         if (Auth::check()) {
             $isFavorited =  favoris::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
             $isLiked = likes::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
