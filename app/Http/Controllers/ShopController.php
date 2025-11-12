@@ -46,13 +46,13 @@ class ShopController extends Controller
         $luxury_only = $request->input('check_luxury') ?? null;
         $html = "";
 
-        $total = posts::whereNotIn('statut', ['livraison', 'livré', 'refusé', 'validation'])->count();
+        $total = posts::whereIn('statut', ['vente', 'vendu'])->count();
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
-        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'sell_at')
-            // ->whereIn('statut', ['vente', 'vendu'])
-            ->whereNotIn('statut', ['livraison', 'livré', 'refusé', 'validation'])
+        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
+            ->whereIn('statut', ['vente', 'vendu'])
+            ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->whereHas('user_info', function ($q) {
                 $q->whereNull('deleted_at');
@@ -82,17 +82,17 @@ class ShopController extends Controller
                     break;
                 case 'Soldé':
                     $query->whereHas('changements_prix', function ($q) {
-                        $q->whereNotNull('id');
+                        $q->whereNotNull('id'); // Ensuring at least one price change
                     });
                     break;
                 case 'Luxury':
                     $query->whereHas('sous_categorie_info.categorie', function ($q) {
-                        $q->where('luxury', true);
+                        $q->where('luxury', true); // Filter for luxury items
                     });
                     break;
             }
         } else {
-            $query->orderBy('id', 'DESC');
+            $query->orderBy('id', 'DESC'); // Default order if no specific filter is selected
         }
 
 
@@ -273,6 +273,7 @@ class ShopController extends Controller
 
         foreach ($posts as $post) {
             if ($post->statut == "vente" || $post->statut == "vendu") {
+                // Calculate discount percentage if there is a price change
                 $originalPrice = $post->getOldPrix();
                 $currentPrice = $post->getPrix();
                 $discountPercentage = null;
@@ -281,6 +282,7 @@ class ShopController extends Controller
                     $discountPercentage = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
                 }
 
+                // Pass the discount percentage to the view
                 $subCardPostHtml = view('components.sub-card-post', [
                     'post' => $post,
                     'show' => true,
@@ -299,7 +301,7 @@ class ShopController extends Controller
                             <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;' . (app()->getLocale() == 'ar' ? ' left: 4px; right: auto;' : '') . '">'
                             . ($discountPercentage ? '
                                 <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
-                            . ($post->sell_at ? '
+                            . ($post->statut === 'préparation' ? '
                                 <div class="badge-new badge-sale bg-danger text-white">' . \App\Traits\TranslateTrait::TranslateText('vendu') . '</div>' : '') .
                             '</div>
 
