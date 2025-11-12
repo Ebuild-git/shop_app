@@ -76,7 +76,7 @@
                                             </div>
                                         @endif
 
-                                        @if(!in_array($lux->statut, ['vente', 'validation']) && !$lux->hasDeletedOrders())
+                                        @if($lux->sell_at && !$lux->hasDeletedOrders())
                                             <div class="badge-new badge-sale bg-danger text-white">
                                                 {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
                                             </div>
@@ -153,7 +153,7 @@
                                             </div>
                                         @endif
 
-                                        @if(!in_array($last->statut, ['vente', 'validation']) && !$last->hasDeletedOrders())
+                                        @if($last->sell_at && !$last->hasDeletedOrders())
                                             <div class="badge-new badge-sale bg-danger text-white">
                                                 {{ \App\Traits\TranslateTrait::TranslateText('Vendu') }}
                                             </div>

@@ -39,12 +39,12 @@ class HomeController extends Controller
         // Fetch non-luxury posts
         $last_post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
             ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-            ->join('users', 'posts.id_user', '=', 'users.id') // join users
+            ->join('users', 'posts.id_user', '=', 'users.id')
             ->whereNull('users.deleted_at')
             ->where('categories.luxury', false)
             ->where("statut", '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut", "posts.sell_at")
             ->orderBy("posts.created_at", "Desc")
             ->orderBy("posts.updated_price_at", "Desc")
             ->take(12)
@@ -57,7 +57,7 @@ class HomeController extends Controller
             ->where('categories.luxury', true)
             ->where("statut", '!=', 'validation')
             ->orderBy("posts.created_at", "Desc")
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut")
+            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut", "posts.sell_at")
             ->take(9)->get();
 
 
