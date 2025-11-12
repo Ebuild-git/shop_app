@@ -46,13 +46,13 @@ class ShopController extends Controller
         $luxury_only = $request->input('check_luxury') ?? null;
         $html = "";
 
-        $total = posts::whereIn('statut', ['vente', 'vendu'])->count();
+        $total = posts::whereIn('statut', ['vente', 'vendu', 'préparation'])->count();
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
-        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
-            ->whereIn('statut', ['vente', 'vendu'])
-            ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
+        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'sell_at')
+            ->whereIn('statut', ['vente', 'vendu', 'préparation'])
+            ->whereNotIn('statut', ['livraison', 'livré', 'refusé', 'ramassée'])
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->whereHas('user_info', function ($q) {
                 $q->whereNull('deleted_at');
@@ -301,7 +301,7 @@ class ShopController extends Controller
                             <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;' . (app()->getLocale() == 'ar' ? ' left: 4px; right: auto;' : '') . '">'
                             . ($discountPercentage ? '
                                 <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
-                            . ($post->statut === 'préparation' ? '
+                            . ($post->sell_at ? '
                                 <div class="badge-new badge-sale bg-danger text-white">' . \App\Traits\TranslateTrait::TranslateText('vendu') . '</div>' : '') .
                             '</div>
 
