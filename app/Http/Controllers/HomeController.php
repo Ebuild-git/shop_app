@@ -249,7 +249,10 @@ class HomeController extends Controller
         }
         $user = $post->user_info;
         $ipAddress = request()->ip();
-
+        $post->discountPercentage = null;
+        if ($post->old_prix && $post->old_prix > $post->prix) {
+            $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+        }
         $viewedIps = json_decode($post->ip_address, true) ?? [];
 
         if (!in_array($ipAddress, $viewedIps)) {

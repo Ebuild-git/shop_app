@@ -214,10 +214,15 @@
 
                                 <h2 class="post-title mb-1 mt-2 text-capitalize">
                                     {{ $post->titre }}
-                                    @if ($post->sell_at)
+                                    @if($post->sell_at)
                                         <span class="badge bg-danger" style="font-size: 0.8rem; vertical-align: middle;">
                                             {{ __('vendu1') }}
                                         </span>
+                                    @endif
+                                    @if(!$post->sell_at && $post->discountPercentage)
+                                        <div class="badge" style="background-color: #008080;font-size: 0.8rem; vertical-align: middle;">
+                                            -{{ $post->discountPercentage }}%
+                                        </div>
                                     @endif
                                 </h2>
 
