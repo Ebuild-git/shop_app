@@ -32,8 +32,17 @@ class posts extends Model
         'updated_price_at',
         // d'autres colonnes de date
     ];
+    protected $appends = ['discountPercentage'];
 
 
+    public function getDiscountPercentageAttribute()
+    {
+        if ($this->old_prix && $this->old_prix > $this->prix) {
+            return round((($this->old_prix - $this->prix) / $this->old_prix) * 100);
+        }
+
+        return null;
+    }
 
     public function getPrix()
     {
