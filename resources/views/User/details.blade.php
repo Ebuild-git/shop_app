@@ -219,11 +219,21 @@
                                             {{ __('vendu1') }}
                                         </span>
                                     @endif
+
                                     @if(!$post->sell_at && $post->discountPercentage)
-                                        <div class="badge" style="background-color: #008080;font-size: 0.8rem; vertical-align: middle;">
+                                        <div class="badge" style="
+                                            background-color: #e21114;
+                                            color: #fff;
+                                            font-size: 0.9rem;
+                                            font-weight: bold;
+                                            padding: 0.25rem 0.5rem;
+                                            border-radius: 0.25rem;
+                                            vertical-align: middle;
+                                        ">
                                             -{{ $post->discountPercentage }}%
                                         </div>
                                     @endif
+
                                 </h2>
 
                                 <div class="text-left">
