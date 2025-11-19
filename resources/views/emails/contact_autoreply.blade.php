@@ -1,105 +1,51 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html lang="{{ app()->getLocale() }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f4f8fb;
-            font-family: Arial, sans-serif;
-            color: #333;
-        }
-
-        .email-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .email-header {
-            text-align: center;
-            padding-bottom: 20px;
-        }
-
-        .email-header img {
-            height: 50px;
-        }
-
-        .email-content {
-            line-height: 1.6;
-        }
-
-        .email-content p {
-            margin: 0 0 10px;
-        }
-
-        .email-content a.btn-infos {
-            display: inline-block;
-            background-color: #008080;
-            color: #ffffff !important;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin-top: 20px;
-        }
-
-        .email-footer {
-            text-align: center;
-            background-color: #008080;
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 0 0 10px 10px;
-            margin-top: 30px;
-        }
-
-        .email-footer .social-icons img {
-            width: 30px;
-            margin: 0 5px;
-        }
-
-        .email-footer .small {
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
 </head>
 
-<body>
+<body style="font-family: Arial, sans-serif; background-color: #fafafa; padding: 20px; line-height: 1.6;">
+  <div style="max-width: 600px; margin: auto; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
-    <div class="email-container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-        <div class="email-header">
-            <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo">
-        </div>
+    <h2 style="text-align: center; font-weight: bold; font-size: 28px; letter-spacing: 1px;">
+      <span style="color:#000000;">SHOP</span><span style="color:#008080;">IN</span>
+    </h2>
+    <p style="text-align: center;">🇲🇦</p>
 
-        <div class="email-content">
-            <p>Bonjour {{ $name }},</p>
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 
-            <p>Nous avons bien reçu votre message concernant <strong>"{{ $subject }}"</strong>.</p>
 
-            <p>Notre équipe vous contactera dès que possible. Merci de votre confiance.</p>
+    @if(app()->getLocale() === 'fr')
+      <p><strong>🇫🇷 Bonjour {{ $name }},</strong></p>
+      <p>Merci de nous avoir contactés ! Nous avons bien reçu votre message concernant <strong>"{{ $subject }}"</strong>.</p>
+      <p>Notre équipe vous répondra dans les plus brefs délais.</p>
 
-            <p>Cordialement,<br>
-                <strong style="color:#008080;">L’équipe {{ config('app.name') }}</strong>
-            </p>
-        </div>
+      <p style="margin-top: 10px;">Belle journée à vous,<br>
+        <strong><span style="color:#000000;">L’équipe SHOP</span><span style="color:#008080;">IN</span></strong>
+      </p>
 
-        <div class="email-footer">
-            <p><strong>{{ config('app.name') }}</strong></p>
-            <p class="small">Suivez-nous sur nos réseaux</p>
-            <div class="social-icons">
-                <a href="#"><img src="https://img.icons8.com/glyph-neue/30/FFFFFF/facebook-new.png" alt="Facebook"></a>
-                <a href="#"><img src="https://img.icons8.com/ios-filled/30/FFFFFF/instagram-new--v1.png" alt="Instagram"></a>
-                <a href="#"><img src="https://img.icons8.com/glyph-neue/30/FFFFFF/linkedin-circled.png" alt="LinkedIn"></a>
-                <a href="#"><img src="https://img.icons8.com/ios-filled/30/FFFFFF/tiktok--v1.png" alt="TikTok"></a>
-            </div>
-        </div>
-    </div>
 
+    @elseif(app()->getLocale() === 'en')
+      <p><strong>🇬🇧 Hello {{ $name }},</strong></p>
+      <p>Thank you for reaching out! We have received your message about <strong>"{{ $subject }}"</strong>.</p>
+      <p>Our team will get back to you as soon as possible.</p>
+
+      <p style="margin-top: 10px;">Have a great day,<br>
+        <strong><span style="color:#000000;">The SHOP</span><span style="color:#008080;">IN</span> Team</strong>
+      </p>
+
+
+    @elseif(app()->getLocale() === 'ar')
+      <p style="direction: rtl; text-align: right;"><strong>🇲🇦 مرحبًا {{ $name }}،</strong></p>
+      <p style="direction: rtl; text-align: right;">شكرًا لتواصلكم معنا! لقد تلقينا رسالتكم بخصوص <strong>"{{ $subject }}"</strong>.</p>
+      <p style="direction: rtl; text-align: right;">سوف يتواصل معكم فريقنا في أقرب وقت ممكن.</p>
+
+      <p style="direction: rtl; text-align: right; margin-top: 10px;">يوم سعيد،<br>
+        <strong><span style="color:#000000;">فريق SHOP</span><span style="color:#008080;">IN</span></strong>
+      </p>
+
+    @endif
+
+  </div>
 </body>
 </html>

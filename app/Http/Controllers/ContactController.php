@@ -34,7 +34,7 @@ class ContactController extends Controller
 
         Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {
             $mail->to($validated['email'])
-                ->subject('Nous avons bien reçu votre message')
+                ->subject('Support Shopin')
                 ->from($configEmail, 'Support Shopin');
         });
 
