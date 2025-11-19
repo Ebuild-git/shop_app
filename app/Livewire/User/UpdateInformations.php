@@ -141,7 +141,9 @@ class UpdateInformations extends Component
             $userPk   = $user->id;
 
             $user->email_deleted = $user->email;
+            $user->username_deleted = $username;
             $user->email = null;
+            $user->username = null;
             $user->save();
 
 

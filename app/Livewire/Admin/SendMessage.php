@@ -25,10 +25,17 @@ class SendMessage extends Component
 
     public function sendDataUser($user_id = null, $username = null, $titre = null, $post_id = null, $image = null)
     {
-        $user = User::find($user_id);
+        $user = User::withTrashed()->find($user_id);
         if ($user) {
-            $this->recipientEmail = $user->email;
-            $this->username = $username;
+            // $this->recipientEmail = $user->email;
+            // $this->username = $username;
+            if ($user->trashed()) {
+                $this->recipientEmail = $user->email_deleted;
+                $this->username = $user->username_deleted;
+            } else {
+                $this->recipientEmail = $user->email;
+                $this->username = $username ?: $user->username;
+            }
             $this->user_id = $user_id;
             $this->gender = $user->gender;
             $this->titre = $titre;

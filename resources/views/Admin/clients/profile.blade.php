@@ -9,7 +9,12 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="py-3 mb-4">
-            <span class="text-muted fw-light">Utilisateur /</span> {{ $user->username }}
+            <span class="text-muted fw-light">Utilisateur /</span>
+            @if(!$user->deleted_at)
+                {{ $user->username }}
+            @else
+                {{ $user->username_deleted }}
+            @endif
         </h5>
 
         <!-- Header -->
@@ -68,16 +73,26 @@
                                 class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                 <div class="user-profile-info">
                                     <h4>
-                                        {{ $user->username }}
+                                        @if(!$user->deleted_at)
+                                            {{ $user->username }}
+                                        @else
+                                            {{ $user->username_deleted }}
+                                        @endif
                                     </h4>
                                     <ul
                                         class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                         <li class="list-inline-item d-flex gap-1 cusor" style="cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
                                             <i class="ti ti-color-swatch"></i>
-                                            <span style="color: #008080;">{{ $user->email }}</span>
+                                            <span style="color: #008080;">
+                                                @if(!$user->deleted_at)
+                                                {{ $user->email }}
+                                                @else
+                                                    {{ $user->email_deleted }}
+                                                @endif
+                                            </span>
                                         </li>
                                         <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>
-                                            {{ $user->ville ?? '/' }}</li>
+                                            {{ $user->address ?? '/' }}</li>
                                             <li class="list-inline-item d-flex gap-1">
                                                 <i class="ti ti-calendar"></i>
                                                 {{ $user->gender == 'female' ? 'Inscrite' : 'Inscrit' }} le {{ \Carbon\Carbon::parse($user->created_at)->locale('fr')->translatedFormat('d F Y à H:i') }}
@@ -194,7 +209,13 @@
                             </li>
                             <li class="d-flex align-items-center mb-3">
                                 <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">Email:</span>
-                                <span style="color: #008080;cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">{{ $user->email ?? '/' }}</span>
+                                <span style="color: #008080;cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                    @if(!$user->deleted_at)
+                                    {{ $user->email}}
+                                    @else
+                                        {{ $user->email_deleted }}
+                                    @endif
+                                </span>
                             </li>
                         </ul>
                         <small class="card-text text-uppercase">Informations Supplémentaires</small>

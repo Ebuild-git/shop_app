@@ -27,6 +27,14 @@
                          <option value="1">Bloquer</option>
                          <option value="0">Actif</option>
                      </select> --}}
+                    @if($showTrashed == 'yes')
+                     <select wire:model="deletedBy" class="form-control">
+                        <option value="">Tous les comptes</option>
+                        <option value="shopin">Supprimés par Shopin</option>
+                        <option value="self">Supprimés par l'utilisateur</option>
+                    </select>
+                    @endif
+
                      <button class="btn btn-primary" type="submit" id="button-addon2">
                          <span wire:loading>
                              <x-loading></x-loading>
@@ -86,7 +94,11 @@
                  @forelse ($users as $user)
                      <tr>
                         <td>{{ 'U' . ($user->id + 1000) }}</td>
-                        <td style="left: 50px;"> {{ $user->username }} </td>
+                        @if($showTrashed !== 'yes')
+                            <td style="left: 50px;"> {{ $user->username }} </td>
+                        @else
+                            <td style="left: 50px;"> {{ $user->username_deleted }} </td>
+                        @endif
                         <td style="left: 160px;"> {{ $user->firstname }} </td>
                         <td> {{ $user->lastname }} </td>
                         <td>
@@ -163,6 +175,10 @@
                                 <span style="cursor: pointer;">
                                     {{ $user->email ?? $user->email_deleted}}
                                 </span>
+                                <br>
+                                <span style="font-size: 12px; color: #008080; cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                    <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                </span>
                             </td>
                         @endif
                         <td> {{ $user->phone_number ?? '/' }} </td>
@@ -201,6 +217,10 @@
                                     @endif
                                 </div>
                             @else
+                                <button class="btn btn-sm btn-dark"
+                                    onclick="document.location.href='/admin/client/{{ $user->id }}/view'">
+                                    <i class="bi bi-person-circle"></i>
+                                </button>
                                 @if(!$user->email_deleted)
                                     <div class="action-buttons">
                                         <button class="btn btn-sm btn-success" onclick="confirmRestoreUser({{ $user->id }})">

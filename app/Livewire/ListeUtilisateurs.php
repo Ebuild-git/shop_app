@@ -12,7 +12,7 @@ class ListeUtilisateurs extends Component
     public $type, $list, $key, $statut,$etat;
     public $locked = "no";
     public $showTrashed = "no";
-
+    public $deletedBy = '';
 
     use WithPagination;
 
@@ -33,12 +33,26 @@ class ListeUtilisateurs extends Component
         $this->resetPage();
     }
 
+    public function updatedDeletedBy($value)
+    {
+        $this->resetPage();
+    }
+
+
     public function render()
     {
         $users = User::orderBy("id", "desc")->where("type", $this->type)->where("role", "!=", "admin");
 
         if ($this->showTrashed === 'yes') {
             $users = $users->onlyTrashed();
+
+            if ($this->deletedBy === 'shopin') {
+                $users->whereNotNull('email')
+                    ->whereNotNull('username');
+            } elseif ($this->deletedBy === 'self') {
+                $users->whereNotNull('email_deleted')
+                    ->whereNotNull('username_deleted');
+            }
         }
 
         if ($this->locked === 'yes') {

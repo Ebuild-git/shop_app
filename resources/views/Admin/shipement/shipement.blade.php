@@ -71,7 +71,11 @@
                                         <td>
                                             @if($item->vendor)
                                                 <a href="/admin/client/{{ $item->vendor->id }}/view">
-                                                    {{ $item->vendor->username ?? '—' }}
+                                                    @if(!$item->vendor->deleted_at)
+                                                        {{ $item->vendor->username }}
+                                                    @else
+                                                        {{ $item->vendor->username_deleted }}
+                                                    @endif
                                                 </a>
                                                 <br>
                                                 <small>
@@ -101,7 +105,11 @@
                                         <td>
                                             @if($order->buyer)
                                                 <a href="/admin/client/{{ $order->buyer->id }}/view">
-                                                    {{ $order->buyer->username ?? '—' }}
+                                                    @if(!$order->buyer->deleted_at)
+                                                        {{ $order->buyer->username }}
+                                                    @else
+                                                        {{ $order->buyer->username_deleted }}
+                                                    @endif
                                                 </a>
                                                 <br>
                                                 <small>
