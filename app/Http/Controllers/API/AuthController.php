@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Mail\NewPassword;
-use App\Mail\VerifyMail;
+use App\Mail\VerifyCode;
 use App\Models\regions;
 use App\Models\User;
 use Carbon\Carbon;
@@ -16,27 +16,26 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use App\Events\AdminEvent;
+use App\Models\notifications;
+use App\Models\configurations;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'update_information', 'register', 'reset_password', 'delete_email', 'regions', 'update_password']]);
-    }
 
     /**
      * @OA\Post(
      *     path="/api/login",
      *     operationId="loginUser",
      *     tags={"Auth"},
-     *     summary="Authenticate a user",
-     *     description="Login using email or username and password. Returns a JWT token on success.",
+     *     summary="Login a user",
+     *     description="Login using either email or username and returns a Sanctum API token. Only verified emails can log in.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", example="user@example.com"),
+     *             required={"login", "password"},
+     *             @OA\Property(property="login", type="string", example="user@example.com", description="Email or username"),
      *             @OA\Property(property="password", type="string", format="password", example="SecureP@ss123")
      *         )
      *     ),
@@ -45,21 +44,43 @@ class AuthController extends Controller
      *         description="Login successful",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="Connexion réussie."),
+     *             @OA\Property(property="message", type="string", example="Login successful."),
      *             @OA\Property(property="user", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="lastname", type="string", example="Doe"),
+     *                 @OA\Property(property="firstname", type="string", example="John"),
+     *                 @OA\Property(property="username", type="string", example="johndoe"),
      *                 @OA\Property(property="email", type="string", example="user@example.com"),
-     *                 @OA\Property(property="username", type="string", example="johndoe")
+     *                 @OA\Property(property="avatar", type="string", example="https://yourdomain.com/storage/uploads/avatars/avatar.jpg"),
+     *                 @OA\Property(property="avatar_locked", type="boolean", example=true, description="Indicates if avatar is awaiting admin verification"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time", example="2025-11-21T10:00:00Z")
      *             ),
-     *             @OA\Property(property="token", type="string", example="jwt_token_here")
+     *             @OA\Property(property="token", type="string", example="11|ui0JTxoBEOIhhufA......."),
+     *             @OA\Property(property="note", type="string", example="Your avatar is awaiting admin verification. You will receive a notification once it's approved.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Unauthorized - invalid credentials",
+     *         description="Invalid credentials",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="Identifiants invalides.")
+     *             @OA\Property(property="message", type="string", example="Invalid credentials.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Email not verified",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Your email is not verified. Please check your inbox for verification.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="errors", type="object", example={"login": {"Email or username is required."}, "password": {"Password is required."}})
      *         )
      *     )
      * )
@@ -67,139 +88,57 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string',
+            'login' => 'required|string',
             'password' => 'required|string',
+        ], [
+            'login.required' => 'Email or username is required.',
+            'password.required' => 'Password is required.',
         ]);
 
-        // Determine if login is by email or username
-        $loginType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $credentials = [
-            $loginType => $request->email,
-            'password' => $request->password,
+        $user = User::where('email', $request->login)
+                    ->orWhere('username', $request->login)
+                    ->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid credentials.'
+            ], 401);
+        }
+
+        if (is_null($user->email_verified_at)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your email is not verified. Please check your inbox for verification.'
+            ], 403);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $userData = [
+            'id' => $user->id,
+            'lastname' => $user->lastname,
+            'firstname' => $user->firstname,
+            'username' => $user->username,
+            'email' => $user->email,
+            'avatar' => $user->avatar ? asset('storage/' . $user->avatar) : null,
+            'avatar_locked' => is_null($user->photo_verified_at),
+            'email_verified_at' => $user->email_verified_at,
         ];
 
-        try {
-            // Attempt to authenticate and get token
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Invalid credentials'
-                ], 401);
-            }
+        $response = [
+            'status' => true,
+            'message' => 'Login successful.',
+            'user' => $userData,
+            'token' => $token,
+        ];
 
-            // Get authenticated user
-            $user = Auth::user();
-
-            // Verify token belongs to this user
-            $tokenUser = JWTAuth::setToken($token)->authenticate();
-
-            if (!$tokenUser || $tokenUser->id !== $user->id) {
-                JWTAuth::invalidate($token);
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Token does not match user'
-                ], 401);
-            }
-
-            // Verify token claims match user data
-            $payload = JWTAuth::getPayload($token);
-             dd($payload);
-            $tokenEmail = strtolower(trim($payload->get('email')));
-            $userEmail = strtolower(trim($user->email));
-
-            if ($tokenEmail !== $userEmail) {
-                JWTAuth::invalidate($token);
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Token email does not match user email'
-                ], 401);
-            }
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Login successful',
-                'user' => $user,
-                'token' => $token,
-                'expires_in' => JWTAuth::factory()->getTTL() * 60
-            ]);
-
-        } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Could not create token',
-                'error' => $e->getMessage()
-            ], 500);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'An error occurred',
-                'error' => $e->getMessage()
-            ], 500);
+        if ($userData['avatar_locked']) {
+            $response['note'] = "Your avatar is awaiting admin verification. You will receive a notification once it's approved.";
         }
+
+        return response()->json($response);
     }
-    /**
-     * @OA\Get(
-     *     path="/api/regions",
-     *     summary="Récupère toutes les régions",
-     *     description="Retourne la liste complète des régions disponibles.",
-     *     operationId="getRegions",
-     *     tags={"Régions"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Liste des régions",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="nom", type="string", example="Tunis")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Erreur serveur"
-     *     )
-     * )
-     */
-
-    public function regions()
-    {
-        $regions = regions::all();
-        return response()->json($regions);
-    }
-
-
-
-    public function update_password(Request $request)
-    {
-        //update user password with api
-        $validator = Validator::make($request->all(), [
-            "oldPassword" => ['required'],
-            "newPassword" => ['required', 'min:8']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'message' => $validator->errors()
-                ],
-                406
-            );
-        };
-
-        $user = Auth::user();
-
-        if (!Hash::check($request['oldPassword'], $user['password'])) {
-            return response()->json(['message' => 'Old Password Does Not Match Our Records']);
-        } else {
-            User::where('id', '=', $user['id'])->update([
-                'password' => Hash::make($request['newPassword']),
-            ]);
-            return response()->json(['message' => 'Password Changed Successfully']);
-        }
-    }
-
 
     /**
      * @OA\Post(
@@ -207,58 +146,67 @@ class AuthController extends Controller
      *     operationId="registerUser",
      *     tags={"Auth"},
      *     summary="Register a new user",
-     *     description="Registers a new user and returns an access token using opensourcesaver package with claims.",
+     *     description="Registers a new user and sends a 6-digit verification code to the user's email. Returns basic user info and avatar lock status.",
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             required={
-     *                 "email", "password", "password_confirmation", "nom", "prenom",
-     *                 "adresse", "telephone", "username", "genre", "jour", "mois", "annee",
-     *                 "ruee", "nom_batiment"
-     *             },
-     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="SecureP@ss123"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", example="SecureP@ss123"),
-     *             @OA\Property(property="nom", type="string", example="Doe"),
-     *             @OA\Property(property="prenom", type="string", example="John"),
-     *             @OA\Property(property="adresse", type="string", example="Casablanca"),
-     *             @OA\Property(property="telephone", type="string", example="+212612345678"),
-     *             @OA\Property(property="username", type="string", example="johndoe"),
-     *             @OA\Property(property="genre", type="string", enum={"male", "female"}, example="male"),
-     *             @OA\Property(property="jour", type="integer", example=15),
-     *             @OA\Property(property="mois", type="integer", example=6),
-     *             @OA\Property(property="annee", type="integer", example=2000),
-     *             @OA\Property(property="ruee", type="string", example="Rue Zerktouni"),
-     *             @OA\Property(property="nom_batiment", type="string", example="Batiment A"),
-     *             @OA\Property(property="etage", type="string", nullable=true, example="3"),
-     *             @OA\Property(property="num_appartement", type="string", nullable=true, example="12B"),
-     *             @OA\Property(property="photo", type="string", format="binary", nullable=true),
-     *             @OA\Property(property="matricule", type="string", format="binary", nullable=true),
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={
+     *                     "email", "password", "password_confirmation", "nom", "prenom",
+     *                     "adresse", "telephone", "username", "genre", "jour", "mois", "annee",
+     *                     "ruee", "nom_batiment"
+     *                 },
+     *                 @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *                 @OA\Property(property="password", type="string", format="password", example="SecureP@ss123"),
+     *                 @OA\Property(property="password_confirmation", type="string", format="password", example="SecureP@ss123"),
+     *                 @OA\Property(property="nom", type="string", example="Doe"),
+     *                 @OA\Property(property="prenom", type="string", example="John"),
+     *                 @OA\Property(property="avatar", type="string", format="binary", nullable=true),
+     *                 @OA\Property(property="adresse", type="string", example="Casablanca"),
+     *                 @OA\Property(property="telephone", type="string", example="+212612345678"),
+     *                 @OA\Property(property="username", type="string", example="johndoe"),
+     *                 @OA\Property(property="genre", type="string", enum={"male","female"}, example="male"),
+     *                 @OA\Property(property="jour", type="integer", example=15),
+     *                 @OA\Property(property="mois", type="integer", example=6),
+     *                 @OA\Property(property="annee", type="integer", example=2000),
+     *                 @OA\Property(property="ruee", type="string", example="Rue Zerktouni"),
+     *                 @OA\Property(property="nom_batiment", type="string", example="Batiment A"),
+     *                 @OA\Property(property="etage", type="string", nullable=true, example="3"),
+     *                 @OA\Property(property="num_appartement", type="string", nullable=true, example="12B")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=201,
      *         description="User registered successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="Inscription réussie."),
+     *             @OA\Property(property="message", type="string", example="Account created successfully."),
      *             @OA\Property(property="user", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="email", type="string", example="user@example.com"),
+     *                 @OA\Property(property="lastname", type="string", example="Doe"),
+     *                 @OA\Property(property="firstname", type="string", example="John"),
      *                 @OA\Property(property="username", type="string", example="johndoe"),
-     *             ),
-     *             @OA\Property(property="token", type="string", example="access_token_here")
+     *                 @OA\Property(property="email", type="string", example="user@example.com"),
+     *                 @OA\Property(property="avatar", type="string", example="https://example.com/storage/uploads/avatars/avatar1.png", nullable=true),
+     *                 @OA\Property(property="avatar_locked", type="boolean", example=true, description="True if avatar is pending admin verification"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time", nullable=true, example=null)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Validation error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="status", type="boolean", example=false),
      *             @OA\Property(
      *                 property="errors",
      *                 type="object",
-     *                 example={"email": {"The email has already been taken."}}
+     *                 example={
+     *                     "email": {"This email is already used."},
+     *                     "username": {"This username is already taken."}
+     *                 }
      *             )
      *         )
      *     ),
@@ -267,22 +215,30 @@ class AuthController extends Controller
      *         description="Forbidden word in input or age restriction",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="Le mot 'shopin' est interdit dans le champ email.")
+     *             @OA\Property(property="message", type="string", example="The word 'shopin' is not allowed in the field 'email'.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Email sending error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Unable to send verification email."),
+     *             @OA\Property(property="error", type="string", example="SMTP connection failed")
      *         )
      *     )
      * )
      */
     public function register(Request $request)
     {
-        $year = date('Y');
         $forbiddenWord = 'shopin';
-        $requestData = $request->all();
 
         $forbiddenFields = ['email', 'username', 'nom', 'prenom'];
         foreach ($forbiddenFields as $field) {
-            if (stripos($requestData[$field], $forbiddenWord) !== false) {
+            if ($request->filled($field) && stripos($request->$field, $forbiddenWord) !== false) {
                 return response()->json([
-                    'message' => "Le mot '$forbiddenWord' est interdit dans le champ $field."
+                    'status' => false,
+                    'message' => "The word '$forbiddenWord' is not allowed in the field '$field'."
                 ], 422);
             }
         }
@@ -290,38 +246,56 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => [
-                'required', 'confirmed', 'string', 'min:8',
-                'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'regex:/[@$!%*#?&]/'
+                'required',
+                'confirmed',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
             ],
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
-            'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
             'nom' => 'required|string',
             'prenom' => 'required|string',
+            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'adresse' => 'required|string',
             'telephone' => 'required|string|max:15',
-            'username' => 'required|string|unique:users,username',
+            'username' => 'string|unique:users,username',
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
             'annee' => 'required|integer|between:1950,2024',
+
             'ruee' => 'required|string',
             'nom_batiment' => 'required|string',
             'etage' => 'nullable|string',
             'num_appartement' => 'nullable|string',
+        ], [
+            'email.unique' => 'This email is already used.',
+            'username.unique' => 'This username is already taken.',
+            'email.required' => 'Email is required.',
+            'username.required' => 'Username is required.',
+            'email.email' => 'Email format is invalid.',
+            'password.confirmed' => 'Passwords do not match.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, a number, and a special character (-!@# etc.)'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'status' => false,
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $birthdate = Carbon::createFromDate($request->annee, $request->mois, $request->jour);
-        if ($birthdate->diffInYears(now()) < 13) {
+        if ($birthdate->diffInYears(now()) < 18) {
             return response()->json([
-                'message' => 'Vous devez avoir au moins 13 ans pour vous inscrire.'
+                'status' => false,
+                'message' => "You must be at least 18 years old."
             ], 422);
         }
+
 
         $user = new User();
         $user->lastname = $request->nom;
@@ -340,168 +314,164 @@ class AuthController extends Controller
         $user->nom_batiment = $request->nom_batiment;
         $user->etage = $request->etage;
         $user->num_appartement = $request->num_appartement;
-        $user->photo_verified_at = now();
 
-        if ($request->hasFile('matricule')) {
-            $matricule = $request->matricule->store('uploads/documents', 'public');
-            $user->type = "shop";
-            $user->matricule = $matricule;
+        if ($request->hasFile('avatar')) {
+            $user->avatar = $request->avatar->store('uploads/avatars', 'public');
+            $avatarUploaded = true;
+        } else {
+            $avatarUploaded = false;
         }
 
+        $config = configurations::first();
+        $user->photo_verified_at = ($config->valider_photo == 1) ? null : now();
+        $user->verification_code = rand(100000, 999999);
         $user->save();
         $user->assignRole('user');
 
-        $customClaims = [
-            'username' => $user->username,
-            'email' => $user->email,
-        ];
+        event(new AdminEvent("Un nouvel utilisateur s'est inscrit."));
+        $notification = new notifications();
+        $notification->type = "photo";
+        $notification->titre = "Nouvel utilisateur : " . $user->username;
+        $notification->url = "/admin/client/" . $user->id . "/view";
+        $notification->message = "Un nouveau compte a été créé";
+        $notification->id_user = $user->id;
+        $notification->destination = "admin";
+        $notification->save();
 
-        $token = JWTAuth::claims($customClaims)->fromUser($user);
-        try {
-            Mail::to($user->email)->send(new VerifyMail($user, $token));
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Échec d’envoi de l’e-mail de vérification.'], 500);
+        if ($avatarUploaded) {
+            event(new AdminEvent('Un utilisateur a ajouté une photo de profil'));
+
+            $notif2 = new notifications();
+            $notif2->type = "photo";
+            $notif2->titre = $user->username . " vient d'ajouter sa photo de profil";
+            $notif2->url = "/admin/client/" . $user->id . "/view";
+            $notif2->message = "Le client a ajouté sa photo de profil";
+            $notif2->id_user = $user->id;
+            $notif2->destination = "admin";
+            $notif2->save();
         }
 
+        try {
+            Mail::to($user->email)->send(new VerifyCode($user, $user->verification_code));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => "Unable to send verification email.",
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        $userData = [
+            'id' => $user->id,
+            'lastname' => $user->lastname,
+            'firstname' => $user->firstname,
+            'username' => $user->username,
+            'email' => $user->email,
+            'avatar' => $user->avatar ? asset('storage/' . $user->avatar) : null,
+            'avatar_locked' => is_null($user->photo_verified_at),
+            'email_verified_at' => $user->email_verified_at,
+        ];
         return response()->json([
-            'message' => 'Inscription réussie.',
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer'
-            ]
+            'status' => true,
+            'message' => "Account created successfully.",
+            'user' => $userData,
         ], 201);
     }
 
-    public function update_information(Request $request)
+    /**
+     * @OA\Post(
+     *     path="/api/verify-code",
+     *     operationId="verifyUserCode",
+     *     tags={"Auth"},
+     *     summary="Verify user email",
+     *     description="Verify a newly registered user's email using the code sent by email.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "code"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="code", type="string", example="123456", description="6-digit verification code")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Email verified successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Email verified successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Invalid verification code",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Invalid verification code.")
+     *         )
+     *     )
+     * )
+     */
+    public function verifyCode(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'firstname' => ['required', 'string'],
-            'lastname' => ['required', 'string'],
-            'email' => ['nullable', 'string', 'email:filter'],
-            'phone_number' => ['required', 'numeric'],
-            'birthdate' => ['required', 'date']
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|digits:6'
         ]);
 
-        if ($validator->fails()) {
-            return response([
-                'errors' => $validator->errors()
+        $user = User::where('email', $request->email)
+                    ->where('verification_code', $request->code)
+                    ->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid verification code.'
             ], 422);
         }
 
-        $user = User::findOrFail(Auth::id());
-        $user->update([
-            'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
-            'email' => $request->input('email') ?: $user->email,
-            'phone_number' => $request->input('phone_number'),
-            'birthdate' => Carbon::parse($request->input('birthdate'))
-        ]);
+        $user->email_verified_at = now();
+        $user->verification_code = null;
+        $user->save();
 
-        return response()->json(
-            ['message' => "La mise a jour a été effectué !"],
-            200
-
-        );
-    }
-
-
-
-
-    public function logout()
-    {
-        Auth::logout();
         return response()->json([
             'status' => true,
-            'message' => 'Successfully logged out',
+            'message' => 'Email verified successfully.'
         ]);
     }
 
-
-
-
-
-    public function refresh()
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     operationId="logoutUser",
+     *     tags={"Auth"},
+     *     summary="Logout the authenticated user",
+     *     description="Revokes the current Sanctum API token used for authentication.",
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Logged out successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function logout(Request $request)
     {
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json([
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
+            'status' => true,
+            'message' => 'Logged out successfully.'
         ]);
-    }
-
-
-
-    public function reset_password(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-        ]);
-
-        // Si la validation échoue, retourner les erreurs sous forme de réponse JSON
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
-
-        $user = User::where("email", $request->email)->first();
-        if ($user) {
-            //generer un token pour la verification de mail
-            $token = md5(time());
-            $user->remember_token = $token;
-            $user->updated_at = now();
-            $user->save();
-
-            // Send an email with the new generated password to the user
-            Mail::to($request->email)->send(new NewPassword($token, $user));
-            return response()->json(
-                ['message' => "Un lien de réinitialisation a été envoyé à votre adresse e-mail."],
-                200
-
-            );
-        } else {
-            return response()->json(
-                [
-                    'message' => 'Cette adresse n\'est pas associée à un compte.'
-                ],
-                401
-            );
-        }
-    }
-
-
-
-
-
-
-    public function delete_email(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
-        $user = User::where('email', $request->email)->first();
-        if ($user) {
-            $user->delete();
-            return response()->json(
-                ['message' => "L'adresse email a été supprimé !."],
-                200
-
-            );
-        } else {
-            return response()->json(
-                [
-                    'message' => 'Cette adresse n\'est pas associée à un compte.'
-                ],
-                401
-            );
-        }
     }
 }

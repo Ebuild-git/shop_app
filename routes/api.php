@@ -21,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+});
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     // Vos routes protégées
@@ -44,24 +51,17 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 });
 
-
-//categories
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
 Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
 
-//posts
 Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
 Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
-
-//regions
 Route::get('/regions', [AuthController::class, 'regions']);
 
-// check username disponibility
 Route::post('/check_username', [PostsController::class, 'username'])->name('username');
 
-//route de gestion des utilisateurs
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 Route::post('/reset_password', [AuthController::class, 'reset_password']);
 Route::post('/mail/delete', [AuthController::class, 'delete_email']);

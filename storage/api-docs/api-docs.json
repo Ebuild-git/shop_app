@@ -11,8 +11,8 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Authenticate a user",
-                "description": "Login using email or username and password. Returns a JWT token on success.",
+                "summary": "Login a user",
+                "description": "Login using either email or username and returns a Sanctum API token. Only verified emails can log in.",
                 "operationId": "loginUser",
                 "requestBody": {
                     "required": true,
@@ -20,11 +20,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "email",
+                                    "login",
                                     "password"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "login": {
+                                        "description": "Email or username",
                                         "type": "string",
                                         "example": "user@example.com"
                                     },
@@ -52,7 +53,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Connexion réussie."
+                                            "example": "Login successful."
                                         },
                                         "user": {
                                             "properties": {
@@ -60,20 +61,46 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "email": {
+                                                "lastname": {
                                                     "type": "string",
-                                                    "example": "user@example.com"
+                                                    "example": "Doe"
+                                                },
+                                                "firstname": {
+                                                    "type": "string",
+                                                    "example": "John"
                                                 },
                                                 "username": {
                                                     "type": "string",
                                                     "example": "johndoe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://yourdomain.com/storage/uploads/avatars/avatar.jpg"
+                                                },
+                                                "avatar_locked": {
+                                                    "description": "Indicates if avatar is awaiting admin verification",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-11-21T10:00:00Z"
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "token": {
                                             "type": "string",
-                                            "example": "jwt_token_here"
+                                            "example": "11|ui0JTxoBEOIhhufA......."
+                                        },
+                                        "note": {
+                                            "type": "string",
+                                            "example": "Your avatar is awaiting admin verification. You will receive a notification once it's approved."
                                         }
                                     },
                                     "type": "object"
@@ -82,7 +109,7 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized - invalid credentials",
+                        "description": "Invalid credentials",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -93,7 +120,54 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Identifiants invalides."
+                                            "example": "Invalid credentials."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Email not verified",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your email is not verified. Please check your inbox for verification."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "login": [
+                                                    "Email or username is required."
+                                                ],
+                                                "password": [
+                                                    "Password is required."
+                                                ]
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -104,56 +178,18 @@
                 }
             }
         },
-        "/api/regions": {
-            "get": {
-                "tags": [
-                    "Régions"
-                ],
-                "summary": "Récupère toutes les régions",
-                "description": "Retourne la liste complète des régions disponibles.",
-                "operationId": "getRegions",
-                "responses": {
-                    "200": {
-                        "description": "Liste des régions",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "nom": {
-                                                "type": "string",
-                                                "example": "Tunis"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erreur serveur"
-                    }
-                }
-            }
-        },
         "/api/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Register a new user",
-                "description": "Registers a new user and returns an access token using opensourcesaver package with claims.",
+                "description": "Registers a new user and sends a 6-digit verification code to the user's email. Returns basic user info and avatar lock status.",
                 "operationId": "registerUser",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "email",
@@ -194,6 +230,11 @@
                                     "prenom": {
                                         "type": "string",
                                         "example": "John"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
                                     },
                                     "adresse": {
                                         "type": "string",
@@ -244,16 +285,6 @@
                                         "type": "string",
                                         "example": "12B",
                                         "nullable": true
-                                    },
-                                    "photo": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "nullable": true
-                                    },
-                                    "matricule": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -262,7 +293,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User registered successfully",
                         "content": {
                             "application/json": {
@@ -274,7 +305,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Inscription réussie."
+                                            "example": "Account created successfully."
                                         },
                                         "user": {
                                             "properties": {
@@ -282,20 +313,40 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "email": {
+                                                "lastname": {
                                                     "type": "string",
-                                                    "example": "user@example.com"
+                                                    "example": "Doe"
+                                                },
+                                                "firstname": {
+                                                    "type": "string",
+                                                    "example": "John"
                                                 },
                                                 "username": {
                                                     "type": "string",
                                                     "example": "johndoe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/storage/uploads/avatars/avatar1.png",
+                                                    "nullable": true
+                                                },
+                                                "avatar_locked": {
+                                                    "description": "True if avatar is pending admin verification",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": null,
+                                                    "nullable": true
                                                 }
                                             },
                                             "type": "object"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "access_token_here"
                                         }
                                     },
                                     "type": "object"
@@ -309,15 +360,18 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
                                         },
                                         "errors": {
                                             "type": "object",
                                             "example": {
                                                 "email": [
-                                                    "The email has already been taken."
+                                                    "This email is already used."
+                                                ],
+                                                "username": [
+                                                    "This username is already taken."
                                                 ]
                                             }
                                         }
@@ -339,7 +393,31 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Le mot 'shopin' est interdit dans le champ email."
+                                            "example": "The word 'shopin' is not allowed in the field 'email'."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Email sending error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unable to send verification email."
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "SMTP connection failed"
                                         }
                                     },
                                     "type": "object"
@@ -348,6 +426,141 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/verify-code": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify user email",
+                "description": "Verify a newly registered user's email using the code sent by email.",
+                "operationId": "verifyUserCode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "code"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "code": {
+                                        "description": "6-digit verification code",
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email verified successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email verified successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid verification code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid verification code."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout the authenticated user",
+                "description": "Revokes the current Sanctum API token used for authentication.",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     }
