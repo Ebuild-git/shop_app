@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\API\CategoriesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\shopinerController;
+use App\Http\Controllers\API\ShopController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+Route::get('/regions', [ShopController::class, 'regions']);
+Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
+Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
@@ -51,17 +59,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 });
 
-Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
-Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
+
 
 Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
 Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
-Route::get('/regions', [AuthController::class, 'regions']);
 
 Route::post('/check_username', [PostsController::class, 'username'])->name('username');
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+
 Route::post('/reset_password', [AuthController::class, 'reset_password']);
 Route::post('/mail/delete', [AuthController::class, 'delete_email']);
