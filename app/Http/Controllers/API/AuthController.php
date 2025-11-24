@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Mail\NewPassword;
 use App\Mail\VerifyCode;
+use App\Mail\SendOtpMail;
 use App\Models\regions;
 use App\Models\User;
 use Carbon\Carbon;
@@ -473,5 +474,266 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'Logged out successfully.'
         ]);
+    }
+
+       /**
+     * @OA\Post(
+     *     path="/api/request-password-reset",
+     *     summary="Request a password reset OTP",
+     *     description="Send a One-Time Password (OTP) to the user's email address for resetting their password.",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OTP sent successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An OTP has been sent to your email."),
+     *             @OA\Property(property="token", type="string", example="1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"email": {"The email field is required."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="User not found")
+     *         )
+     *     )
+     * )
+     */
+
+    public function requestPasswordReset(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::where("email", $request->email)->first();
+
+        if ($user) {
+            $otp = random_int(100000, 999999);
+            $token = Str::random(32);
+            $user->otp = $otp;
+            $user->otp_token = $token;
+            $user->otp_expires_at = now()->addMinutes(10);
+            $user->save();
+
+            Mail::to($user->email)->send(new SendOtpMail($otp));
+
+            return response()->json([
+                'message' => 'An OTP has been sent to your email.',
+                'token' => $token
+            ], 200);
+
+        }
+
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+        /**
+     * @OA\Post(
+     *     path="/api/verify-otp",
+     *     summary="Verify OTP for password reset",
+     *     description="Verifies the OTP sent to the user for password reset.",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"otp", "token"},
+     *             @OA\Property(property="otp", type="string", example="123456"),
+     *             @OA\Property(property="token", type="string", example="randomGeneratedTokenString")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OTP verified successfully.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="OTP verified successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid or expired OTP",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Invalid or expired OTP")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"otp": {"The OTP field is required."}, "token": {"The token field is required."}})
+     *         )
+     *     )
+     * )
+     */
+
+    public function verifyOtp(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'otp' => 'required',
+            'token' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::where('otp_token', $request->token)->first();
+
+        if (!$user || $user->otp !== $request->otp || now()->greaterThan($user->otp_expires_at)) {
+            return response()->json(['error' => 'Invalid or expired OTP'], 401);
+        }
+
+        return response()->json(['message' => 'OTP verified successfully.'], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/reset-password",
+     *     summary="Reset password with OTP",
+     *     description="Reset the user's password using the OTP token sent to their email.",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"token", "password", "password_confirmation"},
+     *             @OA\Property(property="token", type="string", example="randomGeneratedOtpToken"),
+     *             @OA\Property(property="otp", type="string", example="randomGeneratedOtp"),
+     *             @OA\Property(property="password", type="string", format="password", example="newpassword123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="newpassword123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Password reset successfully.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Password reset successfully. You can now log in with your new password.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"password": {"The password must be at least 8 characters."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid or expired OTP token.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Invalid or expired OTP token")
+     *         )
+     *     )
+     * )
+     */
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:8|confirmed',
+            'token' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::where('otp_token', $request->token)->first();
+
+        if (!$user || now()->greaterThan($user->otp_expires_at)) {
+            return response()->json(['error' => 'Invalid or expired token'], 401);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->otp = null;
+        $user->otp_token = null;
+        $user->otp_expires_at = null;
+        $user->save();
+
+        return response()->json(['message' => 'Password reset successfully. You can now log in with your new password.'], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/resend-otp",
+     *     summary="Resend OTP for password reset",
+     *     description="Resends a new OTP to the user's email address for password reset.",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="New OTP sent successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="A new OTP has been sent to your email."),
+     *             @OA\Property(property="token", type="string", example="1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"email": {"The email field is required."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="User not found")
+     *         )
+     *     )
+     * )
+     */
+    public function resendOtp(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::where("email", $request->email)->first();
+
+        if ($user) {
+            $otp = random_int(100000, 999999);
+            $token = Str::random(32);
+            $user->otp = $otp;
+            $user->otp_token = $token;
+            $user->otp_expires_at = now()->addMinutes(10);
+            $user->save();
+
+            Mail::to($user->email)->send(new SendOtpMail($otp));
+
+            return response()->json([
+                'message' => 'A new OTP has been sent to your email.',
+                'token' => $token
+            ], 200);
+        }
+
+        return response()->json(['error' => 'User not found'], 404);
     }
 }

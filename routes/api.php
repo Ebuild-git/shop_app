@@ -25,6 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+Route::post('/request-password-reset', [AuthController::class, 'requestPasswordReset'])->name('request-password-reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
+Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
+
 Route::get('/regions', [ShopController::class, 'regions']);
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
 Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
