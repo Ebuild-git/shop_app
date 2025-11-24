@@ -17,25 +17,67 @@ class PostsController extends Controller
     use ListGouvernorat;
 
     /**
-     * @SWG\Get(
+     * @OA\Get(
      *     path="/api/posts",
-     *     summary="Get a list of posts",
      *     tags={"Posts"},
-     *     @SWG\Response(response=200, description="Successful operation"),
-     *     @SWG\Response(response=400, description="Invalid request")
+     *     summary="List paginated posts",
+     *     description="Returns a paginated list of posts including photos as full URLs",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number for pagination",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of posts",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="data", type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=30),
+     *                         @OA\Property(property="titre", type="string", example="Manteau old style"),
+     *                         @OA\Property(property="description", type="string", example="Manteau camel Mango"),
+     *                         @OA\Property(
+     *                             property="photos",
+     *                             type="array",
+     *                             @OA\Items(type="string", example="http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp")
+     *                         )
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="total", type="integer", example=150),
+     *                 @OA\Property(property="per_page", type="integer", example=50),
+     *                 @OA\Property(property="last_page", type="integer", example=3)
+     *             )
+     *         )
+     *     )
      * )
      */
     public function list_post()
     {
-        $post = posts::paginate(50);
-        return response()->json(
-            [
-                'success' => true,
-                'data' => $post
-            ]
-        );
-    }
+        $posts = posts::paginate(20);
 
+        $posts->getCollection()->transform(function ($post) {
+            $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
+            return $post;
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'current_page' => $posts->currentPage(),
+                'data' => $posts->items(),
+                'total' => $posts->total(),
+                'per_page' => $posts->perPage(),
+                'last_page' => $posts->lastPage(),
+            ]
+        ]);
+    }
 
     public function liste_publications(Request $request)
     {
@@ -47,9 +89,6 @@ class PostsController extends Controller
         $deleted = "oui";
         return view("Admin.publications.index", compact("deleted"));
     }
-
-
-  
 
 
     public function details_publication(Request $request)
@@ -72,33 +111,82 @@ class PostsController extends Controller
             ->with("post", $post);
     }
 
-
-
-
+    /**
+     * @OA\Get(
+     *     path="/api/post/{id}",
+     *     tags={"Posts"},
+     *     summary="Get post details",
+     *     description="Returns detailed information of a single post including photos and category info",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the post",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post details",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="post",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=30),
+     *                 @OA\Property(property="titre", type="string", example="Manteau old style"),
+     *                 @OA\Property(property="description", type="string", example="Manteau camel Mango"),
+     *                 @OA\Property(
+     *                     property="photos",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp")
+     *                 ),
+     *                 @OA\Property(property="proprietes", type="object",
+     *                     example={"Marque": "Bershka", "Taille": "L/42/10", "Couleur": "#C19A6B", "Article pour": "Femme", "Eventuels défauts": "No"}
+     *                 ),
+     *                 @OA\Property(property="etat", type="string", example="Bon état"),
+     *                 @OA\Property(property="prix", type="string", example="300.00"),
+     *                 @OA\Property(property="sous_categorie_info", type="object",
+     *                     @OA\Property(property="id", type="integer", example=10),
+     *                     @OA\Property(property="titre", type="string", example="Manteau"),
+     *                     @OA\Property(property="categorie", type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="titre", type="string", example="Fashion & Vêtements"),
+     *                         @OA\Property(property="description", type="string", example="Fashion & Vêtements looollmm"),
+     *                         @OA\Property(property="icon", type="string", example="http://127.0.0.1:8000/storage/uploads/categories/goCedMgqRvvQQ7xzuwNBgraFZSuuvWShzRCknYvP.png"),
+     *                         @OA\Property(property="small_icon", type="string", example="http://127.0.0.1:8000/storage/uploads/categories/oE8n20szUVwCTh4pSCy8VXSP0KvTliyMBgX2kDxg.png")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=404, description="Post not found")
+     * )
+     */
     public function details_post($id)
     {
         try {
-            $post = posts::findOrFail($id);
-            return response()->json(
-                [
-                    'success' => true,
-                    'message' => 'Le post a été trouver',
-                    'post' => $post,
-                    'category' => $post->categorie_info
-                ]
-            );
+            $post = posts::with('sous_categorie_info.categorie')->findOrFail($id);
+
+            $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
+
+            if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
+                $categorie = $post->sous_categorie_info->categorie;
+                $categorie->icon = $categorie->icon ? asset('storage/' . $categorie->icon) : null;
+                $categorie->small_icon = $categorie->small_icon ? asset('storage/' . $categorie->small_icon) : null;
+            }
+
+            return response()->json([
+                'success' => true,
+                'post' => $post,
+            ]);
         } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => "Impossible de trouver le post"
-                ]
-            );
+            return response()->json([
+                'success' => false,
+                'message' => "Impossible de trouver le post"
+            ]);
         }
     }
-
-
-
 
     public function list_motifs(Request $request)
     {
@@ -127,9 +215,6 @@ class PostsController extends Controller
         }
     }
 
-
-
-
     public function create_post(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -152,7 +237,6 @@ class PostsController extends Controller
             ]);
         }
 
-        //upload image
         if ($request->hasFile('photos')) {
             $images = $request->file('photo');
             $images = [];
@@ -185,7 +269,6 @@ class PostsController extends Controller
     public function username(Request $request)
     {
         $username = $request->input("username");
-        // if username is empty
         if (is_null($username)) {
             return response()->json([
                 'success' => false,
@@ -199,7 +282,6 @@ class PostsController extends Controller
             'total' => $count
         ]);
     }
-
 
 
     public function update_post(Request $request)
@@ -253,13 +335,10 @@ class PostsController extends Controller
     }
 
 
-
-
     public function delete(Request $request)
     {
         try {
             $post = posts::findOrFail($request->input('id'));
-            //foreach image to delete
             foreach ($post->photos as $img) {
                 $this->delete_trait($img);
             }

@@ -772,6 +772,553 @@
                 }
             }
         },
+        "/api/sub-categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "List all subcategories",
+                "description": "Returns all subcategories with their parent category and full image URLs",
+                "operationId": "e1622bd081dd8217a6c9b4098002e0c5",
+                "responses": {
+                    "200": {
+                        "description": "List of subcategories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "Caftan & Takchita"
+                                                    },
+                                                    "id_categorie": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "proprietes": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "required": {
+                                                        "type": "string"
+                                                    },
+                                                    "order": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "title_en": {
+                                                        "type": "string",
+                                                        "example": "Caftan & Takchita"
+                                                    },
+                                                    "title_ar": {
+                                                        "type": "string",
+                                                        "example": "القفطان والتكشيطة"
+                                                    },
+                                                    "categorie": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "titre": {
+                                                                "type": "string",
+                                                                "example": "Fashion & Vêtements"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Fashion & Vêtements looollmm"
+                                                            },
+                                                            "pourcentage_gain": {
+                                                                "type": "string",
+                                                                "example": "7.00"
+                                                            },
+                                                            "luxury": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
+                                                            "order": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "icon": {
+                                                                "type": "string",
+                                                                "example": "http://127.0.0.1:8000/storage/uploads/categories/icon.png"
+                                                            },
+                                                            "small_icon": {
+                                                                "type": "string",
+                                                                "example": "http://127.0.0.1:8000/storage/uploads/categories/icon_small.png"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time"
+                                                            },
+                                                            "active": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title_en": {
+                                                                "type": "string",
+                                                                "example": "Fashion & Clothing"
+                                                            },
+                                                            "title_ar": {
+                                                                "type": "string",
+                                                                "example": "الموضة والملابس"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sub-categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get subcategory details",
+                "description": "Returns a single subcategory with its parent category and full image URLs",
+                "operationId": "efad5495ecb0a4bd2e036f373c11cefd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the subcategory",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subcategory details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Caftan & Takchita"
+                                                },
+                                                "id_categorie": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "proprietes": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "required": {
+                                                    "type": "string"
+                                                },
+                                                "order": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "title_en": {
+                                                    "type": "string",
+                                                    "example": "Caftan & Takchita"
+                                                },
+                                                "title_ar": {
+                                                    "type": "string",
+                                                    "example": "القفطان والتكشيطة"
+                                                },
+                                                "categorie": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "titre": {
+                                                            "type": "string",
+                                                            "example": "Fashion & Vêtements"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Fashion & Vêtements looollmm"
+                                                        },
+                                                        "pourcentage_gain": {
+                                                            "type": "string",
+                                                            "example": "7.00"
+                                                        },
+                                                        "luxury": {
+                                                            "type": "boolean",
+                                                            "example": false
+                                                        },
+                                                        "order": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "icon": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/uploads/categories/icon.png"
+                                                        },
+                                                        "small_icon": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/uploads/categories/icon_small.png"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        },
+                                                        "active": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title_en": {
+                                                            "type": "string",
+                                                            "example": "Fashion & Clothing"
+                                                        },
+                                                        "title_ar": {
+                                                            "type": "string",
+                                                            "example": "الموضة والملابس"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subcategory not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categorie not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/proprietes": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "List all properties",
+                "description": "Returns all properties with their details including name, type, display format, options, and configuration flags. Properties are ordered by their display order.",
+                "operationId": "b4a28ee03a252fdf9849632cb12f5c3a",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation - List of all properties",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "description": "Array of property objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the property",
+                                                        "type": "integer",
+                                                        "example": 13
+                                                    },
+                                                    "nom": {
+                                                        "description": "Name of the property",
+                                                        "type": "string",
+                                                        "example": "Taille Bébé"
+                                                    },
+                                                    "type": {
+                                                        "description": "Type of property: 'text', 'number', 'option', 'color'",
+                                                        "type": "string",
+                                                        "example": "option"
+                                                    },
+                                                    "affichage": {
+                                                        "description": "Display format for the property",
+                                                        "type": "string",
+                                                        "example": "case"
+                                                    },
+                                                    "options": {
+                                                        "description": "Available options for property types that support predefined values",
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "Prématurés"
+                                                        },
+                                                        "nullable": true
+                                                    },
+                                                    "required": {
+                                                        "description": "Whether the property is required (1) or optional (0)",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "order": {
+                                                        "description": "Display order for sorting properties",
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "show_in_filter": {
+                                                        "description": "Whether to show this property in filters (1) or not (0)",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "show_in_front": {
+                                                        "description": "Whether to show this property in frontend (1) or not (0)",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Creation timestamp",
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Last update timestamp",
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/proprietes/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get property details",
+                "description": "Returns detailed information about a specific property by its ID. Includes all property attributes such as name, type, options, and configuration flags.",
+                "operationId": "d3159b96ba0078be7d6ccc0446996e90",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the property to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 13
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation - Property details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "description": "Property object with all details",
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Unique identifier for the property",
+                                                    "type": "integer",
+                                                    "example": 13
+                                                },
+                                                "nom": {
+                                                    "description": "Name of the property",
+                                                    "type": "string",
+                                                    "example": "Taille Bébé"
+                                                },
+                                                "type": {
+                                                    "description": "Type of property: 'text', 'number', 'option', 'color'",
+                                                    "type": "string",
+                                                    "example": "option"
+                                                },
+                                                "affichage": {
+                                                    "description": "Display format for the property",
+                                                    "type": "string",
+                                                    "example": "case"
+                                                },
+                                                "options": {
+                                                    "description": "Available options for property types that support predefined values",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Prématurés"
+                                                    },
+                                                    "nullable": true
+                                                },
+                                                "required": {
+                                                    "description": "Whether the property is required (1) or optional (0)",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "order": {
+                                                    "description": "Display order for sorting properties",
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "show_in_filter": {
+                                                    "description": "Whether to show this property in filters (1) or not (0)",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "show_in_front": {
+                                                    "description": "Whether to show this property in frontend (1) or not (0)",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "description": "Creation timestamp",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "description": "Last update timestamp",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Property not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "propriete not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [
@@ -813,6 +1360,505 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/shopiners": {
+            "get": {
+                "tags": [
+                    "Shopiners"
+                ],
+                "summary": "List paginated shopiners",
+                "description": "Returns a paginated list of shopiners with full avatar URLs",
+                "operationId": "97c59d1b43dcbbf1a6119d9d7992a7bd",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "Search by username",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "description": "Filter users with average rating greater than or equal to this value",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of shopiners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 11
+                                                            },
+                                                            "firstname": {
+                                                                "type": "string",
+                                                                "example": "John"
+                                                            },
+                                                            "lastname": {
+                                                                "type": "string",
+                                                                "example": "Doe"
+                                                            },
+                                                            "username": {
+                                                                "type": "string",
+                                                                "example": "johndoe"
+                                                            },
+                                                            "voyage_mode": {
+                                                                "type": "string",
+                                                                "example": "Fast"
+                                                            },
+                                                            "avatar": {
+                                                                "type": "string",
+                                                                "example": "http://127.0.0.1:8000/storage/uploads/avatars/avatar1.png"
+                                                            },
+                                                            "photo_verified_at": {
+                                                                "type": "string",
+                                                                "example": "2025-01-10 12:00:00",
+                                                                "nullable": true
+                                                            },
+                                                            "average_rating": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 4.5
+                                                            },
+                                                            "total_posts": {
+                                                                "type": "integer",
+                                                                "example": 23
+                                                            },
+                                                            "total_reviews": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 150
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shopiner/profile/{id}": {
+            "get": {
+                "tags": [
+                    "Shopiners"
+                ],
+                "summary": "Get Shopiner profile",
+                "description": "Returns a Shopiner's profile including average rating, total posts, total reviews, total views, and posts created by him",
+                "operationId": "56ae8f022ab65b53815973e8248f700b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Shopiner ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shopiner profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "shopiner": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 11
+                                                        },
+                                                        "firstname": {
+                                                            "type": "string",
+                                                            "example": "Malak"
+                                                        },
+                                                        "lastname": {
+                                                            "type": "string",
+                                                            "example": "Salame"
+                                                        },
+                                                        "username": {
+                                                            "type": "string",
+                                                            "example": "Louka"
+                                                        },
+                                                        "voyage_mode": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "avatar": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/avatar.png"
+                                                        },
+                                                        "photo_verified_at": {
+                                                            "type": "string",
+                                                            "example": "2024-10-02 23:11:45",
+                                                            "nullable": true
+                                                        },
+                                                        "average_rating": {
+                                                            "type": "string",
+                                                            "example": "3.0000"
+                                                        },
+                                                        "total_posts": {
+                                                            "type": "integer",
+                                                            "example": 18
+                                                        },
+                                                        "total_reviews": {
+                                                            "type": "integer",
+                                                            "example": 18
+                                                        },
+                                                        "total_views": {
+                                                            "type": "integer",
+                                                            "example": 120
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "posts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 30
+                                                            },
+                                                            "titre": {
+                                                                "type": "string",
+                                                                "example": "Manteau old style"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Manteau camel Mango"
+                                                            },
+                                                            "photos": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string",
+                                                                    "example": "http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp"
+                                                                }
+                                                            },
+                                                            "prix": {
+                                                                "type": "string",
+                                                                "example": "300.00"
+                                                            },
+                                                            "etat": {
+                                                                "type": "string",
+                                                                "example": "Bon état"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Shopiner not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shopiner not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "List paginated posts",
+                "description": "Returns a paginated list of posts including photos as full URLs",
+                "operationId": "0f662500b195dc03ad40457524366831",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 30
+                                                            },
+                                                            "titre": {
+                                                                "type": "string",
+                                                                "example": "Manteau old style"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Manteau camel Mango"
+                                                            },
+                                                            "photos": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string",
+                                                                    "example": "http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 150
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/post/{id}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get post details",
+                "description": "Returns detailed information of a single post including photos and category info",
+                "operationId": "efda728ce749fc8efc310bc84af210ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "post": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 30
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Manteau old style"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Manteau camel Mango"
+                                                },
+                                                "photos": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp"
+                                                    }
+                                                },
+                                                "proprietes": {
+                                                    "type": "object",
+                                                    "example": {
+                                                        "Marque": "Bershka",
+                                                        "Taille": "L/42/10",
+                                                        "Couleur": "#C19A6B",
+                                                        "Article pour": "Femme",
+                                                        "Eventuels défauts": "No"
+                                                    }
+                                                },
+                                                "etat": {
+                                                    "type": "string",
+                                                    "example": "Bon état"
+                                                },
+                                                "prix": {
+                                                    "type": "string",
+                                                    "example": "300.00"
+                                                },
+                                                "sous_categorie_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "titre": {
+                                                            "type": "string",
+                                                            "example": "Manteau"
+                                                        },
+                                                        "categorie": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "titre": {
+                                                                    "type": "string",
+                                                                    "example": "Fashion & Vêtements"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Fashion & Vêtements looollmm"
+                                                                },
+                                                                "icon": {
+                                                                    "type": "string",
+                                                                    "example": "http://127.0.0.1:8000/storage/uploads/categories/goCedMgqRvvQQ7xzuwNBgraFZSuuvWShzRCknYvP.png"
+                                                                },
+                                                                "small_icon": {
+                                                                    "type": "string",
+                                                                    "example": "http://127.0.0.1:8000/storage/uploads/categories/oE8n20szUVwCTh4pSCy8VXSP0KvTliyMBgX2kDxg.png"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
                     }
                 }
             }

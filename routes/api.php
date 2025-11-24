@@ -5,7 +5,7 @@ use App\Http\Controllers\API\CategoriesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\shopinerController;
+use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,12 +28,21 @@ Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 Route::get('/regions', [ShopController::class, 'regions']);
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
 Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
+Route::get('/sub-categories', [CategoriesController::class, 'list_sub_categorie'])->name('list_sub_categorie');
+Route::get('/sub-categories/{id}', [CategoriesController::class, 'details_sub_categorie'])->name('details_sub_categorie');
+Route::get('/proprietes', [CategoriesController::class, 'list_proprietes'])->name('list_proprietes');
+Route::get('/proprietes/{id}', [CategoriesController::class, 'details_proprietes'])->name('details_proprietes');
+Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
+Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
+    Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
+
 
 });
 
@@ -55,14 +64,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
 
     //shopiners
-    Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
 
 });
 
 
 
-Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
-Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
+
 
 Route::post('/check_username', [PostsController::class, 'username'])->name('username');
 
