@@ -50,7 +50,6 @@ class FavorisController extends Controller
         $id_post = $request->get("id_post");
         $post = posts::find($id_post);
         if ($post) {
-            //verifier si il n'a pas deja ajouter a ses favoris
             $favoris = favoris::where("id_post", $id_post)
                 ->where("id_user", Auth::user()->id)
                 ->first();

@@ -7,6 +7,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
+use App\Http\Controllers\API\PostsController as postController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
     Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
+
+    //Posts
+    Route::post('/favorites/toggle', [postController::class, 'toggleFavorite']);
+
 
 
 });

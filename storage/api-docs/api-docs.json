@@ -1685,6 +1685,117 @@
                 }
             }
         },
+        "/api/favorites/toggle": {
+            "post": {
+                "tags": [
+                    "Favorites"
+                ],
+                "summary": "Add or remove a post from favorites",
+                "description": "Toggle a post as favorite by specifying an action flag (add/remove). Requires Bearer Token authentication.",
+                "operationId": "15f658f944d2c5ec63e89f48ab22718e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_post",
+                                    "action"
+                                ],
+                                "properties": {
+                                    "id_post": {
+                                        "description": "ID of the post",
+                                        "type": "integer",
+                                        "example": 30
+                                    },
+                                    "action": {
+                                        "description": "Action to perform",
+                                        "type": "string",
+                                        "enum": [
+                                            "add",
+                                            "remove"
+                                        ],
+                                        "example": "add"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Favorite action processed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "action": {
+                                            "type": "string",
+                                            "example": "add"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item added to favorites!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item not found in favorites!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Missing or invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [
