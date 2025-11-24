@@ -1796,6 +1796,239 @@
                 ]
             }
         },
+        "/api/favorites": {
+            "get": {
+                "tags": [
+                    "Favorites"
+                ],
+                "summary": "List authenticated user's favorite posts",
+                "description": "Returns a list of the authenticated user's favorite posts with post details, post owner, and the date the post was favorited.",
+                "operationId": "fac4adfb6c677c7a5145a9e302ca7330",
+                "responses": {
+                    "200": {
+                        "description": "List of favorite posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 14
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "iPhone 13 Pro Max"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Very good condition, 128GB"
+                                                    },
+                                                    "photos": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/uploads/posts/img1.jpg"
+                                                        }
+                                                    },
+                                                    "prix": {
+                                                        "type": "number",
+                                                        "example": 2500
+                                                    },
+                                                    "etat": {
+                                                        "type": "string",
+                                                        "example": "Neuf"
+                                                    },
+                                                    "statut": {
+                                                        "type": "string",
+                                                        "example": "active"
+                                                    },
+                                                    "favorited_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-01-10T12:45:23.000000Z"
+                                                    },
+                                                    "post_owner": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Hazar Nenni"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "user@example.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/my-posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "List all posts created by authenticated user",
+                "description": "Filters by month, year, type, status, or search keyword. Returns paginated results.",
+                "operationId": "ea6b4f1d14fc4e4abe737aff363e3753",
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "Filter by month (1-12)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 11
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Filter by year",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2025
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Type of post: annonce or vente",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "annonce"
+                        }
+                    },
+                    {
+                        "name": "statut",
+                        "in": "query",
+                        "description": "Status of the post",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "vendu"
+                        }
+                    },
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "Search keyword for title or description",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "iphone"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user's posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "properties": {
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "lastPage": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nextPageUrl": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "previousPageUrl": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "totalItems": {
+                                                    "type": "integer",
+                                                    "example": 82
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [
