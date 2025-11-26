@@ -2675,6 +2675,52 @@
                 }
             }
         },
+        "/api/panier/toggle": {
+            "post": {
+                "tags": [
+                    "Panier"
+                ],
+                "summary": "Ajouter ou retirer un article du panier",
+                "description": "Ajoute un article au panier si non existant. Le retire sinon. Retourne un flag 'added' ou 'removed'.",
+                "operationId": "09da7b9adc3cc6a427f5eb901daa5451",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "ID du post à ajouter/retirer du panier",
+                                        "type": "integer",
+                                        "example": 42
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Résultat de l'opération (ajout ou suppression)"
+                    },
+                    "404": {
+                        "description": "Article introuvable ou non disponible à la vente"
+                    },
+                    "403": {
+                        "description": "L'utilisateur tente d'ajouter son propre article"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user/update": {
             "put": {
                 "tags": [
