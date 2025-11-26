@@ -2029,6 +2029,131 @@
                 ]
             }
         },
+        "/api/my-purchases": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Liste des achats de l'utilisateur authentifié",
+                "description": "Retourne une liste paginée des posts achetés par l'utilisateur connecté, avec option de filtrage par mois et année.",
+                "operationId": "a34318f7778d641bba54acdfd00b26de",
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "Filtrer par mois (1-12)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 11
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Filtrer par année",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2025
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste paginée des achats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "Macbook Pro 2021"
+                                                    },
+                                                    "photos": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/products/mac1.jpg"
+                                                        }
+                                                    },
+                                                    "id_sous_categorie": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "id_user": {
+                                                        "type": "integer",
+                                                        "example": 7
+                                                    },
+                                                    "statut": {
+                                                        "type": "string",
+                                                        "example": "livré"
+                                                    },
+                                                    "prix": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 3200
+                                                    },
+                                                    "sell_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-02-10 16:41:22"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Token manquant ou invalide"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [
@@ -2072,6 +2197,272 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/user/update": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user profile",
+                "description": "Update user information, profile photo, CIN image, RIB info, address, and more. Supports multipart form data.",
+                "operationId": "5e899dc6f8c257c24658ddeb96e64f69",
+                "requestBody": {
+                    "description": "Send only the fields you want to update. For PUT requests, send `_method=PUT`.",
+                    "required": false,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "Hazar"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Nenni"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@gmail.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "22334455"
+                                    },
+                                    "region": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Rue X, Tunis"
+                                    },
+                                    "rue": {
+                                        "type": "string",
+                                        "example": "Rue Y"
+                                    },
+                                    "nom_batiment": {
+                                        "type": "string",
+                                        "example": "Immeuble A"
+                                    },
+                                    "etage": {
+                                        "type": "string",
+                                        "example": "2"
+                                    },
+                                    "num_appartement": {
+                                        "type": "string",
+                                        "example": "12"
+                                    },
+                                    "jour": {
+                                        "type": "integer",
+                                        "example": 12
+                                    },
+                                    "mois": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "annee": {
+                                        "type": "integer",
+                                        "example": 1998
+                                    },
+                                    "avatar": {
+                                        "description": "Profile photo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "cin_img": {
+                                        "description": "CIN (ID card) image",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "rib_number": {
+                                        "type": "string",
+                                        "example": "1234567890123"
+                                    },
+                                    "bank_name": {
+                                        "type": "string",
+                                        "example": "BIAT"
+                                    },
+                                    "titulaire_name": {
+                                        "type": "string",
+                                        "example": "Hazar Nenni"
+                                    },
+                                    "voyage_mode": {
+                                        "type": "boolean"
+                                    },
+                                    "old_password": {
+                                        "type": "string",
+                                        "example": "OldPass@123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "NewPass@123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "NewPass@123"
+                                    },
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User info updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Information updated successfully"
+                                        },
+                                        "profile_photo_message": {
+                                            "type": "string",
+                                            "example": "Profile photo updated successfully",
+                                            "nullable": true
+                                        },
+                                        "cin_message": {
+                                            "type": "string",
+                                            "example": "Your registration card has been updated and is awaiting validation.",
+                                            "nullable": true
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "firstname": {
+                                                    "type": "string",
+                                                    "example": "Hazar"
+                                                },
+                                                "lastname": {
+                                                    "type": "string",
+                                                    "example": "Nenni"
+                                                },
+                                                "birthdate": {
+                                                    "type": "string",
+                                                    "example": "1998-05-12"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@gmail.com"
+                                                },
+                                                "username": {
+                                                    "type": "string",
+                                                    "example": "hazar123"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "example": "22334455"
+                                                },
+                                                "region": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "Rue X, Tunis"
+                                                },
+                                                "rue": {
+                                                    "type": "string",
+                                                    "example": "Rue Y"
+                                                },
+                                                "nom_batiment": {
+                                                    "type": "string",
+                                                    "example": "Immeuble A"
+                                                },
+                                                "etage": {
+                                                    "type": "string",
+                                                    "example": "2"
+                                                },
+                                                "num_appartement": {
+                                                    "type": "string",
+                                                    "example": "12"
+                                                },
+                                                "rib_number": {
+                                                    "type": "string",
+                                                    "example": "1234567890123"
+                                                },
+                                                "bank_name": {
+                                                    "type": "string",
+                                                    "example": "BIAT"
+                                                },
+                                                "titulaire_name": {
+                                                    "type": "string",
+                                                    "example": "Hazar Nenni"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/storage/uploads/avatars/photo.webp"
+                                                },
+                                                "cin_img": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/storage/cin_images/cin.webp"
+                                                },
+                                                "old_cin_images": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "voyage_mode": {
+                                                    "type": "boolean",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field must be a valid email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/shopiners": {

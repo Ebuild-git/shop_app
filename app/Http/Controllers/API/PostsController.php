@@ -386,6 +386,103 @@ class PostsController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/my-purchases",
+     *     tags={"Posts"},
+     *     summary="Liste des achats de l'utilisateur authentifié",
+     *     description="Retourne une liste paginée des posts achetés par l'utilisateur connecté, avec option de filtrage par mois et année.",
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\Parameter(
+     *         name="month",
+     *         in="query",
+     *         required=false,
+     *         description="Filtrer par mois (1-12)",
+     *         @OA\Schema(type="integer", example=11)
+     *     ),
+     *     @OA\Parameter(
+     *         name="year",
+     *         in="query",
+     *         required=false,
+     *         description="Filtrer par année",
+     *         @OA\Schema(type="integer", example=2025)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste paginée des achats",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="total", type="integer", example=5),
+     *             @OA\Property(property="current_page", type="integer", example=1),
+     *             @OA\Property(property="last_page", type="integer", example=1),
+     *             @OA\Property(property="next_page_url", type="string", nullable=true, example=null),
+     *             @OA\Property(property="prev_page_url", type="string", nullable=true, example=null),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=10),
+     *                     @OA\Property(property="titre", type="string", example="Macbook Pro 2021"),
+     *                     @OA\Property(
+     *                         property="photos",
+     *                         type="array",
+     *                         @OA\Items(type="string", example="http://127.0.0.1:8000/storage/products/mac1.jpg")
+     *                     ),
+     *                     @OA\Property(property="id_sous_categorie", type="integer", example=3),
+     *                     @OA\Property(property="id_user", type="integer", example=7),
+     *                     @OA\Property(property="statut", type="string", example="livré"),
+     *                     @OA\Property(property="prix", type="number", format="float", example=3200),
+     *                     @OA\Property(property="sell_at", type="string", format="date-time", example="2025-02-10 16:41:22")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized - Token manquant ou invalide"
+     *     )
+     * )
+     */
+    public function MesAchats(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $month = $request->input('month');
+        $year  = $request->input('year');
+
+        $query = posts::where("id_user_buy", $userId)
+            ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
+                    "statut", "prix", "sell_at")
+            ->orderBy('sell_at', 'desc');
+
+        if ($month && $year) {
+            $query->whereYear('sell_at', $year)
+                ->whereMonth('sell_at', $month);
+        }
+
+        $achats = $query->paginate(20);
+
+        $achats->getCollection()->transform(function ($post) {
+            $post->photos = collect($post->photos)->map(fn($p) => asset('storage/' . $p));
+            return $post;
+        });
+
+        return response()->json([
+            'success' => true,
+            'total' => posts::where("id_user_buy", $userId)->count(),
+            'current_page' => $achats->currentPage(),
+            'last_page' => $achats->lastPage(),
+            'next_page_url' => $achats->nextPageUrl(),
+            'prev_page_url' => $achats->previousPageUrl(),
+            'data' => $achats->items()
+        ]);
+    }
+
 
 
 

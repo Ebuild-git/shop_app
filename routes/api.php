@@ -5,6 +5,7 @@ use App\Http\Controllers\API\CategoriesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
@@ -45,14 +46,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    //USERS
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
     Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
+    Route::put('/user/update', [UsersController::class, 'update']);
 
     //Posts
     Route::post('/favorites/toggle', [postController::class, 'toggleFavorite']);
     Route::get('/favorites', [postController::class, 'listFavorites']);
     Route::get('/my-posts', [postController::class, 'MyPosts']);
+    Route::get('/my-purchases', [postController::class, 'MesAchats']);
 
 
 });
