@@ -17,6 +17,9 @@ class ColorController extends Controller
         if ($response->successful()) {
             $colorData = $response->json();
             $colorNameEn = $colorData['name']['value'];
+            if (!$colorNameEn) {
+                $colorNameEn = 'Unknown';
+            }
             $translatedName = $this->translateColorName($colorNameEn, 'fr');
             return response()->json([
                 'name' => $translatedName,

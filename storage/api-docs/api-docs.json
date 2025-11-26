@@ -2154,6 +2154,404 @@
                 ]
             }
         },
+        "/api/posts/create": {
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Create a new post",
+                "description": "Creates a new post for the authenticated user. 'etat' must be one of: 'Neuf avec étiquettes','Neuf sans étiquettes','Très bon état','Bon état','Usé'. Include required and optional properties in 'proprietes'.",
+                "operationId": "dad43b50f28ee9a766aa3b5582c63483",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titre",
+                                    "etat",
+                                    "id_region",
+                                    "id_sous_categorie",
+                                    "prix"
+                                ],
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Superb Jacket"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "A stylish leather jacket",
+                                        "nullable": true
+                                    },
+                                    "etat": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Neuf avec étiquettes",
+                                            "Neuf sans étiquettes",
+                                            "Très bon état",
+                                            "Bon état",
+                                            "Usé"
+                                        ],
+                                        "example": "Neuf avec étiquettes"
+                                    },
+                                    "id_region": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_sous_categorie": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "prix": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 600
+                                    },
+                                    "prix_achat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 400,
+                                        "nullable": true
+                                    },
+                                    "photos1": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "photos2": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
+                                    },
+                                    "photos3": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
+                                    },
+                                    "photos4": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
+                                    },
+                                    "photos5": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
+                                    },
+                                    "proprietes": {
+                                        "description": "Key-value object for all required and optional properties",
+                                        "type": "object",
+                                        "example": {
+                                            "Couleur": "#FF0000",
+                                            "Taille": "M",
+                                            "Marque": "Nike"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Superb Jacket"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "A stylish leather jacket"
+                                                },
+                                                "etat": {
+                                                    "type": "string",
+                                                    "example": "Neuf avec étiquettes"
+                                                },
+                                                "prix": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 600
+                                                },
+                                                "prix_achat": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 400,
+                                                    "nullable": true
+                                                },
+                                                "id_region": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_sous_categorie": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "id_user": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "proprietes": {
+                                                    "type": "object",
+                                                    "example": {
+                                                        "Couleur": "#FF0000",
+                                                        "Taille": "M",
+                                                        "Marque": "Nike"
+                                                    }
+                                                },
+                                                "photos": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "http://localhost/storage/uploads/posts/photo1.jpg"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors or other preconditions not met",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You must upload an image of your registration card before publishing a post!"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/posts/{id}/reduce-price": {
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Reduce the price of a post",
+                "description": "Allows the authenticated user to decrease the price of their post. The price can only be reduced once per week. Price increases are not allowed.",
+                "operationId": "ffe585e9f71c8412c72adaf2a2dd5302",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the post whose price will be reduced",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 15
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "prix"
+                                ],
+                                "properties": {
+                                    "prix": {
+                                        "description": "New reduced price. Must be less than the current price.",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 120
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Price successfully reduced",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Price successfully reduced from 150 to 120."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "old_price": {
+                                                    "type": "number",
+                                                    "example": 150
+                                                },
+                                                "new_price": {
+                                                    "type": "number",
+                                                    "example": 120
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or price cannot be increased",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You cannot increase the price. Only reductions are allowed."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Weekly price change limit reached",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You can change the price again in 3 day(s) and 5 hour(s)."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [

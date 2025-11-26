@@ -58,7 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/favorites', [postController::class, 'listFavorites']);
     Route::get('/my-posts', [postController::class, 'MyPosts']);
     Route::get('/my-purchases', [postController::class, 'MesAchats']);
-
+    Route::post('/posts/create', [postController::class, 'store']);
+    Route::post('/posts/update/{id}', [postController::class, 'update']);
+    Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
 
 });
 
@@ -66,7 +68,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     // Vos routes protégées
 
     //posts
-    Route::post('/posts/create', [PostsController::class, 'create_post'])->name('create_post');
     Route::post('/posts/update', [PostsController::class, 'update_post'])->name('update_post');
 
     //users

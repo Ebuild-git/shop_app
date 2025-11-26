@@ -6,6 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\favoris;
 use App\Models\posts;
+use App\Models\categories;
+use App\Models\sous_categories;
+use App\Models\regions;
+use App\Models\configurations;
+use App\Models\{notifications, History_change_price};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use App\Events\AdminEvent;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class PostsController extends Controller
 {
@@ -483,6 +494,581 @@ class PostsController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/posts/create",
+     *     tags={"Posts"},
+     *     summary="Create a new post",
+     *     description="Creates a new post for the authenticated user. 'etat' must be one of: 'Neuf avec étiquettes','Neuf sans étiquettes','Très bon état','Bon état','Usé'. Include required and optional properties in 'proprietes'.",
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"titre","etat","id_region","id_sous_categorie","prix"},
+     *
+     *             @OA\Property(property="titre", type="string", example="Superb Jacket"),
+     *             @OA\Property(property="description", type="string", nullable=true, example="A stylish leather jacket"),
+     *             @OA\Property(
+     *                 property="etat",
+     *                 type="string",
+     *                 enum={"Neuf avec étiquettes","Neuf sans étiquettes","Très bon état","Bon état","Usé"},
+     *                 example="Neuf avec étiquettes"
+     *             ),
+     *             @OA\Property(property="id_region", type="integer", example=1),
+     *             @OA\Property(property="id_sous_categorie", type="integer", example=5),
+     *             @OA\Property(property="prix", type="number", format="float", example=600),
+     *             @OA\Property(property="prix_achat", type="number", format="float", nullable=true, example=400),
+     *
+     *             @OA\Property(property="photos1", type="string", format="binary"),
+     *             @OA\Property(property="photos2", type="string", format="binary", nullable=true),
+     *             @OA\Property(property="photos3", type="string", format="binary", nullable=true),
+     *             @OA\Property(property="photos4", type="string", format="binary", nullable=true),
+     *             @OA\Property(property="photos5", type="string", format="binary", nullable=true),
+     *
+     *             @OA\Property(
+     *                 property="proprietes",
+     *                 type="object",
+     *                 example={
+     *                     "Couleur": "#FF0000",
+     *                     "Taille": "M",
+     *                     "Marque": "Nike"
+     *                 },
+     *                 description="Key-value object for all required and optional properties"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=201,
+     *         description="Post created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Post created successfully"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=10),
+     *                 @OA\Property(property="titre", type="string", example="Superb Jacket"),
+     *                 @OA\Property(property="description", type="string", example="A stylish leather jacket"),
+     *                 @OA\Property(property="etat", type="string", example="Neuf avec étiquettes"),
+     *                 @OA\Property(property="prix", type="number", format="float", example=600),
+     *                 @OA\Property(property="prix_achat", type="number", format="float", example=400, nullable=true),
+     *                 @OA\Property(property="id_region", type="integer", example=1),
+     *                 @OA\Property(property="id_sous_categorie", type="integer", example=5),
+     *                 @OA\Property(property="id_user", type="integer", example=2),
+     *                 @OA\Property(
+     *                     property="proprietes",
+     *                     type="object",
+     *                     example={"Couleur":"#FF0000","Taille":"M","Marque":"Nike"}
+     *                 ),
+     *                 @OA\Property(
+     *                     property="photos",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="http://localhost/storage/uploads/posts/photo1.jpg")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors or other preconditions not met",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="You must upload an image of your registration card before publishing a post!"),
+     *             @OA\Property(property="errors", type="object", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     )
+     * )
+     */
+    public function store(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        if (!$user->cin_img) {
+            return response()->json([
+                'success' => false,
+                'message' => "You must upload an image of your registration card before publishing a post!"
+            ], 422);
+        }
+
+        if (!$user->cin_approved) {
+            return response()->json([
+                'success' => false,
+                'message' => "Your registration card is being verified. You will receive a notification once it is approved."
+            ], 422);
+        }
+
+        $subcategory = sous_categories::find($request->id_sous_categorie);
+        if (!$subcategory) {
+            return response()->json(['success' => false, 'message' => 'Invalid subcategory'], 422);
+        }
+
+        $category = $subcategory->categorie;
+
+        $rules = [
+            'titre' => 'required|min:2',
+            'description' => 'string|nullable',
+            'etat' => 'required|string',
+            'id_region' => 'required|integer|exists:regions,id',
+            'id_sous_categorie' => 'required|integer|exists:sous_categories,id',
+            'prix' => 'required|numeric|min:50',
+            'prix_achat' => 'nullable|numeric|min:50',
+            'photos1' => 'nullable|file|image',
+            'photos2' => 'nullable|file|image',
+            'photos3' => 'nullable|file|image',
+            'photos4' => 'nullable|file|image',
+            'photos5' => 'nullable|file|image',
+            'proprietes' => 'array',
+        ];
+
+        $allProps = json_decode($subcategory->required ?? '[]', true);
+        if (is_array($allProps)) {
+            foreach ($allProps as $item) {
+                $prop = DB::table('proprietes')->where('id', $item['id'])->value('nom');
+                if (!$prop) continue;
+
+                if (($item['required'] ?? 'Non') === 'Oui') {
+                    if ($prop === 'Couleur') {
+                        $rules["proprietes.$prop"] = 'required|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                    } else {
+                        $rules["proprietes.$prop"] = 'required';
+                    }
+                } else {
+                    if ($prop === 'Couleur') {
+                        $rules["proprietes.$prop"] = 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                    } else {
+                        $rules["proprietes.$prop"] = 'nullable';
+                    }
+                }
+            }
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $validated = $validator->validated();
+
+        if ($category->luxury && $validated['prix'] < 800) {
+            return response()->json([
+                'success' => false,
+                'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
+            ], 422);
+        }
+
+        if (!$category->luxury && $validated['prix'] >= 800) {
+            return response()->json([
+                'success' => false,
+                'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
+            ], 422);
+        }
+
+        $photos = [];
+        foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $p) {
+            if ($request->hasFile($p)) {
+                $photos[] = $request->file($p)->store('uploads/posts', 'public');
+            }
+        }
+
+        if (count($photos) < 3) {
+            return response()->json([
+                'success' => false,
+                'message' => "You must add at least 3 photos!"
+            ], 422);
+        }
+
+        $config = configurations::first();
+
+        $post = new posts();
+        $post->photos = $photos;
+        $post->titre = $validated['titre'];
+        $post->description = $validated['description'] ?? null;
+        $post->etat = $validated['etat'];
+        $post->id_region = $validated['id_region'];
+        $post->id_sous_categorie = $validated['id_sous_categorie'];
+        $post->prix = $validated['prix'];
+        $post->prix_achat = $validated['prix_achat'] ?? null;
+        $post->id_user = $user->id;
+
+        $post->proprietes = $validated['proprietes'] ?? [];
+
+        if ($config->valider_publication == 0) {
+            $post->verified_at = now();
+            $post->statut = 'vente';
+        }
+
+        $post->save();
+
+        event(new AdminEvent('Un post a été créé avec succès.'));
+
+        $notification = new notifications();
+        $notification->type = "new_post";
+        $notification->titre = $user->username . " vient de publier un article ";
+        $notification->url = "/admin/publication/" . $post->id . "/view";
+        $notification->message = $post->titre;
+        $notification->id_post = $post->id;
+        $notification->id_user = $user->id;
+        $notification->destination = "admin";
+        $notification->save();
+
+        // Return full photo URLs
+        $post->photos = array_map(fn($p) => asset('storage/' . $p), $post->photos);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post created successfully',
+            'data' => $post
+        ], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $post = posts::find($id);
+        if (!$post) {
+            return response()->json(['success' => false, 'message' => 'Post not found'], 404);
+        }
+
+        if ($post->id_user !== $user->id) {
+            return response()->json(['success' => false, 'message' => 'You are not allowed to update this post'], 403);
+        }
+
+        if (!$user->cin_img) {
+            return response()->json([
+                'success' => false,
+                'message' => "You must upload an image of your registration card before updating a post!"
+            ], 422);
+        }
+
+        if (!$user->cin_approved) {
+            return response()->json([
+                'success' => false,
+                'message' => "Your registration card is being verified. You will receive a notification once it is approved."
+            ], 422);
+        }
+
+        $subcategory = sous_categories::find($request->id_sous_categorie ?? $post->id_sous_categorie);
+        if (!$subcategory) {
+            return response()->json(['success' => false, 'message' => 'Invalid subcategory'], 422);
+        }
+
+        $category = $subcategory->categorie;
+
+        $rules = [
+            'titre' => 'required|min:2',
+            'description' => 'string|nullable',
+            'etat' => 'required|string|in:Neuf avec étiquettes,Neuf sans étiquettes,Très bon état,Bon état,Usé',
+            'id_region' => 'required|integer|exists:regions,id',
+            'id_sous_categorie' => 'required|integer|exists:sous_categories,id',
+            'prix' => 'required|numeric|min:50',
+            'prix_achat' => 'nullable|numeric|min:50',
+            'photos1' => 'nullable|file|image',
+            'photos2' => 'nullable|file|image',
+            'photos3' => 'nullable|file|image',
+            'photos4' => 'nullable|file|image',
+            'photos5' => 'nullable|file|image',
+            'proprietes' => 'array',
+        ];
+
+        // Handle required + optional properties
+        $allProps = json_decode($subcategory->required ?? '[]', true);
+        if (is_array($allProps)) {
+            foreach ($allProps as $item) {
+                $prop = DB::table('proprietes')->where('id', $item['id'])->value('nom');
+                if (!$prop) continue;
+
+                if (($item['required'] ?? 'Non') === 'Oui') {
+                    if ($prop === 'Couleur') {
+                        $rules["proprietes.$prop"] = 'required|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                    } else {
+                        $rules["proprietes.$prop"] = 'required';
+                    }
+                } else {
+                    if ($prop === 'Couleur') {
+                        $rules["proprietes.$prop"] = 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                    } else {
+                        $rules["proprietes.$prop"] = 'nullable';
+                    }
+                }
+            }
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $validated = $validator->validated();
+
+        // Category price rules
+        if ($category->luxury && $validated['prix'] < 800) {
+            return response()->json([
+                'success' => false,
+                'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
+            ], 422);
+        }
+
+        if (!$category->luxury && $validated['prix'] >= 800) {
+            return response()->json([
+                'success' => false,
+                'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
+            ], 422);
+        }
+
+        // Handle photos: replace only the ones sent
+        $photos = $post->photos ?? [];
+        foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $index => $p) {
+            if ($request->hasFile($p)) {
+                $photos[$index] = $request->file($p)->store('uploads/posts', 'public');
+            }
+        }
+
+        if (count($photos) < 3) {
+            return response()->json([
+                'success' => false,
+                'message' => "You must have at least 3 photos!"
+            ], 422);
+        }
+
+        $config = configurations::first();
+
+        // Update post
+        $post->titre = $validated['titre'];
+        $post->description = $validated['description'] ?? $post->description;
+        $post->etat = $validated['etat'];
+        $post->id_region = $validated['id_region'];
+        $post->id_sous_categorie = $validated['id_sous_categorie'];
+        $post->prix = $validated['prix'];
+        $post->prix_achat = $validated['prix_achat'] ?? $post->prix_achat;
+        $post->proprietes = $validated['proprietes'] ?? $post->proprietes;
+        $post->photos = $photos;
+
+        if ($config->valider_publication == 0) {
+            $post->verified_at = $post->verified_at ?? now();
+            $post->statut = 'vente';
+        }
+
+        $post->save();
+
+        // Return full photo URLs
+        $post->photos = array_map(fn($p) => asset('storage/' . $p), $post->photos);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post updated successfully',
+            'data' => $post
+        ], 200);
+    }
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/posts/{id}/reduce-price",
+     *     tags={"Posts"},
+     *     summary="Reduce the price of a post",
+     *     description="Allows the authenticated user to decrease the price of their post. The price can only be reduced once per week. Price increases are not allowed.",
+     *
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the post whose price will be reduced",
+     *         @OA\Schema(type="integer", example=15)
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"prix"},
+     *             @OA\Property(
+     *                 property="prix",
+     *                 type="number",
+     *                 format="float",
+     *                 example=120,
+     *                 description="New reduced price. Must be less than the current price."
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Price successfully reduced",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Price successfully reduced from 150 to 120."),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=15),
+     *                 @OA\Property(property="old_price", type="number", example=150),
+     *                 @OA\Property(property="new_price", type="number", example=120)
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Post not found")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error or price cannot be increased",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="You cannot increase the price. Only reductions are allowed.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=429,
+     *         description="Weekly price change limit reached",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="You can change the price again in 3 day(s) and 5 hour(s).")
+     *         )
+     *     )
+     * )
+     */
+    public function reducePrice(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $post = posts::where('id', $id)
+            ->where('id_user', $user->id)
+            ->first();
+
+        if (!$post) {
+            return response()->json(['success' => false, 'message' => 'Post not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'prix' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        $newPrice = $request->prix;
+        $oldPrice = $post->prix;
+
+        if ($newPrice == $oldPrice) {
+            return response()->json([
+                'success' => false,
+                'message' => "The new price must be different from the old price."
+            ], 422);
+        }
+
+        if ($newPrice > $oldPrice) {
+            return response()->json([
+                'success' => false,
+                'message' => "You cannot increase the price. Only reductions are allowed."
+            ], 422);
+        }
+
+        $lastChange = History_change_price::where('id_post', $post->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $now = Carbon::now();
+
+        if ($lastChange && $lastChange->created_at->greaterThan($now->subWeek())) {
+
+            $nextChange = $lastChange->created_at->addWeek();
+            $days = $now->diffInDays($nextChange);
+            $hours = $now->copy()->addDays($days)->diffInHours($nextChange);
+
+            return response()->json([
+                'success' => false,
+                'message' => "You can change the price again in $days day(s) and $hours hour(s)."
+            ], 429);
+        }
+
+        if ($post->old_prix === null) {
+            $post->old_prix = $oldPrice;
+        }
+
+        $post->prix = $newPrice;
+        $post->updated_price_at = now();
+        $post->save();
+
+        History_change_price::create([
+            'id_post' => $post->id,
+            'old_price' => $oldPrice,
+            'new_price' => $newPrice
+        ]);
+
+        event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
+
+        $notification = new notifications();
+        $notification->type = "photo";
+        $notification->titre = $user->username . " a réduit le prix d’un article.";
+        $notification->url = "/admin/publication/" . $post->id . "/view";
+        $notification->message = "Prix mis à jour de {$oldPrice} à {$newPrice}.";
+        $notification->id_user = $user->id;
+        $notification->destination = "admin";
+        $notification->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Price successfully reduced from $oldPrice to $newPrice.",
+            'data' => [
+                'id' => $post->id,
+                'old_price' => $oldPrice,
+                'new_price' => $newPrice,
+            ]
+        ], 200);
+    }
 
 
 
