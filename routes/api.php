@@ -63,6 +63,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
     Route::post('/posts/{id}/report', [postController::class, 'report']);
     Route::post('/add/panier', [ShopController::class, 'toggle_panier']);
+    Route::get('/cart', [ShopController::class, 'index']);
+    Route::delete('/cart/{id}', [ShopController::class, 'delete']);
+    Route::delete('/cart', [ShopController::class, 'clear']);
 
 });
 

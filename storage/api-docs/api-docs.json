@@ -2678,7 +2678,7 @@
         "/api/panier/toggle": {
             "post": {
                 "tags": [
-                    "Panier"
+                    "Cart"
                 ],
                 "summary": "Ajouter ou retirer un article du panier",
                 "description": "Ajoute un article au panier si non existant. Le retire sinon. Retourne un flag 'added' ou 'removed'.",
@@ -2712,6 +2712,72 @@
                     },
                     "403": {
                         "description": "L'utilisateur tente d'ajouter son propre article"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Fetch logged-in user's cart",
+                "operationId": "d406880b31fd76dacb9f75b8a84fe48f",
+                "responses": {
+                    "200": {
+                        "description": "Cart content response"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Empty entire cart",
+                "operationId": "8d8638441b6bdd839f37a23c7ce63009",
+                "responses": {
+                    "200": {
+                        "description": "Cart cleared"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cart/{post_id}": {
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Delete an item from the cart",
+                "operationId": "7b330ca2e5f5feafe9df74fc4084e99f",
+                "parameters": [
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "description": "ID of post to remove from cart",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item deleted"
                     }
                 },
                 "security": [
