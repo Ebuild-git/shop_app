@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Events\AdminEvent;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Models\signalements;
+
 
 class PostsController extends Controller
 {
@@ -1070,6 +1072,143 @@ class PostsController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/posts/{id}/report",
+     *     tags={"Posts"},
+     *     summary="Report a post",
+     *     description="Allows a user to report a post.<br><br>
+     *     <strong>Allowed report types:</strong><br>
+     *     • Annonce de produits interdits ou illégaux<br>
+     *     • Annonce multiple du même article<br>
+     *     • Autres violations des politiques du site<br>
+     *     • Contenu inapproprié<br>
+     *     • Description trompeuse de l'état de l'article<br>
+     *     • Fraude ou activité suspecte<br>
+     *     • Information incorrecte sur la taille, la couleur, etc.<br>
+     *     • Photos floues ou de mauvaise qualité<br>
+     *     • Prix excessif pour le produit mis en vente<br>
+     *     • Produit contrefait ou non authentique<br>
+     *     • Publicité non autorisée ou spam<br>
+     *     • Violation des droits d'auteur ou de la propriété intellectuelle",
+     *
+     *     security={{ "bearerAuth":{} }},
+     *
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the post to report",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"type","message"},
+     *             @OA\Property(
+     *                 property="type",
+     *                 type="string",
+     *                 description="Type of report",
+     *                 enum={
+     *                     "Annonce de produits interdits ou illégaux",
+     *                     "Annonce multiple du même article",
+     *                     "Autres violations des politiques du site",
+     *                     "Contenu inapproprié",
+     *                     "Description trompeuse de l'état de l'article",
+     *                     "Fraude ou activité suspecte",
+     *                     "Information incorrecte sur la taille, la couleur, etc.",
+     *                     "Photos floues ou de mauvaise qualité",
+     *                     "Prix excessif pour le produit mis en vente",
+     *                     "Produit contrefait ou non authentique",
+     *                     "Publicité non autorisée ou spam",
+     *                     "Violation des droits d'auteur ou de la propriété intellectuelle"
+     *                 },
+     *                 example="Contenu inapproprié"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 minLength=15,
+     *                 description="Message describing the reason for the report (minimum 15 characters).",
+     *                 example="This post contains inappropriate content."
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=201,
+     *         description="Report submitted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Report already submitted"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
+    public function report(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $post = posts::find($id);
+        if (!$post) {
+            return response()->json(['success' => false, 'message' => 'Post not found'], 404);
+        }
+
+        $rules = [
+            'type' => 'required|string',
+            'message' => 'required|string|min:15',
+        ];
+
+        $validated = $request->validate($rules);
+
+        if (signalements::where('id_user_make', $user->id)
+            ->where('id_post', $post->id)
+            ->exists()
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have already reported this post.'
+            ], 409);
+        }
+
+        $signalement = new signalements();
+        $signalement->id_post = $post->id;
+        $signalement->id_user_make = $user->id;
+        $signalement->message = $validated['message'];
+        $signalement->type = $validated['type'];
+        $signalement->save();
+
+        event(new AdminEvent('Un post a été signalé.'));
+
+        $notification = new notifications();
+        $notification->type = "report";
+        $notification->titre = $user->username . " a signalé une publication";
+        $notification->url = "/admin/publication/" . $post->id . "/view";
+        $notification->message = "Raison : " . $validated['type'] . " — " . $validated['message'];
+        $notification->id_post = $post->id;
+        $notification->id_user = $user->id;
+        $notification->destination = "admin";
+        $notification->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Your report has been submitted successfully.',
+            'data' => [
+                'post_id' => $post->id,
+                'type' => $validated['type'],
+                'message' => $validated['message'],
+            ]
+        ], 201);
+    }
 
 
 

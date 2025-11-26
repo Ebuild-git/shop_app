@@ -2552,6 +2552,84 @@
                 ]
             }
         },
+        "/api/posts/{id}/report": {
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Report a post",
+                "description": "Allows a user to report a post.<br><br>\n     *     <strong>Allowed report types:</strong><br>\n     *     • Annonce de produits interdits ou illégaux<br>\n     *     • Annonce multiple du même article<br>\n     *     • Autres violations des politiques du site<br>\n     *     • Contenu inapproprié<br>\n     *     • Description trompeuse de l'état de l'article<br>\n     *     • Fraude ou activité suspecte<br>\n     *     • Information incorrecte sur la taille, la couleur, etc.<br>\n     *     • Photos floues ou de mauvaise qualité<br>\n     *     • Prix excessif pour le produit mis en vente<br>\n     *     • Produit contrefait ou non authentique<br>\n     *     • Publicité non autorisée ou spam<br>\n     *     • Violation des droits d'auteur ou de la propriété intellectuelle",
+                "operationId": "1c26d843371c400a2fe6b561edce7fa0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the post to report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "description": "Type of report",
+                                        "type": "string",
+                                        "enum": [
+                                            "Annonce de produits interdits ou illégaux",
+                                            "Annonce multiple du même article",
+                                            "Autres violations des politiques du site",
+                                            "Contenu inapproprié",
+                                            "Description trompeuse de l'état de l'article",
+                                            "Fraude ou activité suspecte",
+                                            "Information incorrecte sur la taille, la couleur, etc.",
+                                            "Photos floues ou de mauvaise qualité",
+                                            "Prix excessif pour le produit mis en vente",
+                                            "Produit contrefait ou non authentique",
+                                            "Publicité non autorisée ou spam",
+                                            "Violation des droits d'auteur ou de la propriété intellectuelle"
+                                        ],
+                                        "example": "Contenu inapproprié"
+                                    },
+                                    "message": {
+                                        "description": "Message describing the reason for the report (minimum 15 characters).",
+                                        "type": "string",
+                                        "minLength": 15,
+                                        "example": "This post contains inappropriate content."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report submitted successfully"
+                    },
+                    "400": {
+                        "description": "Report already submitted"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [

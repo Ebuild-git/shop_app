@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/create', [postController::class, 'store']);
     Route::post('/posts/update/{id}', [postController::class, 'update']);
     Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
+    Route::post('/posts/{id}/report', [postController::class, 'report']);
 
 });
 
