@@ -9,6 +9,7 @@ use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
+use App\Http\Controllers\API\AddressController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,10 +63,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/update/{id}', [postController::class, 'update']);
     Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
     Route::post('/posts/{id}/report', [postController::class, 'report']);
+
+    //Cart
     Route::post('/add/panier', [ShopController::class, 'toggle_panier']);
     Route::get('/cart', [ShopController::class, 'index']);
     Route::delete('/cart/{id}', [ShopController::class, 'delete']);
     Route::delete('/cart', [ShopController::class, 'clear']);
+
+    //Addresses
+    Route::get('/addresses', [AddressController::class, 'index']);
+    Route::post('/addresses', [AddressController::class, 'store']);
+    Route::post('/addresses/{id}', [AddressController::class, 'update']);
+    Route::post('/addresses/main', [AddressController::class, 'updateMainAddress']);
+    Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
+    Route::post('/addresses/{id}/set-default', [AddressController::class, 'setDefault']);
+    Route::post('/addresses/{id}/unset-default', [AddressController::class, 'unsetDefault']);
+
+
+
 
 });
 
@@ -74,8 +89,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
     Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
 });
-
-
 
 
 

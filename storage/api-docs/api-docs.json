@@ -6,6 +6,484 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/addresses": {
+            "get": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Fetch the active address and secondary addresses",
+                "description": "Returns the main address and secondary addresses. If a secondary address is set as default, it becomes the active address.",
+                "operationId": "05d45400dc99e36f78ac7453a329d22e",
+                "responses": {
+                    "200": {
+                        "description": "Active and secondary addresses retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "active_address": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "region": {
+                                                    "type": "integer"
+                                                },
+                                                "address": {
+                                                    "type": "string"
+                                                },
+                                                "rue": {
+                                                    "type": "string"
+                                                },
+                                                "nom_batiment": {
+                                                    "type": "string"
+                                                },
+                                                "etage": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "num_appartement": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "is_default": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "secondary_addresses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Add a new secondary address",
+                "operationId": "94fa3d44216521505cefc876e95c85bd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "region": {
+                                        "type": "integer"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "building_name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "floor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "apartment_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_default": {
+                                        "description": "Set as default secondary address",
+                                        "type": "boolean",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Secondary address added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/addresses/main": {
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Update the main address in users",
+                "description": "Update the main address fields for the authenticated user",
+                "operationId": "2ad73e1d85abede033f9327b9c3b7bd2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "region": {
+                                        "type": "integer"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "rue": {
+                                        "type": "string"
+                                    },
+                                    "nom_batiment": {
+                                        "type": "string"
+                                    },
+                                    "etage": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "num_appartement": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "phone_number": {
+                                        "description": "Exactly 8 digits",
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Main address updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "region": {
+                                                    "type": "integer"
+                                                },
+                                                "address": {
+                                                    "type": "string"
+                                                },
+                                                "rue": {
+                                                    "type": "string"
+                                                },
+                                                "nom_batiment": {
+                                                    "type": "string"
+                                                },
+                                                "etage": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "num_appartement": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/addresses/{id}": {
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Update a secondary address",
+                "operationId": "d5fc1cde26364018b037123f858fe02f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the secondary address",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "region": {
+                                        "type": "integer"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "building_name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "floor": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "apartment_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_default": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Secondary address updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Delete a secondary address",
+                "operationId": "fd6c07ccab4cab14b0f9d9124fc9f5bf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the secondary address to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Secondary address deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/addresses/{id}/set-default": {
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Set a secondary address as default",
+                "operationId": "acd11c8c2a90312be4702d36b8c5dae9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the secondary address to set as default",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Secondary address set as default successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/addresses/{id}/unset-default": {
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Unset a secondary address as default",
+                "operationId": "6b7f4bb0da928e5fe5418f151daf71f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the secondary address to unset as default",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Secondary address removed from default successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [

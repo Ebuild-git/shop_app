@@ -30,7 +30,8 @@ class User extends Authenticatable implements JWTSubject
         'photo_verified_at',
         'last_login_at',
         'locale',
-        'email_deleted'
+        'email_deleted', 'region', 'address', 'rue',
+        'nom_batiment', 'etage', 'num_appartement', 'phone_number'
     ];
 
     /**
