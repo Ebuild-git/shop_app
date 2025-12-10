@@ -32,6 +32,7 @@ Route::post('/request-password-reset', [AuthController::class, 'requestPasswordR
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
 Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
+Route::post('/resend-email-verification', [AuthController::class, 'resendEmailVerification']);
 
 Route::get('/regions', [ShopController::class, 'regions']);
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
@@ -42,6 +43,7 @@ Route::get('/proprietes', [CategoriesController::class, 'list_proprietes'])->nam
 Route::get('/proprietes/{id}', [CategoriesController::class, 'details_proprietes'])->name('details_proprietes');
 Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
 Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
+Route::get('/banners', [CategoriesController::class, 'banners'])->name('banners');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
@@ -50,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //USERS
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::delete('/users/{id}', [AuthController::class, 'delete']);
     Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
     Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
     Route::put('/user/update', [UsersController::class, 'update']);

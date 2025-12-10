@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{categories, sous_categories, proprietes};
+use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
@@ -426,6 +427,61 @@ class CategoriesController extends Controller
                 'message' => "propriete not found"
             ], 404);
         }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/banners",
+     *     summary="Get active categories for banners",
+     *     description="Returns a list of active categories ordered by their 'order' field. Each category includes its icon full path, titre, and luxury status.",
+     *     tags={"Banners"},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="categories",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=12),
+     *                     @OA\Property(property="titre", type="string", example="High Fashion"),
+     *                     @OA\Property(property="luxury", type="boolean", example=true),
+     *                     @OA\Property(
+     *                         property="icon",
+     *                         type="string",
+     *                         example="https://yourdomain.com/storage/icons/icon.png"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+    public function banners(){
+       $categories = categories::where('active', true)->orderBy('order')
+        ->get()
+        ->map(function ($category) {
+            return [
+                'id'             => $category->id,
+                'titre'          => $category->titre,
+                'luxury'         => $category->luxury,
+                'icon' => $category->icon ? asset('storage/' . $category->icon) : null
+            ];
+        });
+
+        return response()->json([
+            'status'     => true,
+            'categories' => $categories,
+        ]);
     }
 }
 

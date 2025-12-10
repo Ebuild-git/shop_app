@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Mail\NewPassword;
 use App\Mail\VerifyCode;
+use App\Mail\ReVerifyCode;
 use App\Mail\SendOtpMail;
 use App\Models\regions;
 use App\Models\User;
@@ -736,4 +737,195 @@ class AuthController extends Controller
 
         return response()->json(['error' => 'User not found'], 404);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/resend-email-verification",
+     *     summary="Resend email verification token",
+     *     description="Resends a new email verification token to the user's email address.",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Verification email sent successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Verification email sent successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", example={"email": {"The email field is required."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="User not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Email already verified",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Email is already verified")
+     *         )
+     *     )
+     * )
+     */
+    public function resendEmailVerification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        if (!is_null($user->email_verified_at)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Email is already verified'
+            ], 400);
+        }
+
+        $newCode = rand(100000, 999999);
+        $user->verification_code = $newCode;
+        $user->save();
+
+        try {
+            Mail::to($user->email)->send(new ReVerifyCode($user, $newCode));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unable to send verification email.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Verification email resent successfully.'
+        ], 200);
+    }
+
+
+    /**
+     * @OA\Delete(
+     *     path="/api/users/{userId}",
+     *     summary="Delete a user account",
+     *     description="Soft-deletes a user, anonymizes email and username, and notifies administrators.",
+     *     tags={"User"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to delete",
+     *         @OA\Schema(type="integer", example=15)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="User deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Utilisateur supprimé avec succès.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="User not found")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Impossible de supprimer cet utilisateur.")
+     *         )
+     *     )
+     * )
+     */
+    public function delete(Request $request, $userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+
+            $authUser = $request->user();
+            $isCurrentUser = $authUser->id === $user->id;
+
+            $username = $user->username;
+            $userPk   = $user->id;
+
+            $user->email_deleted = $user->email;
+            $user->username_deleted = $username;
+
+            $user->email = null;
+            $user->username = null;
+            $user->save();
+
+            $user->delete();
+
+            $notification = new notifications();
+            $notification->type = "new_post";
+            $notification->titre = "Un utilisateur a supprimé son compte";
+            $notification->url = "/admin/utilisateurs/supprime";
+            $notification->message = "L'utilisateur {$username} a supprimé son compte.";
+            $notification->id_user = $userPk;
+            $notification->destination = "admin";
+            $notification->save();
+
+            if ($isCurrentUser) {
+                $authUser->currentAccessToken()->delete();
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Account deleted successfully',
+                ], 200);
+            }
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'User deleted successfully',
+            ], 200);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Impossible de supprimer cet utilisateur.',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
 }

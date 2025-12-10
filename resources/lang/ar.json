@@ -722,7 +722,7 @@
 "Your message has been sent successfully!": "تم إرسال رسالتك بنجاح!",
 "Sending...": "جاري الإرسال...",
 "We have received your message": "لقد استلمنا رسالتك",
-"use_code_verify_email": "استخدم هذا الرمز في التطبيق للتحقق من بريدك الإلكتروني."
-
+"use_code_verify_email": "استخدم هذا الرمز في التطبيق للتحقق من بريدك الإلكتروني.",
+"code_resent" : "لقد قمنا بإرسال رمز التحقق مرة أخرى."
 
 }
