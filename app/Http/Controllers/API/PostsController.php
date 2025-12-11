@@ -300,7 +300,7 @@ class PostsController extends Controller
         $statut = $request->input('statut');
         $key    = $request->input('key');
 
-        $query = posts::where("id_user", $user->id);
+        $query = posts::with("sous_categorie_info.categorie")->where("id_user", $user->id);
 
         if ($key) {
             $query->where(function($q) use ($key) {
@@ -384,18 +384,40 @@ class PostsController extends Controller
             }
         }
 
-        $posts = $query->paginate(20);
+        $posts = $query->get();
+
+        $posts = $posts->map(function($post) {
+            $postData = $post->toArray();
+
+            if (!empty($postData['photos'])) {
+                $photos = $postData['photos'];
+
+                if (is_array($photos)) {
+                    $postData['photos'] = array_map(function($photo) {
+                        $cleanPath = ltrim($photo, '/');
+                        return asset('storage/' . $cleanPath);
+                    }, $photos);
+                }
+            }
+            if (!empty($postData['sous_categorie_info']['categorie'])) {
+                if (!empty($postData['sous_categorie_info']['categorie']['icon'])) {
+                    $iconPath = $postData['sous_categorie_info']['categorie']['icon'];
+                    $cleanIconPath = ltrim($iconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['icon'] = asset('storage/' . $cleanIconPath);
+                }
+
+                if (!empty($postData['sous_categorie_info']['categorie']['small_icon'])) {
+                    $smallIconPath = $postData['sous_categorie_info']['categorie']['small_icon'];
+                    $cleanSmallIconPath = ltrim($smallIconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
+                }
+            }
+            return $postData;
+        });
 
         return response()->json([
             'success' => true,
-            'data' => $posts->items(),
-            'pagination' => [
-                'currentPage' => $posts->currentPage(),
-                'lastPage' => $posts->lastPage(),
-                'nextPageUrl' => $posts->nextPageUrl(),
-                'previousPageUrl' => $posts->previousPageUrl(),
-                'totalItems' => $posts->total(),
-            ]
+            'data' => $posts
         ]);
     }
 
@@ -468,7 +490,7 @@ class PostsController extends Controller
         $month = $request->input('month');
         $year  = $request->input('year');
 
-        $query = posts::where("id_user_buy", $userId)
+        $query = posts::with("sous_categorie_info.categorie")->where("id_user_buy", $userId)
             ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
                     "statut", "prix", "sell_at")
             ->orderBy('sell_at', 'desc');
@@ -478,21 +500,40 @@ class PostsController extends Controller
                 ->whereMonth('sell_at', $month);
         }
 
-        $achats = $query->paginate(20);
+        $achats = $query->get();
 
-        $achats->getCollection()->transform(function ($post) {
-            $post->photos = collect($post->photos)->map(fn($p) => asset('storage/' . $p));
-            return $post;
+        $achats = $achats->map(function ($post) {
+            $postData = $post->toArray();
+
+            if (!empty($postData['photos'])) {
+                $photos = $postData['photos'];
+                if (is_array($photos)) {
+                    $postData['photos'] = array_map(function($photo) {
+                        $cleanPath = ltrim($photo, '/');
+                        return asset('storage/' . $cleanPath);
+                    }, $photos);
+                }
+            }
+
+            if (!empty($postData['sous_categorie_info']['categorie'])) {
+                if (!empty($postData['sous_categorie_info']['categorie']['icon'])) {
+                    $iconPath = $postData['sous_categorie_info']['categorie']['icon'];
+                    $cleanIconPath = ltrim($iconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['icon'] = asset('storage/' . $cleanIconPath);
+                }
+                if (!empty($postData['sous_categorie_info']['categorie']['small_icon'])) {
+                    $smallIconPath = $postData['sous_categorie_info']['categorie']['small_icon'];
+                    $cleanSmallIconPath = ltrim($smallIconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
+                }
+            }
+
+            return $postData;
         });
 
         return response()->json([
             'success' => true,
-            'total' => posts::where("id_user_buy", $userId)->count(),
-            'current_page' => $achats->currentPage(),
-            'last_page' => $achats->lastPage(),
-            'next_page_url' => $achats->nextPageUrl(),
-            'prev_page_url' => $achats->previousPageUrl(),
-            'data' => $achats->items()
+            'data' => $achats
         ]);
     }
 

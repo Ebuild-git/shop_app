@@ -60,25 +60,42 @@ class PostsController extends Controller
      */
     public function list_post()
     {
-        $posts = posts::paginate(20);
+        $posts = posts::with("sous_categorie_info.categorie")->get();
 
-        $posts->getCollection()->transform(function ($post) {
-            $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
-            return $post;
+        $posts = $posts->map(function ($post) {
+            $postData = $post->toArray();
+
+            if (!empty($postData['photos'])) {
+                $photos = $postData['photos'];
+                if (is_array($photos)) {
+                    $postData['photos'] = array_map(function($photo) {
+                        $cleanPath = ltrim($photo, '/');
+                        return asset('storage/' . $cleanPath);
+                    }, $photos);
+                }
+            }
+
+            if (!empty($postData['sous_categorie_info']['categorie'])) {
+                if (!empty($postData['sous_categorie_info']['categorie']['icon'])) {
+                    $iconPath = $postData['sous_categorie_info']['categorie']['icon'];
+                    $cleanIconPath = ltrim($iconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['icon'] = asset('storage/' . $cleanIconPath);
+                }
+                if (!empty($postData['sous_categorie_info']['categorie']['small_icon'])) {
+                    $smallIconPath = $postData['sous_categorie_info']['categorie']['small_icon'];
+                    $cleanSmallIconPath = ltrim($smallIconPath, '/');
+                    $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
+                }
+            }
+
+            return $postData;
         });
 
         return response()->json([
             'success' => true,
-            'data' => [
-                'current_page' => $posts->currentPage(),
-                'data' => $posts->items(),
-                'total' => $posts->total(),
-                'per_page' => $posts->perPage(),
-                'last_page' => $posts->lastPage(),
-            ]
+            'data' => $posts
         ]);
     }
-
     public function liste_publications(Request $request)
     {
         return view("Admin.publications.index");
