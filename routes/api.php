@@ -10,6 +10,7 @@ use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
 use App\Http\Controllers\API\AddressController;
+use App\Http\Controllers\API\RatingController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/cart', [ShopController::class, 'index']);
     Route::delete('/cart/{id}', [ShopController::class, 'delete']);
     Route::delete('/cart', [ShopController::class, 'clear']);
+    Route::post('/order/confirm', [ShopController::class, 'confirm']);
+    Route::get('/orders/{id}/track', [ShopController::class, 'track']);
 
     //Addresses
     Route::get('/addresses', [AddressController::class, 'index']);
@@ -83,6 +86,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/addresses/{id}/unset-default', [AddressController::class, 'unsetDefault']);
 
 
+    Route::get('/users/rating/purchases', [RatingController::class, 'show']);
+    Route::post('/users/{purchase_id}/rating', [RatingController::class, 'store']);
 
 
 });

@@ -3352,6 +3352,365 @@
                 ]
             }
         },
+        "/api/rating/purchases": {
+            "get": {
+                "tags": [
+                    "Ratings"
+                ],
+                "summary": "Get all purchases for authenticated user",
+                "description": "Retrieve a list of all purchases made by the authenticated user with rating information",
+                "operationId": "getUserPurchases",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_purchases": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "purchases": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "purchase": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 123
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "iPhone 13 Pro"
+                                                            },
+                                                            "statut": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "livré",
+                                                                    "préparation",
+                                                                    "vendu",
+                                                                    "annulé"
+                                                                ],
+                                                                "example": "livré"
+                                                            },
+                                                            "sell_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-01-15 14:30:00"
+                                                            },
+                                                            "price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 999.99
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "seller": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 456
+                                                            },
+                                                            "username": {
+                                                                "type": "string",
+                                                                "example": "john_doe"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "rating": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 789
+                                                            },
+                                                            "etoiles": {
+                                                                "type": "integer",
+                                                                "example": 5
+                                                            },
+                                                            "comment": {
+                                                                "type": "string",
+                                                                "example": "Great seller!"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-01-16 10:00:00"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "can_rate": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "rating_deadline": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29 14:30:00",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No purchases found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No purchases found"
+                                        },
+                                        "purchases": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{purchase_id}/rating": {
+            "post": {
+                "tags": [
+                    "Ratings"
+                ],
+                "summary": "Submit a rating for a purchase",
+                "description": "Rate a specific purchase. Only allowed for delivered purchases within 14 days of delivery.",
+                "operationId": "ratePurchase",
+                "parameters": [
+                    {
+                        "name": "purchase_id",
+                        "in": "path",
+                        "description": "ID of the purchase to rate",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Rating data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "etoiles"
+                                ],
+                                "properties": {
+                                    "etoiles": {
+                                        "description": "Rating stars (1-5)",
+                                        "type": "integer",
+                                        "maximum": 5,
+                                        "minimum": 1,
+                                        "example": 5
+                                    },
+                                    "comment": {
+                                        "description": "Optional comment",
+                                        "type": "string",
+                                        "maxLength": 500,
+                                        "example": "Excellent service!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rating submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rating submitted successfully"
+                                        },
+                                        "rating": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 789
+                                                },
+                                                "etoiles": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "purchase_id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "seller_id": {
+                                                    "type": "integer",
+                                                    "example": 456
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-16 10:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "etoiles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The etoiles field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Purchase not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Purchase not found or you are not authorized to rate it"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Rating conditions not met",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "string",
+                                                    "example": "You already rated this purchase"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "string",
+                                                    "example": "Cannot rate this purchase. Purchase must be delivered."
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "string",
+                                                    "example": "Rating period expired. You can only rate within 14 days of delivery."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [
@@ -3505,6 +3864,186 @@
                 "security": [
                     {
                         "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/order/confirm": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Confirm an order",
+                "description": "Confirms a pending order and updates its status.",
+                "operationId": "confirmOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "order_id"
+                                ],
+                                "properties": {
+                                    "order_id": {
+                                        "description": "ID of the order to confirm",
+                                        "type": "integer",
+                                        "example": 123
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order confirmed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order confirmed successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data"
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}/track": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Track an order using its ID",
+                "description": "Returns order information, buyer details, and associated items for tracking purposes.",
+                "operationId": "trackOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 45
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "order_id": {
+                                            "type": "integer",
+                                            "example": 45
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "confirmed"
+                                        },
+                                        "state": {
+                                            "type": "string",
+                                            "example": "in_progress"
+                                        },
+                                        "total": {
+                                            "type": "number",
+                                            "example": 180
+                                        },
+                                        "total_delivery_fees": {
+                                            "type": "number",
+                                            "example": 12
+                                        },
+                                        "buyer": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 14
+                                                },
+                                                "username": {
+                                                    "type": "string",
+                                                    "example": "hazar"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "hazar@test.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "post_id": {
+                                                        "type": "integer",
+                                                        "example": 33
+                                                    },
+                                                    "vendor_id": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 40
+                                                    },
+                                                    "delivery_fee": {
+                                                        "type": "number",
+                                                        "example": 5
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "shipped"
+                                                    },
+                                                    "shipment_id": {
+                                                        "type": "string",
+                                                        "example": "SHIP-88991"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-12-12 14:30:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
                     }
                 ]
             }
