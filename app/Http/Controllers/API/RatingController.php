@@ -17,7 +17,7 @@ class RatingController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/rating/purchases",
+     *     path="/api/users/rating/purchases",
      *     summary="Get all purchases for authenticated user",
      *     description="Retrieve a list of all purchases made by the authenticated user with rating information",
      *     operationId="getUserPurchases",

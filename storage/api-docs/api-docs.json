@@ -3352,7 +3352,7 @@
                 ]
             }
         },
-        "/api/rating/purchases": {
+        "/api/users/rating/purchases": {
             "get": {
                 "tags": [
                     "Ratings"
