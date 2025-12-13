@@ -54,7 +54,6 @@ class AddressController extends Controller
             ->get();
 
         $mainAddress = [
-            'id' => null,
             'region' => $user->region,
             'address' => $user->address,
             'rue' => $user->rue,

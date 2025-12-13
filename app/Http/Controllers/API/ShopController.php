@@ -49,7 +49,7 @@ class ShopController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/panier/toggle",
+     *     path="/api/add/panier",
      *     tags={"Cart"},
      *     summary="Ajouter ou retirer un article du panier",
      *     description="Ajoute un article au panier si non existant. Le retire sinon. Retourne un flag 'added' ou 'removed'.",

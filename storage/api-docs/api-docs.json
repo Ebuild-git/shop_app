@@ -3756,14 +3756,14 @@
                 }
             }
         },
-        "/api/panier/toggle": {
+        "/api/add/panier": {
             "post": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Ajouter ou retirer un article du panier",
                 "description": "Ajoute un article au panier si non existant. Le retire sinon. Retourne un flag 'added' ou 'removed'.",
-                "operationId": "09da7b9adc3cc6a427f5eb901daa5451",
+                "operationId": "4b99e90541650b183a3ec4a9c7ac94d2",
                 "requestBody": {
                     "required": true,
                     "content": {
