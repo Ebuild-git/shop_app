@@ -120,21 +120,16 @@ class shopinerController extends Controller
             ->orderBy('users.username')
             ->orderByDesc('average_rating')
             ->orderBy('total_posts')
-            ->paginate(50);
+            ->get();
 
-        $shopiners->getCollection()->transform(function ($user) {
+        $shopiners->transform(function ($user) {
             $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
             return $user;
         });
-
         return response()->json([
             'success' => true,
             'data' => [
-                'current_page' => $shopiners->currentPage(),
-                'data' => $shopiners->items(),
-                'total' => $shopiners->total(),
-                'per_page' => $shopiners->perPage(),
-                'last_page' => $shopiners->lastPage(),
+                'data' => $shopiners,
             ]
         ]);
     }
