@@ -646,7 +646,7 @@ class ShopController extends Controller
      * @OA\Get(
      *      path="/orders/{id}/track",
      *      operationId="trackOrder",
-     *      tags={"Cart"},
+     *      tags={"Orders"},
      *      summary="Track an order using its ID",
      *      description="Returns order information, buyer details, and associated items for tracking purposes.",
      *      security={{"sanctum": {}}},
@@ -755,6 +755,125 @@ class ShopController extends Controller
 
 
             'updated_at' => $order->updated_at,
+        ]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/orders",
+     *     summary="List all orders for authenticated user",
+     *     description="Returns all orders of the currently authenticated user, including items and post details",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Orders retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="order_id", type="integer", example=15),
+     *                     @OA\Property(property="status", type="string", example="pending"),
+     *                     @OA\Property(property="state", type="string", example="created"),
+     *                     @OA\Property(property="total", type="number", format="float", example=117.5),
+     *                     @OA\Property(property="total_delivery_fees", type="number", format="float", example=10.0),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-12-15T12:34:56Z"),
+     *                     @OA\Property(
+     *                         property="buyer",
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=44),
+     *                         @OA\Property(property="username", type="string", example="johndoe123"),
+     *                         @OA\Property(property="email", type="string", example="vagise5319@bablace.com")
+     *                     ),
+     *                     @OA\Property(
+     *                         property="items",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="post_id", type="integer", example=101),
+     *                             @OA\Property(property="vendor_id", type="integer", example=20),
+     *                             @OA\Property(property="price", type="number", format="float", example=50.0),
+     *                             @OA\Property(property="delivery_fee", type="number", format="float", example=5.0),
+     *                             @OA\Property(property="status", type="string", example="shipped"),
+     *                             @OA\Property(property="shipment_id", type="string", example="SHIP12345"),
+     *                             @OA\Property(
+     *                                 property="post",
+     *                                 type="object",
+     *                                 @OA\Property(property="title", type="string", example="Awesome Product"),
+     *                                 @OA\Property(property="image", type="string", example="https://example.com/storage/photo.jpg"),
+     *                                 @OA\Property(property="statut", type="string", example="active")
+     *                             )
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function listOrders(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $orders = Order::where('buyer_id', $userId)
+            ->with([
+                'buyer:id,username,email',
+                'items' => function ($q) {
+                    $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
+                    ->with(['post:id,titre,photos,statut']);
+                }
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) {
+                return [
+                    'order_id'            => $order->id,
+                    'status'              => $order->status,
+                    'state'               => $order->state,
+                    'total'               => $order->total,
+                    'total_delivery_fees' => $order->total_delivery_fees,
+                    'updated_at'          => $order->updated_at,
+                    'items'               => $order->items->map(function ($item) {
+                        $photos = [];
+                        if ($item->post) {
+                            $photos = is_string($item->post->photos)
+                                ? json_decode($item->post->photos, true)
+                                : (is_array($item->post->photos) ? $item->post->photos : []);
+                        }
+                        $firstPhoto = $photos[0] ?? null;
+                        $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
+
+                        return [
+                            'post_id'      => $item->post_id,
+                            'vendor_id'    => $item->vendor_id,
+                            'price'        => $item->price,
+                            'delivery_fee' => $item->delivery_fee,
+                            'status'       => $item->status,
+                            'shipment_id'  => $item->shipment_id,
+                            'post' => [
+                                'title'  => $item->post->titre ?? null,
+                                'image'  => $photoUrl,
+                                'statut' => $item->post->statut ?? null,
+                            ],
+                        ];
+                    }),
+                    'buyer' => $order->buyer,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders,
         ]);
     }
 

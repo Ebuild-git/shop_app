@@ -3974,7 +3974,7 @@
         "/orders/{id}/track": {
             "get": {
                 "tags": [
-                    "Cart"
+                    "Orders"
                 ],
                 "summary": "Track an order using its ID",
                 "description": "Returns order information, buyer details, and associated items for tracking purposes.",
@@ -4084,6 +4084,145 @@
                 "security": [
                     {
                         "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "List all orders for authenticated user",
+                "description": "Returns all orders of the currently authenticated user, including items and post details",
+                "operationId": "eb3357be0e3c354248bb68c6a01e52fa",
+                "responses": {
+                    "200": {
+                        "description": "Orders retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "order_id": {
+                                                        "type": "integer",
+                                                        "example": 15
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "state": {
+                                                        "type": "string",
+                                                        "example": "created"
+                                                    },
+                                                    "total": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 117.5
+                                                    },
+                                                    "total_delivery_fees": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 10
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-15T12:34:56Z"
+                                                    },
+                                                    "buyer": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 44
+                                                            },
+                                                            "username": {
+                                                                "type": "string",
+                                                                "example": "johndoe123"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "vagise5319@bablace.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "items": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "post_id": {
+                                                                    "type": "integer",
+                                                                    "example": 101
+                                                                },
+                                                                "vendor_id": {
+                                                                    "type": "integer",
+                                                                    "example": 20
+                                                                },
+                                                                "price": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 50
+                                                                },
+                                                                "delivery_fee": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 5
+                                                                },
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "example": "shipped"
+                                                                },
+                                                                "shipment_id": {
+                                                                    "type": "string",
+                                                                    "example": "SHIP12345"
+                                                                },
+                                                                "post": {
+                                                                    "properties": {
+                                                                        "title": {
+                                                                            "type": "string",
+                                                                            "example": "Awesome Product"
+                                                                        },
+                                                                        "image": {
+                                                                            "type": "string",
+                                                                            "example": "https://example.com/storage/photo.jpg"
+                                                                        },
+                                                                        "statut": {
+                                                                            "type": "string",
+                                                                            "example": "active"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ]
             }

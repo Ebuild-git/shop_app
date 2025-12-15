@@ -75,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/cart/{id}', [ShopController::class, 'delete']);
     Route::delete('/cart', [ShopController::class, 'clear']);
     Route::post('/order/confirm', [ShopController::class, 'confirm']);
+    Route::get('/orders', [ShopController::class, 'listOrders']);
     Route::get('/orders/{id}/track', [ShopController::class, 'track']);
 
     //Addresses
