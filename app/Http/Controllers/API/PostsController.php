@@ -219,6 +219,42 @@ class PostsController extends Controller
 
     /**
      * @OA\Get(
+     *     path="/api/favorites/count",
+     *     summary="Count user favorite items",
+     *     description="Returns the total number of favorite items for the authenticated user",
+     *     tags={"Favorites"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Favorites count retrieved successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="count", type="integer", example=5)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function countFavorites(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $count = favoris::where('id_user', $userId)->count();
+
+        return response()->json([
+            'success' => true,
+            'count' => $count
+        ]);
+    }
+
+    /**
+     * @OA\Get(
      *     path="/api/my-posts",
      *     tags={"Posts"},
      *     summary="List all posts created by authenticated user",

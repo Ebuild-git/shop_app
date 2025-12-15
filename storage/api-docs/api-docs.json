@@ -2632,6 +2632,46 @@
                 ]
             }
         },
+        "/api/favorites/count": {
+            "get": {
+                "tags": [
+                    "Favorites"
+                ],
+                "summary": "Count user favorite items",
+                "description": "Returns the total number of favorite items for the authenticated user",
+                "operationId": "898abe68abff8e5ced1a1b6990ada4cc",
+                "responses": {
+                    "200": {
+                        "description": "Favorites count retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/my-posts": {
             "get": {
                 "tags": [

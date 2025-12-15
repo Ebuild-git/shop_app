@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Posts
     Route::post('/favorites/toggle', [postController::class, 'toggleFavorite']);
+    Route::get('/favorites/count', [postController::class, 'countFavorites']);
     Route::get('/favorites', [postController::class, 'listFavorites']);
     Route::get('/my-posts', [postController::class, 'MyPosts']);
     Route::get('/my-purchases', [postController::class, 'MesAchats']);
