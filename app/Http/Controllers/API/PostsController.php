@@ -725,13 +725,13 @@ class PostsController extends Controller
 
                 if (($item['required'] ?? 'Non') === 'Oui') {
                     if ($prop === 'Couleur') {
-                        $rules["proprietes.$prop"] = 'required|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                        $rules["proprietes.$prop"] = 'required|string';
                     } else {
                         $rules["proprietes.$prop"] = 'required';
                     }
                 } else {
                     if ($prop === 'Couleur') {
-                        $rules["proprietes.$prop"] = 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/';
+                        $rules["proprietes.$prop"] = 'nullable|string';
                     } else {
                         $rules["proprietes.$prop"] = 'nullable';
                     }
