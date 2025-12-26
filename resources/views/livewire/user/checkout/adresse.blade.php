@@ -166,7 +166,7 @@
             </div>
 
             <div class="saved-address mt-4 position-relative">
-                <div class="address-card p-3 shadow-sm">
+                <div class="address-card1 p-3 shadow-sm">
 
 
                     <h5 class="address-title text-center mb-3">{{ __('current_address') }}</h5>

@@ -110,6 +110,9 @@
                 </div>
 
                 @if (is_null(auth()->user()->region))
+                    @php
+                        session(['redirect_after_profile' => url()->current()]);
+                    @endphp
                     <div class="custom-alert mt-3">
                         <div class="icon">⚠️</div>
                         <div class="message">{!! __('enter_region') !!}</div>

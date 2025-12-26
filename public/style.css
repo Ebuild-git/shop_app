@@ -2163,8 +2163,17 @@ ul.nav-dropdown-xxx {
 .saved-address {
     border-radius: 10px;
     padding: 10px 15px;
-    background: #f4f4f4;
+    background: rgba(0, 128, 128, 0.1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.address-card1 {
+    border-radius: 10px;
+    /* background-color: #ffffff;
+    border: 1px solid #e0e0e0; */
+    background-color: rgba(0, 128, 128, 0.05) !important; /* slightly lighter teal */
+    border: 1px solid #008080 !important; /* teal border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px;
 }
 .address-card {
     border-radius: 10px;

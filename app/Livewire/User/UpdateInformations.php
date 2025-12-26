@@ -46,9 +46,6 @@ class UpdateInformations extends Component
         return view('livewire.user.update-informations', compact('regions'));
     }
 
-
-
-
     public function update()
     {
         $this->validate([
@@ -129,6 +126,13 @@ class UpdateInformations extends Component
         $this->dispatch('alert', ['message' => __('info_updated') . ($photoValidationMessage ?? ''), 'type' => 'info']);
 
         $this->dispatch('refreshAlluser-information');
+        if (session()->has('redirect_after_profile')) {
+            $this->redirect(
+                session()->pull('redirect_after_profile'),
+                navigate: true
+            );
+        }
+
     }
 
     public function delete($userId)
