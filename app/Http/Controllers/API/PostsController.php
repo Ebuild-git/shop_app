@@ -657,7 +657,7 @@ class PostsController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="message", type="string", example="You must upload an image of your registration card before publishing a post!"),
+     *             @OA\Property(property="message", type="string", example="You must upload an image of your national identity card before publishing a post!"),
      *             @OA\Property(property="errors", type="object", nullable=true)
      *         )
      *     ),
@@ -683,14 +683,14 @@ class PostsController extends Controller
         if (!$user->cin_img) {
             return response()->json([
                 'success' => false,
-                'message' => "You must upload an image of your registration card before publishing a post!"
+                'message' => "You must upload an image of your national identity card before publishing a post!"
             ], 422);
         }
 
         if (!$user->cin_approved) {
             return response()->json([
                 'success' => false,
-                'message' => "Your registration card is being verified. You will receive a notification once it is approved."
+                'message' => "Your national identity card is being verified. You will receive a notification once it is approved."
             ], 422);
         }
 
@@ -842,14 +842,14 @@ class PostsController extends Controller
         if (!$user->cin_img) {
             return response()->json([
                 'success' => false,
-                'message' => "You must upload an image of your registration card before updating a post!"
+                'message' => "You must upload an image of your national identity card before updating a post!"
             ], 422);
         }
 
         if (!$user->cin_approved) {
             return response()->json([
                 'success' => false,
-                'message' => "Your registration card is being verified. You will receive a notification once it is approved."
+                'message' => "Your national identity card is being verified. You will receive a notification once it is approved."
             ], 422);
         }
 

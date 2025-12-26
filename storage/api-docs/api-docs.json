@@ -3107,7 +3107,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "You must upload an image of your registration card before publishing a post!"
+                                            "example": "You must upload an image of your national identity card before publishing a post!"
                                         },
                                         "errors": {
                                             "type": "object",
@@ -4359,7 +4359,7 @@
                                         },
                                         "cin_message": {
                                             "type": "string",
-                                            "example": "Your registration card has been updated and is awaiting validation.",
+                                            "example": "Your national identity card has been updated and is awaiting validation.",
                                             "nullable": true
                                         },
                                         "user": {

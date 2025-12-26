@@ -41,13 +41,14 @@ class UpdateCordonnées extends Component
     public function update()
     {
         $this->validate([
-            'rib_number' => 'required|string|min:13|max:32',
+            'rib_number' => 'required|string|size:13',
             'bank_name' => 'required|string',
             'titulaire_name' => 'required|string',
             'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
         ],[
             'rib_number.required' => __('rib_number_required'),
             'rib_number.min' => __('rib_number_min'),
+            'rib_number.size' => __('rib_number_size'),
             'rib_number.max' => __('rib_number_max'),
             'bank_name.required' => __('bank_name_required'),
             'titulaire_name.required' => __('titulaire_name_required'),

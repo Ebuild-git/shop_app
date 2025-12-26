@@ -780,7 +780,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-3">
-                                        <b class="text-black h6">{{ __('Publié le')}}</b>
+                                        <b class="text-black h6">{{ __('Description')}}</b>
                                         <p class="text-capitalize">
                                             @if ($data_post['description'])
                                                 {!! $data_post['description'] !!}

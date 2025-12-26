@@ -78,7 +78,7 @@ class UsersController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Information updated successfully"),
      *             @OA\Property(property="profile_photo_message", type="string", nullable=true, example="Profile photo updated successfully"),
-     *             @OA\Property(property="cin_message", type="string", nullable=true, example="Your registration card has been updated and is awaiting validation."),
+     *             @OA\Property(property="cin_message", type="string", nullable=true, example="Your national identity card has been updated and is awaiting validation."),
      *
      *             @OA\Property(
      *                 property="user",
@@ -289,7 +289,7 @@ class UsersController extends Controller
             $notification->id_user = $user->id;
             $notification->destination = "admin";
             $notification->save();
-            $cin_message = "Your registration card has been updated and is awaiting validation.";
+            $cin_message = "Your national identity card has been updated and is awaiting validation.";
 
         }
 
