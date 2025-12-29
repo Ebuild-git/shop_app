@@ -180,69 +180,72 @@ class PostsController extends Controller
      *     @OA\Response(response=404, description="Post not found")
      * )
      */
-    // public function details_post($id)
-    // {
-    //     try {
-    //         $post = posts::with('sous_categorie_info.categorie','user_info:id,firstname,lastname,username,avatar,email,voyage_mode')->findOrFail($id);
-
-    //         $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
-
-    //         if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
-    //             $categorie = $post->sous_categorie_info->categorie;
-    //             $categorie->icon = $categorie->icon ? asset('storage/' . $categorie->icon) : null;
-    //             $categorie->small_icon = $categorie->small_icon ? asset('storage/' . $categorie->small_icon) : null;
-    //         }
-
-    //         if ($post->user_info) {
-    //             $post->user_info = [
-    //                 'id' => $post->user_info->id,
-    //                 'firstname' => $post->user_info->firstname,
-    //                 'lastname' => $post->user_info->lastname,
-    //                 'username' => $post->user_info->username,
-    //                 'avatar' => asset('storage/' . $post->user_info->avatar),
-    //                 'email' => $post->user_info->email,
-    //                 'voyage_mode' => $post->user_info->voyage_mode,
-    //             ];
-    //         }
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'post' => $post,
-    //         ]);
-    //     } catch (\Exception $exception) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => "Impossible de trouver le post"
-    //         ]);
-    //     }
-    // }
     public function details_post($id)
     {
         try {
-            $post = posts::with('sous_categorie_info.categorie','user_info:id,firstname,lastname,username,avatar,email,voyage_mode')->findOrFail($id);
+            $post = posts::with([
+                    'sous_categorie_info.categorie',
+                    'user_info' => function ($q) {
+                        $q->select(
+                            'id',
+                            'firstname',
+                            'lastname',
+                            'username',
+                            'avatar',
+                            'email',
+                            'voyage_mode'
+                        );
+                    }
+                ])
+                ->findOrFail($id);
 
-            $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
+            $post->photos = collect($post->photos)->map(
+                fn ($photo) => asset('storage/' . $photo)
+            );
 
             if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
                 $categorie = $post->sous_categorie_info->categorie;
-                $categorie->icon = $categorie->icon ? asset('storage/' . $categorie->icon) : null;
-                $categorie->small_icon = $categorie->small_icon ? asset('storage/' . $categorie->small_icon) : null;
+                $categorie->icon = $categorie->icon
+                    ? asset('storage/' . $categorie->icon)
+                    : null;
+                $categorie->small_icon = $categorie->small_icon
+                    ? asset('storage/' . $categorie->small_icon)
+                    : null;
             }
 
             if ($post->user_info) {
-                $post->user_info->avatar = $post->user_info->avatar
-                    ? asset('storage/' . $post->user_info->avatar)
+                $user = $post->user_info;
+
+                $user->avatar = $user->avatar
+                    ? asset('storage/' . $user->avatar)
                     : null;
+
+                $avis = $user->getReviewsAttribute->count();
+                $averageRating = number_format(
+                    $user->averageRating->average_rating ?? 1,
+                    1
+                );
+
+                $totalSales = $user->total_sales->count();
+                $validatedPosts = $user->ValidatedPosts->count();
+
+                $user->stats = [
+                    'avis' => $avis,
+                    'average_rating' => $averageRating,
+                    'total_sales' => $totalSales,
+                    'total_annonces' => $validatedPosts,
+                ];
             }
 
             return response()->json([
                 'success' => true,
                 'post' => $post,
             ]);
+
         } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,
-                'message' => "Impossible de trouver le post"
+                'message' => 'Impossible de trouver le post'
             ]);
         }
     }
