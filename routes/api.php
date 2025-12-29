@@ -46,6 +46,9 @@ Route::get('/posts', [PostsController::class, 'list_post'])->name('list_post');
 Route::get('/post/{id}', [PostsController::class, 'details_post'])->name('details_post');
 Route::get('/banners', [CategoriesController::class, 'banners'])->name('banners');
 
+Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
+Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -54,8 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //USERS
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::delete('/users/{id}', [AuthController::class, 'delete']);
-    Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
-    Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
+
     Route::put('/user/update', [UsersController::class, 'update']);
 
     //Posts
