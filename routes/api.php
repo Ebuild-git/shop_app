@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::delete('/users/{id}', [AuthController::class, 'delete']);
 
-    Route::put('/user/update', [UsersController::class, 'update']);
+    Route::post('/user/update', [UsersController::class, 'update']);
 
     //Posts
     Route::post('/favorites/toggle', [postController::class, 'toggleFavorite']);

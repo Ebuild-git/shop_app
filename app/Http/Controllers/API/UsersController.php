@@ -157,7 +157,7 @@ class UsersController extends Controller
             'bank_name' => 'sometimes|nullable|string',
             'titulaire_name' => 'sometimes|nullable|string',
 
-            'voyage_mode' => 'sometimes|nullable|string'
+            'voyage_mode' => 'sometimes|nullable|integer'
         ];
 
         if ($request->has('password')) {
