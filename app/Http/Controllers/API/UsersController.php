@@ -15,7 +15,7 @@ class UsersController extends Controller
 {
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/user/update",
      *     summary="Update user profile",
      *     description="Update user information, profile photo, CIN image, RIB info, address, and more. Supports multipart form data.",
@@ -306,6 +306,15 @@ class UsersController extends Controller
         if ($changes) {
             $user->save();
 
+            $decryptedRib = null;
+            if ($user->rib_number) {
+                try {
+                    $decryptedRib = Crypt::decryptString($user->rib_number);
+                } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                    $decryptedRib = null;
+                }
+            }
+
             return response()->json([
                 "message" => "Information updated successfully",
                 "profile_photo_message" => $profile_photo_message,
@@ -324,7 +333,7 @@ class UsersController extends Controller
                     "nom_batiment" => $user->nom_batiment,
                     "etage" => $user->etage,
                     "num_appartement" => $user->num_appartement,
-                    "rib_number" => $user->rib_number ? Crypt::decryptString($user->rib_number) : null,
+                    "rib_number" => $decryptedRib,
                     "bank_name" => $user->bank_name,
                     "titulaire_name" => $user->titulaire_name,
                     "avatar" => $user->avatar ? asset('storage/'.$user->avatar) : null,
