@@ -183,6 +183,12 @@ class CategoriesController extends Controller
     public function list_sub_categorie()
     {
         $subcategories = sous_categories::with('categorie')
+            // ->withCount(['getPost as products_count'])
+            ->withCount(['getPost as products_count' => function ($query) {
+                    $query->whereHas('user_info', function ($q) {
+                        $q->where('voyage_mode', 0);
+                    });
+                }])
             ->orderBy('order')
             ->get()
             ->map(function ($sub) {
@@ -272,7 +278,14 @@ class CategoriesController extends Controller
     public function details_sub_categorie($id)
     {
         try {
-            $sub_category = sous_categories::with('categorie')->findOrFail($id);
+            $sub_category = sous_categories::with('categorie')
+                // ->withCount(['getPost as products_count'])
+                ->withCount(['getPost as products_count' => function ($query) {
+                    $query->whereHas('user_info', function ($q) {
+                        $q->where('voyage_mode', 0);
+                    });
+                }])
+                ->findOrFail($id);
 
             if ($sub_category->categorie) {
 

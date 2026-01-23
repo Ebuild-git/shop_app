@@ -98,9 +98,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
-
-
     public function getAvatar()
     {
         if (is_null($this->avatar)) {

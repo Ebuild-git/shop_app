@@ -85,7 +85,7 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
-                DB::raw('COUNT(posts.id) as total_posts'),
+                DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
                 DB::raw('COUNT(ratings.id) as total_reviews')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
@@ -126,6 +126,7 @@ class shopinerController extends Controller
             $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
             return $user;
         });
+
         return response()->json([
             'success' => true,
             'data' => [
@@ -216,9 +217,9 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
-                DB::raw('COUNT(posts.id) as total_posts'),
+                DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
                 DB::raw('COUNT(ratings.id) as total_reviews'),
-                DB::raw('SUM(posts.views) as total_views')
+                DB::raw('SUM(CASE WHEN users.voyage_mode = 0 THEN posts.views ELSE 0 END) as total_views')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
@@ -253,7 +254,12 @@ class shopinerController extends Controller
 
         $shopiner->avatar = $shopiner->avatar ? asset('storage/' . $shopiner->avatar) : null;
 
-        $posts = posts::where('id_user', $id)->get();
+        $posts = posts::where('id_user', $id)
+            ->whereHas('user_info', function ($query) {
+                $query->where('voyage_mode', 0);
+            })
+            ->get();
+
         $posts->transform(function ($post) {
             $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
             return $post;

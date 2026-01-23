@@ -60,7 +60,11 @@ class PostsController extends Controller
      */
     public function list_post()
     {
-        $posts = posts::with("sous_categorie_info.categorie")->get();
+        $posts = posts::with("sous_categorie_info.categorie")
+        ->whereHas('user_info', function ($query) {
+            $query->where('voyage_mode', 0);
+        })
+        ->get();
 
         $posts = $posts->map(function ($post) {
             $postData = $post->toArray();
