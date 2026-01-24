@@ -23,8 +23,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Paginator::useBootstrap();
+        // $locale = Cookie::get('locale', Session::get('locale', config('app.locale')));
+        // App::setLocale($locale);
         Paginator::useBootstrap();
-        $locale = Cookie::get('locale', Session::get('locale', config('app.locale')));
+
+        $allowedLocales = ['en', 'fr', 'ar'];
+
+        $locale = Cookie::get('locale')
+            ?? Session::get('locale')
+            ?? config('app.locale');
+
+        if (! in_array($locale, $allowedLocales)) {
+            $locale = config('app.locale');
+        }
+
         App::setLocale($locale);
     }
 }
