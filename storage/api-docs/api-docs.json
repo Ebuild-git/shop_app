@@ -4228,13 +4228,13 @@
             }
         },
         "/api/user/update": {
-            "put": {
+            "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Update user profile",
                 "description": "Update user information, profile photo, CIN image, RIB info, address, and more. Supports multipart form data.",
-                "operationId": "5e899dc6f8c257c24658ddeb96e64f69",
+                "operationId": "65e0de9ec6b769b9589703d69d6754ff",
                 "requestBody": {
                     "description": "Send only the fields you want to update. For PUT requests, send `_method=PUT`.",
                     "required": false,
@@ -4778,6 +4778,124 @@
                 "security": [
                     {
                         "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{user}/ping": {
+            "post": {
+                "tags": [
+                    "Ping"
+                ],
+                "summary": "Pin a user to TOPLIST",
+                "description": "Pins a SHOPINER to the authenticated user's TOPLIST",
+                "operationId": "bd21d5fc69eb59927ee2330911894f00",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to pin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User pinned successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "SHOPINER pinned to your SHOPINERS TOPLIST!"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "pinned"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot ping yourself",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You cannot ping yourself"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Ping"
+                ],
+                "summary": "Remove user from TOPLIST",
+                "description": "Removes a SHOPINER from the authenticated user's TOPLIST",
+                "operationId": "d8a352a967c98476d7c6227509af2188",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to unpin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User unpinned successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "SHOPINER removed from your SHOPINERS TOPLIST"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "unpinned"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
                     }
                 ]
             }

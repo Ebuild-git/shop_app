@@ -272,5 +272,105 @@ class shopinerController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/users/{user}/ping",
+     *     tags={"Ping"},
+     *     summary="Pin a user to TOPLIST",
+     *     description="Pins a SHOPINER to the authenticated user's TOPLIST",
+     *     security={{"sanctum":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to pin",
+     *         @OA\Schema(type="integer", example=12)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=201,
+     *         description="User pinned successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="SHOPINER pinned to your SHOPINERS TOPLIST!"),
+     *             @OA\Property(property="status", type="string", example="pinned")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Cannot ping yourself",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="You cannot ping yourself")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     )
+     * )
+     */
+    public function ping(User $user)
+    {
+        if ($user->id === Auth::id()) {
+            return response()->json([
+                'message' => 'You cannot ping yourself'
+            ], 422);
+        }
+
+        pings::firstOrCreate([
+            'id_user' => Auth::id(),
+            'pined'   => $user->id,
+        ]);
+
+        return response()->json([
+            'message' => 'SHOPINER pinned to your SHOPINERS TOPLIST!',
+            'status'  => 'pinned',
+        ], 201);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/users/{user}/ping",
+     *     tags={"Ping"},
+     *     summary="Remove user from TOPLIST",
+     *     description="Removes a SHOPINER from the authenticated user's TOPLIST",
+     *     security={{"sanctum":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to unpin",
+     *         @OA\Schema(type="integer", example=12)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="User unpinned successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="SHOPINER removed from your SHOPINERS TOPLIST"),
+     *             @OA\Property(property="status", type="string", example="unpinned")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     )
+     * )
+     */
+    public function unping(User $user)
+    {
+        pings::where('id_user', Auth::id())
+            ->where('pined', $user->id)
+            ->delete();
+
+        return response()->json([
+            'message' => 'SHOPINER removed from your SHOPINERS TOPLIST',
+            'status'  => 'unpinned',
+        ]);
+    }
 
 }

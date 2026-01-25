@@ -94,6 +94,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{purchase_id}/rating', [RatingController::class, 'store']);
 
 
+    Route::post('/users/{user}/ping', [shopinerController::class, 'ping']);
+    Route::delete('/users/{user}/ping', [shopinerController::class, 'unping']);
+
 });
 
 Route::group(['middleware' => 'jwt.auth'], function () {
