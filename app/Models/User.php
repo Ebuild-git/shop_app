@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -211,5 +212,21 @@ class User extends Authenticatable implements JWTSubject
         })->orderBy('created_at', 'desc')->get();
     }
 
+
+    public function getRibNumberAttribute($value)
+    {
+        try {
+            return $value ? Crypt::decryptString($value) : null;
+        } catch (\Exception $e) {
+            return $value; // already plain text
+        }
+    }
+
+    public function setRibNumberAttribute($value)
+    {
+        $this->attributes['rib_number'] = $value
+            ? Crypt::encryptString($value)
+            : null;
+    }
 
 }

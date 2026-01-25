@@ -86,7 +86,8 @@ class shopinerController extends Controller
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
-                DB::raw('COUNT(ratings.id) as total_reviews')
+                DB::raw('COUNT(ratings.id) as total_reviews'),
+                DB::raw('CASE WHEN pings.pined IS NOT NULL THEN true ELSE false END as is_pinned')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
@@ -113,9 +114,9 @@ class shopinerController extends Controller
                 'users.voyage_mode',
                 'users.avatar',
                 'users.photo_verified_at',
-                'pings.id_user'
+                'pings.pined'
             )
-            ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END')
+            ->orderByRaw('CASE WHEN pings.pined IS NOT NULL THEN 0 ELSE 1 END')
             ->orderByDesc('total_reviews')
             ->orderBy('users.username')
             ->orderByDesc('average_rating')
@@ -124,6 +125,7 @@ class shopinerController extends Controller
 
         $shopiners->transform(function ($user) {
             $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
+            $user->is_pinned = (bool) $user->is_pinned; // Ensure it's a boolean
             return $user;
         });
 
