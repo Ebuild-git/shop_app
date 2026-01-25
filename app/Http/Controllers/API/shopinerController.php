@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User, posts};
+use App\Models\{User, posts, pings};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -74,7 +74,6 @@ class shopinerController extends Controller
     {
         $key = $request->input('key');
         $rating = $request->input('rating');
-        $userId = auth()->id();
 
         $Query = User::select(
                 'users.id',
@@ -86,15 +85,10 @@ class shopinerController extends Controller
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
-                DB::raw('COUNT(ratings.id) as total_reviews'),
-                DB::raw('CASE WHEN pings.pined IS NOT NULL THEN true ELSE false END as is_pinned')
+                DB::raw('COUNT(ratings.id) as total_reviews')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-            ->leftJoin('pings', function ($join) use ($userId) {
-                $join->on('users.id', '=', 'pings.pined')
-                    ->where('pings.id_user', $userId);
-            })
             ->where('users.role', '!=', 'admin')
             ->where('users.locked', false);
 
@@ -113,10 +107,8 @@ class shopinerController extends Controller
                 'users.username',
                 'users.voyage_mode',
                 'users.avatar',
-                'users.photo_verified_at',
-                'pings.pined'
+                'users.photo_verified_at'
             )
-            ->orderByRaw('CASE WHEN pings.pined IS NOT NULL THEN 0 ELSE 1 END')
             ->orderByDesc('total_reviews')
             ->orderBy('users.username')
             ->orderByDesc('average_rating')
@@ -125,7 +117,11 @@ class shopinerController extends Controller
 
         $shopiners->transform(function ($user) {
             $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
-            $user->is_pinned = (bool) $user->is_pinned; // Ensure it's a boolean
+
+            $pings = pings::where('pined', $user->id)->pluck('id_user')->toArray();
+            $user->is_pinned = count($pings) > 0;
+            $user->pinned_by = $pings;
+
             return $user;
         });
 
