@@ -490,7 +490,7 @@ class UsersController extends Controller
      *     )
      * )
      */
-    public function user_notifications()
+    public function user_notifications(Request $request)
     {
         $user_id = $request->user()->id;
 
