@@ -60,7 +60,7 @@ class UpdateCordonnées extends Component
             $changes = false;
 
             if ($user->rib_number) {
-                $current_rib_number = Crypt::decryptString($user->rib_number);
+                $current_rib_number = $user->rib_number;
             } else {
                 $current_rib_number = null;
             }
