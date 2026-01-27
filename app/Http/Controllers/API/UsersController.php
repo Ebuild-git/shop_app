@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\configurations;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -433,17 +434,35 @@ class UsersController extends Controller
             'userMessage' => $validated['message'],
         ];
 
-        Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail) {
-            $mail->to($configEmail)
-                ->subject('[Contact] ' . $validated['subject'])
-                ->from('shopin@ebuild.website', 'Contact Shopin');
-        });
+        // Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail) {
+        //     $mail->to($configEmail)
+        //         ->subject('[Contact] ' . $validated['subject'])
+        //         ->from('shopin@ebuild.website', 'Contact Shopin');
+        // });
 
-        Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {
-            $mail->to($validated['email'])
-                ->subject('Support Shopin')
-                ->from($configEmail, 'Support Shopin');
-        });
+        // Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {
+        //     $mail->to($validated['email'])
+        //         ->subject('Support Shopin')
+        //         ->from($configEmail, 'Support Shopin');
+        // });
+        try {
+            Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail) {
+                $mail->to($configEmail)
+                    ->subject('[Contact] ' . $validated['subject'])
+                    ->from('shopin@ebuild.website', 'Contact Shopin');
+            });
+
+            Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {
+                $mail->to($validated['email'])
+                    ->subject('Support Shopin')
+                    ->from($configEmail, 'Support Shopin');
+            });
+
+        } catch (\Throwable $e) {
+            Log::error('Mail sending failed', [
+                'error' => $e->getMessage()
+            ]);
+        }
 
         return response()->json([
             'success' => true,
