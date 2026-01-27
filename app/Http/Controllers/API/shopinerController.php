@@ -213,6 +213,9 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.cin_img',
                 'users.old_cin_images',
+                'users.rib_number',
+                'users.bank_name',
+                'users.titulaire_name',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
@@ -241,6 +244,9 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.cin_img',
                 'users.old_cin_images',
+                'users.rib_number',
+                'users.bank_name',
+                'users.titulaire_name',
                 'users.photo_verified_at'
             )
             ->first();
