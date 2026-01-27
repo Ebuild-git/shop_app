@@ -49,6 +49,7 @@ Route::get('/banners', [CategoriesController::class, 'banners'])->name('banners'
 Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
 Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
 Route::post('/contact/send', [UsersController::class, 'send']);
+Route::get('/user/notifications', [UsersController::class, 'user_notifications']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
