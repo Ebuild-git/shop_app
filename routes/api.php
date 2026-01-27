@@ -49,7 +49,6 @@ Route::get('/banners', [CategoriesController::class, 'banners'])->name('banners'
 Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
 Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
 Route::post('/contact/send', [UsersController::class, 'send']);
-Route::get('/user/notifications', [UsersController::class, 'user_notifications']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -99,6 +98,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/users/{user}/ping', [shopinerController::class, 'ping']);
     Route::delete('/users/{user}/ping', [shopinerController::class, 'unping']);
+
+    Route::get('/user/notifications', [UsersController::class, 'user_notifications']);
+
 
 });
 

@@ -492,7 +492,7 @@ class UsersController extends Controller
      */
     public function user_notifications()
     {
-        $user_id = Auth::id();
+        $user_id = $request->user()->id;
 
         notifications::where("id_user_destination", $user_id)
             ->where("statut", "unread")
