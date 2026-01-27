@@ -419,7 +419,7 @@ class UsersController extends Controller
     {
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
-            'email'   => 'required',
+            'email'   => 'required|string',
             'subject' => 'required|string',
             'message' => 'required|string',
         ]);
