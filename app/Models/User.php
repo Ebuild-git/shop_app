@@ -58,7 +58,8 @@ class User extends Authenticatable implements JWTSubject
 
     protected $appends = [
         'total_sales_count',
-        'total_categories_count'
+        'total_categories_count',
+        'total_posts'
     ];
 
 
@@ -70,6 +71,11 @@ class User extends Authenticatable implements JWTSubject
     public function getTotalCategoriesCountAttribute()
     {
         return $this->categoriesWhereUserSell();
+    }
+
+    public function getTotalPostsAttribute()
+    {
+        return $this->ValidatedPosts()->count();
     }
 
     public function getJWTIdentifier()
@@ -94,7 +100,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function ValidatedPosts()
     {
-        return $this->hasMany(Posts::class, 'id_user', 'id')
+        return $this->hasMany(posts::class, 'id_user', 'id')
                     ->where('statut', '!=', 'validation');
     }
 

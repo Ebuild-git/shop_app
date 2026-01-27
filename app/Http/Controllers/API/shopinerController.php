@@ -84,15 +84,6 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
-                // DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
-                DB::raw("
-                    COUNT(CASE
-                        WHEN posts.statut != 'validation'
-                            AND users.voyage_mode = 0
-                            AND posts.deleted_at IS NULL
-                        THEN posts.id
-                    END) as total_posts
-                "),
                 DB::raw('COUNT(ratings.id) as total_reviews')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
@@ -121,7 +112,6 @@ class shopinerController extends Controller
             ->orderByDesc('total_reviews')
             ->orderBy('users.username')
             ->orderByDesc('average_rating')
-            ->orderBy('total_posts')
             ->get();
 
         $shopiners->transform(function ($user) {
@@ -130,7 +120,6 @@ class shopinerController extends Controller
             $pings = pings::where('pined', $user->id)->pluck('id_user')->toArray();
             $user->is_pinned = count($pings) > 0;
             $user->pinned_by = $pings;
-
             return $user;
         });
 
