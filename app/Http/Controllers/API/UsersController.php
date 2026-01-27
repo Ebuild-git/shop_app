@@ -10,6 +10,7 @@ use App\Models\notifications;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\configurations;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -347,5 +348,106 @@ class UsersController extends Controller
         return response()->json(['message' => 'No changes were made.'], 200);
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/contact/send",
+     *     summary="Send contact message",
+     *     description="Sends a contact message to admin and an auto-reply to the user",
+     *     tags={"Contact"},
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","email","subject","message"},
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 maxLength=255,
+     *                 example="John Doe"
+     *             ),
+     *             @OA\Property(
+     *                 property="email",
+     *                 type="string",
+     *                 format="email",
+     *                 example="john@example.com"
+     *             ),
+     *             @OA\Property(
+     *                 property="subject",
+     *                 type="string",
+     *                 example="Support request"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="I need help with my order"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Message sent successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Your message has been sent successfully!"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 example={
+     *                     "email": {"The email field is required."}
+     *                 }
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function send(Request $request)
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email',
+            'subject' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+        $configEmail = optional(configurations::first())->email ?? config('mail.from.address');
+
+        $data = [
+            'name'        => $validated['name'],
+            'email'       => $validated['email'],
+            'subject'     => $validated['subject'],
+            'userMessage' => $validated['message'],
+        ];
+
+        Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail) {
+            $mail->to($configEmail)
+                ->subject('[Contact] ' . $validated['subject'])
+                ->from('shopin@ebuild.website', 'Contact Shopin');
+        });
+
+        Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {
+            $mail->to($validated['email'])
+                ->subject('Support Shopin')
+                ->from($configEmail, 'Support Shopin');
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Your message has been sent successfully!'
+        ], 200);
+    }
 
 }
