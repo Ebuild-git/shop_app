@@ -87,7 +87,9 @@ class shopinerController extends Controller
                 // DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
                 DB::raw("
                     COUNT(CASE
-                        WHEN posts.statut != 'validation' AND users.voyage_mode = 0
+                        WHEN posts.statut != 'validation'
+                            AND users.voyage_mode = 0
+                            AND posts.deleted_at IS NULL
                         THEN posts.id
                     END) as total_posts
                 "),
