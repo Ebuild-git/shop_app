@@ -261,6 +261,7 @@ class shopinerController extends Controller
         $shopiner->avatar = $shopiner->avatar ? asset('storage/' . $shopiner->avatar) : null;
         $shopiner->cin_img = $shopiner->cin_img ? asset('storage/' . $shopiner->cin_img) : null;
         $shopiner->old_cin_images = $shopiner->old_cin_images ? asset('storage/' . $shopiner->old_cin_images) : null;
+        $shopiner->rib_number = $shopiner->rib_number;
 
         $posts = posts::where('id_user', $id)
             ->whereHas('user_info', function ($query) {
