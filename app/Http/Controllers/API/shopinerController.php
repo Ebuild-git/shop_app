@@ -84,11 +84,18 @@ class shopinerController extends Controller
                 'users.avatar',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
-                DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
+                // DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
+                DB::raw("
+                    COUNT(CASE
+                        WHEN posts.statut != 'validation' AND users.voyage_mode = 0
+                        THEN posts.id
+                    END) as total_posts
+                "),
                 DB::raw('COUNT(ratings.id) as total_reviews')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+
             ->where('users.role', '!=', 'admin')
             ->where('users.locked', false);
 

@@ -56,6 +56,21 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    protected $appends = [
+        'total_sales_count',
+        'total_categories_count'
+    ];
+
+
+    public function getTotalSalesCountAttribute()
+    {
+        return $this->total_sales()->count();
+    }
+
+    public function getTotalCategoriesCountAttribute()
+    {
+        return $this->categoriesWhereUserSell();
+    }
 
     public function getJWTIdentifier()
     {
