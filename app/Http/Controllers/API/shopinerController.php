@@ -211,6 +211,8 @@ class shopinerController extends Controller
                 'users.num_appartement',
                 'users.voyage_mode',
                 'users.avatar',
+                'users.cin_img',
+                'users.old_cin_images',
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
@@ -237,6 +239,8 @@ class shopinerController extends Controller
                 'users.num_appartement',
                 'users.voyage_mode',
                 'users.avatar',
+                'users.cin_img',
+                'users.old_cin_images',
                 'users.photo_verified_at'
             )
             ->first();
@@ -249,6 +253,8 @@ class shopinerController extends Controller
         }
 
         $shopiner->avatar = $shopiner->avatar ? asset('storage/' . $shopiner->avatar) : null;
+        $shopiner->cin_img = $shopiner->cin_img ? asset('storage/' . $shopiner->cin_img) : null;
+        $shopiner->old_cin_images = $shopiner->old_cin_images ? asset('storage/' . $shopiner->old_cin_images) : null;
 
         $posts = posts::where('id_user', $id)
             ->whereHas('user_info', function ($query) {
