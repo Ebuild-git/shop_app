@@ -9,6 +9,7 @@ use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\API\AddressController;
 use App\Http\Controllers\API\RatingController;
 use App\Models\User;
@@ -50,6 +51,7 @@ Route::get('/shopiners', [shopinerController::class, 'getShopiners']);
 Route::get('/shopiner/profile/{id}', [shopinerController::class, 'getShopinerProfile']);
 Route::post('/contact/send', [UsersController::class, 'send']);
 
+Route::get('/category/{id_user}/post_user', [shopinerController::class, 'get_user_categorie']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {

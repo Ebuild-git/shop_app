@@ -5064,6 +5064,103 @@
                 ]
             }
         },
+        "/api/category/{id_user}/post_user": {
+            "get": {
+                "tags": [
+                    "Shopiners"
+                ],
+                "summary": "Get sold categories for a user",
+                "description": "Returns categories and counts for user posts with delivered or sold statuses.",
+                "operationId": "getUserCategories",
+                "parameters": [
+                    {
+                        "name": "id_user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "username": {
+                                                    "type": "string",
+                                                    "example": "john_doe"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "nom": {
+                                                        "type": "string",
+                                                        "example": "Electronics"
+                                                    },
+                                                    "count": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "total_categories": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "total_posts": {
+                                            "type": "integer",
+                                            "example": 7
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur introuvable!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/posts": {
             "get": {
                 "tags": [

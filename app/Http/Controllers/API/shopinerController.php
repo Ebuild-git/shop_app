@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User, posts, pings};
+use App\Models\{User, posts, pings, sous_categories, categories};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\App;
 
 class shopinerController extends Controller
 {
@@ -391,5 +392,114 @@ class shopinerController extends Controller
             'status'  => 'unpinned',
         ]);
     }
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/category/{id_user}/post_user",
+     *     operationId="getUserCategories",
+     *     tags={"Shopiners"},
+     *     summary="Get sold categories for a user",
+     *     description="Returns categories and counts for user posts with delivered or sold statuses.",
+     *
+     *     @OA\Parameter(
+     *         name="id_user",
+     *         in="path",
+     *         required=true,
+     *         description="User ID",
+     *         @OA\Schema(type="integer", example=15)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Categories retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="user",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=15),
+     *                 @OA\Property(property="username", type="string", example="john_doe")
+     *             ),
+     *             @OA\Property(
+     *                 property="categories",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="nom", type="string", example="Electronics"),
+     *                     @OA\Property(property="count", type="integer", example=5)
+     *                 )
+     *             ),
+     *             @OA\Property(property="total_categories", type="integer", example=2),
+     *             @OA\Property(property="total_posts", type="integer", example=7)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Utilisateur introuvable!")
+     *         )
+     *     )
+     * )
+     */
+    public function get_user_categorie(Request $request, $id_user)
+    {
+        $user = User::find($id_user);
+
+        if (!$user) {
+            return response()->json([
+                "status" => false,
+                "message" => "Utilisateur introuvable!"
+            ], 404);
+        }
+
+        $locale = App::getLocale();
+        $categories = [];
+
+        $posts = posts::where('id_user', $user->id)
+            ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation'])
+            ->get();
+
+        foreach ($posts as $post) {
+            $sous_categorie = sous_categories::find($post->id_sous_categorie);
+
+            if ($sous_categorie) {
+                $categorie = categories::find($sous_categorie->id_categorie);
+
+                if ($categorie) {
+                    $nom = match ($locale) {
+                        'ar' => $categorie->title_ar,
+                        'en' => $categorie->title_en,
+                        default => $categorie->titre,
+                    };
+
+                    $categories[$nom] = ($categories[$nom] ?? 0) + 1;
+                }
+            }
+        }
+
+        $categories_list = [];
+        foreach ($categories as $nom => $count) {
+            $categories_list[] = [
+                "nom" => $nom,
+                "count" => $count
+            ];
+        }
+
+        return response()->json([
+            "status" => true,
+            "user" => [
+                "id" => $user->id,
+                "username" => $user->username
+            ],
+            "categories" => $categories_list,
+            "total_categories" => count($categories),
+            "total_posts" => $posts->count()
+        ]);
+    }
+
 
 }
