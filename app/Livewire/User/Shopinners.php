@@ -28,9 +28,90 @@ class Shopinners extends Component
         $this->resetPage();
     }
 
+    // public function render()
+    // {
+    //     if (Auth::check()) {
+    //         $userId = auth()->user()->id;
+
+    //         $Query = User::select(
+    //             'users.id',
+    //             'users.lastname',
+    //             'users.username',
+    //             'users.voyage_mode',
+    //             'users.avatar',
+    //             'users.photo_verified_at',
+    //             DB::raw('AVG(ratings.etoiles) as average_rating'),
+    //             DB::raw('COUNT(posts.id) as total_posts'),
+    //             DB::raw('COUNT(ratings.id) as total_reviews')
+    //         )
+    //             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
+    //             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+    //             ->leftJoin('pings', function ($join) use ($userId) {
+    //                 $join->on('users.id', '=', 'pings.pined')
+    //                     ->where('pings.id_user', $userId);
+    //             })
+    //             ->where('users.role', '!=', 'admin')
+    //             ->where('users.locked', false)
+    //             ->whereNotNull('users.email_verified_at');
+
+    //         // Si on a une recherche en
+    //         if (!empty($this->key)) {
+    //             $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
+    //         }
+    //         // Filtrer par note
+    //         if (!empty($this->rating)) {
+    //             $Query = $Query->having('average_rating', '>=', $this->rating);
+    //         }
+
+    //         $shopiners =  $Query
+    //             // ->where('users.id', '!=', Auth::id())
+    //             ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'users.avatar', 'users.photo_verified_at', 'pings.id_user')
+    //             ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
+    //             ->orderBy('total_reviews', 'desc')
+    //             ->orderBy('users.username')
+    //             ->orderBy('average_rating', 'desc')
+    //             ->orderBy('total_posts')
+    //             ->paginate(50);
+
+    //     } else {
+    //         $Query = User::select('users.id', 'users.name', 'users.username', 'users.voyage_mode',
+    //             'users.avatar',
+    //             'users.photo_verified_at',
+    //             DB::raw('AVG(etoiles) as average_rating'),
+    //             DB::raw('COUNT(posts.id) as total_posts'),
+    //             DB::raw('COUNT(ratings.id) as total_reviews')
+
+    //             )
+    //             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
+    //             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+    //             ->where('users.role', '!=', 'admin')
+    //             ->where('users.locked', false)
+    //             ->whereNotNull('users.email_verified_at')
+    //             ->groupBy('users.id', 'users.lastname', 'users.username', 'users.avatar', 'users.photo_verified_at');
+
+    //         // Si on a une recherche en
+    //         if (!empty($this->key)) {
+    //             $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
+    //         }
+    //           // Filtrer par note
+    //         if (!empty($this->rating)) {
+    //             $Query = $Query->having('average_rating', '>=', $this->rating);
+    //         }
+
+    //         $shopiners = $Query->orderBy('total_reviews', 'desc')
+    //             ->orderBy('users.username')
+    //             ->orderBy('average_rating', 'desc')
+    //             ->orderBy('total_posts')
+    //             ->paginate(50);
+
+    //     }
+
+    //     return view('livewire.user.shopinners', compact("shopiners"));
+    // }
     public function render()
     {
         if (Auth::check()) {
+
             $userId = auth()->user()->id;
 
             $Query = User::select(
@@ -42,30 +123,29 @@ class Shopinners extends Component
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts'),
-                DB::raw('COUNT(ratings.id) as total_reviews')
+                DB::raw('COUNT(ratings.id) as total_reviews'),
+                'pings.id as is_pinned'
             )
-                ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
-                ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
-                ->leftJoin('pings', function ($join) use ($userId) {
-                    $join->on('users.id', '=', 'pings.pined')
-                        ->where('pings.id_user', $userId);
-                })
-                ->where('users.role', '!=', 'admin')
-                ->where('users.locked', false)
-                ->whereNotNull('users.email_verified_at');
+            ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
+            ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+            ->leftJoin('pings', function ($join) use ($userId) {
+                $join->on('users.id', '=', 'pings.pined')
+                    ->where('pings.id_user', $userId);
+            })
+            ->where('users.role', '!=', 'admin')
+            ->where('users.locked', false)
+            ->whereNotNull('users.email_verified_at');
 
-            // Si on a une recherche en
             if (!empty($this->key)) {
                 $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
             }
-            // Filtrer par note
             if (!empty($this->rating)) {
                 $Query = $Query->having('average_rating', '>=', $this->rating);
             }
 
             $shopiners =  $Query
-                // ->where('users.id', '!=', Auth::id())
-                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'users.avatar', 'users.photo_verified_at', 'pings.id_user')
+                ->groupBy('users.id', 'users.lastname', 'users.username', 'users.voyage_mode', 'users.avatar', 'users.photo_verified_at', 'pings.id_user', 'pings.id')
+                ->orderByRaw("CASE WHEN users.id = {$userId} THEN 0 ELSE 1 END") // Auth user first
                 ->orderByRaw('CASE WHEN pings.id_user IS NOT NULL THEN 0 ELSE 1 END') // Met les "pings" en premier
                 ->orderBy('total_reviews', 'desc')
                 ->orderBy('users.username')
@@ -80,7 +160,6 @@ class Shopinners extends Component
                 DB::raw('AVG(etoiles) as average_rating'),
                 DB::raw('COUNT(posts.id) as total_posts'),
                 DB::raw('COUNT(ratings.id) as total_reviews')
-
                 )
                 ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_rated')
                 ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
@@ -89,11 +168,9 @@ class Shopinners extends Component
                 ->whereNotNull('users.email_verified_at')
                 ->groupBy('users.id', 'users.lastname', 'users.username', 'users.avatar', 'users.photo_verified_at');
 
-            // Si on a une recherche en
             if (!empty($this->key)) {
                 $Query = $Query->where('users.username', 'LIKE', $this->key . '%');
             }
-              // Filtrer par note
             if (!empty($this->rating)) {
                 $Query = $Query->having('average_rating', '>=', $this->rating);
             }
@@ -103,12 +180,10 @@ class Shopinners extends Component
                 ->orderBy('average_rating', 'desc')
                 ->orderBy('total_posts')
                 ->paginate(50);
-
         }
 
         return view('livewire.user.shopinners', compact("shopiners"));
     }
-
 
     public function ping($id_user)
     {

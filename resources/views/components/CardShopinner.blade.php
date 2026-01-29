@@ -1,5 +1,11 @@
 <div class="card p-2 position-relative mb-2"
-     style="{{ auth()->check() && $user->id === auth()->id() ? 'border: 2px solid #008080; background-color: #f9fbfc;' : '' }}">
+     style="
+     @if(auth()->check() && $user->id === auth()->id())
+         border: 2px solid #008080; background-color: #f9fbfc;
+     @elseif(isset($user->is_pinned) && $user->is_pinned)
+         border: 2px solid #FFD700; background-color: #fffef7;
+     @endif
+     ">
     <div>
         <div class="d-flex justify-content-between">
             <div class="d-flex align-items-center pl-3" style="text-align: left">
