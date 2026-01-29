@@ -3440,9 +3440,10 @@ body[dir="rtl"] .custom-cancel-btn {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
-    color: #fff;
-    background-color: #008080;
-    border: none;
+    color: #555;
+    background-color: #fff;
+    /* border: none; */
+    border: 1px solid #555;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -3454,15 +3455,20 @@ body[dir="rtl"] .custom-cancel-btn {
 
 .step:hover {
     background-color: #006666;
+    color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .step:active {
     background-color: #004d4d;
+    color: #fff;
+    border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .step.active {
-    background-color: #878080; /* Black color for the active button */
+    color: #fff;
+    border: none;
+    background-color: #008080; /* Black color for the active button */
 }
 .timeline {
     gap: 20px;
