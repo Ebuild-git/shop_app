@@ -725,7 +725,11 @@
 "We have received your message": "We have received your message",
 "use_code_verify_email": "Use this code in the app to verify your email.",
 "code_resent" : "We have resent your verification code.",
-"rib_number_size" : "The RIB number must contain exactly 13 characters."
+"rib_number_size" : "The RIB number must contain exactly 13 characters.",
+"cookies_title_1": "We use cookies",
+  "cookies_message": "This site uses cookies to improve your browsing experience, analyze traffic, and personalize content. By clicking \"Accept\", you consent to the use of all cookies. For more information, see our <a href=\":privacy_url\" target=\"_blank\">privacy policy</a> and <a href=\":cookies_url\" target=\"_blank\">cookie policy</a>.",
+  "cookies_accept": "Accept all cookies",
+  "cookies_reject": "Reject non-essential cookies"
 
 
 

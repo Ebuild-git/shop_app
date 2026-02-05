@@ -569,7 +569,7 @@
 
         @yield('body')
 
-
+        @include('components.cookie-consent')
 
         <!-- ============================ Footer Start ================================== -->
         <footer class="light-footer" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
