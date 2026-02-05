@@ -727,9 +727,19 @@
 "code_resent" : "We have resent your verification code.",
 "rib_number_size" : "The RIB number must contain exactly 13 characters.",
 "cookies_title_1": "We use cookies",
-  "cookies_message": "This site uses cookies to improve your browsing experience, analyze traffic, and personalize content. By clicking \"Accept\", you consent to the use of all cookies. For more information, see our <a href=\":privacy_url\" target=\"_blank\">privacy policy</a> and <a href=\":cookies_url\" target=\"_blank\">cookie policy</a>.",
-  "cookies_accept": "Accept all cookies",
-  "cookies_reject": "Reject non-essential cookies"
+"cookies_message": "This site uses cookies to improve your browsing experience, analyze traffic, and personalize content. By clicking \"Accept\", you consent to the use of all cookies. For more information, see our <a href=\":privacy_url\" target=\"_blank\">privacy policy</a> and <a href=\":cookies_url\" target=\"_blank\">cookie policy</a>.",
+"cookies_accept": "Accept all cookies",
+"cookies_reject": "Reject non-essential cookies",
+"contact_consent_rgpd": "I agree that my personal data will be collected and used to process my contact request in accordance with the <a href=\":privacy_url\" target=\"_blank\">privacy policy</a>",
+"contact_consent_newsletter": "I agree to receive emails and SMS for news and promotional offers from Shopin",
+"please_accept_privacy_policy": "Please accept the privacy policy to continue",
+"error_sending_message": "An error occurred while sending the message",
+"error": "Error",
+"ok": "OK",
+"message_sent_successfully": "Your message has been sent successfully!",
+"email_error": "Email sending error",
+"email_domain_error": "The destination email address is invalid or the domain does not exist. Please check the email and try again.",
+"email_server_error": "The mail server encountered a problem. Please try again later or contact the administrator."
 
 
 

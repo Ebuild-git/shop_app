@@ -730,7 +730,17 @@
 "cookies_title_1": "Nous utilisons des cookies",
 "cookies_message": "Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En cliquant sur \"Accepter\", vous consentez à l'utilisation de tous les cookies. Pour plus d'informations, consultez notre <a href=\":privacy_url\" target=\"_blank\">politique de confidentialité</a> et notre <a href=\":cookies_url\" target=\"_blank\">politique de cookies</a>.",
 "cookies_accept": "Accepter tous les cookies",
-"cookies_reject": "Refuser les cookies non essentiels"
+"cookies_reject": "Refuser les cookies non essentiels",
+"contact_consent_rgpd": "J'accepte que mes données personnelles soient collectées et utilisées pour traiter ma demande de contact conformément à la <a href=\":privacy_url\" target=\"_blank\">politique de confidentialité</a>",
+"contact_consent_newsletter": "J'accepte de recevoir des emails et SMS pour les actualités et offres promotionnelles de Shopin",
+"please_accept_privacy_policy": "Veuillez accepter la politique de confidentialité pour continuer",
+"error_sending_message": "Une erreur s'est produite lors de l'envoi du message",
+"error": "Erreur",
+"ok": "OK",
+"message_sent_successfully": "Votre message a été envoyé avec succès !",
+"email_error": "Erreur d'envoi d'email",
+"email_domain_error": "L'adresse email de destination est invalide ou le domaine n'existe pas. Veuillez vérifier l'email et réessayer.",
+"email_server_error": "Le serveur de messagerie a rencontré un problème. Veuillez réessayer plus tard ou contacter l'administrateur."
 
 
 

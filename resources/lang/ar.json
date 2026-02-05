@@ -726,9 +726,19 @@
 "code_resent" : "لقد قمنا بإرسال رمز التحقق مرة أخرى.",
 "rib_number_size" : "يجب أن يحتوي رقم الحساب البنكي (RIB) على 13 حرفًا بالضبط.",
 "cookies_title_1": "Nous utilisons des cookies",
-  "cookies_message": "Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En cliquant sur \"Accepter\", vous consentez à l'utilisation de tous les cookies. Pour plus d'informations, consultez notre <a href=\":privacy_url\" target=\"_blank\">politique de confidentialité</a> et notre <a href=\":cookies_url\" target=\"_blank\">politique de cookies</a>.",
-  "cookies_accept": "Accepter tous les cookies",
-  "cookies_reject": "Refuser les cookies non essentiels"
+"cookies_message": "Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En cliquant sur \"Accepter\", vous consentez à l'utilisation de tous les cookies. Pour plus d'informations, consultez notre <a href=\":privacy_url\" target=\"_blank\">politique de confidentialité</a> et notre <a href=\":cookies_url\" target=\"_blank\">politique de cookies</a>.",
+"cookies_accept": "Accepter tous les cookies",
+"cookies_reject": "Refuser les cookies non essentiels",
+"contact_consent_rgpd": "أوافق على جمع بياناتي الشخصية واستخدامها لمعالجة طلب الاتصال الخاص بي وفقًا <a href=\":privacy_url\" target=\"_blank\">لسياسة الخصوصية</a>",
+"contact_consent_newsletter": "أوافق على تلقي رسائل البريد الإلكتروني والرسائل النصية القصيرة للأخبار والعروض الترويجية من Shopin",
+"please_accept_privacy_policy": "يرجى قبول سياسة الخصوصية للمتابعة",
+"error_sending_message": "حدث خطأ أثناء إرسال الرسالة",
+"error": "خطأ",
+"ok": "حسنا",
+"message_sent_successfully": "تم إرسال رسالتك بنجاح!",
+"email_error": "خطأ في إرسال البريد الإلكتروني",
+"email_domain_error": "عنوان البريد الإلكتروني للوجهة غير صالح أو النطاق غير موجود. يرجى التحقق من البريد الإلكتروني والمحاولة مرة أخرى.",
+"email_server_error": "واجه خادم البريد مشكلة. يرجى المحاولة مرة أخرى لاحقًا أو الاتصال بالمسؤول."
 
 
 }

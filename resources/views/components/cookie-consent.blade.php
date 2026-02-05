@@ -2,7 +2,7 @@
 <div id="cookie-consent-banner" class="cookie-consent-banner" style="{{ app()->getLocale() == 'ar' ? 'direction: rtl; text-align: right;' : 'direction: ltr; text-align: left;' }}">
     <div class="cookie-consent-content">
         <div class="cookie-consent-text">
-            <h5>{{ __('cookies_title') }}</h5>
+            <h5>{{ __('cookies_title_1') }}</h5>
             <p>
                 {!! __('cookies_message', [
                     'privacy_url' => url('/politique-confidentialite'),

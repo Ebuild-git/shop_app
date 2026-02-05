@@ -23,13 +23,11 @@
     <section class="middle">
         <div class="container">
 
-
             <div class="row align-items-start justify-content-between" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div class="card-wrap-body mb-4">
                         <p>{{ $configuration->adresse ?? '' }}</p>
-
                     </div>
 
                     <div class="card-wrap-body mb-3">
@@ -80,7 +78,6 @@
                     </div>
 
                     <div class="card-wrap-body mb-3">
-
                         <h4 class="ft-medium mb-3 ">
                             {!! __('find_shopiner_on') !!}
                         </h4>
@@ -111,7 +108,6 @@
                                         alt="instagram-new--v1" />
                                 </a>
                             @endif
-
                         </div>
                     </div>
                 </div>
@@ -152,14 +148,44 @@
                             </div>
                         </div>
 
+                        {{-- CASES À COCHER CNDP - OBLIGATOIRE --}}
                         <div class="col-xl-12">
                             <div class="form-group">
-                                <button id="submitBtn" type="submit" class="btn bg-red">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="consent_rgpd"
+                                           name="consent_rgpd" required>
+                                    <label class="custom-control-label small text-dark" for="consent_rgpd">
+                                        {!! __('contact_consent_rgpd', [
+                                            'privacy_url' => url('/politique-confidentialite')
+                                        ]) !!}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- NEWSLETTER - OPTIONNEL --}}
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="consent_newsletter"
+                                           name="consent_newsletter">
+                                    <label class="custom-control-label small text-dark" for="consent_newsletter">
+                                        {{ __('contact_consent_newsletter') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <button id="submitBtn" type="submit" class="btn bg-red" disabled>
                                     {{ __('send_message') }}
                                 </button>
                             </div>
                         </div>
                     </form>
+
                     <div id="successMessage" class="alert alert-success mt-3 d-none">
                         {{ __('Your message has been sent successfully!') }}
                     </div>
@@ -169,20 +195,72 @@
         </div>
     </section>
     <!-- ======================= Contact Page End ======================== -->
+
+<style>
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #008080;
+    border-color: #008080;
+}
+
+.custom-control-label {
+    cursor: pointer;
+    line-height: 1.6;
+}
+
+.custom-control-label a {
+    color: #008080;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.custom-control-label a:hover {
+    color: #006666;
+}
+
+[dir="rtl"] .custom-control {
+    padding-right: 1.5rem;
+    padding-left: 0;
+}
+
+[dir="rtl"] .custom-control-label::before,
+[dir="rtl"] .custom-control-label::after {
+    right: -1.5rem;
+    left: auto;
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
     const successMsg = document.getElementById('successMessage');
+    const consentCheckbox = document.getElementById('consent_rgpd');
+
+    // Activer/désactiver le bouton submit selon la case RGPD
+    consentCheckbox.addEventListener('change', function() {
+        submitBtn.disabled = !this.checked;
+    });
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
+
+        // Vérifier que le consentement RGPD est coché
+        if (!consentCheckbox.checked) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Attention',
+                text: 'Veuillez accepter la politique de confidentialité',
+                confirmButtonColor: '#008080',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = `
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            {{ __('Sending...') }}
+            Envoi en cours...
         `;
 
         const formData = new FormData(form);
@@ -190,28 +268,79 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(form.action, {
             method: 'POST',
             body: formData,
-            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
         })
         .then(response => {
-            if (!response.ok) throw new Error('Network error');
-            return response.json();
+            return response.json().then(data => {
+                if (!response.ok) {
+                    throw {
+                        status: response.status,
+                        data: data
+                    };
+                }
+                return data;
+            });
         })
-        .then(() => {
+        .then(data => {
+            // Succès
             form.classList.add('d-none');
             successMsg.classList.remove('d-none');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Succès',
+                text: 'Votre message a été envoyé avec succès!',
+                confirmButtonColor: '#008080',
+                confirmButtonText: 'OK'
+            });
         })
         .catch(error => {
-            console.error(error);
+            console.error('Error:', error);
+
+            let errorMessage = 'Erreur lors de l\'envoi du message';
+            let errorTitle = 'Erreur';
+
+            if (error.data) {
+                if (error.data.errors) {
+                    const firstError = Object.values(error.data.errors)[0][0];
+                    errorMessage = firstError;
+                }
+                else if (error.data.message) {
+                    // Vérifier les erreurs SMTP spécifiques
+                    if (error.data.message.includes('Domain not found') ||
+                        error.data.message.includes('Recipient address rejected') ||
+                        error.data.message.includes('L\'adresse email de destination est invalide')) {
+                        errorTitle = 'Erreur d\'email';
+                        errorMessage = 'L\'adresse email de destination est invalide ou le domaine n\'existe pas. Veuillez vérifier l\'email et réessayer.';
+                    } else if (error.data.message.includes('450') ||
+                               error.data.message.includes('550') ||
+                               error.data.message.includes('SMTP')) {
+                        errorTitle = 'Erreur d\'email';
+                        errorMessage = 'Erreur serveur lors de l\'envoi de l\'email. Veuillez réessayer plus tard.';
+                    } else {
+                        errorMessage = error.data.message;
+                    }
+                }
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: errorTitle,
+                html: errorMessage.replace(/\n/g, '<br>'),
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
         })
         .finally(() => {
             if (!form.classList.contains('d-none')) {
-                submitBtn.disabled = false;
+                submitBtn.disabled = !consentCheckbox.checked;
                 submitBtn.innerHTML = originalText;
             }
         });
     });
 });
 </script>
-
-
 @endsection
