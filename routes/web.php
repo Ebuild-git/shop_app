@@ -20,6 +20,7 @@ use App\Models\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,16 @@ use Illuminate\Support\Facades\Route;
 
 //lang
 Route::get('/change-lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change.lang');
+
+//CONFIDENTIALTÉ
+Route::get('/politique-confidentialite', [UserController::class, 'politique'])->name('politique');
+
+
+// routes/web.php
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+Route::post('/newsletter/preferences', [NewsletterController::class, 'updatePreferences'])->name('newsletter.preferences');
+
 
 //gestion de la connexion admin
 Route::get('login', [AdminController::class, 'index_login'])->name('login');

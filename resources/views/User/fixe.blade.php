@@ -639,6 +639,158 @@
             </div>
 
         </footer>
+
+        <!-- Newsletter Section -->
+        {{-- <div class="newsletter-section py-5" style="background-color: #f8f9fa; {{ app()->getLocale() == 'ar' ? 'direction: rtl;' : 'direction: ltr;' }}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 text-center">
+                        <h3 class="mb-3">{{ __('newsletter_subscribe') }}</h3>
+                        <p class="mb-4">{{ __('newsletter_description') }}</p>
+                        <form action="{{ route('newsletter.subscribe') }}" method="POST">
+                            @csrf
+                            <div class="newsletter-input-group">
+                                <input type="email" name="email" class="newsletter-input"
+                                    placeholder="{{ __('enter_your_email') }}" required>
+                                <button class="btn-newsletter" type="submit">
+                                    {{ __('subscribe') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+        <div class="newsletter-section py-5" style="background-color: #f8f9fa; {{ app()->getLocale() == 'ar' ? 'direction: rtl;' : 'direction: ltr;' }}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 text-center">
+                <h3 class="mb-3">{{ __('newsletter_subscribe') }}</h3>
+                <p class="mb-4">{{ __('newsletter_description') }}</p>
+                <form id="newsletterForm" action="{{ route('newsletter.subscribe') }}" method="POST">
+                    @csrf
+                    <div class="newsletter-input-group">
+                        <input type="email" name="email" id="newsletter-email" class="newsletter-input"
+                            placeholder="{{ __('enter_your_email') }}" required>
+                        <button class="btn-newsletter" type="submit" id="newsletter-btn">
+                            <span class="btn-text">{{ __('subscribe') }}</span>
+                            <span class="btn-loader" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <small class="text-danger d-block mt-2" id="newsletter-error" style="display: none;"></small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('newsletterForm');
+    const emailInput = document.getElementById('newsletter-email');
+    const submitBtn = document.getElementById('newsletter-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
+    const errorMsg = document.getElementById('newsletter-error');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Reset error message
+        errorMsg.style.display = 'none';
+        errorMsg.textContent = '';
+
+        // Show loader
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-block';
+        submitBtn.disabled = true;
+
+        // Get form data
+        const formData = new FormData(form);
+
+        // Send AJAX request
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loader
+            btnText.style.display = 'inline-block';
+            btnLoader.style.display = 'none';
+            submitBtn.disabled = false;
+
+            if (data.success) {
+                // Show success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: '{{ __("Success!") }}',
+                    text: data.message,
+                    confirmButtonColor: '#008080',
+                    confirmButtonText: '{{ __("ok") }}'
+                });
+
+                // Reset form
+                form.reset();
+            } else {
+                // Show error alert
+                Swal.fire({
+                    icon: 'error',
+                    title: '{{ __("error") }}',
+                    text: data.message,
+                    confirmButtonColor: '#008080',
+                    confirmButtonText: '{{ __("ok") }}'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+
+            // Hide loader
+            btnText.style.display = 'inline-block';
+            btnLoader.style.display = 'none';
+            submitBtn.disabled = false;
+
+            // Check if it's a validation error
+            if (error.response && error.response.status === 422) {
+                error.response.json().then(data => {
+                    const errors = data.errors;
+                    let errorText = '';
+
+                    Object.keys(errors).forEach(key => {
+                        errorText += errors[key][0] + '\n';
+                    });
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: '{{ __("validation_error") }}',
+                        text: errorText,
+                        confirmButtonColor: '#008080',
+                        confirmButtonText: '{{ __("ok") }}'
+                    });
+                });
+            } else {
+                // Show generic error
+                Swal.fire({
+                    icon: 'error',
+                    title: '{{ __("error") }}',
+                    text: '{{ __("newsletter_subscription_error") }}',
+                    confirmButtonColor: '#008080',
+                    confirmButtonText: '{{ __("ok") }}'
+                });
+            }
+        });
+    });
+});
+</script>
+
+
         <footer class="light-footer" style="background-">
             <footer class="light-footer" style="background-color: #edeff1 !important;">
                 <div class="footer-middle">
@@ -727,7 +879,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

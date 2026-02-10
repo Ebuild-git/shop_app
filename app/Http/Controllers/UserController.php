@@ -110,4 +110,8 @@ class UserController extends Controller
             );
         }
     }
+
+    public function politique(){
+        return view('User.politique-confidentialite');
+    }
 }
