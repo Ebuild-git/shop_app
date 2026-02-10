@@ -13,8 +13,7 @@
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
-                            <a href="#"><img src="https://via.placeholder.com/625x800"
-                                    width="60" class="img-fluid" alt="" /></a>
+                            <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="{{ $item->titre ?? 'Product' }}" /></a>
                         </div>
                         <div class="cart_single_caption pl-2">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Women Striped Shirt Dress</h4>
@@ -23,7 +22,7 @@
                             <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
                         </div>
                     </div>
-                    <div class="fls_last"><button class="close_slide gray"><i
+                    <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                                 class="ti-close"></i></button></div>
                 </div>
 
@@ -31,8 +30,7 @@
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
-                            <a href="#"><img src="https://via.placeholder.com/625x800"
-                                    width="60" class="img-fluid" alt="" /></a>
+                            <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="{{ $item->titre ?? 'Product' }}" /></a>
                         </div>
                         <div class="cart_single_caption pl-2">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Floral Print Jumpsuit
@@ -42,7 +40,7 @@
                             <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
                         </div>
                     </div>
-                    <div class="fls_last"><button class="close_slide gray"><i
+                    <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                                 class="ti-close"></i></button></div>
                 </div>
 
@@ -50,8 +48,7 @@
                 <div class="d-flex align-items-center justify-content-between px-3 py-3">
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
-                            <a href="#"><img src="https://via.placeholder.com/625x800"
-                                    width="60" class="img-fluid" alt="" /></a>
+                            <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="{{ $item->titre ?? 'Product' }}" /></a>
                         </div>
                         <div class="cart_single_caption pl-2">
                             <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Solid A-Line Dress</h4>
@@ -60,7 +57,7 @@
                             <h4 class="fs-md ft-medium mb-0 lh-1">$100</h4>
                         </div>
                     </div>
-                    <div class="fls_last"><button class="close_slide gray"><i
+                    <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                                 class="ti-close"></i></button></div>
                 </div>
 

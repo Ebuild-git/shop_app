@@ -13,8 +13,7 @@
               <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                   <div class="cart_single d-flex align-items-center">
                       <div class="cart_selected_single_thumb">
-                          <a href="#"><img src="https://via.placeholder.com/625x800"
-                                  width="60" class="img-fluid" alt="" /></a>
+                          <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="Product Image" /></a>
                       </div>
                       <div class="cart_single_caption pl-2">
                           <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Women Striped Shirt Dress</h4>
@@ -23,7 +22,7 @@
                           <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
                       </div>
                   </div>
-                  <div class="fls_last"><button class="close_slide gray"><i
+                  <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                               class="ti-close"></i></button></div>
               </div>
 
@@ -31,8 +30,7 @@
               <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
                   <div class="cart_single d-flex align-items-center">
                       <div class="cart_selected_single_thumb">
-                          <a href="#"><img src="https://via.placeholder.com/625x800"
-                                  width="60" class="img-fluid" alt="" /></a>
+                          <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="Product Image" /></a>
                       </div>
                       <div class="cart_single_caption pl-2">
                           <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Floral Print Jumpsuit
@@ -42,7 +40,7 @@
                           <h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
                       </div>
                   </div>
-                  <div class="fls_last"><button class="close_slide gray"><i
+                  <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                               class="ti-close"></i></button></div>
               </div>
 
@@ -50,8 +48,7 @@
               <div class="d-flex align-items-center justify-content-between px-3 py-3">
                   <div class="cart_single d-flex align-items-center">
                       <div class="cart_selected_single_thumb">
-                          <a href="#"><img src="https://via.placeholder.com/625x800"
-                                  width="60" class="img-fluid" alt="" /></a>
+                          <a href="#"><img src="https://via.placeholder.com/625x800" width="60" class="img-fluid" alt="Product Image" /></a>
                       </div>
                       <div class="cart_single_caption pl-2">
                           <h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Solid A-Line Dress</h4>
@@ -60,27 +57,21 @@
                           <h4 class="fs-md ft-medium mb-0 lh-1">$100</h4>
                       </div>
                   </div>
-                  <div class="fls_last"><button class="close_slide gray"><i
+                  <div class="fls_last"><button class="close_slide gray" aria-label="{{ __('close') }}"><i
                               class="ti-close"></i></button></div>
               </div>
 
           </div>
 
-          <div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
-              <h6 class="mb-0">Subtotal</h6>
-              <h3 class="mb-0 ft-medium">$1023</h3>
-          </div>
-
-          <div class="cart_action px-3 py-3">
+          <div class="cart_action px-3 py-4">
               <div class="form-group">
-                  <button type="button" class="btn d-block full-width btn-dark">Checkout Now</button>
+                  <p class="mb-0 text-center"><span class="text-dark ft-medium">Subtotal</span> $500</p>
               </div>
-              <div class="form-group">
-                  <button type="button" class="btn d-block full-width btn-dark-light">Edit or
-                      View</button>
-              </div>
+              <a href="{{ route('cart') }}" class="btn btn-block btn-dark mb-2">View Cart</a>
           </div>
 
       </div>
   </div>
+  </div>
+</div>
 </div>

@@ -42,7 +42,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/tshirt.png" class="img-fluid" width="40"
-                                                    alt="" /></a></div>
+                                                    alt="T-Shirts category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">T-Shirts</a></h6>
@@ -56,7 +56,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/pant.png" class="img-fluid" width="40"
-                                                    alt="" /></a></div>
+                                                    alt="Pants category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Pants</a></h6>
@@ -70,7 +70,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/fashion.png" class="img-fluid"
-                                                    width="40" alt="" /></a></div>
+                                                    width="40" alt="Women's fashion category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Women's</a></h6>
@@ -84,7 +84,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/sneakers.png" class="img-fluid"
-                                                    width="40" alt="" /></a></div>
+                                                    width="40" alt="Shoes category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Shoes</a></h6>
@@ -98,7 +98,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/television.png" class="img-fluid"
-                                                    width="40" alt="" /></a></div>
+                                                    width="40" alt="Television category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Television</a>
@@ -113,7 +113,7 @@
                                             class="d-inline-flex align-items-center justify-content-center p-3 circle mb-2 gray">
                                             <a href="javascript:void(0);" class="d-block"><img
                                                     src="/assets-user/img/accessories.png" class="img-fluid"
-                                                    width="40" alt="" /></a></div>
+                                                    width="40" alt="Accessories category" /></a></div>
                                     </div>
                                     <div class="sl_cat_02">
                                         <h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Accessories</a>
