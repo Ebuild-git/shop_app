@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class FormUpdateCategorie extends Component
 {
     use WithFileUploads;
-    public $categorie, $titre, $icon, $title_ar, $title_en, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon,$apercu_small_icon, $active;
+    public $categorie, $titre, $icon, $title_ar, $title_en, $description, $photo, $actu_photo, $id, $pourcentage_gain, $proprietes, $list_regions, $small_icon, $apercu_small_icon, $active;
     public $region_prix = [];
 
     public function mount($id)
@@ -45,7 +45,7 @@ class FormUpdateCategorie extends Component
                 ->first();
             $this->region_prix[] = [
                 "id_region" => $regi->id,
-                "nom"  => $regi->nom,
+                "nom" => $regi->nom,
                 "prix" => isset($data->prix) ? number_format($data->prix, 2, '.', '') : null,
             ];
         }
@@ -74,7 +74,7 @@ class FormUpdateCategorie extends Component
 
             if ($this->photo) {
                 Storage::disk('public')->delete($categorie->icon);
-                $newName = $this->photo->store('uploads/categories', 'public');
+                $newName = \App\Services\ImageService::uploadAndConvert($this->photo, 'uploads/categories');
                 $categorie->icon = $newName;
             }
 
@@ -82,7 +82,7 @@ class FormUpdateCategorie extends Component
                 if ($categorie->small_icon) {
                     Storage::disk('public')->delete($categorie->small_icon);
                 }
-                $newName = $this->small_icon->store('uploads/categories', 'public');
+                $newName = \App\Services\ImageService::uploadAndConvert($this->small_icon, 'uploads/categories');
                 $categorie->small_icon = $newName;
             }
 
@@ -105,10 +105,10 @@ class FormUpdateCategorie extends Component
                 }
             }
             session()->flash('success', "La catégorie a été modifiée avec succès");
-            $this->dispatch('alert', ['message' => "La catégorie a été modifiée avec succès",'type'=>'success']);
+            $this->dispatch('alert', ['message' => "La catégorie a été modifiée avec succès", 'type' => 'success']);
         } catch (\Exception $e) {
             session()->flash('error', 'Une erreur est survenue lors de la modification de la catégorie');
-            $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la modification de la catégorie",'type'=>'info']);
+            $this->dispatch('alert', ['message' => "Une erreur est survenue lors de la modification de la catégorie", 'type' => 'info']);
 
         }
     }

@@ -45,7 +45,7 @@ class UpdateCordonnées extends Component
             'bank_name' => 'required|string',
             'titulaire_name' => 'required|string',
             'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
-        ],[
+        ], [
             'rib_number.required' => __('rib_number_required'),
             'rib_number.min' => __('rib_number_min'),
             'rib_number.size' => __('rib_number_size'),
@@ -90,7 +90,7 @@ class UpdateCordonnées extends Component
             }
 
             if ($this->cin_img) {
-                $path = $this->cin_img->store('cin_images', 'public');
+                $path = \App\Services\ImageService::uploadAndConvert($this->cin_img, 'cin_images');
                 $user->cin_img = $path;
                 $user->cin_approved = false;
                 $changes = true;

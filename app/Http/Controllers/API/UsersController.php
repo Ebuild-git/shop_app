@@ -13,6 +13,8 @@ use App\Models\configurations;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -188,7 +190,7 @@ class UsersController extends Controller
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $path = $request->file('avatar')->store('uploads/avatars', 'public');
+            $path = \App\Services\ImageService::uploadAndConvert($request->file('avatar'), 'uploads/avatars');
             $user->avatar = $path;
 
             $config = configurations::first();
@@ -220,7 +222,7 @@ class UsersController extends Controller
         }
 
 
-        if ($request->filled(['jour','mois','annee'])) {
+        if ($request->filled(['jour', 'mois', 'annee'])) {
             $date = Carbon::create($request->annee, $request->mois, $request->jour);
 
             if ($date->diffInYears(now()) < 18) {
@@ -232,8 +234,16 @@ class UsersController extends Controller
         }
 
         foreach ([
-            'firstname','lastname','phone_number','region','address','rue',
-            'nom_batiment','etage','num_appartement', 'voyage_mode'
+            'firstname',
+            'lastname',
+            'phone_number',
+            'region',
+            'address',
+            'rue',
+            'nom_batiment',
+            'etage',
+            'num_appartement',
+            'voyage_mode'
         ] as $field) {
 
             if ($request->has($field)) {
@@ -276,7 +286,7 @@ class UsersController extends Controller
 
         if ($request->hasFile('cin_img')) {
 
-            $path = $request->file('cin_img')->store('cin_images', 'public');
+            $path = \App\Services\ImageService::uploadAndConvert($request->file('cin_img'), 'cin_images');
             $user->cin_img = $path;
             $user->cin_approved = false;
 
@@ -339,9 +349,9 @@ class UsersController extends Controller
                     "rib_number" => $decryptedRib,
                     "bank_name" => $user->bank_name,
                     "titulaire_name" => $user->titulaire_name,
-                    "avatar" => $user->avatar ? asset('storage/'.$user->avatar) : null,
-                    "cin_img" => $user->cin_img ? asset('storage/'.$user->cin_img) : null,
-                    "old_cin_images" => $user->old_cin_images ? asset('storage/'.$user->old_cin_images) : null,
+                    "avatar" => $user->avatar ? asset('storage/' . $user->avatar) : null,
+                    "cin_img" => $user->cin_img ? asset('storage/' . $user->cin_img) : null,
+                    "old_cin_images" => $user->old_cin_images ? asset('storage/' . $user->old_cin_images) : null,
                     "voyage_mode" => $user->voyage_mode,
                 ]
             ], 200);
@@ -419,8 +429,8 @@ class UsersController extends Controller
     public function send(Request $request)
     {
         $validated = $request->validate([
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|string',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string',
             'subject' => 'required|string',
             'message' => 'required|string',
         ]);
@@ -428,9 +438,9 @@ class UsersController extends Controller
         $configEmail = optional(configurations::first())->email ?? config('mail.from.address');
 
         $data = [
-            'name'        => $validated['name'],
-            'email'       => $validated['email'],
-            'subject'     => $validated['subject'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'subject' => $validated['subject'],
             'userMessage' => $validated['message'],
         ];
 

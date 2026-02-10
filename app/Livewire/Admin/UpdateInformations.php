@@ -12,14 +12,14 @@ class UpdateInformations extends Component
 {
     use WithFileUploads;
 
-    public $avatar,$avatar2, $firstname, $email;
+    public $avatar, $avatar2, $firstname, $email;
 
-   
+
 
     public function render()
     {
         $user = User::find(Auth::id());
-        if($user){
+        if ($user) {
             $this->firstname = $user->firstname;
             $this->email = $user->email;
             $this->avatar = $user->avatar;
@@ -38,7 +38,7 @@ class UpdateInformations extends Component
 
         //validations 
         $this->validate();
-       
+
 
         $user = User::find(Auth::id());
         if ($user) {
@@ -56,7 +56,7 @@ class UpdateInformations extends Component
                 if ($user->avatar) {
                     Storage::disk('public')->delete($user->avatar);
                 }
-                $newName = $this->avatar2->store('admin', 'public');
+                $newName = \App\Services\ImageService::uploadAndConvert($this->avatar2, 'admin');
                 $user->avatar = $newName;
             }
             $user->save();

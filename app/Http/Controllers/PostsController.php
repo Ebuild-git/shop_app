@@ -61,10 +61,10 @@ class PostsController extends Controller
     public function list_post()
     {
         $posts = posts::with("sous_categorie_info.categorie")
-        ->whereHas('user_info', function ($query) {
-            $query->where('voyage_mode', 0);
-        })
-        ->get();
+            ->whereHas('user_info', function ($query) {
+                $query->where('voyage_mode', 0);
+            })
+            ->get();
 
         $posts = $posts->map(function ($post) {
             $postData = $post->toArray();
@@ -72,7 +72,7 @@ class PostsController extends Controller
             if (!empty($postData['photos'])) {
                 $photos = $postData['photos'];
                 if (is_array($photos)) {
-                    $postData['photos'] = array_map(function($photo) {
+                    $postData['photos'] = array_map(function ($photo) {
                         $cleanPath = ltrim($photo, '/');
                         return asset('storage/' . $cleanPath);
                     }, $photos);
@@ -188,23 +188,23 @@ class PostsController extends Controller
     {
         try {
             $post = posts::with([
-                    'sous_categorie_info.categorie',
-                    'user_info' => function ($q) {
-                        $q->select(
-                            'id',
-                            'firstname',
-                            'lastname',
-                            'username',
-                            'avatar',
-                            'email',
-                            'voyage_mode'
-                        );
-                    }
-                ])
+                'sous_categorie_info.categorie',
+                'user_info' => function ($q) {
+                    $q->select(
+                        'id',
+                        'firstname',
+                        'lastname',
+                        'username',
+                        'avatar',
+                        'email',
+                        'voyage_mode'
+                    );
+                }
+            ])
                 ->findOrFail($id);
 
             $post->photos = collect($post->photos)->map(
-                fn ($photo) => asset('storage/' . $photo)
+                fn($photo) => asset('storage/' . $photo)
             );
 
             if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
@@ -304,11 +304,11 @@ class PostsController extends Controller
         }
 
         if ($request->hasFile('photos')) {
-            $images = $request->file('photo');
+            $uploadedFiles = $request->file('photos');
             $images = [];
-            foreach ($images as $image) {
-                $image = $this->upload_trait($image);
-                array_push($images, $image);
+            foreach ($uploadedFiles as $image) {
+                $path = \App\Services\ImageService::uploadAndConvert($image, 'uploads/posts');
+                $images[] = $path;
             }
         }
         $post = new posts();
@@ -383,11 +383,11 @@ class PostsController extends Controller
         $post->category_id = $request->input("categorie");
 
         if ($request->hasFile('photos')) {
-            $images = $request->file('photo');
+            $uploadedFiles = $request->file('photos');
             $images = [];
-            foreach ($images as $image) {
-                $image = $this->upload_trait($image);
-                array_push($images, $image);
+            foreach ($uploadedFiles as $image) {
+                $path = \App\Services\ImageService::uploadAndConvert($image, 'uploads/posts');
+                $images[] = $path;
             }
         }
         $post->save();

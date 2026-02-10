@@ -13,7 +13,7 @@ use Livewire\Component;
 class FormCreateCategorie extends Component
 {
     use WithFileUploads;
-    public $titre, $description, $photo, $title_ar, $title_en,  $pourcentage_gain, $list_regions,$small_icon, $active = true;
+    public $titre, $description, $photo, $title_ar, $title_en, $pourcentage_gain, $list_regions, $small_icon, $active = true;
 
     public $regions = [];
     protected $listeners = ['regionCreated' => '$refresh'];
@@ -38,7 +38,7 @@ class FormCreateCategorie extends Component
             'active' => 'boolean',
         ]);
 
-        $newName = $this->photo->store('uploads/categories', 'public');
+        $newName = \App\Services\ImageService::uploadAndConvert($this->photo, 'uploads/categories');
 
         $categorie = new categories();
         $categorie->titre = $this->titre;
@@ -49,7 +49,7 @@ class FormCreateCategorie extends Component
         $categorie->pourcentage_gain = $this->pourcentage_gain ?? 0;
         $categorie->active = $this->active;
         if ($this->small_icon) {
-            $categorie->small_icon = $this->small_icon->store('uploads/categories', 'public');
+            $categorie->small_icon = \App\Services\ImageService::uploadAndConvert($this->small_icon, 'uploads/categories');
         }
 
         if ($categorie->save()) {
@@ -57,17 +57,17 @@ class FormCreateCategorie extends Component
                 $regions_categorie = new regions_categories();
                 $regions_categorie->id_region = $cle;
                 $regions_categorie->id_categorie = $categorie->id;
-                $regions_categorie->prix =  $valeur;
+                $regions_categorie->prix = $valeur;
                 $regions_categorie->save();
             }
             $this->reset(['titre', 'description', 'photo', 'title_en', 'title_ar']);
             session()->flash("success", "La catégorie a été ajoutée avec succès");
-            $this->dispatch('alert', ['message' => "La catégorie a été ajoutée avec succès",'type'=>'success']);
+            $this->dispatch('alert', ['message' => "La catégorie a été ajoutée avec succès", 'type' => 'success']);
             $this->list_regions = "";
             $this->dispatch('categorieCreated');
         } else {
             session()->flash("error", "Une erreur est survenue lors de l'ajout de la catégorie. Veuillez réessayer plus tard.");
-            $this->dispatch('alert', ['message' => "Une erreur est survenue !",'type'=>'info']);
+            $this->dispatch('alert', ['message' => "Une erreur est survenue !", 'type' => 'info']);
         }
     }
 }

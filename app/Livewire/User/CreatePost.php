@@ -176,7 +176,8 @@ class CreatePost extends Component
         logger('validateCategoryPrice called');
 
         $category = categories::find($this->selectedCategory);
-        if (!$category) return;
+        if (!$category)
+            return;
 
         if ($category->luxury && $this->prix < 800) {
             logger('luxury category and low price');
@@ -194,8 +195,8 @@ class CreatePost extends Component
     {
 
         $subcategoryRequired = DB::table('sous_categories')
-        ->where('id', $this->selectedSubcategory)
-        ->value('required');
+            ->where('id', $this->selectedSubcategory)
+            ->value('required');
         $subcategoryRequired = json_decode($subcategoryRequired ?? '[]', true);
         $requiredProps = [];
         if (is_array($subcategoryRequired)) {
@@ -242,30 +243,30 @@ class CreatePost extends Component
         $category = $sous_categorie->categorie;
 
 
-        $jsonProprietes = array_filter((array) $this->article_propriete, function($value) {
+        $jsonProprietes = array_filter((array) $this->article_propriete, function ($value) {
             return !empty($value);
         });
 
         $photos = [];
         if ($this->photo1) {
-            $name = $this->photo1->store('uploads/posts', 'public');
-            $photos[] = $name;
+            $path = \App\Services\ImageService::uploadAndConvert($this->photo1, 'uploads/posts');
+            $photos[] = $path;
         }
         if ($this->photo2) {
-            $name = $this->photo2->store('uploads/posts', 'public');
-            $photos[] = $name;
+            $path = \App\Services\ImageService::uploadAndConvert($this->photo2, 'uploads/posts');
+            $photos[] = $path;
         }
         if ($this->photo3) {
-            $name = $this->photo3->store('uploads/posts', 'public');
-            $photos[] = $name;
+            $path = \App\Services\ImageService::uploadAndConvert($this->photo3, 'uploads/posts');
+            $photos[] = $path;
         }
         if ($this->photo4) {
-            $name = $this->photo4->store('uploads/posts', 'public');
-            $photos[] = $name;
+            $path = \App\Services\ImageService::uploadAndConvert($this->photo4, 'uploads/posts');
+            $photos[] = $path;
         }
         if ($this->photo5) {
-            $name = $this->photo5->store('uploads/posts', 'public');
-            $photos[] = $name;
+            $path = \App\Services\ImageService::uploadAndConvert($this->photo5, 'uploads/posts');
+            $photos[] = $path;
         }
         if (count($photos) < 3) {
             $this->addError('photos', __('min_photos'));

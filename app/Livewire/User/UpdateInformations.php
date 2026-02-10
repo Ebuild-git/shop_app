@@ -18,7 +18,7 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public  $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement;
+    public $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement;
 
 
     public function mount()
@@ -53,15 +53,15 @@ class UpdateInformations extends Component
             'phone_number' => 'required|string|max:14',
             'region' => 'required|integer|exists:regions,id',
             'address' => 'required|nullable|max:255',
-            'rue'          => 'required|string|max:255',
+            'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
-            'etage'        => 'required|string|max:255',
+            'etage' => 'required|string|max:255',
             'num_appartement' => 'required|string|max:255',
-            'jour'         => 'required|integer|min:1|max:31',
-            'mois'         => 'required|integer|min:1|max:12',
-            'annee'        => 'required|integer',
+            'jour' => 'required|integer|min:1|max:31',
+            'mois' => 'required|integer|min:1|max:12',
+            'annee' => 'required|integer',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
-        ],[
+        ], [
             'required' => __('required'),
             'string' => __('string'),
             'avatar.max' => __('avatar_max'),
@@ -69,7 +69,7 @@ class UpdateInformations extends Component
             'email' => __('email_validation'),
         ]);
 
-        $date = \Carbon\Carbon::createFromDate( $this->annee, $this->mois, $this->jour);
+        $date = \Carbon\Carbon::createFromDate($this->annee, $this->mois, $this->jour);
         $age = $date->diffInYears(\Carbon\Carbon::now());
         if ($age < 13) {
             $this->addError('jour', __('must_be_13'));
@@ -88,7 +88,7 @@ class UpdateInformations extends Component
         if ($this->avatar) {
             Storage::disk('public')->delete($user->avatar);
 
-            $newName = $this->avatar->store('uploads/avatars', 'public');
+            $newName = \App\Services\ImageService::uploadAndConvert($this->avatar, 'uploads/avatars');
             $user->avatar = $newName;
 
 
@@ -113,7 +113,7 @@ class UpdateInformations extends Component
             }
         }
 
-        $user->phone_number =  str_replace(' ', '', $this->phone_number);
+        $user->phone_number = str_replace(' ', '', $this->phone_number);
         $user->region = $this->region;
         $user->address = $this->address;
         $user->birthdate = $date;
@@ -142,7 +142,7 @@ class UpdateInformations extends Component
             $isCurrentUser = Auth::id() == $user->id;
 
             $username = $user->username;
-            $userPk   = $user->id;
+            $userPk = $user->id;
 
             $user->email_deleted = $user->email;
             $user->username_deleted = $username;
