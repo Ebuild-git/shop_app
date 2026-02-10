@@ -2,7 +2,7 @@
 <div class="{{ $class }} cursor-pointer" onclick="document.location.href='/post/{{ $post->id }}'">
     <div class=" card ">
         <div class="pb-1 p-1">
-            <img src="{{ Storage::url($post->user_info->avatar)}}" style="height: 30px;width: 30px;border-radius: 100%" alt="">
+            <img src="{{ Storage::url($post->user_info->avatar)}}" style="height: 30px;width: 30px;border-radius: 100%" alt="{{ $post->user_info->name }}">
             <span class="small">
                 {{ $post->user_info->name }}
             </span>

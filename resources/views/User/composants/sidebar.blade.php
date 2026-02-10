@@ -67,7 +67,7 @@
     <div id="mySidenav" class="sidenav">
         <div class="side-head d-flex justify-content-between my-auto p-3">
             <div class="my-auto">
-                <img src="/icons/icone-blanc.png" height="20px" alt="">
+                <img src="/icons/icone-blanc.png" height="20px" alt="{{ config('app.name') }}">
                 @auth
                     Bonjour, {{ Auth::user()->name }}
                 @else
@@ -117,7 +117,7 @@
                 </div>
             @endforeach
         </div>
-        
+
         <script>
             function toggleSubCategories(categoryId) {
                 var subCatDiv = document.getElementById("sub-cat-" + categoryId);
@@ -128,7 +128,7 @@
                 }
             }
         </script>
-        
+
     </div>
 </div>
 <script>

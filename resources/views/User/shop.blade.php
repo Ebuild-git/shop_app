@@ -12,7 +12,7 @@
                 <div class="colxl-12 col-lg-12 col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/" aria-label="{{ __('home') }}"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 <a href="{{ route('shop') }}">
                                     {{ \App\Traits\TranslateTrait::TranslateText('Catégories') }}
@@ -170,7 +170,7 @@
                                                         <button class="d-flex p-1 justify-content-between btn w-100">
                                                             <div class="d-flex justify-content-start">
                                                                 <span>
-                                                                    <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" />
+                                                                    <img width="20" height="20" src="{{ Storage::url($categorie->small_icon) }}" alt="{{ $categorie->titre }}" />
                                                                     &nbsp;
                                                                 </span>
                                                                 <span>
@@ -212,8 +212,7 @@
                                                 @if ($selected_categorie)
                                                     @if (!$selected_sous_categorie)
                                                         <div class="card card-image-shop-categorie">
-                                                            <img src="{{ Storage::url($selected_categorie->icon) }}"
-                                                                alt="{{ $selected_categorie->icon }}" class="w-100">
+                                                            <img src="{{ Storage::url($selected_categorie->icon) }}" alt="{{ $selected_categorie->titre }}" class="w-100">
                                                         </div>
                                                         <div class="color p-1">
                                                             <a href="/shop?id_categorie={{ $selected_categorie->id }}" class="color">
@@ -387,7 +386,7 @@
 
                         <div class="scrollable-container">
                             @if (!$selected_sous_categorie_id)
-                                <button class="scroll-btn left" onclick="scrollToLeft()"><i class="bi bi-arrow-left-short"></i></button>
+                                <button class="scroll-btn left" onclick="scrollToLeft()" aria-label="{{ __('scroll_left') }}"><i class="bi bi-arrow-left-short"></i></button>
                             @endif
 
                             <div class="subcategory-card-wrapper scrollable-wrapper" id="category-cards">
@@ -398,7 +397,7 @@
 
                                                 <button class="category-btn d-flex flex-column align-items-center p-1" style="height: 120px;">
                                                     <div style="height: 30px;">
-                                                        <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" />
+                                                        <img class="category-icon" width="40" height="40" src="{{ Storage::url($categorie->small_icon) }}" alt="{{ $categorie->titre }}" />
                                                     </div>
                                                     <div style="height: 15px; margin-top: 5px;">
                                                         <span>
@@ -470,7 +469,7 @@
                             </div>
 
                             @if (!$selected_sous_categorie_id)
-                                <button class="scroll-btn right" onclick="scrollToRight()"><i class="bi bi-arrow-right-short"></i></button>
+                                <button class="scroll-btn right" onclick="scrollToRight()" aria-label="{{ __('scroll_right') }}"><i class="bi bi-arrow-right-short"></i></button>
                             @endif
                         </div>
 

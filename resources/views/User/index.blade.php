@@ -92,7 +92,7 @@
 
                                     <!-- Product Image -->
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
-                                        <img src="{{ Storage::url($lux->photos[0] ?? '') }}" alt="...">
+                                        <img src="{{ Storage::url($lux->photos[0] ?? '') }}" alt="{{ $lux->titre }}">
                                     </a>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
 
                                     <!-- Product Image -->
                                     <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
-                                        <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="...">
+                                        <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="{{ $last->titre }}">
                                     </a>
                                 </div>
                             </div>

@@ -11,9 +11,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="/"><i class="fas fa-home"></i></a>
-                            </li>
+                            <li class="breadcrumb-item"><a href="/" aria-label="{{ __('home') }}"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 <a href="{{ route('shopiners') }}">{{ __('Shopiners') }}</a>
                             </li>

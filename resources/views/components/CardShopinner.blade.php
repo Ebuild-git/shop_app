@@ -31,12 +31,12 @@
                     @auth
                         @if ($user->id !== auth()->id())  <!-- Check if the user is not the auth user -->
                             @if (auth()->user()->pings()->where('pined', $user->id)->exists())
-                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
-                                    <img src="/icons/icons8.png" height="20" width="20" alt="">
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor" aria-label="{{ __('ping') }}">
+                                    <img src="/icons/icons8.png" height="20" width="20" alt="{{ __('ping') }}">
                                 </button>
                             @else
-                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor">
-                                    <img src="/icons/icons9.png" height="20" width="20" alt="">
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor" aria-label="{{ __('ping') }}">
+                                    <img src="/icons/icons9.png" height="20" width="20" alt="{{ __('ping') }}">
                                 </button>
                             @endif
                         @endif

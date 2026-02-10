@@ -3,7 +3,7 @@
 
     <div class="header-titre-create">
         <div class="align-self-start ">
-            <img src="/icons/icons8-1-100.png" alt="" height="40" width="40" srcset="">
+            <img src="/icons/icons8-1-100.png" alt="{{ __('choose_images') }}" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
                 <b>{{ __('choose_images')}}</b>
             </span>
@@ -130,7 +130,7 @@
 
     <div class="header-titre-create">
         <div class="align-self-start ">
-            <img src="/icons/icons8-2-100.png" alt="" height="40" width="40" srcset="">
+            <img src="/icons/icons8-2-100.png" alt="{{ __('add_more_details') }}" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
                 <b>{{ __('add_more_details')}}</b>
             </span>
@@ -378,7 +378,7 @@
 
     <div class="header-titre-create">
         <div class="align-self-start ">
-            <img src="/icons/icons8-3-100.png" alt="" height="40" width="40" srcset="">
+            <img src="/icons/icons8-3-100.png" alt="{{ __('description') }}" height="40" width="40" srcset="">
             <span class="h6" class="color my-auto">
                 <b>{{ __('description')}}</b>
             </span>
@@ -812,7 +812,7 @@
 
                     @else
                         <div class="p-2 text-center">
-                            <img src="/icons/icons8-preview-58.png" alt="" srcset="">
+                            <img src="/icons/icons8-preview-58.png" alt="{{ __('preview') }}" srcset="">
                         </div>
                     @endif
                 </div>

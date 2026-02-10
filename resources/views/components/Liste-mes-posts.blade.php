@@ -24,7 +24,7 @@
                 <tr id="tr-post-{{ $item->id }}">
                     <th scope="row">
                         <div class="avatar-small-product">
-                            <img src="{{ $item->FirstImage() }}" alt="avatar">
+                            <img src="{{ $item->FirstImage() }}" alt="{{ $item->titre }}">
                         </div>
                     </th>
                     <td>

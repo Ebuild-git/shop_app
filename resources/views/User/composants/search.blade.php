@@ -4,7 +4,7 @@
                 <div class="rightMenu-scroll">
                     <div class="d-flex align-items-center justify-content-between slide-head py-3 px-3">
                         <h4 class="cart_heading fs-md ft-medium mb-0">Search Products</h4>
-                        <button onclick="closeSearch()" class="close_slide"><i class="ti-close"></i></button>
+                        <button onclick="closeSearch()" class="close_slide" aria-label="{{ __('close') }}"><i class="ti-close"></i></button>
                     </div>
 
                     <div class="cart_action px-3 py-4">
