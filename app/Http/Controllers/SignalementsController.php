@@ -19,11 +19,11 @@ class SignalementsController extends Controller
         $date = $request->input('date');
         $keyword = $request->input('keyword');
         $query = posts::with(['signalements.auteur'])
-        ->withCount('signalements')
-        ->has('signalements')
-        ->join('signalements', 'signalements.id_post', '=', 'posts.id')
-        ->select('posts.*')
-        ->orderBy('signalements.created_at', 'desc');
+            ->withCount('signalements')
+            ->has('signalements')
+            ->join('signalements', 'signalements.id_post', '=', 'posts.id')
+            ->select('posts.*')
+            ->orderBy('signalements.created_at', 'desc');
 
         if ($date) {
             $query->whereDate('created_at', $date);
@@ -32,22 +32,22 @@ class SignalementsController extends Controller
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('id', 'like', '%' . $keyword . '%')
-                  ->orWhere('titre', 'like', '%' . $keyword . '%')
-                  ->orWhereHas('user_info', function ($query) use ($keyword) {
-                      $query->where('username', 'like', '%' . $keyword . '%');
-                  })
-                  ->orWhereHas('signalements', function ($query) use ($keyword) {
-                      $query->whereHas('auteur', function ($q) use ($keyword) {
-                          $q->where('username', 'like', '%' . $keyword . '%');
-                      });
-                  });
+                    ->orWhere('titre', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('user_info', function ($query) use ($keyword) {
+                        $query->where('username', 'like', '%' . $keyword . '%');
+                    })
+                    ->orWhereHas('signalements', function ($query) use ($keyword) {
+                        $query->whereHas('auteur', function ($q) use ($keyword) {
+                            $q->where('username', 'like', '%' . $keyword . '%');
+                        });
+                    });
             });
         }
         $posts = $query->paginate(50);
         return view('Admin.publications.signalements')
-        ->with("date",$date)
-        ->with("keyword", $keyword)
-        ->with('posts', $posts);
+            ->with("date", $date)
+            ->with("keyword", $keyword)
+            ->with('posts', $posts);
     }
 
     public function liste_signalement_publications($id_post)
@@ -105,6 +105,35 @@ class SignalementsController extends Controller
 
             // Optionally dispatch any events here (if needed)
             event(new UserEvent($post->id_user));
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                "{$greeting} " . $post->user_info->username,
+                "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $motif_suppression,
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_deleted',
+                    'post_id' => $post->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_deleted'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
 
             $post->delete();
 

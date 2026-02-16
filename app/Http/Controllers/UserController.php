@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         if (isset($request->type)) {
             $type = $request->type;
-        } else if ($request->type != "all"  && $request->type != "shop") {
+        } else if ($request->type != "all" && $request->type != "shop") {
             $type = "all";
         } else {
             $type = "all";
@@ -31,16 +31,16 @@ class UserController extends Controller
         $type = "all";
         $locked = "yes";
         return view("Admin.clients.index")
-        ->with("type", $type)
-        ->with("locked", $locked);
+            ->with("type", $type)
+            ->with("locked", $locked);
     }
     public function liste_utilisateurs_supprime(Request $request)
     {
         $type = "all";
         $showTrashed = "yes";
         return view("Admin.clients.index")
-        ->with("type", $type)
-        ->with("showTrashed", $showTrashed);
+            ->with("type", $type)
+            ->with("showTrashed", $showTrashed);
     }
 
     public function details_user(Request $request)
@@ -75,13 +75,42 @@ class UserController extends Controller
         //make notification
         $notification = new notifications();
         $notification->titre = "Votre photo de profile a été validé !";
-        $notification->id_user_destination  = $user->id;
+        $notification->id_user_destination = $user->id;
         $notification->type = "alerte";
         $notification->url = "/informations";
         $notification->destination = "user";
         $notification->id_user = $user->id;
         $notification->message = "Nous vous informons que votre photo de profile a été validé par les administrateurs.";
         $notification->save();
+
+        // Send FCM notification
+        $fcmService = app(\App\Services\FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $user->id,
+            "Votre photo de profile a été validé !",
+            "Nous vous informons que votre photo de profile a été validé par les administrateurs.",
+            [
+                'type' => 'alerte',
+                'notification_id' => $notification->id,
+                'destination' => 'user',
+                'action' => 'photo_validated',
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'type' => 'photo_validated'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id' => $user->id,
+                'notification_id' => $notification->id,
+                'reason' => 'User has no FCM token or token invalid'
+            ]);
+        }
+
         return back()->with('success', 'La photo de profil a été validée avec succès.');
     }
 
@@ -111,7 +140,8 @@ class UserController extends Controller
         }
     }
 
-    public function politique(){
+    public function politique()
+    {
         return view('User.politique-confidentialite');
     }
 }

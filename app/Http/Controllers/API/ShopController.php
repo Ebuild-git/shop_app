@@ -93,8 +93,8 @@ class ShopController extends Controller
         ]);
 
         $post = posts::where("id", $request->id)
-                    ->where("statut", "vente")
-                    ->first();
+            ->where("statut", "vente")
+            ->first();
 
         if (!$post) {
             return response()->json([
@@ -119,8 +119,8 @@ class ShopController extends Controller
         if ($request->action === "add") {
 
             $exists = UserCart::where('user_id', $user->id)
-                            ->where('post_id', $post->id)
-                            ->exists();
+                ->where('post_id', $post->id)
+                ->exists();
 
             if ($exists) {
                 return response()->json([
@@ -147,8 +147,8 @@ class ShopController extends Controller
         if ($request->action === "remove") {
 
             UserCart::where('user_id', $user->id)
-                    ->where('post_id', $post->id)
-                    ->delete();
+                ->where('post_id', $post->id)
+                ->delete();
 
             return response()->json([
                 'status' => true,
@@ -185,8 +185,16 @@ class ShopController extends Controller
 
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie",
-                         "posts.id", "posts.titre", "posts.photos", "posts.old_prix")
+                ->select(
+                    "categories.pourcentage_gain",
+                    "posts.prix",
+                    "posts.id_user",
+                    "posts.id_sous_categorie",
+                    "posts.id",
+                    "posts.titre",
+                    "posts.photos",
+                    "posts.old_prix"
+                )
                 ->where("posts.id", $item)
                 ->first();
 
@@ -217,14 +225,14 @@ class ShopController extends Controller
                 }
 
                 $articles_panier[] = [
-                    "id"        => $post->id,
-                    "titre"     => $post->titre,
-                    "prix"      => $post->getPrix(),
-                    "photo"     => $photoFullUrl,
-                    "vendeur"   => $post->user_info->username,
+                    "id" => $post->id,
+                    "titre" => $post->titre,
+                    "prix" => $post->getPrix(),
+                    "photo" => $photoFullUrl,
+                    "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
-                    "old_prix"  => $post->getOldPrix(),
-                    "frais"     => $fraisLivraison,
+                    "old_prix" => $post->getOldPrix(),
+                    "frais" => $fraisLivraison,
                 ];
 
                 $total += round($post->getPrix(), 3);
@@ -316,11 +324,12 @@ class ShopController extends Controller
             $post = posts::with('user_info')
                 ->join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
+                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id", "posts.titre", "posts.photos", "posts.old_prix")
                 ->where("posts.id", $item_id)
                 ->first();
 
-            if (!$post) continue;
+            if (!$post)
+                continue;
 
             $id_categorie = $post->id_sous_categorie ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie') : null;
             $id_region = $user->region ?? null;
@@ -329,14 +338,14 @@ class ShopController extends Controller
                 $regionCategory = regions_categories::where('id_region', $id_region)
                     ->where('id_categorie', $id_categorie)
                     ->first();
-                $frais = $regionCategory ? (float)$regionCategory->prix : 0;
+                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
             }
 
             $articles_panier[] = [
                 "id" => $post->id,
                 "titre" => $post->titre,
                 "prix" => $post->getPrix(),
-                "photo" => config('app.url').\Storage::url($post->photos[0]),
+                "photo" => config('app.url') . \Storage::url($post->photos[0]),
                 "vendeur" => $post->user_info->username,
                 "is_solder" => $post->old_prix ? true : false,
                 "old_prix" => $post->old_prix
@@ -414,13 +423,14 @@ class ShopController extends Controller
         $articles_panier = [];
         foreach ($cartItemIds as $id) {
             $post = posts::with('user_info')->find($id);
-            if (!$post) continue;
+            if (!$post)
+                continue;
 
             $articles_panier[] = [
                 'id' => $post->id,
                 'titre' => $post->titre,
                 'prix' => $post->getPrix(),
-                "photo" => config('app.url').Storage::url($post->photos[0]),
+                "photo" => config('app.url') . Storage::url($post->photos[0]),
                 'vendeur' => $post->user_info->username,
                 'old_prix' => $post->old_prix
             ];
@@ -440,7 +450,8 @@ class ShopController extends Controller
 
         foreach ($articles_panier as $article) {
             $post = posts::find($article['id']);
-            if (!$post) continue;
+            if (!$post)
+                continue;
 
             $post->update([
                 'statut' => 'préparation',
@@ -458,7 +469,7 @@ class ShopController extends Controller
                 $regionCategory = regions_categories::where('id_region', $id_region)
                     ->where('id_categorie', $id_categorie)
                     ->first();
-                $frais = $regionCategory ? (float)$regionCategory->prix : 0;
+                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
             }
 
             if (!isset($vendorsCounted[$post->id_user])) {
@@ -518,6 +529,35 @@ class ShopController extends Controller
         $notification->save();
 
         event(new UserEvent($buyer->id));
+
+        // Send FCM notification
+        $fcmService = app(\App\Services\FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $buyer->id,
+            "Order Confirmed",
+            "Dear customer, your order has been successfully confirmed. Your order ID is 'CMD-' . $order->id",
+            [
+                'type' => 'alerte',
+                'notification_id' => $notification->id,
+                'destination' => 'user',
+                'action' => 'order_confirmed',
+                'order_id' => $order->id,
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id' => $buyer->id,
+                'notification_id' => $notification->id,
+                'type' => 'order_confirmed'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id' => $buyer->id,
+                'notification_id' => $notification->id,
+                'reason' => 'User has no FCM token or token invalid'
+            ]);
+        }
     }
 
     private function notifySellers($buyer, $articles)
@@ -528,10 +568,12 @@ class ShopController extends Controller
 
         foreach ($vendeurUsernames as $username) {
             $seller = $vendeurs[$username] ?? null;
-            if (!$seller) continue;
+            if (!$seller)
+                continue;
 
             $articlesPourCeVendeur = array_filter($articles, fn($a) => $a['vendeur'] === $username);
-            if (empty($articlesPourCeVendeur)) continue;
+            if (empty($articlesPourCeVendeur))
+                continue;
 
             $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur);
 
@@ -599,6 +641,37 @@ class ShopController extends Controller
         $notification->save();
 
         event(new UserEvent($seller->id));
+
+        // Send FCM notification
+        $fcmService = app(\App\Services\FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $seller->id,
+            'A new order!',
+            strip_tags(
+                "{$salutation} {$seller->username}, your item {$postTitles} has been ordered by {$buyerPseudo}. Please prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item. Thank you for confirming or updating your bank details (RIB) so we can transfer the funds when the sale process is complete."
+            ),
+            [
+                'type' => 'alerte',
+                'notification_id' => $notification->id,
+                'destination' => 'user',
+                'action' => 'new_order',
+                'buyer_username' => $buyerPseudo,
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id' => $seller->id,
+                'notification_id' => $notification->id,
+                'type' => 'new_order'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id' => $seller->id,
+                'notification_id' => $notification->id,
+                'reason' => 'User has no FCM token or token invalid'
+            ]);
+        }
     }
 
     private function notifyAdminAboutPurchase($buyer, $itemCount)
@@ -705,26 +778,26 @@ class ShopController extends Controller
         $order = Order::with([
             'buyer:id,username,email',
             'items' => function ($q) {
-                        $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
-                        ->with([
-                            'post:id,titre,photos,statut'
-                        ]);
-                    }
-                ])->find($id);
+                $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
+                    ->with([
+                        'post:id,titre,photos,statut'
+                    ]);
+            }
+        ])->find($id);
 
-                if (!$order) {
-                    return response()->json(['error' => 'Order not found'], 404);
-                }
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
 
-                return response()->json([
-                    'order_id'            => $order->id,
-                    'buyer'               => $order->buyer,
-                    'status'              => $order->status,
-                    'state'               => $order->state,
-                    'total'               => $order->total,
-                    'total_delivery_fees' => $order->total_delivery_fees,
+        return response()->json([
+            'order_id' => $order->id,
+            'buyer' => $order->buyer,
+            'status' => $order->status,
+            'state' => $order->state,
+            'total' => $order->total,
+            'total_delivery_fees' => $order->total_delivery_fees,
 
-                    'items' => $order->items->map(function ($item) {
+            'items' => $order->items->map(function ($item) {
 
                 $photos = [];
                 if ($item->post) {
@@ -738,16 +811,16 @@ class ShopController extends Controller
                 $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
 
                 return [
-                    'post_id'      => $item->post_id,
-                    'vendor_id'    => $item->vendor_id,
-                    'price'        => $item->price,
+                    'post_id' => $item->post_id,
+                    'vendor_id' => $item->vendor_id,
+                    'price' => $item->price,
                     'delivery_fee' => $item->delivery_fee,
-                    'status'       => $item->status,
-                    'shipment_id'  => $item->shipment_id,
+                    'status' => $item->status,
+                    'shipment_id' => $item->shipment_id,
 
                     'post' => [
-                        'title'  => $item->post->titre ?? null,
-                        'image'  => $photoUrl,
+                        'title' => $item->post->titre ?? null,
+                        'image' => $photoUrl,
                         'statut' => $item->post->statut ?? null,
                     ],
                 ];
@@ -830,20 +903,20 @@ class ShopController extends Controller
                 'buyer:id,username,email',
                 'items' => function ($q) {
                     $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
-                    ->with(['post:id,titre,photos,statut']);
+                        ->with(['post:id,titre,photos,statut']);
                 }
             ])
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($order) {
                 return [
-                    'order_id'            => $order->id,
-                    'status'              => $order->status,
-                    'state'               => $order->state,
-                    'total'               => $order->total,
+                    'order_id' => $order->id,
+                    'status' => $order->status,
+                    'state' => $order->state,
+                    'total' => $order->total,
                     'total_delivery_fees' => $order->total_delivery_fees,
-                    'updated_at'          => $order->updated_at,
-                    'items'               => $order->items->map(function ($item) {
+                    'updated_at' => $order->updated_at,
+                    'items' => $order->items->map(function ($item) {
                         $photos = [];
                         if ($item->post) {
                             $photos = is_string($item->post->photos)
@@ -854,15 +927,15 @@ class ShopController extends Controller
                         $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
 
                         return [
-                            'post_id'      => $item->post_id,
-                            'vendor_id'    => $item->vendor_id,
-                            'price'        => $item->price,
+                            'post_id' => $item->post_id,
+                            'vendor_id' => $item->vendor_id,
+                            'price' => $item->price,
                             'delivery_fee' => $item->delivery_fee,
-                            'status'       => $item->status,
-                            'shipment_id'  => $item->shipment_id,
+                            'status' => $item->status,
+                            'shipment_id' => $item->shipment_id,
                             'post' => [
-                                'title'  => $item->post->titre ?? null,
-                                'image'  => $photoUrl,
+                                'title' => $item->post->titre ?? null,
+                                'image' => $photoUrl,
                                 'statut' => $item->post->statut ?? null,
                             ],
                         ];

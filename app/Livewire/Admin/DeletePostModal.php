@@ -38,12 +38,41 @@ class DeletePostModal extends Component
             //generer une notification
             $notification = new notifications();
             $notification->titre = "Cher(e) " . $post->user_info->username;
-            $notification->id_user_destination  =  $post->id_user;
+            $notification->id_user_destination = $post->id_user;
             $notification->type = "alerte";
             $notification->url = "#";
             $notification->message = "Votre annonce pour  " . $post->titre . " a été retirée par l'équipe de SHOPIN La raison de la suppression est la suivante: <b>" . $this->motif . "</b> <br/> Merci pour votre compréhension. ";
             $notification->save();
             event(new UserEvent($post->id_user));
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                "Cher(e) " . $post->user_info->username,
+                "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif,
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_deleted',
+                    'post_id' => $post->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_deleted'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
 
             $post->delete();
             //dispatch event

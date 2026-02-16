@@ -49,9 +49,9 @@ class DetailsPublicationAction extends Component
             //make notification
             $notification = new notifications();
             $notification->titre = "Votre publication a été validé !";
-            $notification->id_user_destination  = $post->id_user;
+            $notification->id_user_destination = $post->id_user;
             $notification->type = "alerte";
-            $notification->url = "/post/".$post->id;
+            $notification->url = "/post/" . $post->id;
             $notification->id_post = $post->id;
             $notification->destination = "user";
             $notification->id_user = $post->id_user;
@@ -60,6 +60,35 @@ class DetailsPublicationAction extends Component
                 $post->titre
             </a> a été validé par les administrateurs.";
             $notification->save();
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                "Votre publication a été validé !",
+                "Nous vous informons que votre publication " . $post->titre . " a été validé par les administrateurs.",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_validated',
+                    'post_id' => $post->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_validated'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
 
 
             // Message de succès
@@ -73,35 +102,66 @@ class DetailsPublicationAction extends Component
 
     public function remettre()
     {
-    $post = posts::find($this->post->id);
-    if ($post) {
-        $post->update([
-            'sell_at' => null,
-            'id_user_buy' => null,
-            'statut' => 'vente',
-        ]);
+        $post = posts::find($this->post->id);
+        if ($post) {
+            $post->update([
+                'sell_at' => null,
+                'id_user_buy' => null,
+                'statut' => 'vente',
+            ]);
 
-        event(new UserEvent($post->id_user));
+            event(new UserEvent($post->id_user));
 
-        $notification = new notifications();
-        $notification->titre = "Une vente a été retournée";
-        $notification->id_user_destination = $post->id_user;
-        $notification->type = "alerte";
-        $notification->url = "/post/" . $post->id;
-        $notification->message = "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !";
-        $notification->save();
-        session()->flash('success', 'La publication a bien été remise');
+            $notification = new notifications();
+            $notification->titre = "Une vente a été retournée";
+            $notification->id_user_destination = $post->id_user;
+            $notification->type = "alerte";
+            $notification->url = "/post/" . $post->id;
+            $notification->message = "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !";
+            $notification->save();
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                "Une vente a été retournée",
+                "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_returned_to_sale',
+                    'post_id' => $post->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_returned_to_sale'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
+            session()->flash('success', 'La publication a bien été remise');
         } else {
             // Show error message
             session()->flash("error", "Une erreur est survenue, veuillez réessayer plus tard.");
         }
     }
 
-    public function refuser(){
+    public function refuser()
+    {
 
     }
 
-    public function mark_as_livrer(){
+    public function mark_as_livrer()
+    {
         $post = posts::find($this->post->id);
         if ($post) {
             //update post
@@ -145,6 +205,35 @@ class DetailsPublicationAction extends Component
                 ";
                 $notification->save();
                 event(new UserEvent($post->id_user));
+
+                // Send FCM notification
+                $fcmService = app(\App\Services\FcmService::class);
+                $sent = $fcmService->sendToUser(
+                    $post->id_user,
+                    "{$greeting} " . $post->user_info->username,
+                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
+                    [
+                        'type' => 'alerte',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'post_deleted',
+                        'post_id' => $post->id,
+                    ]
+                );
+
+                if ($sent) {
+                    \Log::info("FCM notification sent successfully", [
+                        'user_id' => $post->id_user,
+                        'notification_id' => $notification->id,
+                        'type' => 'post_deleted'
+                    ]);
+                } else {
+                    \Log::warning("FCM notification failed to send", [
+                        'user_id' => $post->id_user,
+                        'notification_id' => $notification->id,
+                        'reason' => 'User has no FCM token or token invalid'
+                    ]);
+                }
 
                 $post->delete();
                 session()->flash('success', 'La publication a été supprimée avec succès !');

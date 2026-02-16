@@ -39,6 +39,34 @@ class InformationsController extends Controller
                 $notification->destination = "user";
                 $notification->message = "Nous vous informons que votre photo de profil a été validé par les administrateurs";
                 $notification->save();
+
+                // Send FCM notification
+                $fcmService = app(\App\Services\FcmService::class);
+                $sent = $fcmService->sendToUser(
+                    $user->id,
+                    "Votre photo de profil a été validé !",
+                    "Nous vous informons que votre photo de profil a été validé par les administrateurs",
+                    [
+                        'type' => 'alerte',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'photo_validated',
+                    ]
+                );
+
+                if ($sent) {
+                    \Log::info("FCM notification sent successfully", [
+                        'user_id' => $user->id,
+                        'notification_id' => $notification->id,
+                        'type' => 'photo_validated'
+                    ]);
+                } else {
+                    \Log::warning("FCM notification failed to send", [
+                        'user_id' => $user->id,
+                        'notification_id' => $notification->id,
+                        'reason' => 'User has no FCM token or token invalid'
+                    ]);
+                }
             } else {
                 $user->photo_verified_at = null;
             }
@@ -63,7 +91,7 @@ class InformationsController extends Controller
             'instagram' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
             'email_send_message' => ['nullable', 'email'],
-            'logo'  => 'nullable|image|mimes:jpg,png,jpeg,webp|max:4048',
+            'logo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:4048',
         ]);
 
 
@@ -80,7 +108,7 @@ class InformationsController extends Controller
         $config->linkedin = $request->linkedin;
         $config->tiktok = $request->tiktok;
         $config->adresse = $request->adresse;
-        $config->phone_number   = $request->telephone;
+        $config->phone_number = $request->telephone;
         $config->email = $request->email;
         $config->valider_publication = $request->valider_publication ? true : false;
         $config->valider_photo = $request->valider_photo ? true : false;

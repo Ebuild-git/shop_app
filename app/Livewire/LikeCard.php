@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class LikeCard extends Component
 {
-    public $post,$total=0;
+    public $post, $total = 0;
     public $liked = false;
 
     public function mount($id)
@@ -63,6 +63,36 @@ class LikeCard extends Component
                 $notification->url = "/post/" . $this->post->id;
                 $notification->message = "@" . Auth::user()->username . " vient d'aimer votre publication";
                 $notification->save();
+
+                // Send FCM notification
+                $fcmService = app(\App\Services\FcmService::class);
+                $sent = $fcmService->sendToUser(
+                    $this->post->id_user,
+                    Auth::user()->username . " a aimé votre publication",
+                    "@" . Auth::user()->username . " vient d'aimer votre publication",
+                    [
+                        'type' => 'like',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'post_liked',
+                        'post_id' => $this->post->id,
+                        'liker_username' => Auth::user()->username,
+                    ]
+                );
+
+                if ($sent) {
+                    \Log::info("FCM notification sent successfully", [
+                        'user_id' => $this->post->id_user,
+                        'notification_id' => $notification->id,
+                        'type' => 'post_liked'
+                    ]);
+                } else {
+                    \Log::warning("FCM notification failed to send", [
+                        'user_id' => $this->post->id_user,
+                        'notification_id' => $notification->id,
+                        'reason' => 'User has no FCM token or token invalid'
+                    ]);
+                }
             }
         }
     }

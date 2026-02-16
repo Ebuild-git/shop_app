@@ -32,7 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'last_login_at',
         'locale',
         'email_deleted', 'region', 'address', 'rue',
-        'nom_batiment', 'etage', 'num_appartement', 'phone_number'
+        'nom_batiment', 'etage', 'num_appartement', 'phone_number', 'fcm_token'
     ];
 
     /**

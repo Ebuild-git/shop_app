@@ -194,6 +194,33 @@ class AdminController extends Controller
             $notification->save();
 
 
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $user->id,
+                "Your national identity card has been approved!",
+                "We inform you that your national identity card has been approved by the administrators.",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'cin_approved',
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $user->id,
+                    'notification_id' => $notification->id,
+                    'type' => 'cin_approved'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $user->id,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'CIN approved successfully.'
@@ -205,6 +232,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
     public function markAsRead($id)
     {
         $notification = notifications::findOrFail($id);

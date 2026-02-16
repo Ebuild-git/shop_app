@@ -10,6 +10,7 @@ use App\Http\Controllers\API\shopinerController;
 use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FcmController;
 use App\Http\Controllers\API\AddressController;
 use App\Http\Controllers\API\RatingController;
 use App\Models\User;
@@ -57,6 +58,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/fcm/register-token', [FcmController::class, 'registerToken']);
 
     //USERS
     Route::post('/logout', [AuthController::class, 'logout']);

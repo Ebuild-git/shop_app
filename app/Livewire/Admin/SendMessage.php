@@ -18,7 +18,7 @@ use Livewire\Component;
 
 class SendMessage extends Component
 {
-    public $email, $message, $sujet, $username,$post,$titre, $user_id, $gender, $post_id, $image;
+    public $email, $message, $sujet, $username, $post, $titre, $user_id, $gender, $post_id, $image;
     public $recipientEmail;
     protected $listeners = ['sendDataUser'];
 
@@ -63,8 +63,8 @@ class SendMessage extends Component
             'message' => 'required|string',
             'sujet' => 'required|string|max:200'
         ], [
-            "required" =>  "Le champ :attribute est requis.",
-            "string" =>   ":attribute doit être une chaîne de caractères.",
+            "required" => "Le champ :attribute est requis.",
+            "string" => ":attribute doit être une chaîne de caractères.",
         ]);
 
         $message = [
@@ -91,21 +91,50 @@ class SendMessage extends Component
                 $notification->type = "alerte";
                 $notification->url = "#";
                 $notification->message = "$salutation " . $this->username . ",<br>"
-                . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
-                . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
-                . "Le contenu du message est : {$this->message}.<br>"
-                . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
+                    . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
+                    . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
+                    . "Le contenu du message est : {$this->message}.<br>"
+                    . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
                 $notification->save();
                 event(new UserEvent($this->user_id));
+
+                // Send FCM notification
+                $fcmService = app(\App\Services\FcmService::class);
+                $sent = $fcmService->sendToUser(
+                    $this->user_id,
+                    "Nouveau message de l'equipe de Shopin !",
+                    "$salutation " . $this->username . ", Vous avez reçu un message avec le sujet: " . $this->sujet,
+                    [
+                        'type' => 'alerte',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'admin_message',
+                        'post_id' => $this->post_id,
+                    ]
+                );
+
+                if ($sent) {
+                    \Log::info("FCM notification sent successfully", [
+                        'user_id' => $this->user_id,
+                        'notification_id' => $notification->id,
+                        'type' => 'admin_message'
+                    ]);
+                } else {
+                    \Log::warning("FCM notification failed to send", [
+                        'user_id' => $this->user_id,
+                        'notification_id' => $notification->id,
+                        'reason' => 'User has no FCM token or token invalid'
+                    ]);
+                }
             }
             session()->flash("success", "Votre message a été envoyé avec succès.");
-            $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.",'type'=>'success']);
+            $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.", 'type' => 'success']);
             $this->dispatch('closeModal');
             $this->sujet = "";
             $this->message = "";
         } catch (Exception $e) {
             session()->flash("error", "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage());
-            $this->dispatch('alert', ['message' => "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage(),'type'=>'error']);
+            $this->dispatch('alert', ['message' => "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage(), 'type' => 'error']);
         }
     }
 }

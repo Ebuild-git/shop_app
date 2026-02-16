@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'firebase' => [
+        'credentials' => storage_path('app/firebase/shopin-6ba94-firebase-adminsdk-fbsvc-1de9c275f9.json'),
+    ],
+
 ];

@@ -27,28 +27,29 @@ use App\Models\OrdersItem;
 
 class Mode extends Component
 {
-    public $user,$articles_panier;
+    public $user, $articles_panier;
     // public $frais  = 0 ;
     protected $lastShipmentId = null;
 
 
-    public function mount(){
+    public function mount()
+    {
         $this->user = Auth::user();
-         $secondAddress = $this->user->addresses()->where('is_default', true)->first();
+        $secondAddress = $this->user->addresses()->where('is_default', true)->first();
 
         if ($secondAddress) {
-        $this->user->address = $secondAddress->city;
-        $this->user->rue = $secondAddress->street;
-        $this->user->nom_batiment = $secondAddress->building_name;
-        $this->user->etage = $secondAddress->floor;
-        $this->user->num_appartement = $secondAddress->apartment_number;
-        $this->user->phone_number = $secondAddress->phone_number;
+            $this->user->address = $secondAddress->city;
+            $this->user->rue = $secondAddress->street;
+            $this->user->nom_batiment = $secondAddress->building_name;
+            $this->user->etage = $secondAddress->floor;
+            $this->user->num_appartement = $secondAddress->apartment_number;
+            $this->user->phone_number = $secondAddress->phone_number;
 
-        $region = $secondAddress->regionExtra;
+            $region = $secondAddress->regionExtra;
 
-        if ($region) {
-            $this->user->region_info = $region;
-        }
+            if ($region) {
+                $this->user->region_info = $region;
+            }
         }
     }
 
@@ -65,29 +66,29 @@ class Mode extends Component
         foreach ($cartItems as $item_id) {
             $post = posts::join('sous_categories', 'posts.id_sous_categorie', '=', 'sous_categories.id')
                 ->join('categories', 'sous_categories.id_categorie', '=', 'categories.id')
-                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id",  "posts.titre", "posts.photos", "posts.old_prix")
+                ->select("categories.pourcentage_gain", "posts.prix", "posts.id_user", "posts.id_sous_categorie", "posts.id", "posts.titre", "posts.photos", "posts.old_prix")
                 ->where("posts.id", $item_id)
                 ->first();
 
             if ($post) {
 
                 $id_categorie = $post->id_sous_categorie
-                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
-                : null;
+                    ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                    : null;
 
                 $id_region = Auth::user()->region ?? null;
-                $frais  = 0;
+                $frais = 0;
                 if ($id_categorie && $id_region) {
                     $regionCategory = regions_categories::where('id_region', $id_region)
                         ->where('id_categorie', $id_categorie)
                         ->first();
-                        $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                    $frais = $regionCategory ? (float) $regionCategory->prix : 0;
                 }
                 $this->articles_panier[] = [
                     "id" => $post->id,
                     "titre" => $post->titre,
                     "prix" => $post->getPrix(),
-                    "photo" => config('app.url').Storage::url($post->photos[0]),
+                    "photo" => config('app.url') . Storage::url($post->photos[0]),
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->old_prix
@@ -155,7 +156,8 @@ class Mode extends Component
 
         foreach ($this->articles_panier as $article) {
             $post = posts::find($article['id']);
-            if (!$post) continue;
+            if (!$post)
+                continue;
             $post->update([
                 'statut' => 'préparation',
                 'sell_at' => now(),
@@ -170,7 +172,7 @@ class Mode extends Component
                 $regionCategory = regions_categories::where('id_region', $id_region)
                     ->where('id_categorie', $id_categorie)
                     ->first();
-                $frais = $regionCategory ? (float)$regionCategory->prix : 0;
+                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
             }
 
             if (!isset($vendorsCounted[$post->id_user])) {
@@ -223,6 +225,35 @@ class Mode extends Component
         $notification->save();
 
         event(new UserEvent($buyer->id));
+
+        // Send FCM notification
+        $fcmService = app(\App\Services\FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $buyer->id,
+            "Order Confirmed",
+            "Dear customer, your order has been successfully confirmed. Your order ID is 'CMD-' . $order->id",
+            [
+                'type' => 'alerte',
+                'notification_id' => $notification->id,
+                'destination' => 'user',
+                'action' => 'order_confirmed',
+                'order_id' => $order->id,
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id' => $buyer->id,
+                'notification_id' => $notification->id,
+                'type' => 'order_confirmed'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id' => $buyer->id,
+                'notification_id' => $notification->id,
+                'reason' => 'User has no FCM token or token invalid'
+            ]);
+        }
     }
 
     private function notifySellers()
@@ -233,10 +264,12 @@ class Mode extends Component
 
         foreach ($vendeurUsernames as $sellerUsername) {
             $seller = $vendeurs[$sellerUsername] ?? null;
-            if (!$seller) continue;
+            if (!$seller)
+                continue;
 
             $articlesPourCeVendeur = array_filter($this->articles_panier, fn($a) => $a['vendeur'] === $sellerUsername);
-            if (empty($articlesPourCeVendeur)) continue;
+            if (empty($articlesPourCeVendeur))
+                continue;
 
             $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur);
             $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
@@ -302,6 +335,37 @@ class Mode extends Component
         ]);
         $notification->save();
         event(new UserEvent($seller->id));
+
+        // Send FCM notification
+        $fcmService = app(\App\Services\FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $seller->id,
+            "A new order!",
+            strip_tags(
+                "{$salutation} {$seller->username}, your item {$postTitles} has been ordered by {$buyerPseudo}. Please prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item. Thank you for confirming or updating your bank details (RIB) so we can transfer the funds when the sale process is complete."
+            ),
+            [
+                'type' => 'alerte',
+                'notification_id' => $notification->id,
+                'destination' => 'user',
+                'action' => 'new_order',
+                'buyer_username' => $buyerPseudo,
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id' => $seller->id,
+                'notification_id' => $notification->id,
+                'type' => 'new_order'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id' => $seller->id,
+                'notification_id' => $notification->id,
+                'reason' => 'User has no FCM token or token invalid'
+            ]);
+        }
     }
 
     private function sendConfirmationEmail()

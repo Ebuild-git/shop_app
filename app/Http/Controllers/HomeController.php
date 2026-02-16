@@ -152,14 +152,14 @@ class HomeController extends Controller
 
             if ($month && $year) {
                 $Query->whereYear('sell_at', $year)
-                      ->whereMonth('sell_at', $month);
+                    ->whereMonth('sell_at', $month);
             }
             $Query->orderBy('sell_at', 'desc');
         } else {
 
             if ($month && $year) {
                 $Query->whereYear('created_at', $year)
-                      ->whereMonth('created_at', $month);
+                    ->whereMonth('created_at', $month);
             }
             $Query->orderBy('created_at', 'desc');
         }
@@ -170,20 +170,20 @@ class HomeController extends Controller
                     $Query->where('statut', 'validation');
                     break;
                 case 'vente':
-                    $Query->where(function($query) {
+                    $Query->where(function ($query) {
                         $query->where('statut', 'vente')
-                              ->orWhere(function($subQuery) {
-                                  $subQuery->where('verified_at', '!=', null)
-                                           ->where('sell_at', null)
-                                           ->whereHas('user_info', function($userQuery) {
-                                            $userQuery->where('voyage_mode', 0); // voyage_mode should be false (0)
-                                        });
-                              });
+                            ->orWhere(function ($subQuery) {
+                                $subQuery->where('verified_at', '!=', null)
+                                    ->where('sell_at', null)
+                                    ->whereHas('user_info', function ($userQuery) {
+                                        $userQuery->where('voyage_mode', 0); // voyage_mode should be false (0)
+                                    });
+                            });
                     });
                     break;
                 case 'vendu':
                     $Query->where('statut', 'vendu')
-                          ->orWhere('sell_at', '!=', null);
+                        ->orWhere('sell_at', '!=', null);
                     break;
                 case 'livraison':
                     $Query->where('statut', 'livraison');
@@ -207,15 +207,15 @@ class HomeController extends Controller
                     $Query->where('statut', 'retourné');
                     break;
                 case 'en voyage':
-                    $Query->where(function($query) {
+                    $Query->where(function ($query) {
                         $query->where('statut', 'en voyage')
-                              ->orWhere(function($subQuery) {
-                                  $subQuery->whereHas('user_info', function($userQuery) {
-                                      $userQuery->where('voyage_mode', 1);
-                                  })
-                                  ->where('verified_at', '!=', null)
-                                  ->where('sell_at', null);
-                              });
+                            ->orWhere(function ($subQuery) {
+                                $subQuery->whereHas('user_info', function ($userQuery) {
+                                    $userQuery->where('voyage_mode', 1);
+                                })
+                                    ->where('verified_at', '!=', null)
+                                    ->where('sell_at', null);
+                            });
                     });
                     break;
                 default:
@@ -259,7 +259,7 @@ class HomeController extends Controller
         }
 
         if (Auth::check()) {
-            $isFavorited =  favoris::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
+            $isFavorited = favoris::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
             $isLiked = likes::where('id_post', $post->id)->where('id_user', Auth::user()->id)->exists();
         } else {
             $isFavorited = false;
@@ -331,15 +331,15 @@ class HomeController extends Controller
             $posts = collect();
         } else {
             $posts = posts::where("id_user", $user->id)
-            ->where("statut", "!=", "validation")
-            ->orderBy('created_at', 'desc')
-            ->get()->map(function($post) {
-                $post->discountPercentage = null;
-                if ($post->old_prix && $post->old_prix > $post->prix) {
-                    $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
-                }
-                return $post;
-            });
+                ->where("statut", "!=", "validation")
+                ->orderBy('created_at', 'desc')
+                ->get()->map(function ($post) {
+                    $post->discountPercentage = null;
+                    if ($post->old_prix && $post->old_prix > $post->prix) {
+                        $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+                    }
+                    return $post;
+                });
         }
 
         $notes = ratings::where('id_user_sell', $user->id)->avg('etoiles');
@@ -384,17 +384,24 @@ class HomeController extends Controller
                 ->where('statut', "vendu")
                 ->paginate(20);
 
-        // Pagination variables
-        $currentPage = $ventes->currentPage();
-        $lastPage = $ventes->lastPage();
-        $nextPageUrl = $ventes->nextPageUrl();
-        $previousPageUrl = $ventes->previousPageUrl();
-        $totalItems = $ventes->total();
+            // Pagination variables
+            $currentPage = $ventes->currentPage();
+            $lastPage = $ventes->lastPage();
+            $nextPageUrl = $ventes->nextPageUrl();
+            $previousPageUrl = $ventes->previousPageUrl();
+            $totalItems = $ventes->total();
 
-        return view('User.historiques', compact(
-            "type", "count", "ventes", "showRemainingTimeColumn",
-            "currentPage", "lastPage", "nextPageUrl", "previousPageUrl", "totalItems"
-        ));
+            return view('User.historiques', compact(
+                "type",
+                "count",
+                "ventes",
+                "showRemainingTimeColumn",
+                "currentPage",
+                "lastPage",
+                "nextPageUrl",
+                "previousPageUrl",
+                "totalItems"
+            ));
         }
         if ($type == "annonces") {
             $annonces = posts::where("id_user", Auth::user()->id)
@@ -402,15 +409,22 @@ class HomeController extends Controller
                 ->paginate(20);
 
 
-             // Pagination variables
+            // Pagination variables
             $currentPage = $annonces->currentPage();
             $lastPage = $annonces->lastPage();
             $nextPageUrl = $annonces->nextPageUrl();
             $previousPageUrl = $annonces->previousPageUrl();
             $totalItems = $annonces->total();
             return view('User.historiques', compact(
-                "type", "count", "annonces", "showRemainingTimeColumn",
-                "currentPage", "lastPage", "nextPageUrl", "previousPageUrl", "totalItems"
+                "type",
+                "count",
+                "annonces",
+                "showRemainingTimeColumn",
+                "currentPage",
+                "lastPage",
+                "nextPageUrl",
+                "previousPageUrl",
+                "totalItems"
             ));
         }
     }
@@ -542,9 +556,9 @@ class HomeController extends Controller
         $notification->destination = "admin";
         $notification->save();
 
-        try{
+        try {
             Mail::to($user->email)->send(new VerifyMail($user, $token));
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect("/connexion")->with("error", __("error.email_send"));
         }
 
@@ -575,7 +589,7 @@ class HomeController extends Controller
             [
                 'count' => $cartItems->count(),
                 'produits' => $produits,
-                'montant' => number_format($montant, 2, '.', '') . " " .__('currency'),
+                'montant' => number_format($montant, 2, '.', '') . " " . __('currency'),
                 'html' => $html,
                 'statut' => true,
             ]
@@ -627,8 +641,8 @@ class HomeController extends Controller
 
         $user = Auth::user();
         $productExists = UserCart::where('user_id', $user->id)
-                                ->where('post_id', $post->id)
-                                ->exists();
+            ->where('post_id', $post->id)
+            ->exists();
 
         if (!$productExists) {
             // Add the product to the `user_carts` table
@@ -645,8 +659,8 @@ class HomeController extends Controller
         } else {
             // Remove the product from the `user_carts` table
             UserCart::where('user_id', $user->id)
-                    ->where('post_id', $post->id)
-                    ->delete();
+                ->where('post_id', $post->id)
+                ->delete();
 
             return response()->json([
                 'status' => true,
@@ -714,6 +728,36 @@ class HomeController extends Controller
             $notification->url = "/post/" . $post->id;
             $notification->message = "@" . Auth::user()->username . " vient d'aimer votre publication";
             $notification->save();
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                Auth::user()->username . " a aimé votre publication",
+                "@" . Auth::user()->username . " vient d'aimer votre publication",
+                [
+                    'type' => 'like',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_liked',
+                    'post_id' => $post->id,
+                    'liker_username' => Auth::user()->username,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_liked'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
 
             return response()->json(
                 [
@@ -856,8 +900,8 @@ class HomeController extends Controller
         }
 
         $liste_categories = categories::where('active', true)
-        ->orderBy('order')
-        ->get(["titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar"]);
+            ->orderBy('order')
+            ->get(["titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar"]);
 
         $key = $request->input("key") ?? null;
 
@@ -937,7 +981,7 @@ class HomeController extends Controller
         $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories_list])->render();
         return response()->json([
             "status" => true,
-            "html" =>  $ListeHtml,
+            "html" => $ListeHtml,
             "username" => $user->username,
             "total" => count($categories)
         ]);

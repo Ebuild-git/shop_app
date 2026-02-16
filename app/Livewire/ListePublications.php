@@ -46,15 +46,15 @@ class ListePublications extends Component
         if (strlen($this->status_filter) > 0) {
             if ($this->status_filter === 'vente') {
                 $postsQuery->whereNotNull('verified_at')
-                           ->whereNull('sell_at');
+                    ->whereNull('sell_at');
             } elseif ($this->status_filter === 'vendu') {
                 $postsQuery->whereNotNull('sell_at');
             } elseif ($this->status_filter === 'en voyage') {
                 $postsQuery->whereNotNull('verified_at')
-                            ->whereNull('sell_at')
-                            ->whereHas('user_info', function ($query) {
-                                $query->where('voyage_mode', 1);
-                            });
+                    ->whereNull('sell_at')
+                    ->whereHas('user_info', function ($query) {
+                        $query->where('voyage_mode', 1);
+                    });
             } else {
                 $postsQuery->where('statut', $this->status_filter);
             }
@@ -81,13 +81,13 @@ class ListePublications extends Component
         if (strlen($this->mot_key) > 0) {
             $mot_key = $this->mot_key;
 
-            $postsQuery->where(function($query) use ($mot_key) {
+            $postsQuery->where(function ($query) use ($mot_key) {
 
 
-                $query->whereHas('user_info', function($q) use ($mot_key) {
+                $query->whereHas('user_info', function ($q) use ($mot_key) {
                     $q->where('username', 'like', '%' . $mot_key . '%')
-                      ->orWhere('firstname', 'like', '%' . $mot_key . '%')
-                      ->orWhere('lastname', 'like', '%' . $mot_key . '%');
+                        ->orWhere('firstname', 'like', '%' . $mot_key . '%')
+                        ->orWhere('lastname', 'like', '%' . $mot_key . '%');
                 });
                 if (strtoupper(substr($mot_key, 0, 1)) === 'P' && is_numeric(substr($mot_key, 1))) {
                     $numericId = substr($mot_key, 1);
@@ -97,7 +97,7 @@ class ListePublications extends Component
                     $query->orWhere('id', $mot_key);
                 }
                 $query->orWhere('titre', 'like', '%' . $mot_key . '%')
-                      ->orWhere('description', 'like', '%' . $mot_key . '%');
+                    ->orWhere('description', 'like', '%' . $mot_key . '%');
             });
         }
 
@@ -140,15 +140,44 @@ class ListePublications extends Component
             //make notification
             $notification = new notifications();
             $notification->titre = "Une vente a été retouner ";
-            $notification->id_user_destination  =  $post->id_user;
+            $notification->id_user_destination = $post->id_user;
             $notification->type = "alerte";
             $notification->url = "/post/" . $post->id;
             $notification->message = "Nous vous informons que votre publication  " . $post->titre . " a été retourné a la vente !";
             $notification->save();
             event(new UserEvent($post->id_user));
-            $this->dispatch('alert', ['message' => "Le publication a été validée",'type'=>'success']);
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $post->id_user,
+                "Une vente a été retouner",
+                "Nous vous informons que votre publication " . $post->titre . " a été retourné a la vente !",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'post_validated',
+                    'post_id' => $post->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'type' => 'post_validated'
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id' => $post->id_user,
+                    'notification_id' => $notification->id,
+                    'reason' => 'User has no FCM token or token invalid'
+                ]);
+            }
+            $this->dispatch('alert', ['message' => "Le publication a été validée", 'type' => 'success']);
         } else {
-            $this->dispatch('alert', ['message' => "Une erreur est survenue",'type'=>'error']);
+            $this->dispatch('alert', ['message' => "Une erreur est survenue", 'type' => 'error']);
         }
     }
 
@@ -182,6 +211,35 @@ class ListePublications extends Component
                 ";
                 $notification->save();
                 event(new UserEvent($post->id_user));
+
+                // Send FCM notification
+                $fcmService = app(\App\Services\FcmService::class);
+                $sent = $fcmService->sendToUser(
+                    $post->id_user,
+                    "{$greeting} " . $post->user_info->username,
+                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
+                    [
+                        'type' => 'alerte',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'post_deleted',
+                        'post_id' => $post->id,
+                    ]
+                );
+
+                if ($sent) {
+                    \Log::info("FCM notification sent successfully", [
+                        'user_id' => $post->id_user,
+                        'notification_id' => $notification->id,
+                        'type' => 'post_deleted'
+                    ]);
+                } else {
+                    \Log::warning("FCM notification failed to send", [
+                        'user_id' => $post->id_user,
+                        'notification_id' => $notification->id,
+                        'reason' => 'User has no FCM token or token invalid'
+                    ]);
+                }
 
                 $post->delete();
                 $this->dispatch('closeModal', ['id' => "deleteModal-$id"]);
@@ -229,9 +287,33 @@ class ListePublications extends Component
             ";
 
             $notification->save();
-            $this->dispatch('alert', ['message' => "La publication à été restaurer !",'type'=>'success']);
+
+            $fcmService = app(\App\Services\FcmService::class);
+
+            try {
+                $fcmService->sendToUser(
+                    $post->id_user,
+                    'Item Restored',
+                    "Dear {$post->user_info->username}, your item \"{$post->titre}\" has been restored. Thank you for your patience.",
+                    [
+                        'type' => 'alert',
+                        'notification_id' => $notification->id,
+                        'destination' => 'user',
+                        'action' => 'post_restored',
+                        'post_id' => $post->id,
+                    ]
+                );
+            } catch (\Exception $e) {
+                \Log::error('FCM restore notification failed', [
+                    'post_id' => $post->id,
+                    'user_id' => $post->id_user,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            $this->dispatch('alert', ['message' => "La publication à été restaurer !", 'type' => 'success']);
         } else {
-            $this->dispatch('alert', ['message' => "Cette publication n'existe pas.",'type'=>'error']);
+            $this->dispatch('alert', ['message' => "Cette publication n'existe pas.", 'type' => 'error']);
         }
     }
 
@@ -242,7 +324,7 @@ class ListePublications extends Component
             Storage::disk('public')->delete($img);
         }
         $post->forceDelete();
-        $this->dispatch('alert', ['message' => "La publication a été définitivement supprimée !",'type'=>'success']);
+        $this->dispatch('alert', ['message' => "La publication a été définitivement supprimée !", 'type' => 'success']);
     }
 
 
