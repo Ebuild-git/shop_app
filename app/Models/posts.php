@@ -46,7 +46,7 @@ class posts extends Model
 
     public function getPrix()
     {
-        $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
+        $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
         $prix = $this->attributes['prix'];
         $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
 
@@ -61,7 +61,7 @@ class posts extends Model
             $firstChangementPrix = $this->changements_prix->first();
             $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
             if ($old_prix !== null) {
-                $pourcentage_gain = $this->sous_categorie_info->categorie->pourcentage_gain;
+                $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
                 $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
                 return number_format($prix_calculé, 2, '.', '') ?? "N/A";
             }

@@ -1686,7 +1686,7 @@
                 }
             }
         },
-        "/api/categories/{id}": {
+        "/api/categorie/{id}": {
             "get": {
                 "tags": [
                     "Categories"

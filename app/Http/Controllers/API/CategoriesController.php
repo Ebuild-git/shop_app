@@ -63,7 +63,7 @@ class CategoriesController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/categories/{id}",
+     *     path="/api/categorie/{id}",
      *     operationId="getCategoryById",
      *     tags={"Categories"},
      *     summary="Get a single category by ID",

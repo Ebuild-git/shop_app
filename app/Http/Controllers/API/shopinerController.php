@@ -279,6 +279,9 @@ class shopinerController extends Controller
             ->get();
 
         $posts->transform(function ($post) {
+            $post->prix = $post->getPrix();
+            $post->old_prix = $post->getOldPrix();
+            $post->is_solder = $post->getOldPrix() ? true : false;
             $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
             return $post;
         });

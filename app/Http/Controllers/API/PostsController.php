@@ -188,15 +188,25 @@ class PostsController extends Controller
         $userId = $user->id;
 
         $favorites = favoris::where('id_user', $userId)
+            // ->with([
+            //     'post' => function ($query) {
+            //         $query->select('id', 'id_user', 'titre', 'description', 'photos', 'prix', 'etat', 'statut');
+            //     },
+            //     'post.user_info:id,firstname,lastname,username,avatar'
+            // ])
             ->with([
-                'post' => function ($query) {
-                    $query->select('id', 'id_user', 'titre', 'description', 'photos', 'prix', 'etat', 'statut');
-                },
-                'post.user_info:id,firstname,lastname,username,avatar'
+                'post:id,id_user,titre,description,photos,prix,etat,statut,id_sous_categorie',
+                'post.user_info:id,firstname,lastname,username,avatar',
+                'post.sous_categorie_info:id,id_categorie',
+                'post.sous_categorie_info.categorie:id,pourcentage_gain'
             ])
             ->get()
             ->map(function ($fav) {
                 if ($fav->post) {
+                    $fav->post->prix = $fav->post->getPrix();
+                    $fav->post->old_prix = $fav->post->getOldPrix();
+                    $fav->post->is_solder = $fav->post->getOldPrix() ? true : false;
+
                     $fav->post->photos = collect($fav->post->photos)
                         ->map(fn($p) => asset('storage/' . $p));
 
