@@ -241,6 +241,9 @@ class PostsController extends Controller
                 ];
             }
 
+            $post->prix = $post->getPrix();
+            $post->old_prix = $post->getOldPrix();
+
             return response()->json([
                 'success' => true,
                 'post' => $post,
