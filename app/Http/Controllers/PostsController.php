@@ -67,6 +67,10 @@ class PostsController extends Controller
             ->get();
 
         $posts = $posts->map(function ($post) {
+            $post->prix = $post->getPrix();
+            $post->old_prix = $post->getOldPrix();
+            $post->is_solder = $post->getOldPrix() ? true : false;
+
             $postData = $post->toArray();
 
             if (!empty($postData['photos'])) {
@@ -94,6 +98,8 @@ class PostsController extends Controller
 
             return $postData;
         });
+
+
 
         return response()->json([
             'success' => true,
