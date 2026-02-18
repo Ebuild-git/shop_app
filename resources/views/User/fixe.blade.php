@@ -662,29 +662,29 @@
             </div>
         </div> --}}
         <div class="newsletter-section py-5" style="background-color: #f8f9fa; {{ app()->getLocale() == 'ar' ? 'direction: rtl;' : 'direction: ltr;' }}">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 text-center">
-                <h3 class="mb-3">{{ __('newsletter_subscribe') }}</h3>
-                <p class="mb-4">{{ __('newsletter_description') }}</p>
-                <form id="newsletterForm" action="{{ route('newsletter.subscribe') }}" method="POST">
-                    @csrf
-                    <div class="newsletter-input-group">
-                        <input type="email" name="email" id="newsletter-email" class="newsletter-input"
-                            placeholder="{{ __('enter_your_email') }}" required>
-                        <button class="btn-newsletter" type="submit" id="newsletter-btn">
-                            <span class="btn-text">{{ __('subscribe') }}</span>
-                            <span class="btn-loader" style="display: none;">
-                                <i class="fas fa-spinner fa-spin"></i>
-                            </span>
-                        </button>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 text-center">
+                        <h3 class="mb-3">{{ __('newsletter_subscribe') }}</h3>
+                        <p class="mb-4">{{ __('newsletter_description') }}</p>
+                        <form id="newsletterForm" action="{{ route('newsletter.subscribe') }}" method="POST">
+                            @csrf
+                            <div class="newsletter-input-group">
+                                <input type="email" name="email" id="newsletter-email" class="newsletter-input"
+                                    placeholder="{{ __('enter_your_email') }}">
+                                <button class="btn-newsletter" type="submit" id="newsletter-btn">
+                                    <span class="btn-text">{{ __('subscribe') }}</span>
+                                    <span class="btn-loader" style="display: none;">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <small class="text-danger d-block mt-2" id="newsletter-error" style="display: none;"></small>
+                        </form>
                     </div>
-                    <small class="text-danger d-block mt-2" id="newsletter-error" style="display: none;"></small>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
