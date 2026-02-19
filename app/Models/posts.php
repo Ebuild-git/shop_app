@@ -129,6 +129,16 @@ class posts extends Model
         return $url;
     }
 
+    public function FirstImageMobile()
+    {
+        if (!empty($this->photos) && isset($this->photos[0])) {
+            return asset(Storage::url($this->photos[0]));
+        }
+
+        return "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+    }
+
+
     public function next_time_to_edit_price()
     {
         if ($this->updated_price_at) {

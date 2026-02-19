@@ -88,6 +88,7 @@ class RatingController extends Controller
     {
         $authUser = $request->user();
 
+        // dd($authUser);
         $purchases = posts::where('id_user_buy', $authUser->id)
             ->orderBy('sell_at', 'desc')
             ->get();
@@ -126,7 +127,8 @@ class RatingController extends Controller
                     'title' => $purchase->titre,
                     'statut' => $purchase->statut,
                     'sell_at' => $purchase->sell_at,
-                    'price' => $purchase->prix ?? null,
+                    'price' => $purchase->getPrix() ?? null,
+                    'photo' => $purchase->FirstImageMobile() ?? null,
                 ],
                 'seller' => $seller ? [
                     'id' => $seller->id,
