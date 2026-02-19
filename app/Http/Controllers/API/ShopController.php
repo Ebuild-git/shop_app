@@ -180,6 +180,7 @@ class ShopController extends Controller
         $cartItems = UserCart::where('user_id', $user_id)->pluck('post_id');
         $articles_panier = [];
         $total = 0;
+        $sellersWithFrais = [];
 
         foreach ($cartItems as $item) {
 
@@ -206,22 +207,35 @@ class ShopController extends Controller
 
                 $id_region = $request->user()->region ?? null;
 
-                $fraisLivraison = '0,00';
+                $fraisLivraison = 0;
 
                 if ($id_categorie && $id_region) {
                     $regionCategory = regions_categories::where('id_region', $id_region)
                         ->where('id_categorie', $id_categorie)
                         ->first();
 
+                    // $fraisLivraison = $regionCategory
+                    //     ? number_format($regionCategory->prix, 2, ',', '')
+                    //     : 0;
                     $fraisLivraison = $regionCategory
-                        ? number_format($regionCategory->prix, 2, ',', '')
-                        : '0,00';
+                    ? (float) $regionCategory->prix
+                    : 0;
                 }
 
                 $photoFullUrl = null;
 
                 if (!empty($post->photos) && isset($post->photos[0])) {
                     $photoFullUrl = url('storage/' . $post->photos[0]);
+                }
+
+                $prix = (float) $post->getPrix();
+                $vendeurId = $post->id_user;
+
+                $fraisToAdd = 0;
+
+                if (!in_array($vendeurId, $sellersWithFrais)) {
+                    $fraisToAdd = $fraisLivraison;
+                    $sellersWithFrais[] = $vendeurId;
                 }
 
                 $articles_panier[] = [
@@ -232,10 +246,11 @@ class ShopController extends Controller
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->getOldPrix(),
-                    "frais" => $fraisLivraison,
+                    "frais" => number_format((float)$fraisToAdd, 2, ',', ''),
                 ];
 
-                $total += round($post->getPrix(), 3);
+                // $total += round($post->getPrix(), 3);
+                $total += $prix + $fraisToAdd;
             }
         }
 
