@@ -246,7 +246,7 @@ class ShopController extends Controller
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
                     "old_prix" => $post->getOldPrix(),
-                    "frais" => number_format((float)$fraisToAdd, 2, ',', ''),
+                    "frais" => number_format((float)$fraisToAdd, 2, '.', ''),
                 ];
 
                 // $total += round($post->getPrix(), 3);
@@ -257,7 +257,7 @@ class ShopController extends Controller
         return response()->json([
             "success" => true,
             "articles" => $articles_panier,
-            "total" => $total
+            "total" => number_format($total, 2, '.', '')
         ]);
     }
 
