@@ -276,6 +276,7 @@ class shopinerController extends Controller
             ->whereHas('user_info', function ($query) {
                 $query->where('voyage_mode', 0);
             })
+            ->latest()
             ->get();
 
         $posts->transform(function ($post) {

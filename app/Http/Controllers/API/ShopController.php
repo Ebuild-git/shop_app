@@ -177,7 +177,7 @@ class ShopController extends Controller
         $user = $request->user();
         $user_id = $user->id;
 
-        $cartItems = UserCart::where('user_id', $user_id)->pluck('post_id');
+        $cartItems = UserCart::where('user_id', $user_id)->latest()->pluck('post_id');
         $articles_panier = [];
         $total = 0;
         $sellersWithFrais = [];

@@ -64,6 +64,7 @@ class PostsController extends Controller
             ->whereHas('user_info', function ($query) {
                 $query->where('voyage_mode', 0);
             })
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $posts = $posts->map(function ($post) {
