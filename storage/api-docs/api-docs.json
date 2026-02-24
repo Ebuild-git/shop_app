@@ -3751,6 +3751,145 @@
                 ]
             }
         },
+        "/api/my-posts/ratings": {
+            "get": {
+                "tags": [
+                    "Posts",
+                    "Ratings"
+                ],
+                "summary": "Get ratings for the authenticated user's posts",
+                "description": "Returns all posts of the authenticated user along with their ratings, average rating, and buyers' info.",
+                "operationId": "1f0d5d7337fa6300b02dabd641735664",
+                "responses": {
+                    "200": {
+                        "description": "List of posts with ratings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_posts": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "post": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "My Post Title"
+                                                            },
+                                                            "price": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 49.99
+                                                            },
+                                                            "photo": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            },
+                                                            "statut": {
+                                                                "type": "string",
+                                                                "example": "active"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "ratings_count": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "average_rating": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 4.2
+                                                    },
+                                                    "ratings": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 12
+                                                                },
+                                                                "etoiles": {
+                                                                    "type": "integer",
+                                                                    "example": 5
+                                                                },
+                                                                "comment": {
+                                                                    "type": "string",
+                                                                    "example": "Great post!"
+                                                                },
+                                                                "created_at": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": "2026-02-24T10:30:00Z"
+                                                                },
+                                                                "buyer": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 7
+                                                                        },
+                                                                        "username": {
+                                                                            "type": "string",
+                                                                            "example": "buyer123"
+                                                                        }
+                                                                    },
+                                                                    "type": "object",
+                                                                    "nullable": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No posts found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No posts found"
+                                        },
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/regions": {
             "get": {
                 "tags": [

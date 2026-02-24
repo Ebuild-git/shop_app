@@ -99,7 +99,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users/rating/purchases', [RatingController::class, 'show']);
     Route::post('/users/{purchase_id}/rating', [RatingController::class, 'store']);
-
+    Route::get('/my-posts/ratings', [RatingController::class, 'myPostRatings']);
 
     Route::post('/users/{user}/ping', [shopinerController::class, 'ping']);
     Route::delete('/users/{user}/ping', [shopinerController::class, 'unping']);

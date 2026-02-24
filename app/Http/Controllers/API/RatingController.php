@@ -88,7 +88,6 @@ class RatingController extends Controller
     {
         $authUser = $request->user();
 
-        // dd($authUser);
         $purchases = posts::where('id_user_buy', $authUser->id)
             ->orderBy('sell_at', 'desc')
             ->get();
@@ -304,5 +303,139 @@ class RatingController extends Controller
                 'created_at' => $rate->created_at,
             ],
         ], 201);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/my-posts/ratings",
+     *     summary="Get ratings for the authenticated user's posts",
+     *     description="Returns all posts of the authenticated user along with their ratings, average rating, and buyers' info.",
+     *     tags={"Posts", "Ratings"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of posts with ratings",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="total_posts", type="integer", example=3),
+     *             @OA\Property(
+     *                 property="posts",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="post",
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="title", type="string", example="My Post Title"),
+     *                         @OA\Property(property="price", type="number", format="float", example=49.99),
+     *                         @OA\Property(property="photo", type="string", example="https://example.com/image.jpg"),
+     *                         @OA\Property(property="statut", type="string", example="active")
+     *                     ),
+     *                     @OA\Property(property="ratings_count", type="integer", example=5),
+     *                     @OA\Property(property="average_rating", type="number", format="float", example=4.2),
+     *                     @OA\Property(
+     *                         property="ratings",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id", type="integer", example=12),
+     *                             @OA\Property(property="etoiles", type="integer", example=5),
+     *                             @OA\Property(property="comment", type="string", example="Great post!"),
+     *                             @OA\Property(property="created_at", type="string", format="date-time", example="2026-02-24T10:30:00Z"),
+     *                             @OA\Property(
+     *                                 property="buyer",
+     *                                 type="object",
+     *                                 nullable=true,
+     *                                 @OA\Property(property="id", type="integer", example=7),
+     *                                 @OA\Property(property="username", type="string", example="buyer123")
+     *                             )
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No posts found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="No posts found"),
+     *             @OA\Property(property="posts", type="array", @OA\Items(type="object"), example={})
+     *         )
+     *     )
+     * )
+     */
+    public function myPostRatings(Request $request)
+    {
+        $authUser = $request->user();
+
+        $posts = posts::where('id_user', $authUser->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'message' => 'No posts found',
+                'posts' => []
+            ], 404);
+        }
+
+        $postIds = $posts->pluck('id');
+
+        $ratings = ratings::whereIn('id_post', $postIds)
+            ->get()
+            ->groupBy('id_post');
+
+        $buyerIds = $ratings->flatten()->pluck('id_user_buy')->unique();
+
+        $buyers = User::whereIn('id', $buyerIds)
+            ->get()
+            ->keyBy('id');
+
+        $result = [];
+
+        foreach ($posts as $post) {
+
+            $postRatings = $ratings[$post->id] ?? collect();
+
+            $ratingsData = [];
+
+            foreach ($postRatings as $rate) {
+                $buyer = $buyers[$rate->id_user_buy] ?? null;
+
+                $ratingsData[] = [
+                    'id' => $rate->id,
+                    'etoiles' => $rate->etoiles,
+                    'comment' => $rate->comment,
+                    'created_at' => $rate->created_at,
+                    'buyer' => $buyer ? [
+                        'id' => $buyer->id,
+                        'username' => $buyer->username,
+                    ] : null,
+                ];
+            }
+
+            $average = $postRatings->avg('etoiles');
+
+            $result[] = [
+                'post' => [
+                    'id' => $post->id,
+                    'title' => $post->titre,
+                    'price' => $post->getPrix(),
+                    'photo' => $post->FirstImageMobile(),
+                    'statut' => $post->statut,
+                ],
+                'ratings_count' => $postRatings->count(),
+                'average_rating' => $average ? round($average, 2) : null,
+                'ratings' => $ratingsData,
+            ];
+        }
+
+        return response()->json([
+            'total_posts' => count($result),
+            'posts' => $result
+        ]);
     }
 }

@@ -238,5 +238,9 @@ class posts extends Model
             ->exists();
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(ratings::class, 'id_post');
+    }
 
 }

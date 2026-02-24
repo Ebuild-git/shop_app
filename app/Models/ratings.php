@@ -15,4 +15,9 @@ class ratings extends Model
     {
         return $this->belongsTo(posts::class, 'id_region', 'id');
     }
+
+    public function buyer()
+    {
+        return $this->belongsTo(User::class, 'id_user_buy');
+    }
 }
