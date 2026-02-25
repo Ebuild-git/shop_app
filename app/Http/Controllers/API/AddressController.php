@@ -128,9 +128,9 @@ class AddressController extends Controller
             'nom_batiment' => 'required|string|max:255',
             'etage' => 'nullable|string|max:50',
             'num_appartement' => 'nullable|string|max:50',
-            'phone_number' => 'nullable|string|size:8',
+            'phone_number' => 'nullable|string|size:9',
         ],[
-            'phone_number.size' => 'The phone number must be exactly 8 digits.',
+            'phone_number.size' => 'The phone number must be exactly 9 digits.',
         ]);
 
         $user->update([
