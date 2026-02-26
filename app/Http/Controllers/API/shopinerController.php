@@ -221,7 +221,7 @@ class shopinerController extends Controller
                 'users.photo_verified_at',
                 DB::raw('AVG(ratings.etoiles) as average_rating'),
                 DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
-                DB::raw('COUNT(ratings.id) as total_reviews'),
+                DB::raw('COUNT(DISTINCT ratings.id) as total_reviews'),
                 DB::raw('SUM(CASE WHEN users.voyage_mode = 0 THEN posts.views ELSE 0 END) as total_views')
             )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
