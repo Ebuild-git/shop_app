@@ -642,17 +642,11 @@ class ShopController extends Controller
             : $articlesLinks->implode(', ');
 
         $notification = new notifications();
-        $notification->titre = __('notifications.new_order_title');
+        $notification->titre = "A new order!";
         $notification->id_user_destination = $seller->id;
         $notification->type = "alerte";
         $notification->url = "/informations?section=commandes";
-        $notification->message = __('notifications.new_order_message', [
-            'salutation' => $salutation,
-            'seller' => $seller->username,
-            'buyer' => $buyerPseudo,
-            'post_title' => $postTitles,
-            'bank_info_url' => url('/informations?section=cord'),
-        ]);
+        $notification->message = "{$salutation} {$seller->username}, your item {$postTitles} has been ordered by {$buyerPseudo}.\n\nPlease prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item.\n\nPlease confirm or update your bank details (RIB) so we can transfer the funds when the sale process is complete.";
         $notification->save();
 
         event(new UserEvent($seller->id));
