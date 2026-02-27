@@ -155,9 +155,9 @@
                 <ul>
                     <li>{{ __('newsletter_benefit_1') }}</li>
                     <li>{{ __('newsletter_benefit_2') }}</li>
-                    <li>{{ __('newsletter_benefit_3') }}</li>
+                    {{-- <li>{{ __('newsletter_benefit_3') }}</li>
                     <li>{{ __('newsletter_benefit_4') }}</li>
-                    <li>{{ __('newsletter_benefit_5') }}</li>
+                    <li>{{ __('newsletter_benefit_5') }}</li> --}}
                 </ul>
             </div>
 
