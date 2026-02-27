@@ -14,15 +14,17 @@ class NewsletterController extends Controller
     public function subscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|email',
             'name' => 'nullable|string|max:255',
         ]);
+
         if ($validator->fails()) {
             if ($request->ajax()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
             return back()->withErrors($validator)->withInput();
         }
+
         try {
             $subscription = NewsletterSubscription::updateOrCreate(
                 ['email' => $request->email],
@@ -38,21 +40,24 @@ class NewsletterController extends Controller
                     'subscribed_at' => now(),
                 ]
             );
-            // Send welcome email
-            Mail::to($request->email)->send(new WelcomeNewsletterMail($subscription));
 
-            if (count(Mail::failures()) === 0) {
-            Log::info('Newsletter welcome email sent successfully', [
-                'email' => $request->email,
-                'subscription_id' => $subscription->id,
-                'ip' => $request->ip(),
-            ]);
-        } else {
-            Log::warning('Newsletter email failed to send', [
-                'email' => $request->email,
-                'failures' => Mail::failures(),
-            ]);
-        }
+            // ✅ Send welcome email safely
+            try {
+                // 👉 Use send() OR queue() (recommended for production)
+                // Mail::to($request->email)->send(new WelcomeNewsletterMail($subscription));
+                Mail::to($request->email)->queue(new WelcomeNewsletterMail($subscription));
+
+                Log::info('Newsletter welcome email dispatched successfully', [
+                    'email' => $request->email,
+                    'subscription_id' => $subscription->id,
+                ]);
+
+            } catch (\Exception $mailException) {
+                Log::error('Newsletter email sending failed', [
+                    'email' => $request->email,
+                    'error' => $mailException->getMessage(),
+                ]);
+            }
 
             if ($request->ajax()) {
                 return response()->json([
@@ -60,12 +65,14 @@ class NewsletterController extends Controller
                     'message' => __('newsletter_subscribed_success')
                 ]);
             }
+
             return back()->with('success', __('newsletter_subscribed_success'));
+
         } catch (\Exception $e) {
             Log::error('Newsletter subscription error', [
-            'email' => $request->email ?? null,
-            'error' => $e->getMessage(),
-        ]);
+                'email' => $request->email ?? null,
+                'error' => $e->getMessage(),
+            ]);
 
             if ($request->ajax()) {
                 return response()->json([
@@ -73,6 +80,7 @@ class NewsletterController extends Controller
                     'message' => __('newsletter_subscription_error')
                 ], 500);
             }
+
             return back()->with('error', __('newsletter_subscription_error'));
         }
     }
@@ -80,17 +88,23 @@ class NewsletterController extends Controller
     public function unsubscribe($token)
     {
         $subscription = NewsletterSubscription::where('unsubscribe_token', $token)->first();
+
         if (!$subscription) {
             return redirect('/')->with('error', __('newsletter_invalid_token'));
         }
+
         $subscription->unsubscribe();
-        return view('User.newsletter-unsubscribed')->with('success', __('newsletter_unsubscribed_success'));
+
+        return view('User.newsletter-unsubscribed')
+            ->with('success', __('newsletter_unsubscribed_success'));
     }
+
     public function updatePreferences(Request $request)
     {
         $user = auth()->user();
 
         $subscription = NewsletterSubscription::where('email', $user->email)->first();
+
         if ($request->has('subscribe') && $request->subscribe) {
             if ($subscription) {
                 $subscription->resubscribe();
@@ -110,6 +124,8 @@ class NewsletterController extends Controller
                 $subscription->unsubscribe();
             }
         }
+
         return back()->with('success', __('preferences_updated'));
     }
+
 }
