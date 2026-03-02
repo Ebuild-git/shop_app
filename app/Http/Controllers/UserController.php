@@ -51,6 +51,7 @@ class UserController extends Controller
             $posts = Posts::where('id_user', $user->id)->orderBy('created_at', 'desc')->paginate(30);
             $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
             $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
+            $currentCinFilename = $user->cin_img ? basename($user->cin_img) : null;
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
             $oldCinImages = array_map(fn($img) => asset('storage/' . $img), $oldCinImages);
 
@@ -59,6 +60,7 @@ class UserController extends Controller
                 ->with("posts", $posts)
                 ->with("decryptedRib", $decryptedRib)
                 ->with("currentCinImg", $currentCinImg)
+                ->with("currentCinFilename", $currentCinFilename)
                 ->with("oldCinImages", $oldCinImages);
         } catch (\Throwable $th) {
             abort(404, "Page non trouvée");

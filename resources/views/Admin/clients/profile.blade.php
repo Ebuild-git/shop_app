@@ -258,7 +258,7 @@
                             <div class="mb-3">
                                 <h6>Image du CIN actuelle :</h6>
                                 <!-- Download Button for Current CIN -->
-                                <a href="{{ $currentCinImg }}" download="CIN_actuelle.jpg" class="btn btn-sm btn-success mt-2">
+                                <a href="{{ $currentCinImg }}" download="{{ $currentCinFilename }}" class="btn btn-sm btn-success mt-2">
                                     <i class="bi bi-download"></i> Télécharger l'image actuelle
                                 </a>
 
@@ -288,7 +288,13 @@
                                 <div class="row">
                                     @foreach ($oldCinImages as $oldCin)
                                         <div class="col-4 mb-2">
-                                            <a href="{{ $oldCin }}" download="CIN_ancienne.jpg" class="btn btn-sm btn-success mt-2">
+                                            <div class="fw-bold mb-1">
+                                                #CIN-{{ $loop->iteration }}
+                                            </div>
+
+                                            <a href="{{ $oldCin }}"
+                                            download="{{ basename(parse_url($oldCin, PHP_URL_PATH)) }}"
+                                            class="btn btn-sm btn-success mt-2">
                                                 <i class="bi bi-download"></i> Télécharger
                                             </a>
                                         </div>

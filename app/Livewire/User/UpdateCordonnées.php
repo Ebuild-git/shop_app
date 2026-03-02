@@ -91,6 +91,17 @@ class UpdateCordonnées extends Component
 
             if ($this->cin_img) {
                 $path = \App\Services\ImageService::uploadAndConvert($this->cin_img, 'cin_images');
+                if ($user->cin_img) {
+                    $oldCinImages = $user->old_cin_images;
+                    if (is_string($oldCinImages)) {
+                        $oldCinImages = json_decode($oldCinImages, true);
+                    }
+                    if (!is_array($oldCinImages)) {
+                        $oldCinImages = [];
+                    }
+                    $oldCinImages[] = $user->cin_img;
+                    $user->old_cin_images = $oldCinImages;
+                }
                 $user->cin_img = $path;
                 $user->cin_approved = false;
                 $changes = true;
