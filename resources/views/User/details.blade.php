@@ -671,6 +671,23 @@
                 $('#Modal-view').modal('hide');
             });
         });
+
+        // Listen for cart changes from other components (sidebar, etc.)
+        if (typeof Livewire !== 'undefined') {
+            Livewire.on('PostAdded', function() {
+                // Update button to show "Retirer du panier"
+                var textRetire = document.getElementById('btn-add-to-card').getAttribute('data-retire');
+                $("#add-cart-text-btn").text(textRetire);
+                $("#btn-add-to-card").addClass("bg-dark");
+            });
+
+            Livewire.on('PostRemoved', function() {
+                // Update button to show "Ajouter au panier"
+                var textAjouter = document.getElementById('btn-add-to-card').getAttribute('data-ajouter');
+                $("#add-cart-text-btn").text(textAjouter);
+                $("#btn-add-to-card").removeClass("bg-dark");
+            });
+        }
     </script>
 
 @endsection

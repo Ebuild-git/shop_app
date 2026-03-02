@@ -135,6 +135,9 @@ function remove_to_card(id) {
                             $("#add-cart-text-btn").text(cartTranslations.success_add);
                             $("#btn-add-to-card").removeClass("bg-dark");
 
+                            // Dispatch Livewire event to update post details button
+                            Livewire.dispatch("PostRemoved");
+
                             Swal.fire({
                                 position: "center",
                                 icon: "success",

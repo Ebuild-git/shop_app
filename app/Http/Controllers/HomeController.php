@@ -573,6 +573,7 @@ class HomeController extends Controller
         $produits = [];
         $montant = 0;
         $html = '';
+        $validCount = 0;
 
         foreach ($cartItems as $item) {
             $produit = posts::where('id', $item->post_id)->where('id_user', '!=', $user->id)->where('statut', 'vente')->first();
@@ -580,6 +581,7 @@ class HomeController extends Controller
                 $CartItem = view('components.cart-item', ['produit' => $produit])->render();
                 $montant += $produit->getPrix();
                 $html .= $CartItem;
+                $validCount++;
             } else {
                 $this->delete_form_cart($item->post_id);
             }
@@ -587,7 +589,7 @@ class HomeController extends Controller
 
         return response()->json(
             [
-                'count' => $cartItems->count(),
+                'count' => $validCount,
                 'produits' => $produits,
                 'montant' => number_format($montant, 2, '.', '') . " " . __('currency'),
                 'html' => $html,
