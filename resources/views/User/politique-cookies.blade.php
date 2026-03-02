@@ -1,123 +1,92 @@
 @extends('User.fixe')
-@section('titre', 'Politique des cookies')
+@section('titre', 'Politique de confidentialité')
 @section('content')
 @section('body')
 
 <style>
-    .cookie-content {
+    .privacy-content {
         font-family: 'Times New Roman', Times, serif;
         font-size: 0.8rem; /* Very small font */
         line-height: 1.2; /* Extremely tight spacing */
         margin: 0 auto;
+        color: #000000; /* Black text for entire container */
     }
 
-    /* Remove all margins and padding */
-    .cookie-content * {
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Main title */
-    .cookie-content h2 {
+    .privacy-content h2 {
         font-family: 'Times New Roman', Times, serif;
-        font-size: 1.1rem;
-        font-weight: 600; /* Slight bold */
-        margin: 0.5rem 0 0.3rem 0;
-        color: #333;
+        font-size: 1.5rem;
+        font-weight: 600; /* Semi-bold instead of bold (700) */
+        margin-bottom: 1.2rem;
+        color: #000000; /* Black */
     }
 
-    /* Section titles */
-    .cookie-content h4 {
+    .privacy-content h4 {
         font-family: 'Times New Roman', Times, serif;
-        font-size: 0.9rem;
-        font-weight: 600; /* Slight bold */
-        margin: 0.4rem 0 0.2rem 0;
-        color: #444;
+        font-size: 1.2rem;
+        font-weight: 600; /* Semi-bold */
+        margin: 1rem 0 0.5rem 0;
+        color: #000000; /* Black */
     }
 
-    /* Sub-titles */
-    .cookie-content h5 {
+    .privacy-content h5 {
         font-family: 'Times New Roman', Times, serif;
-        font-size: 0.85rem;
-        font-weight: 500; /* Medium bold */
-        margin: 0.3rem 0 0.1rem 0;
-        color: #555;
+        font-size: 1rem;
+        font-weight: 600; /* Semi-bold */
+        margin: 0.8rem 0 0.3rem 0;
+        color: #000000; /* Black */
     }
 
-    /* Paragraphs - no spacing */
-    .cookie-content p {
+    .privacy-content p {
         font-family: 'Times New Roman', Times, serif;
-        margin: 0;
-        padding: 0;
+        margin-bottom: 0.6rem;
         font-weight: 400;
-        color: #666;
-        line-height: 1.2;
+        color: #000000; /* Black */
     }
 
-    /* Lists - no spacing */
-    .cookie-content ul {
+    .privacy-content small {
         font-family: 'Times New Roman', Times, serif;
-        margin: 0;
-        padding-left: 1.2rem; /* Minimal indent */
-        list-style-type: disc;
-    }
-
-    .cookie-content li {
-        font-family: 'Times New Roman', Times, serif;
-        margin: 0;
-        padding: 0;
-        font-weight: 400;
-        color: #666;
-        line-height: 1.2;
         font-size: 0.8rem;
+        color: #000000; /* Black */
     }
 
-    /* Small text */
-    .cookie-content small {
+    .privacy-content i,
+    .privacy-content em {
         font-family: 'Times New Roman', Times, serif;
-        font-size: 0.7rem;
-        color: #888;
-        display: block;
-        margin-top: 0.5rem;
+        font-style: italic;
+        color: #000000; /* Black */
     }
 
-    /* Remove all breaks and spacing */
-    .cookie-content br {
+    .privacy-content ul,
+    .privacy-content li {
+        color: #000000; /* Black for lists */
+    }
+
+    .privacy-content strong,
+    .privacy-content b {
+        color: #000000; /* Black for bold text */
+        font-weight: 600;
+    }
+
+    .privacy-content a {
+        color: #000000; /* Black for links (though links should typically be distinguishable) */
+        text-decoration: underline;
+    }
+
+    .privacy-content a:hover {
+        color: #333333; /* Slightly lighter black on hover */
+    }
+
+    .privacy-content br {
         display: none;
     }
 
-    /* Remove container padding */
-    .container.pt-5,
-    .container.pb-5 {
-        padding: 1rem !important;
-    }
-
-    /* Bold text within paragraphs - slight bold */
-    .cookie-content strong,
-    .cookie-content b {
-        font-weight: 500; /* Not too bold */
-        color: #555;
-    }
-
-    /* Make lists even more compact */
-    .cookie-content ul ul {
-        margin: 0;
-        padding-left: 1rem;
-    }
-
-    /* No spacing between consecutive elements */
-    .cookie-content h4 + h5,
-    .cookie-content h5 + p,
-    .cookie-content p + p,
-    .cookie-content p + ul,
-    .cookie-content ul + p,
-    .cookie-content ul + h5 {
-        margin-top: 0;
+    .privacy-content .section-break {
+        margin: 0.5rem 0;
     }
 </style>
 
-<div class="container pt-5 pb-5 cookie-content" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-    <div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
+<div class="container pt-5 pb-5 privacy-content" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+    <div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}; color: #000000;">
 
         <h2>{!! __('c_t_1') !!}</h2>
 
@@ -158,7 +127,8 @@
         </ul>
         <p><strong>{!! __('c_d_14') !!}</strong></p>
 
-        <p><small>{!! __('c_d_15')  !!}</small></small></p>
+        <p><small>{!! __('c_d_15')  !!}</small></p>
     </div>
-</div
+</div>
+
 @endsection

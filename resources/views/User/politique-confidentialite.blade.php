@@ -9,6 +9,7 @@
         font-size: 0.8rem; /* Very small font */
         line-height: 1.2; /* Extremely tight spacing */
         margin: 0 auto;
+        color: #000000;
     }
 
     .privacy-content h2 {

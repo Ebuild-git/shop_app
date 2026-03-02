@@ -1,4 +1,7 @@
-@if(!isset($_COOKIE['cookie_consent']))
+@php
+$showCookieBanner = !isset($_COOKIE['cookie_consent']);
+@endphp
+@if($showCookieBanner)
 <div id="cookie-consent-banner" class="cookie-consent-banner" style="{{ app()->getLocale() == 'ar' ? 'direction: rtl; text-align: right;' : 'direction: ltr; text-align: left;' }}">
     <div class="cookie-consent-content">
         <div class="cookie-consent-text">
@@ -23,13 +26,14 @@
 
 <style>
 .cookie-consent-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
     background: #fff;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+    z-index: 99999 !important;
     padding: 20px;
     animation: slideUp 0.5s ease-out;
     border-top: 3px solid #008080;
@@ -183,6 +187,33 @@
 </style>
 
 <script>
+// Helper function to get cookie value
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i=0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+// Check if user has given consent for specific cookie type
+function hasCookieConsent(type) {
+    const prefs = getCookie('cookie_preferences');
+    if (!prefs) return false;
+
+    try {
+        const preferences = JSON.parse(prefs);
+        // Necessary cookies are always allowed
+        if (type === 'necessary') return true;
+        return preferences[type] === true;
+    } catch (e) {
+        return false;
+    }
+}
+
 function acceptCookies() {
     // Enregistrer le consentement
     setCookie('cookie_consent', 'accepted', 365);
@@ -192,6 +223,7 @@ function acceptCookies() {
         necessary: true,
         analytics: true,
         marketing: true,
+        functional: true,
         timestamp: new Date().toISOString()
     }), 365);
 
@@ -215,6 +247,7 @@ function rejectCookies() {
         necessary: true,
         analytics: false,
         marketing: false,
+        functional: false,
         timestamp: new Date().toISOString()
     }), 365);
 
@@ -250,10 +283,10 @@ function hideBanner() {
     }
 }
 
-// Empêcher le banner de réapparaître pendant la navigation
+// Check on page load if consent already exists
 document.addEventListener('DOMContentLoaded', function() {
-    // Si déjà consenti, ne rien faire
-    if (document.cookie.indexOf('cookie_consent') !== -1) {
+    const consent = getCookie('cookie_consent');
+    if (consent) {
         const banner = document.getElementById('cookie-consent-banner');
         if (banner) {
             banner.style.display = 'none';
