@@ -18,11 +18,6 @@
             <span class="luxury-text">{{ __('luxury') }}</span>
         </div>
         @endif
-        @if($post->sell_at)
-        <div class="color strong" style="font-size: 11px;">
-            <span class="badge bg-danger text-white">{{ __('vendu1') }}</span>
-        </div>
-        @endif
     </div>
     <div>
         <div class="text-left">

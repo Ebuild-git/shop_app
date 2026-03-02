@@ -543,6 +543,13 @@
                                     </button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
+                                            @if($product->sell_at)
+                                            <div class="badge-container position-absolute top-0 start-0 d-flex" style="z-index: 5;">
+                                                <div class="badge-new badge-sale bg-danger text-white">
+                                                    {{ __('vendu1') }}
+                                                </div>
+                                            </div>
+                                            @endif
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $product->id }}"><img class="card-img-top"
                                                     src="{{ Storage::url($product->photos[0] ?? '') }}" alt="...">
