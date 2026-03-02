@@ -146,4 +146,9 @@ class UserController extends Controller
     {
         return view('User.politique-confidentialite');
     }
+
+    public function cookies()
+    {
+        return view('User.politique-cookies');
+    }
 }

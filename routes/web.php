@@ -40,6 +40,7 @@ Route::get('/change-lang/{lang}', [LanguageController::class, 'changeLanguage'])
 
 //CONFIDENTIALTÉ
 Route::get('/politique-confidentialite', [UserController::class, 'politique'])->name('politique');
+Route::get('/politique-cookies', [UserController::class, 'cookies'])->name('cookies');
 
 
 // routes/web.php
