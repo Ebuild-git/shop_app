@@ -102,6 +102,8 @@ Route::get('/fcm', function () {
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
 
+    Route::get('/check-cin-status', [ControllersHomeController::class, 'checkCinStatus']);
+
     Route::get('/rib', [ControllersHomeController::class, 'showRibForm'])->name('rib.form');
     Route::post('/rib/submit', [ControllersHomeController::class, 'submitRib'])->name('rib.submit');
     //gestion des notifications

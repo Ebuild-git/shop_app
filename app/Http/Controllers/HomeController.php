@@ -90,6 +90,18 @@ class HomeController extends Controller
         return view('User.post', compact("id", "step"));
     }
 
+    public function checkCinStatus()
+    {
+        $user = Auth::user();
+        $hasCin = $user->cin_img ? true : false;
+        $approved = $user->cin_approved ? true : false;
+
+        return response()->json([
+            'has_cin' => $hasCin,
+            'approved' => $approved,
+        ]);
+    }
+
     public function showRibForm(Request $request)
     {
         $step = $request->input('step', 1);

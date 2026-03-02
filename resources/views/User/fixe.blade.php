@@ -1117,31 +1117,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     @auth
         <script>
+            var cinValidationMsg = "{{ __('attente_validation') }}";
+            var cinRequiredMsg = "Veuillez ajouter une image de votre carte d'identité avant de publier.";
+
             function checkCinBeforePublish(e) {
                 e.preventDefault();
 
                 let modal = new bootstrap.Modal(document.getElementById('cinModal'));
                 let modalBody = document.getElementById('cinModalBody');
-                let modalFooter = document.getElementById('cinModalFooter');
                 let addBtn = document.getElementById('cinAddBtn');
 
-                @php
-                    $user = Auth::user();
-                    $hasCin = $user->cin_img ? true : false;
-                    $approved = $user->cin_approved ? true : false;
-                @endphp
-
-                @if ($hasCin && $approved)
-                    window.location.href = "/publication";
-                @elseif ($hasCin && !$approved)
-                    modalBody.innerText = "{{ __('attente_validation') }}";
-                    addBtn.style.display = 'none';
+                // Check CIN status via AJAX to get fresh data
+                fetch('/check-cin-status', {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.has_cin && data.approved) {
+                        window.location.href = "/publication";
+                    } else if (data.has_cin && !data.approved) {
+                        if (modalBody) modalBody.innerText = cinValidationMsg;
+                        if (addBtn) addBtn.style.display = 'none';
+                        modal.show();
+                    } else {
+                        if (modalBody) modalBody.innerText = cinRequiredMsg;
+                        if (addBtn) addBtn.style.display = 'inline-block';
+                        modal.show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking CIN status:', error);
+                    if (modalBody) modalBody.innerText = cinRequiredMsg;
+                    if (addBtn) addBtn.style.display = 'inline-block';
                     modal.show();
-                @else
-                    modalBody.innerText = "{{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}";
-                    addBtn.style.display = 'inline-block';
-                    modal.show();
-                @endif
+                });
             }
         </script>
         @endauth
