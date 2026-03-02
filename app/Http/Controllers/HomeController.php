@@ -300,7 +300,7 @@ class HomeController extends Controller
             ->take(16)
             ->get();
         $user_product = posts::where('id_user', $post->id_user)
-            ->select("photos", "id")
+            ->select("photos", "id", "sell_at")
             ->where("verified_at", '!=', null)
             ->where("statut", '!=', 'validation')
             ->inRandomOrder()
