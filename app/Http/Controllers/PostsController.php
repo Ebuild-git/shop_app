@@ -136,7 +136,9 @@ class PostsController extends Controller
             );
         }
         return view("Admin.publications.details")
-            ->with("post", $post);
+            ->with("post", $post)
+            ->with("signalements", $post->signalements()->with('auteur')->get());
+
     }
 
     /**

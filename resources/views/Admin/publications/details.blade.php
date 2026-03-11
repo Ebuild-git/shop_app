@@ -17,6 +17,29 @@
                 @endif
             </h5>
             <hr>
+            @if($signalements->count() > 0)
+                <div class="alert alert-warning mt-3">
+                    <h6 class="fw-bold mb-2">
+                        <i class="bi bi-flag-fill me-1"></i>
+                        Signalé {{ $signalements->count() }} fois
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        @foreach($signalements as $signal)
+                            <li class="d-flex align-items-center gap-2 mb-1">
+                                <img src="{{ $signal->auteur->getAvatar() }}"
+                                    class="rounded-circle" width="24" height="24">
+                                <a href="/admin/client/{{ $signal->auteur->id }}/view" class="text-dark fw-medium">
+                                    {{ $signal->auteur->username }}
+                                </a>
+                                <small class="text-muted">— {{ $signal->created_at->diffForHumans() }}</small>
+                                @if($signal->motif)
+                                    <span class="badge bg-warning text-dark">{{ $signal->motif }}</span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-sm-8">
                     <div>
