@@ -15,6 +15,12 @@
             @else
                 {{ $user->username_deleted }}
             @endif
+            @if($user->locked)
+                <span class="badge bg-warning ms-2">Verrouillé</span>
+            @endif
+            @if($user->deleted_at)
+                <span class="badge bg-danger ms-2">Supprimé</span>
+            @endif
         </h5>
 
         <!-- Header -->
@@ -67,52 +73,132 @@
                             </div>
                         </div>
 
-
                         <div class="flex-grow-1 mt-3 mt-sm-5">
-                            <div
-                                class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                            <div class="d-flex align-items-start justify-content-between mx-4 flex-md-row flex-column gap-3">
+
+                                {{-- Left: User info --}}
                                 <div class="user-profile-info">
-                                    <h4>
+                                    <h4 class="mb-1">
                                         @if(!$user->deleted_at)
                                             {{ $user->username }}
                                         @else
                                             {{ $user->username_deleted }}
                                         @endif
+
+                                        {{-- Status badges inline with name --}}
+                                        @if($user->locked)
+                                            <span class="badge bg-warning ms-2" style="font-size: 11px;">
+                                                <i class="bi bi-lock-fill me-1"></i>Verrouillé
+                                            </span>
+                                        @endif
+                                        @if($user->deleted_at)
+                                            <span class="badge bg-danger ms-2" style="font-size: 11px;">
+                                                <i class="bi bi-trash-fill me-1"></i>Supprimé
+                                            </span>
+                                        @endif
                                     </h4>
-                                    <ul
-                                        class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                        <li class="list-inline-item d-flex gap-1 cusor" style="cursor: pointer;" onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
-                                            <i class="ti ti-color-swatch"></i>
+
+                                    <ul class="list-inline mb-0 d-flex align-items-center flex-wrap gap-2 text-muted" style="font-size: 13px;">
+                                        <li class="list-inline-item d-flex gap-1 align-items-center" style="cursor: pointer;"
+                                            onclick="OpenModalMessage('{{ $user->id }}','{{ $user->username }}')">
+                                            <i class="ti ti-mail"></i>
                                             <span style="color: #008080;">
                                                 @if(!$user->deleted_at)
-                                                {{ $user->email }}
+                                                    {{ $user->email }}
                                                 @else
                                                     {{ $user->email_deleted }}
                                                 @endif
                                             </span>
                                         </li>
-                                        <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i>
-                                            {{ $user->address ?? '/' }}</li>
-                                            <li class="list-inline-item d-flex gap-1">
-                                                <i class="ti ti-calendar"></i>
-                                                {{ $user->gender == 'female' ? 'Inscrite' : 'Inscrit' }} le {{ \Carbon\Carbon::parse($user->created_at)->locale('fr')->translatedFormat('d F Y à H:i') }}
-                                            </li>
-
+                                        <li class="list-inline-item d-flex gap-1 align-items-center">
+                                            <i class="ti ti-map-pin"></i> {{ $user->address ?? '/' }}
+                                        </li>
+                                        <li class="list-inline-item d-flex gap-1 align-items-center">
+                                            <i class="ti ti-calendar"></i>
+                                            {{ $user->gender == 'female' ? 'Inscrite' : 'Inscrit' }} le
+                                            {{ \Carbon\Carbon::parse($user->created_at)->locale('fr')->translatedFormat('d F Y à H:i') }}
+                                        </li>
                                     </ul>
                                 </div>
 
-                                @if ($user->photo_verified_at === null)
-                                    <form action="{{ route('admin.validate.photo', $user->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="bi bi-check-circle"></i> Valider la photo
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="badge bg-success">Photo Validée</span>
-                                @endif
-                            </div>
+                                {{-- Right: Dropdown actions menu --}}
+                                <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
 
+                                    {{-- Photo validation badge/button --}}
+                                    @if ($user->photo_verified_at === null)
+                                        <form action="{{ route('admin.validate.photo', $user->id) }}" method="POST" class="m-0">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-person-check me-1"></i> Valider photo
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="badge bg-label-success py-2 px-3">
+                                            <i class="bi bi-person-check-fill me-1"></i> Photo validée
+                                        </span>
+                                    @endif
+
+                                    {{-- Actions dropdown --}}
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle px-3" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i> Actions
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 210px;">
+
+                                            {{-- Lock / Unlock --}}
+                                            @if(!$user->deleted_at)
+                                                <li>
+                                                    <button class="dropdown-item d-flex align-items-center gap-2 py-2"
+                                                        onclick="toggleLock({{ $user->id }}, {{ $user->locked ? 'true' : 'false' }})">
+                                                        @if($user->locked)
+                                                            <span class="badge bg-warning p-1"><i class="bi bi-unlock-fill"></i></span>
+                                                            <span>Déverrouiller le compte</span>
+                                                        @else
+                                                            <span class="badge bg-secondary p-1"><i class="bi bi-lock-fill"></i></span>
+                                                            <span>Verrouiller le compte</span>
+                                                        @endif
+                                                    </button>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                            @endif
+
+                                            {{-- Restore --}}
+                                            @if($user->deleted_at)
+                                                <li>
+                                                    <button class="dropdown-item d-flex align-items-center gap-2 py-2"
+                                                        onclick="confirmRestore({{ $user->id }})">
+                                                        <span class="badge bg-info p-1"><i class="bi bi-arrow-counterclockwise"></i></span>
+                                                        <span>Restaurer l'utilisateur</span>
+                                                    </button>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                            @endif
+
+                                            {{-- Delete --}}
+                                            @if($user->deleted_at)
+                                                <li>
+                                                    <button class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger"
+                                                        onclick="confirmForceDelete({{ $user->id }})">
+                                                        <span class="badge bg-danger p-1"><i class="bi bi-trash-fill"></i></span>
+                                                        <span>Supprimer définitivement</span>
+                                                    </button>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <button class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger"
+                                                        onclick="confirmDelete({{ $user->id }})">
+                                                        <span class="badge bg-danger p-1"><i class="bi bi-trash-fill"></i></span>
+                                                        <span>Supprimer l'utilisateur</span>
+                                                    </button>
+                                                </li>
+                                            @endif
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -430,6 +516,171 @@
             .catch(error => {
                 alert('❌ Une erreur est survenue.');
                 console.error(error);
+            });
+        }
+
+        function toggleLock(userId, isLocked) {
+            const action = isLocked ? 'déverrouiller' : 'verrouiller';
+            Swal.fire({
+                title: `Êtes-vous sûr ?`,
+                text: `Vous êtes sur le point de ${action} ce compte utilisateur.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: isLocked ? '#3085d6' : '#6c757d',
+                cancelButtonColor: '#d33',
+                confirmButtonText: isLocked ? 'Oui, déverrouiller' : 'Oui, verrouiller',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/client/${userId}/lock`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire(
+                            isLocked ? 'Déverrouillé !' : 'Verrouillé !',
+                            isLocked ? 'Le compte a été déverrouillé.' : 'Le compte a été verrouillé.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Erreur !',
+                            'Une erreur est survenue.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        }
+
+        function confirmDelete(userId) {
+            Swal.fire({
+                title: 'Êtes-vous sûr ?',
+                text: "Vous êtes sur le point de supprimer cet utilisateur. Cette action peut être annulée.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimer',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/client/${userId}/delete`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire(
+                            'Supprimé !',
+                            'L\'utilisateur a été supprimé.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Erreur !',
+                            'Une erreur est survenue lors de la suppression.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        }
+
+        function confirmForceDelete(userId) {
+            Swal.fire({
+                title: 'Supprimer définitivement ?',
+                text: "Cette action est irréversible ! L'utilisateur et toutes ses données seront supprimés définitivement.",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimer définitivement',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/client/${userId}/force-delete`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire(
+                            'Supprimé !',
+                            'L\'utilisateur a été supprimé définitivement.',
+                            'success'
+                        ).then(() => {
+                            window.location.href = '{{ route("liste_utilisateurs") }}';
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Erreur !',
+                            'Une erreur est survenue lors de la suppression.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        }
+
+        function confirmRestore(userId) {
+            Swal.fire({
+                title: 'Restaurer cet utilisateur ?',
+                text: "L'utilisateur sera restauré et pourra se connecter à nouveau.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui, restaurer',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/client/${userId}/restore`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire(
+                            'Restauré !',
+                            'L\'utilisateur a été restauré.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Erreur !',
+                            'Une erreur est survenue lors de la restauration.',
+                            'error'
+                        );
+                    });
+                }
             });
         }
     </script>

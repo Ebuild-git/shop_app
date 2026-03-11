@@ -151,4 +151,93 @@ class UserController extends Controller
     {
         return view('User.politique-cookies');
     }
+
+    /**
+     * Lock or unlock a user account
+     */
+    public function toggleLock($id)
+    {
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+
+            if ($user->locked) {
+                $user->update(['locked' => false]);
+                $message = 'Compte utilisateur déverrouillé avec succès.';
+            } else {
+                $user->update(['locked' => true]);
+                $message = 'Compte utilisateur verrouillé avec succès.';
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => $message
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de modifier le statut du utilisateur.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Soft delete a user account
+     */
+    public function deleteUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Utilisateur supprimé avec succès.'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de supprimer cet utilisateur.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Permanently delete a user account
+     */
+    public function forceDeleteUser($id)
+    {
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+            $user->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Utilisateur supprimé définitivement.'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de supprimer définitivement cet utilisateur.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Restore a deleted user
+     */
+    public function restoreUser($id)
+    {
+        try {
+            User::withTrashed()->where('id', $id)->restore();
+            return response()->json([
+                'success' => true,
+                'message' => 'Utilisateur restauré avec succès.'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de restaurer cet utilisateur.'
+            ], 500);
+        }
+    }
 }
