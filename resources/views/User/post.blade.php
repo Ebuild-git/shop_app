@@ -76,7 +76,7 @@
                         class="form-control form-control-lg"
                         id="ribNumber"
                         name="ribNumber"
-                        value="{{ old('ribNumber', Auth::user()->rib_number) }}"
+                        value="{{ old('ribNumber', Auth::user()->decrypted_rib) }}"
                         required
                         placeholder="{{ __('rib_number')}}"
                     >

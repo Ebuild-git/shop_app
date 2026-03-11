@@ -1000,7 +1000,8 @@
   "privacy_article8_content": "La présente Politique de Confidentialité peut être modifiée à tout moment pour refléter les évolutions réglementaires, les nouvelles fonctionnalités de la Plateforme ou l'amélioration de nos pratiques.<br><br>Toute modification substantielle vous sera notifiée par email et/ou notification sur la Plateforme <strong>au moins 15 jours avant son entrée en vigueur</strong>.<br><br>La version en vigueur est toujours accessible sur la Plateforme avec indication de la date de dernière mise à jour.<br><br>Votre utilisation continue de la Plateforme après notification vaut <strong>acceptation de la nouvelle Politique de Confidentialité</strong>.",
   "privacy_article9_title": "Déclaration CNDP",
   "privacy_article9_content": "Conformément à la <strong>loi 09-08</strong>, le traitement des données à caractère personnel effectué par SHOP<span class=\"color\">IN</span> a fait l'objet d'une déclaration auprès de la CNDP.",
-  "privacy_last_update": "Date de dernière mise à jour : <strong>01/01/2026</strong>"
+  "privacy_last_update": "Date de dernière mise à jour : <strong>01/01/2026</strong>",
+  "validation.rib_digits": "Le numéro RIB doit contenir exactement 13 chiffres."
 
 
 }
