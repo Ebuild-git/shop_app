@@ -38,7 +38,7 @@ function delete_my_post(id) {
         text: deletePostTranslation.text,
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",
         confirmButtonText: deletePostTranslation.confirm,
         cancelButtonText: deletePostTranslation.cancel,

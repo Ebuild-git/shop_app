@@ -87,7 +87,6 @@
                         @if(Auth::user()->cin_img)
                             <div class="file-upload-preview">
                                 <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="Image Preview">
-                                <a href="{{ asset('storage/' . Auth::user()->cin_img) }}" download class="btn mt-2">{{ __('download_image')}}</a>
                             </div>
                         @else
                             <div class="file-upload-preview">

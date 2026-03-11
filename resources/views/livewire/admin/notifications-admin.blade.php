@@ -101,7 +101,7 @@
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            cancelButtonColor: '#008080',
             confirmButtonText: 'Oui, supprimer',
             cancelButtonText: 'Annuler'
         }).then((result) => {

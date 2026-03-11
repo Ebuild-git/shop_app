@@ -526,7 +526,7 @@
                 text: `Vous êtes sur le point de ${action} ce compte utilisateur.`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: isLocked ? '#3085d6' : '#6c757d',
+                confirmButtonColor: isLocked ? '#008080' : '#6c757d',
                 cancelButtonColor: '#d33',
                 confirmButtonText: isLocked ? 'Oui, déverrouiller' : 'Oui, verrouiller',
                 cancelButtonText: 'Annuler'
@@ -568,7 +568,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Oui, supprimer',
                 cancelButtonText: 'Annuler'
             }).then((result) => {
@@ -609,7 +609,7 @@
                 icon: 'error',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Oui, supprimer définitivement',
                 cancelButtonText: 'Annuler'
             }).then((result) => {
@@ -649,7 +649,7 @@
                 text: "L'utilisateur sera restauré et pourra se connecter à nouveau.",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#008080',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Oui, restaurer',
                 cancelButtonText: 'Annuler'

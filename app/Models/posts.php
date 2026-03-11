@@ -143,7 +143,7 @@ class posts extends Model
     {
         if ($this->updated_price_at) {
             $updatedPriceDate = Carbon::parse($this->updated_price_at);
-            $expiryDate = $updatedPriceDate->addWeeks(1);
+            $expiryDate = $updatedPriceDate->addDays(2);
             $now = Carbon::now();
 
             if ($expiryDate <= $now) {

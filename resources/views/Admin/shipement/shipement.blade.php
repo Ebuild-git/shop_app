@@ -360,7 +360,7 @@ function synchronizeWithAramex(commandeId) {
         showCancelButton: true,
         confirmButtonText: "Oui, synchroniser",
         cancelButtonText: "Annuler",
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#008080",
         cancelButtonColor: "#d33",
     }).then((result) => {
         if (result.isConfirmed) {
@@ -387,7 +387,7 @@ function synchronizeWithAramex(commandeId) {
                         icon: "success",
                         title: "Synchronisation réussie !",
                         text: data.message,
-                        confirmButtonColor: "#3085d6",
+                        confirmButtonColor: "#008080",
                     }).then(() => {
                         location.reload();
                     });
