@@ -54,6 +54,9 @@
                 @endif
 
             </div>
+            <div style="font-size: 11px; color: #aaa;">
+                <i class="bi bi-eye"></i> {{ $post->views ?? 0 }}
+            </div>
         </div>
     </div>
     @endif

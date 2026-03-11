@@ -360,6 +360,8 @@ class HomeController extends Controller
         $ma_note = ratings::where('id_user_sell', $user->id)->avg('etoiles');
         $count = number_format($user->averageRating->average_rating ?? 1);
         $avis = $user->getReviewsAttribute->count();
+        $total_views = posts::where('id_user', $user->id)->sum('views');
+
 
         return view('User.profile')
             ->with("user", $user)
