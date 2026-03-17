@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -141,7 +142,7 @@ class UsersController extends Controller
 
         $rules = [
             'email' => 'sometimes|nullable|email|max:100',
-            'phone_number' => 'sometimes|nullable|string|max:8',
+            'phone_number' => 'sometimes|nullable|string|min:9',
             'firstname' => 'sometimes|nullable|string',
             'lastname' => 'sometimes|nullable|string',
             'region' => 'sometimes|nullable|integer|exists:regions,id',
@@ -158,11 +159,36 @@ class UsersController extends Controller
             'avatar' => 'sometimes|image|mimes:jpg,png,jpeg,webp',
             'cin_img' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp',
 
-            'rib_number' => 'sometimes|nullable|string|min:13|max:32',
+            'rib_number' => 'sometimes|nullable|string|min:24',
             'bank_name' => 'sometimes|nullable|string',
             'titulaire_name' => 'sometimes|nullable|string',
 
             'voyage_mode' => 'sometimes|nullable|integer'
+        ];
+
+        $messages = [
+            'email.email' => 'Email format is invalid',
+            'email.max' => 'Email must not exceed 100 characters',
+
+            'phone_number.min' => 'Phone number must be at least 9 digits',
+            'phone_number.string' => 'Phone number must be a valid string',
+
+            'region.exists' => 'Selected region does not exist',
+
+            'jour.min' => 'Day must be between 1 and 31',
+            'jour.max' => 'Day must be between 1 and 31',
+            'mois.min' => 'Month must be between 1 and 12',
+            'mois.max' => 'Month must be between 1 and 12',
+
+            'avatar.image' => 'Avatar must be an image',
+            'avatar.mimes' => 'Avatar must be jpg, png, jpeg or webp',
+
+            'cin_img.image' => 'CIN must be an image',
+            'cin_img.mimes' => 'CIN must be jpeg, png, jpg, gif, svg or webp',
+
+            'rib_number.min' => 'RIB must be at least 24 characters',
+
+            'voyage_mode.integer' => 'Voyage mode must be a valid number',
         ];
 
         if ($request->has('password')) {
@@ -172,7 +198,17 @@ class UsersController extends Controller
             ]);
         }
 
-        $validated = $request->validate($rules);
+        // $validated = $request->validate($rules);
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation errors',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $validated = $validator->validated();
 
         $changes = false;
 
@@ -194,6 +230,10 @@ class UsersController extends Controller
             $user->avatar = $path;
 
             $config = configurations::first();
+
+            if (!$config) {
+                return response()->json(['message' => 'Configuration missing'], 500);
+            }
 
             if ($config->valider_photo == 1) {
                 if ($user->photo_verified_at) {
@@ -223,7 +263,14 @@ class UsersController extends Controller
 
 
         if ($request->filled(['jour', 'mois', 'annee'])) {
-            $date = Carbon::create($request->annee, $request->mois, $request->jour);
+            // $date = Carbon::create($request->annee, $request->mois, $request->jour);
+            try {
+                $date = Carbon::create($request->annee, $request->mois, $request->jour);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Invalid birthdate'
+                ], 422);
+            }
 
             if ($date->diffInYears(now()) < 18) {
                 return response()->json(['message' => 'You must be at least 18 years old'], 422);
