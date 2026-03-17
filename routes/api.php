@@ -72,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/favorites/count', [postController::class, 'countFavorites']);
     Route::get('/favorites', [postController::class, 'listFavorites']);
     Route::get('/my-posts', [postController::class, 'MyPosts']);
+    Route::get('/my-post-status-ids', [postController::class, 'myPostStatusIds']);
     Route::get('/my-purchases', [postController::class, 'MesAchats']);
     Route::post('/posts/create', [postController::class, 'store']);
     Route::post('/posts/update/{id}', [postController::class, 'update']);

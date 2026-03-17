@@ -1292,6 +1292,165 @@ class PostsController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/my-post-status-ids",
+     *     summary="Get user post IDs grouped by status",
+     *     description="Returns all post IDs for the authenticated user grouped by status (validation, vente, vendu, etc.)",
+     *     tags={"Posts"},
+     *     security={{"sanctum":{}}},
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *
+     *                 @OA\Property(
+     *                     property="validation",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=1)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="vente",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=2)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="vendu",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=3)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="livraison",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=4)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="livré",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=5)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="refusé",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=6)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="préparation",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=7)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="en cours de livraison",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=8)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="ramassée",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=9)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="retourné",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=10)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="en voyage",
+     *                     type="array",
+     *                     @OA\Items(type="integer", example=11)
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     )
+     * )
+     */
+    public function myPostStatusIds(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $posts = posts::with('user_info')
+            ->where('id_user', $user->id)
+            ->get(['id', 'statut', 'sell_at', 'verified_at', 'id_user']);
+
+        $result = [
+            'validation' => [],
+            'vente' => [],
+            'vendu' => [],
+            'livraison' => [],
+            'livré' => [],
+            'refusé' => [],
+            'préparation' => [],
+            'en cours de livraison' => [],
+            'ramassée' => [],
+            'retourné' => [],
+            'en voyage' => [],
+        ];
+
+        foreach ($posts as $post) {
+
+            if ($post->statut === 'validation') {
+                $result['validation'][] = $post->id;
+            }
+
+            elseif (
+                $post->statut === 'vente' ||
+                (
+                    $post->verified_at &&
+                    !$post->sell_at &&
+                    optional($post->user_info)->voyage_mode == 0
+                )
+            ) {
+                $result['vente'][] = $post->id;
+            }
+
+            elseif (
+                $post->statut === 'vendu' ||
+                $post->sell_at !== null
+            ) {
+                $result['vendu'][] = $post->id;
+            }
+
+            elseif (
+                $post->statut === 'en voyage' ||
+                (
+                    optional($post->user_info)->voyage_mode == 1 &&
+                    $post->verified_at
+                )
+            ) {
+                $result['en voyage'][] = $post->id;
+            }
+
+            elseif (array_key_exists($post->statut, $result)) {
+                $result[$post->statut][] = $post->id;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $result
+        ], 200);
+    }
+
 
 
 }
