@@ -301,8 +301,16 @@ class UsersController extends Controller
 
         if ($request->filled('rib_number')) {
 
-            $current = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
+            // $current = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
 
+            $current = null;
+            if ($user->rib_number) {
+                try {
+                    $current = Crypt::decryptString($user->rib_number);
+                } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                    $current = null; // cannot decrypt, assume different
+                }
+            }
             if ($current !== $request->rib_number) {
 
                 $user->rib_number = Crypt::encryptString($request->rib_number);
