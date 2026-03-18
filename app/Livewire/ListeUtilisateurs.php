@@ -53,13 +53,20 @@ class ListeUtilisateurs extends Component
                 $users->whereNotNull('email_deleted')
                     ->whereNotNull('username_deleted');
             }
+        } else {
+            // Only apply locked filter for non-trashed users
+            if ($this->locked === 'yes') {
+                $users->where('locked', true);
+            } else {
+                $users->where('locked', false);
+            }
         }
 
-        if ($this->locked === 'yes') {
-            $users->where('locked', true);
-        }else {
-            $users->where('locked', false);
-        }
+        // if ($this->locked === 'yes') {
+        //     $users->where('locked', true);
+        // }else {
+        //     $users->where('locked', false);
+        // }
 
         if (!empty($this->key)) {
             $users = $users->where(function ($query) {
