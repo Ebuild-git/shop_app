@@ -84,9 +84,9 @@ Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 
 Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
-Route::get('/fcm', function () {
-    return view('test-fcm');
-});
+    Route::get('/fcm', function () {
+        return view('test-fcm');
+    });
 
     Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile'])->name('user_profile');
     Route::get('/add_panier', [ControllersHomeController::class, 'add_panier'])->name('add_panier');
@@ -164,6 +164,10 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/publications/deleted', [PostsController::class, 'liste_publications_supprimer'])->name('liste_publications_supprimer');
     Route::get('/admin/informations', [InformationsController::class, 'index'])->name('informations');
     Route::get('/admin/client/{id}/view', [UserController::class, 'details_user'])->name('vue_details_utilisateurs');
+    Route::post('/admin/client/{id}/lock', [UserController::class, 'toggleLock'])->name('admin.client.lock');
+    Route::delete('/admin/client/{id}/delete', [UserController::class, 'deleteUser'])->name('admin.client.delete');
+    Route::delete('/admin/client/{id}/force-delete', [UserController::class, 'forceDeleteUser'])->name('admin.client.forceDelete');
+    Route::post('/admin/client/{id}/restore', [UserController::class, 'restoreUser'])->name('admin.client.restore');
     Route::get('/admin/publication/{id}/view', [PostsController::class, 'details_publication'])->name('vue_details_publication');
     Route::get('/admin/add_categorie', [CategoriesController::class, 'add_categorie'])->name('add_categorie');
     Route::get('/admin/update_categorie/{id}', [CategoriesController::class, 'update_categorie'])->name('admin_update_categorie');
