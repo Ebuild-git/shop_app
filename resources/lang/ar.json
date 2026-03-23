@@ -432,7 +432,7 @@
     "no_changes_made": "لم يتم إجراء أي تغييرات",
     "our_partners": "شركاؤنا",
     "rib_number_required": "يرجى إدخال رقم RIB الخاص بك",
-    "rib_number_min": "يجب أن يحتوي رقم RIB الخاص بك على 13 حرفًا على الأقل",
+    "rib_number_min": "يجب أن يحتوي رقم RIB الخاص بك على 24 حرفًا على الأقل",
     "rib_number_max": "لا يمكن أن يتجاوز رقم RIB الخاص بك 32 حرفًا",
     "bank_name_required": "يرجى إدخال اسم البنك",
     "titulaire_name_required": "يرجى إدخال اسم صاحب الحساب",

@@ -431,7 +431,7 @@
     "no_changes_made": "No changes were made.",
     "our_partners": "Our Partners",
     "rib_number_required": "Please enter your RIB number",
-    "rib_number_min": "Your RIB number must have at least 13 characters",
+    "rib_number_min": "Your RIB number must have at least 24 characters",
     "rib_number_max": "Your RIB number cannot exceed 32 characters",
     "bank_name_required": "Please enter the bank name",
     "titulaire_name_required": "Please enter the account holder's name",

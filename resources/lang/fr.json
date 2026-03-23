@@ -433,7 +433,7 @@
     "no_changes_made": "Aucune modification n'a été effectuée.",
     "our_partners": "Nos Partenaires",
     "rib_number_required": "Veuillez saisir votre numéro de RIB",
-    "rib_number_min": "Votre numéro de RIB doit contenir au moins 13 caractères",
+    "rib_number_min": "Votre numéro de RIB doit contenir au moins 24 caractères",
     "rib_number_max": "Votre numéro de RIB ne peut pas dépasser 32 caractères",
     "bank_name_required": "Veuillez saisir le nom de la banque",
     "titulaire_name_required": "Veuillez saisir le nom du titulaire du compte",
