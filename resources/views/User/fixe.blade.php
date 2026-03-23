@@ -70,6 +70,52 @@
 
 <body class="custom-scrollbar">
 
+    <!-- Language Selection Popup -->
+    <div id="language-popup" class="language-popup-overlay" style="display: none;">
+        <div class="language-popup-content">
+            <div class="language-popup-header">
+                <h5>{{ __('Choose your language') }}</h5>
+                <button type="button" class="language-popup-close" onclick="closeLanguagePopup()">&times;</button>
+            </div>
+            <div class="language-popup-body">
+                <a href="{{ url('/change-lang/fr') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                    <img src="/assets/img/2.jpg" alt="Français" width="32" height="20" />
+                    <span>Français</span>
+                </a>
+                <a href="{{ url('/change-lang/en') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                    <img src="/assets/img/1.jpg" alt="English" width="32" height="20" />
+                    <span>English</span>
+                </a>
+                <a href="{{ url('/change-lang/ar') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                    <img src="/icons/maroc.webp" alt="العربية" width="32" height="20" />
+                    <span>العربية</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLanguagePopup() {
+            document.getElementById('language-popup').style.display = 'flex';
+        }
+
+        function closeLanguagePopup() {
+            document.getElementById('language-popup').style.display = 'none';
+            localStorage.setItem('language_selected', 'true');
+        }
+
+        function setLanguageSelected() {
+            localStorage.setItem('language_selected', 'true');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelected = localStorage.getItem('language_selected');
+            if (!languageSelected) {
+                setTimeout(showLanguagePopup, 500);
+            }
+        });
+    </script>
+
     <button class="close-modal-preview" id="close-modal-preview">
         <img width="40" height="40"
             src="https://img.icons8.com/external-creatype-outline-colourcreatype/40/FFFFFF/external-close-essential-ui-v4-creatype-outline-colourcreatype.png"

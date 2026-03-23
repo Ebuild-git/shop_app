@@ -1003,7 +1003,9 @@
   "privacy_last_update": "Date de dernière mise à jour : <strong>01/01/2026</strong>",
   "validation.rib_digits": "Le numéro RIB doit contenir exactement 24 chiffres.",
   "modifier": "Modifier",
-  "sauvegarder": "Sauvegarder"
+  "sauvegarder": "Sauvegarder",
+  "Choose your language": "Choisissez votre langue"
+
 
 
 }
