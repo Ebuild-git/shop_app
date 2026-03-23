@@ -79,6 +79,9 @@
                         value="{{ old('ribNumber', Auth::user()->decrypted_rib) }}"
                         required
                         placeholder="{{ __('rib_number')}}"
+                        inputmode="numeric"
+                        maxlength="24"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
                     >
                 </div>
                 <div class="mb-4 position-relative">
