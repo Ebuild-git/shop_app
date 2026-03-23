@@ -1001,7 +1001,9 @@
   "privacy_article9_title": "Déclaration CNDP",
   "privacy_article9_content": "Conformément à la <strong>loi 09-08</strong>, le traitement des données à caractère personnel effectué par SHOP<span class=\"color\">IN</span> a fait l'objet d'une déclaration auprès de la CNDP.",
   "privacy_last_update": "Date de dernière mise à jour : <strong>01/01/2026</strong>",
-  "validation.rib_digits": "Le numéro RIB doit contenir exactement 13 chiffres."
+  "validation.rib_digits": "Le numéro RIB doit contenir exactement 24 chiffres.",
+  "modifier": "Modifier",
+  "sauvegarder": "Sauvegarder"
 
 
 }

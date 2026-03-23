@@ -1000,6 +1000,8 @@
   "privacy_article9_title": "التصريح لدى اللجنة الوطنية لمراقبة حماية البيانات الشخصية",
   "privacy_article9_content": "وفقاً للـ<strong>قانون 09-08</strong>، خضعت معالجة البيانات الشخصية التي تقوم بها SHOP<span class=\"color\">IN</span> للتصريح لدى اللجنة الوطنية لمراقبة حماية البيانات الشخصية (CNDP).",
   "privacy_last_update": "تاريخ آخر تحديث: <strong>01/01/2026</strong>",
-  "validation.rib_digits": "يجب أن يتكون رقم الحساب البنكي من 13 رقمًا."
+  "validation.rib_digits": "يجب أن يتكون رقم الحساب البنكي من 24 رقمًا.",
+  "modifier": "تعديل",
+  "sauvegarder": "حفظ"
 
 }

@@ -344,7 +344,7 @@
                             <div class="mb-3">
                                 <h6>Image du CIN actuelle :</h6>
                                 <!-- Download Button for Current CIN -->
-                                <a href="{{ $currentCinImg }}" download="{{ $currentCinFilename }}" class="btn btn-sm btn-success mt-2">
+                                <a href="{{ $currentCinImg }}" download="U{{ $user->id + 1000 }}_cin_actuelle" class="btn btn-sm btn-success mt-2">
                                     <i class="bi bi-download"></i> Télécharger l'image actuelle
                                 </a>
 
@@ -379,7 +379,7 @@
                                             </div>
 
                                             <a href="{{ $oldCin }}"
-                                            download="{{ basename(parse_url($oldCin, PHP_URL_PATH)) }}"
+                                            download="U{{ $user->id + 1000 }}_cin_{{ $loop->iteration }}"
                                             class="btn btn-sm btn-success mt-2">
                                                 <i class="bi bi-download"></i> Télécharger
                                             </a>

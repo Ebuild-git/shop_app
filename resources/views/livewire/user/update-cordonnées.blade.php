@@ -76,7 +76,8 @@
     <div class="modal-footer mt-3">
         <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
-            {{ __('save_bank_info_changes') }}
+            {{-- {{ __('save_bank_info_changes') }} --}}
+            {{ $hasExistingInfo ? __('modifier') : __('sauvegarder') }}
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>

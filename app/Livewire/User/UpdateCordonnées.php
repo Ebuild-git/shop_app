@@ -45,7 +45,9 @@ class UpdateCordonnées extends Component
 
     public function render()
     {
-        return view('livewire..user.update-cordonnées');
+        $user = User::find(Auth::id());
+        $hasExistingInfo = $user && $user->rib_number && $user->bank_name && $user->titulaire_name;
+        return view('livewire..user.update-cordonnées', compact('hasExistingInfo'));
     }
 
     public function update()
