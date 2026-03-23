@@ -93,11 +93,11 @@
              <tbody>
                  @forelse ($users as $user)
                      <tr>
-                        <td>{{ 'U' . ($user->id + 1000) }}</td>
+                        <td><a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ 'U' . ($user->id + 1000) }}</a></td>
                         @if($showTrashed !== 'yes')
-                            <td style="left: 50px;"> {{ $user->username }} </td>
+                            <td style="left: 50px;"> <a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ $user->username }}</a> </td>
                         @else
-                            <td style="left: 50px;"> {{ $user->username_deleted }} </td>
+                            <td style="left: 50px;"> <a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ $user->username_deleted }}</a> </td>
                         @endif
                         <td style="left: 160px;"> {{ $user->firstname }} </td>
                         <td> {{ $user->lastname }} </td>
