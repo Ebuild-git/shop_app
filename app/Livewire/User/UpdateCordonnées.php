@@ -10,6 +10,8 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use App\Events\AdminEvent;
 use App\Models\notifications;
+use Illuminate\Validation\ValidationException;
+
 
 class UpdateCordonnées extends Component
 {
@@ -48,20 +50,26 @@ class UpdateCordonnées extends Component
 
     public function update()
     {
-        $this->validate([
-            'rib_number' => 'required|string|size:24',
-            'bank_name' => 'required|string',
-            'titulaire_name' => 'required|string',
-            'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
-        ], [
-            'rib_number.required' => __('rib_number_required'),
-            'rib_number.min' => __('rib_number_min'),
-            'rib_number.size' => __('rib_number_size'),
-            'rib_number.max' => __('rib_number_max'),
-            'bank_name.required' => __('bank_name_required'),
-            'titulaire_name.required' => __('titulaire_name_required'),
-            'cin_img.image' => __('cin_img_image'),
-        ]);
+        try {
+            $this->validate([
+                'rib_number' => 'required|string|size:24',
+                'bank_name' => 'required|string',
+                'titulaire_name' => 'required|string',
+                'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+            ], [
+                'rib_number.required' => __('rib_number_required'),
+                'rib_number.min' => __('rib_number_min'),
+                'rib_number.size' => __('rib_number_size'),
+                'rib_number.max' => __('rib_number_max'),
+                'bank_name.required' => __('bank_name_required'),
+                'titulaire_name.required' => __('titulaire_name_required'),
+                'cin_img.image' => __('cin_img_image'),
+            ]);
+        } catch (ValidationException $e) {
+            $firstError = collect($e->errors())->flatten()->first();
+            $this->dispatch('alert', ['message' => $firstError, 'type' => 'danger']);
+            throw $e; // re-throw so Livewire still renders inline errors
+        }
 
         $user = User::find(Auth::id());
         if ($user) {
