@@ -252,9 +252,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getDecryptedRibAttribute()
     {
-        if ($this->rib_number) {
-            return Crypt::decryptString($this->rib_number);
+        try {
+            return decrypt($this->rib);
+        } catch (\Exception $e) {
+            return null; // or return $this->rib;
         }
-        return null;
     }
 }
