@@ -34,6 +34,7 @@ class UpdateCordonnées extends Component
             } catch (\Exception $e) {
                 $this->rib_number = $user->rib_number;
             }
+            $this->rib_number = substr(preg_replace('/[^0-9]/', '', $this->rib_number ?? ''), 0, 24);
             $this->bank_name = $user->bank_name;
             $this->titulaire_name = $user->titulaire_name;
             $this->existingCinImg = $user->cin_img;
@@ -48,7 +49,7 @@ class UpdateCordonnées extends Component
     public function update()
     {
         $this->validate([
-            'rib_number' => 'required|string|size:13',
+            'rib_number' => 'required|string|size:24',
             'bank_name' => 'required|string',
             'titulaire_name' => 'required|string',
             'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',

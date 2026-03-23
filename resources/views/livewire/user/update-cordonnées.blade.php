@@ -6,8 +6,15 @@
             <div class="form-group">
                 <label>{{ __('current_rib_number') }}</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control border-r shadow-none" @error('rib_number') is-invalid @enderror
-                    wire:model="rib_number" required>
+                <input
+                        type="text"
+                        class="form-control border-r shadow-none @error('rib_number') is-invalid @enderror"
+                        wire:model="rib_number"
+                        inputmode="numeric"
+                        maxlength="24"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
+                        required
+                    >
                 @error('rib_number')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
