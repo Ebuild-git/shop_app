@@ -90,17 +90,36 @@ class HomeController extends Controller
         return view('User.post', compact("id", "step"));
     }
 
-    public function checkCinStatus()
-    {
-        $user = Auth::user();
-        $hasCin = $user->cin_img ? true : false;
-        $approved = $user->cin_approved ? true : false;
+    // public function checkCinStatus()
+    // {
+    //     $user = Auth::user();
+    //     $hasCin = $user->cin_img ? true : false;
+    //     $approved = $user->cin_approved ? true : false;
 
-        return response()->json([
-            'has_cin' => $hasCin,
-            'approved' => $approved,
-        ]);
+    //     return response()->json([
+    //         'has_cin' => $hasCin,
+    //         'approved' => $approved,
+    //     ]);
+    // }
+
+    public function checkCinStatus()
+{
+    if (!Auth::check()) {
+        return response()->json(['locked' => true, 'unauthenticated' => true]);
     }
+
+    $user = Auth::user();
+
+    if ($user->locked) { // 👈 change to your actual column name
+        return response()->json(['locked' => true]);
+    }
+
+    return response()->json([
+        'locked'  => false,
+        'has_cin' => $user->cin_img ? true : false,
+        'approved' => $user->cin_approved ? true : false,
+    ]);
+}
 
     public function showRibForm(Request $request)
     {
