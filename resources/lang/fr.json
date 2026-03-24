@@ -391,7 +391,7 @@
     "notifications.order_confirmed_title": "Commande confirmée",
     "notifications.order_confirmed_message": ":salutations client, votre commande a été confirmée avec succès. L’identifiant de votre commande est :shipment_id.",
     "cannot_like_own_post": "Vous ne pouvez pas liker votre propre annonce !",
-    "personal_details": "Coordonnées Personnelles",
+    "personal_details": "Informations bancaires",
     "subtitle": "Veuillez remplir ces informations pour compléter votre profil.",
     "rib_number": "Numéro RIB",
     "cin_upload": "Télécharger l'image de votre carte d’identité",

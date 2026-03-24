@@ -390,7 +390,7 @@
     "notifications.order_confirmed_title": "تم تأكيد الطلب",
     "notifications.order_confirmed_message": ":salutations العميل، تم تأكيد طلبك بنجاح. رقم طلبك هو :shipment_id.",
     "cannot_like_own_post": "لا يمكنك الإعجاب بمنشورك الخاص",
-    "personal_details": "معلومات الشخصية",
+    "personal_details": "المعلومات البنكية",
     "subtitle": "يرجى ملء هذه المعلومات لإكمال ملفك الشخصي.",
     "rib_number": "رقم RIB",
     "cin_upload": "رفع صورة بطاقة التعريف (CIN)",
