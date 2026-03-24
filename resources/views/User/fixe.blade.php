@@ -108,11 +108,35 @@
             localStorage.setItem('language_selected', 'true');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        function checkLanguagePopup() {
+            // Check localStorage first
             const languageSelected = localStorage.getItem('language_selected');
-            if (!languageSelected) {
+
+            // Also check if locale cookie is set
+            const cookieLocale = document.cookie.match(/locale=([^;]+)/);
+            const hasLocaleCookie = cookieLocale && cookieLocale[1];
+
+            // Check if app locale is already set (from server-side)
+            // Default is 'fr', so if locale is 'en' or 'ar', language was already selected
+            const appLocale = '{{ app()->getLocale() }}';
+            const hasAppLocale = appLocale && appLocale !== '' && appLocale !== 'fr';
+
+            // Show popup only if: no localStorage flag AND no cookie AND still on default locale ('fr')
+            if (!languageSelected && !hasLocaleCookie && !hasAppLocale) {
                 setTimeout(showLanguagePopup, 500);
+            } else {
+                // Mark as selected if we have any locale set
+                localStorage.setItem('language_selected', 'true');
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLanguagePopup();
+        });
+
+        // Also check on Livewire navigation
+        document.addEventListener('livewire:navigate', function() {
+            checkLanguagePopup();
         });
     </script>
 
