@@ -76,7 +76,7 @@
                         class="form-control form-control-lg"
                         id="ribNumber"
                         name="ribNumber"
-                        value="{{ old('ribNumber', Auth::user()->decrypted_rib) }}"
+                        value="{{ old('ribNumber', Auth::user()->rib_number ? substr(preg_replace('/[^0-9]/', '', Crypt::decryptString(Auth::user()->rib_number)), 0, 24) : '') }}"
                         required
                         placeholder="{{ __('rib_number')}}"
                         inputmode="numeric"
@@ -114,9 +114,18 @@
                     </div>
                 </div>
 
+                {{-- @php
+                $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->decrypted_rib;
+                @endphp --}}
                 @php
-                $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->rib_number;
+                    try {
+                        $decryptedRib = Auth::user()->rib_number ? Crypt::decryptString(Auth::user()->rib_number) : null;
+                    } catch (\Exception $e) {
+                        $decryptedRib = null;
+                    }
+                    $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && $decryptedRib;
                 @endphp
+
                 <button type="submit" class="btn-prim w-30-custom">
                     {{ $isDataAvailable ? __('update') : __('save') }}
                 </button>

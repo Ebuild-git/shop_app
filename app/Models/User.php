@@ -250,12 +250,27 @@ class User extends Authenticatable implements JWTSubject
             : null;
     }
 
+    // public function getDecryptedRibAttribute()
+    // {
+    //     try {
+    //         $raw = $this->attributes['rib_number'] ?? null;
+    //         if (!$raw) return null;
+    //         return decrypt($raw);
+    //     } catch (\Exception $e) {
+    //         \Log::error('RIB decrypt failed: ' . $e->getMessage());
+    //         return null;
+    //     }
+    // }
+    // It was never encrypted, just return it raw
     public function getDecryptedRibAttribute()
-    {
-        try {
-            return decrypt($this->rib);
-        } catch (\Exception $e) {
-            return null; // or return $this->rib;
-        }
+{
+    $raw = $this->attributes['rib_number'] ?? null;
+    if (!$raw) return null;
+    try {
+        return Crypt::decryptString($raw); // ✅ matches encryptString
+    } catch (\Exception $e) {
+        \Log::error('RIB decrypt failed: ' . $e->getMessage());
+        return null;
     }
+}
 }
