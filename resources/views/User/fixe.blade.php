@@ -1163,70 +1163,93 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- CIN Warning Modal -->
     <div class="modal fade" id="cinModal" tabindex="-1" role="dialog" aria-labelledby="cinModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="padding: 0.75rem 1.25rem; background-color:#008080;">
-            <h5 class="modal-title text-white mb-0" id="cinModalLabel">{{ __('Attention!') }}</h5>
-            <button type="button" class="close m-0 p-0" data-dismiss="modal" aria-label="{{ __('Close') }}" style="font-size: 15px; line-height: 1;">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center" style="padding: 0.75rem 1.25rem; background-color:#008080;">
+                    <h5 class="modal-title text-white mb-0" id="cinModalLabel">{{ __('Attention!') }}</h5>
+                    <button type="button" class="close m-0 p-0" data-dismiss="modal" aria-label="{{ __('Close') }}" style="font-size: 15px; line-height: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center py-4" id="cinModalBody">
+                    {{-- content will be filled dynamically --}}
+                </div>
+                <div class="modal-footer justify-content-center border-0 pt-0 pb-3" id="cinModalFooter">
+                    <a href="/informations?section=cord" class="rounded-link" id="cinAddBtn">
+                        {{ __('Ajouter maintenant') }}
+                    </a>
+                </div>
             </div>
-            {{-- <div class="modal-body text-center py-4">
-            {{ __('Veuillez ajouter une image de votre carte d\'identité avant de publier.') }}
-            </div> --}}
-            <div class="modal-body text-center py-4" id="cinModalBody">
-                {{-- content will be filled dynamically --}}
-            </div>
-            <div class="modal-footer justify-content-center border-0 pt-0 pb-3" id="cinModalFooter">
-                <a href="/informations?section=cord" class="rounded-link" id="cinAddBtn">
-                {{ __('Ajouter maintenant') }}
-                </a>
-            </div>
-        </div>
         </div>
     </div>
 
-    @auth
-        <script>
-            var cinValidationMsg = "{{ __('attente_validation') }}";
-            var cinRequiredMsg = "Veuillez ajouter une image de votre carte d'identité avant de publier.";
+    {{-- Outside @auth so translations + function are always available even after session expires --}}
+    <script>
+        var cinValidationMsg = @json(__('attente_validation'));
+        var cinRequiredMsg   = @json(__('Veuillez ajouter une image de votre carte d\'identité avant de publier.'));
+        var cinLockedMsg     = @json(__('account_locked_message'));
+        var cinContactLabel  = @json(__('contact_support'));
+        var cinAddNowLabel   = @json(__('Ajouter maintenant'));
 
-            function checkCinBeforePublish(e) {
-                e.preventDefault();
+        function checkCinBeforePublish(e) {
+            e.preventDefault();
 
-                let modal = new bootstrap.Modal(document.getElementById('cinModal'));
-                let modalBody = document.getElementById('cinModalBody');
-                let addBtn = document.getElementById('cinAddBtn');
+            let modal       = new bootstrap.Modal(document.getElementById('cinModal'));
+            let modalBody   = document.getElementById('cinModalBody');
+            let modalFooter = document.getElementById('cinModalFooter');
 
-                // Check CIN status via AJAX to get fresh data
-                fetch('/check-cin-status', {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.has_cin && data.approved) {
-                        window.location.href = "/publication";
-                    } else if (data.has_cin && !data.approved) {
-                        if (modalBody) modalBody.innerText = cinValidationMsg;
-                        if (addBtn) addBtn.style.display = 'none';
-                        modal.show();
-                    } else {
-                        if (modalBody) modalBody.innerText = cinRequiredMsg;
-                        if (addBtn) addBtn.style.display = 'inline-block';
-                        modal.show();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking CIN status:', error);
-                    if (modalBody) modalBody.innerText = cinRequiredMsg;
-                    if (addBtn) addBtn.style.display = 'inline-block';
+            fetch('/check-cin-status', {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                const contentType = response.headers.get('content-type');
+                // If Laravel redirected to login page (session expired / user locked out)
+                // the response will be HTML, not JSON
+                if (!contentType || !contentType.includes('application/json')) {
+                    return { locked: true, unauthenticated: true };
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                // 1. Account locked or session expired
+                if (data.locked) {
+                    modalBody.innerText = cinLockedMsg;
+                    modalFooter.innerHTML = `<a href="/contact" class="rounded-link">${cinContactLabel}</a>`;
                     modal.show();
-                });
-            }
-        </script>
-        @endauth
+                    return;
+                }
+
+                // 2. Has CIN and approved → go to publication
+                if (data.has_cin && data.approved) {
+                    window.location.href = "/publication";
+                    return;
+                }
+
+                // 3. Has CIN but waiting for approval
+                if (data.has_cin && !data.approved) {
+                    modalBody.innerText = cinValidationMsg;
+                    modalFooter.innerHTML = ''; // hide the button, nothing to do
+                    modal.show();
+                    return;
+                }
+
+                // 4. No CIN at all → ask to add one
+                modalBody.innerText = cinRequiredMsg;
+                modalFooter.innerHTML = `<a href="/informations?section=cord" class="rounded-link">${cinAddNowLabel}</a>`;
+                modal.show();
+            })
+            .catch(error => {
+                console.error('Error checking CIN status:', error);
+                // Network error or unexpected issue — treat as locked/session gone
+                modalBody.innerText = cinLockedMsg;
+                modalFooter.innerHTML = `<a href="/contact" class="rounded-link">${cinContactLabel}</a>`;
+                modal.show();
+            });
+        }
+    </script>
 
 
 

@@ -80,6 +80,7 @@ Route::get('/remove_to_card', [ControllersHomeController::class, 'remove_to_card
 Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])->name('count_panier');
 Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 
+Route::get('/check-cin-status', [ControllersHomeController::class, 'checkCinStatus']);
 
 
 Route::group(['middleware' => ['auth', 'loggedOut']], function () {
@@ -102,7 +103,6 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
 
-    Route::get('/check-cin-status', [ControllersHomeController::class, 'checkCinStatus']);
 
     Route::get('/rib', [ControllersHomeController::class, 'showRibForm'])->name('rib.form');
     Route::post('/rib/submit', [ControllersHomeController::class, 'submitRib'])->name('rib.submit');

@@ -701,6 +701,8 @@
     "message_updated": "تم تحديث بطاقة التعريف الخاصة بك وهي في انتظار التحقق.",
     "message_notification": "سنرسل لك إشعارًا بمجرد التحقق منها.",
     "attente_validation": "بطاقة التعريف الخاصة بك  قيد المراجعة",
+    "account_locked_message": "حسابك مقفل. يرجى الاتصال بنا لمزيد من المعلومات.",
+    "contact_support": "الاتصال بالدعم",
     "Tanger-Tétouan-Al Hoceïma": "طنجة-تطوان-الحسيمة",
     "L'Oriental": "الشرق",
     "Fès-Meknès": "فاس-مكناس",
