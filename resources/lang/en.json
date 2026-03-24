@@ -395,7 +395,7 @@
     "cin_upload": "Upload Your ID Card (CIN)",
     "download_image": "Download Image",
     "save": "Save",
-    "update": "Update",
+    "update": "Edit",
     "choose_images": "Please add pictures of your item (minimum 3 pictures)",
     "add_more_details": "Provide more details about your item",
     "post_title": "Item title",
@@ -1001,7 +1001,7 @@
   "privacy_article9_content": "In accordance with <strong>Law 09-08</strong>, the personal data processing carried out by SHOP<span class=\"color\">IN</span> has been declared to the CNDP.",
   "privacy_last_update": "Last updated: <strong>01/01/2026</strong>",
   "validation.rib_digits": "The RIB number must be exactly 24 digits.",
-  "modifier": "Update",
+  "modifier": "Edit",
   "sauvegarder": "Save",
   "Choose your language": "Choose your language"
 }
