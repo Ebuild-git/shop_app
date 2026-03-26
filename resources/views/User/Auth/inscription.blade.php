@@ -86,12 +86,14 @@
                                 <span class="text-danger">*</span>
                                 <div class="input-group">
                                     <button type="button" class="form-control register-button"
+                                        data-gender="male"
                                         onclick="selectButton(this,'male')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/sf-black/20/008080/male.png" alt="male" />
                                             {{ __('male') }}
                                     </button>
                                     <button type="button" class="form-control register-button"
+                                        data-gender="female"
                                         onclick="selectButton(this,'female')">
                                         <img width="20" height="20"
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
@@ -281,6 +283,20 @@
     </div>
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var oldGenre = "{{ old('genre') }}";
+            if (oldGenre) {
+                var buttons = document.querySelectorAll('.register-button');
+                buttons.forEach(function (btn) {
+                    if (btn.dataset.gender === oldGenre) {
+                        btn.classList.add('selected-register');
+                        document.getElementById('sexe-input').value = oldGenre;
+                    }
+                });
+            }
+        });
+
         function selectButton(button, sexe) {
             var buttons = document.querySelectorAll('.register-button');
             buttons.forEach(function(btn) {
@@ -295,8 +311,8 @@
     <script>
         //formatage du numero de telephone
         function formatTelephone(input) {
-            var phoneNumber = input.value.replace(/\D/g, ''); // Supprime tous les caractères non numériques
-            phoneNumber = phoneNumber.substring(0, 10); // S'assure que le numéro a au plus 10 chiffres
+            var phoneNumber = input.value.replace(/\D/g, '');
+            phoneNumber = phoneNumber.substring(0, 10);
             var formattedPhoneNumber = '';
             for (var i = 0; i < phoneNumber.length; i++) {
                 formattedPhoneNumber += phoneNumber[i];
@@ -311,22 +327,18 @@
         const translations = @json([
             'username_invalid' => __('username_invalid'),
         ]);
-        //gestion pseudonyme
         $(document).ready(function() {
             $('#username').on('input', function(event) {
                 var input = $(this).val();
                 var errorMessage = '';
 
-                // Expression régulière pour valider le format du nom d'utilisateur
                 var regex = /^[a-zA-Z0-9-!@#\$%\^&\*\(\)_\+]+$/;
                 if (!regex.test(input)) {
                     errorMessage = translations.username_invalid;
                 }
 
-                // Afficher le message d'erreur
                 $('#error-message').text(errorMessage);
 
-                // Si un caractère invalide est saisi, supprimer le dernier caractère
                 if (errorMessage !== '') {
                     $(this).val(input.slice(0, -1));
                 }
