@@ -3,6 +3,15 @@
     $categories = \App\Models\categories::where('active', true)
     ->orderBy('order', 'ASC')
     ->get(['id', 'titre', 'luxury', 'pourcentage_gain']);
+
+    // Check if language was already selected on server side
+    $languageSelected = session('locale') && session('locale') !== 'fr';
+    if (request()->cookie('language_selected')) {
+        $languageSelected = true;
+    }
+    if (auth()->check() && auth()->user()->locale) {
+        $languageSelected = true;
+    }
 @endphp
 
 
@@ -42,6 +51,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
+        // Pass server-side language status to JavaScript
+        var serverLanguageSelected = {{ $languageSelected ? 'true' : 'false' }};
+
         let translations = {
             delete_confirm_title: @json(__('delete_confirm_title')),
             delete_post_text: @json(__('delete_post_text')),
@@ -78,15 +90,15 @@
                 <button type="button" class="language-popup-close" onclick="closeLanguagePopup()">&times;</button>
             </div>
             <div class="language-popup-body">
-                <a href="{{ url('/change-lang/fr') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                <a href="{{ url('/change-lang/fr') }}" class="language-popup-option" onclick="setLanguageSelected(event, this.href)">
                     <img src="/assets/img/2.jpg" alt="Français" width="32" height="20" />
                     <span>Français</span>
                 </a>
-                <a href="{{ url('/change-lang/en') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                <a href="{{ url('/change-lang/en') }}" class="language-popup-option" onclick="setLanguageSelected(event, this.href)">
                     <img src="/assets/img/1.jpg" alt="English" width="32" height="20" />
                     <span>English</span>
                 </a>
-                <a href="{{ url('/change-lang/ar') }}" class="language-popup-option" onclick="setLanguageSelected()">
+                <a href="{{ url('/change-lang/ar') }}" class="language-popup-option" onclick="setLanguageSelected(event, this.href)">
                     <img src="/icons/maroc.webp" alt="العربية" width="32" height="20" />
                     <span>العربية</span>
                 </a>
@@ -102,42 +114,111 @@
         function closeLanguagePopup() {
             document.getElementById('language-popup').style.display = 'none';
             localStorage.setItem('language_selected', 'true');
+            setLanguageCookie('true');
         }
 
-        function setLanguageSelected() {
+        function setLanguageSelected(event, url) {
+            if (event) {
+                event.preventDefault();
+            }
             localStorage.setItem('language_selected', 'true');
-        }
-
-        function checkLanguagePopup() {
-            // Check localStorage first
-            const languageSelected = localStorage.getItem('language_selected');
-
-            // Also check if locale cookie is set
-            const cookieLocale = document.cookie.match(/locale=([^;]+)/);
-            const hasLocaleCookie = cookieLocale && cookieLocale[1];
-
-            // Check if app locale is already set (from server-side)
-            // Default is 'fr', so if locale is 'en' or 'ar', language was already selected
-            const appLocale = '{{ app()->getLocale() }}';
-            const hasAppLocale = appLocale && appLocale !== '' && appLocale !== 'fr';
-
-            // Show popup only if: no localStorage flag AND no cookie AND still on default locale ('fr')
-            if (!languageSelected && !hasLocaleCookie && !hasAppLocale) {
-                setTimeout(showLanguagePopup, 500);
-            } else {
-                // Mark as selected if we have any locale set
-                localStorage.setItem('language_selected', 'true');
+            setLanguageCookie('true');
+            // Navigate to the language URL after setting the flag
+            if (url) {
+                window.location.href = url;
             }
         }
 
+        function setLanguageCookie(value) {
+            const date = new Date();
+            date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+            document.cookie = 'language_selected=' + value + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax';
+        }
+
+        function getLanguageCookie() {
+            const name = 'language_selected=';
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return null;
+        }
+
+        function checkLanguagePopup() {
+            try {
+                // First check server-side variable (most reliable)
+                if (serverLanguageSelected) {
+                    console.log('Server says language already selected');
+                    localStorage.setItem('language_selected', 'true');
+                    setLanguageCookie('true');
+                    document.getElementById('language-popup').style.display = 'none';
+                    return;
+                }
+
+                const languageSelected = localStorage.getItem('language_selected');
+                const cookieSelected = getLanguageCookie();
+
+                console.log('Checking language popup - localStorage:', languageSelected, 'Cookie:', cookieSelected);
+
+                // Check if we just came from a language change redirect
+                const referrer = document.referrer;
+                const justChangedLang = referrer && referrer.includes('/change-lang/');
+
+                // Also check URL params for language change
+                const urlParams = new URLSearchParams(window.location.search);
+                const hasLangParam = urlParams.has('lang');
+
+                if (justChangedLang || hasLangParam) {
+                    console.log('Just changed language, hiding popup');
+                    localStorage.setItem('language_selected', 'true');
+                    setLanguageCookie('true');
+                    document.getElementById('language-popup').style.display = 'none';
+                    return;
+                }
+
+                if (!languageSelected && !cookieSelected) {
+                    document.getElementById('language-popup').style.display = 'flex';
+                } else {
+                    document.getElementById('language-popup').style.display = 'none';
+                }
+            } catch(e) {
+                console.error('Error checking language popup:', e);
+            }
+        }
+
+        // Run on initial page load
         document.addEventListener('DOMContentLoaded', function() {
-            checkLanguagePopup();
+            setTimeout(checkLanguagePopup, 50);
         });
 
         // Also check on Livewire navigation
         document.addEventListener('livewire:navigate', function() {
-            checkLanguagePopup();
+            console.log('Livewire navigation detected');
+            setTimeout(checkLanguagePopup, 300);
         });
+
+        // Check on every page load (including back button)
+        window.addEventListener('pageshow', function(event) {
+            console.log('Page show event, persisted:', event.persisted);
+            setTimeout(checkLanguagePopup, 100);
+        });
+
+        // Fallback check
+        let checkCount = 0;
+        const fallbackCheck = setInterval(function() {
+            checkLanguagePopup();
+            checkCount++;
+            if (checkCount >= 5) {
+                clearInterval(fallbackCheck);
+            }
+        }, 1000);
     </script>
 
     <button class="close-modal-preview" id="close-modal-preview">

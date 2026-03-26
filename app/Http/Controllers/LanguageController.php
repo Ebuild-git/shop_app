@@ -27,8 +27,13 @@ class LanguageController extends Controller
         $availableLocales = ['en', 'fr', 'ar'];
 
         if (in_array($lang, $availableLocales)) {
+            // Set locale cookie and session
             Cookie::queue('locale', $lang, 60 * 24 * 365);
             session(['locale' => $lang]);
+
+            // Also set language_selected cookie so the frontend knows language was selected
+            Cookie::queue('language_selected', 'true', 60 * 24 * 365);
+
             if (auth()->check()) {
                 auth()->user()->update(['locale' => $lang]);
             }
