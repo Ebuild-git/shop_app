@@ -1005,6 +1005,8 @@
   "validation.rib_digits": "يجب أن يتكون رقم الحساب البنكي من 24 رقمًا.",
   "modifier": "تعديل",
   "sauvegarder": "حفظ",
-  "Choose your language": "اختر لغتك"
+  "Choose your language": "اختر لغتك",
+  "own_post_cannot_favorite": "يبدو أن هذا إعلانك! يمكن إضافة المفضلة فقط لإعلانات الآخرين.",
+  "already_sold": "تم بيع هذا الإعلان."
 
 }

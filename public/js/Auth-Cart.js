@@ -567,14 +567,14 @@ function toggleFavorite(postId) {
                     text: response.message,
                     position: 'center',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 4000
                 });
             } else {
                 Swal.fire({
                     text: response.message,
                     position: 'center',
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 4000
                 });
             }
         },
@@ -583,7 +583,7 @@ function toggleFavorite(postId) {
                 text: 'An error occurred. Please try again.',
                 position: 'center',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 4000
             });
         }
     });

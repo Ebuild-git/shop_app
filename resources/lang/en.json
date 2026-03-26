@@ -1005,7 +1005,9 @@
   "validation.rib_digits": "The RIB number must be exactly 24 digits.",
   "modifier": "Edit",
   "sauvegarder": "Save",
-  "Choose your language": "Choose your language"
+  "Choose your language": "Choose your language",
+  "own_post_cannot_favorite": "It looks like this is your item! Favoriting is only for items from other shopiners.",
+  "already_sold": "This item is already sold."
 }
 
 

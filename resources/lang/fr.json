@@ -1006,7 +1006,9 @@
   "validation.rib_digits": "Le numéro RIB doit contenir exactement 24 chiffres.",
   "modifier": "Modifier",
   "sauvegarder": "Sauvegarder",
-  "Choose your language": "Choisissez votre langue"
+  "Choose your language": "Choisissez votre langue",
+  "own_post_cannot_favorite": "C’est votre annonce ! Les favoris sont réservés aux annonces des autres shopiners.",
+  "already_sold": "Annonce déjà vendue."
 
 
 

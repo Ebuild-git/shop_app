@@ -45,45 +45,98 @@ class FavorisController extends Controller
     }
 
 
+    // public function ajouter_favoris(Request $request)
+    // {
+    //     $id_post = $request->get("id_post");
+    //     $post = posts::find($id_post);
+    //     if ($post) {
+    //         $favoris = favoris::where("id_post", $id_post)
+    //             ->where("id_user", Auth::user()->id)
+    //             ->first();
+    //         if (!$favoris) {
+    //             $favoris = new favoris();
+    //             $favoris->id_post = $id_post;
+    //             $favoris->id_user = Auth::user()->id;
+    //             if ($favoris->save()) {
+    //                 return response()->json(
+    //                     [
+    //                         "status" => true,
+    //                         "action" => "ajouté",
+    //                         "message" => __("favorite_added")
+    //                     ]
+    //                 );
+    //             }
+    //         } else {
+    //             $favoris->delete();
+    //             return response()->json(
+    //                 [
+    //                     "status" => true,
+    //                     "action" => "retiré",
+    //                     "message" => __("favorite_removed")
+    //                 ]
+    //             );
+    //         }
+    //     } else {
+    //         return response()->json(
+    //             [
+    //                 "status" => false,
+    //                 "action" => false,
+    //                 "message" => "Annonce introuvable !"
+    //             ]
+    //         );
+    //     }
+    // }
     public function ajouter_favoris(Request $request)
     {
         $id_post = $request->get("id_post");
+        $userId = Auth::id();
+
         $post = posts::find($id_post);
-        if ($post) {
-            $favoris = favoris::where("id_post", $id_post)
-                ->where("id_user", Auth::user()->id)
-                ->first();
-            if (!$favoris) {
-                $favoris = new favoris();
-                $favoris->id_post = $id_post;
-                $favoris->id_user = Auth::user()->id;
-                if ($favoris->save()) {
-                    return response()->json(
-                        [
-                            "status" => true,
-                            "action" => "ajouté",
-                            "message" => __("favorite_added")
-                        ]
-                    );
-                }
-            } else {
-                $favoris->delete();
-                return response()->json(
-                    [
-                        "status" => true,
-                        "action" => "retiré",
-                        "message" => __("favorite_removed")
-                    ]
-                );
-            }
+
+        if (!$post) {
+            return response()->json([
+                "status" => false,
+                "message" => "Annonce introuvable !"
+            ]);
+        }
+
+        if ($post->id_user == $userId) {
+            return response()->json([
+                "status" => false,
+                "message" => __('own_post_cannot_favorite')
+            ]);
+        }
+
+        if ($post->statut !== 'vente') {
+            return response()->json([
+                "status" => false,
+                "message" => __('already_sold')
+            ]);
+        }
+
+        $favoris = favoris::where("id_post", $id_post)
+            ->where("id_user", $userId)
+            ->first();
+
+        if (!$favoris) {
+            $favoris = new favoris();
+            $favoris->id_post = $id_post;
+            $favoris->id_user = $userId;
+            $favoris->save();
+
+            return response()->json([
+                "status" => true,
+                "action" => "ajouté",
+                "message" => __("favorite_added")
+            ]);
         } else {
-            return response()->json(
-                [
-                    "status" => false,
-                    "action" => false,
-                    "message" => "Annonce introuvable !"
-                ]
-            );
+            $favoris->delete();
+
+            return response()->json([
+                "status" => true,
+                "action" => "retiré",
+                "message" => __("favorite_removed")
+            ]);
         }
     }
 }
