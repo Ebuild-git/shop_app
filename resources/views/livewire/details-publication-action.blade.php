@@ -27,12 +27,19 @@
             </button>
         @endif
 
-        @if ($post->sell_at == null)
+        @if ($post->sell_at == null && $post->deleted_at == null)
             <button type="button" class="btn btn-danger d-inline-flex align-items-center justify-content-center flex-fill py-2" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ $post->id }}">
                 <i class="bi bi-x-lg me-2"></i>
                 Supprimer
             </button>
         @endif
+
+        @if ($post->deleted_at != null)
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-trash"></i> publication supprimée.
+            </div>
+        @endif
+
     </div>
     @if ($post->sell_at != null)
         <div class="alert alert-light">
