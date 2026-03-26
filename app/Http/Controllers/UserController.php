@@ -162,10 +162,10 @@ class UserController extends Controller
 
             if ($user->locked) {
                 $user->update(['locked' => false]);
-                $message = 'Compte utilisateur déverrouillé avec succès.';
+                $message = 'Compte utilisateur débloqué avec succès.';
             } else {
                 $user->update(['locked' => true]);
-                $message = 'Compte utilisateur verrouillé avec succès.';
+                $message = 'Compte utilisateur bloqué avec succès.';
             }
 
             return response()->json([

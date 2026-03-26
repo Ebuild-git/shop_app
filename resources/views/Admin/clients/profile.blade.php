@@ -16,7 +16,7 @@
                 {{ $user->username_deleted }}
             @endif
             @if($user->locked)
-                <span class="badge bg-warning ms-2">Verrouillé</span>
+                <span class="badge bg-warning ms-2">Bloqué</span>
             @endif
             @if($user->deleted_at)
                 <span class="badge bg-danger ms-2">Supprimé</span>
@@ -88,7 +88,7 @@
                                         {{-- Status badges inline with name --}}
                                         @if($user->locked)
                                             <span class="badge bg-warning ms-2" style="font-size: 11px;">
-                                                <i class="bi bi-lock-fill me-1"></i>Verrouillé
+                                                <i class="bi bi-lock-fill me-1"></i>Bloqué
                                             </span>
                                         @endif
                                         @if($user->deleted_at)
@@ -153,10 +153,10 @@
                                                         onclick="toggleLock({{ $user->id }}, {{ $user->locked ? 'true' : 'false' }})">
                                                         @if($user->locked)
                                                             <span class="badge bg-warning p-1"><i class="bi bi-unlock-fill"></i></span>
-                                                            <span>Déverrouiller le compte</span>
+                                                            <span>Débloqué le compte</span>
                                                         @else
                                                             <span class="badge bg-secondary p-1"><i class="bi bi-lock-fill"></i></span>
-                                                            <span>Verrouiller le compte</span>
+                                                            <span>Bloqué le compte</span>
                                                         @endif
                                                     </button>
                                                 </li>
@@ -520,7 +520,7 @@
         }
 
         function toggleLock(userId, isLocked) {
-            const action = isLocked ? 'déverrouiller' : 'verrouiller';
+            const action = isLocked ? 'débloquer' : 'bloquer';
             Swal.fire({
                 title: `Êtes-vous sûr ?`,
                 text: `Vous êtes sur le point de ${action} ce compte utilisateur.`,
@@ -528,7 +528,7 @@
                 showCancelButton: true,
                 confirmButtonColor: isLocked ? '#008080' : '#6c757d',
                 cancelButtonColor: '#d33',
-                confirmButtonText: isLocked ? 'Oui, déverrouiller' : 'Oui, verrouiller',
+                confirmButtonText: isLocked ? 'Oui, débloquer' : 'Oui, bloquer',
                 cancelButtonText: 'Annuler'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -543,8 +543,8 @@
                     .then(response => response.json())
                     .then(data => {
                         Swal.fire(
-                            isLocked ? 'Déverrouillé !' : 'Verrouillé !',
-                            isLocked ? 'Le compte a été déverrouillé.' : 'Le compte a été verrouillé.',
+                            isLocked ? 'Débloqué !' : 'Bloqué !',
+                            isLocked ? 'Le compte a été débloqué.' : 'Le compte a été bloqué.',
                             'success'
                         ).then(() => {
                             window.location.reload();
