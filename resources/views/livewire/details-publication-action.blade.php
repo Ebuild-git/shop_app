@@ -33,14 +33,19 @@
                 Supprimer
             </button>
         @endif
-
-        @if ($post->deleted_at != null)
-            <div class="alert alert-danger" role="alert">
-                <i class="bi bi-trash"></i> publication supprimée.
-            </div>
-        @endif
-
     </div>
+    @if ($post->deleted_at != null)
+        <div class="alert alert-danger mt-2" role="alert">
+            <i class="bi bi-trash"></i> Publication supprimée.
+            @if($post->motif_suppression)
+                <br><small><b>Motif :</b> {{ $post->motif_suppression }}</small>
+            @endif
+        </div>
+        <button type="button" class="btn btn-warning w-100 mt-2" wire:click="restaurer()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i>
+            Restaurer la publication
+        </button>
+    @endif
     @if ($post->sell_at != null)
         <div class="alert alert-light">
             <div class="header">
@@ -89,7 +94,7 @@
 
                 <button type="button" class="btn btn-sm btn-outline-dark" wire:click="remettre">
                     <i class="bi bi-x-lg me-1"></i>
-                    Remettre
+                    Remettre en vente
                 </button>
             </div>
 
@@ -134,14 +139,35 @@
     </div>
 
     <script>
-        window.addEventListener('hide-delete-modal', function() {
-            const modal = document.getElementById('deleteModal1-{{ $post->id }}');
-            if (modal) {
-                modal.classList.remove('show');
-                modal.style.display = 'none';
-                document.body.classList.remove('modal-open');
-                document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            registerDeleteModalListener();
         });
+
+        document.addEventListener('livewire:initialized', function () {
+            registerDeleteModalListener();
+        });
+
+        function registerDeleteModalListener() {
+            Livewire.on('hide-delete-modal', function () {
+                const modalEl = document.getElementById('deleteModal1-{{ $post->id }}');
+                if (modalEl) {
+                    // Force close via Bootstrap 5
+                    let bsModal = bootstrap.Modal.getInstance(modalEl);
+                    if (!bsModal) bsModal = new bootstrap.Modal(modalEl);
+                    bsModal.hide();
+                }
+
+                // Hard cleanup with slight delay to let Bootstrap animate
+                setTimeout(function () {
+                    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+                    document.body.classList.remove('modal-open');
+                    document.body.style.removeProperty('overflow');
+                    document.body.style.removeProperty('padding-right');
+
+                    // Reload the page after cleanup
+                    window.location.reload();
+                }, 300);
+            });
+        }
     </script>
 </div>

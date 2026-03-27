@@ -183,9 +183,76 @@ class DetailsPublicationAction extends Component
         }
     }
 
+
+    // public function confirmDelete($id)
+    // {
+    //     $post = posts::withTrashed()->find($id);
+
+    //     if ($post) {
+    //         if (!empty($this->motif_suppression)) {
+    //             $post->motif_suppression = $this->motif_suppression;
+    //             $post->save();
+
+    //             $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
+    //             $notification = new notifications();
+    //             $notification->titre = "{$greeting} " . $post->user_info->username;
+    //             $notification->id_user_destination = $post->id_user;
+    //             $notification->type = "alerte";
+    //             $notification->url = "#";
+    //             $notification->message = "
+    //                 Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
+    //                 La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
+    //                 Merci pour votre compréhension.
+    //             ";
+    //             $notification->save();
+    //             event(new UserEvent($post->id_user));
+
+    //             // Send FCM notification
+    //             $fcmService = app(\App\Services\FcmService::class);
+    //             $sent = $fcmService->sendToUser(
+    //                 $post->id_user,
+    //                 "{$greeting} " . $post->user_info->username,
+    //                 "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
+    //                 [
+    //                     'type' => 'alerte',
+    //                     'notification_id' => $notification->id,
+    //                     'destination' => 'user',
+    //                     'action' => 'post_deleted',
+    //                     'post_id' => $post->id,
+    //                 ]
+    //             );
+
+    //             if ($sent) {
+    //                 \Log::info("FCM notification sent successfully", [
+    //                     'user_id' => $post->id_user,
+    //                     'notification_id' => $notification->id,
+    //                     'type' => 'post_deleted'
+    //                 ]);
+    //             } else {
+    //                 \Log::warning("FCM notification failed to send", [
+    //                     'user_id' => $post->id_user,
+    //                     'notification_id' => $notification->id,
+    //                     'reason' => 'User has no FCM token or token invalid'
+    //                 ]);
+    //             }
+
+    //             $post->delete();
+    //             session()->flash('success', 'La publication a été supprimée avec succès !');
+    //             $this->dispatch('hide-delete-modal');
+
+    //         } else {
+    //             session()->flash('error', 'Veuillez sélectionner un motif de suppression.');
+    //             $this->dispatch('hide-delete-modal');
+
+    //         }
+    //     } else {
+    //         session()->flash('error', "Une erreur est survenue lors de la suppression !");
+    //         $this->dispatch('hide-delete-modal');
+    //     }
+    // }
     public function confirmDelete($id)
     {
-        $post = posts::find($id);
+        $post = posts::withTrashed()->find($id);
 
         if ($post) {
             if (!empty($this->motif_suppression)) {
@@ -206,9 +273,8 @@ class DetailsPublicationAction extends Component
                 $notification->save();
                 event(new UserEvent($post->id_user));
 
-                // Send FCM notification
                 $fcmService = app(\App\Services\FcmService::class);
-                $sent = $fcmService->sendToUser(
+                $fcmService->sendToUser(
                     $post->id_user,
                     "{$greeting} " . $post->user_info->username,
                     "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
@@ -221,33 +287,43 @@ class DetailsPublicationAction extends Component
                     ]
                 );
 
-                if ($sent) {
-                    \Log::info("FCM notification sent successfully", [
-                        'user_id' => $post->id_user,
-                        'notification_id' => $notification->id,
-                        'type' => 'post_deleted'
-                    ]);
-                } else {
-                    \Log::warning("FCM notification failed to send", [
-                        'user_id' => $post->id_user,
-                        'notification_id' => $notification->id,
-                        'reason' => 'User has no FCM token or token invalid'
-                    ]);
-                }
-
                 $post->delete();
-                session()->flash('success', 'La publication a été supprimée avec succès !');
-                $this->dispatch('hide-delete-modal');
+
+                // ✅ Just redirect — no modal event needed
+                return redirect(request()->header('Referer'))->with('success', 'La publication a été supprimée avec succès !');
 
             } else {
-                session()->flash('error', 'Veuillez sélectionner un motif de suppression.');
-                $this->dispatch('hide-delete-modal');
-
+                return redirect(request()->header('Referer'))->with('error', 'Veuillez sélectionner un motif de suppression.');
             }
         } else {
-            session()->flash('error', "Une erreur est survenue lors de la suppression !");
-            $this->dispatch('hide-delete-modal');
+            return redirect(request()->header('Referer'))->with('error', "Une erreur est survenue lors de la suppression !");
         }
     }
 
+    public function restaurer()
+    {
+        $post = posts::withTrashed()->find($this->id);
+        if ($post && $post->trashed()) {
+            $post->restore();
+            $post->motif_suppression = null;
+            $post->save();
+
+            event(new UserEvent($post->id_user));
+
+            $notification = new notifications();
+            $notification->titre = "Votre publication a été restaurée !";
+            $notification->id_user_destination = $post->id_user;
+            $notification->type = "alerte";
+            $notification->url = "/post/" . $post->id;
+            $notification->id_post = $post->id;
+            $notification->destination = "user";
+            $notification->id_user = $post->id_user;
+            $notification->message = "Votre publication <strong>" . htmlspecialchars($post->titre) . "</strong> a été restaurée par les administrateurs.";
+            $notification->save();
+
+            session()->flash('success', 'La publication a été restaurée avec succès !');
+        } else {
+            session()->flash('error', 'Impossible de restaurer cette publication.');
+        }
+    }
 }
