@@ -1009,7 +1009,16 @@
   "own_post_cannot_favorite": "It looks like this is your item! Favoriting is only for items from other shopiners.",
   "already_sold": "This item is already sold.",
   "Informations ajoutées avec succès.": "Information added successfully.",
-  "Informations modifiées avec succès.": "Information updated successfully."
+  "Informations modifiées avec succès.": "Information updated successfully.",
+  "swal_warning_title": "Warning",
+    "swal_privacy_required": "Please accept the privacy policy",
+    "swal_success_title": "Success",
+    "swal_success_message": "Your message has been sent successfully!",
+    "swal_error_title": "Error",
+    "swal_email_error_title": "Email error",
+    "swal_invalid_email": "The destination email address is invalid or the domain does not exist. Please check and try again.",
+    "swal_server_error": "Server error while sending email. Please try again later.",
+    "sending": "Sending..."
 }
 
 

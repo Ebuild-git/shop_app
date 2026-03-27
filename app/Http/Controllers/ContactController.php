@@ -82,7 +82,7 @@ class ContactController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Votre message a été envoyé avec succès!',
+                'message' => __('Your message has been sent successfully!'),
                 'data' => ['id' => $contact->id]
             ]);
         }

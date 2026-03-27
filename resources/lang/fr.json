@@ -1010,7 +1010,16 @@
   "own_post_cannot_favorite": "C’est votre annonce ! Les favoris sont réservés aux annonces des autres shopiners.",
   "already_sold": "Annonce déjà vendue.",
   "Informations ajoutées avec succès.": "Informations ajoutées avec succès.",
-   "Informations modifiées avec succès.": "Informations modifiées avec succès."
+   "Informations modifiées avec succès.": "Informations modifiées avec succès.",
+   "swal_warning_title": "Attention",
+    "swal_privacy_required": "Veuillez accepter la politique de confidentialité",
+    "swal_success_title": "Succès",
+    "swal_success_message": "Votre message a été envoyé avec succès !",
+    "swal_error_title": "Erreur",
+    "swal_email_error_title": "Erreur d'email",
+    "swal_invalid_email": "L'adresse email de destination est invalide ou le domaine n'existe pas. Veuillez vérifier l'email et réessayer.",
+    "swal_server_error": "Erreur serveur lors de l'envoi de l'email. Veuillez réessayer plus tard.",
+    "sending": "Envoi en cours..."
 
 
 

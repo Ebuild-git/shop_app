@@ -1009,6 +1009,15 @@
   "own_post_cannot_favorite": "يبدو أن هذا إعلانك! يمكن إضافة المفضلة فقط لإعلانات الآخرين.",
   "already_sold": "تم بيع هذا الإعلان.",
   "Informations ajoutées avec succès.": "تمت إضافة المعلومات بنجاح.",
-  "Informations modifiées avec succès.": "تم تعديل المعلومات بنجاح."
+  "Informations modifiées avec succès.": "تم تعديل المعلومات بنجاح.",
+  "swal_warning_title": "تنبيه",
+    "swal_privacy_required": "يرجى الموافقة على سياسة الخصوصية",
+    "swal_success_title": "نجاح",
+    "swal_success_message": "تم إرسال رسالتك بنجاح!",
+    "swal_error_title": "خطأ",
+    "swal_email_error_title": "خطأ في البريد الإلكتروني",
+    "swal_invalid_email": "عنوان البريد الإلكتروني غير صالح أو أن النطاق غير موجود. يرجى التحقق والمحاولة مرة أخرى.",
+    "swal_server_error": "حدث خطأ في الخادم أثناء إرسال البريد الإلكتروني. يرجى المحاولة لاحقًا.",
+    "sending": "جاري الإرسال..."
 
 }

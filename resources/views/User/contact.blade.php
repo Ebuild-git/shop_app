@@ -20,7 +20,7 @@
     <!-- ======================= Top Breadcrubms ======================== -->
 
     <!-- ======================= Contact Page Detail ======================== -->
-    <section class="middle">
+    <section class="middle" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
         <div class="container">
 
             <div class="row align-items-start justify-content-between" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
@@ -230,6 +230,20 @@
 </style>
 
 <script>
+    window.translations.contact = {
+        warning: "{{ __('swal_warning_title') }}",
+        privacy: "{{ __('swal_privacy_required') }}",
+        success: "{{ __('swal_success_title') }}",
+        successMsg: "{{ __('swal_success_message') }}",
+        error: "{{ __('swal_error_title') }}",
+        emailError: "{{ __('swal_email_error_title') }}",
+        invalidEmail: "{{ __('swal_invalid_email') }}",
+        serverError: "{{ __('swal_server_error') }}",
+        sending: "{{ __('sending') }}",
+        ok: "{{ __('ok') }}"
+    };
+</script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -244,14 +258,13 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Vérifier que le consentement RGPD est coché
         if (!consentCheckbox.checked) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Attention',
-                text: 'Veuillez accepter la politique de confidentialité',
+                title: window.translations.contact.warning,
+                text: window.translations.contact.privacy,
+                confirmButtonText: window.translations.contact.ok,
                 confirmButtonColor: '#008080',
-                confirmButtonText: 'OK'
             });
             return;
         }
@@ -260,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = `
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Envoi en cours...
+           ${window.translations.contact.sending}
         `;
 
         const formData = new FormData(form);
@@ -291,17 +304,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Succès',
-                text: 'Votre message a été envoyé avec succès!',
+                title: window.translations.contact.success,
+                text: window.translations.contact.successMsg,
                 confirmButtonColor: '#008080',
-                confirmButtonText: 'OK'
+                confirmButtonText: window.translations.contact.ok
             });
         })
         .catch(error => {
             console.error('Error:', error);
 
-            let errorMessage = 'Erreur lors de l\'envoi du message';
-            let errorTitle = 'Erreur';
+            let errorMessage = window.translations.contact.error;
+            let errorTitle = window.translations.contact.error;
 
             if (error.data) {
                 if (error.data.errors) {
@@ -313,13 +326,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (error.data.message.includes('Domain not found') ||
                         error.data.message.includes('Recipient address rejected') ||
                         error.data.message.includes('L\'adresse email de destination est invalide')) {
-                        errorTitle = 'Erreur d\'email';
-                        errorMessage = 'L\'adresse email de destination est invalide ou le domaine n\'existe pas. Veuillez vérifier l\'email et réessayer.';
+                        errorTitle = window.translations.contact.emailError;
+                        errorMessage = window.translations.contact.invalidEmail;
                     } else if (error.data.message.includes('450') ||
                                error.data.message.includes('550') ||
                                error.data.message.includes('SMTP')) {
-                        errorTitle = 'Erreur d\'email';
-                        errorMessage = 'Erreur serveur lors de l\'envoi de l\'email. Veuillez réessayer plus tard.';
+                        errorTitle = window.translations.contact.emailError;
+                        errorMessage = window.translations.contact.serverError;
                     } else {
                         errorMessage = error.data.message;
                     }
