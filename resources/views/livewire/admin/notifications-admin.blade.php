@@ -31,7 +31,7 @@
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
 
-                                    @if ($item->type == 'new_post' || $item->type == 'photo')
+                                    @if ($item->type == 'new_post' || $item->type == 'photo' || $item->type == 'rib')
                                         @if ($item->getUser)
                                             <img src="{{ $item->getUser->getAvatar() }}" alt class="h-auto rounded-circle" />
                                         @else

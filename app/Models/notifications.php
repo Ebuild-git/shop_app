@@ -17,6 +17,6 @@ class notifications extends Model
 
 
     public function getUser() {
-        return $this->hasOne(User::class, 'id','id_user');
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }
