@@ -1007,6 +1007,8 @@
   "sauvegarder": "حفظ",
   "Choose your language": "اختر لغتك",
   "own_post_cannot_favorite": "يبدو أن هذا إعلانك! يمكن إضافة المفضلة فقط لإعلانات الآخرين.",
-  "already_sold": "تم بيع هذا الإعلان."
+  "already_sold": "تم بيع هذا الإعلان.",
+  "Informations ajoutées avec succès.": "تمت إضافة المعلومات بنجاح.",
+  "Informations modifiées avec succès.": "تم تعديل المعلومات بنجاح."
 
 }

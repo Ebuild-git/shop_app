@@ -126,41 +126,7 @@ class HomeController extends Controller
         $step = $request->input('step', 1);
         return view('rib-form', compact('step'));
     }
-    // public function submitRib(Request $request)
-    // {
-    //     $request->validate([
-    //         'ribNumber' => 'required|string|digits:24',
-    //         'bankName' => 'required|string',
-    //         'titulaireName' => 'required|string',
-    //         'cin_img' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
-    //     ], [
-    //         'ribNumber.digits' => __('validation.rib_digits'),
-    //     ]);
 
-    //     $user = Auth::user();
-    //     $isNew = empty($user->rib_number);
-
-    //     $encryptedRib = Crypt::encryptString($request->input('ribNumber'));
-    //     $user->rib_number = $encryptedRib;
-    //     $user->bank_name = $request->input('bankName');
-    //     $user->titulaire_name = $request->input('titulaireName');
-
-    //     if ($request->hasFile('cin_img')) {
-    //         if ($user->cin_img) {
-    //             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
-    //             $oldCinImages[] = $user->cin_img;
-    //             $user->old_cin_images = json_encode($oldCinImages);
-    //         }
-    //         $image = $request->file('cin_img');
-    //         $imagePath = $image->store('cin_images', 'public');
-    //         $user->cin_img = $imagePath;
-    //     }
-
-    //     $user->save();
-    //     $message = $isNew ? 'Informations ajoutées avec succès.' : 'Informations modifiées avec succès.';
-
-    //     return response()->json(['message' => $message]);
-    // }
     public function submitRib(Request $request)
     {
         $request->validate([
@@ -175,7 +141,6 @@ class HomeController extends Controller
         $user = Auth::user();
         $isNew = empty($user->rib_number);
 
-        // Decrypt current RIB to compare
         $currentDecrypted = null;
         try {
             $currentDecrypted = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
@@ -187,7 +152,6 @@ class HomeController extends Controller
         $user->bank_name = $request->input('bankName');
         $user->titulaire_name = $request->input('titulaireName');
 
-        // RIB notification only if number actually changed
         if ($currentDecrypted !== $request->input('ribNumber')) {
             event(new AdminEvent("Un utilisateur a mis à jour son RIB."));
             $notification = new notifications();
@@ -211,7 +175,6 @@ class HomeController extends Controller
             $user->cin_img = $imagePath;
             $user->cin_approved = false;
 
-            // CIN notification
             event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
             $notification = new notifications();
             $notification->type = "photo";
@@ -224,7 +187,7 @@ class HomeController extends Controller
         }
 
         $user->save();
-        $message = $isNew ? 'Informations ajoutées avec succès.' : 'Informations modifiées avec succès.';
+        $message = $isNew ? __('Informations ajoutées avec succès.') : __('Informations modifiées avec succès.');
 
         return response()->json(['message' => $message]);
     }
