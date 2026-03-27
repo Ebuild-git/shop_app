@@ -598,7 +598,7 @@
     "auth.too_many_attempts": "Tentatives dépassées. Veuillez réessayer plus tard ou réinitialiser votre mot de passe.",
     "auth.verify_email": "Veuillez vérifier votre boite mail pour activer votre compte.",
     "auth.no_permission": "Vous n'avez pas l'autorisation de vous connecter.",
-    "auth.account_locked": "Compte bloqué. Veuillez <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>cliquer ici</a> pour contacter un administrateur et réactiver votre compte.",
+    "auth.account_locked": "Compte bloqué. Veuillez <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>cliquer ici</a> pour contacter un administrateur.",
     "error.forbidden_word": "Le mot ':word' n'est pas autorisé dans le champ :field.",
     "error.email_exists": "Cette adresse email est déjà utilisée.",
     "error.username_exists": "Ce pseudo est déjà utilisé.",

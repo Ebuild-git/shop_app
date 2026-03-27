@@ -596,7 +596,7 @@
     "auth.too_many_attempts": "Too many attempts. Please try again later or reset your password.",
     "auth.verify_email": "Please check your inbox to verify your account.",
     "auth.no_permission": "You do not have permission to log in.",
-    "auth.account_locked": "Account locked. Please <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>click here</a> to contact an administrator and reactivate your account.",
+    "auth.account_locked": "Account locked. Please <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>click here</a> to contact an administrator.",
     "error.forbidden_word": "The word ':word' is not allowed in the :field field.",
     "error.email_exists": "This email address is already in use.",
     "error.username_exists": "This username is already taken.",

@@ -597,7 +597,7 @@
     "auth.too_many_attempts": "عدد المحاولات تجاوز الحد. يرجى المحاولة لاحقًا أو إعادة تعيين كلمة المرور.",
     "auth.verify_email": "يرجى التحقق من بريدك الإلكتروني لتفعيل حسابك.",
     "auth.no_permission": "ليست لديك صلاحية تسجيل الدخول.",
-    "auth.account_locked": "تم حظر الحساب. يرجى <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>الضغط هنا</a> للتواصل مع المسؤول لإعادة تفعيل حسابك.",
+    "auth.account_locked": "تم حظر الحساب. يرجى <a href='/contact' style='font-weight: 500; text-decoration: underline; color:#565556;'>الضغط هنا</a> للتواصل مع المسؤول.",
     "error.forbidden_word": "الكلمة ':word' غير مسموح بها في حقل :field.",
     "error.email_exists": "عنوان البريد الإلكتروني هذا مستخدم بالفعل.",
     "error.username_exists": "اسم المستخدم هذا مستخدم بالفعل.",
