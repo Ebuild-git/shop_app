@@ -41,7 +41,7 @@ class ListeUtilisateurs extends Component
 
     public function render()
     {
-        $users = User::orderBy("id", "desc")->where("type", $this->type)->where("role", "!=", "admin");
+        $users = User::where("type", $this->type)->where("role", "!=", "admin");
 
         if ($this->showTrashed === 'yes') {
             $users = $users->onlyTrashed();
@@ -56,10 +56,10 @@ class ListeUtilisateurs extends Component
         } else {
             // Only apply locked filter for non-trashed users
             if ($this->locked === 'yes') {
-                $users->where('locked', true);
-                $users->orderBy("locked_at", "desc");
+                $users->where('locked', true)->orderBy("locked_at", "desc");
             } else {
-                $users->where('locked', false);
+                $users->where('locked', false)
+                ->orderBy("id", "desc");
             }
         }
 
