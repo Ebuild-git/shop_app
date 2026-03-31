@@ -135,7 +135,7 @@
                             @break <!-- Exit after the first iteration -->
                         @endforeach
                         @endif
-                        <td>{{ 'P' . $post->id }}</td>
+                        <td><a href="{{ url('/admin/publication/' . $post->id . '/view') }}">{{ 'P' . $post->id }}</a></td>
                         <td style="left: 110px;">{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td>
@@ -208,7 +208,7 @@
                             @break
                         @endforeach
                         @endif
-                        <td>{{ 'P' . $post->id }}</td>
+                        <td><a href="{{ url('/admin/publication/' . $post->id . '/view') }}">{{ 'P' . $post->id }}</a></td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
                         <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td>
