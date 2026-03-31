@@ -128,9 +128,9 @@ class AddressController extends Controller
             'nom_batiment' => 'required|string|max:255',
             'etage' => 'nullable|string|max:50',
             'num_appartement' => 'nullable|string|max:50',
-            'phone_number' => 'nullable|string|size:9',
+            'phone_number' => 'nullable|string|max:10',
         ],[
-            'phone_number.size' => 'The phone number must be exactly 9 digits.',
+            'phone_number.max' => 'The phone number must not exceed 10 digits.',
         ]);
 
         $user->update([
@@ -199,7 +199,7 @@ class AddressController extends Controller
             'building_name' => 'nullable|string|max:255',
             'floor' => 'nullable|string|max:50',
             'apartment_number' => 'nullable|string|max:50',
-            'phone_number' => 'nullable|string|max:20',
+            'phone_number' => 'nullable|string|max:10',
             'is_default' => 'nullable|boolean',
         ]);
 
@@ -271,7 +271,7 @@ class AddressController extends Controller
             'building_name' => 'nullable|string|max:255',
             'floor' => 'nullable|string|max:50',
             'apartment_number' => 'nullable|string|max:50',
-            'phone_number' => 'nullable|string|max:20',
+            'phone_number' => 'nullable|string|max:10',
             'is_default' => 'nullable|boolean',
         ]);
 
