@@ -63,7 +63,8 @@ class UserController extends Controller
                 ->with("currentCinFilename", $currentCinFilename)
                 ->with("oldCinImages", $oldCinImages);
         } catch (\Throwable $th) {
-            abort(404, "Page non trouvée");
+            report($th);
+            throw $th;
         }
     }
 
