@@ -61,7 +61,7 @@
                                                     <img src="{{ Storage::url($post->photos[0]) }}" alt="{{ $post->titre }}" class="table-image">
                                                 </a>
                                             </td>
-                                        <td> {{ $post->id}}</td>
+                                        <td><a href="{{ url('/admin/publication/' . $post->id . '/view') }}">{{ $post->id}}</a></td>
                                         <td style="left: 105px;">
                                             {{ $post->titre }}
                                             <div class="small">
