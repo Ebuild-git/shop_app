@@ -161,10 +161,16 @@ class UserController extends Controller
             $user = User::withTrashed()->findOrFail($id);
 
             if ($user->locked) {
-                $user->update(['locked' => false]);
+                $user->update([
+                    'locked' => false,
+                    'locked_at' => null
+                ]);
                 $message = 'Compte utilisateur débloqué avec succès.';
             } else {
-                $user->update(['locked' => true]);
+                $user->update([
+                    'locked' => true,
+                    'locked_at' => now()
+                ]);
                 $message = 'Compte utilisateur bloqué avec succès.';
             }
 

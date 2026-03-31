@@ -69,6 +69,9 @@
                      <th>Nom</th>
                      <th>Inscription</th>
                      <th>Dernière connexion</th>
+                      @if($locked === 'yes')
+                        <th>Date de blocage</th>
+                      @endif
                      @if($showTrashed !== 'yes')
                      <th>Nb articles en vente</th>
                      <th>Total des ventes</th>
@@ -120,6 +123,17 @@
                                 </span>
                             @endif
                         </td>
+                        @if($locked === 'yes')
+                            <td>
+                                @if($user->locked_at)
+                                    <span title="{{ \Carbon\Carbon::parse($user->locked_at)->diffForHumans() }}">
+                                        {{ \Carbon\Carbon::parse($user->locked_at)->format('d/m/Y H:i') }}
+                                    </span>
+                                @else
+                                    <span class="text-muted">Date inconnue</span>
+                                @endif
+                            </td>
+                        @endif
                         @if($showTrashed !== 'yes')
                         <td style="text-align: center;"> {{ $user->GetPosts->count() }}</td>
 

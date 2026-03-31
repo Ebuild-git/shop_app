@@ -57,6 +57,7 @@ class ListeUtilisateurs extends Component
             // Only apply locked filter for non-trashed users
             if ($this->locked === 'yes') {
                 $users->where('locked', true);
+                $users->orderBy("locked_at", "desc");
             } else {
                 $users->where('locked', false);
             }
@@ -142,12 +143,20 @@ class ListeUtilisateurs extends Component
     public function toggleLock($id)
     {
         $user = User::findOrFail($id);
+
         if ($user->locked == false) {
-            $user->update(['locked' => true]);
+            $user->update([
+                'locked' => true,
+                'locked_at' => now()
+            ]);
         } else {
-            $user->update(['locked' => false]);
+            $user->update([
+                'locked' => false,
+                'locked_at' => null
+            ]);
         }
     }
+
     public function restore($id)
     {
         User::withTrashed()->where('id', $id)->restore();
