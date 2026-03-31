@@ -49,7 +49,14 @@ class UserController extends Controller
         try {
             $user = User::withTrashed()->findOrFail($id);
             $posts = Posts::where('id_user', $user->id)->orderBy('created_at', 'desc')->paginate(30);
-            $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
+            // $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
+            try {
+                $decryptedRib = $user->rib_number
+                    ? Crypt::decryptString($user->rib_number)
+                    : null;
+            } catch (\Exception $e) {
+                $decryptedRib = null; // fallback instead of crashing
+            }
             $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
             $currentCinFilename = $user->cin_img ? basename($user->cin_img) : null;
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
@@ -63,8 +70,7 @@ class UserController extends Controller
                 ->with("currentCinFilename", $currentCinFilename)
                 ->with("oldCinImages", $oldCinImages);
         } catch (\Throwable $th) {
-            report($th);
-            throw $th;
+            abort(404, "Page non trouvée");
         }
     }
 
