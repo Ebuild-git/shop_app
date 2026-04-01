@@ -18,7 +18,7 @@ class SendOtpMail extends Mailable
     public function __construct($otp)
     {
         $this->otp = $otp;
-        $this->from('shopin@ebuild.website', 'SHOPIN');
+        $this->from('shopin@fresh-home.store', 'SHOPIN');
         $this->subject('Demande de réinitialisation du mot de passe');
     }
 

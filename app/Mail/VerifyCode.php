@@ -18,7 +18,7 @@ class VerifyCode extends Mailable
     {
         $this->user = $user;
         $this->token = $token;
-        $this->from('shopin@ebuild.website', 'SHOPIN');
+        $this->from('shopin@fresh-home.store', 'SHOPIN');
         $this->subject('Confirmation de votre inscription!');
     }
 
