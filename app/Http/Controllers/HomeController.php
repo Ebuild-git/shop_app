@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\AdminEvent;
-use App\Events\MyEvent;
 use App\Events\UserEvent;
 use App\Mail\VerifyMail;
 use App\Models\categories;
@@ -19,18 +18,15 @@ use App\Models\sous_categories;
 use App\Models\User;
 use App\Models\UserCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
-
     public function index()
     {
         $categories = categories::all();
@@ -42,11 +38,11 @@ class HomeController extends Controller
             ->join('users', 'posts.id_user', '=', 'users.id')
             ->whereNull('users.deleted_at')
             ->where('categories.luxury', false)
-            ->where("statut", '!=', 'validation')
+            ->where('statut', '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut", "posts.sell_at")
-            ->orderBy("posts.created_at", "Desc")
-            ->orderBy("posts.updated_price_at", "Desc")
+            ->select('posts.id', 'posts.photos', 'posts.prix', 'posts.old_prix', 'posts.statut', 'posts.sell_at')
+            ->orderBy('posts.created_at', 'Desc')
+            ->orderBy('posts.updated_price_at', 'Desc')
             ->take(12)
             ->get();
         // Fetch luxury posts
@@ -55,12 +51,10 @@ class HomeController extends Controller
             ->join('users', 'posts.id_user', '=', 'users.id')
             ->whereNull('users.deleted_at')
             ->where('categories.luxury', true)
-            ->where("statut", '!=', 'validation')
-            ->orderBy("posts.created_at", "Desc")
-            ->select("posts.id", "posts.photos", "posts.prix", "posts.old_prix", "posts.statut", "posts.sell_at")
+            ->where('statut', '!=', 'validation')
+            ->orderBy('posts.created_at', 'Desc')
+            ->select('posts.id', 'posts.photos', 'posts.prix', 'posts.old_prix', 'posts.statut', 'posts.sell_at')
             ->take(9)->get();
-
-
 
         // Calculate the discount percentage for each post
         foreach ($last_post as $post) {
@@ -78,16 +72,15 @@ class HomeController extends Controller
         }
         $categories_carousel = Categories::where('active', true)->orderBy('order')->get();
 
-
-        return view("User.index", compact("categories", "configuration", "last_post", "luxurys", "categories_carousel"));
+        return view('User.index', compact('categories', 'configuration', 'last_post', 'luxurys', 'categories_carousel'));
     }
-
 
     public function index_post(Request $request)
     {
-        $id = $request->id ?? "";
+        $id = $request->id ?? '';
         $step = $request->input('step', 1);
-        return view('User.post', compact("id", "step"));
+
+        return view('User.post', compact('id', 'step'));
     }
 
     // public function checkCinStatus()
@@ -103,27 +96,54 @@ class HomeController extends Controller
     // }
 
     public function checkCinStatus()
-{
-    if (!Auth::check()) {
-        return response()->json(['locked' => true, 'unauthenticated' => true]);
+    {
+        if (! Auth::check()) {
+            return response()->json(['locked' => true, 'unauthenticated' => true]);
+        }
+
+        $user = Auth::user();
+
+        if ($user->locked) {
+            return response()->json(['locked' => true]);
+        }
+
+        $hasCin = $user->cin_img ? true : false;
+        $approved = $user->cin_approved ? true : false;
+
+        if ($hasCin && !$approved) {
+            $existingRappel = notifications::where('id_user', $user->id)
+                ->where('type', 'rappel_cin')
+                ->where('destination', 'admin')
+                ->where('created_at', '>=', now()->subDays(1))
+                ->first();
+
+            if (!$existingRappel) {
+                $admin = User::where('role', 'admin')->first();
+                if ($admin) {
+                    $notification = new notifications();
+                    $notification->titre = 'Rappel validation CIN';
+                    $notification->id_user_destination = $admin->id;
+                    $notification->id_user = $user->id;
+                    $notification->type = 'photo';
+                    $notification->destination = 'admin';
+                    $notification->url = "/admin/client/" . $user->id . "/view";
+                    $notification->message = 'L\'utilisateur '.$user->username.' attend la validation de son CIN depuis longtemps.';
+                    $notification->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'locked' => false,
+            'has_cin' => $hasCin,
+            'approved' => $approved,
+        ]);
     }
-
-    $user = Auth::user();
-
-    if ($user->locked) { // 👈 change to your actual column name
-        return response()->json(['locked' => true]);
-    }
-
-    return response()->json([
-        'locked'  => false,
-        'has_cin' => $user->cin_img ? true : false,
-        'approved' => $user->cin_approved ? true : false,
-    ]);
-}
 
     public function showRibForm(Request $request)
     {
         $step = $request->input('step', 1);
+
         return view('rib-form', compact('step'));
     }
 
@@ -153,14 +173,14 @@ class HomeController extends Controller
         $user->titulaire_name = $request->input('titulaireName');
 
         if ($currentDecrypted !== $request->input('ribNumber')) {
-            event(new AdminEvent("Un utilisateur a mis à jour son RIB."));
+            event(new AdminEvent('Un utilisateur a mis à jour son RIB.'));
             $notification = new notifications();
-            $notification->type = "photo";
-            $notification->titre = $user->username . " a mis à jour son RIB.";
-            $notification->url = "/admin/client/" . $user->id . "/view";
-            $notification->message = "RIB en attente de vérification.";
+            $notification->type = 'photo';
+            $notification->titre = $user->username.' a mis à jour son RIB.';
+            $notification->url = '/admin/client/'.$user->id.'/view';
+            $notification->message = 'RIB en attente de vérification.';
             $notification->id_user = $user->id;
-            $notification->destination = "admin";
+            $notification->destination = 'admin';
             $notification->save();
         }
 
@@ -177,12 +197,12 @@ class HomeController extends Controller
 
             event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
             $notification = new notifications();
-            $notification->type = "photo";
-            $notification->titre = $user->username . " a mis à jour sa carte d'identité.";
-            $notification->url = "/admin/client/" . $user->id . "/view";
+            $notification->type = 'photo';
+            $notification->titre = $user->username." a mis à jour sa carte d'identité.";
+            $notification->url = '/admin/client/'.$user->id.'/view';
             $notification->message = "Carte d'identité en attente de validation.";
             $notification->id_user = $user->id;
-            $notification->destination = "admin";
+            $notification->destination = 'admin';
             $notification->save();
         }
 
@@ -196,19 +216,19 @@ class HomeController extends Controller
     {
         $month = $request->input('month') ?? null;
         $year = $request->input('year') ?? null;
-        $type = $request->get('type') ?? "annonce";
+        $type = $request->get('type') ?? 'annonce';
         $statut = $request->input('statut') ?? null;
-        $key = $request->input("key") ?? null;
-        $Query = posts::where("id_user", Auth::user()->id);
+        $key = $request->input('key') ?? null;
+        $Query = posts::where('id_user', Auth::user()->id);
         if ($key) {
-            $Query->where("titre", "LIKE", "%{$key}%")
-                ->orWhere("description", "LIKE", "%{$key}%");
+            $Query->where('titre', 'LIKE', "%{$key}%")
+                ->orWhere('description', 'LIKE', "%{$key}%");
         }
 
-        if ($type != "annonce") {
-            $type = "vente";
+        if ($type != 'annonce') {
+            $type = 'vente';
         }
-        if ($type == "vente") {
+        if ($type == 'vente') {
             $Query = $Query->where('statut', '!=', 'vente');
 
             if ($month && $year) {
@@ -225,7 +245,7 @@ class HomeController extends Controller
             $Query->orderBy('created_at', 'desc');
         }
 
-        if (!empty($statut)) {
+        if (! empty($statut)) {
             switch ($statut) {
                 case 'validation':
                     $Query->where('statut', 'validation');
@@ -286,7 +306,8 @@ class HomeController extends Controller
             }
         }
 
-        $posts = $Query->paginate("20");
+        $posts = $Query->paginate('20');
+
         return view('User.list_post', [
             'posts' => $posts,
             'year' => $year,
@@ -305,14 +326,14 @@ class HomeController extends Controller
     public function details_post($id)
     {
         $post = posts::find($id);
-        if (!$post) {
+        if (! $post) {
             abort(404);
         }
         $user = $post->user_info;
         $ipAddress = request()->ip();
         $viewedIps = json_decode($post->ip_address, true) ?? [];
 
-        if (!in_array($ipAddress, $viewedIps)) {
+        if (! in_array($ipAddress, $viewedIps)) {
             $post->increment('views');
             $viewedIps[] = $ipAddress;
             $post->ip_address = json_encode($viewedIps);
@@ -340,7 +361,7 @@ class HomeController extends Controller
                 ->exists();
         }
 
-        if (!$produit_in_cart) {
+        if (! $produit_in_cart) {
             $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
             $produit_in_cart = collect($cart)->contains('id', $post->id);
         }
@@ -353,34 +374,32 @@ class HomeController extends Controller
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->select("photos", "id")
-            ->where("verified_at", '!=', null)
-            ->where("statut", '!=', 'validation')
+            ->select('photos', 'id')
+            ->where('verified_at', '!=', null)
+            ->where('statut', '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->inRandomOrder()
             ->take(16)
             ->get();
         $user_product = posts::where('id_user', $post->id_user)
-            ->select("photos", "id", "sell_at")
-            ->where("verified_at", '!=', null)
-            ->where("statut", '!=', 'validation')
+            ->select('photos', 'id', 'sell_at')
+            ->where('verified_at', '!=', null)
+            ->where('statut', '!=', 'validation')
             ->inRandomOrder()
             ->take(16)
             ->get();
 
         return view('User.details')
-            ->with("post", $post)
-            ->with("user", $user)
-            ->with("isFavorited", $isFavorited)
-            ->with("isLiked", $isLiked)
-            ->with("other_products", $other_product)
-            ->with("user_products", $user_product)
-            ->with("ma_note", $ma_note)
-            ->with("is_alredy_signaler", $is_alredy_signaler ?? false)
-            ->with("produit_in_cart", $produit_in_cart);
+            ->with('post', $post)
+            ->with('user', $user)
+            ->with('isFavorited', $isFavorited)
+            ->with('isLiked', $isLiked)
+            ->with('other_products', $other_product)
+            ->with('user_products', $user_product)
+            ->with('ma_note', $ma_note)
+            ->with('is_alredy_signaler', $is_alredy_signaler ?? false)
+            ->with('produit_in_cart', $produit_in_cart);
     }
-
-
 
     public function user_profile($id)
     {
@@ -391,14 +410,15 @@ class HomeController extends Controller
         if ($user->voyage_mode) {
             $posts = collect();
         } else {
-            $posts = posts::where("id_user", $user->id)
-                ->where("statut", "!=", "validation")
+            $posts = posts::where('id_user', $user->id)
+                ->where('statut', '!=', 'validation')
                 ->orderBy('created_at', 'desc')
                 ->get()->map(function ($post) {
                     $post->discountPercentage = null;
                     if ($post->old_prix && $post->old_prix > $post->prix) {
                         $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
                     }
+
                     return $post;
                 });
         }
@@ -409,9 +429,8 @@ class HomeController extends Controller
         $avis = $user->getReviewsAttribute->count();
         $total_views = posts::where('id_user', $user->id)->sum('views');
 
-
         return view('User.profile')
-            ->with("user", $user)
+            ->with('user', $user)
             ->with('posts', $posts)
             ->with('notes', $notes)
             ->with('ma_note', $ma_note)
@@ -426,25 +445,25 @@ class HomeController extends Controller
 
     public function historiques($type)
     {
-        $AllowedType = ["achats", "ventes", "annonces"];
-        if (!in_array($type, $AllowedType)) {
-            $type = "acahats";
+        $AllowedType = ['achats', 'ventes', 'annonces'];
+        if (! in_array($type, $AllowedType)) {
+            $type = 'acahats';
         }
 
+        $count = posts::where('id_user', Auth::user()->id)->count();
+        $showRemainingTimeColumn = $type == 'ventes';
 
-        $count = posts::where("id_user", Auth::user()->id)->count();
-        $showRemainingTimeColumn = $type == "ventes";
-
-        if ($type == "achats") {
-            $achats = posts::where("id_user_buy", Auth::id())
-                ->Orderby("sell_at", "Desc")
+        if ($type == 'achats') {
+            $achats = posts::where('id_user_buy', Auth::id())
+                ->Orderby('sell_at', 'Desc')
                 ->paginate(20);
-            return view('User.historiques', compact("type", "count", "achats"));
+
+            return view('User.historiques', compact('type', 'count', 'achats'));
         }
-        if ($type == "ventes") {
-            $ventes = posts::where("id_user", Auth::user()->id)
-                ->Orderby("created_at", "Desc")
-                ->where('statut', "vendu")
+        if ($type == 'ventes') {
+            $ventes = posts::where('id_user', Auth::user()->id)
+                ->Orderby('created_at', 'Desc')
+                ->where('statut', 'vendu')
                 ->paginate(20);
 
             // Pagination variables
@@ -455,22 +474,21 @@ class HomeController extends Controller
             $totalItems = $ventes->total();
 
             return view('User.historiques', compact(
-                "type",
-                "count",
-                "ventes",
-                "showRemainingTimeColumn",
-                "currentPage",
-                "lastPage",
-                "nextPageUrl",
-                "previousPageUrl",
-                "totalItems"
+                'type',
+                'count',
+                'ventes',
+                'showRemainingTimeColumn',
+                'currentPage',
+                'lastPage',
+                'nextPageUrl',
+                'previousPageUrl',
+                'totalItems'
             ));
         }
-        if ($type == "annonces") {
-            $annonces = posts::where("id_user", Auth::user()->id)
-                ->Orderby("created_at", "Desc")
+        if ($type == 'annonces') {
+            $annonces = posts::where('id_user', Auth::user()->id)
+                ->Orderby('created_at', 'Desc')
                 ->paginate(20);
-
 
             // Pagination variables
             $currentPage = $annonces->currentPage();
@@ -478,20 +496,20 @@ class HomeController extends Controller
             $nextPageUrl = $annonces->nextPageUrl();
             $previousPageUrl = $annonces->previousPageUrl();
             $totalItems = $annonces->total();
+
             return view('User.historiques', compact(
-                "type",
-                "count",
-                "annonces",
-                "showRemainingTimeColumn",
-                "currentPage",
-                "lastPage",
-                "nextPageUrl",
-                "previousPageUrl",
-                "totalItems"
+                'type',
+                'count',
+                'annonces',
+                'showRemainingTimeColumn',
+                'currentPage',
+                'lastPage',
+                'nextPageUrl',
+                'previousPageUrl',
+                'totalItems'
             ));
         }
     }
-
 
     public function inscription_post(Request $request)
     {
@@ -510,9 +528,10 @@ class HomeController extends Controller
         foreach ($forbiddenFields as $field) {
             if (stripos($requestData[$field], $forbiddenWord) !== false) {
                 $translatedField = $fieldLabels[$field] ?? $field;
-                return redirect()->back()->with("error", __("error.forbidden_word", [
+
+                return redirect()->back()->with('error', __('error.forbidden_word', [
                     'word' => $forbiddenWord,
-                    'field' => $translatedField
+                    'field' => $translatedField,
                 ]))->withInput();
             }
         }
@@ -534,7 +553,7 @@ class HomeController extends Controller
             'prenom' => ['required', 'string'],
             'adresse' => ['required', 'string'],
             'telephone' => ['required', 'string', 'Max:15'],
-            'username' => "string|unique:users,username",
+            'username' => 'string|unique:users,username',
             'genre' => 'required|in:female,male',
             'jour' => 'required|integer|between:1,31',
             'mois' => 'required|integer|between:1,12',
@@ -545,21 +564,21 @@ class HomeController extends Controller
             'etage' => ['nullable', 'string'],
             'num_appartement' => ['nullable', 'string'],
         ], [
-            'required' => __("validation.required"),
-            'adresse.required' => __("validation.city_required"),
-            'ruee.required' => __("validation.street_required"),
-            'username.unique' => __("error.username_exists"),
-            'email.unique' => __("error.email_exists"),
-            'string' => __("error.invalid_type"),
-            'password.min' => __("validation.password.min"),
-            'password.confirmed' => __("validation.password.confirmed"),
-            'password.regex' => __("validation.password.regex"),
-            'integer' => __("error.invalid_integer"),
-            'genre.in' => __("error.gender_required"),
-            'mimes' => __("error.invalid_file_type"),
-            'image' => __("error.invalid_image"),
-            'max' => __("error.max_size"),
-            'between' => __("error.invalid_date"),
+            'required' => __('validation.required'),
+            'adresse.required' => __('validation.city_required'),
+            'ruee.required' => __('validation.street_required'),
+            'username.unique' => __('error.username_exists'),
+            'email.unique' => __('error.email_exists'),
+            'string' => __('error.invalid_type'),
+            'password.min' => __('validation.password.min'),
+            'password.confirmed' => __('validation.password.confirmed'),
+            'password.regex' => __('validation.password.regex'),
+            'integer' => __('error.invalid_integer'),
+            'genre.in' => __('error.gender_required'),
+            'mimes' => __('error.invalid_file_type'),
+            'image' => __('error.invalid_image'),
+            'max' => __('error.max_size'),
+            'between' => __('error.invalid_date'),
 
         ]);
         if ($validator->fails()) {
@@ -568,14 +587,12 @@ class HomeController extends Controller
                 ->withInput();
         }
 
-
         $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
 
         $age = $date->diffInYears(\Carbon\Carbon::now());
         if ($age < 18) {
-            return redirect()->back()->with("error", __("error.age_limit"))->withInput();
+            return redirect()->back()->with('error', __('error.age_limit'))->withInput();
         }
-
 
         $config = configurations::first();
         $token = md5(time());
@@ -588,8 +605,8 @@ class HomeController extends Controller
         $user->phone_number = $request->telephone;
         $user->birthdate = $date;
         $user->gender = $request->genre;
-        $user->role = "user";
-        $user->type = "user";
+        $user->role = 'user';
+        $user->type = 'user';
         $user->address = $request->adresse;
         $user->username = $request->username;
         $user->ip_address = request()->ip();
@@ -601,7 +618,7 @@ class HomeController extends Controller
 
         if ($request->matricule) {
             $matricule = $request->matricule->store('uploads/documents', 'public');
-            $user->type = "shop";
+            $user->type = 'shop';
             $user->matricule = $matricule;
         }
 
@@ -611,23 +628,22 @@ class HomeController extends Controller
 
         event(new AdminEvent("Un nouvel utilisateur s'est inscrit."));
         $notification = new notifications();
-        $notification->type = "photo";
-        $notification->titre = "Nouvel utilisateur : " . $user->username;
-        $notification->url = "/admin/client/" . $user->id . "/view";
-        $notification->message = "Un nouveau compte a été créé";
+        $notification->type = 'photo';
+        $notification->titre = 'Nouvel utilisateur : '.$user->username;
+        $notification->url = '/admin/client/'.$user->id.'/view';
+        $notification->message = 'Un nouveau compte a été créé';
         $notification->id_user = $user->id;
-        $notification->destination = "admin";
+        $notification->destination = 'admin';
         $notification->save();
 
         try {
             Mail::to($user->email)->send(new VerifyMail($user, $token));
         } catch (\Exception $e) {
-            return redirect("/connexion")->with("error", __("error.email_send"));
+            return redirect('/connexion')->with('error', __('error.email_send'));
         }
 
-        return redirect("/connexion")->with("success", __("success.account_created"));
+        return redirect('/connexion')->with('success', __('success.account_created'));
     }
-
 
     public function count_panier()
     {
@@ -654,17 +670,16 @@ class HomeController extends Controller
             [
                 'count' => $validCount,
                 'produits' => $produits,
-                'montant' => number_format($montant, 2, '.', '') . " " . __('currency'),
+                'montant' => number_format($montant, 2, '.', '').' '.__('currency'),
                 'html' => $html,
                 'statut' => true,
             ]
         );
     }
 
-
     public function remove_to_card(Request $request)
     {
-        $id = $request->input('id') ?? "";
+        $id = $request->input('id') ?? '';
 
         if ($id) {
             $this->delete_form_cart($id);
@@ -682,13 +697,12 @@ class HomeController extends Controller
         ]);
     }
 
-
     public function add_panier(Request $request)
     {
-        $id = $request->input('id') ?? "";
-        $post = posts::where("id", $id)->where("statut", "vente")->first();
+        $id = $request->input('id') ?? '';
+        $post = posts::where('id', $id)->where('statut', 'vente')->first();
 
-        if (!$post) {
+        if (! $post) {
             return response()->json([
                 'status' => true,
                 'message' => "Cet article n'est plus disponible à la vente",
@@ -699,7 +713,7 @@ class HomeController extends Controller
         if ($post->id_user == Auth::user()->id) {
             return response()->json([
                 'status' => true,
-                'message' => "Vous ne pouvez pas ajouter votre propre article dans votre panier",
+                'message' => 'Vous ne pouvez pas ajouter votre propre article dans votre panier',
                 'exist' => false,
             ]);
         }
@@ -709,7 +723,7 @@ class HomeController extends Controller
             ->where('post_id', $post->id)
             ->exists();
 
-        if (!$productExists) {
+        if (! $productExists) {
             // Add the product to the `user_carts` table
             UserCart::create([
                 'user_id' => $user->id,
@@ -735,71 +749,70 @@ class HomeController extends Controller
         }
     }
 
-
     public function like(Request $request)
     {
         $id_post = $request->input('id_post') ?? '';
 
         //verification de la connexion
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return response()->json(
                 [
                     'status' => true,
-                    'message' => "Veuillez vous connecter",
+                    'message' => 'Veuillez vous connecter',
                 ]
             );
         }
 
-
         $post = posts::find($id_post);
-        if (!$post) {
+        if (! $post) {
             return response()->json(
                 [
                     'status' => false,
-                    'message' => "Annonce introuvable",
+                    'message' => 'Annonce introuvable',
                 ]
             );
         }
 
-        $liked = likes::where("id_post", $post->id)
+        $liked = likes::where('id_post', $post->id)
             ->where('id_user', Auth::user()->id)
             ->exists();
 
         if ($liked === true) {
-            likes::where("id_post", $post->id)
+            likes::where('id_post', $post->id)
                 ->where('id_user', Auth::user()->id)
                 ->delete();
+
             return response()->json(
                 [
                     'status' => false,
                     'liked' => false,
-                    'message' => "Vous avez retiré votre like .",
+                    'message' => 'Vous avez retiré votre like .',
                 ]
             );
         } else {
             likes::firstOrCreate(
                 [
                     'id_post' => $post->id,
-                    'id_user' => Auth::user()->id
+                    'id_user' => Auth::user()->id,
                 ]
             );
             //make notification
             event(new UserEvent($post->id_user));
             $notification = new notifications();
-            $notification->titre = Auth::user()->username . " a aimé votre publication.";
+            $notification->titre = Auth::user()->username.' a aimé votre publication.';
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "like";
-            $notification->destination = "user";
-            $notification->url = "/post/" . $post->id;
-            $notification->message = "@" . Auth::user()->username . " vient d'aimer votre publication";
+            $notification->type = 'like';
+            $notification->destination = 'user';
+            $notification->url = '/post/'.$post->id;
+            $notification->message = '@'.Auth::user()->username." vient d'aimer votre publication";
             $notification->save();
 
             // Send FCM notification
             $fcmService = app(\App\Services\FcmService::class);
             $sent = $fcmService->sendToUser(
                 $post->id_user,
-                Auth::user()->username . " a aimé votre publication",
-                "@" . Auth::user()->username . " vient d'aimer votre publication",
+                Auth::user()->username.' a aimé votre publication',
+                '@'.Auth::user()->username." vient d'aimer votre publication",
                 [
                     'type' => 'like',
                     'notification_id' => $notification->id,
@@ -811,16 +824,16 @@ class HomeController extends Controller
             );
 
             if ($sent) {
-                \Log::info("FCM notification sent successfully", [
+                \Log::info('FCM notification sent successfully', [
                     'user_id' => $post->id_user,
                     'notification_id' => $notification->id,
-                    'type' => 'post_liked'
+                    'type' => 'post_liked',
                 ]);
             } else {
-                \Log::warning("FCM notification failed to send", [
+                \Log::warning('FCM notification failed to send', [
                     'user_id' => $post->id_user,
                     'notification_id' => $notification->id,
-                    'reason' => 'User has no FCM token or token invalid'
+                    'reason' => 'User has no FCM token or token invalid',
                 ]);
             }
 
@@ -828,15 +841,11 @@ class HomeController extends Controller
                 [
                     'status' => false,
                     'liked' => false,
-                    'message' => "Like ajouté !",
+                    'message' => 'Like ajouté !',
                 ]
             );
         }
     }
-
-
-
-
 
     public function delete_form_cart($id)
     {
@@ -846,10 +855,6 @@ class HomeController extends Controller
             ->where('post_id', $id)
             ->delete();
     }
-
-
-
-
 
     public function conditions()
     {
@@ -862,6 +867,7 @@ class HomeController extends Controller
         if (Auth::check()) {
             return redirect()->route('home');
         }
+
         return view('User.Auth.inscription');
     }
 
@@ -871,6 +877,7 @@ class HomeController extends Controller
         if (Auth::check()) {
             return redirect()->route('home');
         }
+
         return view('User.Auth.connexion');
     }
 
@@ -879,17 +886,14 @@ class HomeController extends Controller
         return view('User.Auth.forget');
     }
 
-
-
-
     public function index_mes_achats(Request $request)
     {
 
         $month = $request->input('month') ?? null;
         $year = $request->input('year') ?? null;
 
-        $query = posts::where("id_user_buy", Auth::id())
-            ->select("titre", "photos", "id_sous_categorie", 'id_user', 'statut', "prix", "sell_at", "id")
+        $query = posts::where('id_user_buy', Auth::id())
+            ->select('titre', 'photos', 'id_sous_categorie', 'id_user', 'statut', 'prix', 'sell_at', 'id')
             ->orderBy('sell_at', 'desc');
 
         if ($month && $year) {
@@ -898,15 +902,14 @@ class HomeController extends Controller
         }
 
         $achats = $query->paginate(20);
-        $total = posts::where("id_user_buy", Auth::id())->count();
+        $total = posts::where('id_user_buy', Auth::id())->count();
 
-        return view("User.mes-achats")
-            ->with("achats", $achats)
-            ->with("month", $month)
-            ->with("year", $year)
-            ->with("total", $total);
+        return view('User.mes-achats')
+            ->with('achats', $achats)
+            ->with('month', $month)
+            ->with('year', $year)
+            ->with('total', $total);
     }
-
 
     public function checkout(Request $request)
     {
@@ -916,20 +919,18 @@ class HomeController extends Controller
             return redirect()->route('checkout');
         }
 
-        return view("User.checkout")
+        return view('User.checkout')
             ->with('step', $step);
     }
 
-
     public function about()
     {
-        return view("User.about");
+        return view('User.about');
     }
-
 
     public function how_buy()
     {
-        return view("User.faq.howtobuy");
+        return view('User.faq.howtobuy');
     }
 
     public function how_sell()
@@ -940,24 +941,22 @@ class HomeController extends Controller
     public function contact()
     {
         $configuration = configurations::first();
-        return view('User.contact', compact("configuration"));
+
+        return view('User.contact', compact('configuration'));
     }
-
-
 
     public function shopiners()
     {
         return view('User.shopiners');
     }
 
-
     public function shop(Request $request)
     {
-        $id_selected_categorie = $request->get("id_categorie") ?? null;
-        $id_selected_sous_categorie = $request->get("selected_sous_categorie") ?? null;
+        $id_selected_categorie = $request->get('id_categorie') ?? null;
+        $id_selected_sous_categorie = $request->get('selected_sous_categorie') ?? null;
         if ($id_selected_categorie) {
             $selected_categorie = categories::where('id', $id_selected_categorie)
-                ->select("titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar")
+                ->select('titre', 'id', 'luxury', 'small_icon', 'icon', 'title_en', 'title_ar')
                 ->first();
         }
         if ($id_selected_sous_categorie) {
@@ -966,40 +965,37 @@ class HomeController extends Controller
 
         $liste_categories = categories::where('active', true)
             ->orderBy('order')
-            ->get(["titre", "id", "luxury", "small_icon", "icon", "title_en", "title_ar"]);
+            ->get(['titre', 'id', 'luxury', 'small_icon', 'icon', 'title_en', 'title_ar']);
 
-        $key = $request->input("key") ?? null;
+        $key = $request->input('key') ?? null;
 
         $regions = regions::all();
 
         $luxury_only = $request->get('luxury_only');
         if (is_null($luxury_only)) {
-            $luxury_only == "false";
+            $luxury_only == 'false';
         } else {
-            $luxury_only == "true";
+            $luxury_only == 'true';
         }
 
         return view('User.shop')
-            ->with("key", $key)
-            ->with("luxury_only", $luxury_only)
+            ->with('key', $key)
+            ->with('luxury_only', $luxury_only)
             ->with('liste_categories', $liste_categories)
-            ->with("selected_categorie", $selected_categorie ?? null)
+            ->with('selected_categorie', $selected_categorie ?? null)
             ->with('selected_sous_categorie', $selected_sous_categorie ?? null)
             ->with('regions', $regions);
     }
 
-
-
-
     public function get_user_categorie_post(Request $request)
     {
-        $id_user = $request->input("id_user");
+        $id_user = $request->input('id_user');
         $user = User::find($id_user);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
-                "status" => false,
-                "message" => "Utilisateur introuvable!"
+                'status' => false,
+                'message' => 'Utilisateur introuvable!',
             ]);
         }
 
@@ -1038,17 +1034,18 @@ class HomeController extends Controller
         $categories_list = [];
         foreach ($categories as $nom => $count) {
             $categories_list[] = [
-                "nom" => $nom,
-                "count" => $count
+                'nom' => $nom,
+                'count' => $count,
             ];
         }
 
         $ListeHtml = view('components.Liste-categories-vendus', ['categories' => $categories_list])->render();
+
         return response()->json([
-            "status" => true,
-            "html" => $ListeHtml,
-            "username" => $user->username,
-            "total" => count($categories)
+            'status' => true,
+            'html' => $ListeHtml,
+            'username' => $user->username,
+            'total' => count($categories),
         ]);
     }
 }
