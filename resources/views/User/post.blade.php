@@ -34,6 +34,19 @@
         </div>
     </div>
 
+    @php
+        $decryptedRib = null;
+
+        if (Auth::user()->rib_number) {
+            try {
+                $decryptedRib = Crypt::decryptString(Auth::user()->rib_number);
+            } catch (\Exception $e) {
+                // fallback: treat as plain text (not encrypted)
+                $decryptedRib = Auth::user()->rib_number;
+            }
+        }
+    @endphp
+
     <div id="ribSection" class="content-section">
         <div class="form-container">
             <div class="text-center mb-4">
@@ -76,7 +89,7 @@
                         class="form-control form-control-lg"
                         id="ribNumber"
                         name="ribNumber"
-                        value="{{ old('ribNumber', Auth::user()->rib_number ? substr(preg_replace('/[^0-9]/', '', Crypt::decryptString(Auth::user()->rib_number)), 0, 24) : '') }}"
+                        value="{{ old('ribNumber', $decryptedRib ? substr(preg_replace('/[^0-9]/', '', $decryptedRib), 0, 24) : '') }}"
                         required
                         placeholder="{{ __('rib_number')}}"
                         inputmode="numeric"
