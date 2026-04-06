@@ -65,6 +65,10 @@ class ContactController extends Controller
                     ->subject('[Contact] '.$validated['subject'])
                     ->from($configEmail, $configName);
             });
+            Log::info('Admin email sent', [
+                'to' => $configEmail,
+                'from' => $configEmail,
+            ]);
 
             Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail, $configName) {
                 $mail->to($validated['email'])
@@ -72,6 +76,10 @@ class ContactController extends Controller
                     ->from($configEmail, $configName)
                     ->replyTo($configEmail, $configName);
             });
+            Log::info('Auto-reply email sent', [
+                'to' => $validated['email'],
+                'from' => $configEmail,
+            ]);
 
             Log::info('Contact form submitted', [
                 'id' => $contact->id,
