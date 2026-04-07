@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactAutoReplyMail;
+use App\Mail\ContactAdminMail;
 use App\Models\configurations;
 use App\Models\Contact;
 use App\Models\NewsletterSubscription;
@@ -60,26 +62,11 @@ class ContactController extends Controller
                 'userMessage' => $validated['message'],
             ];
 
-            Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail, $configName) {
-                $mail->to($configEmail)
-                    ->subject('[Contact] '.$validated['subject'])
-                    ->from($configEmail, $configName);
-            });
-            Log::info('Admin email sent', [
-                'to' => $configEmail,
-                'from' => $configEmail,
-            ]);
+            Mail::to($configEmail)->send(new ContactAdminMail($data));
+            Log::info('Admin email sent', ['to' => $configEmail]);
 
-            Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail, $configName) {
-                $mail->to($validated['email'])
-                    ->subject('Confirmation de votre message - Support Shopin')
-                    ->from($configEmail, $configName)
-                    ->replyTo($configEmail, $configName);
-            });
-            Log::info('Auto-reply email sent', [
-                'to' => $validated['email'],
-                'from' => $configEmail,
-            ]);
+            Mail::to($validated['email'])->send(new ContactAutoReplyMail($data));
+            Log::info('Auto-reply sent', ['to' => $validated['email']]);
 
             Log::info('Contact form submitted', [
                 'id' => $contact->id,
@@ -106,7 +93,7 @@ class ContactController extends Controller
                 ], 422);
             }
             throw $e;
-        } catch (\Swift_TransportException $e) {
+        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
             // Capturer spécifiquement les erreurs SMTP
             $message = $e->getMessage();
 
