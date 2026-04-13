@@ -625,9 +625,16 @@ class HomeController extends Controller
         if ($request->hasFile('photo')) {
             $path = \App\Services\ImageService::uploadAndConvert($request->file('photo'), 'uploads/avatars');
             $user->avatar = $path;
+
+            if ($config->valider_photo == 1) {
+                $user->photo_verified_at = null;
+            } else {
+                $user->photo_verified_at = now();
+            }
+        } else {
+            $user->photo_verified_at = now();
         }
 
-        $user->photo_verified_at = now();
         $user->save();
         $user->assignRole('user');
 
@@ -640,6 +647,18 @@ class HomeController extends Controller
         $notification->id_user = $user->id;
         $notification->destination = 'admin';
         $notification->save();
+
+        if ($request->hasFile('photo') && $config->valider_photo == 1) {
+            event(new AdminEvent('Un utilisateur a ajouté une photo de profil'));
+            $photoNotification = new notifications();
+            $photoNotification->type = 'photo';
+            $photoNotification->titre = $user->username.' a ajouté une photo de profil';
+            $photoNotification->url = '/admin/client/'.$user->id.'/view';
+            $photoNotification->message = 'Le client a ajouté une photo de profil en attente de validation';
+            $photoNotification->id_user = $user->id;
+            $photoNotification->destination = 'admin';
+            $photoNotification->save();
+        }
 
         try {
             Mail::to($user->email)->send(new VerifyMail($user, $token));
