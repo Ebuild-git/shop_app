@@ -110,14 +110,14 @@ class HomeController extends Controller
         $hasCin = $user->cin_img ? true : false;
         $approved = $user->cin_approved ? true : false;
 
-        if ($hasCin && !$approved) {
+        if ($hasCin && ! $approved) {
             $existingRappel = notifications::where('id_user', $user->id)
                 ->where('type', 'rappel_cin')
                 ->where('destination', 'admin')
                 ->where('created_at', '>=', now()->subDays(1))
                 ->first();
 
-            if (!$existingRappel) {
+            if (! $existingRappel) {
                 $admin = User::where('role', 'admin')->first();
                 if ($admin) {
                     $notification = new notifications();
@@ -126,7 +126,7 @@ class HomeController extends Controller
                     $notification->id_user = $user->id;
                     $notification->type = 'photo';
                     $notification->destination = 'admin';
-                    $notification->url = "/admin/client/" . $user->id . "/view";
+                    $notification->url = '/admin/client/'.$user->id.'/view';
                     $notification->message = 'L\'utilisateur '.$user->username.' attend la validation de son CIN depuis longtemps.';
                     $notification->save();
                 }
@@ -620,6 +620,11 @@ class HomeController extends Controller
             $matricule = $request->matricule->store('uploads/documents', 'public');
             $user->type = 'shop';
             $user->matricule = $matricule;
+        }
+
+        if ($request->hasFile('photo')) {
+            $path = \App\Services\ImageService::uploadAndConvert($request->file('photo'), 'uploads/avatars');
+            $user->avatar = $path;
         }
 
         $user->photo_verified_at = now();

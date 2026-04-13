@@ -25,10 +25,28 @@
                         </ul>
                     </div>
                 @endif
-                <form method="post" action="{{ route('inscription') }}">
+                <form method="post" action="{{ route('inscription') }}" enctype="multipart/form-data">
                     @csrf
 
                     @include('components.alert-livewire')
+
+                    <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="text-center">
+                                <div class="avatar-upload-container" onclick="document.getElementById('avatar-input').click()">
+                                    <img id="avatar-preview" src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg" alt="Avatar" class="avatar-preview-img">
+                                    <div class="avatar-overlay">
+                                        <i class="bi bi-camera-fill"></i>
+                                        <span>{{ __('add_avatar') }}</span>
+                                    </div>
+                                </div>
+                                <input type="file" id="avatar-input" name="photo" accept="image/*" class="d-none" onchange="previewAvatar(event)">
+                                @error('photo')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -350,6 +368,65 @@
             var submitButton = document.getElementById('submit');
             var checkbox = document.getElementById('acceptConditions');
             submitButton.disabled = !checkbox.checked;
+        }
+    </script>
+
+    <style>
+        .avatar-upload-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+            border: 3px dashed #ccc;
+            transition: all 0.3s ease;
+        }
+        .avatar-upload-container:hover {
+            border-color: #008080;
+        }
+        .avatar-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 12px;
+        }
+        .avatar-upload-container:hover .avatar-overlay {
+            opacity: 1;
+        }
+        .avatar-overlay i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+    </style>
+
+    <script>
+        function previewAvatar(event) {
+            const input = event.target;
+            const preview = document.getElementById('avatar-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     </script>
 @endsection
