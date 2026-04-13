@@ -31,18 +31,22 @@
                     @include('components.alert-livewire')
 
                     <div class="row">
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-12 mb-4">
                             <div class="text-center">
-                                <div class="avatar-upload-container" onclick="document.getElementById('avatar-input').click()">
-                                    <img id="avatar-preview" src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg" alt="Avatar" class="avatar-preview-img">
-                                    <div class="avatar-overlay">
-                                        <i class="bi bi-camera-fill"></i>
-                                        <span>{{ __('add_avatar') }}</span>
+                                <div class="avatar-upload-wrapper">
+                                    <div class="avatar-upload-container" onclick="document.getElementById('avatar-input').click()">
+                                        <img id="avatar-preview" src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg" alt="Avatar" class="avatar-preview-img">
+                                        <div class="avatar-overlay">
+                                            <i class="bi bi-camera-fill"></i>
+                                        </div>
                                     </div>
+                                    <input type="file" id="avatar-input" name="photo" accept="image/*" class="d-none" onchange="previewAvatar(event)">
                                 </div>
-                                <input type="file" id="avatar-input" name="photo" accept="image/*" class="d-none" onchange="previewAvatar(event)">
+                                <p class="avatar-hint text-muted mt-2">
+                                    <small>{{ __('add_avatar') }} ({{ __('optional') }})</small>
+                                </p>
                                 @error('photo')
-                                    <small class="form-text text-danger">{{ $message }}</small>
+                                    <small class="form-text text-danger d-block">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -372,24 +376,32 @@
     </script>
 
     <style>
+        .avatar-upload-wrapper {
+            position: relative;
+            display: inline-block;
+        }
         .avatar-upload-container {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto;
             border-radius: 50%;
             cursor: pointer;
             overflow: hidden;
-            border: 3px dashed #ccc;
+            border: 2px solid #e0e0e0;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .avatar-upload-container:hover {
             border-color: #008080;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,128,128,0.2);
         }
         .avatar-preview-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: all 0.3s ease;
         }
         .avatar-overlay {
             position: absolute;
@@ -397,22 +409,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(0,128,128,0.8), rgba(0,100,100,0.8));
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             opacity: 0;
             transition: opacity 0.3s ease;
-            font-size: 12px;
         }
         .avatar-upload-container:hover .avatar-overlay {
             opacity: 1;
         }
         .avatar-overlay i {
-            font-size: 24px;
-            margin-bottom: 4px;
+            font-size: 28px;
+        }
+        .avatar-hint {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .avatar-hint i {
+            color: #008080;
+            margin-right: 4px;
         }
     </style>
 
