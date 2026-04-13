@@ -50,7 +50,7 @@ class UpdateInformations extends Component
     {
         $this->validate([
             'email' => 'required|email|max:100',
-            'phone_number' => 'required|string|max:10',
+            'phone_number' => 'required|string|min:10',
             'region' => 'required|integer|exists:regions,id',
             'address' => 'required|nullable|max:255',
             'rue' => 'required|string|max:255',
