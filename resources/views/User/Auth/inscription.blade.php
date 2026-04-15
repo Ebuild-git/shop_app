@@ -190,6 +190,22 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
+                            <div class="form-group">
+                                <span for="small">{{ __('Région') }}</span>
+                                <span class="text-danger">*</span>
+                                <select class="form-control" name="region" required>
+                                    <option value="">{{ __('Sélectionner') }}</option>
+                                    @foreach ($regions as $item)
+                                        <option value="{{ $item->id }}" @selected(old('region') == $item->id)>{{ $item->nom }}</option>
+                                    @endforeach
+                                </select>
+                                @error('region')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="adress">{{ __('ville') }}</label>
