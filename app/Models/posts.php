@@ -36,50 +36,50 @@ class posts extends Model
 
 
     public function getPrix()
-{
-    $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-    $prix = (int) $this->attributes['prix'];
-    $prix_calculé = (int) round($prix + (($pourcentage_gain * $prix) / 100));
+    {
+        $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+        $prix = (int) $this->attributes['prix'];
+        $prix_calculé = (int) round($prix + (($pourcentage_gain * $prix) / 100));
 
-    return $prix_calculé;
-}
+        return $prix_calculé;
+    }
 
-public function getOldPrix()
-{
-    if ($this->changements_prix->isNotEmpty()) {
-        $firstChangementPrix = $this->changements_prix->first();
-        $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
-        if ($old_prix !== null) {
+    public function getOldPrix()
+    {
+        if ($this->changements_prix->isNotEmpty()) {
+            $firstChangementPrix = $this->changements_prix->first();
+            $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
+            if ($old_prix !== null) {
+                $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+                $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
+                return $prix_calculé;
+            }
+        }
+        return null;
+    }
+
+    public function Prix_initial()
+    {
+        if ($this->changements_prix->count() > 0) {
+            $old_prix = $this->changements_prix->first()->old_price;
             $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
             $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
             return $prix_calculé;
         }
-    }
-    return null;
-}
-
-public function Prix_initial()
-{
-    if ($this->changements_prix->count() > 0) {
-        $old_prix = $this->changements_prix->first()->old_price;
-        $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-        $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
-        return $prix_calculé;
-    }
-    return null;
-}
-
-public function getDiscountPercentageAttribute()
-{
-    $current = $this->getPrix();
-    $old = $this->getOldPrix();
-
-    if ($old && $old > $current) {
-        return (int) round((($old - $current) / $old) * 100);
+        return null;
     }
 
-    return null;
-}
+    public function getDiscountPercentageAttribute()
+    {
+        $current = $this->getPrix();
+        $old = $this->getOldPrix();
+
+        if ($old && $old > $current) {
+            return (int) round((($old - $current) / $old) * 100);
+        }
+
+        return null;
+    }
 
 
     // public function getDiscountPercentageAttribute()
