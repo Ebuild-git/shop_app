@@ -6,6 +6,7 @@ use App\Events\AdminEvent;
 use App\Models\History_change_price;
 use App\Models\notifications;
 use App\Models\posts;
+use App\Models\sous_categories;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -53,12 +54,25 @@ class UpdatePrix extends Component
 
     public function updatedPrix($value)
     {
-        $this->prix = round($value);
+        $this->prix = (int) round($value);
     }
 
     public function render()
     {
         return view('livewire.user.update-prix');
+    }
+
+    /**
+     * Calculate the final price with the category percentage markup applied.
+     */
+    public function getCalculatedPrix(int $basePrix): int
+    {
+        $sous_cat = sous_categories::find($this->post->id_sous_categorie);
+        if ($sous_cat && $sous_cat->categorie) {
+            $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
+            return (int) round($basePrix + (($pourcentage_gain * $basePrix) / 100));
+        }
+        return $basePrix;
     }
 
     public function form_update_prix()
@@ -69,7 +83,7 @@ class UpdatePrix extends Component
         ], [
             'prix.required' => __('prix.required'),
             'prix.numeric' => __('prix.numeric'),
-            'prix.min' => __('prix.min'),
+            'prix.min'     => __('prix.min'),
         ]);
 
         $oneWeekAgo = Carbon::now()->subWeek();
@@ -79,9 +93,12 @@ class UpdatePrix extends Component
         if ($post) {
             $old_price = $post->prix;
 
-            if ($this->prix == $old_price) {
-                $this->addError('prix', __('price_change_error'));
+            // Calculate the new price with markup before comparing
+            $newCalculatedPrix = $this->getCalculatedPrix((int) round($this->prix));
 
+            // Compare calculated prices so the check is consistent
+            if ($newCalculatedPrix == $old_price) {
+                $this->addError('prix', __('price_change_error'));
                 return;
             }
 
@@ -94,7 +111,7 @@ class UpdatePrix extends Component
                 $daysRemaining = $now->diffInDays($nextChangeAllowed);
                 $hoursRemaining = $now->copy()->addDays($daysRemaining)->diffInHours($nextChangeAllowed);
 
-                $daysText = trans_choice('days_remaining', $daysRemaining, ['count' => $daysRemaining]);
+                $daysText  = trans_choice('days_remaining', $daysRemaining, ['count' => $daysRemaining]);
                 $hoursText = trans_choice('hours_remaining', $hoursRemaining, ['count' => $hoursRemaining]);
                 $this->show = false;
                 session()->flash('warning', __('price_change_limit', [
@@ -102,43 +119,48 @@ class UpdatePrix extends Component
                     'hoursRemaining' => $hoursText,
                 ]));
             } else {
-                if ($this->prix > $old_price) {
+                // Only allow price reductions (compare calculated prices)
+                if ($newCalculatedPrix > $old_price) {
                     session()->flash('error', __('price_change_error'));
-
                     return;
                 }
 
+                // Preserve original price the first time it's changed
                 if ($post->old_prix === null) {
-                    $post->old_prix = $old_price; // Set old_prix to the current prix the first time
+                    $post->old_prix = $old_price;
                 }
 
-                $post->prix = round($this->prix);
+                // Save the calculated price (with markup), not the raw input
+                $post->prix = $newCalculatedPrix;
                 $post->updated_price_at = now();
                 $post->save();
 
+                // Record history using the same calculated values
                 $history = new History_change_price();
-                $history->id_post = $post->id;
+                $history->id_post   = $post->id;
                 $history->old_price = $old_price;
-                $history->new_price = round($this->prix);
+                $history->new_price = $newCalculatedPrix;
                 $history->save();
+
                 session()->flash(
                     'success-special',
                     __('price_reduction_success', [
-                        'price' => $this->prix,
+                        'price' => $newCalculatedPrix,
                     ])
                 );
-                $this->show = false;
+
+                $this->show    = false;
                 $this->changed = true;
-                $this->prix = '';
+                $this->prix    = '';
 
                 event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
 
-                $notification = new notifications();
-                $notification->type = 'photo';
-                $notification->titre = Auth::user()->username.' a réduit le prix d’un article.';
-                $notification->url = '/admin/publication/'.$post->id.'/view';
-                $notification->message = "Prix mis à jour de {$post->old_prix} à {$post->prix}.";
-                $notification->id_user = Auth::id();
+                $notification              = new notifications();
+                $notification->type        = 'photo';
+                $notification->titre       = Auth::user()->username . ' a réduit le prix d\'un article.';
+                $notification->url         = '/admin/publication/' . $post->id . '/view';
+                $notification->message     = "Prix mis à jour de {$post->old_prix} à {$post->prix}.";
+                $notification->id_user     = Auth::id();
                 $notification->destination = 'admin';
                 $notification->save();
             }

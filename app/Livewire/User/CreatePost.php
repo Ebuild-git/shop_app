@@ -134,9 +134,13 @@ class CreatePost extends Component
         $this->region = $value;
     }
 
+    // public function updatedPrix($value)
+    // {
+    //     $this->prix = round($value);
+    // }
     public function updatedPrix($value)
     {
-        $this->prix = round($value);
+        $this->prix = (int) round($value);
     }
 
     public function updatedPtitre($value)
@@ -430,7 +434,7 @@ class CreatePost extends Component
         if ($this->prix_achat > 0) {
             $post->prix_achat = $this->prix_achat;
         }
-        $post->prix = round($this->prix);
+        $post->prix = $this->getPrix(round($this->prix));
         $post->id_user = Auth::user()->id;
         if ($config->valider_publication == 0) {
             $post->verified_at = now();
@@ -452,13 +456,25 @@ class CreatePost extends Component
         return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
     }
 
+    // public function getPrix($prix)
+    // {
+    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
+    //     if ($sous_cat) {
+    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
+    //         $prix = $this->prix;
+    //         $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
+
+    //         return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
+    //     } else {
+    //         return 'N/A';
+    //     }
+    // }
     public function getPrix($prix)
     {
         $sous_cat = sous_categories::find($this->selectedSubcategory);
         if ($sous_cat) {
             $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
-            $prix = $this->prix;
-            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
+            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));  // use $prix param, not $this->prix
 
             return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
         } else {

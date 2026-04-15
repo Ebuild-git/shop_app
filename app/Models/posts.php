@@ -35,51 +35,100 @@ class posts extends Model
     protected $appends = ['discountPercentage'];
 
 
-    public function getDiscountPercentageAttribute()
-    {
-        if ($this->old_prix && $this->old_prix > $this->prix) {
-            return round((($this->old_prix - $this->prix) / $this->old_prix) * 100);
-        }
-
-        return null;
-    }
-
     public function getPrix()
-    {
-        $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
-        $prix = $this->attributes['prix'];
-        $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
+{
+    $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+    $prix = (int) $this->attributes['prix'];
+    $prix_calculé = (int) round($prix + (($pourcentage_gain * $prix) / 100));
 
-        return number_format($prix_calculé, 2, '.', '') ?? "N/A";
-    }
+    return $prix_calculé;
+}
 
-
-
-    public function getOldPrix()
-    {
-        if ($this->changements_prix->isNotEmpty()) {
-            $firstChangementPrix = $this->changements_prix->first();
-            $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
-            if ($old_prix !== null) {
-                $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
-                $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
-                return number_format($prix_calculé, 2, '.', '') ?? "N/A";
-            }
-        }
-        return null;
-    }
-
-
-
-
-    public function Prix_initial(){
-        if($this->changements_prix->count() > 0){
-            $prix =  $this->changements_prix->first()->old_price;
-            return number_format($prix, 2, '.', '')?? null;
-        }else{
-            return null;
+public function getOldPrix()
+{
+    if ($this->changements_prix->isNotEmpty()) {
+        $firstChangementPrix = $this->changements_prix->first();
+        $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
+        if ($old_prix !== null) {
+            $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+            $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
+            return $prix_calculé;
         }
     }
+    return null;
+}
+
+public function Prix_initial()
+{
+    if ($this->changements_prix->count() > 0) {
+        $old_prix = $this->changements_prix->first()->old_price;
+        $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+        $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
+        return $prix_calculé;
+    }
+    return null;
+}
+
+public function getDiscountPercentageAttribute()
+{
+    $current = $this->getPrix();
+    $old = $this->getOldPrix();
+
+    if ($old && $old > $current) {
+        return (int) round((($old - $current) / $old) * 100);
+    }
+
+    return null;
+}
+
+
+    // public function getDiscountPercentageAttribute()
+    // {
+    //     if ($this->old_prix && $this->old_prix > $this->prix) {
+    //         return round((($this->old_prix - $this->prix) / $this->old_prix) * 100);
+    //     }
+
+    //     return null;
+    // }
+
+    // public function getPrix()
+    // {
+    //     $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
+    //     $prix = $this->attributes['prix'];
+    //     $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
+
+    //     return number_format($prix_calculé, 2, '.', '') ?? "N/A";
+    // }
+
+
+
+    // public function getOldPrix()
+    // {
+    //     if ($this->changements_prix->isNotEmpty()) {
+    //         $firstChangementPrix = $this->changements_prix->first();
+    //         $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
+    //         if ($old_prix !== null) {
+    //             $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
+    //             $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
+    //             return number_format($prix_calculé, 2, '.', '') ?? "N/A";
+    //         }
+    //     }
+    //     return null;
+    // }
+
+
+
+
+
+
+    // public function Prix_initial(){
+    //     if($this->changements_prix->count() > 0){
+    //         $prix =  $this->changements_prix->first()->old_price;
+    //         return number_format($prix, 2, '.', '')?? null;
+    //     }else{
+    //         return null;
+    //     }
+    // }
 
     public function sous_categorie_info()
     {
