@@ -199,7 +199,7 @@ class CreatePost extends Component
 
     public function inputChanged($value)
     {
-        $this->prix = $value;
+        $this->prix = round($value);
     }
 
     public function updated($propertyName)
@@ -458,7 +458,7 @@ class CreatePost extends Component
         if ($sous_cat) {
             $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
             $prix = $this->prix;
-            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
+            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
 
             return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
         } else {

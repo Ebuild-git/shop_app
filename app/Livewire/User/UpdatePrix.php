@@ -2,21 +2,32 @@
 
 namespace App\Livewire\User;
 
+use App\Events\AdminEvent;
 use App\Models\History_change_price;
+use App\Models\notifications;
 use App\Models\posts;
-use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Events\AdminEvent;
-use App\Models\notifications;
+use Livewire\Component;
 
 class UpdatePrix extends Component
 {
-    public $post, $prix, $old_price,$titre;
+    public $post;
+
+    public $prix;
+
+    public $old_price;
+
+    public $titre;
+
     public $postId;
+
     public $show = true;
+
     public $changed = false;
+
     public $can_change = false;
+
     public $loading = true;
 
     protected $listeners = ['setPostId'];
@@ -25,9 +36,9 @@ class UpdatePrix extends Component
     {
         $this->reset();
         $post = posts::where('id', $id)
-        ->select("id","prix","old_prix","titre","id_sous_categorie","updated_price_at")
-        ->where('id_user', Auth::user()->id)
-        ->first();
+            ->select('id', 'prix', 'old_prix', 'titre', 'id_sous_categorie', 'updated_price_at')
+            ->where('id_user', Auth::user()->id)
+            ->first();
         if ($post) {
             $this->old_price = $post->prix;
             $this->titre = $post->titre;
@@ -35,9 +46,14 @@ class UpdatePrix extends Component
             $this->show = true;
             $this->can_change = $post->next_time_to_edit_price();
             $this->loading = false;
-        }else{
+        } else {
             $this->loading = false;
         }
+    }
+
+    public function updatedPrix($value)
+    {
+        $this->prix = round($value);
     }
 
     public function render()
@@ -65,6 +81,7 @@ class UpdatePrix extends Component
 
             if ($this->prix == $old_price) {
                 $this->addError('prix', __('price_change_error'));
+
                 return;
             }
 
@@ -80,13 +97,14 @@ class UpdatePrix extends Component
                 $daysText = trans_choice('days_remaining', $daysRemaining, ['count' => $daysRemaining]);
                 $hoursText = trans_choice('hours_remaining', $hoursRemaining, ['count' => $hoursRemaining]);
                 $this->show = false;
-                session()->flash('warning', __("price_change_limit", [
+                session()->flash('warning', __('price_change_limit', [
                     'daysRemaining' => $daysText,
                     'hoursRemaining' => $hoursText,
                 ]));
             } else {
                 if ($this->prix > $old_price) {
-                    session()->flash('error', __("price_change_error"));
+                    session()->flash('error', __('price_change_error'));
+
                     return;
                 }
 
@@ -94,38 +112,36 @@ class UpdatePrix extends Component
                     $post->old_prix = $old_price; // Set old_prix to the current prix the first time
                 }
 
-                $post->prix = $this->prix;
+                $post->prix = round($this->prix);
                 $post->updated_price_at = now();
                 $post->save();
 
                 $history = new History_change_price();
                 $history->id_post = $post->id;
                 $history->old_price = $old_price;
-                $history->new_price = $this->prix;
+                $history->new_price = round($this->prix);
                 $history->save();
                 session()->flash(
                     'success-special',
                     __('price_reduction_success', [
-                        'price' => $this->prix
+                        'price' => $this->prix,
                     ])
                 );
                 $this->show = false;
                 $this->changed = true;
-                $this->prix = "";
+                $this->prix = '';
 
                 event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
 
                 $notification = new notifications();
-                $notification->type = "photo";
-                $notification->titre = Auth::user()->username . " a réduit le prix d’un article.";
-                $notification->url = "/admin/publication/" . $post->id . "/view";
+                $notification->type = 'photo';
+                $notification->titre = Auth::user()->username.' a réduit le prix d’un article.';
+                $notification->url = '/admin/publication/'.$post->id.'/view';
                 $notification->message = "Prix mis à jour de {$post->old_prix} à {$post->prix}.";
                 $notification->id_user = Auth::id();
-                $notification->destination = "admin";
+                $notification->destination = 'admin';
                 $notification->save();
             }
         }
     }
-
-
 }
