@@ -210,3 +210,15 @@
     };
 </script>
 
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('scroll-to-first-error', () => {
+            setTimeout(() => {
+                const firstError = document.querySelector('.text-danger');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 50);
+        });
+    });
+</script>
