@@ -203,7 +203,7 @@ class CreatePost extends Component
 
     public function inputChanged($value)
     {
-        $this->prix = round($value);
+        $this->prix = (int) round($value);
     }
 
     public function updated($propertyName)
@@ -434,7 +434,7 @@ class CreatePost extends Component
         if ($this->prix_achat > 0) {
             $post->prix_achat = $this->prix_achat;
         }
-        $post->prix = $this->getPrix(round($this->prix));
+        $post->prix = (int) round($this->prix);
         $post->id_user = Auth::user()->id;
         if ($config->valider_publication == 0) {
             $post->verified_at = now();

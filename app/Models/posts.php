@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 
 class posts extends Model
 {
@@ -25,15 +24,15 @@ class posts extends Model
 
     protected $casts = [
         'photos' => 'json',
-        'proprietes' => 'json'
+        'proprietes' => 'json',
     ];
 
     protected $dates = [
         'updated_price_at',
         // d'autres colonnes de date
     ];
-    protected $appends = ['discountPercentage'];
 
+    protected $appends = ['discountPercentage'];
 
     public function getPrix()
     {
@@ -52,20 +51,11 @@ class posts extends Model
             if ($old_prix !== null) {
                 $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
                 $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
+
                 return $prix_calculé;
             }
         }
-        return null;
-    }
 
-    public function Prix_initial()
-    {
-        if ($this->changements_prix->count() > 0) {
-            $old_prix = $this->changements_prix->first()->old_price;
-            $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-            $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
-            return $prix_calculé;
-        }
         return null;
     }
 
@@ -80,7 +70,6 @@ class posts extends Model
 
         return null;
     }
-
 
     // public function getDiscountPercentageAttribute()
     // {
@@ -100,8 +89,6 @@ class posts extends Model
     //     return number_format($prix_calculé, 2, '.', '') ?? "N/A";
     // }
 
-
-
     // public function getOldPrix()
     // {
     //     if ($this->changements_prix->isNotEmpty()) {
@@ -115,11 +102,6 @@ class posts extends Model
     //     }
     //     return null;
     // }
-
-
-
-
-
 
     // public function Prix_initial(){
     //     if($this->changements_prix->count() > 0){
@@ -138,18 +120,18 @@ class posts extends Model
     public function calculateGain()
     {
         $price = $this->prix;
+
         return $price;
     }
 
     public function user_info()
     {
-        return $this->hasOne(User::class, 'id', "id_user")->withTrashed();
+        return $this->hasOne(User::class, 'id', 'id_user')->withTrashed();
     }
-
 
     public function acheteur()
     {
-        return $this->belongsTo(User::class, "id_user_buy", "id");
+        return $this->belongsTo(User::class, 'id_user_buy', 'id');
     }
 
     public function getLike()
@@ -162,7 +144,6 @@ class posts extends Model
         return $this->belongsTo(regions::class, 'id_region', 'id');
     }
 
-
     public function signalements()
     {
         return $this->hasMany(signalements::class, 'id_post', 'id');
@@ -170,23 +151,23 @@ class posts extends Model
 
     public function FirstImage()
     {
-        if (!empty($this->photos) && isset($this->photos[0])) {
+        if (! empty($this->photos) && isset($this->photos[0])) {
             $url = Storage::url($this->photos[0]);
         } else {
-            $url = "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+            $url = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
         }
+
         return $url;
     }
 
     public function FirstImageMobile()
     {
-        if (!empty($this->photos) && isset($this->photos[0])) {
+        if (! empty($this->photos) && isset($this->photos[0])) {
             return asset(Storage::url($this->photos[0]));
         }
 
-        return "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+        return 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
     }
-
 
     public function next_time_to_edit_price()
     {
@@ -202,12 +183,12 @@ class posts extends Model
             $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
             $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
 
-             // Translate and pluralize days, hours, and minutes
+            // Translate and pluralize days, hours, and minutes
             $daysRemaining = trans_choice('days_remaining', $diffInDays, ['count' => $diffInDays]);
             $hoursRemaining = trans_choice('hours_remaining', $diffInHours, ['count' => $diffInHours]);
             $minutesRemaining = trans_choice('minutes_remaining', $diffInMinutes, ['count' => $diffInMinutes]);
 
-            return __("time_remaining", [
+            return __('time_remaining', [
                 'daysRemaining' => $daysRemaining,
                 'hoursRemaining' => $hoursRemaining,
                 'minutesRemaining' => $minutesRemaining,
@@ -216,7 +197,6 @@ class posts extends Model
             return false;
         }
     }
-
 
     public function motif()
     {
@@ -228,7 +208,6 @@ class posts extends Model
         //many
         return $this->hasMany(motifs::class, 'id', 'id_motif');
     }
-
 
     public function changements_prix()
     {
@@ -247,7 +226,7 @@ class posts extends Model
             return 'Terminé'; // Sold and delivered
         }
 
-        if ($this->statut === 'refusé' || !is_null($this->motif_suppression)) {
+        if ($this->statut === 'refusé' || ! is_null($this->motif_suppression)) {
             return 'Suspendu'; // Suspended or flagged
         }
 
@@ -256,7 +235,7 @@ class posts extends Model
         }
 
         if ($this->statut === 'validation' || $this->statut === 'vente') {
-            if (!is_null($this->verified_at) && is_null($this->sell_at)) {
+            if (! is_null($this->verified_at) && is_null($this->sell_at)) {
                 return 'Actif'; // Active for sale
             }
         }
@@ -267,6 +246,7 @@ class posts extends Model
     public function getLastActionDateAttribute()
     {
         $lastSignalement = $this->signalements()->latest()->first(); // Assuming a signalement has a created_at timestamp
+
         return $lastSignalement ? $lastSignalement->created_at : $this->created_at; // Fall back to post creation date if no signalement exists
     }
 
@@ -283,7 +263,7 @@ class posts extends Model
     public function hasDeletedOrders(): bool
     {
         return $this->orderItems()
-            ->whereHas('order', fn($q) => $q->onlyTrashed())
+            ->whereHas('order', fn ($q) => $q->onlyTrashed())
             ->exists();
     }
 
@@ -291,5 +271,4 @@ class posts extends Model
     {
         return $this->hasMany(ratings::class, 'id_post');
     }
-
 }
