@@ -961,6 +961,7 @@
   "privacy_article2_auto_subtitle": "2.2 Données collectées automatiquement",
   "privacy_article2_auto_content": "Lors de votre navigation, certaines données sont collectées automatiquement : adresse IP, type et version du navigateur, système d'exploitation, pages consultées et durée de consultation, date et heure de connexion, données de localisation approximative, et cookies et traceurs (voir Article 6).",
   "privacy_article3_title": "Finalités du Traitement",
+  "privacy_article3_introduction": "Vos données personnelles sont collectées et traitées pour les finalités suivantes:",
   "privacy_article3_main_subtitle": "3.1 Finalités principales",
   "privacy_article3_main_content": "<strong>Gestion des comptes :</strong> création, authentification, gestion du profil.<br><strong>Exécution des transactions :</strong> traitement des commandes, gestion des paiements, coordination des livraisons.<br><strong>Mise en relation :</strong> fournir un espace permettant aux vendeurs de proposer leurs articles et aux acheteurs de les acquérir. Les transactions s'effectuent sous pseudonyme afin de <strong>préserver la confidentialité des identités</strong>.<br><strong>Gestion financière :</strong> encaissement des paiements, versement aux vendeurs, prélèvement de la commission.<br><strong>Service client :</strong> répondre aux demandes, réclamations et litiges.",
   "privacy_article3_secondary_subtitle": "3.2 Finalités secondaires",

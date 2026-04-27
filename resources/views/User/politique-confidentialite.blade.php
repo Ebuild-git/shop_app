@@ -91,6 +91,7 @@
 
         {{-- ARTICLE 3 - FINALITÉS --}}
         <h4>3. {!! __('privacy_article3_title') !!}</h4>
+        <p>{!! __('privacy_article3_introduction') !!}</p>
 
         <h5>{!! __('privacy_article3_main_subtitle') !!}</h5>
         <p>{!! __('privacy_article3_main_content') !!}</p>

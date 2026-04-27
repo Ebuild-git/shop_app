@@ -960,6 +960,7 @@
   "privacy_article2_auto_subtitle": "2.2 Automatically Collected Data",
   "privacy_article2_auto_content": "While browsing the Platform, certain data is collected automatically: IP address, browser type and version, operating system, pages visited and duration, date and time of connection, approximate location data, and cookies and trackers (see Article 6).",
   "privacy_article3_title": "Purposes of Processing",
+  "privacy_article3_introduction": "Your personal data is collected and processed for the following purposes:",
   "privacy_article3_main_subtitle": "3.1 Primary Purposes",
   "privacy_article3_main_content": "<strong>Account management:</strong> creation, authentication, profile management.<br><strong>Transaction execution:</strong> order processing, payment management, delivery coordination.<br><strong>Matchmaking:</strong> providing a space for sellers to list items and buyers to purchase them. Transactions are conducted under a pseudonym to <strong>preserve the confidentiality of identities</strong>.<br><strong>Financial management:</strong> payment collection, transfer of funds to sellers, commission deduction.<br><strong>Customer service:</strong> responding to inquiries, complaints, and disputes.",
   "privacy_article3_secondary_subtitle": "3.2 Secondary Purposes",
