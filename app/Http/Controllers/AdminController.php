@@ -538,6 +538,8 @@ class AdminController extends Controller
             'phone_number'    => 'required|string|min:10',
             'region'          => 'required|integer|exists:regions,id',
             'address'         => 'nullable|string|max:255',
+            'firstname'       => 'required|string|max:255',
+            'lastname'        => 'required|string|max:255',
             'rue'             => 'required|string|max:255',
             'nom_batiment'    => 'required|string|max:255',
             'etage'           => 'required|string|max:255',
@@ -548,6 +550,33 @@ class AdminController extends Controller
             'titulaire_name'  => 'required|string',
             'rib_number'      => 'required|string|size:24',
             'cin_img'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+        ], [
+            'firstname.required'      => 'Le champ Prénom est obligatoire.',
+            'firstname.max'           => 'Le prénom ne peut pas dépasser 255 caractères.',
+            'lastname.required'       => 'Le champ Nom est obligatoire.',
+            'lastname.max'            => 'Le nom ne peut pas dépasser 255 caractères.',
+            'email.required'           => 'Le champ E-mail est obligatoire.',
+            'email.email'              => 'L\'adresse e-mail n\'est pas valide.',
+            'email.unique'             => 'Cette adresse e-mail est déjà utilisée.',
+            'phone_number.required'    => 'Le champ Téléphone est obligatoire.',
+            'phone_number.min'         => 'Le numéro de téléphone doit contenir au moins 10 chiffres.',
+            'region.required'          => 'Le champ Région est obligatoire.',
+            'region.exists'            => 'La région sélectionnée est invalide.',
+            'rue.required'             => 'Le champ Rue est obligatoire.',
+            'nom_batiment.required'    => 'Le champ Nom du bâtiment est obligatoire.',
+            'etage.required'           => 'Le champ Étage est obligatoire.',
+            'num_appartement.required' => 'Le champ N° Appartement est obligatoire.',
+            'birthdate.required'       => 'Le champ Date de naissance est obligatoire.',
+            'birthdate.date'           => 'La date de naissance n\'est pas valide.',
+            'avatar.image'             => 'Le fichier avatar doit être une image.',
+            'avatar.mimes'             => 'L\'avatar doit être au format JPG, PNG ou WEBP.',
+            'avatar.max'               => 'L\'avatar ne peut pas dépasser 2 Mo.',
+            'bank_name.required'       => 'Le champ Nom de la banque est obligatoire.',
+            'titulaire_name.required'  => 'Le champ Nom du titulaire est obligatoire.',
+            'rib_number.required'      => 'Le champ Numéro RIB est obligatoire.',
+            'rib_number.size'          => 'Le numéro RIB doit contenir exactement 24 chiffres.',
+            'cin_img.image'            => 'Le fichier CIN doit être une image.',
+            'cin_img.mimes'            => 'Le CIN doit être au format JPEG, PNG, JPG, GIF ou WEBP.',
         ]);
 
         // --- Age validation ---
@@ -573,6 +602,8 @@ class AdminController extends Controller
         $user->nom_batiment    = $request->nom_batiment;
         $user->etage           = $request->etage;
         $user->num_appartement = $request->num_appartement;
+        $user->firstname       = $request->firstname;
+        $user->lastname        = $request->lastname;
 
         // --- Avatar ---
         if ($request->hasFile('avatar')) {

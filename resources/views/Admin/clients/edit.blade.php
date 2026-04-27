@@ -2,7 +2,6 @@
 @section('titre', 'Modifier le Profil')
 @section('body')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Paramètres /</span> Mon Profil</h4>
 
         <div class="row">
             <div class="col-md-12">
@@ -42,7 +41,6 @@
                                         <input type="file" id="upload" name="avatar" class="account-file-input" hidden
                                             accept="image/png, image/jpeg, image/webp" />
                                     </label>
-                                    <p class="text-muted mb-0">Autorisé : JPG, PNG, WEBP. Taille max : 2Mo</p>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +50,27 @@
                         <div class="card-body">
                             <div class="row">
 
+                                {{-- First Name --}}
+                                <div class="mb-3 col-md-6">
+                                    <label for="firstname" class="form-label">Prénom <span class="text-danger">*</span></label>
+                                    <input class="form-control @error('firstname') is-invalid @enderror"
+                                        type="text" id="firstname" name="firstname"
+                                        value="{{ old('firstname', $user->firstname) }}" required />
+                                    @error('first_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- Last Name --}}
+                                <div class="mb-3 col-md-6">
+                                    <label for="last_name" class="form-label">Nom <span class="text-danger">*</span></label>
+                                    <input class="form-control @error('lastname') is-invalid @enderror"
+                                        type="text" id="lastname" name="lastname"
+                                        value="{{ old('lastname', $user->lastname) }}" required />
+                                    @error('lastname')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 {{-- Email --}}
                                 <div class="mb-3 col-md-6">
                                     <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
@@ -198,9 +217,9 @@
                                         <small class="text-muted">(24 chiffres)</small>
                                     </label>
                                     <input class="form-control @error('rib_number') is-invalid @enderror"
-    type="text" id="rib_number" name="rib_number"
-    maxlength="24" placeholder="Saisir les 24 chiffres du RIB"
-    value="{{ old('rib_number', $decryptedRib) }}" required />
+                                        type="text" id="rib_number" name="rib_number"
+                                        maxlength="24" placeholder="Saisir les 24 chiffres du RIB"
+                                        value="{{ old('rib_number', $decryptedRib) }}" required />
                                     @error('rib_number')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
