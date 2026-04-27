@@ -50,7 +50,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <!-- Helpers -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap -->
 
     <script src="/assets-admin/vendor/js/helpers.js"></script>
     <script src="/assets-admin/vendor/js/template-customizer.js"></script>
@@ -104,78 +105,100 @@
             color: white !important;
         }
 
-    .table-responsive {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: auto;
-    }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
 
-    .table {
-        min-width: 100%;
-    }
+        .table {
+            min-width: 100%;
+        }
 
-    .table th,
-    .table td {
-        white-space: nowrap;
-        text-align: left;
-        padding: 8px 12px;
-    }
+        .table th,
+        .table td {
+            white-space: nowrap;
+            text-align: left;
+            padding: 8px 12px;
+        }
 
-    .table th {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        background-color: #343a40;
-        color: #fff;
-        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
-        font-size: 12px;
-    }
+        .table th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: #343a40;
+            color: #fff;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+            font-size: 12px;
+        }
 
-    .table tbody td {
-        border-bottom: 1px solid #dee2e6;
-        font-size: 13px;
-    }
+        .table tbody td {
+            border-bottom: 1px solid #dee2e6;
+            font-size: 13px;
+        }
 
-    td:first-child,
-    th:first-child {
-        position: sticky;
-        left: 0;
-        z-index: 3;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+        td:first-child,
+        th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 3;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            /* Optional shadow for better visibility */
 
-    }
-    td:nth-child(2), th:nth-child(2) {
-    position: sticky;
-    left: 75px; /* Adjust based on the width of the first column */
-    z-index: 3; /* Ensure it's above other elements */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-    }
-    td:nth-child(3), th:nth-child(3) {
-    position: sticky;
-    left: 120px; /* Adjust based on the combined width of the first two columns */
-    z-index: 3;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-}
-    td:nth-child(2) {
-        background-color: white; /* White background when scrolling */
-    }
-    td:first-child {
-        background-color: white;
-    }
-    td:nth-child(3){
-        background-color: white; /* White background when scrolling */
-    }
-    th:first-child, th:nth-child(2), th:nth-child(3){
-        z-index: 4;
-    }
-    td:first-child, td:nth-child(2), td:nth-child(3) {
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .table .action-buttons {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-    }
+        }
+
+        td:nth-child(2),
+        th:nth-child(2) {
+            position: sticky;
+            left: 75px;
+            /* Adjust based on the width of the first column */
+            z-index: 3;
+            /* Ensure it's above other elements */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            /* Optional shadow for better visibility */
+        }
+
+        td:nth-child(3),
+        th:nth-child(3) {
+            position: sticky;
+            left: 120px;
+            /* Adjust based on the combined width of the first two columns */
+            z-index: 3;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            /* Optional shadow for better visibility */
+        }
+
+        td:nth-child(2) {
+            background-color: white;
+            /* White background when scrolling */
+        }
+
+        td:first-child {
+            background-color: white;
+        }
+
+        td:nth-child(3) {
+            background-color: white;
+            /* White background when scrolling */
+        }
+
+        th:first-child,
+        th:nth-child(2),
+        th:nth-child(3) {
+            z-index: 4;
+        }
+
+        td:first-child,
+        td:nth-child(2),
+        td:nth-child(3) {
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .table .action-buttons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
     </style>
 
 
@@ -250,13 +273,12 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->getAvatar() }}" alt
-                                            class="h-auto rounded-circle" />
+                                        <img src="{{ Auth::user()->getAvatar() }}" alt class="h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                        <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
@@ -344,15 +366,19 @@
                                             </a>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="{{ route('liste_utilisateurs_locked') }}?type=all&locked=yes" class="menu-link">
+                                            <a href="{{ route('liste_utilisateurs_locked') }}?type=all&locked=yes"
+                                                class="menu-link">
                                                 <i class="menu-icon tf-icons ti ti-menu-2"></i>
-                                                <div data-i18n="Liste des utilisateurs Bloqués">Liste des utilisateurs bloqués</div>
+                                                <div data-i18n="Liste des utilisateurs Bloqués">Liste des utilisateurs
+                                                    bloqués</div>
                                             </a>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="{{ route('liste_utilisateurs_supprime') }}?type=all&showTrashed=yes" class="menu-link">
+                                            <a href="{{ route('liste_utilisateurs_supprime') }}?type=all&showTrashed=yes"
+                                                class="menu-link">
                                                 <i class="menu-icon tf-icons ti ti-menu-2"></i>
-                                                <div data-i18n="Liste des utilisateurs supprimés">Liste des utilisateurs supprimés</div>
+                                                <div data-i18n="Liste des utilisateurs supprimés">Liste des utilisateurs
+                                                    supprimés</div>
                                             </a>
                                         </li>
 
@@ -465,8 +491,7 @@
                                         document.write(new Date().getFullYear());
                                     </script>
                                     , made with ❤️ by
-                                    <a href="https://e-build.tn" target="_blank" class="fw-medium"
-                                        style="color: red;">
+                                    <a href="https://e-build.tn" target="_blank" class="fw-medium" style="color: red;">
                                         <b>
                                             E-build
                                         </b>
@@ -498,8 +523,8 @@
 
 
     <!-- Modal send message 1-->
-    <div class="modal fade" id="MessageModal" aria-labelledby="modalToggleLabel" tabindex="-1"
-        style="display: none" aria-hidden="true">
+    <div class="modal fade" id="MessageModal" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -517,8 +542,8 @@
 
 
     <!-- Modal delete post -->
-    <div class="modal fade" id="DeletePostModal" aria-labelledby="modalToggleLabel" tabindex="-1"
-        style="display: none" aria-hidden="true">
+    <div class="modal fade" id="DeletePostModal" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content ">
                 <div class="modal-header text-danger">

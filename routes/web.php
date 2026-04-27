@@ -164,10 +164,12 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/publications/deleted', [PostsController::class, 'liste_publications_supprimer'])->name('liste_publications_supprimer');
     Route::get('/admin/informations', [InformationsController::class, 'index'])->name('informations');
     Route::get('/admin/client/{id}/view', [UserController::class, 'details_user'])->name('vue_details_utilisateurs');
+    Route::get('/admin/client/{id}/edit', [UserController::class, 'edit_user'])->name('admin.client.edit');
     Route::post('/admin/client/{id}/lock', [UserController::class, 'toggleLock'])->name('admin.client.lock');
     Route::delete('/admin/client/{id}/delete', [UserController::class, 'deleteUser'])->name('admin.client.delete');
     Route::delete('/admin/client/{id}/force-delete', [UserController::class, 'forceDeleteUser'])->name('admin.client.forceDelete');
     Route::post('/admin/client/{id}/restore', [UserController::class, 'restoreUser'])->name('admin.client.restore');
+    Route::put('/admin/client/{id}/update', [UserController::class, 'updateUser'])->name('admin.client.update');
     Route::get('/admin/publication/{id}/view', [PostsController::class, 'details_publication'])->name('vue_details_publication');
     Route::get('/admin/add_categorie', [CategoriesController::class, 'add_categorie'])->name('add_categorie');
     Route::get('/admin/update_categorie/{id}', [CategoriesController::class, 'update_categorie'])->name('admin_update_categorie');
@@ -177,6 +179,9 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/grille_prix', [CategoriesController::class, 'grille_prix'])->name('grille_prix');
     Route::get('/admin/settings', [AdminController::class, 'admin_settings'])->name('admin_settings');
     Route::get('/admin/settings_security', [AdminController::class, 'admin_settings_security'])->name('admin_settings_security');
+
+    Route::get('/admin/profile-edit', [AdminController::class, 'profile_edit'])->name('admin.profile.edit');
+    Route::post('/admin/profile-update/{id}', [AdminController::class, 'profile_update'])->name('admin.profile.update');
 
     Route::get('/admin/update_propriete/{id}', [AdminController::class, 'update_propriete'])->name('update_propriete');
     Route::get('/admin/export-user', [AdminController::class, 'export_users'])->name('export_users');

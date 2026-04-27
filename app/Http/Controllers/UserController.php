@@ -253,4 +253,82 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Show edit user form
+     */
+    public function edit_user($id)
+    {
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+            try {
+                $decryptedRib = $user->rib_number
+                    ? Crypt::decryptString($user->rib_number)
+                    : null;
+            } catch (\Exception $e) {
+                $decryptedRib = $user->rib_number; // fallback
+            }
+            $regions = \App\Models\regions::all(['id', 'nom']);
+            return view("Admin.clients.edit", compact('user', 'decryptedRib', 'regions'));
+        } catch (\Throwable $th) {
+            abort(404, "Utilisateur non trouvé");
+        }
+    }
+
+    /**
+     * Update user data by admin
+     */
+    public function updateUser(Request $request, $id)
+    {
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'firstname' => 'nullable|string|max:255',
+                'lastname' => 'nullable|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'gender' => 'nullable|string|in:male,female,other',
+                'birthdate' => 'nullable|date',
+                'address' => 'nullable|string|max:500',
+                'rue' => 'nullable|string|max:255',
+                'nom_batiment' => 'nullable|string|max:255',
+                'etage' => 'nullable|string|max:50',
+                'num_appartement' => 'nullable|string|max:50',
+                'region' => 'nullable|exists:regions,id',
+                'phone_number' => 'nullable|string|max:20',
+                'bank_name' => 'nullable|string|max:255',
+                'titulaire_name' => 'nullable|string|max:255',
+                'rib_number' => 'nullable|string|max:255',
+            ]);
+
+            // Convert empty strings to null for cleaner DB storage (especially for date fields)
+            foreach ($validated as $key => $value) {
+                if ($value === '') {
+                    $validated[$key] = null;
+                }
+            }
+
+            $user->update($validated);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Utilisateur mis à jour avec succès.',
+                    'user' => $user
+                ]);
+            }
+
+            return redirect()->route('vue_details_utilisateurs', ['id' => $user->id])->with('success', 'Utilisateur mis à jour avec succès.');
+        } catch (\Throwable $th) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Impossible de mettre à jour l\'utilisateur.',
+                    'error' => $th->getMessage()
+                ], 500);
+            }
+            return back()->withErrors(['error' => 'Impossible de mettre à jour l\'utilisateur: ' . $th->getMessage()])->withInput();
+        }
+    }
 }

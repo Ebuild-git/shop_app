@@ -138,16 +138,25 @@
                                         </span>
                                     @endif
 
-                                    {{-- Actions dropdown --}}
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle px-3" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i> Actions
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 210px;">
+                                         {{-- Actions dropdown --}}
+                                         <div class="dropdown">
+                                             <button class="btn btn-outline-secondary btn-sm dropdown-toggle px-3" type="button"
+                                                 data-bs-toggle="dropdown" aria-expanded="false">
+                                                 <i class="bi bi-three-dots-vertical"></i> Actions
+                                             </button>
+                                             <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 210px;">
 
-                                            {{-- Lock / Unlock --}}
-                                            @if(!$user->deleted_at)
+                                                 <li>
+                                                     <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                                                         href="{{ route('admin.client.edit', ['id' => $user->id]) }}">
+                                                         <span class="badge bg-primary p-1"><i class="bi bi-pencil-fill"></i></span>
+                                                         <span>Modifier le profil</span>
+                                                     </a>
+                                                 </li>
+                                                 <li><hr class="dropdown-divider"></li>
+
+                                                 {{-- Lock / Unlock --}}
+                                                 @if(!$user->deleted_at)
                                                 <li>
                                                     <button class="dropdown-item d-flex align-items-center gap-2 py-2"
                                                         onclick="toggleLock({{ $user->id }}, {{ $user->locked ? 'true' : 'false' }})">
@@ -466,16 +475,19 @@
                                 </tr>
                             @endforelse
                         </table>
-                        <div class="p-3" {{ $posts->links('pagination::bootstrap-4') }} </div>
+                        {{-- <div class="p-3">{{ $posts->links('pagination::bootstrap-4') }} </div> --}}
+                        <div class="p-3">{{ $posts->links('pagination::bootstrap-4') }}</div>
                     </div>
                 </div>
                 <!--/ Projects table -->
             </div>
         </div>
         <!--/ User Profile Content -->
-    </div>
-    <!--/ Content -->
+        </div>
+        <!--/ Content -->
 
+
+@endsection
 @endsection
 @section('script')
     <script src="/assets-admin/vendor/libs/jquery/jquery.js"></script>
@@ -493,10 +505,31 @@
     <!-- Vendors JS -->
 
     <!-- Main JS -->
-    <script src="/assets-admin/js/main.js"></script>
+     <script src="/assets-admin/js/main.js"></script>
 
-    <script>
-        function approveCIN(userId) {
+     <script>
+         // User data for edit modal
+         const userData = {!! json_encode([
+            'id' => $user->id,
+            'name' => $user->name,
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
+            'email' => $user->email,
+            'gender' => $user->gender,
+            'birthdate' => $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->format('Y-m-d') : '',
+            'address' => $user->address,
+            'rue' => $user->rue,
+            'nom_batiment' => $user->nom_batiment,
+            'etage' => $user->etage,
+            'num_appartement' => $user->num_appartement,
+            'region' => $user->region,
+            'phone_number' => $user->phone_number,
+            'bank_name' => $user->bank_name,
+            'titulaire_name' => $user->titulaire_name,
+            'rib_number' => $user->rib_number,
+        ]) !!};
+
+         function approveCIN(userId) {
             fetch(`/admin/users/${userId}/approve-cin`, {
                 method: 'POST',
                 headers: {
@@ -683,6 +716,83 @@
                 }
             });
         }
+
+        function openEditUserModal(userId) {
+            // Use pre-loaded user data
+            const user = userData;
+
+            // Populate form fields
+            document.getElementById('edit_user_id').value = user.id;
+            document.getElementById('edit_name').value = user.name || '';
+            document.getElementById('edit_firstname').value = user.firstname || '';
+            document.getElementById('edit_lastname').value = user.lastname || '';
+            document.getElementById('edit_email').value = user.email || '';
+            document.getElementById('edit_gender').value = user.gender || '';
+            document.getElementById('edit_birthdate').value = user.birthdate || '';
+            document.getElementById('edit_address').value = user.address || '';
+            document.getElementById('edit_rue').value = user.rue || '';
+            document.getElementById('edit_nom_batiment').value = user.nom_batiment || '';
+            document.getElementById('edit_etage').value = user.etage || '';
+            document.getElementById('edit_num_appartement').value = user.num_appartement || '';
+            document.getElementById('edit_region').value = user.region || '';
+            document.getElementById('edit_phone_number').value = user.phone_number || '';
+            document.getElementById('edit_bank_name').value = user.bank_name || '';
+            document.getElementById('edit_titulaire_name').value = user.titulaire_name || '';
+            document.getElementById('edit_rib_number').value = user.rib_number || '';
+
+            // Set form action
+            document.getElementById('editUserForm').action = `/admin/client/${userId}/update`;
+
+            // Show modal
+            new bootstrap.Modal(document.getElementById('editUserModal')).show();
+        }
+
+        // Handle form submission
+        document.getElementById('editUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Succès !',
+                        text: data.message,
+                        icon: 'success'
+                    }).then(() => {
+                        // Close modal
+                        bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+                        // Reload page to reflect changes
+                        window.location.reload();
+                    });
+                } else {
+                    // Show validation errors
+                    if (data.errors) {
+                        let errorMessage = 'Veuillez corriger les erreurs suivantes:\n';
+                        for (const [field, errors] of Object.entries(data.errors)) {
+                            errorMessage += `${errors.join(', ')}\n`;
+                        }
+                        Swal.fire('Erreur de validation', errorMessage, 'error');
+                    } else {
+                        Swal.fire('Erreur', data.message || 'Une erreur est survenue', 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Erreur', 'Une erreur est survenue lors de la soumission', 'error');
+            });
+        });
     </script>
 
 @endsection

@@ -22,6 +22,10 @@ use App\Models\notifications;
 use App\Services\AramexService;
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use App\Services\ImageService;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminController extends Controller
 {
@@ -44,8 +48,8 @@ class AdminController extends Controller
                 ->count();
 
             $stats_publication[] = posts::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->whereNull('deleted_at')
-            ->count();
+                ->whereNull('deleted_at')
+                ->count();
         }
 
         $stats_inscription_publication = [
@@ -54,7 +58,7 @@ class AdminController extends Controller
         ];
 
         $commandes = Commande::OrderBy('created_at', 'desc')
-                            ->paginate(10);
+            ->paginate(10);
         $genres = [
             "homme" => User::where('gender', 'male')->where('role', '!=', 'admin')->where('locked', false)->count(),
             "femme" => User::where('gender', 'female')->where('role', '!=', 'admin')->where('locked', false)->count(),
@@ -113,7 +117,8 @@ class AdminController extends Controller
     }
 
 
-    public function post_login(Request $request){
+    public function post_login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
             'password' => 'required'
@@ -122,17 +127,19 @@ class AdminController extends Controller
             'email' => 'Veuillez entrer une adresse email valide.',
             'exists' => "Cette adresse email n'existe pas.",
         ]);
-        $user = User::where('email',$request->email)
+        $user = User::where('email', $request->email)
             ->where("role", "admin")
             ->first();
         if (!$user) {
             return redirect()->back()->with('error', 'Cet e-mail n\'existe pas autorisé!');
         }
         $remember = $request->has('remember');
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ], $remember)) {
+        if (
+            Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password
+            ], $remember)
+        ) {
             return redirect()->route('dashboard');
         } else {
             return redirect()->back()->with('error', 'Echec de connexion');
@@ -142,7 +149,8 @@ class AdminController extends Controller
 
 
 
-    public function index_logout(){
+    public function index_logout()
+    {
         $user = Auth::user();
         $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
 
@@ -167,12 +175,13 @@ class AdminController extends Controller
     {
         $categories = categories::all();
         $totalCategories = $categories->count();
-        return view("Admin.categories.index" , compact("totalCategories"));
+        return view("Admin.categories.index", compact("totalCategories"));
     }
-    public function index_proprietes(){
+    public function index_proprietes()
+    {
         $proprietes = proprietes::all();
         $totalProprietes = $proprietes->count();
-        return view("Admin.categories.index_proprietes" , compact("totalProprietes"));
+        return view("Admin.categories.index_proprietes", compact("totalProprietes"));
     }
 
 
@@ -263,15 +272,15 @@ class AdminController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
 
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
 
                 if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
                     $id = $matches[1];
                     $q->where('id', $id);
                 } else {
-                    $q->whereHas('items.vendor', function($q2) use ($search) {
+                    $q->whereHas('items.vendor', function ($q2) use ($search) {
                         $q2->where('username', 'like', "%{$search}%");
-                    })->orWhereHas('buyer', function($q2) use ($search) {
+                    })->orWhereHas('buyer', function ($q2) use ($search) {
                         $q2->where('username', 'like', "%{$search}%");
                     })->orWhere('shipment_id', 'like', "%{$search}%");
                 }
@@ -284,83 +293,6 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
-    // public function syncWithAramex($id)
-    // {
-    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
-
-    //     if (!$order) {
-    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
-    //     }
-
-    //     $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
-
-    //     if ($unsyncedItems->isEmpty()) {
-    //         return response()->json(['success' => false, 'message' => 'Tous les articles de cette commande sont déjà synchronisés.']);
-    //     }
-
-    //     $aramex = new AramexService();
-    //     $results = [];
-
-    //     foreach ($unsyncedItems as $item) {
-    //         try {
-    //             $payload = $this->buildShipmentPayloadItem($order, $item);
-
-    //             $response = $aramex->sendRequest('/Shipping/Service_1_0.svc/json/CreateShipments', $payload);
-
-    //             if (!isset($response['HasErrors']) || !$response['HasErrors']) {
-
-    //                 $shipmentId = $response['Shipments'][0]['ID']
-    //                 ?? $response['Shipments'][0]['ShipmentNumber']
-    //                 ?? $response['Shipments'][0]['ShipmentLabel']
-    //                 ?? null;
-
-    //                 if (!$shipmentId) {
-    //                     Log::warning('⚠️ No shipment ID for item', [
-    //                         'order_id' => $order->id,
-    //                         'item_id' => $item->id,
-    //                         'response' => $response,
-    //                     ]);
-    //                 }
-
-    //                 $item->shipment_id = $shipmentId;
-    //                 $item->status = 'expédiée';
-    //                 $item->save();
-
-    //                 $results[] = [
-    //                     'item_id' => $item->id,
-    //                     'success' => true,
-    //                     'shipment_id' => $shipmentId,
-    //                 ];
-
-    //             } else {
-    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-    //                 $results[] = [
-    //                     'item_id' => $item->id,
-    //                     'success' => false,
-    //                     'message' => $msg,
-    //                 ];
-    //             }
-    //         } catch (\Exception $e) {
-    //             Log::error('🔥 Exception during Aramex sync', [
-    //                 'order_id' => $order->id,
-    //                 'item_id' => $item->id,
-    //                 'error' => $e->getMessage(),
-    //             ]);
-    //             $results[] = [
-    //                 'item_id' => $item->id,
-    //                 'success' => false,
-    //                 'message' => $e->getMessage(),
-    //             ];
-    //         }
-    //     }
-
-    //     if ($order->items->every(fn($item) => $item->shipment_id)) {
-    //         $order->status = 'expédiée';
-    //         $order->save();
-    //     }
-
-    //     return response()->json(['success' => true, 'results' => $results]);
-    // }
     public function syncWithAramex($id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
@@ -470,132 +402,233 @@ class AdminController extends Controller
         $dueDateAramex = "/Date(" . ($dueDate->getTimestamp() * 1000) . "-0000)/";
 
         return [
-        'ClientInfo' => [
-            'UserName' => env('ARAMEX_API_USERNAME'),
-            'Password' => env('ARAMEX_API_PASSWORD'),
-            'Version' => env('ARAMEX_API_VERSION'),
-            'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-            'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
-            'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
-            'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
-            'Source' => env('ARAMEX_SOURCE'),
-        ],
-        'Shipments' => [
-            [
+            'ClientInfo' => [
+                'UserName' => env('ARAMEX_API_USERNAME'),
+                'Password' => env('ARAMEX_API_PASSWORD'),
+                'Version' => env('ARAMEX_API_VERSION'),
+                'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
+                'AccountPin' => env('ARAMEX_ACCOUNT_PIN'),
+                'AccountEntity' => env('ARAMEX_ACCOUNT_ENTITY'),
+                'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
+                'Source' => env('ARAMEX_SOURCE'),
+            ],
+            'Shipments' => [
+                [
+                    'Reference1' => 'CMD-' . $order->id,
+                    'Reference2' => '',
+                    'Reference3' => '',
+                    'Shipper' => [
+                        'Reference1' => 'Shop Address',
+                        'Reference2' => '',
+                        'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
+                        'PartyAddress' => [
+                            'Line1' => $vendor->address,
+                            'Line2' => '',
+                            'Line3' => '',
+                            'City' => trim($vendor->address),
+                            'StateOrProvinceCode' => '',
+                            'PostCode' => '23000',
+                            'CountryCode' => 'MA',
+                            'Longitude' => 0,
+                            'Latitude' => 0,
+                            'BuildingNumber' => null,
+                            'BuildingName' => null,
+                            'Floor' => null,
+                            'Apartment' => null,
+                            'POBox' => null,
+                            'Description' => null
+                        ],
+                        'Contact' => [
+                            'Department' => '',
+                            'PersonName' => 'Shopin',
+                            'Title' => '',
+                            'CompanyName' => 'Shopin',
+                            'PhoneNumber1' => '1234567890',
+                            'PhoneNumber1Ext' => '',
+                            'PhoneNumber2' => '1234567890',
+                            'PhoneNumber2Ext' => '',
+                            'FaxNumber' => '',
+                            'CellPhone' => '1234567890',
+                            'EmailAddress' => 'hazarne14@gmail.com',
+                            'Type' => ''
+                        ]
+                    ],
+                    'Consignee' => [
+                        'Reference1' => '',
+                        'Reference2' => '',
+                        'AccountNumber' => '',
+                        'PartyAddress' => [
+                            'Line1' => $buyer->address,
+                            'Line2' => '',
+                            'Line3' => '',
+                            'City' => $buyer->address,
+                            'StateOrProvinceCode' => '',
+                            'PostCode' => '23000',
+                            'CountryCode' => 'MA',
+                            'Longitude' => 0,
+                            'Latitude' => 0,
+                            'BuildingNumber' => '',
+                            'BuildingName' => '',
+                            'Floor' => '',
+                            'Apartment' => '',
+                            'POBox' => null,
+                            'Description' => ''
+                        ],
+                        'Contact' => [
+                            'Department' => '',
+                            'PersonName' => $buyer->firstname . ' ' . $buyer->lastname,
+                            'Title' => '',
+                            'CompanyName' => $buyer->username,
+                            'PhoneNumber1' => $buyer->phone_number,
+                            'PhoneNumber1Ext' => '',
+                            'PhoneNumber2' => $buyer->phone_number,
+                            'PhoneNumber2Ext' => '',
+                            'FaxNumber' => '',
+                            'CellPhone' => $buyer->phone_number,
+                            'EmailAddress' => $buyer->email,
+                            'Type' => ''
+                        ]
+                    ],
+                    'Details' => [
+                        'Dimensions' => null,
+                        'ActualWeight' => ['Value' => '1', 'Unit' => 'KG'],
+                        'ChargeableWeight' => null,
+                        'DescriptionOfGoods' => $post->titre,
+                        'GoodsOriginCountry' => "MA",
+                        'NumberOfPieces' => $totalArticles,
+                        'ProductGroup' => 'DOM',
+                        'ProductType' => 'CDS',
+                        'PaymentType' => 'P',
+                        'PaymentOptions' => '',
+                        'CustomsValueAmount' => null,
+                        'CashOnDeliveryAmount' => null,
+                        'InsuranceAmount' => null,
+                        'CashAdditionalAmount' => null,
+                        'CashAdditionalAmountDescription' => '',
+                        'CollectAmount' => null,
+                        'Services' => '',
+                        'Items' => []
+                    ],
+                    'ShippingDateTime' => $shippingDateTimeAramex,
+                    'DueDate' => $dueDateAramex,
+                    'Attachments' => [],
+                    'ForeignHAWB' => '',
+                    'TransportType' => 0,
+                    'PickupGUID' => '',
+                    'Number' => null,
+                    'ScheduledDelivery' => null
+                ]
+            ],
+            'Transaction' => [
                 'Reference1' => 'CMD-' . $order->id,
                 'Reference2' => '',
                 'Reference3' => '',
-                'Shipper' => [
-                    'Reference1' => 'Shop Address',
-                    'Reference2' => '',
-                    'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
-                    'PartyAddress' => [
-                        'Line1' => $vendor->address,
-                        'Line2' => '',
-                        'Line3' => '',
-                        'City' =>  trim($vendor->address),
-                        'StateOrProvinceCode' => '',
-                        'PostCode' => '23000',
-                        'CountryCode' => 'MA',
-                        'Longitude' => 0,
-                        'Latitude' => 0,
-                        'BuildingNumber' => null,
-                        'BuildingName' => null,
-                        'Floor' => null,
-                        'Apartment' => null,
-                        'POBox' => null,
-                        'Description' => null
-                    ],
-                    'Contact' => [
-                        'Department' => '',
-                        'PersonName' => 'Shopin',
-                        'Title' => '',
-                        'CompanyName' => 'Shopin',
-                        'PhoneNumber1' => '1234567890',
-                        'PhoneNumber1Ext' => '',
-                        'PhoneNumber2' => '1234567890',
-                        'PhoneNumber2Ext' => '',
-                        'FaxNumber' => '',
-                        'CellPhone' => '1234567890',
-                        'EmailAddress' => 'hazarne14@gmail.com',
-                        'Type' => ''
-                    ]
-                ],
-                'Consignee' => [
-                    'Reference1' => '',
-                    'Reference2' => '',
-                    'AccountNumber' => '',
-                    'PartyAddress' => [
-                        'Line1' => $buyer->address,
-                        'Line2' => '',
-                        'Line3' => '',
-                        'City' => $buyer->address,
-                        'StateOrProvinceCode' => '',
-                        'PostCode' => '23000',
-                        'CountryCode' => 'MA',
-                        'Longitude' => 0,
-                        'Latitude' => 0,
-                        'BuildingNumber' => '',
-                        'BuildingName' => '',
-                        'Floor' => '',
-                        'Apartment' => '',
-                        'POBox' => null,
-                        'Description' => ''
-                    ],
-                    'Contact' => [
-                        'Department' => '',
-                        'PersonName' => $buyer->firstname . ' ' . $buyer->lastname,
-                        'Title' => '',
-                        'CompanyName' => $buyer->username,
-                        'PhoneNumber1' => $buyer->phone_number,
-                        'PhoneNumber1Ext' => '',
-                        'PhoneNumber2' => $buyer->phone_number,
-                        'PhoneNumber2Ext' => '',
-                        'FaxNumber' => '',
-                        'CellPhone' => $buyer->phone_number,
-                        'EmailAddress' => $buyer->email,
-                        'Type' => ''
-                    ]
-                ],
-                'Details' => [
-                    'Dimensions' => null,
-                    'ActualWeight' => ['Value' => '1', 'Unit' => 'KG'],
-                    'ChargeableWeight' => null,
-                    'DescriptionOfGoods' => $post->titre,
-                    'GoodsOriginCountry' => "MA",
-                    'NumberOfPieces' => $totalArticles,
-                    'ProductGroup' => 'DOM',
-                    'ProductType' => 'CDS',
-                    'PaymentType' => 'P',
-                    'PaymentOptions' => '',
-                    'CustomsValueAmount' => null,
-                    'CashOnDeliveryAmount' => null,
-                    'InsuranceAmount' => null,
-                    'CashAdditionalAmount' => null,
-                    'CashAdditionalAmountDescription' => '',
-                    'CollectAmount' => null,
-                    'Services' => '',
-                    'Items' => []
-                ],
-                'ShippingDateTime' => $shippingDateTimeAramex,
-                'DueDate'  => $dueDateAramex,
-                'Attachments' => [],
-                'ForeignHAWB' => '',
-                'TransportType' => 0,
-                'PickupGUID' => '',
-                'Number' => null,
-                'ScheduledDelivery' => null
+                'Reference4' => '',
+                'Reference5' => ''
             ]
-        ],
-        'Transaction' => [
-            'Reference1' => 'CMD-' . $order->id,
-            'Reference2' => '',
-            'Reference3' => '',
-            'Reference4' => '',
-            'Reference5' => ''
-        ]
         ];
     }
 
+    public function profile_update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
+        $request->validate([
+            'email'           => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone_number'    => 'required|string|min:10',
+            'region'          => 'required|integer|exists:regions,id',
+            'address'         => 'nullable|string|max:255',
+            'rue'             => 'required|string|max:255',
+            'nom_batiment'    => 'required|string|max:255',
+            'etage'           => 'required|string|max:255',
+            'num_appartement' => 'required|string|max:255',
+            'birthdate'       => 'required|date',
+            'avatar'          => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
+            'bank_name'       => 'required|string',
+            'titulaire_name'  => 'required|string',
+            'rib_number'      => 'required|string|size:24',
+            'cin_img'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+        ]);
+
+        // --- Age validation ---
+        $date = \Carbon\Carbon::parse($request->birthdate);
+        $age  = $date->diffInYears(\Carbon\Carbon::now());
+        if ($age < 13) {
+            return redirect()->back()->withErrors(['birthdate' => __('must_be_13')])->withInput();
+        }
+
+        // --- Email ---
+        if ($request->email !== $user->email) {
+            if (User::where('email', $request->email)->exists()) {
+                return redirect()->back()->withErrors(['email' => __('email_already_exists')])->withInput();
+            }
+            $user->email = $request->email;
+        }
+
+        $user->phone_number    = str_replace(' ', '', $request->phone_number);
+        $user->region          = $request->region;
+        $user->address         = $request->address;
+        $user->birthdate       = $date;
+        $user->rue             = $request->rue;
+        $user->nom_batiment    = $request->nom_batiment;
+        $user->etage           = $request->etage;
+        $user->num_appartement = $request->num_appartement;
+
+        // --- Avatar ---
+        if ($request->hasFile('avatar')) {
+            Storage::disk('public')->delete($user->avatar);
+            $newName      = ImageService::uploadAndConvert($request->file('avatar'), 'uploads/avatars');
+            $user->avatar = $newName;
+
+            $config = configurations::first();
+            if ($config->valider_photo == 1) {
+                $user->photo_verified_at = null;
+            } else {
+                $user->photo_verified_at = now();
+            }
+        }
+
+        // --- RIB ---
+        if ($request->filled('rib_number')) {
+            $currentRib = null;
+            if ($user->rib_number) {
+                try {
+                    $currentRib = Crypt::decryptString($user->rib_number);
+                } catch (\Exception $e) {
+                    $currentRib = $user->rib_number;
+                }
+            }
+
+            $newRib = substr(preg_replace('/[^0-9]/', '', $request->rib_number), 0, 24);
+
+            if ($currentRib !== $newRib) {
+                $user->rib_number = Crypt::encryptString($newRib);
+            }
+        }
+
+        $user->bank_name      = $request->bank_name;
+        $user->titulaire_name = $request->titulaire_name;
+
+        // --- CIN ---
+        if ($request->hasFile('cin_img')) {
+            if ($user->cin_img) {
+                $oldCinImages = $user->old_cin_images;
+                if (is_string($oldCinImages)) {
+                    $oldCinImages = json_decode($oldCinImages, true);
+                }
+                if (!is_array($oldCinImages)) {
+                    $oldCinImages = [];
+                }
+                $oldCinImages[]       = $user->cin_img;
+                $user->old_cin_images = $oldCinImages;
+            }
+
+            $user->cin_img      = ImageService::uploadAndConvert($request->file('cin_img'), 'cin_images');
+            $user->cin_approved = false;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+    }
 }

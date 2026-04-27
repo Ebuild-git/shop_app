@@ -48,27 +48,6 @@ class UpdateInformations extends Component
 
     public function update()
     {
-        // $this->validate([
-        //     'email' => 'required|email|max:100',
-        //     'phone_number' => 'required|string|min:10',
-        //     'region' => 'required|integer|exists:regions,id',
-        //     'address' => 'required|nullable|max:255',
-        //     'rue' => 'required|string|max:255',
-        //     'nom_batiment' => 'required|string|max:255',
-        //     'etage' => 'required|string|max:255',
-        //     'num_appartement' => 'required|string|max:255',
-        //     'jour' => 'required|integer|min:1|max:31',
-        //     'mois' => 'required|integer|min:1|max:12',
-        //     'annee' => 'required|integer',
-        //     'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
-        // ], [
-        //     'required' => __('required'),
-        //     'string' => __('string'),
-        //     'avatar.max' => __('avatar_max'),
-        //     'mimes' => __('mimes'),
-        //     'email' => __('email_validation'),
-        // ]);
-
         try {
         $this->validate([
             'email' => 'required|email|max:100',
