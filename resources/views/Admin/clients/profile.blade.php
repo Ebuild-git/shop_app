@@ -126,12 +126,18 @@
 
                                     {{-- Photo validation badge/button --}}
                                     @if ($user->photo_verified_at === null)
-                                        <form action="{{ route('admin.validate.photo', $user->id) }}" method="POST" class="m-0">
+                                        <form action="{{ route('admin.validate.photo', $user->id) }}" method="POST" class="m-0 d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm">
                                                 <i class="bi bi-person-check me-1"></i> Valider photo
                                             </button>
                                         </form>
+
+                                        @if ($user->avatar && $user->avatar != 'avatar.png')
+                                            <button type="button" class="btn btn-danger btn-sm ms-2" onclick="rejectPhoto({{ $user->id }})">
+                                                <i class="bi bi-person-x me-1"></i> Rejeter photo
+                                            </button>
+                                        @endif
                                     @else
                                         <span class="badge bg-label-success py-2 px-3">
                                             <i class="bi bi-person-check-fill me-1"></i> Photo validée
@@ -549,6 +555,47 @@
             .catch(error => {
                 alert('❌ Une erreur est survenue.');
                 console.error(error);
+            });
+        }
+
+        function rejectPhoto(userId) {
+            Swal.fire({
+                title: 'Rejeter la photo ?',
+                text: "Cette action supprimera la photo de profil de l'utilisateur et l'en informera.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Oui, rejeter',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/client/${userId}/reject-photo`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Photo rejetée !',
+                                data.message,
+                                'success'
+                            ).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire('Erreur', data.message || 'Une erreur est survenue', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire('Erreur', 'Une erreur est survenue lors du rejet.', 'error');
+                    });
+                }
             });
         }
 

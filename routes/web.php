@@ -211,6 +211,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     //SHIPEMENT
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('orders');
     Route::post('/admin/client/{id}/validate-photo', [UserController::class, 'validatePhoto'])->name('admin.validate.photo');
+    Route::delete('/admin/client/{id}/reject-photo', [UserController::class, 'rejectPhoto'])->name('admin.reject.photo');
     Route::post('/admin/commande/{commande}/sync-aramex', [AdminController::class, 'syncWithAramex']);
     Route::delete('/admin/orders/{order}', [OrdersController::class, 'destroy'])->name('admin.orders.destroy');
     Route::get('/admin/orders/deleted', [OrdersController::class, 'deletedOrders'])->name('admin.orders.deleted');

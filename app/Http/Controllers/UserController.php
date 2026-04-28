@@ -123,6 +123,67 @@ class UserController extends Controller
         return back()->with('success', 'La photo de profil a été validée avec succès.');
     }
 
+    public function rejectPhoto($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            // Delete the avatar file from storage if it exists and is not the default
+            if ($user->avatar && $user->avatar != 'avatar.png') {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Reset avatar to default
+            $user->avatar = null;
+            $user->photo_verified_at = null;
+            $user->save();
+
+            // Create notification for the user
+            $notification = new notifications();
+            $notification->titre = "Votre photo de profile a été rejetée";
+            $notification->id_user_destination = $user->id;
+            $notification->type = "alerte";
+            $notification->url = "/informations";
+            $notification->destination = "user";
+            $notification->id_user = $user->id;
+            $notification->message = "Nous vous informons que votre photo de profile a été rejetée par les administrateurs. Veuillez télécharger une nouvelle photo appropriée.";
+            $notification->save();
+
+            // Send FCM notification
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $user->id,
+                "Votre photo de profile a été rejetée",
+                "Nous vous informons que votre photo de profile a été rejetée par les administrateurs. Veuillez télécharger une nouvelle photo appropriée.",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'photo_rejected',
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM rejection notification sent successfully", [
+                    'user_id' => $user->id,
+                    'notification_id' => $notification->id,
+                    'type' => 'photo_rejected'
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'La photo de profil a été rejetée et supprimée avec succès.'
+            ]);
+        } catch (\Throwable $th) {
+            \Log::error("Error rejecting photo: " . $th->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Impossible de rejeter la photo de profil.'
+            ], 500);
+        }
+    }
+
     public function delete_my_post(Request $request)
     {
         $id = $request->input('id_post');
