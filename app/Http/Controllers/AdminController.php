@@ -7,7 +7,7 @@ use App\Models\posts;
 use App\Models\proprietes;
 use App\Models\User;
 use App\Models\UserCart;
-use App\Models\regions;
+use App\Models\{regions, configurations};
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\OrdersItem;
@@ -607,7 +607,10 @@ class AdminController extends Controller
 
         // --- Avatar ---
         if ($request->hasFile('avatar')) {
-            Storage::disk('public')->delete($user->avatar);
+            // Storage::disk('public')->delete($user->avatar);
+            if ($user->avatar) { // ✅ only delete if avatar exists
+                Storage::disk('public')->delete($user->avatar);
+            }
             $newName      = ImageService::uploadAndConvert($request->file('avatar'), 'uploads/avatars');
             $user->avatar = $newName;
 
