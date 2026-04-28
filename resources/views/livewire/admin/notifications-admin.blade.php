@@ -23,7 +23,7 @@
                 </a>
             </div>
         </li>
-        <div wire:key="notifications-list-{{ time() }}" class="dropdown-notifications-list scrollable-container">
+        <div wire:key="notifications-list-{{ time() }}" class="dropdown-notifications-list scrollable-container_notifications">
             <ul class="list-group list-group-flush">
                 @forelse ($notifications as $item)
                     <li id="notif-{{ $item->id }}" class="list-group-item list-group-item-action dropdown-notifications-item">

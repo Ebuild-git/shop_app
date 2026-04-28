@@ -214,3 +214,29 @@
     color: gray; /* For Terminé */
 }
 
+
+.dropdown-menu .scrollable-container_notifications {
+    max-height: 500px !important;
+    overflow-y: scroll !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #a0aec0 #f7fafc !important;
+}
+
+.dropdown-menu .scrollable-container_notifications::-webkit-scrollbar {
+    width: 8px !important;
+    display: block !important;
+}
+
+.dropdown-menu .scrollable-container_notifications::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 10px !important;
+}
+
+.dropdown-menu .scrollable-container_notifications::-webkit-scrollbar-thumb {
+    background: #a0aec0 !important;
+    border-radius: 10px !important;
+}
+
+.dropdown-menu .scrollable-container_notifications::-webkit-scrollbar-thumb:hover {
+    background: #718096 !important;
+}
