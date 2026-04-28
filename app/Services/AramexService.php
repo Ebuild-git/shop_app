@@ -55,6 +55,12 @@ class AramexService
 
         return $payload;
     }
+
+    public function createPickup(array $payload)
+    {
+        return $this->sendRequest('/Shipping/Service_1_0.svc/json/CreatePickup', $payload);
+    }
+
     public function getClientInfo(): array
     {
         return [
