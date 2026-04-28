@@ -556,27 +556,49 @@ class AdminController extends Controller
                 $hasErrors = $response['HasErrors'] ?? true;
 
                 if (!$hasErrors) {
-                    // Response structure: Pickup.Shipments[0] (same inner shape)
-                    $shipment   = $response['Pickup']['Shipments'][0]
-                            ?? $response['Shipments'][0]           // fallback
-                            ?? [];
+                    $processedPickup = $response['ProcessedPickup'] ?? [];
 
-                    $shipmentId = $response['ProcessedPickup']['ProcessedShipments'][0]['ID'] ?? null;
+                    $pickupId   = $processedPickup['ID']   ?? null;
+                    $pickupGuid = $processedPickup['GUID'] ?? null;
 
+                    $processedShipment = $processedPickup['ProcessedShipments'][0] ?? [];
+                    $shipmentId        = $processedShipment['ID'] ?? null;
 
-                    if (!$shipmentId) {
-                        Log::warning('⚠️ No shipment ID returned', [
-                            'order_id' => $order->id,
-                            'item_id'  => $item->id,
-                            'response' => $response,
+                    // Log if any of the three IDs are missing
+                    if (!$pickupId || !$pickupGuid || !$shipmentId) {
+                        Log::warning('⚠️ Incomplete Aramex response', [
+                            'order_id'    => $order->id,
+                            'item_id'     => $item->id,
+                            'pickup_id'   => $pickupId,
+                            'pickup_guid' => $pickupGuid,
+                            'shipment_id' => $shipmentId,
+                            'response'    => $response,
                         ]);
                     }
 
+                    $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
+                    if ($shipmentHasErrors) {
+                        $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
+                        Log::warning('⚠️ Processed shipment has errors', [
+                            'order_id' => $order->id,
+                            'item_id'  => $item->id,
+                            'message'  => $msg,
+                        ]);
+                    }
+
+                    $item->pickup_id   = $pickupId;
+                    $item->pickup_guid = $pickupGuid;
                     $item->shipment_id = $shipmentId;
                     $item->status      = 'expédiée';
                     $item->save();
 
-                    $results[] = ['item_id' => $item->id, 'success' => true, 'shipment_id' => $shipmentId];
+                    $results[] = [
+                        'item_id'     => $item->id,
+                        'success'     => true,
+                        'pickup_id'   => $pickupId,
+                        'pickup_guid' => $pickupGuid,
+                        'shipment_id' => $shipmentId,
+                    ];
                 } else {
                     $msg       = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
                     $results[] = ['item_id' => $item->id, 'success' => false, 'message' => $msg ?: 'Erreur inconnue retournée par Aramex.'];
@@ -654,7 +676,7 @@ class AdminController extends Controller
                     'PhoneNumber2Ext' => '',
                     'FaxNumber'       => '',
                     'CellPhone'       => '1234567890',
-                    'EmailAddress'    => 'hazarne14@gmail.com',
+                    'EmailAddress'    => 'malak.ibrahim.salame@gmail.com',
                     'Type'            => '',
                 ],
             ],
@@ -731,14 +753,14 @@ class AdminController extends Controller
                 'CollectAmount'                  => null,
                 'Services'                       => '',
                 'Items'                          => [],
-                'DeliveryInstructions'           => null,  // ← new field
+                'DeliveryInstructions'           => null,
             ],
             'ShippingDateTime'  => $nowAramex,
             'DueDate'           => $dueAramex,
             'Comments'          => '',
-            'PickupLocation'    => 'Reception',             // ← new field
-            'OperationsInstructions'  => '',                // ← new field
-            'AccountingInstrcutions'  => '',                // ← new field (Aramex typo kept)
+            'PickupLocation'    => 'Reception',
+            'OperationsInstructions'  => '',
+            'AccountingInstrcutions'  => '',
             'Attachments'       => [],
             'ForeignHAWB'       => '',
             'TransportType'     => 0,
@@ -754,7 +776,7 @@ class AdminController extends Controller
                 'ReportType' => 'URL',
             ],
             'Pickup' => [
-                'PickupAddress' => [                       // ← new block (vendor's address)
+                'PickupAddress' => [
                     'Line1'               => $vendor->address,
                     'Line2'               => '',
                     'Line3'               => '',
@@ -771,7 +793,7 @@ class AdminController extends Controller
                     'POBox'               => null,
                     'Description'         => null,
                 ],
-                'PickupContact' => [                       // ← new block
+                'PickupContact' => [
                     'Department'      => '',
                     'PersonName'      => 'Shopin',
                     'Title'           => '',
@@ -782,7 +804,7 @@ class AdminController extends Controller
                     'PhoneNumber2Ext' => '',
                     'FaxNumber'       => '',
                     'CellPhone'       => '1234567890',
-                    'EmailAddress'    => 'hazarne14@gmail.com',
+                    'EmailAddress'    => 'malak.ibrahim.salame@gmail.com',
                     'Type'            => '',
                 ],
                 'PickupLocation'  => 'Reception',
@@ -794,8 +816,8 @@ class AdminController extends Controller
                 'Reference1'      => 'CMD-' . $order->id,
                 'Reference2'      => '',
                 'Vehicle'         => '',
-                'Shipments'       => [$shipment],          // ← shipments now live here
-                'PickupItems'     => [                     // ← new block
+                'Shipments'       => [$shipment],
+                'PickupItems'     => [
                     [
                         'ProductGroup'        => 'DOM',
                         'ProductType'         => 'CDS',
