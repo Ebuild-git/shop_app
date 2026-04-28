@@ -94,25 +94,40 @@ class AddressController extends Controller
             'is_default'      => false,
         ];
 
+        $mapSecondary = function ($address) {
+            return [
+                'id'              => $address->id,
+                'region'          => $address->region,
+                'address'         => $address->city,
+                'rue'             => $address->street,
+                'nom_batiment'    => $address->building_name,
+                'etage'           => $address->floor,
+                'num_appartement' => $address->apartment_number,
+                'phone_number'    => $address->phone_number,
+                'is_default'      => $address->is_default,
+            ];
+        };
+
         $secondaryAddresses = UserAddress::where('user_id', $user->id)->get();
         $secondaryDefault   = $secondaryAddresses->firstWhere('is_default', true);
 
         if ($secondaryDefault) {
-            // A secondary address is explicitly set as default
-            $activeAddress      = $secondaryDefault;
-            $secondaryAddresses = $secondaryAddresses->where('is_default', false)->values();
-            $secondaryAddresses->push((object) $mainAddress);
+            $activeAddress      = $mapSecondary($secondaryDefault);
+            $secondaryAddresses = $secondaryAddresses
+                ->where('is_default', false)
+                ->map($mapSecondary)
+                ->values();
+            $secondaryAddresses->push($mainAddress);
         } else {
-            // No secondary default → main address is default
             $mainAddress['is_default'] = true;
-            $activeAddress             = (object) $mainAddress;
-            // secondary addresses stay as-is (empty or not)
+            $activeAddress             = $mainAddress;
+            $secondaryAddresses        = $secondaryAddresses->map($mapSecondary)->values();
         }
 
         return response()->json([
             'success'             => true,
             'active_address'      => $activeAddress,
-            'secondary_addresses' => $secondaryAddresses->values(),
+            'secondary_addresses' => $secondaryAddresses,
         ]);
     }
 
