@@ -41,41 +41,78 @@ class AddressController extends Controller
      *     )
      * )
      */
+    // public function index(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     $secondaryDefault = UserAddress::where('user_id', $user->id)
+    //         ->where('is_default', true)
+    //         ->first();
+
+    //     $otherSecondary = UserAddress::where('user_id', $user->id)
+    //         ->where('is_default', false)
+    //         ->get();
+
+    //     $mainAddress = [
+    //         'region' => $user->region,
+    //         'address' => $user->address,
+    //         'rue' => $user->rue,
+    //         'nom_batiment' => $user->nom_batiment,
+    //         'etage' => $user->etage,
+    //         'num_appartement' => $user->num_appartement,
+    //         'phone_number' => $user->phone_number,
+    //         'is_default' => false,
+    //     ];
+
+    //     if ($secondaryDefault) {
+    //         $activeAddress = $secondaryDefault;
+    //         $secondaryAddresses = $otherSecondary->push($mainAddress);
+    //     } else {
+    //         $activeAddress = (object) $mainAddress;
+    //         $secondaryAddresses = $otherSecondary;
+    //     }
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'active_address' => $activeAddress,
+    //         'secondary_addresses' => $secondaryAddresses
+    //     ]);
+    // }
     public function index(Request $request)
     {
         $user = $request->user();
 
-        $secondaryDefault = UserAddress::where('user_id', $user->id)
-            ->where('is_default', true)
-            ->first();
-
-        $otherSecondary = UserAddress::where('user_id', $user->id)
-            ->where('is_default', false)
-            ->get();
-
         $mainAddress = [
-            'region' => $user->region,
-            'address' => $user->address,
-            'rue' => $user->rue,
-            'nom_batiment' => $user->nom_batiment,
-            'etage' => $user->etage,
+            'id'              => null,
+            'region'          => $user->region,
+            'address'         => $user->address,
+            'rue'             => $user->rue,
+            'nom_batiment'    => $user->nom_batiment,
+            'etage'           => $user->etage,
             'num_appartement' => $user->num_appartement,
-            'phone_number' => $user->phone_number,
-            'is_default' => false,
+            'phone_number'    => $user->phone_number,
+            'is_default'      => false,
         ];
 
+        $secondaryAddresses = UserAddress::where('user_id', $user->id)->get();
+        $secondaryDefault   = $secondaryAddresses->firstWhere('is_default', true);
+
         if ($secondaryDefault) {
-            $activeAddress = $secondaryDefault;
-            $secondaryAddresses = $otherSecondary->push($mainAddress);
+            // A secondary address is explicitly set as default
+            $activeAddress      = $secondaryDefault;
+            $secondaryAddresses = $secondaryAddresses->where('is_default', false)->values();
+            $secondaryAddresses->push((object) $mainAddress);
         } else {
-            $activeAddress = (object) $mainAddress;
-            $secondaryAddresses = $otherSecondary;
+            // No secondary default → main address is default
+            $mainAddress['is_default'] = true;
+            $activeAddress             = (object) $mainAddress;
+            // secondary addresses stay as-is (empty or not)
         }
 
         return response()->json([
-            'success' => true,
-            'active_address' => $activeAddress,
-            'secondary_addresses' => $secondaryAddresses
+            'success'             => true,
+            'active_address'      => $activeAddress,
+            'secondary_addresses' => $secondaryAddresses->values(),
         ]);
     }
 
