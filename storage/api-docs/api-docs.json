@@ -5437,23 +5437,111 @@
                     "Posts"
                 ],
                 "summary": "List paginated posts",
-                "description": "Returns a paginated list of posts including photos as full URLs",
+                "description": "Returns a paginated list of posts with full photo URLs. Supports filtering by luxury, etat, proprietes, and full-text search across title, category, and sub-category.",
                 "operationId": "0f662500b195dc03ad40457524366831",
                 "parameters": [
                     {
                         "name": "page",
                         "in": "query",
-                        "description": "Page number for pagination",
+                        "description": "Page number for pagination (20 results per page)",
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "default": 1
+                            "default": 1,
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "luxury",
+                        "in": "query",
+                        "description": "Filter posts by whether their category is luxury or not. Pass true for luxury items, false for non-luxury.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    },
+                    {
+                        "name": "etat",
+                        "in": "query",
+                        "description": "Filter posts by condition (etat). Must match exactly one of the stored values.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Neuf avec étiquettes",
+                                "Neuf sans étiquettes",
+                                "Très bon état",
+                                "Bon état",
+                                "État satisfaisant"
+                            ],
+                            "example": "Neuf avec étiquettes"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Full-text search across post title (titre), sub-category name (titre, title_en, title_ar), and category name (titre, title_en, title_ar).",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "caftan"
+                        }
+                    },
+                    {
+                        "name": "proprietes[Taille]",
+                        "in": "query",
+                        "description": "Filter by the 'Taille' property inside the proprietes JSON column. Partial match supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "4XL"
+                        }
+                    },
+                    {
+                        "name": "proprietes[Article pour]",
+                        "in": "query",
+                        "description": "Filter by the 'Article pour' property inside the proprietes JSON column. Partial match supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Femme"
+                        }
+                    },
+                    {
+                        "name": "proprietes[Couleur]",
+                        "in": "query",
+                        "description": "Filter by the 'Couleur' property inside the proprietes JSON column. Partial match supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "#000000"
+                        }
+                    },
+                    {
+                        "name": "proprietes[Poids]",
+                        "in": "query",
+                        "description": "Filter by the 'Poids' property inside the proprietes JSON column. Partial match supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "proprietes[Eventuels défauts]",
+                        "in": "query",
+                        "description": "Filter by the 'Eventuels défauts' property inside the proprietes JSON column. Partial match supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "cc"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of posts",
+                        "description": "Paginated list of posts",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5463,49 +5551,213 @@
                                             "example": true
                                         },
                                         "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 165
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "Manteau old style"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Très beau manteau",
+                                                        "nullable": true
+                                                    },
+                                                    "photos": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "http://127.0.0.1:8000/storage/uploads/posts/abc.webp"
+                                                        }
+                                                    },
+                                                    "id_region": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_user": {
+                                                        "type": "integer",
+                                                        "example": 19
+                                                    },
+                                                    "id_sous_categorie": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "proprietes": {
+                                                        "description": "Dynamic JSON object of product properties (keys and values vary by sub-category)",
+                                                        "type": "object",
+                                                        "example": {
+                                                            "Taille": "4XL/50/18",
+                                                            "Article pour": "Femme",
+                                                            "Poids": "1"
+                                                        }
+                                                    },
+                                                    "etat": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "Neuf avec étiquettes",
+                                                            "Neuf sans étiquettes",
+                                                            "Très bon état",
+                                                            "Bon état",
+                                                            "État satisfaisant"
+                                                        ],
+                                                        "example": "Neuf avec étiquettes"
+                                                    },
+                                                    "prix": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 107
+                                                    },
+                                                    "old_prix": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 112,
+                                                        "nullable": true
+                                                    },
+                                                    "is_solder": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "statut": {
+                                                        "type": "string",
+                                                        "example": "vente"
+                                                    },
+                                                    "views": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-04-16 09:59:20"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-04-16T09:59:20.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2026-04-16T09:59:27.000000Z"
+                                                    },
+                                                    "sous_categorie_info": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "titre": {
+                                                                "type": "string",
+                                                                "example": "Caftan & Takchita"
+                                                            },
+                                                            "title_en": {
+                                                                "type": "string",
+                                                                "example": "Caftan & Takchita",
+                                                                "nullable": true
+                                                            },
+                                                            "title_ar": {
+                                                                "type": "string",
+                                                                "example": "القفطان والتكشيطة",
+                                                                "nullable": true
+                                                            },
+                                                            "categorie": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "titre": {
+                                                                        "type": "string",
+                                                                        "example": "Fashion & Vêtements"
+                                                                    },
+                                                                    "title_en": {
+                                                                        "type": "string",
+                                                                        "example": "Fashion & Clothing",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "title_ar": {
+                                                                        "type": "string",
+                                                                        "example": "الموضة والملابس",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "luxury": {
+                                                                        "type": "boolean",
+                                                                        "example": false
+                                                                    },
+                                                                    "icon": {
+                                                                        "type": "string",
+                                                                        "example": "http://127.0.0.1:8000/storage/uploads/categories/icon.png",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "small_icon": {
+                                                                        "type": "string",
+                                                                        "example": "http://127.0.0.1:8000/storage/uploads/categories/small_icon.png",
+                                                                        "nullable": true
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "changements_prix": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 20
+                                                                },
+                                                                "id_post": {
+                                                                    "type": "integer",
+                                                                    "example": 165
+                                                                },
+                                                                "old_price": {
+                                                                    "type": "string",
+                                                                    "example": "105.00"
+                                                                },
+                                                                "new_price": {
+                                                                    "type": "string",
+                                                                    "example": "100.00"
+                                                                },
+                                                                "created_at": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": "2026-04-16T09:59:27.000000Z"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
                                             "properties": {
                                                 "current_page": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 30
-                                                            },
-                                                            "titre": {
-                                                                "type": "string",
-                                                                "example": "Manteau old style"
-                                                            },
-                                                            "description": {
-                                                                "type": "string",
-                                                                "example": "Manteau camel Mango"
-                                                            },
-                                                            "photos": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "type": "string",
-                                                                    "example": "http://127.0.0.1:8000/storage/uploads/posts/TqhzM91f7GYgu5V6NwiYYNi1hKZEk9TlA26dZJ8a.webp"
-                                                                }
-                                                            }
-                                                        },
-                                                        "type": "object"
-                                                    }
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "example": 150
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "example": 50
-                                                },
                                                 "last_page": {
                                                     "type": "integer",
                                                     "example": 3
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 20
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 43
+                                                },
+                                                "has_more": {
+                                                    "type": "boolean",
+                                                    "example": true
                                                 }
                                             },
                                             "type": "object"
