@@ -6,6 +6,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use App\Models\User;
+use App\Models\notifications;
 use Illuminate\Support\Facades\Log;
 
 class FcmService
@@ -126,6 +127,67 @@ class FcmService
             return true;
         } catch (\Exception $e) {
             Log::error('FCM Error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send notification with real-time unread count badge
+     * @param int $userId User ID
+     * @param string $title Notification title
+     * @param string $body Notification body
+     * @param array $data Additional data to include
+     * @return bool
+     */
+    public function sendNotificationWithBadge($userId, $title, $body, $data = [])
+    {
+        $user = User::find($userId);
+
+        if (!$user || !$user->fcm_token) {
+            Log::warning("FCM: User {$userId} has no token registered");
+            return false;
+        }
+
+        $unreadCount = \App\Models\notifications::where('id_user_destination', $userId)
+            ->where('statut', 'unread')
+            ->count();
+
+        $data['unread_count'] = $unreadCount;
+
+        return $this->sendToToken($user->fcm_token, $title, $body, $data);
+    }
+
+    /**
+     * Send silent badge update to multiple users
+     * @param array $userIds Array of user IDs
+     * @return bool
+     */
+    public function sendBadgeUpdate($userIds)
+    {
+        $tokens = User::whereIn('id', $userIds)
+            ->whereNotNull('fcm_token')
+            ->get(['id', 'fcm_token']);
+
+        $messages = [];
+
+        foreach ($tokens as $token) {
+            $unreadCount = notifications::where('id_user_destination', $token->id)
+                ->where('statut', 'unread')
+                ->count();
+
+            $message = CloudMessage::withTarget('token', $token->fcm_token)
+                ->withData(['type' => 'badge_update', 'unread_count' => $unreadCount]);
+
+            $messages[] = $message;
+        }
+
+        try {
+            foreach ($messages as $message) {
+                $this->messaging->send($message);
+            }
+            return true;
+        } catch (\Exception $e) {
+            Log::error('FCM Badge Update Error: ' . $e->getMessage());
             return false;
         }
     }

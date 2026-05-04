@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/fcm/register-token', [FcmController::class, 'registerToken']);
+    Route::post('/fcm/update-badge', [FcmController::class, 'updateBadge']);
 
     //USERS
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -105,15 +106,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}/ping', [shopinerController::class, 'ping']);
     Route::delete('/users/{user}/ping', [shopinerController::class, 'unping']);
 
-    Route::get('/user/notifications', [UsersController::class, 'user_notifications']);
-
-
-});
-
-Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/user/notifications', [NotificationsController::class, 'user_notifications_api'])->name('user_notifications_api');
     Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
-    Route::get('/notifications/as_read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
-    Route::get('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
+    Route::post('/notifications/mark-read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');
+    Route::post('/notifications/mark-unread/{id}', [NotificationsController::class, 'mark_as_unread_notification'])->name('mark_as_unread_notification');
+    Route::post('/notifications/mark-all-read', [NotificationsController::class, 'mark_all_as_read'])->name('mark_all_as_read');
+    Route::post('/notifications/mark-all-unread', [NotificationsController::class, 'mark_all_as_unread'])->name('mark_all_as_unread');
+    Route::delete('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
+    Route::get('/notifications/unread-count', [NotificationsController::class, 'get_unread_count'])->name('get_unread_count');
+
+
 });
 
 

@@ -524,45 +524,6 @@ class UsersController extends Controller
         ], 200);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/user/notifications",
-     *     summary="Get user notifications",
-     *     description="Marks all unread notifications as read, then returns all user notifications",
-     *     tags={"Notifications"},
-     *     security={{"bearerAuth":{}}},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Notifications retrieved successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="unread_count",
-     *                 type="integer",
-     *                 example=0
-     *             ),
-     *             @OA\Property(
-     *                 property="notifications",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="integer", example=12),
-     *                     @OA\Property(property="id_user_destination", type="integer", example=5),
-     *                     @OA\Property(property="title", type="string", example="Order Update"),
-     *                     @OA\Property(property="message", type="string", example="Your order has been shipped"),
-     *                     @OA\Property(property="statut", type="string", example="read"),
-     *                     @OA\Property(property="created_at", type="string", format="date-time"),
-     *                     @OA\Property(property="updated_at", type="string", format="date-time")
-     *                 )
-     *             )
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthenticated"
-     *     )
-     * )
-     */
     public function user_notifications(Request $request)
     {
         $user_id = $request->user()->id;
