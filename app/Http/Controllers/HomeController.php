@@ -706,15 +706,15 @@ class HomeController extends Controller
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
             'region' => 'required|exists:regions,id',
-            'adresse' => ['required', 'string'],
-            'telephone' => ['required', 'string', 'max:15'],
+            'adresse' => ['nullable', 'string'],
+            'telephone' => ['nullable', 'string', 'max:15'],
             'username' => ['required', 'string', 'unique:users,username'],
             'genre' => 'required|in:female,male',
-            'jour' => 'required|integer|between:1,31',
-            'mois' => 'required|integer|between:1,12',
-            'annee' => 'required|integer|between:1950,'.date('Y'),
-            'ruee' => ['required', 'string'],
-            'nom_batiment' => ['required', 'string'],
+            'jour' => 'nullable|integer|between:1,31',
+            'mois' => 'nullable|integer|between:1,12',
+            'annee' => 'nullable|integer|between:1950,'.date('Y'),
+            'ruee' => ['nullable', 'string'],
+            'nom_batiment' => ['nullable', 'string'],
             'etage' => ['nullable', 'string'],
             'num_appartement' => ['nullable', 'string'],
         ], [
@@ -748,9 +748,9 @@ class HomeController extends Controller
             return redirect()->back()->with('error', __('error.invalid_date'))->withInput();
         }
 
-        if ($date->diffInYears(\Carbon\Carbon::now()) < 18) {
-            return redirect()->back()->with('error', __('error.age_limit'))->withInput();
-        }
+        // if ($date->diffInYears(\Carbon\Carbon::now()) < 18) {
+        //     return redirect()->back()->with('error', __('error.age_limit'))->withInput();
+        // }
 
         try {
             $user = DB::transaction(function () use ($request, $date) {
