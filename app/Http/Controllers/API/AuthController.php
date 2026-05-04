@@ -264,12 +264,12 @@ class AuthController extends Controller
             'telephone' => 'required|string|max:15',
             'username' => 'string|unique:users,username',
             'genre' => 'required|in:female,male',
-            'jour' => 'required|integer|between:1,31',
-            'mois' => 'required|integer|between:1,12',
-            'annee' => 'required|integer|between:1950,2024',
+            'jour' => 'nullable|integer|between:1,31',
+            'mois' => 'nullable|integer|between:1,12',
+            'annee' => 'nullable|integer|between:1950,2024',
 
-            'ruee' => 'required|string',
-            'nom_batiment' => 'required|string',
+            'ruee' => 'nullable|string',
+            'nom_batiment' => 'nullable|string',
             'etage' => 'nullable|string',
             'num_appartement' => 'nullable|string',
         ], [
@@ -290,13 +290,13 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $birthdate = Carbon::createFromDate($request->annee, $request->mois, $request->jour);
-        if ($birthdate->diffInYears(now()) < 18) {
-            return response()->json([
-                'status' => false,
-                'message' => "You must be at least 18 years old."
-            ], 422);
-        }
+        // $birthdate = Carbon::createFromDate($request->annee, $request->mois, $request->jour);
+        // if ($birthdate->diffInYears(now()) < 18) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => "You must be at least 18 years old."
+        //     ], 422);
+        // }
 
 
         $user = new User();
