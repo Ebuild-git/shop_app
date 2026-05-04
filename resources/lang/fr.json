@@ -1022,7 +1022,28 @@
     "swal_email_error_title": "Erreur d'email",
     "swal_invalid_email": "L'adresse email de destination est invalide ou le domaine n'existe pas. Veuillez vérifier l'email et réessayer.",
     "swal_server_error": "Erreur serveur lors de l'envoi de l'email. Veuillez réessayer plus tard.",
-    "sending": "Envoi en cours..."
+    "sending": "Envoi en cours...",
+    "ugc_title": "Contenu généré par les utilisateurs et annonces",
+  "ugc_description": "Notre plateforme permet aux utilisateurs de créer et publier des annonces de produits. En utilisant cette fonctionnalité, vous acceptez de ne pas publier ou partager de contenu qui :",
+    "ugc_rules.false": "Est faux, trompeur ou frauduleux",
+    "ugc_rules.abusive": "Est abusif, offensant, haineux ou discriminatoire",
+    "ugc_rules.illegal": "Contient des éléments illégaux ou promeut des activités illégales",
+    "ugc_rules.explicit": "Contient du contenu inapproprié ou explicite",
+    "ugc_rules.rights": "Viole les droits d'autrui",
+  "ugc_policy": "Nous appliquons une politique de tolérance zéro envers les contenus inappropriés et les utilisateurs abusifs.",
+
+  "moderation_title": "Modération et application",
+    "moderation_rules.review": "Toutes les annonces peuvent être examinées avant ou après publication",
+    "moderation_rules.remove": "Nous nous réservons le droit de supprimer toute annonce à notre discrétion",
+    "moderation_rules.ban": "Nous pouvons suspendre ou bannir définitivement les utilisateurs qui enfreignent ces règles",
+
+  "reporting_title": "Signalement et blocage",
+    "reporting_rules.report": "Les utilisateurs peuvent signaler des annonces ou des vendeurs qui enfreignent ces règles",
+    "reporting_rules.block": "Les utilisateurs peuvent bloquer des vendeurs, ce qui empêchera leurs annonces d'apparaître à nouveau",
+    "reporting_rules.review": "Tous les signalements sont examinés par notre équipe de modération",
+
+  "response_title": "Temps de réponse",
+  "response_description": "Nous examinons et prenons des mesures sur le contenu signalé dans un délai de 24 heures, y compris la suppression des annonces et la suspension des utilisateurs si nécessaire."
 
 
 

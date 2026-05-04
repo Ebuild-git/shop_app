@@ -1021,7 +1021,31 @@
     "swal_email_error_title": "Email error",
     "swal_invalid_email": "The destination email address is invalid or the domain does not exist. Please check and try again.",
     "swal_server_error": "Server error while sending email. Please try again later.",
-    "sending": "Sending..."
+    "sending": "Sending...",
+     "ugc_title": "User-Generated Content and Listings",
+  "ugc_description": "Our platform allows users to create and publish product listings. By using this feature, you agree not to post or share content that:",
+
+    "ugc_rules.false": "Is false, misleading, or fraudulent",
+    "ugc_rules.abusive": "Is abusive, offensive, hateful, or discriminatory",
+    "ugc_rules.illegal": "Contains illegal items or promotes illegal activities",
+    "ugc_rules.explicit": "Contains inappropriate or explicit content",
+    "ugc_rules.rights": "Violates the rights of others",
+  "ugc_policy": "We have a zero-tolerance policy for objectionable content and abusive users.",
+
+  "moderation_title": "Moderation and Enforcement",
+
+    "moderation_rules.review": "All listings may be reviewed before or after publication",
+    "moderation_rules.remove": "We reserve the right to remove any listing at our discretion",
+    "moderation_rules.ban": "We may suspend or permanently ban users who violate these rules",
+
+
+  "reporting_title": "Reporting and Blocking",
+    "reporting_rules.report": "Users can report listings or sellers that violate these rules",
+    "reporting_rules.block": "Users can block sellers, which will prevent their listings from appearing again",
+    "reporting_rules.review": "All reports are reviewed by our moderation team",
+
+  "response_title": "Response Time",
+  "response_description": "We review and take action on reported content within 24 hours, including removing listings and suspending users when necessary."
 }
 
 

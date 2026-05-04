@@ -1,94 +1,3 @@
-{{--
-<div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-    <h2>{{ __('general_conditions_title') }}</h2>
-
-<h4>1. {{ __('registration_title') }}</h4>
-
-<p>{!! __('registration_description') !!}</p>
-
-<br>
-
-<h4>2. {!! \App\Traits\TranslateTrait::TranslateText('Politique tarifaire:') !!}</h4>
-
-
-    <p>
-        <i>
-            {!! __('seller_commission_intro') !!}
-        </i> <br>
-
-        <b>
-            {!! __('luxury_brand_commission') !!} <br>
-            {!! __('other_category_commission') !!} <br>
-        </b>
-
-        {!! __('delivery_fees_not_included') !!}
-    </p>
-
-    <br>
-    <h4>{!! __('confidentiality_title') !!}</h4>
-
-    <p>
-        {!! __('confidentiality_content') !!}
-    </p>
-
-<br>
-
-<h4>{!! __('cookies_title') !!}</h4>
-
-<p>
-    {!! __('cookies_content') !!}
-</p>
-
-<br>
-
-
-    <h4>{!! __('articles_for_sale_title') !!}</h4>
-
-    <p>
-        {!! __('articles_for_sale_content') !!}
-    </p>
-
-    <br>
-
-    <h4>{!! __('return_title') !!}</h4>
-
-    <p>
-        {!! __('return_content') !!}
-    </p>
-
-    <br>
-
-    <h4>{!! __('luxury_title') !!}</h4>
-
-    <p>
-        <i>{!! __('luxury_description') !!}</i><br>
-
-        {!! __('luxury_price_condition') !!} {!! __('currency') !!} <br>
-
-        {!! __('luxury_authentication_condition') !!} <br>
-
-        <i>{!! __('luxury_category_condition') !!}</i> <br>
-
-        <b>{!! __('luxury_symbol_authentication') !!} <i class="bi bi-gem" style="color: #008080;font-weight: bold"></i></b><br>
-
-        <i>{!! __('luxury_sale_steps') !!}</i> <br>
-
-        - {!! __('luxury_publish_item') !!} <br>
-
-        - {!! __('luxury_purchase_confirmation') !!} <br>
-
-        - {!! __('luxury_item_authentication') !!} <br>
-
-        - {!! __('luxury_item_delivery') !!} <br>
-
-        - {!! __('luxury_payment_confirmation') !!} <br>
-
-        {!! __('luxury_return_policy') !!} <br>
-
-        {!! __('luxury_authentication_policy') !!}
-    </p>
-
-</div> --}}
 <div style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
 
     <h2>{!! __('general_conditions_title1') !!}</h2>
@@ -347,6 +256,50 @@
         {!! __('luxury_return_policy1') !!}<br><br>
 
         {!! __('luxury_authentication_policy1') !!}
+    </p>
+
+    <br>
+
+    {{-- USER GENERATED CONTENT --}}
+    <h4>{!! __('ugc_title') !!}</h4>
+    <p>
+        {!! __('ugc_description') !!}<br><br>
+
+        &mdash; {!! __('ugc_rules.false') !!}<br>
+        &mdash; {!! __('ugc_rules.abusive') !!}<br>
+        &mdash; {!! __('ugc_rules.illegal') !!}<br>
+        &mdash; {!! __('ugc_rules.explicit') !!}<br>
+        &mdash; {!! __('ugc_rules.rights') !!}<br><br>
+
+        <b>{!! __('ugc_policy') !!}</b>
+    </p>
+
+    <br>
+
+    {{-- MODERATION --}}
+    <h4>{!! __('moderation_title') !!}</h4>
+    <p>
+        &mdash; {!! __('moderation_rules.review') !!}<br>
+        &mdash; {!! __('moderation_rules.remove') !!}<br>
+        &mdash; {!! __('moderation_rules.ban') !!}<br>
+    </p>
+
+    <br>
+
+    {{-- REPORTING --}}
+    <h4>{!! __('reporting_title') !!}</h4>
+    <p>
+        &mdash; {!! __('reporting_rules.report') !!}<br>
+        &mdash; {!! __('reporting_rules.block') !!}<br>
+        &mdash; {!! __('reporting_rules.review') !!}<br>
+    </p>
+
+    <br>
+
+    {{-- RESPONSE TIME --}}
+    <h4>{!! __('response_title') !!}</h4>
+    <p>
+        {!! __('response_description') !!}
     </p>
 
     <br>

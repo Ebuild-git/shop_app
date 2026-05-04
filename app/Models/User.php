@@ -37,6 +37,7 @@ class User extends Authenticatable implements JWTSubject
         'locale',
         'email_deleted',
         'region',
+        'city_id',
         'address',
         'rue',
         'nom_batiment',
@@ -128,6 +129,11 @@ class User extends Authenticatable implements JWTSubject
     public function region_info()
     {
         return $this->belongsTo(regions::class,'region', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
     public function total_sales(){
