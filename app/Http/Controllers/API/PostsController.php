@@ -18,6 +18,7 @@ use App\Events\AdminEvent;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\signalements;
+use Illuminate\Support\Facades\Log;
 
 
 class PostsController extends Controller
@@ -677,15 +678,172 @@ class PostsController extends Controller
      *     )
      * )
      */
+    // public function store(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     if (!$user) {
+    //         return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+    //     }
+
+    //     if (!$user->cin_img) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "You must upload an image of your national identity card before publishing a post!"
+    //         ], 422);
+    //     }
+
+    //     if (!$user->cin_approved) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "Your national identity card is being verified. You will receive a notification once it is approved."
+    //         ], 422);
+    //     }
+
+    //     $subcategory = sous_categories::find($request->id_sous_categorie);
+    //     if (!$subcategory) {
+    //         return response()->json(['success' => false, 'message' => 'Invalid subcategory'], 422);
+    //     }
+
+    //     $category = $subcategory->categorie;
+
+    //     $rules = [
+    //         'titre' => 'required|min:2',
+    //         'description' => 'string|nullable',
+    //         'etat' => 'required|string',
+    //         'id_region' => 'required|integer|exists:regions,id',
+    //         'id_sous_categorie' => 'required|integer|exists:sous_categories,id',
+    //         'prix' => 'required|numeric|min:50',
+    //         'prix_achat' => 'nullable|numeric|min:50',
+    //         'photos1' => 'nullable|file|image',
+    //         'photos2' => 'nullable|file|image',
+    //         'photos3' => 'nullable|file|image',
+    //         'photos4' => 'nullable|file|image',
+    //         'photos5' => 'nullable|file|image',
+    //         'proprietes' => 'array',
+    //     ];
+
+    //     $allProps = json_decode($subcategory->required ?? '[]', true);
+    //     if (is_array($allProps)) {
+    //         foreach ($allProps as $item) {
+    //             $prop = DB::table('proprietes')->where('id', $item['id'])->value('nom');
+    //             if (!$prop) continue;
+
+    //             if (($item['required'] ?? 'Non') === 'Oui') {
+    //                 if ($prop === 'Couleur') {
+    //                     $rules["proprietes.$prop"] = 'required|string';
+    //                 } else {
+    //                     $rules["proprietes.$prop"] = 'required';
+    //                 }
+    //             } else {
+    //                 if ($prop === 'Couleur') {
+    //                     $rules["proprietes.$prop"] = 'nullable|string';
+    //                 } else {
+    //                     $rules["proprietes.$prop"] = 'nullable';
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'errors' => $validator->errors()
+    //         ], 422);
+    //     }
+
+    //     $validated = $validator->validated();
+
+    //     if ($category->luxury && $validated['prix'] < 800) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
+    //         ], 422);
+    //     }
+
+    //     if (!$category->luxury && $validated['prix'] >= 800) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
+    //         ], 422);
+    //     }
+
+    //     $photos = [];
+    //     foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $p) {
+    //         if ($request->hasFile($p)) {
+    //             $photos[] = $request->file($p)->store('uploads/posts', 'public');
+    //         }
+    //     }
+
+    //     if (count($photos) < 3) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "You must add at least 3 photos!"
+    //         ], 422);
+    //     }
+
+    //     $config = configurations::first();
+
+    //     $post = new posts();
+    //     $post->photos = $photos;
+    //     $post->titre = $validated['titre'];
+    //     $post->description = $validated['description'] ?? null;
+    //     $post->etat = $validated['etat'];
+    //     $post->id_region = $validated['id_region'];
+    //     $post->id_sous_categorie = $validated['id_sous_categorie'];
+    //     $post->prix = $validated['prix'];
+    //     $post->prix_achat = $validated['prix_achat'] ?? null;
+    //     $post->id_user = $user->id;
+
+    //     $post->proprietes = $validated['proprietes'] ?? [];
+
+    //     if ($config->valider_publication == 0) {
+    //         $post->verified_at = now();
+    //         $post->statut = 'vente';
+    //     }
+
+    //     $post->save();
+
+    //     event(new AdminEvent('Un post a été créé avec succès.'));
+
+    //     $notification = new notifications();
+    //     $notification->type = "new_post";
+    //     $notification->titre = $user->username . " vient de publier un article ";
+    //     $notification->url = "/admin/publication/" . $post->id . "/view";
+    //     $notification->message = $post->titre;
+    //     $notification->id_post = $post->id;
+    //     $notification->id_user = $user->id;
+    //     $notification->destination = "admin";
+    //     $notification->save();
+
+    //     // Return full photo URLs
+    //     $post->photos = array_map(fn($p) => asset('storage/' . $p), $post->photos);
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Post created successfully',
+    //         'data' => $post
+    //     ], 201);
+    // }
     public function store(Request $request)
     {
+        Log::info('[PostStore] Request received', [
+            'user_id' => optional($request->user())->id,
+            'ip' => $request->ip(),
+            'payload_keys' => array_keys($request->all()),
+        ]);
+
         $user = $request->user();
 
         if (!$user) {
+            Log::warning('[PostStore] Unauthorized access attempt', ['ip' => $request->ip()]);
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
         if (!$user->cin_img) {
+            Log::warning('[PostStore] User missing CIN image', ['user_id' => $user->id]);
             return response()->json([
                 'success' => false,
                 'message' => "You must upload an image of your national identity card before publishing a post!"
@@ -693,6 +851,7 @@ class PostsController extends Controller
         }
 
         if (!$user->cin_approved) {
+            Log::warning('[PostStore] User CIN not approved', ['user_id' => $user->id]);
             return response()->json([
                 'success' => false,
                 'message' => "Your national identity card is being verified. You will receive a notification once it is approved."
@@ -701,10 +860,20 @@ class PostsController extends Controller
 
         $subcategory = sous_categories::find($request->id_sous_categorie);
         if (!$subcategory) {
+            Log::warning('[PostStore] Invalid subcategory', [
+                'user_id' => $user->id,
+                'id_sous_categorie' => $request->id_sous_categorie,
+            ]);
             return response()->json(['success' => false, 'message' => 'Invalid subcategory'], 422);
         }
 
         $category = $subcategory->categorie;
+        Log::info('[PostStore] Subcategory and category resolved', [
+            'user_id' => $user->id,
+            'subcategory_id' => $subcategory->id,
+            'category_id' => $category->id,
+            'is_luxury' => $category->luxury,
+        ]);
 
         $rules = [
             'titre' => 'required|min:2',
@@ -726,27 +895,28 @@ class PostsController extends Controller
         if (is_array($allProps)) {
             foreach ($allProps as $item) {
                 $prop = DB::table('proprietes')->where('id', $item['id'])->value('nom');
-                if (!$prop) continue;
+                if (!$prop) {
+                    Log::debug('[PostStore] Skipping unknown property ID', ['prop_id' => $item['id']]);
+                    continue;
+                }
 
                 if (($item['required'] ?? 'Non') === 'Oui') {
-                    if ($prop === 'Couleur') {
-                        $rules["proprietes.$prop"] = 'required|string';
-                    } else {
-                        $rules["proprietes.$prop"] = 'required';
-                    }
+                    $rules["proprietes.$prop"] = ($prop === 'Couleur') ? 'required|string' : 'required';
                 } else {
-                    if ($prop === 'Couleur') {
-                        $rules["proprietes.$prop"] = 'nullable|string';
-                    } else {
-                        $rules["proprietes.$prop"] = 'nullable';
-                    }
+                    $rules["proprietes.$prop"] = ($prop === 'Couleur') ? 'nullable|string' : 'nullable';
                 }
             }
         }
 
+        Log::debug('[PostStore] Validation rules built', ['rules' => $rules]);
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            Log::warning('[PostStore] Validation failed', [
+                'user_id' => $user->id,
+                'errors' => $validator->errors()->toArray(),
+            ]);
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()
@@ -754,8 +924,13 @@ class PostsController extends Controller
         }
 
         $validated = $validator->validated();
+        Log::info('[PostStore] Validation passed', ['user_id' => $user->id]);
 
         if ($category->luxury && $validated['prix'] < 800) {
+            Log::warning('[PostStore] Luxury price too low', [
+                'user_id' => $user->id,
+                'prix' => $validated['prix'],
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
@@ -763,6 +938,10 @@ class PostsController extends Controller
         }
 
         if (!$category->luxury && $validated['prix'] >= 800) {
+            Log::warning('[PostStore] Non-luxury price too high', [
+                'user_id' => $user->id,
+                'prix' => $validated['prix'],
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
@@ -772,16 +951,27 @@ class PostsController extends Controller
         $photos = [];
         foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $p) {
             if ($request->hasFile($p)) {
-                $photos[] = $request->file($p)->store('uploads/posts', 'public');
+                $path = $request->file($p)->store('uploads/posts', 'public');
+                $photos[] = $path;
+                Log::debug('[PostStore] Photo uploaded', ['field' => $p, 'path' => $path]);
             }
         }
 
         if (count($photos) < 3) {
+            Log::warning('[PostStore] Insufficient photos', [
+                'user_id' => $user->id,
+                'photos_count' => count($photos),
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => "You must add at least 3 photos!"
             ], 422);
         }
+
+        Log::info('[PostStore] Photos uploaded successfully', [
+            'user_id' => $user->id,
+            'photos_count' => count($photos),
+        ]);
 
         $config = configurations::first();
 
@@ -795,17 +985,25 @@ class PostsController extends Controller
         $post->prix = $validated['prix'];
         $post->prix_achat = $validated['prix_achat'] ?? null;
         $post->id_user = $user->id;
-
         $post->proprietes = $validated['proprietes'] ?? [];
 
         if ($config->valider_publication == 0) {
             $post->verified_at = now();
             $post->statut = 'vente';
+            Log::info('[PostStore] Auto-verification enabled, post marked as verified', ['user_id' => $user->id]);
         }
 
         $post->save();
+        Log::info('[PostStore] Post saved to database', [
+            'post_id' => $post->id,
+            'user_id' => $user->id,
+            'titre' => $post->titre,
+            'prix' => $post->prix,
+            'statut' => $post->statut ?? 'pending',
+        ]);
 
         event(new AdminEvent('Un post a été créé avec succès.'));
+        Log::debug('[PostStore] AdminEvent dispatched', ['post_id' => $post->id]);
 
         $notification = new notifications();
         $notification->type = "new_post";
@@ -816,9 +1014,17 @@ class PostsController extends Controller
         $notification->id_user = $user->id;
         $notification->destination = "admin";
         $notification->save();
+        Log::info('[PostStore] Admin notification saved', [
+            'post_id' => $post->id,
+            'notification_id' => $notification->id,
+        ]);
 
-        // Return full photo URLs
         $post->photos = array_map(fn($p) => asset('storage/' . $p), $post->photos);
+
+        Log::info('[PostStore] Post creation completed successfully', [
+            'post_id' => $post->id,
+            'user_id' => $user->id,
+        ]);
 
         return response()->json([
             'success' => true,
