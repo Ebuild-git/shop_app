@@ -1049,7 +1049,10 @@
   "prefer_not_to_say": "Prefer not to say",
   "address": "Address",
   "select_city": "Select City",
-  "phone_must_be_10_digits": "Phone number must contain exactly 10 digits"
+  "phone_must_be_10_digits": "Phone number must contain exactly 10 digits",
+  "complete_your_profile": "Complete your profile",
+    "profile_incomplete_message": "Your profile is incomplete. Please fill in the following information to continue:",
+    "complete_now": "Complete now"
 
 }
 

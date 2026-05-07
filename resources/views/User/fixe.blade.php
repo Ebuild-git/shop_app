@@ -1463,6 +1463,85 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 
 
+    @auth
+    @php
+        $missingProfileInfo = auth()->check() && (
+            !auth()->user()->city_id ||
+            !auth()->user()->birthdate ||
+            !auth()->user()->address ||
+            !auth()->user()->rue ||
+            !auth()->user()->nom_batiment ||
+            !auth()->user()->etage ||
+            !auth()->user()->num_appartement ||
+            !auth()->user()->phone_number
+        );
+    @endphp
+
+    @if ($missingProfileInfo)
+    <!-- Incomplete Profile Modal -->
+    <div class="modal fade" id="incompleteProfileModal" tabindex="-1" role="dialog" aria-labelledby="incompleteProfileModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center" style="background-color:#008080;">
+                    <h5 class="modal-title text-white mb-0" id="incompleteProfileModalLabel">
+                        <i class="bi bi-person-exclamation"></i> {{ __('complete_your_profile') }}
+                    </h5>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <img width="60" height="60" src="https://img.icons8.com/ios/60/008080/user-credentials--v1.png" alt="profile" class="mb-3"/>
+                    <p class="mb-2">{{ __('profile_incomplete_message') }}</p>
+                    <ul class="text-left list-unstyled mt-3 px-3">
+                        @if (!auth()->user()->city_id)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('ville') }}</li>
+                        @endif
+                        @if (!auth()->user()->birthdate)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('date_naissance') }}</li>
+                        @endif
+                        @if (!auth()->user()->address)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('address') }}</li>
+                        @endif
+                        @if (!auth()->user()->rue)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('rue') }}</li>
+                        @endif
+                        @if (!auth()->user()->nom_batiment)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('batiment') }}</li>
+                        @endif
+                        @if (!auth()->user()->etage)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('etage') }}</li>
+                        @endif
+                        @if (!auth()->user()->num_appartement)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('num_appartement') }}</li>
+                        @endif
+                        @if (!auth()->user()->phone_number)
+                            <li><i class="bi bi-x-circle text-danger"></i> {{ __('telephone') }}</li>
+                        @endif
+                    </ul>
+                </div>
+                <div class="modal-footer justify-content-center border-0 pt-0 pb-3">
+                    <a href="/informations?section=perso" class="rounded-link">
+                        <i class="bi bi-pencil-square"></i> {{ __('complete_now') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Don't show on the informations page itself so the user can fill the form
+            var currentPath = window.location.pathname;
+            if (currentPath !== '/informations') {
+                var modal = new bootstrap.Modal(document.getElementById('incompleteProfileModal'), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                modal.show();
+            }
+        });
+    </script>
+    @endif
+    @endauth
+
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
@@ -2054,6 +2133,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     </script>
+
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

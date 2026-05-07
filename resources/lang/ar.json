@@ -1046,7 +1046,10 @@
   "prefer_not_to_say": "أفضل عدم الإفصاح",
     "address": "العنوان",
     "select_city": "اختر مدينة",
-    "phone_must_be_10_digits": "يجب أن يحتوي رقم الهاتف على 10 أرقام بالضبط"
+    "phone_must_be_10_digits": "يجب أن يحتوي رقم الهاتف على 10 أرقام بالضبط",
+    "complete_your_profile": "أكمل ملفك الشخصي",
+    "profile_incomplete_message": "ملفك الشخصي غير مكتمل. يرجى إدخال المعلومات التالية للمتابعة:",
+    "complete_now": "أكمل الآن"
 
 
 }

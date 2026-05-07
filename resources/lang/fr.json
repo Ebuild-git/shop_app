@@ -1047,7 +1047,10 @@
   "prefer_not_to_say": "Préfère ne pas dire",
   "address": "Adresse",
   "select_city": "Sélectionner une ville",
-  "phone_must_be_10_digits": "Le numéro de téléphone doit contenir exactement 10 chiffres"
+  "phone_must_be_10_digits": "Le numéro de téléphone doit contenir exactement 10 chiffres",
+  "complete_your_profile": "Complétez votre profil",
+    "profile_incomplete_message": "Votre profil est incomplet. Veuillez renseigner les informations suivantes pour continuer :",
+    "complete_now": "Compléter maintenant"
 
 
 
