@@ -38,6 +38,8 @@ Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 Route::post('/resend-email-verification', [AuthController::class, 'resendEmailVerification']);
 
 Route::get('/regions', [ShopController::class, 'regions']);
+Route::get('/cities', [ShopController::class, 'cities']);
+
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
 Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');
 Route::get('/sub-categories', [CategoriesController::class, 'list_sub_categorie'])->name('list_sub_categorie');

@@ -97,6 +97,10 @@
                                     "city": {
                                         "type": "string"
                                     },
+                                    "city_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
                                     "street": {
                                         "type": "string",
                                         "nullable": true
@@ -174,6 +178,10 @@
                                 "properties": {
                                     "region": {
                                         "type": "integer"
+                                    },
+                                    "city_id": {
+                                        "type": "integer",
+                                        "nullable": true
                                     },
                                     "address": {
                                         "type": "string"
@@ -287,6 +295,10 @@
                                     },
                                     "city": {
                                         "type": "string"
+                                    },
+                                    "city_id": {
+                                        "type": "integer",
+                                        "nullable": true
                                     },
                                     "street": {
                                         "type": "string",
@@ -4045,6 +4057,51 @@
                                             "nom": {
                                                 "type": "string",
                                                 "example": "Béni Mellal-Khénifra"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-03T09:58:34.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-03T09:58:34.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cities": {
+            "get": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Get all cities",
+                "description": "Returns a list of all cities with their IDs and names.",
+                "operationId": "getCities",
+                "responses": {
+                    "200": {
+                        "description": "List of cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nom": {
+                                                "type": "string",
+                                                "example": "Casablanca"
                                             },
                                             "created_at": {
                                                 "type": "string",

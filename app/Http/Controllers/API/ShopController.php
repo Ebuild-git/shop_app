@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{regions, posts, UserCart, regions_categories, sous_categories};
+use App\Models\{regions, posts, UserCart, regions_categories, sous_categories, City};
 use App\Models\Order;
 use App\Models\OrdersItem;
 use App\Models\User;
@@ -45,6 +45,35 @@ class ShopController extends Controller
     {
         $regions = regions::all();
         return response()->json($regions);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/cities",
+     *     operationId="getCities",
+     *     tags={"Location"},
+     *     summary="Get all cities",
+     *     description="Returns a list of all cities with their IDs and names.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of cities",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nom", type="string", example="Casablanca"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-03T09:58:34.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-03T09:58:34.000000Z")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function cities()
+    {
+        $cities = City::all();
+        return response()->json($cities);
     }
 
     /**
