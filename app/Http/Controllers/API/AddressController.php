@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\UserAddress;
 use App\Models\regions;
 use App\Models\User;
+use App\Models\City;
 
 class AddressController extends Controller
 {
@@ -41,43 +42,6 @@ class AddressController extends Controller
      *     )
      * )
      */
-    // public function index(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     $secondaryDefault = UserAddress::where('user_id', $user->id)
-    //         ->where('is_default', true)
-    //         ->first();
-
-    //     $otherSecondary = UserAddress::where('user_id', $user->id)
-    //         ->where('is_default', false)
-    //         ->get();
-
-    //     $mainAddress = [
-    //         'region' => $user->region,
-    //         'address' => $user->address,
-    //         'rue' => $user->rue,
-    //         'nom_batiment' => $user->nom_batiment,
-    //         'etage' => $user->etage,
-    //         'num_appartement' => $user->num_appartement,
-    //         'phone_number' => $user->phone_number,
-    //         'is_default' => false,
-    //     ];
-
-    //     if ($secondaryDefault) {
-    //         $activeAddress = $secondaryDefault;
-    //         $secondaryAddresses = $otherSecondary->push($mainAddress);
-    //     } else {
-    //         $activeAddress = (object) $mainAddress;
-    //         $secondaryAddresses = $otherSecondary;
-    //     }
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'active_address' => $activeAddress,
-    //         'secondary_addresses' => $secondaryAddresses
-    //     ]);
-    // }
     public function index(Request $request)
     {
         $user = $request->user();
@@ -86,6 +50,7 @@ class AddressController extends Controller
             'id'              => null,
             'region'          => $user->region,
             'address'         => $user->address,
+            'city_id'         => $user->city_id,
             'rue'             => $user->rue,
             'nom_batiment'    => $user->nom_batiment,
             'etage'           => $user->etage,
@@ -99,6 +64,7 @@ class AddressController extends Controller
                 'id'              => $address->id,
                 'region'          => $address->region,
                 'address'         => $address->city,
+                'city_id'         => $address->city_id,
                 'rue'             => $address->street,
                 'nom_batiment'    => $address->building_name,
                 'etage'           => $address->floor,
@@ -142,6 +108,7 @@ class AddressController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="region", type="integer"),
+     *             @OA\Property(property="city_id", type="integer", nullable=true),
      *             @OA\Property(property="address", type="string"),
      *             @OA\Property(property="rue", type="string"),
      *             @OA\Property(property="nom_batiment", type="string"),
@@ -175,6 +142,7 @@ class AddressController extends Controller
 
         $validated = $request->validate([
             'region' => 'required|exists:regions,id',
+            'city_id' => 'nullable|exists:cities,id',
             'address' => 'required|string|max:255',
             'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
@@ -187,6 +155,7 @@ class AddressController extends Controller
 
         $user->update([
             'region' => $validated['region'],
+            'city_id' => $validated['city_id'] ?? null,
             'address' => $validated['address'],
             'rue' => $validated['rue'],
             'nom_batiment' => $validated['nom_batiment'],
@@ -200,6 +169,7 @@ class AddressController extends Controller
             'message' => 'Main address updated successfully',
             'data' => [
                 'region' => $user->region,
+                'city_id' => $user->city_id,
                 'address' => $user->address,
                 'rue' => $user->rue,
                 'nom_batiment' => $user->nom_batiment,
@@ -221,6 +191,7 @@ class AddressController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="region", type="integer"),
      *             @OA\Property(property="city", type="string"),
+     *            @OA\Property(property="city_id", type="integer", nullable=true),
      *             @OA\Property(property="street", type="string", nullable=true),
      *             @OA\Property(property="building_name", type="string", nullable=true),
      *             @OA\Property(property="floor", type="string", nullable=true),
@@ -247,6 +218,7 @@ class AddressController extends Controller
         $validated = $request->validate([
             'region' => 'required|exists:regions,id',
             'city' => 'required|string|max:255',
+            'city_id' => 'nullable|exists:cities,id',
             'street' => 'nullable|string|max:255',
             'building_name' => 'nullable|string|max:255',
             'floor' => 'nullable|string|max:50',
@@ -291,6 +263,7 @@ class AddressController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="region", type="integer"),
      *             @OA\Property(property="city", type="string"),
+     *            @OA\Property(property="city_id", type="integer", nullable=true),
      *             @OA\Property(property="street", type="string", nullable=true),
      *             @OA\Property(property="building_name", type="string", nullable=true),
      *             @OA\Property(property="floor", type="string", nullable=true),
@@ -319,6 +292,7 @@ class AddressController extends Controller
         $validated = $request->validate([
             'region' => 'sometimes|exists:regions,id',
             'city' => 'sometimes|string|max:255',
+            'city_id' => 'nullable|exists:cities,id',
             'street' => 'nullable|string|max:255',
             'building_name' => 'nullable|string|max:255',
             'floor' => 'nullable|string|max:50',
