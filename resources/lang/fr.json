@@ -1044,7 +1044,10 @@
 
   "response_title": "Temps de réponse",
   "response_description": "Nous examinons et prenons des mesures sur le contenu signalé dans un délai de 24 heures, y compris la suppression des annonces et la suspension des utilisateurs si nécessaire.",
-  "prefer_not_to_say": "Préfère ne pas dire"
+  "prefer_not_to_say": "Préfère ne pas dire",
+  "address": "Adresse",
+  "select_city": "Sélectionner une ville",
+  "phone_must_be_10_digits": "Le numéro de téléphone doit contenir exactement 10 chiffres"
 
 
 

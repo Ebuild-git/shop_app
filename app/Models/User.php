@@ -48,7 +48,8 @@ class User extends Authenticatable implements JWTSubject
         'titulaire_name',
         'rib_number',
         'fcm_token',
-        'locked_at'
+        'locked_at',
+        'city_id'
     ];
 
     /**
@@ -133,7 +134,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
     public function total_sales(){

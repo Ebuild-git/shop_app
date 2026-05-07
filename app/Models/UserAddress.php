@@ -10,7 +10,7 @@ class UserAddress extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'region', 'city', 'street', 'building_name', 'floor', 'apartment_number', 'phone_number', 'is_default'
+        'user_id', 'region', 'city', 'street', 'building_name', 'floor', 'apartment_number', 'phone_number', 'is_default', 'city_id'
     ];
 
     public function user()
@@ -20,5 +20,10 @@ class UserAddress extends Model
     public function regionExtra()
     {
         return $this->belongsTo(regions::class, 'region', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 }

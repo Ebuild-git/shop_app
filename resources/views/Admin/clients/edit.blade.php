@@ -111,13 +111,31 @@
                                     @enderror
                                 </div>
 
-                                {{-- Address --}}
                                 <div class="mb-3 col-md-6">
-                                    <label for="address" class="form-label">Adresse</label>
+                                <label for="address" class="form-label">Adresse</label>
                                     <input class="form-control @error('address') is-invalid @enderror"
                                         type="text" id="address" name="address"
                                         value="{{ old('address', $user->address) }}" />
                                     @error('address')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- City --}}
+                                <div class="mb-3 col-md-6">
+
+                                    <label for="city_id" class="form-label">Ville <span class="text-danger">*</span></label>
+                                    <select class="form-control @error('city_id') is-invalid @enderror"
+                                        name="city_id" id="city_id" required>
+                                        <option value="">Sélectionner une ville</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{ $city->id }}"
+                                                {{ old('city_id', $user->city_id) == $city->id ? 'selected' : '' }}>
+                                                {{ $city->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('city_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

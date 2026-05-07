@@ -166,13 +166,14 @@
 
             <div class="delivery-info">
                 <p><strong>{{ __('email.payment_method') }} :</strong> {{ __('email.payment_method1') }}</p>
-                <p><strong>{{ __('email.delivery_address') }} :</strong>
-                    {{ $user->rue ? $user->rue . ', ' : '' }}
-                    {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
-                    {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
-                    {{ $user->num_appartement ? 'Appartement ' . $user->num_appartement . ', ' : '' }}
-                    {{ $user->address }}
-                </p>
+                 <p><strong>{{ __('email.delivery_address') }} :</strong>
+                     {{ $user->rue ? $user->rue . ', ' : '' }}
+                     {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                     {{ $user->etage ? 'Étage ' . $user->etage . ', ' : '' }}
+                     {{ $user->num_appartement ? 'Appartement ' . $user->num_appartement . ', ' : '' }}
+                     {{ $user->address }}
+                     {{ $user->city ? ', ' . $user->city->name : '' }}
+                 </p>
                 <p><strong>{{ __('email.region') }} :</strong> {{ $user->region_info->nom ?? '-' }}</p>
                 <p><strong>{{ __('email.phone_number') }} :</strong> {{ $user->phone_number ?? "-"}}</p>
             </div>

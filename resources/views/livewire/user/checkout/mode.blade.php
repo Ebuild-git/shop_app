@@ -20,13 +20,14 @@
                     <b class="delivery-title"><i class="bi bi-geo-alt"></i> {{ __('Adresse de livraison') }}</b>
                     <div class="address-card mt-3 p-3">
                         <p class="address-text">
-                            <i class="bi bi-house-door"></i>
-                            {{ $user->rue ? $user->rue . ',' : '' }}
-                            {{ $user->nom_batiment ? $user->nom_batiment . ',' : '' }}
-                            {{ $user->etage ? $user->etage . ',' : '' }}
-                            {{ $user->num_appartement ? $user->num_appartement . ',' : '' }}
-                            {{ $user->address ? $user->address . ',' : '' }}
-                            {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+                             <i class="bi bi-house-door"></i>
+                             {{ $user->rue ? $user->rue . ',' : '' }}
+                             {{ $user->nom_batiment ? $user->nom_batiment . ',' : '' }}
+                             {{ $user->etage ? $user->etage . ',' : '' }}
+                             {{ $user->num_appartement ? $user->num_appartement . ',' : '' }}
+                             {{ $user->address ? $user->address . ',' : '' }}
+                             {{ $user->city ? $user->city->name . ',' : '' }}
+                             {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
                         </p>
 
 

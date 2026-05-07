@@ -132,11 +132,25 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label>{{ __('ville') }}</label>
+                <label>{{ __('address') }}</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control border-r shadow-none"
                     wire:model="address">
                 @error('address')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>{{ __('ville') }}</label>
+                <select class="form-control border-r shadow-none" wire:model="city_id">
+                    <option value="">{{ __('select_city') }}</option>
+                    @foreach(\App\Models\City::all() as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+                @error('city_id')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>

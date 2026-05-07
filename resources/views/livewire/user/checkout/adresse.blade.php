@@ -112,8 +112,19 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <!-- City Dropdown -->
                                     <div class="col-md-6 mb-3">
-                                        <label for="address" class="form-label">{{ __('ville') }}<span class="text-danger">*</span></label>
+                                        <label for="city_id" class="form-label">{{ __('city') }}<span class="text-danger">*</span></label>
+                                        <select id="city_id" wire:model="city_id" class="form-select modern-input">
+                                            <option value="">{{ __('select_city') }}</option>
+                                            @foreach($cities as $cityItem)
+                                                <option value="{{ $cityItem->id }}">{{ $cityItem->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('city_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control modern-input" id="address" wire:model="address">
                                         @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
@@ -209,6 +220,7 @@
                                     data-floor="{{ $defaultAddress->floor }}"
                                     data-apartment="{{ $defaultAddress->apartment_number }}"
                                     data-phone="{{ $defaultAddress->phone_number }}"
+                                    data-city-id="{{ $defaultAddress->city_id }}"
                                     onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
@@ -228,18 +240,19 @@
 
                                 {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                             </b>
-                            <p class="mb-1">
-                                @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
-                                {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
-                                {{ $user->rue ? $user->rue . ', ' : '' }}
-                                {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
-                                {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                                {{ $user->address ? $user->address . ', ' : '' }}
-                                {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
-                                @else
-                                    {{ __('incomplete_address') }}
-                                @endif
-                            </p>
+                             <p class="mb-1">
+                                 @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                 {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                                 {{ $user->rue ? $user->rue . ', ' : '' }}
+                                 {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
+                                 {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
+                                 {{ $user->address ? $user->address . ', ' : '' }}
+                                 {{ $user->city ? $user->city->name . ', ' : '' }}
+                                 {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+                                 @else
+                                     {{ __('incomplete_address') }}
+                                 @endif
+                             </p>
                             <p class="mb-0">
                                 <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                             </p>
@@ -281,19 +294,20 @@
                                 <span class="badge" style="background-color: darkcyan;">{{ __('default_address') }}</span>
                             @endif
                         </div>
-                        <p class="mb-1">
-                            @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
-                            {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
-                            {{ $user->rue ? $user->rue . ', ' : '' }}
-                            {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
-                            {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                            {{ $user->address ? $user->address . ', ' : '' }}
-                            {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+                             <p class="mb-1">
+                             @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                             {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
+                             {{ $user->rue ? $user->rue . ', ' : '' }}
+                             {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
+                             {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
+                             {{ $user->address ? $user->address . ', ' : '' }}
+                             {{ $user->city ? $user->city->name . ', ' : '' }}
+                             {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
 
-                            @else
-                                {{ __('incomplete_address') }}
-                            @endif
-                        </p>
+                             @else
+                                 {{ __('incomplete_address') }}
+                             @endif
+                         </p>
                         <p class="mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
@@ -358,6 +372,7 @@
                                         data-floor="{{ $address->floor }}"
                                         data-apartment="{{ $address->apartment_number }}"
                                         data-phone="{{ $address->phone_number }}"
+                                        data-city-id="{{ $address->city_id }}"
                                         onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
@@ -396,9 +411,21 @@
                                         @error('extraRegion') <span class="error">{{ $message }}</span> @enderror
                                     </div>
 
+                                    <!-- City Dropdown -->
+                                    <div class="form-group">
+                                        <label for="extraCityId" class="form-label">{{ __('city') }}<span class="text-danger">*</span></label>
+                                        <select id="extraCityId" class="form-control" wire:model="extraCityId">
+                                            <option value="">{{ __('select_city') }}</option>
+                                            @foreach($cities as $cityItem)
+                                                <option value="{{ $cityItem->id }}">{{ $cityItem->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('extraCityId') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+
                                     <!-- City Input -->
                                     <div class="form-group">
-                                        <label for="extraCity" class="form-label">{{ __('ville') }}<span class="text-danger">*</span></label>
+                                        <label for="extraCity" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
                                         <input type="text" id="extraCity" class="form-control" wire:model="extraCity" required>
                                         @error('extraCity') <span class="error">{{ $message }}</span> @enderror
                                     </div>
@@ -563,6 +590,7 @@
 function populateModal(button) {
     const region = button.getAttribute('data-region');
     const city = button.getAttribute('data-city');
+    const cityId = button.getAttribute('data-city-id');
     const street = button.getAttribute('data-street');
     const building = button.getAttribute('data-building');
     const floor = button.getAttribute('data-floor');
@@ -576,6 +604,9 @@ function populateModal(button) {
     document.getElementById('extraFloor').value = floor;
     document.getElementById('extraApartment').value = apartment;
     document.getElementById('extraPhoneNumber').value = phone;
+    // Set the city dropdown value
+   document.getElementById('extraCityId').value = cityId;
+
 }
 
 </script>

@@ -1046,7 +1046,10 @@
 
   "response_title": "Response Time",
   "response_description": "We review and take action on reported content within 24 hours, including removing listings and suspending users when necessary.",
-  "prefer_not_to_say": "Prefer not to say"
+  "prefer_not_to_say": "Prefer not to say",
+  "address": "Address",
+  "select_city": "Select City",
+  "phone_must_be_10_digits": "Phone number must contain exactly 10 digits"
 
 }
 

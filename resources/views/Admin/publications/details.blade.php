@@ -125,7 +125,7 @@
                     </ul>
                     <b>Nom : </b> {{ $post->user_info->lastname }} <br>
                     <b>Prénom :</b> {{ $post->user_info->firstname }} <br>
-                    <b>Adresse :</b> {{ $post->user_info->address }} <br>
+                     <b>Adresse :</b> {{ $post->user_info->address }} {{ $post->user_info->city ? ', ' . $post->user_info->city->name : '' }} <br>
                     <hr>
                     <b>Titre : </b> {{ $post->titre }} <br>
                     <b>Prix : </b> {{ $post->prix }} DT <br>

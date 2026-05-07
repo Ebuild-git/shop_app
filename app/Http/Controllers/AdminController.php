@@ -852,8 +852,9 @@ class AdminController extends Controller
         $request->validate([
             'email'           => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'phone_number'    => 'required|string|min:10',
-            'region'          => 'required|integer|exists:regions,id',
-            'address'         => 'nullable|string|max:255',
+             'region'          => 'required|integer|exists:regions,id',
+             'address'         => 'nullable|string|max:255',
+             'city_id'         => 'nullable|exists:cities,id',
             'firstname'       => 'required|string|max:255',
             'lastname'        => 'required|string|max:255',
             'rue'             => 'required|string|max:255',
@@ -910,9 +911,10 @@ class AdminController extends Controller
             $user->email = $request->email;
         }
 
-        $user->phone_number    = str_replace(' ', '', $request->phone_number);
+         $user->phone_number    = str_replace(' ', '', $request->phone_number);
         $user->region          = $request->region;
         $user->address         = $request->address;
+        $user->city_id         = $request->city_id;
         $user->birthdate       = $date;
         $user->rue             = $request->rue;
         $user->nom_batiment    = $request->nom_batiment;

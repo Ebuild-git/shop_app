@@ -67,13 +67,14 @@
                                     <small class="text-muted">
                                         {{ $post->acheteur->GetPosts->count() }} publications. <br>
                                        <b> Numéro de Téléphone :</b> {{ $post->acheteur->phone_number ?? '/' }} <br>
-                                       <b>Adresse :</b>
-                                            {{ $post->acheteur->nom_batiment ? $post->acheteur->nom_batiment . ', ' : '' }}
-                                            {{ $post->acheteur->rue ? $post->acheteur->rue . ', ' : '' }}
-                                            {{ $post->acheteur->etage ? __('etage') . ' ' . $post->acheteur->etage . ', ' : '' }}
-                                            {{ $post->acheteur->num_appartement ? __('num_appartement') . ' ' . $post->acheteur->num_appartement . ', ' : '' }}
-                                            {{ $post->acheteur->address ? $post->acheteur->address . ', ' : '' }}
-                                            {{ optional($post->acheteur->region_info)->nom ?? '' }}
+                                        <b>Adresse :</b>
+                                             {{ $post->acheteur->nom_batiment ? $post->acheteur->nom_batiment . ', ' : '' }}
+                                             {{ $post->acheteur->rue ? $post->acheteur->rue . ', ' : '' }}
+                                             {{ $post->acheteur->etage ? __('etage') . ' ' . $post->acheteur->etage . ', ' : '' }}
+                                             {{ $post->acheteur->num_appartement ? __('num_appartement') . ' ' . $post->acheteur->num_appartement . ', ' : '' }}
+                                             {{ $post->acheteur->address ? $post->acheteur->address . ', ' : '' }}
+                                             {{ $post->acheteur->city ? $post->acheteur->city->name . ', ' : '' }}
+                                             {{ optional($post->acheteur->region_info)->nom ?? '' }}
                                             <br>
                                         <b>RIB : </b> {{ $rib_decrypted ?? "Non Disponible." }}
                                     </small>

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\regions;
 use App\Models\UserAddress;
 use App\Models\User;
+use App\Models\City;
 
 class Adresse extends Component
 {
@@ -36,6 +37,10 @@ class Adresse extends Component
     public $editingAddressId = null; // Tracks if we are editing an existing address
     public $isEditMode = false; // New variable to track add or edit mode
 
+    public $cities = [];
+    public $city_id;
+    public $extraCityId;
+
     public function mount(){
         $this->user = Auth::user();
         $this->address = $this->user->address;
@@ -45,6 +50,8 @@ class Adresse extends Component
         $this->etage = $this->user->etage;
         $this->num_appartement = $this->user->num_appartement;
         $this->phone_number = $this->user->phone_number;
+        $this->city_id = $this->user->city_id;
+        $this->cities  = City::orderBy('name')->get();
         $this->regions = regions::all();
         $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
         $this->loadAddresses();
@@ -95,6 +102,7 @@ class Adresse extends Component
         $this->user->etage = $this->etage;
         $this->user->num_appartement = $this->num_appartement;
         $this->user->phone_number = $this->phone_number;
+        $this->user->city_id = $this->city_id;
         $this->user->save();
         return Redirect("/checkout?step=2");
     }
@@ -147,6 +155,7 @@ class Adresse extends Component
             $this->extraFloor = $address->floor;
             $this->extraApartment = $address->apartment_number;
             $this->extraPhoneNumber = $address->phone_number;
+            $this->extraCityId = $address->city_id;
             $this->editingAddressId = $id;
             $this->isEditMode = true;
         }
@@ -168,6 +177,9 @@ class Adresse extends Component
         $address->floor = $this->extraFloor;
         $address->apartment_number = $this->extraApartment;
         $address->phone_number = $this->extraPhoneNumber;
+        $cityModel = City::find($this->extraCityId);
+        $address->city_id = $this->extraCityId;
+        $address->city    = $cityModel ? $cityModel->name : null;
         $address->save();
 
         $this->resetForm();

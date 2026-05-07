@@ -281,19 +281,20 @@
                                     <span class="ms-2">{{ \Carbon\Carbon::parse($user->birthdate)->locale('fr')->translatedFormat('d F Y') }}</span>
                             </li>
 
-                            <li class="d-flex flex-column mb-3">
-                                <div class="d-flex align-items-center">
-                                    <i class="ti ti-file-description text-heading"></i>
-                                    <span class="fw-medium mx-2 text-heading">Adresse:</span>
-                                </div>
-                                <span style="margin-left: 28px;">
-                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
-                                    {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
-                                    {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
-                                    {!! $user->rue ? $user->rue . ',' : '' !!}
-                                    {!! $user->address ?? '' !!}
-                                </span>
-                            </li>
+                             <li class="d-flex flex-column mb-3">
+                                 <div class="d-flex align-items-center">
+                                     <i class="ti ti-file-description text-heading"></i>
+                                     <span class="fw-medium mx-2 text-heading">Adresse:</span>
+                                 </div>
+                                 <span style="margin-left: 28px;">
+                                     {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
+                                     {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
+                                     {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
+                                     {!! $user->rue ? $user->rue . ',' : '' !!}
+                                     {!! $user->address ?? '' !!}
+                                     {!! $user->city ? ', ' . $user->city->name : '' !!}
+                                 </span>
+                             </li>
 
 
                             <li class="d-flex align-items-center mb-3">

@@ -330,7 +330,8 @@ class UserController extends Controller
                 $decryptedRib = $user->rib_number; // fallback
             }
             $regions = \App\Models\regions::all(['id', 'nom']);
-            return view("Admin.clients.edit", compact('user', 'decryptedRib', 'regions'));
+            $cities = \App\Models\City::all(['id', 'name']);
+            return view("Admin.clients.edit", compact('user', 'decryptedRib', 'regions', 'cities'));
         } catch (\Throwable $th) {
             abort(404, "Utilisateur non trouvé");
         }
@@ -356,8 +357,9 @@ class UserController extends Controller
                 'nom_batiment' => 'nullable|string|max:255',
                 'etage' => 'nullable|string|max:50',
                 'num_appartement' => 'nullable|string|max:50',
-                'region' => 'nullable|exists:regions,id',
-                'phone_number' => 'nullable|string|max:20',
+                 'region' => 'nullable|exists:regions,id',
+                 'city_id' => 'nullable|exists:cities,id',
+                 'phone_number' => 'nullable|string|max:20',
                 'bank_name' => 'nullable|string|max:255',
                 'titulaire_name' => 'nullable|string|max:255',
                 'rib_number' => 'nullable|string|max:255',

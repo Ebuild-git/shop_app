@@ -67,7 +67,6 @@
     <style>
         .timeline .step {
             cursor: pointer;
-            color: white;
             padding: 5px 10px;
             border-radius: 5px;
         }
@@ -181,24 +180,3 @@ function closeLocationModal() {
 }
 
 </script>
-{{-- <script>
-function populateModal(button) {
-    const region = button.getAttribute('data-region');
-    const city = button.getAttribute('data-city');
-    const street = button.getAttribute('data-street');
-    const building = button.getAttribute('data-building');
-    const floor = button.getAttribute('data-floor');
-    const apartment = button.getAttribute('data-apartment');
-    const phone = button.getAttribute('data-phone');
-
-    document.getElementById('extraRegion').value = region;
-    document.getElementById('extraCity').value = city;
-    document.getElementById('extraStreet').value = street;
-    document.getElementById('extraBuilding').value = building;
-    document.getElementById('extraFloor').value = floor;
-    document.getElementById('extraApartment').value = apartment;
-    document.getElementById('extraPhoneNumber').value = phone;
-}
-
-</script> --}}
-

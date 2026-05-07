@@ -18,7 +18,7 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement;
+    public $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement, $city_id;
 
 
     public function mount()
@@ -29,6 +29,7 @@ class UpdateInformations extends Component
         $this->region = $user->region;
         $this->address = $user->address;
         $this->phone_number = $user->phone_number;
+        $this->city_id = $user->city_id;
         $date = Carbon::parse($user->birthdate);
         $this->jour = $date->day;
         $this->mois = $date->month;
@@ -51,8 +52,19 @@ class UpdateInformations extends Component
         try {
         $this->validate([
             'email' => 'required|email|max:100',
-            'phone_number' => 'required|string|min:10',
+            'phone_number' => [
+                'required',
+                'regex:/^[0-9 ]+$/',
+                function ($attribute, $value, $fail) {
+                    $cleaned = str_replace(' ', '', $value);
+
+                    if (strlen($cleaned) !== 10) {
+                        $fail(__('phone_must_be_10_digits'));
+                    }
+                },
+            ],
             'region' => 'required|integer|exists:regions,id',
+            'city_id' => 'nullable|exists:cities,id',
             'address' => 'required|nullable|max:255',
             'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
@@ -68,6 +80,7 @@ class UpdateInformations extends Component
             'avatar.max' => __('avatar_max'),
             'mimes' => __('mimes'),
             'email' => __('email_validation'),
+            'phone_number.digits' => __('phone_must_be_10_digits'),
         ]);
     } catch (\Illuminate\Validation\ValidationException $e) {
         $this->dispatch('scroll-to-first-error');
@@ -121,6 +134,7 @@ class UpdateInformations extends Component
         $user->phone_number = str_replace(' ', '', $this->phone_number);
         $user->region = $this->region;
         $user->address = $this->address;
+        $user->city_id = $this->city_id;
         $user->birthdate = $date;
         $user->rue = $this->rue;
         $user->nom_batiment = $this->nom_batiment;

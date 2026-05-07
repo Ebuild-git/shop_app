@@ -196,13 +196,14 @@
                             </td>
                         @endif
                         <td> {{ $user->phone_number ?? '/' }} </td>
-                        <td>
-                            {!! $user->num_appartement ? 'App. ' . $user->num_appartement . '<br>' : '' !!}
-                            {!! $user->etage ? 'Étage ' . $user->etage . '<br>' : '' !!}
-                            {!! $user->nom_batiment ? $user->nom_batiment . '<br>' : '' !!}
-                            {!! $user->rue ? $user->rue . '<br>' : '' !!}
-                            {!! $user->address ?? '' !!}
-                        </td>
+                         <td>
+                             {!! $user->num_appartement ? 'App. ' . $user->num_appartement . '<br>' : '' !!}
+                             {!! $user->etage ? 'Étage ' . $user->etage . '<br>' : '' !!}
+                             {!! $user->nom_batiment ? $user->nom_batiment . '<br>' : '' !!}
+                             {!! $user->rue ? $user->rue . '<br>' : '' !!}
+                             {!! $user->address ?? '' !!}
+                             {!! $user->city ? ', ' . $user->city->name : '' !!}
+                         </td>
                         @if($showTrashed !== 'yes')
                             <td style="text-align: center;">
                                 <button type="button" class="btn btn-sm btn-dark d-flex align-items-center" style="margin-left: 10px;" onclick="window.location.href='{{ route('liste_signalement_by_user', ['user_id' => $user->id]) }}'">
