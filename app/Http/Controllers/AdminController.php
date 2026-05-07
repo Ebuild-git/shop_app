@@ -664,7 +664,7 @@ class AdminController extends Controller
         // --- Age validation ---
         $date = \Carbon\Carbon::parse($request->birthdate);
         $age  = $date->diffInYears(\Carbon\Carbon::now());
-        if ($age < 13) {
+        if ($age < 18) {
             return redirect()->back()->withErrors(['birthdate' => __('must_be_13')])->withInput();
         }
 

@@ -89,7 +89,7 @@ class UpdateInformations extends Component
 
         $date = \Carbon\Carbon::createFromDate($this->annee, $this->mois, $this->jour);
         $age = $date->diffInYears(\Carbon\Carbon::now());
-        if ($age < 13) {
+        if ($age < 18) {
             $this->addError('jour', __('must_be_13'));
             return;
         }

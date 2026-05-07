@@ -445,7 +445,7 @@
     "avatar_max": "Veuillez choisir une image de maximum 2MB",
     "mimes": "Veuillez choisir une image de type jpg, png, jpeg, webp",
     "email_validation": "Veuillez entrer une adresse email valide",
-    "must_be_13": "Vous devez être âgé d'au moins 13 ans",
+    "must_be_13": "Vous devez être âgé d'au moins 18 ans",
     "email_already_exists": "Cet email existe déjà!",
     "profile_photo_changed": "vient de changé sa photo de profil",
     "photo_validation_pending": "Votre photo de profil sera validée dans les prochaines 24 heures.",
