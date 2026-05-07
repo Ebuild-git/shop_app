@@ -121,6 +121,13 @@
                                             src="https://img.icons8.com/ios-filled/20/008080/female.png" alt="female" />
                                             {{ __('female') }}
                                     </button>
+                                    <button type="button" class="form-control register-button"
+                                        data-gender="prefer_not_to_say"
+                                        onclick="selectButton(this,'prefer_not_to_say')">
+                                        <img width="20" height="20"
+                                            src="https://img.icons8.com/ios-filled/20/008080/gender-neutral-user.png" alt="prefer_not_to_say" />
+                                            {{ __('prefer_not_to_say') }}
+                                    </button>
                                 </div>
                                 <input type="hidden" id="sexe-input" name="genre" value="{{ old('genre') }}">
                                 @error('genre')

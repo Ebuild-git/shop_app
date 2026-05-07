@@ -1043,7 +1043,9 @@
     "reporting_rules.review": "Tous les signalements sont examinés par notre équipe de modération",
 
   "response_title": "Temps de réponse",
-  "response_description": "Nous examinons et prenons des mesures sur le contenu signalé dans un délai de 24 heures, y compris la suppression des annonces et la suspension des utilisateurs si nécessaire."
+  "response_description": "Nous examinons et prenons des mesures sur le contenu signalé dans un délai de 24 heures, y compris la suppression des annonces et la suspension des utilisateurs si nécessaire.",
+  "prefer_not_to_say": "Préfère ne pas dire"
+
 
 
 
