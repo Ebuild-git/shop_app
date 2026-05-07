@@ -709,7 +709,7 @@ class HomeController extends Controller
             'adresse' => ['nullable', 'string'],
             'telephone' => ['nullable', 'string', 'max:15'],
             'username' => ['required', 'string', 'unique:users,username'],
-            'genre' => 'required|in:female,male',
+            'genre' => 'required|in:female,male,prefer_not_to_say',
             'jour' => 'nullable|integer|between:1,31',
             'mois' => 'nullable|integer|between:1,12',
             'annee' => 'nullable|integer|between:1950,'.date('Y'),
