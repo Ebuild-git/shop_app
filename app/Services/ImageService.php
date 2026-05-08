@@ -18,62 +18,56 @@ class ImageService
      * @param int $quality WebP quality (default: 80)
      * @return string The relative path to the saved file
      */
-    public static function uploadAndConvert($file, $directory, $disk = 'public', $quality = 80)
+    public static function uploadAndConvert($file, $directory, $disk = 'public', $quality = 80): string
     {
         $manager = new ImageManager(new Driver());
 
-        $mimeType = $file->getMimeType();
-        $originalPath = $file->getRealPath();
-        $tempJpegPath = null; // 👈 properly initialize this
+        $realPath = $file->getRealPath();
+        $mime = $file->getMimeType();
+        $ext  = strtolower($file->getClientOriginalExtension());
+        $tempPath = null;
 
-        // Convert HEIC/HEIF to JPEG first (GD can't read HEIC)
-        if (
-            in_array($mimeType, ['image/heic', 'image/heif']) ||
-            in_array(strtolower($file->getClientOriginalExtension()), ['heic', 'heif'])
-        ) {
-            $converted = self::convertHeicToJpeg($originalPath);
+        // HEIC fallback — should rarely hit this now that the client converts it
+        $isHeic = in_array($mime, ['image/heic', 'image/heif'])
+            || in_array($ext, ['heic', 'heif']);
 
-            if (!$converted) {
-                throw new \Exception('HEIC conversion failed. Please upload a JPEG or PNG image.');
+        if ($isHeic) {
+            if (!extension_loaded('imagick')) {
+                throw new \RuntimeException('HEIC images are not supported. Please upload a JPEG or PNG.');
             }
-
-            $tempJpegPath = $converted; // 👈 track it for cleanup
-            $originalPath = $converted;
+            $tempPath = self::convertHeicToJpeg($realPath);
+            if (!$tempPath) {
+                throw new \RuntimeException('HEIC conversion failed. Please upload a JPEG or PNG.');
+            }
+            $realPath = $tempPath;
         }
 
-        // Read image
-        $image = $manager->read($originalPath);
-
-        // Fix EXIF orientation — method name differs by version
         try {
-            if (method_exists($image, 'orient')) {
-                $image->orient();       // Intervention Image v3.x
-            } elseif (method_exists($image, 'orientate')) {
-                $image->orientate();    // Intervention Image v2.x
-            }
+            $image = $manager->read($realPath);
         } catch (\Exception $e) {
-            // Don't crash if orientation fix fails — just skip it
-            \Log::warning('Image orientation fix failed: ' . $e->getMessage());
+            if ($tempPath) @unlink($tempPath);
+            throw new \RuntimeException('Could not read image: ' . $e->getMessage());
         }
 
-        // Resize if larger than 1600px on any side (keeps aspect ratio, never upscales)
+        // Auto-rotate based on EXIF — try both v2 and v3 method names
+        try {
+            method_exists($image, 'orient') ? $image->orient() : $image->orientate();
+        } catch (\Throwable $e) {
+            \Log::warning('EXIF orientation skipped: ' . $e->getMessage());
+        }
+
         if ($image->width() > 1600 || $image->height() > 1600) {
             $image->scaleDown(1600, 1600);
         }
 
-        // Encode to WebP
         $encoded = $image->toWebp($quality);
 
-        // Generate unique filename
         $filename = uniqid() . '_' . Str::random(10) . '.webp';
         $path = rtrim($directory, '/') . '/' . $filename;
-
-        // Save to storage
         Storage::disk($disk)->put($path, (string) $encoded);
 
-        // Clean up temp HEIC conversion file
-        if ($tempJpegPath && file_exists($tempJpegPath)) { // 👈 now correctly tracked
-            @unlink($tempJpegPath);
+        if ($tempPath && file_exists($tempPath)) {
+            @unlink($tempPath);
         }
 
         return $path;

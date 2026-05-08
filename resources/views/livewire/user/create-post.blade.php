@@ -848,97 +848,101 @@
         });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    async function convertAndDispatch(file, inputElement) {
-        let processedFile = file;
-
-        // Convert HEIC/HEIF to JPEG
-        if (
-            file.type === 'image/heic' ||
-            file.type === 'image/heif' ||
-            file.name.toLowerCase().endsWith('.heic') ||
-            file.name.toLowerCase().endsWith('.heif')
-        ) {
-            try {
-                const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.85 });
-                processedFile = new File([blob], file.name.replace(/\.heic$/i, '.jpg').replace(/\.heif$/i, '.jpg'), { type: 'image/jpeg' });
-            } catch (e) {
-                console.error('HEIC conversion failed', e);
-            }
-        }
-
-        // Resize if image is too large (max 2000px wide)
-        processedFile = await resizeImage(processedFile, 2000, 0.85);
-
-        // Inject back into the file input so Livewire picks it up
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(processedFile);
-        inputElement.files = dataTransfer.files;
-
-        // Trigger Livewire's change detection
-        inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+    // Detect HEIC by actual file bytes — iOS often lies about MIME type
+    async function isHeic(file) {
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const arr = new Uint8Array(reader.result);
+                // HEIC/HEIF magic: ftyp box at offset 4 with 'heic','heix','hevc','hevx','mif1','msf1'
+                const ftyp = String.fromCharCode(arr[4], arr[5], arr[6], arr[7]);
+                const brand = String.fromCharCode(arr[8], arr[9], arr[10], arr[11]);
+                resolve(
+                    ftyp === 'ftyp' && ['heic','heix','hevc','hevx','mif1','msf1'].includes(brand)
+                );
+            };
+            reader.readAsArrayBuffer(file.slice(0, 12));
+        });
     }
 
-    function resizeImage(file, maxDimension, quality) {
-        return new Promise((resolve) => {
+    async function resizeToJpeg(file, maxDim = 1800, quality = 0.85) {
+        return new Promise(resolve => {
             const img = new Image();
             const url = URL.createObjectURL(file);
-            img.onload = function () {
+            img.onload = () => {
                 URL.revokeObjectURL(url);
                 let { width, height } = img;
-
-                if (width <= maxDimension && height <= maxDimension) {
-                    resolve(file);
+                if (width <= maxDim && height <= maxDim) {
+                    // Still re-encode to JPEG to strip problematic EXIF and ensure GD compatibility
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width; canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0);
+                    canvas.toBlob(blob => {
+                        resolve(new File([blob], 'photo.jpg', { type: 'image/jpeg' }));
+                    }, 'image/jpeg', quality);
                     return;
                 }
-
-                const ratio = Math.min(maxDimension / width, maxDimension / height);
-                width = Math.round(width * ratio);
-                height = Math.round(height * ratio);
-
+                const ratio = Math.min(maxDim / width, maxDim / height);
+                const w = Math.round(width * ratio), h = Math.round(height * ratio);
                 const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-
-                canvas.toBlob((blob) => {
-                    resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                canvas.toBlob(blob => {
+                    resolve(new File([blob], 'photo.jpg', { type: 'image/jpeg' }));
                 }, 'image/jpeg', quality);
             };
+            img.onerror = () => resolve(file); // fallback: pass through unchanged
             img.src = url;
         });
+    }
+
+    async function processAndInject(file, input) {
+        try {
+            let processed = file;
+
+            const heic = await isHeic(file);
+            if (heic) {
+                const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.88 });
+                processed = new File(
+                    [Array.isArray(blob) ? blob[0] : blob],
+                    'photo.jpg',
+                    { type: 'image/jpeg' }
+                );
+            }
+
+            processed = await resizeToJpeg(processed);
+
+            const dt = new DataTransfer();
+            dt.items.add(processed);
+            input.files = dt.files;
+            // Dispatch a fresh change event — Livewire listens to this
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch (err) {
+            console.error('Photo processing failed:', err);
+            // Let original file through so user isn't stuck
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
     }
 
     ['btn-1','btn-2','btn-3','btn-4','btn-5'].forEach(id => {
         const input = document.getElementById(id);
         if (!input) return;
 
-        // 👇 CHANGE 1: 'true' = capture phase, runs before Livewire's listener
-        input.addEventListener('change', async function (e) {
+        // Capture phase — runs before Livewire's own listener
+        input.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            const isHeic =
-                file.type === 'image/heic' ||
-                file.type === 'image/heif' ||
-                file.name.toLowerCase().endsWith('.heic') ||
-                file.name.toLowerCase().endsWith('.heif');
+            // Always stop Livewire from seeing the raw file
+            e.stopImmediatePropagation();
 
-            // 👇 CHANGE 2: block Livewire from seeing the raw HEIC file
-            if (isHeic) {
-                e.stopImmediatePropagation();
-                input.disabled = true;
-                await convertAndDispatch(file, input);
-                input.disabled = false;
-            }
-            // Non-HEIC files (JPEG, PNG, etc.) are left alone — Livewire handles them normally
-
-        }, true); // 👈 CHANGE 1: capture phase
+            processAndInject(file, input);
+        }, true);
     });
 });
 </script>
