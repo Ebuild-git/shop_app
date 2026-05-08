@@ -691,7 +691,7 @@
     "error.too_late": "You cannot give a rating more than 2 weeks after your purchase!",
     "success.rating_saved": "Your rating has been saved!",
     "cin_approved_success": "CIN approved successfully.",
-    "cin_notification_title": "Your national identity card has been approved!",
+    "cin_notification_title": "Your ID card has been successfully verified. You can now publish items and start selling.",
     "cin_notification_message": "We inform you that your national identity card has been approved by the administrators.",
     "cin_required_warning": "You must upload an image of your national identity card before publishing a post!<br>Please go to <strong>My Account</strong> → <strong>Bank details</strong> to add it.",
     "cin_pending_warning": "Your national identity card is being verified. You will receive a notification once it is approved.",
