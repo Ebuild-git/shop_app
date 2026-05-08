@@ -19,7 +19,7 @@ class UpdateInformations extends Component
 {
     use WithFileUploads;
     public $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement, $city_id;
-
+    public bool $isFirstTime = false;
 
     public function mount()
     {
@@ -38,6 +38,7 @@ class UpdateInformations extends Component
         $this->nom_batiment = $user->nom_batiment;
         $this->etage = $user->etage;
         $this->num_appartement = $user->num_appartement;
+        $this->isFirstTime = is_null($user->email) || is_null($user->phone_number) || is_null($user->region) || is_null($user->address) || is_null($user->birthdate) || is_null($user->rue) || is_null($user->nom_batiment) || is_null($user->etage) || is_null($user->num_appartement) || is_null($user->city_id) || is_null($user->avatar);
 
     }
 

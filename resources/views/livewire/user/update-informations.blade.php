@@ -205,10 +205,15 @@
             {{ __('delete_account') }}
         </button>
 
-        <button type="submit" class="bg">
+        {{-- <button type="submit" class="bg">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                 wire:loading></span>
                 {{ __('save_changes2') }}
+            <i class="bi bi-arrow-right-circle-fill"></i>
+        </button> --}}
+        <button type="submit" class="bg">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" wire:loading></span>
+            {{ $this->isFirstTime ? __('save_changes2') : __('update') }}
             <i class="bi bi-arrow-right-circle-fill"></i>
         </button>
     </div>

@@ -448,7 +448,7 @@
     "must_be_13": "Vous devez être âgé d'au moins 18 ans",
     "email_already_exists": "Cet email existe déjà!",
     "profile_photo_changed": "vient de changé sa photo de profil",
-    "photo_validation_pending": "Votre photo de profil sera validée dans les prochaines 24 heures.",
+    "photo_validation_pending": "<br>Votre photo de profil sera validée dans les prochaines 24 heures.",
     "photo_updated_successfully": "Votre photo de profil a été mise à jour avec succès.",
     "admin_event": "Un utilisateur a changé sa photo de profil",
     "old_password_required": "Veuillez saisir votre ancien mot de passe",

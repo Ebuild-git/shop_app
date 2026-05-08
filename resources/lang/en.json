@@ -446,7 +446,7 @@
     "must_be_13": "You must be at least 13 years old",
     "email_already_exists": "This email already exists!",
     "profile_photo_changed": "has changed their profile photo",
-    "photo_validation_pending": "Your profile photo will be validated within the next 24 hours.",
+    "photo_validation_pending": "<br>Your profile photo will be validated within the next 24 hours.",
     "photo_updated_successfully": "Your profile photo has been updated successfully.",
     "admin_event": "A user has changed their profile photo",
     "old_password_required": "Please enter your old password",
