@@ -157,7 +157,7 @@ class AuthController extends Controller
      *                 required={
      *                     "email", "password", "password_confirmation", "nom", "prenom",
      *                     "adresse", "telephone", "username", "genre", "jour", "mois", "annee",
-     *                     "ruee", "nom_batiment"
+     *                     "ruee", "nom_batiment", "city_id", "region"
      *                 },
      *                 @OA\Property(property="email", type="string", format="email", example="user@example.com"),
      *                 @OA\Property(property="password", type="string", format="password", example="SecureP@ss123"),
@@ -175,7 +175,9 @@ class AuthController extends Controller
      *                 @OA\Property(property="ruee", type="string", example="Rue Zerktouni"),
      *                 @OA\Property(property="nom_batiment", type="string", example="Batiment A"),
      *                 @OA\Property(property="etage", type="string", nullable=true, example="3"),
-     *                 @OA\Property(property="num_appartement", type="string", nullable=true, example="12B")
+     *                 @OA\Property(property="num_appartement", type="string", nullable=true, example="12B"),
+     *                 @OA\Property(property="city_id", type="integer", example=1),
+     *                 @OA\Property(property="region", type="integer", example=1)
      *             )
      *         )
      *     ),
@@ -261,6 +263,8 @@ class AuthController extends Controller
             'prenom' => 'required|string',
             'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'adresse' => 'required|string',
+            'city_id' => 'required|exists:cities,id',
+            'region' => 'required|exists:regions,id',
             'telephone' => 'required|string|max:15',
             'username' => 'string|unique:users,username',
             'genre' => 'required|in:female,male,prefer_not_to_say',
@@ -306,6 +310,8 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->phone_number = $request->telephone;
         $user->birthdate = $birthdate;
+        $user->city_id = $request->city_id;
+        $user->region = $request->region;
         $user->gender = $request->genre;
         $user->role = "user";
         $user->type = "user";
