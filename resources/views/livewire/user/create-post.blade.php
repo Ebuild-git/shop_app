@@ -892,7 +892,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let { width, height } = img;
 
                 if (width <= maxDimension && height <= maxDimension) {
-                    resolve(file); // No resize needed
+                    resolve(file);
                     return;
                 }
 
@@ -914,15 +914,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Attach to all photo inputs
     ['btn-1','btn-2','btn-3','btn-4','btn-5'].forEach(id => {
         const input = document.getElementById(id);
         if (!input) return;
+
+        // 👇 CHANGE 1: 'true' = capture phase, runs before Livewire's listener
         input.addEventListener('change', async function (e) {
             const file = e.target.files[0];
             if (!file) return;
-            await convertAndDispatch(file, input);
-        });
+
+            const isHeic =
+                file.type === 'image/heic' ||
+                file.type === 'image/heif' ||
+                file.name.toLowerCase().endsWith('.heic') ||
+                file.name.toLowerCase().endsWith('.heif');
+
+            // 👇 CHANGE 2: block Livewire from seeing the raw HEIC file
+            if (isHeic) {
+                e.stopImmediatePropagation();
+                input.disabled = true;
+                await convertAndDispatch(file, input);
+                input.disabled = false;
+            }
+            // Non-HEIC files (JPEG, PNG, etc.) are left alone — Livewire handles them normally
+
+        }, true); // 👈 CHANGE 1: capture phase
     });
 });
 </script>
