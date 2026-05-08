@@ -848,3 +848,81 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    async function convertAndDispatch(file, inputElement) {
+        let processedFile = file;
+
+        // Convert HEIC/HEIF to JPEG
+        if (
+            file.type === 'image/heic' ||
+            file.type === 'image/heif' ||
+            file.name.toLowerCase().endsWith('.heic') ||
+            file.name.toLowerCase().endsWith('.heif')
+        ) {
+            try {
+                const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.85 });
+                processedFile = new File([blob], file.name.replace(/\.heic$/i, '.jpg').replace(/\.heif$/i, '.jpg'), { type: 'image/jpeg' });
+            } catch (e) {
+                console.error('HEIC conversion failed', e);
+            }
+        }
+
+        // Resize if image is too large (max 2000px wide)
+        processedFile = await resizeImage(processedFile, 2000, 0.85);
+
+        // Inject back into the file input so Livewire picks it up
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(processedFile);
+        inputElement.files = dataTransfer.files;
+
+        // Trigger Livewire's change detection
+        inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function resizeImage(file, maxDimension, quality) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = function () {
+                URL.revokeObjectURL(url);
+                let { width, height } = img;
+
+                if (width <= maxDimension && height <= maxDimension) {
+                    resolve(file); // No resize needed
+                    return;
+                }
+
+                const ratio = Math.min(maxDimension / width, maxDimension / height);
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                canvas.toBlob((blob) => {
+                    resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+                }, 'image/jpeg', quality);
+            };
+            img.src = url;
+        });
+    }
+
+    // Attach to all photo inputs
+    ['btn-1','btn-2','btn-3','btn-4','btn-5'].forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+        input.addEventListener('change', async function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            await convertAndDispatch(file, input);
+        });
+    });
+});
+</script>
