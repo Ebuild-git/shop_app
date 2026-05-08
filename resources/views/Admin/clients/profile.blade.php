@@ -289,10 +289,10 @@
                                  <span style="margin-left: 28px;">
                                      {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ',' : '' !!}
                                      {!! $user->etage ? 'Étage ' . $user->etage . ',' : '' !!}
-                                     {!! $user->nom_batiment ? $user->nom_batiment . ',' : '' !!}
-                                     {!! $user->rue ? $user->rue . ',' : '' !!}
-                                     {!! $user->address ?? '' !!}
-                                     {!! $user->city ? ', ' . $user->city->name : '' !!}
+                                     {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ',' : '' !!}
+                                     {!! $user->rue ? 'Rue ' . $user->rue . ',' : '' !!}
+                                     {{-- {!! $user->address ?? '' !!} --}}
+                                     {!! $user->city ? 'Ville ' . ', ' . $user->city->name : '' !!}
                                  </span>
                              </li>
 
