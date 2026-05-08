@@ -350,7 +350,7 @@ class UserController extends Controller
                 'firstname' => 'nullable|string|max:255',
                 'lastname' => 'nullable|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
-                'gender' => 'nullable|string|in:male,female,other',
+                'gender' => 'nullable|string|in:male,female,prefer_not_to_say',
                 'birthdate' => 'nullable|date',
                 'address' => 'nullable|string|max:500',
                 'rue' => 'nullable|string|max:255',

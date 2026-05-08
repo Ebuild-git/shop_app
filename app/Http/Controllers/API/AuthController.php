@@ -263,7 +263,7 @@ class AuthController extends Controller
             'adresse' => 'required|string',
             'telephone' => 'required|string|max:15',
             'username' => 'string|unique:users,username',
-            'genre' => 'required|in:female,male',
+            'genre' => 'required|in:female,male,prefer_not_to_say',
             'jour' => 'nullable|integer|between:1,31',
             'mois' => 'nullable|integer|between:1,12',
             'annee' => 'nullable|integer|between:1950,2024',
