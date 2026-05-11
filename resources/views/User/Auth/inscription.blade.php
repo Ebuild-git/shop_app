@@ -76,7 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <span for="small">{{ __('pseudonyme') }}</span>
                                 <span class="text-danger">*</span>
@@ -88,7 +88,7 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- <div class="col-sm-6">
+                        <div class="col-sm-6">
                             <div class="form-group" style="position: relative; min-height: 80px;">
                                 <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
                                     style="bottom:18px; {{ app()->getLocale() == 'ar' ? 'right: 14px;' : 'left: 14px;' }}; border-radius: 100%;">
@@ -101,7 +101,7 @@
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <span for="small">{{ __('genre') }}</span>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
 
-                        {{-- <div class="col-sm-12">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <span for="small">{{ __('date_naissance') }}</span>
                                 <span class="text-danger">*</span>
@@ -184,7 +184,7 @@
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <span for="small">{{ __('email') }}</span>
