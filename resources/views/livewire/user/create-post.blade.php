@@ -24,7 +24,7 @@
                     <img width="50" height="50"
                         src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
-                <input type="file" wire:model="photo1" accept="image/*" class="d-none" id="btn-1">
+                <input type="file" wire:model="photo1" accept="image/*,.heic,.heif" class="d-none" id="btn-1">
             </label>
             @error('photo1')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -46,7 +46,7 @@
                     <img width="50" height="50"
                         src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
-                <input type="file" wire:model="photo2" accept="image/*" class="d-none" id="btn-2">
+                <input type="file" wire:model="photo2" accept="image/*,.heic,.heif" class="d-none" id="btn-2">
             </label>
             @error('photo2')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -67,7 +67,7 @@
                     <img width="50" height="50"
                         src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
-                <input type="file" wire:model="photo3" accept="image/*" class="d-none" id="btn-3">
+                <input type="file" wire:model="photo3" accept="image/*,.heic,.heif" class="d-none" id="btn-3">
             </label>
             @error('photo3')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -88,7 +88,7 @@
                     <img width="50" height="50"
                         src="https://img.icons8.com/parakeet-line/50/018d8d/add-image.png" alt="add-image" />
                 @endif
-                <input type="file" wire:model="photo4" accept="image/*" class="d-none" id="btn-4">
+                <input type="file" wire:model="photo4" accept="image/*,.heic,.heif" class="d-none" id="btn-4">
             </label>
             @error('photo4')
                 <small class="form-text text-danger">{{ $message }}</small>
@@ -849,3 +849,185 @@
     });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js"></script>
+<script>
+(function () {
+    const convertingInputs = new Set();
+
+    /* ── loader ── */
+    function showLoader(containerId) {
+        const c = document.getElementById(containerId);
+        if (!c) return;
+        c.querySelector('.heic-loading-overlay')?.remove();
+        const el = document.createElement('div');
+        el.className = 'heic-loading-overlay';
+        el.innerHTML = `<div class="heic-spinner"></div><span class="heic-loading-text">Loading...</span>`;
+        c.appendChild(el);
+    }
+
+    function hideLoader(containerId) {
+        document.getElementById(containerId)?.querySelector('.heic-loading-overlay')?.remove();
+    }
+
+    /* ── local preview (instant, from blob) ── */
+    function showLocalPreview(containerId, blobUrl) {
+        const c = document.getElementById(containerId);
+        if (!c) return;
+        removeLocalPreview(containerId);
+        const img = document.createElement('img');
+        img.className = 'local-preview';
+        img.src = blobUrl;
+        c.classList.add('has-local-preview');
+        c.appendChild(img);
+    }
+
+    function removeLocalPreview(containerId) {
+        const c = document.getElementById(containerId);
+        if (!c) return;
+        c.querySelector('.local-preview')?.remove();
+        c.classList.remove('has-local-preview');
+    }
+
+    /* ── wait until Livewire's img is fully painted, THEN hide loader & local preview ── */
+    function waitUntilLivewireImagePainted(containerId) {
+        const c = document.getElementById(containerId);
+        if (!c) return;
+
+        // Keep checking every 100ms until a valid Livewire preview img appears and paints
+        const interval = setInterval(() => {
+            // The img Livewire renders has class="preview" and is NOT our local one
+            const lwImg = [...c.querySelectorAll('img.preview')]
+                .find(img => !img.classList.contains('local-preview'));
+
+            if (!lwImg) return; // not rendered yet
+
+            const src = lwImg.getAttribute('src') || '';
+            if (!src || src.includes('icons8')) return; // placeholder, not real preview yet
+
+            if (lwImg.complete && lwImg.naturalWidth > 0) {
+                // Already painted
+                clearInterval(interval);
+                clearTimeout(safety);
+                // Small extra delay so browser has composited the frame
+                setTimeout(() => {
+                    removeLocalPreview(containerId);
+                    hideLoader(containerId);
+                }, 80);
+            } else {
+                // Wait for load event
+                lwImg.addEventListener('load', () => {
+                    clearInterval(interval);
+                    clearTimeout(safety);
+                    setTimeout(() => {
+                        removeLocalPreview(containerId);
+                        hideLoader(containerId);
+                    }, 80);
+                }, { once: true });
+
+                lwImg.addEventListener('error', () => {
+                    // Livewire img broken (e.g. HEIC not renderable by browser)
+                    // Keep local preview visible, just hide loader
+                    clearInterval(interval);
+                    clearTimeout(safety);
+                    hideLoader(containerId);
+                }, { once: true });
+
+                clearInterval(interval); // stop polling, event will handle it
+            }
+        }, 100);
+
+        // Absolute safety: give up after 20s
+        const safety = setTimeout(() => {
+            clearInterval(interval);
+            removeLocalPreview(containerId);
+            hideLoader(containerId);
+        }, 20000);
+    }
+
+    /* ── main handler ── */
+    function handleFileInput(inputId, containerId) {
+        const input = document.getElementById(inputId);
+
+        input.addEventListener('change', async function (e) {
+            if (convertingInputs.has(inputId)) return;
+
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            const isHeic = ['heic', 'heif'].includes(ext)
+                        || file.type === 'image/heic'
+                        || file.type === 'image/heif';
+
+            if (isHeic) {
+                e.stopImmediatePropagation(); // block Livewire from seeing raw HEIC
+                showLoader(containerId);
+
+                try {
+                    const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.85 });
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    // Show converted image instantly
+                    showLocalPreview(containerId, blobUrl);
+
+                    const converted = new File(
+                        [blob],
+                        file.name.replace(/\.(heic|heif)$/i, '.jpg'),
+                        { type: 'image/jpeg' }
+                    );
+
+                    const dt = new DataTransfer();
+                    dt.items.add(converted);
+
+                    convertingInputs.add(inputId);
+                    input.files = dt.files;
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    setTimeout(() => convertingInputs.delete(inputId), 300);
+
+                    waitUntilLivewireImagePainted(containerId);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+
+                } catch (err) {
+                    console.error('HEIC conversion failed:', err);
+                    hideLoader(containerId);
+                }
+
+            } else {
+                // Normal image — show instantly via blob
+                const blobUrl = URL.createObjectURL(file);
+                showLocalPreview(containerId, blobUrl);
+                showLoader(containerId);
+                waitUntilLivewireImagePainted(containerId);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+            }
+        });
+    }
+
+    /* ── init: fix double-click + register handlers ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        [1, 2, 3, 4, 5].forEach(n => {
+            const picId = `pic${n}`;
+            const btnId = `btn-${n}`;
+            const label = document.getElementById(picId);
+            const input = document.getElementById(btnId);
+
+            if (!label || !input) return;
+
+            // Remove the wrong `for` attribute (it points to "images" not the real input)
+            // This is the root cause of the double-click
+            label.removeAttribute('for');
+
+            // One clean click listener on the label
+            label.addEventListener('click', function (e) {
+                // Don't re-trigger if the click came from inside the input itself
+                if (e.target === input) return;
+                e.preventDefault();
+                e.stopPropagation();
+                input.click();
+            });
+
+            handleFileInput(btnId, picId);
+        });
+    });
+})();
+</script>

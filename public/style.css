@@ -4141,3 +4141,46 @@ body[dir="rtl"] .custom-cancel-btn {
     font-size: 18px;
     font-weight: 500;
 }
+
+ .heic-loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(255,255,255,0.85);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 20;
+        gap: 6px;
+        pointer-events: none;
+    }
+    .heic-spinner {
+        width: 30px;
+        height: 30px;
+        border: 3px solid #018d8d33;
+        border-top-color: #018d8d;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+    }
+    .heic-loading-text {
+        font-size: 10px;
+        color: #018d8d;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .local-preview {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        z-index: 5;
+    }
+    /* Hide Livewire's img while local preview is active */
+    .drop-container.has-local-preview > img.preview:not(.local-preview) {
+        visibility: hidden;
+    }

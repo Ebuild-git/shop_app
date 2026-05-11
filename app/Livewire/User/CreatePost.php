@@ -465,19 +465,7 @@ class CreatePost extends Component
         return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
     }
 
-    // public function getPrix($prix)
-    // {
-    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
-    //     if ($sous_cat) {
-    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
-    //         $prix = $this->prix;
-    //         $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
 
-    //         return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
-    //     } else {
-    //         return 'N/A';
-    //     }
-    // }
     public function getPrix($prix)
     {
         $sous_cat = sous_categories::find($this->selectedSubcategory);
