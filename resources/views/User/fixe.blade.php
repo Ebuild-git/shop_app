@@ -2,7 +2,7 @@
     $configurations = DB::table('configurations')->first();
     $categories = \App\Models\categories::where('active', true)
     ->orderBy('order', 'ASC')
-    ->get(['id', 'titre', 'luxury', 'pourcentage_gain']);
+    ->get(['id', 'titre', 'title_en', 'title_ar', 'luxury', 'pourcentage_gain']);
 
     // Check if language was already selected on server side
     $languageSelected = session('locale') && session('locale') !== 'fr';
@@ -1178,13 +1178,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <td>
                                         {{-- <b> {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}</b> --}}
                                         <b>
-                                            {{
-                                                App::getLocale() === 'ar'
-                                                    ? $tarif->title_ar
-                                                    : (App::getLocale() === 'en'
-                                                        ? $tarif->title_en
-                                                        : $tarif->titre)
-                                            }}
+                                            @switch(app()->getLocale())
+                                                @case('en')
+                                                    {{ $tarif->title_en }}
+                                                    @break
+
+                                                @case('ar')
+                                                    {{ $tarif->title_ar }}
+                                                    @break
+
+                                                @default
+                                                    {{ $tarif->titre }}
+                                            @endswitch
                                         </b>
                                         <span class="small color">
                                             @if ($tarif->luxury == 1)
