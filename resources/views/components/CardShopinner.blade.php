@@ -1,5 +1,4 @@
-<div class="card p-2 position-relative mb-2"
-     style="
+<div class="card p-2 position-relative mb-2" style="
      @if(auth()->check() && $user->id === auth()->id())
          border: 2px solid #008080; background-color: #f9fbfc;
      @elseif(isset($user->is_pinned) && $user->is_pinned)
@@ -11,13 +10,13 @@
             <div class="d-flex align-items-center pl-3" style="text-align: left">
                 @if ($user->avatar == 'avatar.png' || !$user->avatar)
                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                         alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
+                        alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
                 @elseif (!is_null($user->photo_verified_at))
-                    <img src="{{ Storage::url($user->avatar) }}"
-                         alt="User Avatar" class="rounded-circle mr-2" width="40" height="40">
+                    <img src="{{ Storage::url($user->avatar) }}" alt="User Avatar" class="rounded-circle mr-2" width="40"
+                        height="40">
                 @else
                     <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-                         alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
+                        alt="Default Avatar" class="rounded-circle mr-2" width="40" height="40">
                 @endif
 
                 <h4 class="h6 mb-0" style="{{ app()->getLocale() == 'ar' ? 'margin-right: 10px;' : '' }}">
@@ -27,18 +26,25 @@
                 </h4>
             </div>
             @if ($page == 'shopiners')
-                <div style="text-align: right;">
+                <div style="text-align: right;" class="d-flex align-items-center gap-1">
                     @auth
-                        @if ($user->id !== auth()->id())  <!-- Check if the user is not the auth user -->
+                        @if ($user->id !== auth()->id()) <!-- Check if the user is not the auth user -->
                             @if (auth()->user()->pings()->where('pined', $user->id)->exists())
-                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor" aria-label="{{ __('ping') }}">
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor"
+                                    aria-label="{{ __('ping') }}">
                                     <img src="/icons/icons8.png" height="20" width="20" alt="{{ __('ping') }}">
                                 </button>
                             @else
-                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor" aria-label="{{ __('ping') }}">
+                                <button wire:click="ping( {{ $user->id }} )" class="btn-ping-shopinner cursor"
+                                    aria-label="{{ __('ping') }}">
                                     <img src="/icons/icons9.png" height="20" width="20" alt="{{ __('ping') }}">
                                 </button>
                             @endif
+                            {{-- <button wire:click="blockUser({{ $user->id }})" class="btn btn-sm btn-outline-secondary px-1 py-0"
+                                title="{{ __('Bloquer') }}"
+                                onclick="return confirm('{!! \App\Traits\TranslateTrait::TranslateText('Voulez-vous bloquer cet utilisateur ?') !!}')">
+                                <i class="bi bi-slash-circle" style="font-size: 14px;"></i>
+                            </button> --}}
                         @endif
                     @endauth
                 </div>
@@ -64,7 +70,8 @@
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} : {{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}
+                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} :
+                        {{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}
                     </a>
                 </div>
             </div>

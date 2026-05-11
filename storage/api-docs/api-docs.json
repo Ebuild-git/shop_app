@@ -5426,6 +5426,192 @@
                 }
             }
         },
+        "/users/{user}/block": {
+            "post": {
+                "tags": [
+                    "Block"
+                ],
+                "summary": "Block a shopiner",
+                "operationId": "836f20fe27bf4fe5f7b5bb696dd5e9c2",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to block",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 42
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Shopiner blocked successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shopiner blocked successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "blocked"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot block yourself",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You cannot block yourself"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Block"
+                ],
+                "summary": "Unblock a shopiner",
+                "operationId": "cb3d39fb418c9b9846aa2d5a52892c7b",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of the user to unblock",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 42
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shopiner unblocked successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shopiner unblocked successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "unblocked"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/blocked": {
+            "get": {
+                "tags": [
+                    "Block"
+                ],
+                "summary": "Get list of blocked shopiners",
+                "operationId": "1610a1a87efe4723aeb0b99dc96acaee",
+                "responses": {
+                    "200": {
+                        "description": "List of blocked users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 42
+                                                    },
+                                                    "firstname": {
+                                                        "type": "string",
+                                                        "example": "John"
+                                                    },
+                                                    "lastname": {
+                                                        "type": "string",
+                                                        "example": "Doe"
+                                                    },
+                                                    "username": {
+                                                        "type": "string",
+                                                        "example": "johndoe"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "https://example.com/storage/avatars/user.jpg",
+                                                        "nullable": true
+                                                    },
+                                                    "photo_verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-15T10:30:00Z",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/fcm/register-token": {
             "post": {
                 "tags": [

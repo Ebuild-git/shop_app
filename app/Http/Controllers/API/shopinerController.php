@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User, posts, pings, sous_categories, categories};
+use App\Models\{User, posts, pings, sous_categories, categories, UserBlock};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -78,21 +78,30 @@ class shopinerController extends Controller
         $rating = $request->input('rating');
 
         $Query = User::select(
-                'users.id',
-                'users.firstname',
-                'users.lastname',
-                'users.username',
-                'users.voyage_mode',
-                'users.avatar',
-                'users.photo_verified_at',
-                DB::raw('AVG(ratings.etoiles) as average_rating'),
-                DB::raw('COUNT(ratings.id) as total_reviews')
-            )
+            'users.id',
+            'users.firstname',
+            'users.lastname',
+            'users.username',
+            'users.voyage_mode',
+            'users.avatar',
+            'users.photo_verified_at',
+            DB::raw('AVG(ratings.etoiles) as average_rating'),
+            DB::raw('COUNT(ratings.id) as total_reviews')
+        )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
 
             ->where('users.role', '!=', 'admin')
             ->where('users.locked', false);
+
+        // Exclude blocked users for authenticated users
+        $authUser = Auth::user();
+        if ($authUser) {
+            $blockedIds = $authUser->blockedUserIds();
+            if (!empty($blockedIds)) {
+                $Query->whereNotIn('users.id', $blockedIds);
+            }
+        }
 
         if ($key) {
             $Query->where('users.username', 'LIKE', $key . '%');
@@ -103,14 +112,14 @@ class shopinerController extends Controller
         }
 
         $shopiners = $Query->groupBy(
-                'users.id',
-                'users.firstname',
-                'users.lastname',
-                'users.username',
-                'users.voyage_mode',
-                'users.avatar',
-                'users.photo_verified_at'
-            )
+            'users.id',
+            'users.firstname',
+            'users.lastname',
+            'users.username',
+            'users.voyage_mode',
+            'users.avatar',
+            'users.photo_verified_at'
+        )
             ->orderByDesc('total_reviews')
             ->orderBy('users.username')
             ->orderByDesc('average_rating')
@@ -197,33 +206,33 @@ class shopinerController extends Controller
     public function getShopinerProfile($id)
     {
         $shopiner = User::select(
-                'users.id',
-                'users.firstname',
-                'users.lastname',
-                'users.username',
-                'users.email',
-                'users.phone_number',
-                'users.address',
-                'users.region',
-                'users.birthdate',
-                'users.locked',
-                'users.rue',
-                'users.nom_batiment',
-                'users.etage',
-                'users.num_appartement',
-                'users.voyage_mode',
-                'users.avatar',
-                'users.cin_img',
-                'users.old_cin_images',
-                'users.rib_number',
-                'users.bank_name',
-                'users.titulaire_name',
-                'users.photo_verified_at',
-                DB::raw('AVG(ratings.etoiles) as average_rating'),
-                DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
-                DB::raw('COUNT(DISTINCT ratings.id) as total_reviews'),
-                DB::raw('SUM(CASE WHEN users.voyage_mode = 0 THEN posts.views ELSE 0 END) as total_views')
-            )
+            'users.id',
+            'users.firstname',
+            'users.lastname',
+            'users.username',
+            'users.email',
+            'users.phone_number',
+            'users.address',
+            'users.region',
+            'users.birthdate',
+            'users.locked',
+            'users.rue',
+            'users.nom_batiment',
+            'users.etage',
+            'users.num_appartement',
+            'users.voyage_mode',
+            'users.avatar',
+            'users.cin_img',
+            'users.old_cin_images',
+            'users.rib_number',
+            'users.bank_name',
+            'users.titulaire_name',
+            'users.photo_verified_at',
+            DB::raw('AVG(ratings.etoiles) as average_rating'),
+            DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
+            DB::raw('COUNT(DISTINCT ratings.id) as total_reviews'),
+            DB::raw('SUM(CASE WHEN users.voyage_mode = 0 THEN posts.views ELSE 0 END) as total_views')
+        )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
             ->where('users.id', $id)
@@ -287,11 +296,21 @@ class shopinerController extends Controller
             return $post;
         });
 
+        // Check if auth user has blocked this shopiner
+        $isBlocked = false;
+        $authUser = Auth::user();
+        if ($authUser) {
+            $isBlocked = UserBlock::where('blocker_id', $authUser->id)
+                ->where('blocked_id', $id)
+                ->exists();
+        }
+
         return response()->json([
             'success' => true,
             'data' => [
                 'shopiner' => $shopiner,
-                'posts' => $posts
+                'posts' => $posts,
+                'is_blocked' => $isBlocked
             ]
         ]);
     }
@@ -345,12 +364,12 @@ class shopinerController extends Controller
 
         pings::firstOrCreate([
             'id_user' => Auth::id(),
-            'pined'   => $user->id,
+            'pined' => $user->id,
         ]);
 
         return response()->json([
             'message' => 'SHOPINER pinned to your SHOPINERS TOPLIST!',
-            'status'  => 'pinned',
+            'status' => 'pinned',
         ], 201);
     }
 
@@ -393,7 +412,7 @@ class shopinerController extends Controller
 
         return response()->json([
             'message' => 'SHOPINER removed from your SHOPINERS TOPLIST',
-            'status'  => 'unpinned',
+            'status' => 'unpinned',
         ]);
     }
 
@@ -506,4 +525,141 @@ class shopinerController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/users/{user}/block",
+     *     summary="Block a shopiner",
+     *     tags={"Block"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to block",
+     *         @OA\Schema(type="integer", example=42)
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Shopiner blocked successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Shopiner blocked successfully"),
+     *             @OA\Property(property="status", type="string", example="blocked")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Cannot block yourself",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="You cannot block yourself")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthenticated")
+     * )
+     */
+    public function blockUser(User $user)
+    {
+        if ($user->id === Auth::id()) {
+            return response()->json([
+                'message' => 'You cannot block yourself'
+            ], 422);
+        }
+
+        UserBlock::firstOrCreate([
+            'blocker_id' => Auth::id(),
+            'blocked_id' => $user->id,
+        ]);
+
+        // Also remove any ping between the two users
+        pings::where('id_user', Auth::id())->where('pined', $user->id)->delete();
+        pings::where('id_user', $user->id)->where('pined', Auth::id())->delete();
+
+        return response()->json([
+            'message' => 'Shopiner blocked successfully',
+            'status' => 'blocked',
+        ], 201);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/users/{user}/block",
+     *     summary="Unblock a shopiner",
+     *     tags={"Block"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to unblock",
+     *         @OA\Schema(type="integer", example=42)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Shopiner unblocked successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Shopiner unblocked successfully"),
+     *             @OA\Property(property="status", type="string", example="unblocked")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthenticated")
+     * )
+     */
+    public function unblockUser(User $user)
+    {
+        UserBlock::where('blocker_id', Auth::id())
+            ->where('blocked_id', $user->id)
+            ->delete();
+
+        return response()->json([
+            'message' => 'Shopiner unblocked successfully',
+            'status' => 'unblocked',
+        ]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/users/blocked",
+     *     summary="Get list of blocked shopiners",
+     *     tags={"Block"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of blocked users",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=42),
+     *                     @OA\Property(property="firstname", type="string", example="John"),
+     *                     @OA\Property(property="lastname", type="string", example="Doe"),
+     *                     @OA\Property(property="username", type="string", example="johndoe"),
+     *                     @OA\Property(property="avatar", type="string", nullable=true, example="https://example.com/storage/avatars/user.jpg"),
+     *                     @OA\Property(property="photo_verified_at", type="string", format="date-time", nullable=true, example="2024-01-15T10:30:00Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthenticated")
+     * )
+     */
+    public function getBlockedUsers()
+    {
+        $blockedUsers = UserBlock::where('blocker_id', Auth::id())
+            ->with(['blocked:id,firstname,lastname,username,avatar,photo_verified_at'])
+            ->get()
+            ->map(function ($block) {
+                $user = $block->blocked;
+                if ($user) {
+                    $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
+                }
+                return $user;
+            })
+            ->filter();
+
+        return response()->json([
+            'success' => true,
+            'data' => $blockedUsers->values(),
+        ]);
+    }
 }

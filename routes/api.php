@@ -108,6 +108,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}/ping', [shopinerController::class, 'ping']);
     Route::delete('/users/{user}/ping', [shopinerController::class, 'unping']);
 
+    Route::get('/users/blocked', [shopinerController::class, 'getBlockedUsers']);
+    Route::post('/users/{user}/block', [shopinerController::class, 'blockUser']);
+    Route::delete('/users/{user}/block', [shopinerController::class, 'unblockUser']);
+
     Route::get('/user/notifications', [NotificationsController::class, 'user_notifications_api'])->name('user_notifications_api');
     Route::get('/notifications/list', [NotificationsController::class, 'list_notification'])->name('list_notification');
     Route::post('/notifications/mark-read/{id}', [NotificationsController::class, 'mark_as_read_notification'])->name('mark_as_read_notification');

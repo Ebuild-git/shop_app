@@ -16,6 +16,7 @@ use App\Models\regions;
 use App\Models\signalements;
 use App\Models\sous_categories;
 use App\Models\User;
+use App\Models\UserBlock;
 use App\Models\UserCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -86,7 +87,7 @@ class HomeController extends Controller
 
     public function checkCinStatus()
     {
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             return response()->json(['locked' => true, 'unauthenticated' => true]);
         }
 
@@ -99,14 +100,14 @@ class HomeController extends Controller
         $hasCin = $user->cin_img ? true : false;
         $approved = $user->cin_approved ? true : false;
 
-        if ($hasCin && ! $approved) {
+        if ($hasCin && !$approved) {
             $existingRappel = notifications::where('id_user', $user->id)
                 ->where('type', 'rappel_cin')
                 ->where('destination', 'admin')
                 ->where('created_at', '>=', now()->subDays(1))
                 ->first();
 
-            if (! $existingRappel) {
+            if (!$existingRappel) {
                 $admin = User::where('role', 'admin')->first();
                 if ($admin) {
                     $notification = new notifications();
@@ -115,8 +116,8 @@ class HomeController extends Controller
                     $notification->id_user = $user->id;
                     $notification->type = 'rappel_cin';
                     $notification->destination = 'admin';
-                    $notification->url = '/admin/client/'.$user->id.'/view';
-                    $notification->message = 'L\'utilisateur '.$user->username.' attend la validation de son CIN depuis longtemps.';
+                    $notification->url = '/admin/client/' . $user->id . '/view';
+                    $notification->message = 'L\'utilisateur ' . $user->username . ' attend la validation de son CIN depuis longtemps.';
                     $notification->save();
                 }
             }
@@ -165,8 +166,8 @@ class HomeController extends Controller
             event(new AdminEvent('Un utilisateur a mis à jour son RIB.'));
             $notification = new notifications();
             $notification->type = 'photo';
-            $notification->titre = $user->username.' a mis à jour son RIB.';
-            $notification->url = '/admin/client/'.$user->id.'/view';
+            $notification->titre = $user->username . ' a mis à jour son RIB.';
+            $notification->url = '/admin/client/' . $user->id . '/view';
             $notification->message = 'RIB en attente de vérification.';
             $notification->id_user = $user->id;
             $notification->destination = 'admin';
@@ -187,8 +188,8 @@ class HomeController extends Controller
             event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
             $notification = new notifications();
             $notification->type = 'photo';
-            $notification->titre = $user->username." a mis à jour sa carte d'identité.";
-            $notification->url = '/admin/client/'.$user->id.'/view';
+            $notification->titre = $user->username . " a mis à jour sa carte d'identité.";
+            $notification->url = '/admin/client/' . $user->id . '/view';
             $notification->message = "Carte d'identité en attente de validation.";
             $notification->id_user = $user->id;
             $notification->destination = 'admin';
@@ -234,7 +235,7 @@ class HomeController extends Controller
             $Query->orderBy('created_at', 'desc');
         }
 
-        if (! empty($statut)) {
+        if (!empty($statut)) {
             switch ($statut) {
                 case 'validation':
                     $Query->where('statut', 'validation');
@@ -315,14 +316,14 @@ class HomeController extends Controller
     public function details_post($id)
     {
         $post = posts::find($id);
-        if (! $post) {
+        if (!$post) {
             abort(404);
         }
         $user = $post->user_info;
         $ipAddress = request()->ip();
         $viewedIps = json_decode($post->ip_address, true) ?? [];
 
-        if (! in_array($ipAddress, $viewedIps)) {
+        if (!in_array($ipAddress, $viewedIps)) {
             $post->increment('views');
             $viewedIps[] = $ipAddress;
             $post->ip_address = json_encode($viewedIps);
@@ -350,7 +351,7 @@ class HomeController extends Controller
                 ->exists();
         }
 
-        if (! $produit_in_cart) {
+        if (!$produit_in_cart) {
             $cart = json_decode($_COOKIE['cart'] ?? '[]', true);
             $produit_in_cart = collect($cart)->contains('id', $post->id);
         }
@@ -418,13 +419,45 @@ class HomeController extends Controller
         $avis = $user->getReviewsAttribute->count();
         $total_views = posts::where('id_user', $user->id)->sum('views');
 
+        // Check if the auth user has blocked this shopiner
+        $isBlocked = false;
+        if (Auth::check() && Auth::id() != $user->id) {
+            $isBlocked = UserBlock::where('blocker_id', Auth::id())
+                ->where('blocked_id', $user->id)
+                ->exists();
+        }
+
         return view('User.profile')
             ->with('user', $user)
             ->with('posts', $posts)
             ->with('notes', $notes)
             ->with('ma_note', $ma_note)
             ->with('count', $count)
-            ->with('avis', $avis);
+            ->with('avis', $avis)
+            ->with('isBlocked', $isBlocked);
+    }
+
+    public function blockUser($id)
+    {
+        if (Auth::id() == $id) {
+            return response()->json(['message' => 'Vous ne pouvez pas vous bloquer vous-même'], 422);
+        }
+
+        UserBlock::firstOrCreate([
+            'blocker_id' => Auth::id(),
+            'blocked_id' => $id,
+        ]);
+
+        return response()->json(['message' => 'Utilisateur bloqué avec succès', 'status' => 'blocked']);
+    }
+
+    public function unblockUser($id)
+    {
+        UserBlock::where('blocker_id', Auth::id())
+            ->where('blocked_id', $id)
+            ->delete();
+
+        return response()->json(['message' => 'Utilisateur débloqué avec succès', 'status' => 'unblocked']);
     }
 
     public function informations()
@@ -432,14 +465,15 @@ class HomeController extends Controller
         return view('User.infromations');
     }
 
-    public function modeVoyage(){
+    public function modeVoyage()
+    {
         return view('User.mode_voyage');
     }
 
     public function historiques($type)
     {
         $AllowedType = ['achats', 'ventes', 'annonces'];
-        if (! in_array($type, $AllowedType)) {
+        if (!in_array($type, $AllowedType)) {
             $type = 'acahats';
         }
 
@@ -547,7 +581,7 @@ class HomeController extends Controller
             'genre' => 'required|in:female,male,prefer_not_to_say',
             'jour' => 'nullable|integer|between:1,31',
             'mois' => 'nullable|integer|between:1,12',
-            'annee' => 'nullable|integer|between:1950,'.date('Y'),
+            'annee' => 'nullable|integer|between:1950,' . date('Y'),
             'ruee' => ['nullable', 'string'],
             'nom_batiment' => ['nullable', 'string'],
             'etage' => ['nullable', 'string'],
@@ -644,8 +678,8 @@ class HomeController extends Controller
 
         $notification = new notifications();
         $notification->type = 'photo';
-        $notification->titre = 'Nouvel utilisateur : '.$user->username;
-        $notification->url = '/admin/client/'.$user->id.'/view';
+        $notification->titre = 'Nouvel utilisateur : ' . $user->username;
+        $notification->url = '/admin/client/' . $user->id . '/view';
         $notification->message = 'Un nouveau compte a été créé';
         $notification->id_user = $user->id;
         $notification->destination = 'admin';
@@ -656,8 +690,8 @@ class HomeController extends Controller
 
             $photoNotification = new notifications();
             $photoNotification->type = 'photo';
-            $photoNotification->titre = $user->username.' a ajouté une photo de profil';
-            $photoNotification->url = '/admin/client/'.$user->id.'/view';
+            $photoNotification->titre = $user->username . ' a ajouté une photo de profil';
+            $photoNotification->url = '/admin/client/' . $user->id . '/view';
             $photoNotification->message = 'Le client a ajouté une photo de profil en attente de validation';
             $photoNotification->id_user = $user->id;
             $photoNotification->destination = 'admin';
@@ -698,7 +732,7 @@ class HomeController extends Controller
             [
                 'count' => $validCount,
                 'produits' => $produits,
-                'montant' => number_format($montant, 2, '.', '').' '.__('currency'),
+                'montant' => number_format($montant, 2, '.', '') . ' ' . __('currency'),
                 'html' => $html,
                 'statut' => true,
             ]
@@ -730,7 +764,7 @@ class HomeController extends Controller
         $id = $request->input('id') ?? '';
         $post = posts::where('id', $id)->where('statut', 'vente')->first();
 
-        if (! $post) {
+        if (!$post) {
             return response()->json([
                 'status' => true,
                 'message' => "Cet article n'est plus disponible à la vente",
@@ -751,7 +785,7 @@ class HomeController extends Controller
             ->where('post_id', $post->id)
             ->exists();
 
-        if (! $productExists) {
+        if (!$productExists) {
             // Add the product to the `user_carts` table
             UserCart::create([
                 'user_id' => $user->id,
@@ -782,7 +816,7 @@ class HomeController extends Controller
         $id_post = $request->input('id_post') ?? '';
 
         //verification de la connexion
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             return response()->json(
                 [
                     'status' => true,
@@ -792,7 +826,7 @@ class HomeController extends Controller
         }
 
         $post = posts::find($id_post);
-        if (! $post) {
+        if (!$post) {
             return response()->json(
                 [
                     'status' => false,
@@ -827,20 +861,20 @@ class HomeController extends Controller
             //make notification
             event(new UserEvent($post->id_user));
             $notification = new notifications();
-            $notification->titre = Auth::user()->username.' a aimé votre publication.';
+            $notification->titre = Auth::user()->username . ' a aimé votre publication.';
             $notification->id_user_destination = $post->id_user;
             $notification->type = 'like';
             $notification->destination = 'user';
-            $notification->url = '/post/'.$post->id;
-            $notification->message = '@'.Auth::user()->username." vient d'aimer votre publication";
+            $notification->url = '/post/' . $post->id;
+            $notification->message = '@' . Auth::user()->username . " vient d'aimer votre publication";
             $notification->save();
 
             // Send FCM notification
             $fcmService = app(\App\Services\FcmService::class);
             $sent = $fcmService->sendToUser(
                 $post->id_user,
-                Auth::user()->username.' a aimé votre publication',
-                '@'.Auth::user()->username." vient d'aimer votre publication",
+                Auth::user()->username . ' a aimé votre publication',
+                '@' . Auth::user()->username . " vient d'aimer votre publication",
                 [
                     'type' => 'like',
                     'notification_id' => $notification->id,
@@ -976,10 +1010,16 @@ class HomeController extends Controller
         return view('User.contact', compact('configuration'));
     }
 
-    public function shopiners()
-    {
-        return view('User.shopiners');
-    }
+public function blockedShopiners()
+     {
+         $blockedUsers = User::whereIn('id', Auth::user()->blockedUserIds())->get();
+         return view('User.blocked_shopiners', compact('blockedUsers'));
+     }
+
+     public function shopiners()
+     {
+         return view('User.shopiners');
+     }
 
     public function shop(Request $request)
     {
@@ -1023,7 +1063,7 @@ class HomeController extends Controller
         $id_user = $request->input('id_user');
         $user = User::find($id_user);
 
-        if (! $user) {
+        if (!$user) {
             return response()->json([
                 'status' => false,
                 'message' => 'Utilisateur introuvable!',

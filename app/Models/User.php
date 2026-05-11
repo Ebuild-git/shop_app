@@ -118,7 +118,7 @@ class User extends Authenticatable implements JWTSubject
     public function ValidatedPosts()
     {
         return $this->hasMany(posts::class, 'id_user', 'id')
-                    ->where('statut', '!=', 'validation');
+            ->where('statut', '!=', 'validation');
     }
 
 
@@ -129,7 +129,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function region_info()
     {
-        return $this->belongsTo(regions::class,'region', 'id');
+        return $this->belongsTo(regions::class, 'region', 'id');
     }
 
     public function city()
@@ -137,7 +137,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function total_sales(){
+    public function total_sales()
+    {
         return $this->hasMany(posts::class, 'id_user', 'id')->whereNotNull("sell_at");
     }
 
@@ -147,12 +148,12 @@ class User extends Authenticatable implements JWTSubject
         if (is_null($this->avatar)) {
             return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
         } else {
-                $url =  Storage::url($this->avatar);
-                if (Storage::disk('public')->exists($url)) {
-                    return $url;
-                } else {
-                    return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
-                }
+            $url = Storage::url($this->avatar);
+            if (Storage::disk('public')->exists($url)) {
+                return $url;
+            } else {
+                return "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
+            }
 
         }
     }
@@ -162,8 +163,8 @@ class User extends Authenticatable implements JWTSubject
     public function categoriesWhereUserSell()
     {
         $posts = posts::where('id_user', $this->id)
-                      ->whereIn('statut', ['livré', 'vendu', 'préparation'])
-                      ->get();
+            ->whereIn('statut', ['livré', 'vendu', 'préparation'])
+            ->get();
         $categories = [];
         $total = 0;
 
@@ -199,22 +200,42 @@ class User extends Authenticatable implements JWTSubject
 
 
 
-    public function pings(){
+    public function pings()
+    {
         return $this->hasMany(pings::class, 'id_user', 'id');
+    }
+
+    // Block system relationships
+    public function blockedUsers()
+    {
+        return $this->hasMany(UserBlock::class, 'blocker_id');
+    }
+
+    public function blockedByUsers()
+    {
+        return $this->hasMany(UserBlock::class, 'blocked_id');
+    }
+
+    public function blockedUserIds()
+    {
+        return $this->blockedUsers()->pluck('blocked_id')->toArray();
     }
 
 
 
     //recuperer les avis de l'utilisateur
-    public function getReviewsAttribute(){
-        return $this->hasMany(ratings::class, 'id_user_sell','id');
+    public function getReviewsAttribute()
+    {
+        return $this->hasMany(ratings::class, 'id_user_sell', 'id');
     }
 
-    public function likes(){
+    public function likes()
+    {
         return $this->hasMany(likes::class, 'id_user', 'id');
     }
 
-    public function favoris(){
+    public function favoris()
+    {
         return $this->hasMany(favoris::class, 'id_user', 'id');
     }
 
@@ -245,7 +266,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function signalementsOnMyPosts()
     {
-        return signalements::whereIn('id_post', function($query) {
+        return signalements::whereIn('id_post', function ($query) {
             $query->select('id')
                 ->from('posts')
                 ->where('id_user', $this->id);
@@ -282,14 +303,15 @@ class User extends Authenticatable implements JWTSubject
     // }
     // It was never encrypted, just return it raw
     public function getDecryptedRibAttribute()
-{
-    $raw = $this->attributes['rib_number'] ?? null;
-    if (!$raw) return null;
-    try {
-        return Crypt::decryptString($raw); // ✅ matches encryptString
-    } catch (\Exception $e) {
-        \Log::error('RIB decrypt failed: ' . $e->getMessage());
-        return null;
+    {
+        $raw = $this->attributes['rib_number'] ?? null;
+        if (!$raw)
+            return null;
+        try {
+            return Crypt::decryptString($raw); // ✅ matches encryptString
+        } catch (\Exception $e) {
+            \Log::error('RIB decrypt failed: ' . $e->getMessage());
+            return null;
+        }
     }
-}
 }

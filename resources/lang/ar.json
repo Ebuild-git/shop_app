@@ -1052,8 +1052,28 @@
 "profile_incomplete_message": "ملفك الشخصي غير مكتمل. يرجى إدخال المعلومات التالية للمتابعة:",
 "complete_now": "أكمل الآن",
 "mode_voyage": "وضع السفر",
-"mode_voyage_description": "قم بتفعيل وضع السفر لإخفاء منشوراتك أثناء غيابك. وستظهر تلقائيًا عند إيقافه."
-
+"mode_voyage_description": "قم بتفعيل وضع السفر لإخفاء منشوراتك أثناء غيابك. وستظهر تلقائيًا عند إيقافه.",
+"Débloquer cet utilisateur ?": "إلغاء حظر هذا المستخدم؟",
+"Bloquer cet utilisateur ?": "حظر هذا المستخدم؟",
+"Vous verrez à nouveau ses publications.": "ستظهر لك منشوراته مجدداً.",
+"Vous ne verrez plus ses publications.": "لن تظهر لك منشوراته بعد الآن.",
+"Oui, débloquer": "نعم، إلغاء الحظر",
+"Oui, bloquer": "نعم، حظر",
+"Annuler": "إلغاء",
+"Utilisateur débloqué": "تم إلغاء الحظر",
+"Utilisateur bloqué": "تم الحظر",
+"Erreur": "خطأ",
+"Une erreur est survenue.": "حدث خطأ ما.",
+"Bloquer": "حظر",
+"Shopiners Bloqués": "المستخدمون المحظورون",
+"utilisateur(s) bloqué(s)": "مستخدم(ون) محظور(ون)",
+"Aucun shopiner bloqué": "لا يوجد مستخدمون محظورون",
+"Vous n'avez bloqué personne pour l'instant.": "لم تقم بحظر أي شخص حتى الآن.",
+"Débloquer": "إلغاء الحظر",
+"Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "المستخدمون الذين حظرتهم لن يظهروا في نتائج بحثك.",
+"Retour aux shopiners": "العودة إلى المتسوقين",
+"Débloquer ce shopiner ?": "إلغاء حظر هذا المستخدم؟",
+"Vous verrez à nouveau les publications de": "ستظهر لك منشورات"
 
 
 }

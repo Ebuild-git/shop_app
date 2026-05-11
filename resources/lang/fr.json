@@ -1053,7 +1053,28 @@
     "profile_incomplete_message": "Votre profil est incomplet. Veuillez renseigner les informations suivantes pour continuer :",
     "complete_now": "Compléter maintenant",
     "mode_voyage": "Mode voyage",
-    "mode_voyage_description": "Activez le mode voyage pour masquer vos posts pendant votre absence. Ils réapparaîtront automatiquement lorsque vous le désactivez."
+    "mode_voyage_description": "Activez le mode voyage pour masquer vos posts pendant votre absence. Ils réapparaîtront automatiquement lorsque vous le désactivez.",
+    "Débloquer cet utilisateur ?": "Débloquer cet utilisateur ?",
+"Bloquer cet utilisateur ?": "Bloquer cet utilisateur ?",
+"Vous verrez à nouveau ses publications.": "Vous verrez à nouveau ses publications.",
+"Vous ne verrez plus ses publications.": "Vous ne verrez plus ses publications.",
+"Oui, débloquer": "Oui, débloquer",
+"Oui, bloquer": "Oui, bloquer",
+"Annuler": "Annuler",
+"Utilisateur débloqué": "Utilisateur débloqué",
+"Utilisateur bloqué": "Utilisateur bloqué",
+"Erreur": "Erreur",
+"Une erreur est survenue.": "Une erreur est survenue.",
+"Bloquer": "Bloquer",
+"Shopiners Bloqués": "Shopiners Bloqués",
+"utilisateur(s) bloqué(s)": "utilisateur(s) bloqué(s)",
+"Aucun shopiner bloqué": "Aucun shopiner bloqué",
+"Vous n'avez bloqué personne pour l'instant.": "Vous n'avez bloqué personne pour l'instant.",
+"Débloquer": "Débloquer",
+"Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.",
+"Retour aux shopiners": "Retour aux shopiners",
+"Débloquer ce shopiner ?": "Débloquer ce shopiner ?",
+"Vous verrez à nouveau les publications de": "Vous verrez à nouveau les publications de"
 
 
 

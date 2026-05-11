@@ -1055,7 +1055,28 @@
     "profile_incomplete_message": "Your profile is incomplete. Please fill in the following information to continue:",
     "complete_now": "Complete now",
     "mode_voyage": "Travel mode",
-    "mode_voyage_description": "Activate travel mode to hide your posts during your absence. They will automatically reappear when you turn it off."
+    "mode_voyage_description": "Activate travel mode to hide your posts during your absence. They will automatically reappear when you turn it off.",
+    "Débloquer cet utilisateur ?": "Unblock this user?",
+"Bloquer cet utilisateur ?": "Block this user?",
+"Vous verrez à nouveau ses publications.": "You will see their items again.",
+"Vous ne verrez plus ses publications.": "You will no longer see their items.",
+"Oui, débloquer": "Yes, unblock",
+"Oui, bloquer": "Yes, block",
+"Annuler": "Cancel",
+"Utilisateur débloqué": "User unblocked",
+"Utilisateur bloqué": "User blocked",
+"Erreur": "Error",
+"Une erreur est survenue.": "An error has occurred.",
+"Débloquer": "Unblock",
+"Bloquer": "Block",
+"Shopiners Bloqués": "Blocked Shopiners",
+"utilisateur(s) bloqué(s)": "blocked user(s)",
+"Aucun shopiner bloqué": "No blocked shopiners",
+"Vous n'avez bloqué personne pour l'instant.": "You haven't blocked anyone yet.",
+"Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "Blocked users won't appear in your search results.",
+"Retour aux shopiners": "Back to shopiners",
+"Débloquer ce shopiner ?": "Unblock this shopiner?",
+"Vous verrez à nouveau les publications de": "You will see items from"
 
 
 }
