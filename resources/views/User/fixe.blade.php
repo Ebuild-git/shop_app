@@ -394,11 +394,11 @@
                                              {{ __('my_account') }}
                                          </a>
                                      </li>
-                                     <li>
+                                     {{-- <li>
                                          <a href="{{ route('blocked_shopiners') }}" class=" medium link-red text-medium">
                                              <i class="bi bi-slash-circle me-1"></i> {{ __('Shopiners Bloqués') }}
                                          </a>
-                                     </li>
+                                     </li> --}}
                                      @livewire('User.ModeToggle')
 
                                     <li>
