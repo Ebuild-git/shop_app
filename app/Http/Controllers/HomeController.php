@@ -444,6 +444,10 @@ class HomeController extends Controller
         return view('User.infromations');
     }
 
+    public function modeVoyage(){
+        return view('User.mode_voyage');
+    }
+
     public function historiques($type)
     {
         $AllowedType = ['achats', 'ventes', 'annonces'];
@@ -512,163 +516,6 @@ class HomeController extends Controller
         }
     }
 
-    // public function inscription_post(Request $request)
-    // {
-    //     $year = date('Y');
-    //     $forbiddenWord = 'shopin';
-    //     $requestData = $request->all();
-
-    //     $forbiddenFields = ['email', 'username', 'nom', 'prenom'];
-    //     $fieldLabels = [
-    //         'email' => __('email'),
-    //         'username' => __('pseudonyme'),
-    //         'nom' => __('nom'),
-    //         'prenom' => __('prenom'),
-    //     ];
-
-    //     foreach ($forbiddenFields as $field) {
-    //         if (stripos($requestData[$field], $forbiddenWord) !== false) {
-    //             $translatedField = $fieldLabels[$field] ?? $field;
-
-    //             return redirect()->back()->with('error', __('error.forbidden_word', [
-    //                 'word' => $forbiddenWord,
-    //                 'field' => $translatedField,
-    //             ]))->withInput();
-    //         }
-    //     }
-    //     $validator = Validator::make($request->all(), [
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => [
-    //             'required',
-    //             'confirmed',
-    //             'string',
-    //             'min:8',
-    //             'regex:/[a-z]/',
-    //             'regex:/[A-Z]/',
-    //             'regex:/[0-9]/',
-    //             'regex:/[@$!%*#?&]/',
-    //         ],
-    //         'photo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
-    //         'matricule' => 'nullable|mimes:jpg,png,jpeg,pdf|max:2048',
-    //         'nom' => ['required', 'string'],
-    //         'prenom' => ['required', 'string'],
-    //         'adresse' => ['required', 'string'],
-    //         'telephone' => ['required', 'string', 'Max:15'],
-    //         'username' => 'string|unique:users,username',
-    //         'genre' => 'required|in:female,male',
-    //         'jour' => 'required|integer|between:1,31',
-    //         'mois' => 'required|integer|between:1,12',
-    //         'annee' => 'required|integer|between:1950,2024',
-    //         // Validation rules for new fields
-    //         'ruee' => ['required', 'string'],
-    //         'nom_batiment' => ['required', 'string'],
-    //         'etage' => ['nullable', 'string'],
-    //         'num_appartement' => ['nullable', 'string'],
-    //     ], [
-    //         'required' => __('validation.required'),
-    //         'adresse.required' => __('validation.city_required'),
-    //         'ruee.required' => __('validation.street_required'),
-    //         'username.unique' => __('error.username_exists'),
-    //         'email.unique' => __('error.email_exists'),
-    //         'string' => __('error.invalid_type'),
-    //         'password.min' => __('validation.password.min'),
-    //         'password.confirmed' => __('validation.password.confirmed'),
-    //         'password.regex' => __('validation.password.regex'),
-    //         'integer' => __('error.invalid_integer'),
-    //         'genre.in' => __('error.gender_required'),
-    //         'mimes' => __('error.invalid_file_type'),
-    //         'image' => __('error.invalid_image'),
-    //         'max' => __('error.max_size'),
-    //         'between' => __('error.invalid_date'),
-
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return redirect()->back()
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-
-    //     $date = \Carbon\Carbon::createFromDate($request->annee, $request->mois, $request->jour);
-
-    //     $age = $date->diffInYears(\Carbon\Carbon::now());
-    //     if ($age < 18) {
-    //         return redirect()->back()->with('error', __('error.age_limit'))->withInput();
-    //     }
-
-    //     $config = configurations::first();
-    //     $token = md5(time());
-
-    //     $user = new User();
-    //     $user->lastname = $request->nom;
-    //     $user->email = $request->email;
-    //     $user->firstname = $request->prenom;
-    //     $user->password = Hash::make($request->password);
-    //     $user->phone_number = $request->telephone;
-    //     $user->birthdate = $date;
-    //     $user->gender = $request->genre;
-    //     $user->role = 'user';
-    //     $user->type = 'user';
-    //     $user->address = $request->adresse;
-    //     $user->username = $request->username;
-    //     $user->ip_address = request()->ip();
-    //     $user->remember_token = $token;
-    //     $user->rue = $request->ruee;
-    //     $user->nom_batiment = $request->nom_batiment;
-    //     $user->etage = $request->etage;
-    //     $user->num_appartement = $request->num_appartement;
-
-    //     if ($request->matricule) {
-    //         $matricule = $request->matricule->store('uploads/documents', 'public');
-    //         $user->type = 'shop';
-    //         $user->matricule = $matricule;
-    //     }
-
-    //     if ($request->hasFile('photo')) {
-    //         $path = \App\Services\ImageService::uploadAndConvert($request->file('photo'), 'uploads/avatars');
-    //         $user->avatar = $path;
-
-    //         if ($config->valider_photo == 1) {
-    //             $user->photo_verified_at = null;
-    //         } else {
-    //             $user->photo_verified_at = now();
-    //         }
-    //     } else {
-    //         $user->photo_verified_at = now();
-    //     }
-
-    //     $user->save();
-    //     $user->assignRole('user');
-
-    //     event(new AdminEvent("Un nouvel utilisateur s'est inscrit."));
-    //     $notification = new notifications();
-    //     $notification->type = 'photo';
-    //     $notification->titre = 'Nouvel utilisateur : '.$user->username;
-    //     $notification->url = '/admin/client/'.$user->id.'/view';
-    //     $notification->message = 'Un nouveau compte a été créé';
-    //     $notification->id_user = $user->id;
-    //     $notification->destination = 'admin';
-    //     $notification->save();
-
-    //     if ($request->hasFile('photo') && $config->valider_photo == 1) {
-    //         event(new AdminEvent('Un utilisateur a ajouté une photo de profil'));
-    //         $photoNotification = new notifications();
-    //         $photoNotification->type = 'photo';
-    //         $photoNotification->titre = $user->username.' a ajouté une photo de profil';
-    //         $photoNotification->url = '/admin/client/'.$user->id.'/view';
-    //         $photoNotification->message = 'Le client a ajouté une photo de profil en attente de validation';
-    //         $photoNotification->id_user = $user->id;
-    //         $photoNotification->destination = 'admin';
-    //         $photoNotification->save();
-    //     }
-
-    //     try {
-    //         Mail::to($user->email)->send(new VerifyMail($user, $token));
-    //     } catch (\Exception $e) {
-    //         return redirect('/connexion')->with('error', __('error.email_send'));
-    //     }
-
-    //     return redirect('/connexion')->with('success', __('success.account_created'));
-    // }
     public function inscription_post(Request $request)
     {
         $forbiddenWord = 'shopin';

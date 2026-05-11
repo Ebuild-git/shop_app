@@ -681,6 +681,20 @@
                                         </a>
                                     </li>
 
+                                    <li class="text-capitalize comment-position"
+                                        dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+
+                                        <a href="#" data-toggle="modal" data-target="#modeVoyageModal">
+                                            {{ __('mode_voyage') }}
+                                        </a>
+
+                                        <ul class="nav-dropdown nav-submenu left-aligned">
+                                            <li class="tarif-note">
+                                                {{ __('mode_voyage_description') }}
+                                            </li>
+                                        </ul>
+                                    </li>
+
                                     <li class="text-capitalize comment-position" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                         <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
                                         <ul class="nav-dropdown nav-submenu left-aligned">

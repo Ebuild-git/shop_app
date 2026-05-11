@@ -1053,7 +1053,10 @@
   "phone_must_be_10_digits": "Phone number must contain exactly 10 digits",
   "complete_your_profile": "Complete your profile",
     "profile_incomplete_message": "Your profile is incomplete. Please fill in the following information to continue:",
-    "complete_now": "Complete now"
+    "complete_now": "Complete now",
+    "mode_voyage": "Travel mode",
+    "mode_voyage_description": "Activate travel mode to hide your posts during your absence. They will automatically reappear when you turn it off."
+
 
 }
 

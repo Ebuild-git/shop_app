@@ -1051,7 +1051,9 @@
   "phone_must_be_10_digits": "Le numéro de téléphone doit contenir exactement 10 chiffres",
   "complete_your_profile": "Complétez votre profil",
     "profile_incomplete_message": "Votre profil est incomplet. Veuillez renseigner les informations suivantes pour continuer :",
-    "complete_now": "Compléter maintenant"
+    "complete_now": "Compléter maintenant",
+    "mode_voyage": "Mode voyage",
+    "mode_voyage_description": "Activez le mode voyage pour masquer vos posts pendant votre absence. Ils réapparaîtront automatiquement lorsque vous le désactivez."
 
 
 
