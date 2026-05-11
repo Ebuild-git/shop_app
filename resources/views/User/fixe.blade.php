@@ -1176,7 +1176,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             @foreach ($categories as $tarif)
                                 <tr>
                                     <td>
-                                        <b> {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}</b>
+                                        {{-- <b> {{ \App\Traits\TranslateTrait::TranslateText($tarif->titre) }}</b> --}}
+                                        <b>
+                                            {{
+                                                App::getLocale() === 'ar'
+                                                    ? $tarif->title_ar
+                                                    : (App::getLocale() === 'en'
+                                                        ? $tarif->title_en
+                                                        : $tarif->titre)
+                                            }}
+                                        </b>
                                         <span class="small color">
                                             @if ($tarif->luxury == 1)
                                                 <b>
