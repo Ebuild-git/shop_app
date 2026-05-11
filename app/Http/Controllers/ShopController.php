@@ -50,14 +50,15 @@ class ShopController extends Controller
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
-        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut')
+        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'id_user')
             ->whereIn('statut', ['vente', 'vendu'])
             ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->whereHas('user_info', function ($q) {
                 $q->whereNull('deleted_at');
             })
-            ->whereNull('deleted_at');
+            ->whereNull('deleted_at')
+            ->whereNotBlocked(Auth::id());
         if ($luxury_only == "true") {
             $query->whereHas('sous_categorie_info.categorie', function ($q) {
                 $q->where('luxury', true);

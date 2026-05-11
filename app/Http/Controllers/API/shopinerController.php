@@ -285,6 +285,7 @@ class shopinerController extends Controller
             ->whereHas('user_info', function ($query) {
                 $query->where('voyage_mode', 0);
             })
+            ->whereNotBlocked(Auth::id())
             ->latest()
             ->get();
 
@@ -484,6 +485,7 @@ class shopinerController extends Controller
 
         $posts = posts::where('id_user', $user->id)
             ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation'])
+            ->whereNotBlocked($request->user()?->id)
             ->get();
 
         foreach ($posts as $post) {

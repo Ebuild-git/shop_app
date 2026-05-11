@@ -42,6 +42,7 @@ class HomeController extends Controller
             ->where('categories.luxury', false)
             ->where('statut', '!=', 'validation')
             ->whereNotIn('id_user', $usersWithVoyageMode)
+            ->whereNotBlocked(Auth::id())
             ->select('posts.id', 'posts.photos', 'posts.prix', 'posts.old_prix', 'posts.statut', 'posts.sell_at')
             ->orderBy('posts.created_at', 'Desc')
             ->orderBy('posts.updated_price_at', 'Desc')
@@ -54,6 +55,7 @@ class HomeController extends Controller
             ->whereNull('users.deleted_at')
             ->where('categories.luxury', true)
             ->where('statut', '!=', 'validation')
+            ->whereNotBlocked(Auth::id())
             ->orderBy('posts.created_at', 'Desc')
             ->select('posts.id', 'posts.photos', 'posts.prix', 'posts.old_prix', 'posts.statut', 'posts.sell_at')
             ->take(9)->get();
@@ -315,7 +317,7 @@ class HomeController extends Controller
 
     public function details_post($id)
     {
-        $post = posts::find($id);
+        $post = posts::whereNotBlocked(Auth::id())->find($id);
         if (!$post) {
             abort(404);
         }
@@ -364,17 +366,20 @@ class HomeController extends Controller
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
         $other_product = posts::where('id_sous_categorie', $post->id_sous_categorie)
-            ->select('photos', 'id')
+            ->select('photos', 'id', 'id_user')
             ->where('verified_at', '!=', null)
             ->where('statut', '!=', 'validation')
+            ->where('id_user', '!=', Auth::id())
+            ->whereNotBlocked(Auth::id())
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->inRandomOrder()
             ->take(16)
             ->get();
         $user_product = posts::where('id_user', $post->id_user)
-            ->select('photos', 'id', 'sell_at')
+            ->select('photos', 'id', 'sell_at', 'id_user')
             ->where('verified_at', '!=', null)
             ->where('statut', '!=', 'validation')
+            ->whereNotBlocked(Auth::id())
             ->inRandomOrder()
             ->take(16)
             ->get();
@@ -419,12 +424,29 @@ class HomeController extends Controller
         $avis = $user->getReviewsAttribute->count();
         $total_views = posts::where('id_user', $user->id)->sum('views');
 
-        // Check if the auth user has blocked this shopiner
+         // Check if the auth user has blocked this shopiner (for UI indicator)
         $isBlocked = false;
         if (Auth::check() && Auth::id() != $user->id) {
             $isBlocked = UserBlock::where('blocker_id', Auth::id())
                 ->where('blocked_id', $user->id)
                 ->exists();
+        }
+
+        // Fetch posts, filtering out blocked users from the viewer's perspective
+        if ($user->voyage_mode) {
+            $posts = collect();
+        } else {
+            $posts = posts::where('id_user', $user->id)
+                ->where('statut', '!=', 'validation')
+                ->whereNotBlocked(Auth::id())
+                ->orderBy('created_at', 'desc')
+                ->get()->map(function ($post) {
+                    $post->discountPercentage = null;
+                    if ($post->old_prix && $post->old_prix > $post->prix) {
+                        $post->discountPercentage = round((($post->old_prix - $post->prix) / $post->old_prix) * 100);
+                    }
+                    return $post;
+                });
         }
 
         return view('User.profile')
@@ -1074,6 +1096,7 @@ public function blockedShopiners()
         $categories = [];
         $posts = posts::where('id_user', $user->id)
             ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation'])
+            ->whereNotBlocked(Auth::id())
             ->get();
 
         foreach ($posts as $post) {

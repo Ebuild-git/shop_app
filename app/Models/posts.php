@@ -271,4 +271,47 @@ class posts extends Model
     {
         return $this->hasMany(ratings::class, 'id_post');
     }
+
+    /**
+     * Scope to exclude posts from users blocked by the given user.
+     * If $userId is null, no filtering is applied.
+     */
+    public function scopeWhereNotBlocked($query, $userId)
+    {
+        if (!$userId) {
+            return $query;
+        }
+
+        $blockedIds = UserBlock::where('blocker_id', $userId)->pluck('blocked_id')->toArray();
+        if (!empty($blockedIds)) {
+            $query->whereNotIn('id_user', $blockedIds);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scope to only show posts from non-blocked users (posts visible to a viewer).
+     * Handles both blocking directions: viewer→owner and owner→viewer.
+     */
+    public function scopeVisibleToUser($query, $userId)
+    {
+        if (!$userId) {
+            return $query;
+        }
+
+        // Get IDs of users blocked by the current user (I blocked them → I shouldn't see their posts)
+        $blockedByMe = UserBlock::where('blocker_id', $userId)->pluck('blocked_id')->toArray();
+
+        // Get IDs of users who blocked the current user (They blocked me → I shouldn't see their posts)
+        $blockedByThem = UserBlock::where('blocked_id', $userId)->pluck('blocker_id')->toArray();
+
+        $excludedIds = array_unique(array_merge($blockedByMe, $blockedByThem));
+
+        if (!empty($excludedIds)) {
+            $query->whereNotIn('id_user', $excludedIds);
+        }
+
+        return $query;
+    }
 }
