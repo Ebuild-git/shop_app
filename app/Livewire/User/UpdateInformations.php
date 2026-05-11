@@ -152,6 +152,7 @@ class UpdateInformations extends Component
                 navigate: true
             );
         }
+        $this->dispatch('redirect-home');
 
     }
 

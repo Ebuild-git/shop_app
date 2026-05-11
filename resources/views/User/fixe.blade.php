@@ -1391,7 +1391,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="modal fade" id="first-login" tabindex="-1" role="dialog" aria-labelledby="first-login"
             aria-hidden="true">
-            <div class="modal-dialog " role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content" id="first-login">
                     <div class="modal-headers">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1399,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </button>
                     </div>
 
-                    <div class="first-login ">
+                    <div class="first-login">
                         <div class="text-center">
                             <img width="100" height="100"
                                 src="https://img.icons8.com/carbon-copy/100/018d8d/camera--v1.png" alt="camera--v1" />
@@ -1422,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         @yield('modal')
 
-        @if (Auth::user()->first_login_at == null && is_null(Auth::user()->photo_verified_at))
+        @if (is_null(Auth::user()->photo_verified_at))
             <script>
                 $(document).ready(function() {
                     $('#first-login').modal('show');
