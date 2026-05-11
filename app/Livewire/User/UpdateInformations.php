@@ -105,7 +105,10 @@ class UpdateInformations extends Component
             }
         }
         if ($this->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+            // Storage::disk('public')->delete($user->avatar);
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
 
             $newName = \App\Services\ImageService::uploadAndConvert($this->avatar, 'uploads/avatars');
             $user->avatar = $newName;
