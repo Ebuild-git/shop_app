@@ -56,6 +56,14 @@ class ImageService
         $ext      = strtolower($file->getClientOriginalExtension());
         $realPath = $file->getRealPath();
 
+        \Log::info('ImageService: processing file', [
+            'mime'     => $mime,
+            'ext'      => $ext,
+            'realPath' => $realPath,
+            'exists'   => file_exists($realPath),
+            'size'     => file_exists($realPath) ? filesize($realPath) : 0,
+        ]);
+
         // Convert HEIC/HEIF to JPG using system ImageMagick
         $isHeic = in_array($mime, ['image/heic', 'image/heif'])
                || in_array($ext, ['heic', 'heif']);
@@ -63,9 +71,17 @@ class ImageService
         if ($isHeic) {
             $tempPath = sys_get_temp_dir().'/'.uniqid().'.jpg';
 
+            \Log::info('ImageService: running convert', ['cmd' => $cmd]);
+
             $result = shell_exec(
                 'convert '.escapeshellarg($realPath).' '.escapeshellarg($tempPath).' 2>&1'
             );
+
+            \Log::info('ImageService: convert result', [
+                'output'   => $result,
+                'tempPath' => $tempPath,
+                'exists'   => file_exists($tempPath),
+            ]);
 
             if (! file_exists($tempPath)) {
                 throw new \RuntimeException('HEIC conversion failed: '.$result);
