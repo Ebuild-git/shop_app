@@ -358,14 +358,14 @@ class CreatePost extends Component
             return;
         }
 
-        if (is_null($user->photo_verified_at)) {
-            $this->dispatch('alert', [
-                'message' => __('photo_pending_warning'),
-                'type' => 'warning',
-            ]);
+        // if (is_null($user->photo_verified_at)) {
+        //     $this->dispatch('alert', [
+        //         'message' => __('photo_pending_warning'),
+        //         'type' => 'warning',
+        //     ]);
 
-            return;
-        }
+        //     return;
+        // }
 
         $this->validateCategoryPrice();
 
