@@ -84,18 +84,6 @@ class HomeController extends Controller
         return view('User.post', compact('id', 'step'));
     }
 
-    // public function checkCinStatus()
-    // {
-    //     $user = Auth::user();
-    //     $hasCin = $user->cin_img ? true : false;
-    //     $approved = $user->cin_approved ? true : false;
-
-    //     return response()->json([
-    //         'has_cin' => $hasCin,
-    //         'approved' => $approved,
-    //     ]);
-    // }
-
     public function checkCinStatus()
     {
         if (! Auth::check()) {
@@ -125,7 +113,7 @@ class HomeController extends Controller
                     $notification->titre = 'Rappel validation CIN';
                     $notification->id_user_destination = $admin->id;
                     $notification->id_user = $user->id;
-                    $notification->type = 'photo';
+                    $notification->type = 'rappel_cin';
                     $notification->destination = 'admin';
                     $notification->url = '/admin/client/'.$user->id.'/view';
                     $notification->message = 'L\'utilisateur '.$user->username.' attend la validation de son CIN depuis longtemps.';
