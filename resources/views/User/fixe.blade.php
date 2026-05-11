@@ -693,16 +693,12 @@
                                             {{ __('mode_voyage') }}
                                         </a>
 
-                                        <ul class="nav-dropdown nav-submenu left-aligned">
-                                            <li class="tarif-note">
-                                                {{ __('mode_voyage_description') }}
-                                            </li>
-                                        </ul>
+
                                     </li>
 
                                     <li class="text-capitalize comment-position" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
                                         <a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('our_pricing_policies') }}</a>
-                                        <ul class="nav-dropdown nav-submenu left-aligned">
+                                        {{-- <ul class="nav-dropdown nav-submenu left-aligned">
                                             @foreach ($categories as $tarif)
                                             <li class="tarif-item">
                                                 <span class="tarif-title">
@@ -721,7 +717,7 @@
                                             <li class="tarif-note">
                                                 {{ __('commission_note') }}
                                             </li>
-                                        </ul>
+                                        </ul> --}}
                                     </li>
                                 </ul>
                             </li>
@@ -1206,6 +1202,41 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
     <!-- End Modal -->
+
+    <div class="modal fade" id="modeVoyageModal" tabindex="1" role="dialog"
+    aria-labelledby="modeVoyageModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg login-pop-form" role="document">
+        <div class="modal-content" id="modeVoyageModalLabel">
+
+            <div class="modal-headers">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ti-close"></span>
+                </button>
+            </div>
+
+            <div class="modal-body p-1 pt-3">
+
+                <div class="text-center mb-4">
+                    <h5 class="m-0 ft-regular">
+                        <i class="bi bi-airplane"></i>
+
+                        <b>
+                            {{ __('mode_voyage') }}
+                        </b>
+                    </h5>
+                </div>
+
+                <div class="p-4">
+                    <p class="text-center mb-0">
+                        {{ __('mode_voyage_description') }}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="modal fade" id="conditions" tabindex="-1" role="dialog" aria-labelledby="conditionsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
