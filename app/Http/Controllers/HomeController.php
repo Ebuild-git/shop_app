@@ -1032,7 +1032,7 @@ class HomeController extends Controller
         return view('User.contact', compact('configuration'));
     }
 
-public function blockedShopiners()
+    public function blockedShopiners()
      {
          $blockedUsers = User::whereIn('id', Auth::user()->blockedUserIds())->get();
          return view('User.blocked_shopiners', compact('blockedUsers'));
