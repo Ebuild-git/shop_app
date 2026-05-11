@@ -20,16 +20,27 @@ CountPanier();
 CountNotification();
 
 // Ecoute des notificaions en live
-Pusher.logToConsole = false;
+Pusher.logToConsole = true;
 
-var pusher = new Pusher("5b6f7ad6a8cf384098d9", {
-    cluster: "eu",
+var pusherKey = $('meta[name="pusher-key"]').attr('content');
+var pusherCluster = $('meta[name="pusher-cluster"]').attr('content') || 'eu';
+
+var pusher = new Pusher(pusherKey, {
+    cluster: pusherCluster
 });
 
-var channel = pusher.subscribe("my-channel-user-admin-{{ Auth::user()->id }}");
-channel.bind("my-event", function (data) {
-    CountNotification();
-});
+var currentUserId = $('meta[name="user-id"]').attr('content');
+console.log('Pusher - User ID:', currentUserId, 'Key:', pusherKey);
+if (currentUserId) {
+    var channel = pusher.subscribe("my-channel-user-admin-" + currentUserId);
+    channel.bind("my-event", function (data) {
+        console.log('Pusher event received:', data);
+        CountNotification();
+    });
+    pusher.connection.bind('error', function(err) {
+        console.error('Pusher connection error:', err);
+    });
+}
 
 //supprimer mon post
 function delete_my_post(id) {

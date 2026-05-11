@@ -49,6 +49,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth
+    <meta name="user-id" content="{{ Auth::id() }}">
+    <meta name="pusher-key" content="{{ env('PUSHER_APP_KEY') }}">
+    <meta name="pusher-cluster" content="{{ env('PUSHER_APP_CLUSTER') }}">
+    @endauth
 
     <script>
         // Pass server-side language status to JavaScript
