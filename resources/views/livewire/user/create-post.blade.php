@@ -558,35 +558,35 @@
             });
         });
 
-        $(document).ready(function() {
+        // $(document).ready(function() {
 
-            //photo 1
-            document.getElementById("pic1").addEventListener("click", function() {
-                document.getElementById("btn-1").click();
-            });
+        //     //photo 1
+        //     document.getElementById("pic1").addEventListener("click", function() {
+        //         document.getElementById("btn-1").click();
+        //     });
 
-            //photo 2
-            document.getElementById("pic2").addEventListener("click", function() {
-                document.getElementById("btn-2").click();
-            });
+        //     //photo 2
+        //     document.getElementById("pic2").addEventListener("click", function() {
+        //         document.getElementById("btn-2").click();
+        //     });
 
-            //photo 3
-            document.getElementById("pic3").addEventListener("click", function() {
-                document.getElementById("btn-3").click();
-            });
+        //     //photo 3
+        //     document.getElementById("pic3").addEventListener("click", function() {
+        //         document.getElementById("btn-3").click();
+        //     });
 
-            //photo 4
-            document.getElementById("pic4").addEventListener("click", function() {
-                document.getElementById("btn-4").click();
-            });
+        //     //photo 4
+        //     document.getElementById("pic4").addEventListener("click", function() {
+        //         document.getElementById("btn-4").click();
+        //     });
 
-            //photo 5
-            document.getElementById("pic5").addEventListener("click", function() {
-                document.getElementById("btn-5").click();
-            });
+        //     //photo 5
+        //     document.getElementById("pic5").addEventListener("click", function() {
+        //         document.getElementById("btn-5").click();
+        //     });
 
 
-        });
+        // });
     </script>
 
     <script>
