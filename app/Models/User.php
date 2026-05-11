@@ -244,12 +244,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserAddress::class);
     }
 
+    // public function isIdentityVerified()
+    // {
+    //     if ($this->email_verified_at) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
     public function isIdentityVerified()
     {
-        if ($this->email_verified_at) {
-            return true;
-        }
-        return false;
+        return !is_null($this->email_verified_at) && $this->cin_approved == true;
     }
 
     public function violations()
