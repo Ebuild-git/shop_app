@@ -138,6 +138,7 @@ class UserController extends Controller
             $user->photo_verified_at = null;
             $user->save();
 
+            event(new UserEvent($user->id));
             // Create notification for the user
             $notification = new notifications();
             $notification->titre = "Votre photo de profile a été rejetée";

@@ -90,6 +90,7 @@ class SignalementsController extends Controller
 
             $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
 
+            event(new UserEvent($post->id_user));
             // Create a notification with styled content
             $notification = new Notifications();
             $notification->titre = "{$greeting} " . $post->user_info->username;
@@ -102,9 +103,6 @@ class SignalementsController extends Controller
                 Merci pour votre compréhension.
             ";
             $notification->save();
-
-            // Optionally dispatch any events here (if needed)
-            event(new UserEvent($post->id_user));
 
             // Send FCM notification
             $fcmService = app(\App\Services\FcmService::class);

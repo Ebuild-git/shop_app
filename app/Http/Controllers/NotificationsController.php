@@ -306,7 +306,24 @@ class NotificationsController extends Controller
 
     }
 
-    public function user_notifications() {
+    // public function user_notifications() {
+    //     $user_id = Auth::id();
+
+    //     notifications::where("id_user_destination", $user_id)
+    //         ->where("statut", "unread")
+    //         ->update(["statut" => "read"]);
+
+    //     $notifications = notifications::where("id_user_destination", $user_id)
+    //         ->orderBy("id", "desc")
+    //         ->get();
+
+    //     $unreadCount = 0;
+
+    //     return view('User.notifications', compact("notifications", "unreadCount"));
+    // }
+
+    public function user_notifications()
+    {
         $user_id = Auth::id();
 
         notifications::where("id_user_destination", $user_id)
@@ -320,6 +337,61 @@ class NotificationsController extends Controller
         $unreadCount = 0;
 
         return view('User.notifications', compact("notifications", "unreadCount"));
+    }
+
+    public function getNotificationsJson($userId)
+    {
+        abort_if(Auth::id() != $userId, 403);
+
+        $notifications = notifications::where("id_user_destination", $userId)
+            ->orderBy("id", "desc")
+            ->take(20)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id'       => $item->id,
+                    'titre'    => $item->titre,
+                    'message'  => $item->message,
+                    'url'      => $item->url,
+                    'statut'   => $item->statut,
+                    'type'     => $item->type ?? 'default',
+                    'time_ago' => \Carbon\Carbon::parse($item->created_at)->diffForHumans(),
+                ];
+            });
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markAllRead($userId)
+    {
+        abort_if(Auth::id() != $userId, 403);
+
+        notifications::where("id_user_destination", $userId)
+            ->where("statut", "unread")
+            ->update(["statut" => "read"]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteNotification($userId, $id)
+    {
+        abort_if(Auth::id() != $userId, 403);
+
+        notifications::where("id", $id)
+            ->where("id_user_destination", $userId)
+            ->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    // NotificationsController.php
+    public function deleteAllNotifications($userId)
+    {
+        abort_if(Auth::id() != $userId, 403);
+
+        notifications::where("id_user_destination", $userId)->delete();
+
+        return response()->json(['success' => true]);
     }
 
     public function count_notification() {

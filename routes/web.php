@@ -109,10 +109,16 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::post('/rib/submit', [ControllersHomeController::class, 'submitRib'])->name('rib.submit');
     //gestion des notifications
     Route::get('/user-notifications', [NotificationsController::class, 'user_notifications'])->name('user-notifications');
+
+    Route::get('/web/notifications/user/{userId}',           [NotificationsController::class, 'getNotificationsJson']);
+    Route::post('/web/notifications/user/{userId}/mark-read',[NotificationsController::class, 'markAllRead']);
+    Route::delete('/web/notifications/user/{userId}/{id}',   [NotificationsController::class, 'deleteNotification']);
+
     Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);
     Route::get('/count_notification', [NotificationsController::class, 'count_notification']);
     Route::get('/delete/all_notifications', [NotificationsController::class, 'delete_all']);
     Route::delete('/delete/notifications/{id}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
+    Route::delete('/web/notifications/user/{userId}/all', [NotificationsController::class, 'deleteAllNotifications']);
 
     // gestion des like des posts
     Route::get('/liked', [LikesController::class, 'index'])->name('liked');

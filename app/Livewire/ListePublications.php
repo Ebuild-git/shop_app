@@ -269,7 +269,7 @@ class ListePublications extends Component
             $post->restore();
 
             $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
-
+            event(new UserEvent($post->id_user));
             // Create a notification with styled content
             $notification = new notifications();
             $notification->titre = "{$greeting} " . $post->user_info->username;

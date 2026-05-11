@@ -561,6 +561,7 @@ class ShopController extends Controller
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
 
+        event(new UserEvent($buyer->id));
         $notification = new notifications();
         $notification->titre = __('notifications.order_confirmed_title');
         $notification->id_user_destination = $buyer->id;
@@ -571,8 +572,6 @@ class ShopController extends Controller
             'shipment_id' => 'CMD-' . $order->id,
         ]);
         $notification->save();
-
-        event(new UserEvent($buyer->id));
 
         // Send FCM notification
         $fcmService = app(\App\Services\FcmService::class);
@@ -670,6 +669,7 @@ class ShopController extends Controller
             ? $articlesLinks->first()
             : $articlesLinks->implode(', ');
 
+        event(new UserEvent($seller->id));
         $notification = new notifications();
         $notification->titre = "A new order!";
         $notification->id_user_destination = $seller->id;
@@ -677,8 +677,6 @@ class ShopController extends Controller
         $notification->url = "/informations?section=commandes";
         $notification->message = "{$salutation} {$seller->username}, your item {$postTitles} has been ordered by {$buyerPseudo}.\n\nPlease prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item.\n\nPlease confirm or update your bank details (RIB) so we can transfer the funds when the sale process is complete.";
         $notification->save();
-
-        event(new UserEvent($seller->id));
 
         // Send FCM notification
         $fcmService = app(\App\Services\FcmService::class);
