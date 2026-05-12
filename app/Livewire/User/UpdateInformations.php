@@ -146,7 +146,7 @@ class UpdateInformations extends Component
         $user->num_appartement = $this->num_appartement;
         $user->save();
 
-        $this->dispatch('alert', ['message' => __('info_updated') . ($photoValidationMessage ?? ''), 'type' => 'info']);
+        $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
 
         $this->dispatch('refreshAlluser-information');
         if (session()->has('redirect_after_profile')) {
