@@ -66,7 +66,6 @@ class UpdateInformations extends Component
             ],
             'region' => 'required|integer|exists:regions,id',
             'city_id' => 'nullable|exists:cities,id',
-            'address' => 'nullable|max:255',
             'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
             'etage' => 'required|string|max:255',
@@ -137,7 +136,6 @@ class UpdateInformations extends Component
 
         $user->phone_number = str_replace(' ', '', $this->phone_number);
         $user->region = $this->region;
-        $user->address = $this->address;
         $user->city_id = $this->city_id;
         $user->birthdate = $date;
         $user->rue = $this->rue;

@@ -83,8 +83,8 @@
 <script>
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('5b6f7ad6a8cf384098d9', {
-        cluster: 'eu'
+    var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+        cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
     });
 
     var channel = pusher.subscribe('my-channel-private-admin');
