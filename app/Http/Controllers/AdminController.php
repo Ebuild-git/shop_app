@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Services\ImageService;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\App;
 
 class AdminController extends Controller
 {
@@ -194,6 +195,10 @@ class AdminController extends Controller
             $user->save();
 
             event(new UserEvent($user->id));
+
+            $userLocale = $user->locale ?? config('app.locale');
+            App::setLocale($userLocale);
+
             $notification = new notifications();
             $notification->titre = __('cin_notification_title');
             $notification->id_user_destination = $user->id;
@@ -215,6 +220,8 @@ class AdminController extends Controller
                     'action' => 'cin_approved',
                 ]
             );
+
+            App::setLocale(config('app.locale'));
 
             if ($sent) {
                 \Log::info("FCM notification sent successfully", [

@@ -1076,7 +1076,22 @@
 "Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "Blocked users won't appear in your search results.",
 "Retour aux shopiners": "Back to shopiners",
 "Débloquer ce shopiner ?": "Unblock this shopiner?",
-"Vous verrez à nouveau les publications de": "You will see items from"
+"Vous verrez à nouveau les publications de": "You will see items from",
+"greeting_male": "Dear",
+"greeting_female": "Dear",
+"post_deleted_notification_message": "Your item for <strong>:title</strong> has been removed by the <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span> team. The reason for removal is: <b style='color: #e74c3c;'>:reason</b><br/>Thank you for your understanding.",
+"post_deleted_fcm_body": "Your item for :title has been removed. Reason: :reason",
+"photo_validated_title": "Your profile photo has been validated!",
+"photo_validated_message": "We inform you that your profile photo has been approved by the administrators.",
+"photo_rejected_title": "Your profile photo has been rejected",
+"photo_rejected_message": "We inform you that your profile photo has been rejected by the administrators. Please upload a new appropriate photo.",
+"post_validated_title": "Your item has been validated!",
+"post_validated_message": "We inform you that your item <a href=':url' class='underlined-link'>:title</a> has been approved by the administrators.",
+"post_returned_title": "A sale has been returned",
+"post_returned_message": "We inform you that your item \":title\" has been returned to sale!",
+"post_restored_title": "Your item has been restored!",
+"post_restored_message": "Your item <strong>:title</strong> has been restored by the administrators.",
+"post_restore_notification_message": "Your item for <strong><a href=':url' class='underlined-link'>:title</a></strong> has been restored by the <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span> team. Thank you for your patience."
 
 
 }

@@ -1073,7 +1073,22 @@
 "Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "المستخدمون الذين حظرتهم لن يظهروا في نتائج بحثك.",
 "Retour aux shopiners": "العودة إلى المتسوقين",
 "Débloquer ce shopiner ?": "إلغاء حظر هذا المستخدم؟",
-"Vous verrez à nouveau les publications de": "ستظهر لك منشورات"
+"Vous verrez à nouveau les publications de": "ستظهر لك منشورات",
+ "greeting_male": "عزيزي",
+"greeting_female": "عزيزتي",
+"post_deleted_notification_message": "تم حذف إعلانك الخاص بـ <strong>:title</strong> من قِبل فريق <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. سبب الحذف: <b style='color: #e74c3c;'>:reason</b><br/>شكراً لتفهّمكم.",
+"post_deleted_fcm_body": "تم حذف إعلانك الخاص بـ :title. السبب: :reason",
+"photo_validated_title": "تمت الموافقة على صورة ملفك الشخصي!",
+"photo_validated_message": "نُعلمكم بأن صورة ملفكم الشخصي قد تمت الموافقة عليها من قِبل المسؤولين.",
+"photo_rejected_title": "تم رفض صورة ملفك الشخصي",
+"photo_rejected_message": "نُعلمكم بأن صورة ملفكم الشخصي قد تم رفضها من قِبل المسؤولين. يرجى تحميل صورة مناسبة جديدة.",
+"post_validated_title": "تمت الموافقة على منشورك!",
+"post_validated_message": "نُعلمكم بأن إعلانك <a href=':url' class='underlined-link'>:title</a> قد تمت الموافقة عليه من قِبل المسؤولين.",
+"post_returned_title": "تمت إعادة البيع",
+"post_returned_message": "نُعلمكم بأن إعلانك \":title\" قد أُعيد إلى قائمة البيع!",
+"post_restored_title": "تمت استعادة إعلانك!",
+"post_restored_message": "تمت استعادة إعلانك <strong>:title</strong> من قِبل المسؤولين.",
+"post_restore_notification_message": "تمت استعادة إعلانكم <strong><a href=':url' class='underlined-link'>:title</a></strong> من قِبل فريق <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. شكراً على صبركم."
 
 
 }

@@ -1074,7 +1074,22 @@
 "Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.": "Les utilisateurs que vous avez bloqués n'apparaissent pas dans vos recherches.",
 "Retour aux shopiners": "Retour aux shopiners",
 "Débloquer ce shopiner ?": "Débloquer ce shopiner ?",
-"Vous verrez à nouveau les publications de": "Vous verrez à nouveau les publications de"
+"Vous verrez à nouveau les publications de": "Vous verrez à nouveau les publications de",
+"greeting_male": "Cher",
+"greeting_female": "Chère",
+"post_deleted_notification_message": "Votre annonce pour <strong>:title</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. La raison de la suppression est la suivante: <b style='color: #e74c3c;'>:reason</b><br/>Merci pour votre compréhension.",
+"post_deleted_fcm_body": "Votre annonce pour :title a été retirée. Raison: :reason",
+"photo_validated_title": "Votre photo de profil a été validée !",
+"photo_validated_message": "Nous vous informons que votre photo de profil a été validée par les administrateurs.",
+"photo_rejected_title": "Votre photo de profil a été rejetée",
+"photo_rejected_message": "Nous vous informons que votre photo de profil a été rejetée par les administrateurs. Veuillez télécharger une nouvelle photo appropriée.",
+"post_validated_title": "Votre publication a été validée !",
+"post_validated_message": "Nous vous informons que votre publication <a href=':url' class='underlined-link'>:title</a> a été validée par les administrateurs.",
+"post_returned_title": "Une vente a été retournée",
+"post_returned_message": "Nous vous informons que votre publication \":title\" a été retournée à la vente !",
+"post_restored_title": "Votre publication a été restaurée !",
+"post_restored_message": "Votre publication <strong>:title</strong> a été restaurée par les administrateurs.",
+"post_restore_notification_message": "Votre annonce pour <strong><a href=':url' class='underlined-link'>:title</a></strong> a été restaurée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. Merci pour votre patience."
 
 
 

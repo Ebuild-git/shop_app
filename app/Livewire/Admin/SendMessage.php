@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Events\UserEvent;
 use App\Models\notifications;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\App;
 
 use Livewire\Component;
 
@@ -50,6 +51,93 @@ class SendMessage extends Component
         return view('livewire.admin.send-message');
     }
 
+    // public function envoyer()
+    // {
+    //     $user = Auth::user();
+    //     if (!$user) {
+    //         session()->flash('error', 'Vous devez être connecté pour envoyer un message.');
+    //         return;
+    //     }
+
+    //     //validation
+    //     $this->validate([
+    //         'message' => 'required|string',
+    //         'sujet' => 'required|string|max:200'
+    //     ], [
+    //         "required" => "Le champ :attribute est requis.",
+    //         "string" => ":attribute doit être une chaîne de caractères.",
+    //     ]);
+
+    //     $message = [
+    //         "destainataire" => $this->message,
+    //         "message" => $this->message,
+    //         "sujet" => $this->sujet,
+    //         "email_send_message" => $user->email,
+    //         "image" => $this->image,
+    //         "titre" => $this->titre,
+    //         "post_id" => $this->post_id,
+    //     ];
+
+    //     $salutation = 'Cher';
+
+    //     if ($this->gender === 'female') {
+    //         $salutation = 'Chère';
+    //     }
+    //     try {
+    //         Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
+    //         if (!empty($this->post_id)) {
+    //             $notification = new notifications();
+    //             $notification->titre = "Nouveau message de l'equipe de Shopin !";
+    //             $notification->id_user_destination = $this->user_id;
+    //             $notification->type = "alerte";
+    //             $notification->url = "#";
+    //             $notification->message = "$salutation " . $this->username . ",<br>"
+    //                 . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
+    //                 . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
+    //                 . "Le contenu du message est : {$this->message}.<br>"
+    //                 . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
+    //             $notification->save();
+    //             event(new UserEvent($this->user_id));
+
+    //             // Send FCM notification
+    //             $fcmService = app(\App\Services\FcmService::class);
+    //             $sent = $fcmService->sendToUser(
+    //                 $this->user_id,
+    //                 "Nouveau message de l'equipe de Shopin !",
+    //                 "$salutation " . $this->username . ", Vous avez reçu un message avec le sujet: " . $this->sujet,
+    //                 [
+    //                     'type' => 'alerte',
+    //                     'notification_id' => $notification->id,
+    //                     'destination' => 'user',
+    //                     'action' => 'admin_message',
+    //                     'post_id' => $this->post_id,
+    //                 ]
+    //             );
+
+    //             if ($sent) {
+    //                 \Log::info("FCM notification sent successfully", [
+    //                     'user_id' => $this->user_id,
+    //                     'notification_id' => $notification->id,
+    //                     'type' => 'admin_message'
+    //                 ]);
+    //             } else {
+    //                 \Log::warning("FCM notification failed to send", [
+    //                     'user_id' => $this->user_id,
+    //                     'notification_id' => $notification->id,
+    //                     'reason' => 'User has no FCM token or token invalid'
+    //                 ]);
+    //             }
+    //         }
+    //         session()->flash("success", "Votre message a été envoyé avec succès.");
+    //         $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.", 'type' => 'success']);
+    //         $this->dispatch('closeModal');
+    //         $this->sujet = "";
+    //         $this->message = "";
+    //     } catch (Exception $e) {
+    //         session()->flash("error", "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage());
+    //         $this->dispatch('alert', ['message' => "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage(), 'type' => 'error']);
+    //     }
+    // }
     public function envoyer()
     {
         $user = Auth::user();
@@ -58,44 +146,54 @@ class SendMessage extends Component
             return;
         }
 
-        //validation
         $this->validate([
             'message' => 'required|string',
-            'sujet' => 'required|string|max:200'
+            'sujet'   => 'required|string|max:200'
         ], [
             "required" => "Le champ :attribute est requis.",
-            "string" => ":attribute doit être une chaîne de caractères.",
+            "string"   => ":attribute doit être une chaîne de caractères.",
         ]);
 
         $message = [
-            "destainataire" => $this->message,
-            "message" => $this->message,
-            "sujet" => $this->sujet,
+            "destainataire"      => $this->message,
+            "message"            => $this->message,
+            "sujet"              => $this->sujet,
             "email_send_message" => $user->email,
-            "image" => $this->image,
-            "titre" => $this->titre,
-            "post_id" => $this->post_id,
+            "image"              => $this->image,
+            "titre"              => $this->titre,
+            "post_id"            => $this->post_id,
         ];
 
-        $salutation = 'Cher';
-
-        if ($this->gender === 'female') {
-            $salutation = 'Chère';
-        }
         try {
             Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
+
             if (!empty($this->post_id)) {
+                // Set locale to the recipient's preferred language
+                $recipient = User::find($this->user_id);
+                $userLocale = $recipient->locale ?? config('app.locale');
+                App::setLocale($userLocale);
+
+                $genderKey = $this->gender === 'female' ? 'greeting_female' : 'greeting_male';
+                $salutation = __($genderKey);
+
                 $notification = new notifications();
-                $notification->titre = "Nouveau message de l'equipe de Shopin !";
+                $notification->titre = __('admin_message_title');
                 $notification->id_user_destination = $this->user_id;
                 $notification->type = "alerte";
                 $notification->url = "#";
-                $notification->message = "$salutation " . $this->username . ",<br>"
-                    . "Vous avez reçu un message avec le sujet suivant : <strong>{$this->sujet}</strong>.<br>"
-                    . "Pour l'article : <a href='/post/{$this->post_id}/" . Str::slug($this->titre) . "' class='underlined-link'>{$this->titre}</a>.<br>"
-                    . "Le contenu du message est : {$this->message}.<br>"
-                    . "Pour plus d'informations, n'hésitez pas à <a href='/contact' class='underlined-link'>nous contacter</a>.";
+                $notification->message = __('admin_message_notification_message', [
+                    'salutation' => $salutation,
+                    'username'   => $this->username,
+                    'sujet'      => $this->sujet,
+                    'post_id'    => $this->post_id,
+                    'post_slug'  => Str::slug($this->titre),
+                    'titre'      => $this->titre,
+                    'message'    => $this->message,
+                ]);
                 $notification->save();
+
+                App::setLocale(config('app.locale'));
+
                 event(new UserEvent($this->user_id));
 
                 // Send FCM notification
@@ -105,32 +203,33 @@ class SendMessage extends Component
                     "Nouveau message de l'equipe de Shopin !",
                     "$salutation " . $this->username . ", Vous avez reçu un message avec le sujet: " . $this->sujet,
                     [
-                        'type' => 'alerte',
+                        'type'            => 'alerte',
                         'notification_id' => $notification->id,
-                        'destination' => 'user',
-                        'action' => 'admin_message',
-                        'post_id' => $this->post_id,
+                        'destination'     => 'user',
+                        'action'          => 'admin_message',
+                        'post_id'         => $this->post_id,
                     ]
                 );
 
                 if ($sent) {
                     \Log::info("FCM notification sent successfully", [
-                        'user_id' => $this->user_id,
+                        'user_id'         => $this->user_id,
                         'notification_id' => $notification->id,
-                        'type' => 'admin_message'
+                        'type'            => 'admin_message'
                     ]);
                 } else {
                     \Log::warning("FCM notification failed to send", [
-                        'user_id' => $this->user_id,
+                        'user_id'         => $this->user_id,
                         'notification_id' => $notification->id,
-                        'reason' => 'User has no FCM token or token invalid'
+                        'reason'          => 'User has no FCM token or token invalid'
                     ]);
                 }
             }
+
             session()->flash("success", "Votre message a été envoyé avec succès.");
             $this->dispatch('alert', ['message' => "Votre message a été envoyé avec succès.", 'type' => 'success']);
             $this->dispatch('closeModal');
-            $this->sujet = "";
+            $this->sujet   = "";
             $this->message = "";
         } catch (Exception $e) {
             session()->flash("error", "Une erreur s'est produite lors de l'envoi du message : " . $e->getMessage());
