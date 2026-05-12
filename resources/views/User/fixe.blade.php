@@ -1542,7 +1542,6 @@ document.addEventListener('DOMContentLoaded', function() {
         $missingProfileInfo = auth()->check() && (
             !auth()->user()->city_id ||
             !auth()->user()->birthdate ||
-            !auth()->user()->address ||
             !auth()->user()->rue ||
             !auth()->user()->nom_batiment ||
             auth()->user()->etage === null || auth()->user()->etage === '' ||
@@ -1571,9 +1570,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             @if (!auth()->user()->birthdate)
                                 <li><i class="bi bi-x-circle text-danger"></i> {{ __('date_naissance') }}</li>
                             @endif
-                            @if (!auth()->user()->address)
-                                <li><i class="bi bi-x-circle text-danger"></i> {{ __('address') }}</li>
-                            @endif
+
                             @if (!auth()->user()->rue)
                                 <li><i class="bi bi-x-circle text-danger"></i> {{ __('rue') }}</li>
                             @endif

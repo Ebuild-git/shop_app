@@ -639,9 +639,9 @@ class HomeController extends Controller
             return redirect()->back()->with('error', __('error.invalid_date'))->withInput();
         }
 
-        // if ($date->diffInYears(\Carbon\Carbon::now()) < 18) {
-        //     return redirect()->back()->with('error', __('error.age_limit'))->withInput();
-        // }
+        if ($date->diffInYears(\Carbon\Carbon::now()) < 18) {
+            return redirect()->back()->with('error', __('error.age_limit'))->withInput();
+        }
 
         try {
             $user = DB::transaction(function () use ($request, $date) {
