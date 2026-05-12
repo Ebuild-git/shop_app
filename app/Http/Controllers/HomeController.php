@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Models\City;
 
 class HomeController extends Controller
 {
@@ -597,7 +598,7 @@ class HomeController extends Controller
             'nom' => ['required', 'string'],
             'prenom' => ['required', 'string'],
             'region' => 'required|exists:regions,id',
-            'adresse' => ['nullable', 'string'],
+            'city_id' => 'required|exists:cities,id',
             'telephone' => ['nullable', 'string', 'max:15'],
             'username' => ['required', 'string', 'unique:users,username'],
             'genre' => 'required|in:female,male,prefer_not_to_say',
@@ -610,7 +611,7 @@ class HomeController extends Controller
             'num_appartement' => ['nullable', 'string'],
         ], [
             'required' => __('validation.required'),
-            'adresse.required' => __('validation.city_required'),
+            'city_id.required' => __('validation.city_required'),
             'ruee.required' => __('validation.street_required'),
             'username.unique' => __('error.username_exists'),
             'username.required' => __('validation.required'),
@@ -658,7 +659,7 @@ class HomeController extends Controller
                 $user->gender = $request->genre;
                 $user->role = 'user';
                 $user->type = 'user';
-                $user->address = $request->adresse;
+                $user->city_id = $request->city_id;
                 $user->username = $request->username;
                 $user->ip_address = request()->ip();
                 $user->remember_token = $token;
@@ -953,9 +954,11 @@ class HomeController extends Controller
         }
 
         $regions = regions::all();
+        $cities = City::orderBy('name')->get();
 
         return view('User.Auth.inscription')
-            ->with('regions', $regions);
+            ->with('regions', $regions)
+            ->with('cities', $cities);
     }
 
     public function connexion()

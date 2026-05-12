@@ -212,13 +212,28 @@
                             </div>
                         </div>
 
-                        {{-- <div class="col-sm-12">
+                        <div class="col-sm-12">
                             <div class="form-group row">
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="adress">{{ __('ville') }}</label>
                                     <span class="text-danger">*</span>
                                     <input type="text" class="form-control" name="adresse" value="{{ old('adresse') }}">
                                     @error('adress')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div> --}}
+                                <div class="col-sm-6">
+                                    <label for="city_id">{{ __('ville') }}</label>
+                                    <span class="text-danger">*</span>
+                                    <select class="form-control" name="city_id" id="city_id" required>
+                                        <option value="">{{ __('Sélectionner') }}</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}" @selected(old('city_id') == $city->id)>
+                                                {{ $city->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('city_id')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -232,8 +247,8 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> --}}
-                        {{-- <div class="col-sm-12">
+                        </div>
+                        <div class="col-sm-12">
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="nom_batiment">{{ __('nom_batiment') }}</label>
@@ -259,7 +274,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
 
                     </div>
 

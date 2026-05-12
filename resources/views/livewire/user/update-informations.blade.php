@@ -130,7 +130,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-4">
+        {{-- <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('address') }}</label>
                 <span class="text-danger">*</span>
@@ -140,7 +140,7 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </div> --}}
         <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('ville') }}</label>

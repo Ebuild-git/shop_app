@@ -66,7 +66,7 @@ class UpdateInformations extends Component
             ],
             'region' => 'required|integer|exists:regions,id',
             'city_id' => 'nullable|exists:cities,id',
-            'address' => 'required|nullable|max:255',
+            'address' => 'nullable|max:255',
             'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
             'etage' => 'required|string|max:255',

@@ -13,7 +13,6 @@ class Adresse extends Component
 {
     public $user;
 
-    public $address;
     public $region;
     public $regions;
     public $rue;
@@ -28,7 +27,6 @@ class Adresse extends Component
     // Extra address properties
     public $userAddresses; // Array to store user addresses
     public $extraRegion;
-    public $extraCity;
     public $extraStreet;
     public $extraBuilding;
     public $extraFloor;
@@ -43,7 +41,6 @@ class Adresse extends Component
 
     public function mount(){
         $this->user = Auth::user();
-        $this->address = $this->user->address;
         $this->region = $this->user->region;
         $this->rue = $this->user->rue;
         $this->nom_batiment = $this->user->nom_batiment;
@@ -95,7 +92,6 @@ class Adresse extends Component
 
     public function updateAddress()
     {
-        $this->user->address = $this->address;
         $this->user->region = $this->region;
         $this->user->rue = $this->rue;
         $this->user->nom_batiment = $this->nom_batiment;
@@ -135,7 +131,7 @@ class Adresse extends Component
 
     public function resetForm()
     {
-        $this->reset(['extraRegion', 'extraCity', 'extraStreet', 'extraBuilding', 'extraFloor', 'extraApartment', 'extraPhoneNumber', 'editingAddressId']);
+        $this->reset(['extraRegion', 'extraCityId', 'extraStreet', 'extraBuilding', 'extraFloor', 'extraApartment', 'extraPhoneNumber', 'editingAddressId']);
     }
 
     public function prepareForAdd()
@@ -149,7 +145,6 @@ class Adresse extends Component
         $address = UserAddress::find($id);
         if ($address) {
             $this->extraRegion = $address->region;
-            $this->extraCity = $address->city;
             $this->extraStreet = $address->street;
             $this->extraBuilding = $address->building_name;
             $this->extraFloor = $address->floor;
@@ -165,21 +160,18 @@ class Adresse extends Component
     public function saveAddress()
     {
         $this->validate([
-            'extraCity' => 'required|string|max:255',
+            'extraCityId' => 'required|exists:cities,id',
         ]);
 
         $address = $this->editingAddressId ? UserAddress::find($this->editingAddressId) : new UserAddress();
         $address->user_id = $this->user->id;
         $address->region = $this->extraRegion;
-        $address->city = $this->extraCity;
         $address->street = $this->extraStreet;
         $address->building_name = $this->extraBuilding;
         $address->floor = $this->extraFloor;
         $address->apartment_number = $this->extraApartment;
         $address->phone_number = $this->extraPhoneNumber;
-        $cityModel = City::find($this->extraCityId);
         $address->city_id = $this->extraCityId;
-        $address->city    = $cityModel ? $cityModel->name : null;
         $address->save();
 
         $this->resetForm();

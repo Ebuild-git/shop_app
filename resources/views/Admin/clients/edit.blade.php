@@ -111,7 +111,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3 col-md-6">
+                                {{-- <div class="mb-3 col-md-6">
                                 <label for="address" class="form-label">Adresse</label>
                                     <input class="form-control @error('address') is-invalid @enderror"
                                         type="text" id="address" name="address"
@@ -119,7 +119,7 @@
                                     @error('address')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 {{-- City --}}
                                 <div class="mb-3 col-md-6">

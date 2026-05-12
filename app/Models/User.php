@@ -38,7 +38,6 @@ class User extends Authenticatable implements JWTSubject
         'email_deleted',
         'region',
         'city_id',
-        'address',
         'rue',
         'nom_batiment',
         'etage',

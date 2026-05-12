@@ -83,11 +83,11 @@
     <br>
     <div class="row" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="col-lg-6 col-md-8 col-12 mx-auto">
-            <div class="d-flex-buttons mb-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
+            {{-- <div class="d-flex-buttons mb-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <button type="button" class="btn btn-dark btn-modern w-100" onclick="get_location()">
                     <i class="bi bi-geo-alt"></i> {{ __('Utiliser ma localisation') }}
                 </button>
-            </div>
+            </div> --}}
 
 
             <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
@@ -123,11 +123,11 @@
                                         </select>
                                         @error('city_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    {{-- <div class="col-md-6 mb-3">
                                         <label for="address" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control modern-input" id="address" wire:model="address">
                                         @error('address') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -199,7 +199,7 @@
                                 {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
                                 {{ $defaultAddress->floor ? __('etage') . ' '  . $defaultAddress->floor . ',' : '' }}
                                 {{ $defaultAddress->apartment_number ? __('num_appartement') . ' ' . $defaultAddress->apartment_number . ',' : '' }}
-                                {{ $defaultAddress->city ? $defaultAddress->city . ',' : '' }}
+                                {{ optional($defaultAddress->city)->name ? optional($defaultAddress->city)->name . ',' : '' }}
                                 {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
                             </p>
                             <p class="mb-0">
@@ -214,7 +214,6 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#extraAddressModal"
                                     data-region="{{ $defaultAddress->region }}"
-                                    data-city="{{ $defaultAddress->city }}"
                                     data-street="{{ $defaultAddress->street }}"
                                     data-building="{{ $defaultAddress->building_name }}"
                                     data-floor="{{ $defaultAddress->floor }}"
@@ -241,14 +240,13 @@
                                 {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                             </b>
                              <p class="mb-1">
-                                 @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                                 @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                                  {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
                                  {{ $user->rue ? $user->rue . ', ' : '' }}
                                  {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
                                  {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                                 {{ $user->address ? $user->address . ', ' : '' }}
-                                 {{ $user->city ? $user->city->name . ', ' : '' }}
-                                 {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+                                 {{ optional($user->city)->name ? optional($user->city)->name . ', ' : '' }}
+                                 {{ optional($user->region_info)->nom ? optional($user->region_info)->nom : '' }}
                                  @else
                                      {{ __('incomplete_address') }}
                                  @endif
@@ -295,14 +293,13 @@
                             @endif
                         </div>
                              <p class="mb-1">
-                             @if ($user->address && $user->rue && $user->nom_batiment && $user->region_info)
+                             @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                              {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
                              {{ $user->rue ? $user->rue . ', ' : '' }}
                              {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
                              {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                             {{ $user->address ? $user->address . ', ' : '' }}
-                             {{ $user->city ? $user->city->name . ', ' : '' }}
-                             {{ optional($user->region_info)->nom ? $user->region_info->nom : '' }}
+                             {{ optional($user->city)->name ? optional($user->city)->name . ', ' : '' }}
+                             {{ optional($user->region_info)->nom ? optional($user->region_info)->nom : '' }}
 
                              @else
                                  {{ __('incomplete_address') }}
@@ -347,7 +344,7 @@
                             {{ $address->street ? $address->street . ',' : '' }}
                             {{ $address->floor ? __('etage') . ' '  . $address->floor . ',' : '' }}
                             {{ $address->apartment_number ? __('num_appartement') . ' ' . $address->apartment_number . ',' : '' }}
-                            {{ $address->city ? $address->city . ',' : '' }}
+                            {{ optional($address->city)->name ? optional($address->city)->name . ',' : '' }}
                             {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
                         </p>
                         <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
@@ -366,7 +363,6 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#extraAddressModal"
                                         data-region="{{ $address->region }}"
-                                        data-city="{{ $address->city }}"
                                         data-street="{{ $address->street }}"
                                         data-building="{{ $address->building_name }}"
                                         data-floor="{{ $address->floor }}"
@@ -424,11 +420,11 @@
                                     </div>
 
                                     <!-- City Input -->
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="extraCity" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
                                         <input type="text" id="extraCity" class="form-control" wire:model="extraCity" required>
                                         @error('extraCity') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Street Input -->
                                     <div class="form-group">
@@ -492,7 +488,7 @@
                 @php
                     $isDefaultExtraAddressComplete = $defaultAddress &&
                         !empty($defaultAddress->region) &&
-                        !empty($defaultAddress->city) &&
+                        !empty($defaultAddress->city_id) &&
                         !empty($defaultAddress->street) &&
                         !empty($defaultAddress->building_name) &&
                         !empty($defaultAddress->floor) &&
@@ -501,7 +497,7 @@
 
                     $isPrimaryAddressComplete = !$defaultAddress &&
                         !empty($user->region) &&
-                        !empty($user->address) &&
+                        !empty($user->city_id) &&
                         !empty($user->rue) && !empty($user->etage) &&
                         !empty($user->nom_batiment) && !empty($user->num_appartement) &&
                         !empty($user->phone_number);
@@ -589,7 +585,6 @@
 <script>
 function populateModal(button) {
     const region = button.getAttribute('data-region');
-    const city = button.getAttribute('data-city');
     const cityId = button.getAttribute('data-city-id');
     const street = button.getAttribute('data-street');
     const building = button.getAttribute('data-building');
@@ -598,7 +593,6 @@ function populateModal(button) {
     const phone = button.getAttribute('data-phone');
 
     document.getElementById('extraRegion').value = region;
-    document.getElementById('extraCity').value = city;
     document.getElementById('extraStreet').value = street;
     document.getElementById('extraBuilding').value = building;
     document.getElementById('extraFloor').value = floor;
