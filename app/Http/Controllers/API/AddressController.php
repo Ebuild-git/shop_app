@@ -49,7 +49,6 @@ class AddressController extends Controller
         $mainAddress = [
             'id'              => null,
             'region'          => $user->region,
-            'address'         => $user->address,
             'city_id'         => $user->city_id,
             'rue'             => $user->rue,
             'nom_batiment'    => $user->nom_batiment,
@@ -63,7 +62,6 @@ class AddressController extends Controller
             return [
                 'id'              => $address->id,
                 'region'          => $address->region,
-                'address'         => $address->city,
                 'city_id'         => $address->city_id,
                 'rue'             => $address->street,
                 'nom_batiment'    => $address->building_name,
@@ -143,7 +141,6 @@ class AddressController extends Controller
         $validated = $request->validate([
             'region' => 'required|exists:regions,id',
             'city_id' => 'nullable|exists:cities,id',
-            'address' => 'required|string|max:255',
             'rue' => 'required|string|max:255',
             'nom_batiment' => 'required|string|max:255',
             'etage' => 'nullable|string|max:50',
@@ -156,7 +153,6 @@ class AddressController extends Controller
         $user->update([
             'region' => $validated['region'],
             'city_id' => $validated['city_id'] ?? null,
-            'address' => $validated['address'],
             'rue' => $validated['rue'],
             'nom_batiment' => $validated['nom_batiment'],
             'etage' => $validated['etage'] ?? null,
@@ -170,7 +166,6 @@ class AddressController extends Controller
             'data' => [
                 'region' => $user->region,
                 'city_id' => $user->city_id,
-                'address' => $user->address,
                 'rue' => $user->rue,
                 'nom_batiment' => $user->nom_batiment,
                 'etage' => $user->etage,
@@ -217,7 +212,6 @@ class AddressController extends Controller
 
         $validated = $request->validate([
             'region' => 'required|exists:regions,id',
-            'city' => 'required|string|max:255',
             'city_id' => 'nullable|exists:cities,id',
             'street' => 'nullable|string|max:255',
             'building_name' => 'nullable|string|max:255',
@@ -291,7 +285,6 @@ class AddressController extends Controller
 
         $validated = $request->validate([
             'region' => 'sometimes|exists:regions,id',
-            'city' => 'sometimes|string|max:255',
             'city_id' => 'nullable|exists:cities,id',
             'street' => 'nullable|string|max:255',
             'building_name' => 'nullable|string|max:255',
