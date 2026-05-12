@@ -75,7 +75,6 @@ class ListeUtilisateurs extends Component
                     ->orWhere('phone_number', 'like', '%' . $this->key . '%')
                     ->orWhere('firstname', 'like', '%' . $this->key . '%')
                     ->orWhere('username', 'like', '%' . $this->key . '%')
-                    ->orWhere('address', 'like', '%' . $this->key . '%')
                     ->orWhere('rue', 'like', '%' . $this->key . '%')
                     ->orWhere('nom_batiment', 'like', '%' . $this->key . '%')
                     ->orWhere('etage', 'like', '%' . $this->key . '%')

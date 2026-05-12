@@ -66,7 +66,6 @@ class Adresse extends Component
 
     protected $rules = [
         'region' => 'required|exists:regions,id',
-        'address' => 'required|string|max:255',
         'rue' => 'required|string|max:255',
         'nom_batiment' => 'required|string|max:255',
     ];

@@ -421,7 +421,7 @@ class AdminController extends Controller
                 'Reference2'    => '',
                 'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
                 'PartyAddress'  => [
-                    'Line1'               => $vendor->address,
+                    'Line1'               => trim($vendor->city ? $vendor->city->name : $vendor->address),
                     'Line2'               => '',
                     'Line3'               => '',
                     'City'                => trim($vendor->city ? $vendor->city->name : $vendor->address),
@@ -457,7 +457,7 @@ class AdminController extends Controller
                 'Reference2'    => '',
                 'AccountNumber' => '',
                 'PartyAddress'  => [
-                    'Line1'               => $buyer->address,
+                    'Line1'               => $buyer->city ? $buyer->city->name : $buyer->address,
                     'Line2'               => '',
                     'Line3'               => '',
                     'City'                => $buyer->city ? $buyer->city->name : $buyer->address,
@@ -549,7 +549,7 @@ class AdminController extends Controller
             ],
             'Pickup' => [
                 'PickupAddress' => [
-                    'Line1'               => $vendor->address,
+                    'Line1'               => trim($vendor->city ? $vendor->city->name : $vendor->address),
                     'Line2'               => '',
                     'Line3'               => '',
                     'City'                => trim($vendor->city ? $vendor->city->name : $vendor->address),

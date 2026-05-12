@@ -18,7 +18,7 @@ use Livewire\WithFileUploads;
 class UpdateInformations extends Component
 {
     use WithFileUploads;
-    public $email, $phone_number, $ville, $region, $avatar, $address, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement, $city_id;
+    public $email, $phone_number, $ville, $region, $avatar, $jour, $mois, $annee, $rue, $nom_batiment, $etage, $num_appartement, $city_id;
     public bool $isFirstTime = false;
 
     public function mount()
@@ -27,7 +27,6 @@ class UpdateInformations extends Component
         $this->email = $user->email;
         $this->ville = $user->ville;
         $this->region = $user->region;
-        $this->address = $user->address;
         $this->phone_number = $user->phone_number;
         $this->city_id = $user->city_id;
         $date = Carbon::parse($user->birthdate);
