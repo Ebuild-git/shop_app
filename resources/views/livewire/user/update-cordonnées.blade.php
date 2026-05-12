@@ -110,3 +110,12 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('redirect-home2', () => {
+            setTimeout(() => {
+                window.location.href = "{{ route('home') }}";
+            }, 2500);
+        });
+    });
+</script>
