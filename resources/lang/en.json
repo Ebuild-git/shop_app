@@ -79,7 +79,7 @@
     "email": "Email Address",
     "ville": "City",
     "rue": "Street",
-    "batiment": "Building Name",
+    "batiment": "Residence name",
     "etage": "Floor",
     "num_appartement": "Apartment Number",
     "mot_de_passe": "Password",

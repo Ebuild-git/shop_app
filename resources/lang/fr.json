@@ -80,7 +80,7 @@
     "email": "Adresse email",
     "ville": "Ville",
     "rue": "Rue",
-    "batiment": "Nom Bâtiment",
+    "batiment": "Nom de résidence",
     "etage": "Étage",
     "num_appartement": "Numéro d'appartement",
     "mot_de_passe": "Mot de passe",
