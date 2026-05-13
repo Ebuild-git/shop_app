@@ -1091,7 +1091,9 @@
 "post_returned_message": "We inform you that your item \":title\" has been returned to sale!",
 "post_restored_title": "Your item has been restored!",
 "post_restored_message": "Your item <strong>:title</strong> has been restored by the administrators.",
-"post_restore_notification_message": "Your item for <strong><a href=':url' class='underlined-link'>:title</a></strong> has been restored by the <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span> team. Thank you for your patience."
+"post_restore_notification_message": "Your item for <strong><a href=':url' class='underlined-link'>:title</a></strong> has been restored by the <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span> team. Thank you for your patience.",
+"cin_reject_notification_title": "Your ID card has been rejected",
+"cin_reject_notification_message": "We inform you that your ID card was not accepted by the administrators. Please upload a clear and valid photo."
 
 
 }

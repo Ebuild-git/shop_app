@@ -381,6 +381,14 @@
                                                     supprimés</div>
                                             </a>
                                         </li>
+                                        <li class="menu-item">
+                                            <a href="{{ route('liste_utilisateurs_averifier') }}?type=all&verified=no"
+                                                class="menu-link">
+                                                <i class="menu-icon tf-icons ti ti-menu-2"></i>
+                                                <div data-i18n="Liste des utilisateurs à vérifier(ID)">Liste des utilisateurs
+                                                    à vérifier(ID) </div>
+                                            </a>
+                                        </li>
 
                                     </ul>
                                 </li>

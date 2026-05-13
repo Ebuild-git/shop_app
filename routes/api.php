@@ -93,13 +93,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Addresses
     Route::get('/addresses', [AddressController::class, 'index']);
+    Route::get('/addresses/completeness', [AddressController::class, 'checkCompleteness']);
     Route::post('/addresses', [AddressController::class, 'store']);
     Route::post('/addresses/main', [AddressController::class, 'updateMainAddress']);
     Route::post('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
     Route::post('/addresses/{id}/set-default', [AddressController::class, 'setDefault']);
     Route::post('/addresses/{id}/unset-default', [AddressController::class, 'unsetDefault']);
-    Route::get('/addresses/{id}/completeness', [AddressController::class, 'checkCompleteness']);
 
     Route::get('/users/rating/purchases', [RatingController::class, 'show']);
     Route::post('/users/{purchase_id}/rating', [RatingController::class, 'store']);

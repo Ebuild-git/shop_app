@@ -44,6 +44,15 @@ class UserController extends Controller
             ->with("showTrashed", $showTrashed);
     }
 
+    public function liste_utilisateurs_averifier(Request $request)
+    {
+        $type = "all";
+        $verified = "no";
+        return view("Admin.clients.index")
+            ->with("type", $type)
+            ->with("verified", $verified);
+    }
+
     public function details_user(Request $request)
     {
         $id = $request->id;

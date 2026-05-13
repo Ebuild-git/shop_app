@@ -425,42 +425,45 @@ class AddressController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/addresses/{id}/completeness",
+     *     path="/api/addresses/completeness",
      *     tags={"Addresses"},
-     *     summary="Check if an address is complete",
-     *     description="Returns whether the address is complete and lists any missing fields. Use id=0 for the main address.",
+     *     summary="Check if the authenticated user's active address is complete",
+     *     description="Automatically checks the default address (secondary if set, otherwise main).",
      *     security={{"bearerAuth":{}}},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID of the secondary address, or 0 for the main address",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
+     *     @OA\Resposnse(
      *         response=200,
      *         description="Address completeness status",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean"),
      *             @OA\Property(property="is_complete", type="boolean"),
-     *             @OA\Property(property="missing_fields", type="array",
-     *                 @OA\Items(type="string")
-     *             ),
+     *             @OA\Property(property="address_source", type="string", example="main or secondary"),
+     *             @OA\Property(property="missing_fields", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="recommended_fields", type="array", @OA\Items(type="string")),
      *             @OA\Property(property="address", type="object")
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Address not found"
      *     )
      * )
      */
-    public function checkCompleteness(Request $request, $id)
+    public function checkCompleteness(Request $request)
     {
         $user = $request->user();
 
-        // id=0 means the main address (stored on the user model)
-        if ($id == 0) {
+        $secondaryDefault = UserAddress::where('user_id', $user->id)
+            ->where('is_default', true)
+            ->first();
+
+        if ($secondaryDefault) {
+            $address = [
+                'region'          => $secondaryDefault->region,
+                'city_id'         => $secondaryDefault->city_id,
+                'rue'             => $secondaryDefault->street,
+                'nom_batiment'    => $secondaryDefault->building_name,
+                'etage'           => $secondaryDefault->floor,
+                'num_appartement' => $secondaryDefault->apartment_number,
+                'phone_number'    => $secondaryDefault->phone_number,
+            ];
+            $source = 'secondary';
+        } else {
             $address = [
                 'region'          => $user->region,
                 'city_id'         => $user->city_id,
@@ -470,20 +473,9 @@ class AddressController extends Controller
                 'num_appartement' => $user->num_appartement,
                 'phone_number'    => $user->phone_number,
             ];
-        } else {
-            $addressModel = UserAddress::where('user_id', $user->id)->findOrFail($id);
-            $address = [
-                'region'          => $addressModel->region,
-                'city_id'         => $addressModel->city_id,
-                'rue'             => $addressModel->street,
-                'nom_batiment'    => $addressModel->building_name,
-                'etage'           => $addressModel->floor,
-                'num_appartement' => $addressModel->apartment_number,
-                'phone_number'    => $addressModel->phone_number,
-            ];
+            $source = 'main';
         }
 
-        // Required fields — must be non-null and non-empty
         $requiredFields = [
             'region'       => 'Region',
             'rue'          => 'Street (Rue)',
@@ -491,7 +483,6 @@ class AddressController extends Controller
             'phone_number' => 'Phone number',
         ];
 
-        // Optional but recommended fields
         $recommendedFields = [
             'city_id'         => 'City',
             'etage'           => 'Floor (Étage)',
@@ -513,14 +504,13 @@ class AddressController extends Controller
             }
         }
 
-        $isComplete = empty($missingRequired);
-
         return response()->json([
-            'success'             => true,
-            'is_complete'         => $isComplete,
-            'missing_fields'      => $missingRequired,
-            'recommended_fields'  => $missingRecommended,
-            'address'             => $address,
+            'success'            => true,
+            'is_complete'        => empty($missingRequired),
+            'address_source'     => $source,
+            'missing_fields'     => $missingRequired,
+            'recommended_fields' => $missingRecommended,
+            'address'            => $address,
         ]);
     }
 

@@ -12,11 +12,12 @@ class ListeUtilisateurs extends Component
     public $type, $list, $key, $statut,$etat;
     public $locked = "no";
     public $showTrashed = "no";
+    public $verified = null;
     public $deletedBy = '';
 
     use WithPagination;
 
-    public function mount($type, $locked = null, $showTrashed = null)
+    public function mount($type, $locked = null, $showTrashed = null, $verified = null)
     {
         if ($type == "shop") {
             $this->type = "shop";
@@ -25,6 +26,7 @@ class ListeUtilisateurs extends Component
         }
         $this->locked = $locked;
         $this->showTrashed = $showTrashed ?? "no";
+        $this->verified = $verified ?? null;
     }
 
     public function updatedKey($value)
@@ -61,6 +63,11 @@ class ListeUtilisateurs extends Component
                 $users->where('locked', false)
                 ->orderBy("id", "desc");
             }
+        }
+
+        if ($this->verified === 'no') {
+            $users->where('cin_approved', false)
+                ->whereNotNull('cin_img');
         }
 
         // if ($this->locked === 'yes') {
@@ -174,6 +181,109 @@ class ListeUtilisateurs extends Component
             'text' => 'Utilisateur supprimé définitivement.',
             'icon' => 'success'
         ]);
+    }
+
+    public function approveCin($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->cin_approved = true;
+            $user->save();
+
+            event(new \App\Events\UserEvent($user->id));
+
+            $userLocale = $user->locale ?? config('app.locale');
+            \App::setLocale($userLocale);
+
+            $notification = new \App\Models\notifications();
+            $notification->titre = __('cin_notification_title');
+            $notification->id_user_destination = $user->id;
+            $notification->type = "alerte";
+            $notification->destination = "user";
+            $notification->message = __('cin_notification_message');
+            $notification->save();
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $fcmService->sendToUser(
+                $user->id,
+                "Your national identity card has been approved!",
+                "We inform you that your national identity card has been approved by the administrators.",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'cin_approved',
+                ]
+            );
+
+            \App::setLocale(config('app.locale'));
+
+            $this->dispatch('swal:success', [
+                'title' => 'Approuvé !',
+                'text' => 'La carte d\'identité a été approuvée.',
+                'icon' => 'success'
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('approveCin error: ' . $e->getMessage());
+            $this->dispatch('swal:success', [
+                'title' => 'Erreur',
+                'text' => 'Une erreur est survenue.',
+                'icon' => 'error'
+            ]);
+        }
+    }
+
+    public function rejectCin($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->cin_approved = false;
+            $user->cin_img = null;
+            $user->save();
+
+            event(new \App\Events\UserEvent($user->id));
+
+            $userLocale = $user->locale ?? config('app.locale');
+            \App::setLocale($userLocale);
+
+            $notification = new \App\Models\notifications();
+            $notification->titre = __('cin_reject_notification_title');
+            $notification->id_user_destination = $user->id;
+            $notification->type = "alerte";
+            $notification->destination = "user";
+            $notification->message = __('cin_reject_notification_message');
+            $notification->save();
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $fcmService->sendToUser(
+                $user->id,
+                "Your national identity card has been rejected.",
+                "We inform you that your national identity card was not accepted by the administrators. Please upload a clear and valid photo.",
+                [
+                    'type' => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination' => 'user',
+                    'action' => 'cin_rejected',
+                ]
+            );
+
+            \App::setLocale(config('app.locale'));
+
+            $this->dispatch('swal:success', [
+                'title' => 'Rejeté !',
+                'text' => 'La carte d\'identité a été rejetée.',
+                'icon' => 'success'
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('rejectCin error: ' . $e->getMessage());
+            $this->dispatch('swal:success', [
+                'title' => 'Erreur',
+                'text' => 'Une erreur est survenue.',
+                'icon' => 'error'
+            ]);
+        }
     }
 
 

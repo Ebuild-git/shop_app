@@ -169,6 +169,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::get('/admin/utilisateurs', [UserController::class, 'liste_utilisateurs'])->name('liste_utilisateurs');
     Route::get('/admin/utilisateurs/locked', [UserController::class, 'liste_utilisateurs_locked'])->name('liste_utilisateurs_locked');
     Route::get('/admin/utilisateurs/supprime', [UserController::class, 'liste_utilisateurs_supprime'])->name('liste_utilisateurs_supprime');
+    Route::get('/admin/utilisateurs/verifier', [UserController::class, 'liste_utilisateurs_averifier'])->name('liste_utilisateurs_averifier');
 
     Route::get('/admin/publications', [PostsController::class, 'liste_publications'])->name('liste_publications');
     Route::get('/admin/publications/deleted', [PostsController::class, 'liste_publications_supprimer'])->name('liste_publications_supprimer');
