@@ -99,7 +99,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
     Route::post('/addresses/{id}/set-default', [AddressController::class, 'setDefault']);
     Route::post('/addresses/{id}/unset-default', [AddressController::class, 'unsetDefault']);
-
+    Route::get('/addresses/{id}/completeness', [AddressController::class, 'checkCompleteness']);
 
     Route::get('/users/rating/purchases', [RatingController::class, 'show']);
     Route::post('/users/{purchase_id}/rating', [RatingController::class, 'store']);

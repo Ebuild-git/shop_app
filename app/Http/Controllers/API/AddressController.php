@@ -422,4 +422,106 @@ class AddressController extends Controller
             'message' => 'Secondary address removed from default'
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/addresses/{id}/completeness",
+     *     tags={"Addresses"},
+     *     summary="Check if an address is complete",
+     *     description="Returns whether the address is complete and lists any missing fields. Use id=0 for the main address.",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the secondary address, or 0 for the main address",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Address completeness status",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="is_complete", type="boolean"),
+     *             @OA\Property(property="missing_fields", type="array",
+     *                 @OA\Items(type="string")
+     *             ),
+     *             @OA\Property(property="address", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Address not found"
+     *     )
+     * )
+     */
+    public function checkCompleteness(Request $request, $id)
+    {
+        $user = $request->user();
+
+        // id=0 means the main address (stored on the user model)
+        if ($id == 0) {
+            $address = [
+                'region'          => $user->region,
+                'city_id'         => $user->city_id,
+                'rue'             => $user->rue,
+                'nom_batiment'    => $user->nom_batiment,
+                'etage'           => $user->etage,
+                'num_appartement' => $user->num_appartement,
+                'phone_number'    => $user->phone_number,
+            ];
+        } else {
+            $addressModel = UserAddress::where('user_id', $user->id)->findOrFail($id);
+            $address = [
+                'region'          => $addressModel->region,
+                'city_id'         => $addressModel->city_id,
+                'rue'             => $addressModel->street,
+                'nom_batiment'    => $addressModel->building_name,
+                'etage'           => $addressModel->floor,
+                'num_appartement' => $addressModel->apartment_number,
+                'phone_number'    => $addressModel->phone_number,
+            ];
+        }
+
+        // Required fields — must be non-null and non-empty
+        $requiredFields = [
+            'region'       => 'Region',
+            'rue'          => 'Street (Rue)',
+            'nom_batiment' => 'Building name',
+            'phone_number' => 'Phone number',
+        ];
+
+        // Optional but recommended fields
+        $recommendedFields = [
+            'city_id'         => 'City',
+            'etage'           => 'Floor (Étage)',
+            'num_appartement' => 'Apartment number',
+        ];
+
+        $missingRequired    = [];
+        $missingRecommended = [];
+
+        foreach ($requiredFields as $field => $label) {
+            if (empty($address[$field])) {
+                $missingRequired[] = $label;
+            }
+        }
+
+        foreach ($recommendedFields as $field => $label) {
+            if (empty($address[$field])) {
+                $missingRecommended[] = $label;
+            }
+        }
+
+        $isComplete = empty($missingRequired);
+
+        return response()->json([
+            'success'             => true,
+            'is_complete'         => $isComplete,
+            'missing_fields'      => $missingRequired,
+            'recommended_fields'  => $missingRecommended,
+            'address'             => $address,
+        ]);
+    }
+
 }

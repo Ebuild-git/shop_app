@@ -496,6 +496,64 @@
                 ]
             }
         },
+        "/api/addresses/{id}/completeness": {
+            "get": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Check if an address is complete",
+                "description": "Returns whether the address is complete and lists any missing fields. Use id=0 for the main address.",
+                "operationId": "108e70d4e6119ca45442040422700fd3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the secondary address, or 0 for the main address",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Address completeness status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "is_complete": {
+                                            "type": "boolean"
+                                        },
+                                        "missing_fields": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "address": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
