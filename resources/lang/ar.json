@@ -92,7 +92,7 @@
     "password_placeholder": "كلمة المرور",
     "show_password": "عرض كلمة المرور",
     "password_min_length": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
-    "nom_batiment": "اسم المبنى",
+    "nom_batiment": "اسم الإقامة",
     "terms_condition": "يرجى قراءة شروطنا العامة بعناية والموافقة عليها قبل المتابعة.",
     "accept_conditions": "أنا أوافق على <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>الشروط والأحكام</b></a>.",
     "sign_up": "التسجيل",

@@ -194,14 +194,22 @@
 
                                 {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                             </b>
-                            <p class="mb-1">
+                            {{-- <p class="mb-1">
                                 {{ $defaultAddress->building_name ? $defaultAddress->building_name . ',' : '' }}
                                 {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
                                 {{ $defaultAddress->floor ? __('etage') . ' '  . $defaultAddress->floor . ',' : '' }}
                                 {{ $defaultAddress->apartment_number ? __('num_appartement') . ' ' . $defaultAddress->apartment_number . ',' : '' }}
                                 {{ optional($defaultAddress->city)->name ? optional($defaultAddress->city)->name . ',' : '' }}
                                 {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
-                            </p>
+                            </p> --}}
+                            <p class="mb-1">
+                            {!! $defaultAddress->apartment_number ? 'App. ' . $defaultAddress->apartment_number . ', ' : '' !!}
+                            {!! $defaultAddress->floor ? 'Étage ' . $defaultAddress->floor . ', ' : '' !!}
+                            {!! $defaultAddress->building_name ? 'Résidence ' . $defaultAddress->building_name . ', ' : '' !!}
+                            {!! $defaultAddress->street ? 'Rue ' . $defaultAddress->street . ', ' : '' !!}
+                            {!! optional($defaultAddress->city)->name ? 'Ville ' . $defaultAddress->city->name . ', ' : '' !!}
+                            {!! optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' !!}
+                        </p>
                             <p class="mb-0">
                                 <i class="bi bi-telephone"></i> {{ $defaultAddress->phone_number }}
                             </p>
@@ -239,7 +247,7 @@
 
                                 {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
                             </b>
-                             <p class="mb-1">
+                             {{-- <p class="mb-1">
                                  @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                                  {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
                                  {{ $user->rue ? $user->rue . ', ' : '' }}
@@ -250,7 +258,19 @@
                                  @else
                                      {{ __('incomplete_address') }}
                                  @endif
-                             </p>
+                             </p> --}}
+                             <p class="mb-1">
+                                @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
+                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
+                                    {!! $user->etage ? 'Étage ' . $user->etage . ', ' : '' !!}
+                                    {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
+                                    {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
+                                    {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
+                                    {!! optional($user->region_info)->nom ? $user->region_info->nom : '' !!}
+                                @else
+                                    {{ __('incomplete_address') }}
+                                @endif
+                            </p>
                             <p class="mb-0">
                                 <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                             </p>
@@ -292,7 +312,7 @@
                                 <span class="badge" style="background-color: darkcyan;">{{ __('default_address') }}</span>
                             @endif
                         </div>
-                             <p class="mb-1">
+                             {{-- <p class="mb-1">
                              @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                              {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
                              {{ $user->rue ? $user->rue . ', ' : '' }}
@@ -304,7 +324,19 @@
                              @else
                                  {{ __('incomplete_address') }}
                              @endif
-                         </p>
+                         </p> --}}
+                         <p class="mb-1">
+                            @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
+                                {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
+                                {!! $user->etage ? 'Étage ' . $user->etage . ', ' : '' !!}
+                                {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
+                                {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
+                                {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
+                                {!! optional($user->region_info)->nom ? $user->region_info->nom : '' !!}
+                            @else
+                                {{ __('incomplete_address') }}
+                            @endif
+                        </p>
                         <p class="mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
@@ -339,13 +371,21 @@
                                 <span class="badge" style="background-color: darkcyan;">{{ __('default_address') }}</span>
                             @endif
                         </div>
-                        <p class="mb-1">
+                        {{-- <p class="mb-1">
                             {{ $address->building_name ? $address->building_name . ',' : '' }}
                             {{ $address->street ? $address->street . ',' : '' }}
                             {{ $address->floor ? __('etage') . ' '  . $address->floor . ',' : '' }}
                             {{ $address->apartment_number ? __('num_appartement') . ' ' . $address->apartment_number . ',' : '' }}
                             {{ optional($address->city)->name ? optional($address->city)->name . ',' : '' }}
                             {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
+                        </p> --}}
+                        <p class="mb-1">
+                            {!! $address->apartment_number ? 'App. ' . $address->apartment_number . ', ' : '' !!}
+                            {!! $address->floor ? 'Étage ' . $address->floor . ', ' : '' !!}
+                            {!! $address->building_name ? 'Résidence ' . $address->building_name . ', ' : '' !!}
+                            {!! $address->street ? 'Rue ' . $address->street . ', ' : '' !!}
+                            {!! optional($address->city)->name ? 'Ville ' . $address->city->name . ', ' : '' !!}
+                            {!! optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' !!}
                         </p>
                         <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
 

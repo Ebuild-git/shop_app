@@ -91,7 +91,7 @@
     "password_placeholder": "Password",
     "show_password": "Show Password",
     "password_min_length": "Password must be at least 8 characters.",
-    "nom_batiment": "Building Name",
+    "nom_batiment": "Residence name",
     "terms_condition": "Please read carefully and accept our terms and conditions before continuing.",
     "accept_conditions": "I accept the <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>Terms and Conditions</b></a>.",
     "sign_up": "Sign Up",

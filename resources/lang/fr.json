@@ -92,7 +92,7 @@
     "password_placeholder": "Mot de passe",
     "show_password": "Afficher le mot de passe",
     "password_min_length": "Le mot de passe doit comporter au moins 8 caractères.",
-    "nom_batiment": "Nom Bâtiment",
+    "nom_batiment": "Nom de résidence",
     "terms_condition": "Veuillez lire attentivement et accepter nos conditions générales avant de continuer.",
     "accept_conditions": "J'accepte les <a href=\"/conditions\" target=\"__blank\" style=\"color: black;\"><b>Conditions générales</b></a>.",
     "sign_up": "S'inscrire",
