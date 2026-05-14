@@ -46,7 +46,7 @@ class ListeUtilisateurs extends Component
         $users = User::where("type", $this->type)->where("role", "!=", "admin");
 
         if ($this->showTrashed === 'yes') {
-            $users = $users->onlyTrashed();
+            $users = $users->onlyTrashed()->orderBy('deleted_at', 'desc');
 
             if ($this->deletedBy === 'shopin') {
                 $users->whereNotNull('email')
