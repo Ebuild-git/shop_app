@@ -204,7 +204,7 @@
                             </p> --}}
                             <p class="mb-1">
                             {!! $defaultAddress->apartment_number ? 'App. ' . $defaultAddress->apartment_number . ', ' : '' !!}
-                            {!! $defaultAddress->floor ? 'Étage ' . $defaultAddress->floor . ', ' : '' !!}
+                            {!! ($defaultAddress->floor !== null && $defaultAddress->floor !== '') ? 'Étage ' . $defaultAddress->floor . ', ' : '' !!}
                             {!! $defaultAddress->building_name ? 'Résidence ' . $defaultAddress->building_name . ', ' : '' !!}
                             {!! $defaultAddress->street ? 'Rue ' . $defaultAddress->street . ', ' : '' !!}
                             {!! optional($defaultAddress->city)->name ? 'Ville ' . $defaultAddress->city->name . ', ' : '' !!}
@@ -262,7 +262,7 @@
                              <p class="mb-1">
                                 @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                                     {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
-                                    {!! $user->etage ? 'Étage ' . $user->etage . ', ' : '' !!}
+                                    {!! ($user->etage !== null && $user->etage !== '') ? 'Étage ' . $user->etage . ', ' : '' !!}
                                     {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
                                     {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
                                     {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
@@ -328,7 +328,7 @@
                          <p class="mb-1">
                             @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                                 {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
-                                {!! $user->etage ? 'Étage ' . $user->etage . ', ' : '' !!}
+                                {!! ($user->etage !== null && $user->etage !== '') ? 'Étage ' . $user->etage . ', ' : '' !!}
                                 {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
                                 {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
                                 {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
@@ -381,7 +381,7 @@
                         </p> --}}
                         <p class="mb-1">
                             {!! $address->apartment_number ? 'App. ' . $address->apartment_number . ', ' : '' !!}
-                            {!! $address->floor ? 'Étage ' . $address->floor . ', ' : '' !!}
+                            {!! ($address->floor !== null && $address->floor !== '') ? 'Étage ' . $address->floor . ', ' : '' !!}
                             {!! $address->building_name ? 'Résidence ' . $address->building_name . ', ' : '' !!}
                             {!! $address->street ? 'Rue ' . $address->street . ', ' : '' !!}
                             {!! optional($address->city)->name ? 'Ville ' . $address->city->name . ', ' : '' !!}
@@ -525,7 +525,7 @@
 
 
             <div class="d-flex justify-content-end mt-3">
-                @php
+                {{-- @php
                     $isDefaultExtraAddressComplete = $defaultAddress &&
                         !empty($defaultAddress->region) &&
                         !empty($defaultAddress->city_id) &&
@@ -540,6 +540,25 @@
                         !empty($user->city_id) &&
                         !empty($user->rue) && !empty($user->etage) &&
                         !empty($user->nom_batiment) && !empty($user->num_appartement) &&
+                        !empty($user->phone_number);
+                @endphp --}}
+                @php
+                    $isDefaultExtraAddressComplete = $defaultAddress &&
+                        !empty($defaultAddress->region) &&
+                        !empty($defaultAddress->city_id) &&
+                        !empty($defaultAddress->street) &&
+                        !empty($defaultAddress->building_name) &&
+                        $defaultAddress->floor !== null && $defaultAddress->floor !== '' &&
+                        $defaultAddress->apartment_number !== null && $defaultAddress->apartment_number !== '' &&
+                        !empty($defaultAddress->phone_number);
+
+                    $isPrimaryAddressComplete = !$defaultAddress &&
+                        !empty($user->region) &&
+                        !empty($user->city_id) &&
+                        !empty($user->rue) &&
+                        $user->etage !== null && $user->etage !== '' &&
+                        !empty($user->nom_batiment) &&
+                        $user->num_appartement !== null && $user->num_appartement !== '' &&
                         !empty($user->phone_number);
                 @endphp
 
