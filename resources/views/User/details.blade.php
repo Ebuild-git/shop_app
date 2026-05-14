@@ -496,7 +496,7 @@
                                     <span class="count">{{ $other->favoris->count() }}</span>
                                     </button>
                                     <div class="card-body p-0">
-                                        <div class="shop_thumb position-relative">
+                                        <div class="card-img-wrapper position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $other->id }}"><img class="card-img-top"
                                                     src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
@@ -542,7 +542,7 @@
                                     <span class="count">{{ $product->favoris->count() }}</span>
                                     </button>
                                     <div class="card-body p-0">
-                                        <div class="shop_thumb position-relative">
+                                        <div class="card-img-wrapper position-relative">
                                             @if($product->sell_at)
                                             <div class="badge-container position-absolute top-0 start-0 d-flex" style="z-index: 5;">
                                                 <div class="badge-new badge-sale bg-danger text-white">

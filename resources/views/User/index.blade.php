@@ -67,7 +67,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
                             <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
+                                <div class="card-img-wrapper position-relative">
 
                                     <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;">
                                         @if($lux->discountPercentage)
@@ -90,10 +90,13 @@
                                     <span class="count">{{ $lux->favoris->count() }}</span>
                                     </button>
 
-                                    <!-- Product Image -->
-                                    <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
+                                    <div>
+                                        <a class="card-img-top d-block overflow-hidden" href="/post/{{ $lux->id }}">
                                         <img src="{{ Storage::url($lux->photos[0] ?? '') }}" alt="{{ $lux->titre }}">
                                     </a>
+                                    </div>
+                                    <!-- Product Image -->
+
                                 </div>
                             </div>
                             <!-- SubCardPost Component -->
@@ -143,7 +146,7 @@
                             </button>
 
                             <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
+                                <div class="card-img-wrapper position-relative">
                                     <!-- Discount Badge -->
 
                                     <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">
@@ -162,9 +165,12 @@
 
 
                                     <!-- Product Image -->
-                                    <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
-                                        <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="{{ $last->titre }}">
-                                    </a>
+                                    <div>
+                                        <a class="card-img-top d-block overflow-hidden" href="/post/{{ $last->id }}">
+                                            <img src="{{ Storage::url($last->photos[0] ?? '') }}" alt="{{ $last->titre }}">
+                                        </a>
+                                    </div>
+
                                 </div>
                             </div>
                             <!-- SubCardPost Component -->
