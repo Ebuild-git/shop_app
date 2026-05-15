@@ -158,7 +158,8 @@
                         <td style="text-align: center;">{{ $post->favoris->count() }}</td>
                         <td>
                             @php
-                                $signalementCount = $post->signalements->count();
+                                // $signalementCount = $post->signalements->count();
+                                $signalementCount = $post->signalements_count;
                             @endphp
 
                             <div class="d-flex align-items-center">
