@@ -293,13 +293,16 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $birthdate = Carbon::createFromDate($request->annee, $request->mois, $request->jour);
+        // $birthdate = Carbon::createFromDate($request->annee, $request->mois, $request->jour);
         // if ($birthdate->diffInYears(now()) < 18) {
         //     return response()->json([
         //         'status' => false,
         //         'message' => "You must be at least 18 years old."
         //     ], 422);
         // }
+        $birthdate = ($request->filled('annee') && $request->filled('mois') && $request->filled('jour'))
+            ? Carbon::createFromDate($request->annee, $request->mois, $request->jour)
+            : null;
 
 
         $user = new User();
