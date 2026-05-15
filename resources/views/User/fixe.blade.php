@@ -977,9 +977,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="footer_widget">
                                     <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
 
-                                    <div class="address mt-3">
+                                    {{-- <div class="address mt-3">
                                         {{ $configurations->adresse ?? '' }}
-                                    </div>
+                                    </div> --}}
                                     <div class="address mt-3">
                                         {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
                                     </div>
