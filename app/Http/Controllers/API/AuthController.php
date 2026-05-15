@@ -317,7 +317,6 @@ class AuthController extends Controller
         $user->gender = $request->genre;
         $user->role = "user";
         $user->type = "user";
-        $user->address = $request->adresse;
         $user->username = $request->username;
         $user->ip_address = $request->ip();
         $user->rue = $request->ruee;
