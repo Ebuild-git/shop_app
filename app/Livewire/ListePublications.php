@@ -155,12 +155,12 @@ class ListePublications extends Component
         }
 
         if (strlen($this->signalement) > 0) {
-            $order = $this->signalement === 'Asc' ? 'desc' : 'asc'; // ← fix: "Plus signalé au moins" = desc, "Moins signalé au plus" = asc
+            $order = $this->signalement === 'Asc' ? 'desc' : 'asc';
 
             $postsQuery->withCount('signalements')
+                ->reorder()
                 ->orderBy('signalements_count', $order);
         } else {
-            // Always withCount so Blade can use it consistently (optional but cleaner)
             $postsQuery->withCount('signalements');
         }
 
