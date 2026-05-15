@@ -67,7 +67,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
                             <div class="card-body p-0">
-                                <div class="card-img-wrapper position-relative">
+                                <div class="shop_thumb position-relative">
 
                                     <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;">
                                         @if($lux->discountPercentage)
@@ -146,7 +146,7 @@
                             </button>
 
                             <div class="card-body p-0">
-                                <div class="card-img-wrapper position-relative">
+                                <div class="shop_thumb position-relative">
                                     <!-- Discount Badge -->
 
                                     <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display" style="z-index: 5;">

@@ -470,7 +470,7 @@ body {
 
 }
 
-/* .card-img-top img {
+.card-img-top img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
@@ -479,7 +479,7 @@ body {
 .card-img-top {
     height: 220px !important;
     overflow: hidden;
-} */
+}
 /* .card-img-top {
     display: flex;
     align-items: center;

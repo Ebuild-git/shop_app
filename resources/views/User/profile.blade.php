@@ -152,7 +152,7 @@
                                     <span class="count">{{ $post->favoris->count() }}</span>
                                 </button>
                                 <div class="card-body p-0">
-                                    <div class="card-img-wrapper position-relative">
+                                    <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden" href="/post/{{ $post->id }}"><img
                                                 class="card-img-top" src="{{ Storage::url($post->photos[0] ?? '') }}" alt="...">
                                         </a>
