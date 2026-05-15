@@ -45,10 +45,10 @@
                          Filtrer
                      </button>
 
-                     <button class="btn btn-dark" onclick="exportTableToXLSX('user_list.xlsx')" style="color: white !important;">
-                        <i class="bi bi-file-earmark-excel"></i>
-                        Exporter la liste
-                    </button>
+                      <button class="btn btn-dark" data-filename="{{ $showTrashed === 'yes' ? 'deleted_users.xlsx' : ($locked === 'yes' ? 'blocked_users.xlsx' : ($verified === 'no' ? 'pending_users.xlsx' : 'users.xlsx')) }}" onclick="exportFromButton(event)">
+                         <i class="bi bi-file-earmark-excel"></i>
+                         Exporter la liste
+                     </button>
 
                  </div>
              </form>
@@ -355,6 +355,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <script>
+    function exportFromButton(event) {
+        var filename = event.target.getAttribute('data-filename');
+        exportTableToXLSX(filename);
+    }
+
     function exportTableToXLSX(filename) {
         var table = document.querySelector("table");
         var workbook = XLSX.utils.book_new();
