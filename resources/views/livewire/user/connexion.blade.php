@@ -5,7 +5,7 @@
 
         <div class="form-group">
             <label style="color: black;">{{ __('email_label') }}</label>
-            <input type="text" name="email" id="email-login" autocomplete="off"
+            <input type="text" id="email-login" autocomplete="off"
                 class="form-control  @error('email') is-invalid @enderror form-control-ps shadow-none" wire:model="email"
                 placeholder="{{ __('email_placeholder') }}">
             @error('email')
@@ -15,7 +15,7 @@
         <div class="form-group ">
             <label style="color: black;">{{ __('password_label') }}</label>
             <div class="position-relative">
-                <input type="{{ $showPassword ? 'text' : 'password' }}" name="password" id="password-login" autocomplete="off"
+                <input type="{{ $showPassword ? 'text' : 'password' }}" id="password-login" autocomplete="off"
                     class="form-control  @error('password') is-invalid @enderror form-control-ps shadow-none"
                     wire:model="password" placeholder="*****">
                 <button class="password_show2" type="button" wire:click="$toggle('showPassword')" style="{{ App::isLocale('ar') ? 'left: 0; right: auto;' : 'right: 0; left: auto;' }} position: absolute; top: 22%; transform: translateY(-50%);">
