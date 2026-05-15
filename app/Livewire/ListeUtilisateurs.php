@@ -107,11 +107,22 @@ class ListeUtilisateurs extends Component
         //     $users->where('locked', $this->etat);
         // }
 
+        // if ($this->statut !='') {
+        //     if ($this->statut == 1) {
+        //         $users->where("email_verified_at", "!=", null);
+        //     } else {
+        //         $users->where("email_verified_at", null);
+        //     }
+        // }
         if ($this->statut != '') {
             if ($this->statut == 1) {
-                $users->where("email_verified_at", "!=", null);
+                $users->whereNotNull('email_verified_at')
+                    ->where('cin_approved', true);
             } else {
-                $users->where("email_verified_at", null);
+                $users->where(function($q) {
+                    $q->whereNull('email_verified_at')
+                    ->orWhere('cin_approved', false);
+                });
             }
         }
         $users = $users->paginate(50);
