@@ -424,26 +424,27 @@ class AddressController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/addresses/completeness",
-     *     tags={"Addresses"},
-     *     summary="Check if the authenticated user's active address is complete",
-     *     description="Automatically checks the default address (secondary if set, otherwise main).",
-     *     security={{"bearerAuth":{}}},
-     *     @OA\Resposnse(
-     *         response=200,
-     *         description="Address completeness status",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean"),
-     *             @OA\Property(property="is_complete", type="boolean"),
-     *             @OA\Property(property="address_source", type="string", example="main or secondary"),
-     *             @OA\Property(property="missing_fields", type="array", @OA\Items(type="string")),
-     *             @OA\Property(property="recommended_fields", type="array", @OA\Items(type="string")),
-     *             @OA\Property(property="address", type="object")
-     *         )
-     *     )
-     * )
-     */
+ * @OA\Get(
+ *     path="/api/addresses/completeness",
+ *     tags={"Addresses"},
+ *     summary="Check if the authenticated user's active address is complete",
+ *     description="Automatically checks the default address (secondary if set, otherwise main).",
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Address completeness status",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success",             type="boolean"),
+ *             @OA\Property(property="is_complete",         type="boolean"),
+ *             @OA\Property(property="address_source",      type="string", example="main or secondary"),
+ *             @OA\Property(property="missing_fields",      type="array", @OA\Items(type="string")),
+ *             @OA\Property(property="recommended_fields",  type="array", @OA\Items(type="string")),
+ *             @OA\Property(property="address",             type="object")
+ *         )
+ *     ),
+ *     @OA\Response(response=401, description="Unauthenticated")
+ * )
+ */
     public function checkCompleteness(Request $request)
     {
         $user = $request->user();

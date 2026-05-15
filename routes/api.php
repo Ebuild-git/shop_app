@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [AuthController::class, 'delete']);
 
     Route::post('/user/update', [UsersController::class, 'update']);
+    Route::get('/user/check-bank-cin', [UsersController::class, 'checkBankCinInfo']);
 
     //Posts
     Route::post('/favorites/toggle', [postController::class, 'toggleFavorite']);

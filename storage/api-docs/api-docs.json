@@ -496,25 +496,14 @@
                 ]
             }
         },
-        "/api/addresses/{id}/completeness": {
+        "/api/addresses/completeness": {
             "get": {
                 "tags": [
                     "Addresses"
                 ],
-                "summary": "Check if an address is complete",
-                "description": "Returns whether the address is complete and lists any missing fields. Use id=0 for the main address.",
-                "operationId": "108e70d4e6119ca45442040422700fd3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the secondary address, or 0 for the main address",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "summary": "Check if the authenticated user's active address is complete",
+                "description": "Automatically checks the default address (secondary if set, otherwise main).",
+                "operationId": "c6df84334306cc43cc8c091931fad7ff",
                 "responses": {
                     "200": {
                         "description": "Address completeness status",
@@ -528,7 +517,17 @@
                                         "is_complete": {
                                             "type": "boolean"
                                         },
+                                        "address_source": {
+                                            "type": "string",
+                                            "example": "main or secondary"
+                                        },
                                         "missing_fields": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "recommended_fields": {
                                             "type": "array",
                                             "items": {
                                                 "type": "string"
@@ -543,8 +542,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Address not found"
+                    "401": {
+                        "description": "Unauthenticated"
                     }
                 },
                 "security": [
@@ -4978,6 +4977,59 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/user/check-bank-cin": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Check user bank and CIN info completeness",
+                "operationId": "e472fb56611347855b49f55e8236206b",
+                "responses": {
+                    "200": {
+                        "description": "Bank and CIN info status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "is_complete": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "cin_approved": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "can_post": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "missing_fields": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/shopiners": {

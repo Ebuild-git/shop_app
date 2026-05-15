@@ -542,4 +542,55 @@ class UsersController extends Controller
         ], 200);
     }
 
+   /**
+     * @OA\Get(
+     *     path="/api/user/check-bank-cin",
+     *     summary="Check user bank and CIN info completeness",
+     *     tags={"User"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bank and CIN info status",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success",        type="boolean", example=true),
+     *             @OA\Property(property="is_complete",    type="boolean", example=true),
+     *             @OA\Property(property="cin_approved",   type="boolean", example=false),
+     *             @OA\Property(property="can_post",       type="boolean", example=false),
+     *             @OA\Property(property="missing_fields", type="array", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthenticated")
+     * )
+     */
+    public function checkBankCinInfo(Request $request)
+    {
+        $user = $request->user();
+
+        $bankFields = [
+            'rib_number'     => $user->rib_number,
+            'bank_name'      => $user->bank_name,
+            'titulaire_name' => $user->titulaire_name,
+            'cin_img'        => $user->cin_img,
+        ];
+
+        $missingFields = [];
+        foreach ($bankFields as $field => $value) {
+            if (empty($value)) {
+                $missingFields[] = $field;
+            }
+        }
+
+        $isComplete   = empty($missingFields);
+        $cinApproved  = (bool) $user->cin_approved;
+        $canPost      = $isComplete && $cinApproved;
+
+        return response()->json([
+            'success'        => true,
+            'is_complete'    => $isComplete,
+            'cin_approved'   => $cinApproved,
+            'can_post'       => $canPost,
+            'missing_fields' => $missingFields,
+        ]);
+    }
 }
