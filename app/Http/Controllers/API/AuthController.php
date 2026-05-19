@@ -324,15 +324,18 @@ class AuthController extends Controller
         $user->etage = $request->etage;
         $user->num_appartement = $request->num_appartement;
 
+        $config = configurations::first();
+
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->avatar->store('uploads/avatars', 'public');
+            $user->photo_verified_at = ($config->valider_photo == 1) ? null : now();
             $avatarUploaded = true;
         } else {
             $avatarUploaded = false;
+            $user->photo_verified_at = now();
         }
 
-        $config = configurations::first();
-        $user->photo_verified_at = ($config->valider_photo == 1) ? null : now();
+        // $user->photo_verified_at = ($config->valider_photo == 1) ? null : now();
         $user->verification_code = rand(100000, 999999);
         $user->save();
         $user->assignRole('user');
