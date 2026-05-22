@@ -2,18 +2,20 @@
  <div class="card ">
      <div class="row p-3 card-header">
          <div class="col-sm-4 my-auto">
-             <h5 class="">
+<h5 class="">
 
-                @if($locked === 'yes')
-                    Liste des utilisateurs bloqués ({{ $users->total() }})
-                @elseif($showTrashed === 'yes')
-                    Liste des utilisateurs supprimés ({{ $users->total() }})
-                @elseif($verified === 'no')
-                    Liste des utilisateurs à vérifier ({{ $users->total() }})
-                @else
-                    Liste des utilisateurs du site ({{ $users->total() }})
-                @endif
-             </h5>
+                 @if($locked === 'yes')
+                     Liste des utilisateurs bloqués ({{ $users->total() }})
+                 @elseif($showTrashed === 'yes')
+                     Liste des utilisateurs supprimés ({{ $users->total() }})
+                 @elseif($photo_verified === 'no')
+                     Liste des utilisateurs à vérifier (photo de profile) ({{ $users->total() }})
+                 @elseif($verified === 'no')
+                     Liste des utilisateurs à vérifier (ID) ({{ $users->total() }})
+                 @else
+                     Liste des utilisateurs du site ({{ $users->total() }})
+                 @endif
+              </h5>
          </div>
          <div class="col-sm-8 my-auto">
              <form wire:submit="filtre">
@@ -64,15 +66,22 @@
 
          <table class="table">
 
-                 <tr>
-                    @if($verified === 'no')
-                        <th>ID</th>
-                        <th>Pseudonyme</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th>CIN Image</th>
-                        <th>Actions</th>
-                    @else
+<tr>
+                     @if($photo_verified === 'no')
+                         <th>ID</th>
+                         <th>Pseudonyme</th>
+                         <th>Email</th>
+                         <th>Téléphone</th>
+                         <th>Photo de profile</th>
+                         <th>Actions</th>
+                     @elseif($verified === 'no')
+                         <th>ID</th>
+                         <th>Pseudonyme</th>
+                         <th>Email</th>
+                         <th>Téléphone</th>
+                         <th>CIN Image</th>
+                         <th>Actions</th>
+                     @else
                     <th>ID</th>
                     <th style="left: 50px;">Pseudonyme</th>
                      <th style="left: 160px;">Prénom</th>
@@ -104,32 +113,54 @@
                  </tr>
 
 
-             <tbody>
-                 @forelse ($users as $user)
-                     <tr>
-                        @if($verified === 'no')
-                            <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
-                            <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone_number ?? '/' }}</td>
-                            <td>
-                                @if($user->cin_img)
-                                    <img src="{{ asset('storage/' . $user->cin_img) }}"
-                                        style="max-width: 120px; cursor:pointer;"
-                                        onclick="window.open(this.src)">
-                                @else
-                                    <span class="text-muted">Aucune image</span>
-                                @endif
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success" wire:click="approveCin({{ $user->id }})">
-                                    Approuver
-                                </button>
-                                <button class="btn btn-sm btn-danger" wire:click="rejectCin({{ $user->id }})">
-                                    Rejeter
-                                </button>
-                            </td>
-                        @else
+<tbody>
+                  @forelse ($users as $user)
+                      <tr>
+                         @if($photo_verified === 'no')
+                             <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
+                             <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
+                             <td>{{ $user->email }}</td>
+                             <td>{{ $user->phone_number ?? '/' }}</td>
+                             <td>
+                                 @if($user->avatar)
+                                     <img src="{{ $user->getAvatar() }}"
+                                         style="max-width: 120px; cursor:pointer;"
+                                         onclick="window.open(this.src)">
+                                 @else
+                                     <span class="text-muted">Aucune image</span>
+                                 @endif
+                             </td>
+                             <td>
+                                 <button class="btn btn-sm btn-success" onclick="confirmApprovePhoto({{ $user->id }})">
+                                     Approuver
+                                 </button>
+                                 <button class="btn btn-sm btn-danger" onclick="confirmRejectPhoto({{ $user->id }})">
+                                     Rejeter
+                                 </button>
+                             </td>
+                         @elseif($verified === 'no')
+                             <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
+                             <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
+                             <td>{{ $user->email }}</td>
+                             <td>{{ $user->phone_number ?? '/' }}</td>
+                             <td>
+                                 @if($user->cin_img)
+                                     <img src="{{ asset('storage/' . $user->cin_img) }}"
+                                         style="max-width: 120px; cursor:pointer;"
+                                         onclick="window.open(this.src)">
+                                 @else
+                                     <span class="text-muted">Aucune image</span>
+                                 @endif
+                             </td>
+                             <td>
+                                 <button class="btn btn-sm btn-success" wire:click="approveCin({{ $user->id }})">
+                                     Approuver
+                                 </button>
+                                 <button class="btn btn-sm btn-danger" wire:click="rejectCin({{ $user->id }})">
+                                     Rejeter
+                                 </button>
+                             </td>
+                         @else
                         <td><a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ 'U' . ($user->id + 1000) }}</a></td>
                         @if($showTrashed !== 'yes')
                             <td style="left: 50px;"> <a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ $user->username }}</a> </td>
@@ -303,10 +334,10 @@
                                         </button>
                                     </div>
                                 </div>
-                            @endif
-                        </td>
-                        @endif
-                     </tr>
+@endif
+                         </td>
+                         @endif
+                      </tr>
                  @empty
                      <tr>
                          <td colspan="7">
@@ -426,6 +457,55 @@
 
         window.confirmRestoreUser = confirmRestore;
         window.confirmForceDeleteUser = confirmForceDelete;
+        window.confirmApprovePhoto = function(userId) {
+            Swal.fire({
+                title: 'Approuver la photo de profil ?',
+                text: "Confirmez-vous cette action ?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, approuver',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('{{ route('admin.validate.photo', ':userId') }}'.replace(':userId', userId), {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        };
+
+        window.confirmRejectPhoto = function(userId) {
+            Swal.fire({
+                title: 'Rejeter la photo de profil ?',
+                text: "Cette action est irréversible !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, rejeter',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('{{ route('admin.reject.photo', ':userId') }}'.replace(':userId', userId), {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        };
 
     });
 </script>

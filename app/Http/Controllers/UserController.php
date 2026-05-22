@@ -53,6 +53,15 @@ class UserController extends Controller
             ->with("verified", $verified);
     }
 
+    public function liste_utilisateurs_photo_averifier(Request $request)
+    {
+        $type = "all";
+        $photo_verified = "no";
+        return view("Admin.clients.index")
+            ->with("type", $type)
+            ->with("photo_verified", $photo_verified);
+    }
+
     public function details_user(Request $request)
     {
         $id = $request->id;

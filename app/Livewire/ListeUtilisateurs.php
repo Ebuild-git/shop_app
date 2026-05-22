@@ -13,11 +13,12 @@ class ListeUtilisateurs extends Component
     public $locked = "no";
     public $showTrashed = "no";
     public $verified = null;
+    public $photo_verified = null;
     public $deletedBy = '';
 
     use WithPagination;
 
-    public function mount($type, $locked = null, $showTrashed = null, $verified = null)
+    public function mount($type, $locked = null, $showTrashed = null, $verified = null, $photo_verified = null)
     {
         if ($type == "shop") {
             $this->type = "shop";
@@ -27,6 +28,7 @@ class ListeUtilisateurs extends Component
         $this->locked = $locked;
         $this->showTrashed = $showTrashed ?? "no";
         $this->verified = $verified ?? null;
+        $this->photo_verified = $photo_verified ?? null;
     }
 
     public function updatedKey($value)
@@ -68,6 +70,11 @@ class ListeUtilisateurs extends Component
         if ($this->verified === 'no') {
             $users->where('cin_approved', false)
                 ->whereNotNull('cin_img');
+        }
+
+        if ($this->photo_verified === 'no') {
+            $users->whereNull('photo_verified_at')
+                ->whereNotNull('avatar');
         }
 
         // if ($this->locked === 'yes') {
