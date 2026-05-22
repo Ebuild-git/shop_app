@@ -226,6 +226,8 @@ class shopinerController extends Controller
             'users.rib_number',
             'users.bank_name',
             'users.titulaire_name',
+            'users.city_id',
+            'cities.name as city_name',
             'users.photo_verified_at',
             DB::raw('AVG(ratings.etoiles) as average_rating'),
             DB::raw('COUNT(CASE WHEN users.voyage_mode = 0 THEN posts.id END) as total_posts'),
@@ -256,7 +258,9 @@ class shopinerController extends Controller
                 'users.rib_number',
                 'users.bank_name',
                 'users.titulaire_name',
-                'users.photo_verified_at'
+                'users.photo_verified_at',
+                'users.city_id',
+                'cities.name as city_name'
             )
             ->first();
 
@@ -270,6 +274,7 @@ class shopinerController extends Controller
         $shopiner->avatar = $shopiner->avatar ? asset('storage/' . $shopiner->avatar) : null;
         $shopiner->cin_img = $shopiner->cin_img ? asset('storage/' . $shopiner->cin_img) : null;
         $shopiner->old_cin_images = $shopiner->old_cin_images ? asset('storage/' . $shopiner->old_cin_images) : null;
+        $shopiner->avatar_locked = is_null($shopiner->photo_verified_at);
         // $shopiner->rib_number = $shopiner->rib_number;
         try {
             $shopiner->rib_number = $shopiner->rib_number
