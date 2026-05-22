@@ -711,8 +711,6 @@ class PostsController extends Controller
 
         $missingFields = array_filter([
             'city_id'         => !$user->city_id,
-            'birthdate'       => !$user->birthdate,
-            'address'         => !$user->address,
             'rue'             => !$user->rue,
             'nom_batiment'    => !$user->nom_batiment,
             'etage'           => !$user->etage,

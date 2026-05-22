@@ -236,6 +236,7 @@ class shopinerController extends Controller
         )
             ->leftJoin('ratings', 'users.id', '=', 'ratings.id_user_sell')
             ->leftJoin('posts', 'users.id', '=', 'posts.id_user')
+            ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
             ->where('users.id', $id)
             ->groupBy(
                 'users.id',
@@ -260,7 +261,7 @@ class shopinerController extends Controller
                 'users.titulaire_name',
                 'users.photo_verified_at',
                 'users.city_id',
-                'cities.name as city_name'
+                'cities.name'
             )
             ->first();
 
