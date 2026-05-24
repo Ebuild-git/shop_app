@@ -445,6 +445,75 @@ class AddressController extends Controller
  *     @OA\Response(response=401, description="Unauthenticated")
  * )
  */
+    // public function checkCompleteness(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     $secondaryDefault = UserAddress::where('user_id', $user->id)
+    //         ->where('is_default', true)
+    //         ->first();
+
+    //     if ($secondaryDefault) {
+    //         $address = [
+    //             'region'          => $secondaryDefault->region,
+    //             'city_id'         => $secondaryDefault->city_id,
+    //             'rue'             => $secondaryDefault->street,
+    //             'nom_batiment'    => $secondaryDefault->building_name,
+    //             'etage'           => $secondaryDefault->floor,
+    //             'num_appartement' => $secondaryDefault->apartment_number,
+    //             'phone_number'    => $secondaryDefault->phone_number,
+    //         ];
+    //         $source = 'secondary';
+    //     } else {
+    //         $address = [
+    //             'region'          => $user->region,
+    //             'city_id'         => $user->city_id,
+    //             'rue'             => $user->rue,
+    //             'nom_batiment'    => $user->nom_batiment,
+    //             'etage'           => $user->etage,
+    //             'num_appartement' => $user->num_appartement,
+    //             'phone_number'    => $user->phone_number,
+    //         ];
+    //         $source = 'main';
+    //     }
+
+    //     $requiredFields = [
+    //         'region'       => 'Region',
+    //         'rue'          => 'Street (Rue)',
+    //         'nom_batiment' => 'Building name',
+    //         'phone_number' => 'Phone number',
+    //     ];
+
+    //     $recommendedFields = [
+    //         'city_id'         => 'City',
+    //         'etage'           => 'Floor (Étage)',
+    //         'num_appartement' => 'Apartment number',
+    //     ];
+
+    //     $missingRequired    = [];
+    //     $missingRecommended = [];
+
+    //     foreach ($requiredFields as $field => $label) {
+    //         if (empty($address[$field])) {
+    //             $missingRequired[] = $label;
+    //         }
+    //     }
+
+    //     foreach ($recommendedFields as $field => $label) {
+    //         if (empty($address[$field])) {
+    //             $missingRecommended[] = $label;
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'success'            => true,
+    //         'is_complete'        => empty($missingRequired),
+    //         'address_source'     => $source,
+    //         'missing_fields'     => $missingRequired,
+    //         'recommended_fields' => $missingRecommended,
+    //         'address'            => $address,
+    //     ]);
+    // }
     public function checkCompleteness(Request $request)
     {
         $user = $request->user();
@@ -477,6 +546,11 @@ class AddressController extends Controller
             $source = 'main';
         }
 
+        // Display RDC when floor is 0
+        $etageDisplay = ($address['etage'] !== null && $address['etage'] !== '')
+            ? ($address['etage'] == 0 ? 'RDC (Rez-de-chaussée)' : $address['etage'])
+            : null;
+
         $requiredFields = [
             'region'       => 'Region',
             'rue'          => 'Street (Rue)',
@@ -493,14 +567,16 @@ class AddressController extends Controller
         $missingRequired    = [];
         $missingRecommended = [];
 
+        $isMissing = fn($value) => $value === null || $value === '';
+
         foreach ($requiredFields as $field => $label) {
-            if (empty($address[$field])) {
+            if ($isMissing($address[$field])) {
                 $missingRequired[] = $label;
             }
         }
 
         foreach ($recommendedFields as $field => $label) {
-            if (empty($address[$field])) {
+            if ($isMissing($address[$field])) {
                 $missingRecommended[] = $label;
             }
         }
@@ -511,7 +587,9 @@ class AddressController extends Controller
             'address_source'     => $source,
             'missing_fields'     => $missingRequired,
             'recommended_fields' => $missingRecommended,
-            'address'            => $address,
+            'address'            => array_merge($address, [
+                'etage_display' => $etageDisplay,
+            ]),
         ]);
     }
 
