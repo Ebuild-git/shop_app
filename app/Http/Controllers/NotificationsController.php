@@ -110,19 +110,21 @@ class NotificationsController extends Controller
      */
     public function mark_as_read_notification(Request $request, $id)
     {
-        try {
-            $notification = notifications::where('id', $id)->firstOrFail();
-            $notification->update(["statut" => "read"]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Notification marked as read'
-            ]);
-        } catch (\Exception $exception) {
+        $notification = notifications::where('id', $id)->first();
+
+        if (!$notification) {
             return response()->json([
                 'success' => false,
-                'message' => "Notification not found"
+                'message' => 'Notification not found',
+                'debug_id' => $id
             ], 404);
         }
+
+        $notification->update(["statut" => "read"]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification marked as read'
+        ]);
     }
 
     /**
@@ -154,19 +156,21 @@ class NotificationsController extends Controller
      */
     public function mark_as_unread_notification(Request $request, $id)
     {
-        try {
-            $notification = notifications::where('id', $id)->firstOrFail();
-            $notification->update(["statut" => "unread"]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Notification marked as unread'
-            ]);
-        } catch (\Exception $exception) {
+        $notification = notifications::where('id', $id)->first();
+
+        if (!$notification) {
             return response()->json([
                 'success' => false,
-                'message' => "Notification not found"
+                'message' => 'Notification not found',
+                'debug_id' => $id
             ], 404);
         }
+
+        $notification->update(["statut" => "unread"]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification marked as unread'
+        ]);
     }
 
     /**
