@@ -10,6 +10,10 @@ class notifications extends Model
     use HasFactory;
 
 
+    protected $fillable = [
+        'statut',
+    ];
+
     //get  post
     public function getPost() {
         return $this->hasMany(posts::class, 'id','id_post');
