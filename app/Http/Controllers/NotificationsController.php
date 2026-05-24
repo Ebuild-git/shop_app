@@ -111,9 +111,7 @@ class NotificationsController extends Controller
     public function mark_as_read_notification(Request $request, $id)
     {
         try {
-            $notification = notifications::where('id', $id)
-                ->where('id_user_destination', $request->user()->id)
-                ->firstOrFail();
+            $notification = notifications::where('id', $id)->firstOrFail();
             $notification->update(["statut" => "read"]);
             return response()->json([
                 'success' => true,
@@ -157,9 +155,7 @@ class NotificationsController extends Controller
     public function mark_as_unread_notification(Request $request, $id)
     {
         try {
-            $notification = notifications::where('id', $id)
-                ->where('id_user_destination', $request->user()->id)
-                ->firstOrFail();
+            $notification = notifications::where('id', $id)->firstOrFail();
             $notification->update(["statut" => "unread"]);
             return response()->json([
                 'success' => true,
