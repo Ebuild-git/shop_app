@@ -1533,6 +1533,54 @@ class PostsController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/my-posts/{id}",
+     *     tags={"Posts"},
+     *     summary="Delete a post by authenticated user",
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=231)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Post deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(response=404, description="Post not found"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
+     */
+    public function deletePost(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $post = posts::where('id', $id)
+            ->where('id_user', $user->id)
+            ->first();
+
+        if (!$post) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post not found'
+            ], 404);
+        }
+
+        $post->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Post deleted successfully'
+        ]);
+    }
 
 
 }

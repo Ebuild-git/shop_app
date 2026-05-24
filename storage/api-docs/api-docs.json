@@ -3602,6 +3602,59 @@
                 ]
             }
         },
+        "/api/my-posts/{id}": {
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete a post by authenticated user",
+                "operationId": "e55c29a8b1e88bc612574c8dd6b1811f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 231
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users/rating/purchases": {
             "get": {
                 "tags": [

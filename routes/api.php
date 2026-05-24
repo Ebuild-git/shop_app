@@ -82,6 +82,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/update/{id}', [postController::class, 'update']);
     Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
     Route::post('/posts/{id}/report', [postController::class, 'report']);
+    Route::delete('/my-posts/{id}', [postController::class, 'deletePost']);
 
     //Cart
     Route::post('/add/panier', [ShopController::class, 'toggle_panier']);
