@@ -431,6 +431,9 @@ class PostsController extends Controller
         $posts = $posts->map(function($post) {
             $postData = $post->toArray();
 
+            $postData['prix']     = $post->getPrix();
+            $postData['old_prix'] = $post->getOldPrix();
+
             if (!empty($postData['photos'])) {
                 $photos = $postData['photos'];
 
