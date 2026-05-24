@@ -752,13 +752,13 @@ class PostsController extends Controller
         ]);
 
         $rules = [
-            'titre' => 'required|min:2',
+            'titre' => 'required|string',
             'description' => 'string|nullable',
             'etat' => 'required|string',
             'id_region' => 'required|integer|exists:regions,id',
             'id_sous_categorie' => 'required|integer|exists:sous_categories,id',
-            'prix' => 'required|numeric|min:50',
-            'prix_achat' => 'nullable|numeric|min:50',
+            'prix' => 'required|numeric',
+            'prix_achat' => 'nullable|numeric',
             'photos1' => 'nullable|file|image',
             'photos2' => 'nullable|file|image',
             'photos3' => 'nullable|file|image',
