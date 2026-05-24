@@ -100,8 +100,8 @@ class DeletePostModal extends Component
             $notification->type = "alerte";
             $notification->url = "#";
             $notification->message = __('post_deleted_notification_message', [
-                'title'  => htmlspecialchars($post->titre),
-                'reason' => htmlspecialchars($this->motif),
+                'title'  => $post->titre,
+                'reason' => $motif_suppression,
             ]);
             $notification->save();
 
