@@ -92,32 +92,30 @@ class SignalementsController extends Controller
             $userLocale = $post->user_info->locale ?? config('app.locale');
             App::setLocale($userLocale);
 
-            // $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
             $genderKey = $post->user_info->gender === 'female' ? 'greeting_female' : 'greeting_male';
             $greeting = __($genderKey);
 
             event(new UserEvent($post->id_user));
-            // Create a notification with styled content
-            // $notification = new Notifications();
-            // $notification->titre = "{$greeting} " . $post->user_info->username;
-            // $notification->id_user_destination = $post->id_user;
-            // $notification->type = "alerte";
-            // $notification->url = "#";
-            // $notification->message = "
-            //     Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
-            //     La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($motif_suppression) . "</b> <br/>
-            //     Merci pour votre compréhension.
-            // ";
-            // $notification->save();
+
             $notification = new Notifications();
             $notification->titre = "{$greeting} " . $post->user_info->username;
             $notification->id_user_destination = $post->id_user;
             $notification->type = "alerte";
             $notification->url = "#";
-            $notification->message = __('post_deleted_notification_message', [
-                'title'  => $post->titre,
-                'reason' => $motif_suppression,
-            ]);
+            // $notification->message = __('post_deleted_notification_message', [
+            //     'title'  => $post->titre,
+            //     'reason' => $motif_suppression,
+            // ]);
+            $notification->message = strip_tags(
+                str_replace(
+                    ['<br>', '<br/>', '<br />'],
+                    "\n",
+                    __('post_deleted_notification_message', [
+                        'title'  => $post->titre,
+                        'reason' => $motif_suppression,
+                    ])
+                )
+            );
             $notification->save();
 
             // Send FCM notification

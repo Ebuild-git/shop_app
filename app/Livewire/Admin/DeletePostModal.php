@@ -99,10 +99,20 @@ class DeletePostModal extends Component
             $notification->id_user_destination = $post->id_user;
             $notification->type = "alerte";
             $notification->url = "#";
-            $notification->message = __('post_deleted_notification_message', [
-                'title'  => $post->titre,
-                'reason' => $motif_suppression,
-            ]);
+            // $notification->message = __('post_deleted_notification_message', [
+            //     'title'  => $post->titre,
+            //     'reason' => $motif_suppression,
+            // ]);
+            $notification->message = strip_tags(
+                str_replace(
+                    ['<br>', '<br/>', '<br />'],
+                    "\n",
+                    __('post_deleted_notification_message', [
+                        'title'  => $post->titre,
+                        'reason' => $motif_suppression,
+                    ])
+                )
+            );
             $notification->save();
 
             App::setLocale(config('app.locale'));
