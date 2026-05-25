@@ -716,7 +716,7 @@ class PostsController extends Controller
             'city_id'         => !$user->city_id,
             'rue'             => !$user->rue,
             'nom_batiment'    => !$user->nom_batiment,
-            'etage'           => !$user->etage,
+            'etage'           => $user->etage === null || $user->etage === '',
             'num_appartement' => !$user->num_appartement,
             'phone_number'    => !$user->phone_number,
         ]);
