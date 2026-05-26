@@ -256,7 +256,7 @@
     "less_than_price": "Moins que",
     "save_changes": "Enregistrer le changement",
     "modification_blocked_title": "Vous ne pouvez pas modifier cette annonce",
-    "modification_blocked_message": "car elle a été modifiée il y a moins d'une semaine.",
+    "modification_blocked_message": "car elle a été modifiée il y a moins de 48h.",
     "time_remaining_to_edit": "Temps restant avant de pouvoir modifier :",
     "ad_not_found": "Annonce introuvable / Signaler !",
     "price_reduction_success": "Le nouveau prix de :price DH est accpeté. <br/> Vous pourrez réduire le prix de cet article de nouveau dans 1j 23h et 59 min.",

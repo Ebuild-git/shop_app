@@ -256,7 +256,7 @@
     "less_than_price": "أقل من",
     "save_changes": "حفظ التغييرات",
     "modification_blocked_title": "لا يمكنك تعديل هذا الإعلان",
-    "modification_blocked_message": "لأنه تم تعديله قبل أقل من أسبوع.",
+    "modification_blocked_message": "لأنه تم تعديله قبل أقل من 48 ساعة.",
     "time_remaining_to_edit": "الوقت المتبقي قبل التعديل:",
     "ad_not_found": "الإعلان غير موجود / أبلغ عنه!",
     "price_reduction_success": "تم قبول السعر الجديد :price درهم. <br/> يمكنك تخفيض سعر هذا المنتج مرة أخرى خلاليوم و 23 ساعة و 59 دقيقة",
