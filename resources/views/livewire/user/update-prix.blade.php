@@ -12,7 +12,7 @@
                     </div>
                     <form wire:submit='form_update_prix'>
                         <div class="mb-2">
-                            <b>{{ __('base_price') }} :</b>
+                            <b>{{ __('current_price') }} :</b>
                             {{ $old_price }} <sup>{{ __('currency') }}</sup>
                             (
                             + {!! __('shopin_percentage') !!}
