@@ -4543,7 +4543,7 @@ body[dir="rtl"] .custom-cancel-btn {
 .prd-gallery__figure {
     position: relative;
     display: block;
-    width: 100%;
+    width: 82%;
     margin: 0;
     border-radius: 8px;
     overflow: hidden;
