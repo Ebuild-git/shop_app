@@ -1120,9 +1120,10 @@
 "luxury_min_price": "الحد الأدنى للسعر لمنتج Luxury هو 800 درهم.",
 "luxury_price_placeholder": "بين 800 و :max درهم",
 "normal_price_placeholder": "بين :min و :max درهم",
-"price_min_50": "يجب أن يكون السعر 50 على الأقل."
-
-
-
+"price_min_50": "يجب أن يكون السعر 50 على الأقل.",
+    "rate_seller_notification_title": "يمكنك تقييم البائع!",
+    "rate_seller_notification_message": "تم تسليم منتجك <a href=':url' class='underlined-link'>:title</a>. يمكنك الآن تقييم البائع.",
+    "rate_seller_fcm_title": "يمكنك تقييم البائع",
+    "rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه."
 
 }

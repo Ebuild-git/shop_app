@@ -7,6 +7,8 @@ use App\Services\AramexService;
 use App\Models\Shipment;
 use App\Models\{Order, OrdersItem};
 use App\Models\regions;
+use Illuminate\Support\Facades\App;
+
 
 class OrdersController extends Controller
 {
@@ -73,14 +75,86 @@ class OrdersController extends Controller
         $order->forceDelete();
         return response()->json(['success' => true]);
     }
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $type = $request->input('type');
+    //     $value = $request->input('value');
+
+    //     $item = OrdersItem::findOrFail($id);
+    //     if ($type === 'post') {
+    //         $item->post?->update(['statut' => $value]);
+    //     } elseif ($type === 'order') {
+    //         $order = Order::findOrFail($item->order->id);
+    //         $order->update(['status' => $value]);
+    //     }
+
+    //     return response()->json(['success' => true]);
+    // }
     public function updateStatus(Request $request, $id)
     {
-        $type = $request->input('type');
+        $type  = $request->input('type');
         $value = $request->input('value');
 
         $item = OrdersItem::findOrFail($id);
+
         if ($type === 'post') {
-            $item->post?->update(['statut' => $value]);
+            $post = $item->post;
+            if ($post) {
+                $post->update(['statut' => $value]);
+
+                if ($value === 'livré' && $post->id_user_buy) {
+                    $buyer = $post->acheteur;
+                    if ($buyer) {
+                        $buyerLocale = $buyer->locale ?? config('app.locale');
+                        App::setLocale($buyerLocale);
+
+                        $notification = new \App\Models\notifications();
+                        $notification->titre               = __('rate_seller_notification_title');
+                        $notification->id_user_destination = $post->id_user_buy;
+                        $notification->type                = "alerte";
+                        $notification->url                 = "/post/" . $post->id;
+                        $notification->id_post             = $post->id;
+                        $notification->destination         = "user";
+                        $notification->message             = __('rate_seller_notification_message', [
+                            'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
+                            'title' => $post->titre,
+                        ]);
+                        $notification->save();
+
+                        App::setLocale(config('app.locale'));
+
+                        event(new \App\Events\UserEvent($post->id_user_buy));
+
+                        $fcmService = app(\App\Services\FcmService::class);
+                        $sent = $fcmService->sendToUser(
+                            $post->id_user_buy,
+                            __('rate_seller_fcm_title'),
+                            __('rate_seller_fcm_body', ['title' => $post->titre]),
+                            [
+                                'type'            => 'alerte',
+                                'notification_id' => $notification->id,
+                                'destination'     => 'user',
+                                'action'          => 'rate_seller',
+                                'post_id'         => $post->id,
+                            ]
+                        );
+
+                        if ($sent) {
+                            \Log::info("FCM notification sent successfully", [
+                                'user_id'         => $post->id_user_buy,
+                                'notification_id' => $notification->id,
+                                'type'            => 'rate_seller'
+                            ]);
+                        } else {
+                            \Log::warning("FCM notification failed to send", [
+                                'user_id'         => $post->id_user_buy,
+                                'notification_id' => $notification->id,
+                                'reason'          => 'User has no FCM token or token invalid'
+                            ]);
+                        }
+                    }
+                }
+            }
         } elseif ($type === 'order') {
             $order = Order::findOrFail($item->order->id);
             $order->update(['status' => $value]);
@@ -88,6 +162,7 @@ class OrdersController extends Controller
 
         return response()->json(['success' => true]);
     }
+
 
     public function updateNote(Request $request, $id)
     {

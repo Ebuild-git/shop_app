@@ -54,6 +54,7 @@
             <div class="p-2">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-3">
+                        @if ($post->acheteur)
                         <div class="d-flex align-items-start">
                             <div class="d-flex align-items-start">
                                 <div class="avatar me-2">
@@ -87,6 +88,7 @@
                                 </button>
                             </div>
                         </div>
+                        @endif
                     </li>
                 </ul>
             </div>

@@ -292,21 +292,62 @@ class DetailsPublicationAction extends Component
     {
         $post = posts::find($this->post->id);
         if ($post) {
-            //update post
             $post->statut = "livré";
             $post->update();
 
-            //ouvrir la possibilite de noter en creer un enregistrement rating
-            $rating = new ratings();
-            $rating->id_user_sell = $post->id_user;
-            $rating->id_user_buy = $post->id_user_buy;
-            $rating->id_post = $post->id;
-            $rating->date_buy = now();
-            $rating->save();
+            if ($post->id_user_buy) {
+                $buyer = $post->acheteur;
+                if ($buyer) {
+                    $buyerLocale = $buyer->locale ?? config('app.locale');
+                    App::setLocale($buyerLocale);
 
-            //creer la notification pour informer l'acheteru quil peut desormais noter ce vendeur
+                    $notification = new notifications();
+                    $notification->titre               = __('rate_seller_notification_title');
+                    $notification->id_user_destination = $post->id_user_buy;
+                    $notification->type                = "alerte";
+                    $notification->url                 = "/post/" . $post->id;
+                    $notification->id_post             = $post->id;
+                    $notification->destination         = "user";
+                    $notification->message             = __('rate_seller_notification_message', [
+                        'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
+                        'title' => $post->titre,
+                    ]);
+                    $notification->save();
 
-            //flash message
+                    App::setLocale(config('app.locale'));
+
+                    event(new UserEvent($post->id_user_buy));
+
+                    $fcmService = app(\App\Services\FcmService::class);
+                    $sent = $fcmService->sendToUser(
+                        $post->id_user_buy,
+                        __('rate_seller_fcm_title'),
+                        __('rate_seller_fcm_body', ['title' => $post->titre]),
+                        [
+                            'type'            => 'alerte',
+                            'notification_id' => $notification->id,
+                            'destination'     => 'user',
+                            'action'          => 'rate_seller',
+                            'post_id'         => $post->id,
+                        ]
+                    );
+
+                    if ($sent) {
+                        \Log::info("FCM notification sent successfully", [
+                            'user_id'         => $post->id_user_buy,
+                            'notification_id' => $notification->id,
+                            'type'            => 'rate_seller'
+                        ]);
+                    } else {
+                        \Log::warning("FCM notification failed to send", [
+                            'user_id'         => $post->id_user_buy,
+                            'notification_id' => $notification->id,
+                            'reason'          => 'User has no FCM token or token invalid'
+                        ]);
+                    }
+                }
+            }
+
             session()->flash('success', 'La publication à bien été livré');
         }
     }

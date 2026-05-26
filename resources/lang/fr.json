@@ -1118,14 +1118,19 @@
 "validation.building_required": "Veuillez renseigner le nom du résidence.",
 "validation.floor_required": "Veuillez renseigner l'étage.",
 "validation.apartment_required": "Veuillez renseigner le numéro d'appartement.",
-"luxury_min_price": "Le prix minimum pour un article Luxury est de 800 DH.",
-"luxury_price_placeholder": "Entre 800 et :max DH",
-"normal_price_placeholder": "Entre :min et :max DH",
-"price_min_50": "Le prix doit être au moins 50."
-
-
-
-
-
-
+    "luxury_min_price": "Le prix minimum pour un article Luxury est de 800 DH.",
+    "luxury_price_placeholder": "Entre 800 et :max DH",
+    "normal_price_placeholder": "Entre :min et :max DH",
+    "price_min_50": "Le prix doit être au moins 50.",
+    "rate_seller_notification_title": "Vous pouvez noter le vendeur !",
+    "rate_seller_notification_message": "Votre article <a href=':url' class='underlined-link'>:title</a> a été livré. Vous pouvez maintenant noter le vendeur.",
+    "rate_seller_fcm_title": "Vous pouvez noter le vendeur",
+    "rate_seller_fcm_body": "Votre achat \" :title\" a été livré. Vous pouvez maintenant le noter."
 }
+
+
+
+
+
+
+

@@ -1122,12 +1122,11 @@
 "validation.apartment_required": "The apartment number field is required.",
 "luxury_min_price": "The minimum price for a Luxury item is 800 DH.",
 "luxury_price_placeholder": "Between 800 and :max DH",
-"normal_price_placeholder": "Between :min and :max DH",
-"price_min_50": "The price must be at least 50."
-
-
-
-
+    "normal_price_placeholder": "Between :min and :max DH",
+    "price_min_50": "The price must be at least 50.",
+    "rate_seller_notification_title": "You can rate the seller!",
+    "rate_seller_notification_message": "Your item <a href=':url' class='underlined-link'>:title</a> has been delivered. You can now rate the seller.",
+    "rate_seller_fcm_title": "You can rate the seller",
+    "rate_seller_fcm_body": "Your purchase \" :title\" has been delivered. You can now rate them."
 }
-
 
