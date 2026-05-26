@@ -1117,7 +1117,9 @@
 "validation.street_required1": "Veuillez renseigner la rue.",
 "validation.building_required": "Veuillez renseigner le nom du résidence.",
 "validation.floor_required": "Veuillez renseigner l'étage.",
-"validation.apartment_required": "Veuillez renseigner le numéro d'appartement."
+"validation.apartment_required": "Veuillez renseigner le numéro d'appartement.",
+"luxury_min_price": "Le prix minimum pour un article Luxury est de 800 DH.",
+"luxury_price_placeholder": "Entre 800 et :max DH"
 
 
 

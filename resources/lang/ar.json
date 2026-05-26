@@ -1116,7 +1116,10 @@
 "validation.street_required1": "يرجى إدخال اسم الشارع.",
 "validation.building_required": "يرجى إدخال اسم البناية.",
 "validation.floor_required": "يرجى إدخال رقم الطابق.",
-"validation.apartment_required": "يرجى إدخال رقم الشقة."
+"validation.apartment_required": "يرجى إدخال رقم الشقة.",
+"luxury_min_price": "الحد الأدنى للسعر لمنتج Luxury هو 800 درهم.",
+"luxury_price_placeholder": "بين 800 و :max درهم"
+
 
 
 }

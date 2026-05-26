@@ -38,6 +38,7 @@ class UpdatePrix extends Component
         $post = posts::where('id', $id)
             ->select('id', 'prix', 'old_prix', 'titre', 'id_sous_categorie', 'updated_price_at')
             ->where('id_user', Auth::user()->id)
+            ->with('sous_categorie_info.categorie')
             ->first();
         if ($post) {
             $this->old_price = $post->prix;
@@ -81,6 +82,12 @@ class UpdatePrix extends Component
 
             // Now we store raw prices, so compare raw prices
             $newRawPrix = (int) round($this->prix);
+
+            $isLuxury = $post->sous_categorie_info?->categorie?->luxury ?? false;
+            if ($isLuxury && $newRawPrix < 800) {
+                $this->addError('prix', __('luxury_min_price'));
+                return;
+            }
 
             // Check if price is the same
             if ($newRawPrix == $old_price) {

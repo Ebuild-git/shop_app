@@ -1119,7 +1119,9 @@
 "validation.street_required1": "The street field is required.",
 "validation.building_required": "The building name field is required.",
 "validation.floor_required": "The floor field is required.",
-"validation.apartment_required": "The apartment number field is required."
+"validation.apartment_required": "The apartment number field is required.",
+"luxury_min_price": "The minimum price for a Luxury item is 800 DH.",
+"luxury_price_placeholder": "Between 800 and :max DH"
 
 
 }
