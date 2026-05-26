@@ -159,6 +159,13 @@
                                  <button class="btn btn-sm btn-danger" wire:click="rejectCin({{ $user->id }})">
                                      Rejeter
                                  </button>
+                                    @if($user->cin_img)
+                                        <a href="{{ asset('storage/' . $user->cin_img) }}"
+                                        download="U{{ $user->id + 1000 }}_cin_actuelle"
+                                        class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-download"></i>
+                                        </a>
+                                    @endif
                              </td>
                          @else
                         <td><a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ 'U' . ($user->id + 1000) }}</a></td>
