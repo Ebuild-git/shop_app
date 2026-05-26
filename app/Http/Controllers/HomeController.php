@@ -605,10 +605,10 @@ class HomeController extends Controller
             'jour' => 'nullable|integer|between:1,31',
             'mois' => 'nullable|integer|between:1,12',
             'annee' => 'nullable|integer|between:1950,' . date('Y'),
-            'ruee' => ['nullable', 'string'],
-            'nom_batiment' => ['nullable', 'string'],
-            'etage' => ['nullable', 'string'],
-            'num_appartement' => ['nullable', 'string'],
+            'ruee' => ['required', 'string'],
+            'nom_batiment' => ['required', 'string'],
+            'etage' => ['required', 'string'],
+            'num_appartement' => ['required', 'string'],
         ], [
             'required' => __('validation.required'),
             'city_id.required' => __('validation.city_required'),
@@ -626,6 +626,11 @@ class HomeController extends Controller
             'image' => __('error.invalid_image'),
             'max' => __('error.max_size'),
             'between' => __('error.invalid_date'),
+            'ruee.required'             => __('validation.street_required'),
+            'nom_batiment.required'     => __('validation.building_required'),
+            'etage.required'            => __('validation.floor_required'),
+            'num_appartement.required'  => __('validation.apartment_required'),
+
         ]);
 
         if ($validator->fails()) {

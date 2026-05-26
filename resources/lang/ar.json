@@ -1112,7 +1112,11 @@
 "post_restored_message": "تمت استعادة إعلانك <strong>:title</strong> من قِبل المسؤولين.",
 "post_restore_notification_message": "تمت استعادة إعلانكم <strong><a href=':url' class='underlined-link'>:title</a></strong> من قِبل فريق <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. شكراً على صبركم.",
 "cin_reject_notification_title": "تم رفض بطاقة هويتك",
-"cin_reject_notification_message": "نأسف لإبلاغك بأن بطاقة هويتك لم يتم قبولها من قبل المشرفين. يرجى تحميل صورة واضحة وصالحة."
+"cin_reject_notification_message": "نأسف لإبلاغك بأن بطاقة هويتك لم يتم قبولها من قبل المشرفين. يرجى تحميل صورة واضحة وصالحة.",
+"validation.street_required1": "يرجى إدخال اسم الشارع.",
+"validation.building_required": "يرجى إدخال اسم البناية.",
+"validation.floor_required": "يرجى إدخال رقم الطابق.",
+"validation.apartment_required": "يرجى إدخال رقم الشقة."
 
 
 }

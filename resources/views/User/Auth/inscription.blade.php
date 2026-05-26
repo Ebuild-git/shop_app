@@ -260,6 +260,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="etage">{{ __('etage') }}</label>
+                                    <span class="text-danger">*</span>
                                     <input type="text" class="form-control" value="{{ old('etage') }}" name="etage">
                                     @error('etage')
                                         <small class="form-text text-danger">{{ $message }}</small>
@@ -268,6 +269,7 @@
 
                                 <div class="col-sm-4">
                                     <label for="num_appartement">{{ __('num_appartement') }}</label>
+                                    <span class="text-danger">*</span>
                                     <input type="text" class="form-control" value="{{ old('num_appartement') }}" name="num_appartement">
                                     @error('num_appartement')
                                         <small class="form-text text-danger">{{ $message }}</small>

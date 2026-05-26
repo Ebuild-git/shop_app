@@ -1113,7 +1113,11 @@
 "post_restored_message": "Votre publication <strong>:title</strong> a été restaurée par les administrateurs.",
 "post_restore_notification_message": "Votre annonce pour <strong><a href=':url' class='underlined-link'>:title</a></strong> a été restaurée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>. Merci pour votre patience.",
 "cin_reject_notification_title": "Votre carte d'identité a été rejetée",
-"cin_reject_notification_message": "Nous vous informons que votre carte d'identité n'a pas été acceptée par les administrateurs. Veuillez soumettre une photo claire et valide."
+"cin_reject_notification_message": "Nous vous informons que votre carte d'identité n'a pas été acceptée par les administrateurs. Veuillez soumettre une photo claire et valide.",
+"validation.street_required1": "Veuillez renseigner la rue.",
+"validation.building_required": "Veuillez renseigner le nom du résidence.",
+"validation.floor_required": "Veuillez renseigner l'étage.",
+"validation.apartment_required": "Veuillez renseigner le numéro d'appartement."
 
 
 
