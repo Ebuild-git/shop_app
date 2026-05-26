@@ -1119,7 +1119,11 @@
 "validation.floor_required": "Veuillez renseigner l'étage.",
 "validation.apartment_required": "Veuillez renseigner le numéro d'appartement.",
 "luxury_min_price": "Le prix minimum pour un article Luxury est de 800 DH.",
-"luxury_price_placeholder": "Entre 800 et :max DH"
+"luxury_price_placeholder": "Entre 800 et :max DH",
+"normal_price_placeholder": "Entre :min et :max DH",
+"price_min_50": "Le prix doit être au moins 50."
+
+
 
 
 

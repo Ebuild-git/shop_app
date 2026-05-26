@@ -89,6 +89,10 @@ class UpdatePrix extends Component
                 return;
             }
 
+            if (!$isLuxury && $newRawPrix < 50) {
+                $this->addError('prix', __('price_min_50'));
+                return;
+            }
             // Check if price is the same
             if ($newRawPrix == $old_price) {
                 $this->addError('prix', __('price_change_error'));

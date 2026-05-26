@@ -1118,7 +1118,10 @@
 "validation.floor_required": "يرجى إدخال رقم الطابق.",
 "validation.apartment_required": "يرجى إدخال رقم الشقة.",
 "luxury_min_price": "الحد الأدنى للسعر لمنتج Luxury هو 800 درهم.",
-"luxury_price_placeholder": "بين 800 و :max درهم"
+"luxury_price_placeholder": "بين 800 و :max درهم",
+"normal_price_placeholder": "بين :min و :max درهم",
+"price_min_50": "يجب أن يكون السعر 50 على الأقل."
+
 
 
 
