@@ -1192,6 +1192,13 @@ class PostsController extends Controller
             ], 422);
         }
 
+        if (!$isLuxury && $newPrice < 50) {
+            return response()->json([
+                'success' => false,
+                'message' => "The minimum price is 50 DH."
+            ], 422);
+        }
+
         $lastChange = History_change_price::where('id_post', $post->id)
             ->orderBy('created_at', 'desc')
             ->first();
