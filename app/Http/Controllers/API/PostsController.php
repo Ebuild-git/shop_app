@@ -1152,6 +1152,7 @@ class PostsController extends Controller
 
         $post = posts::where('id', $id)
             ->where('id_user', $user->id)
+            ->with('sous_categorie_info.categorie')
             ->first();
 
         if (!$post) {
@@ -1180,6 +1181,14 @@ class PostsController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => "You cannot increase the price. Only reductions are allowed."
+            ], 422);
+        }
+
+        $isLuxury = $post->sous_categorie_info?->categorie?->luxury ?? false;
+        if ($isLuxury && $newPrice < 800) {
+            return response()->json([
+                'success' => false,
+                'message' => "The minimum price for a Luxury item is 800 DH."
             ], 422);
         }
 
