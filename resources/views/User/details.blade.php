@@ -45,7 +45,7 @@
     <section class="middle">
         <div class="container">
             <div class="row" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+                {{-- <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
                     <div>
                         <div class="row">
                             <div class="col-2 p-1">
@@ -157,7 +157,106 @@
                         </div>
                     </div>
 
+                </div> --}}
+
+                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+
+    <div class="prd-gallery">
+
+        {{-- Thumbnail strip --}}
+        <div class="prd-gallery__thumbs" id="prdThumbs">
+            @foreach ($post->photos as $index => $photo)
+                <div class="prd-gallery__thumb {{ $index === 0 ? 'is-active' : '' }}"
+                    onclick="prdSelectThumb(this, '{{ Storage::url($photo) }}')">
+                    <img src="{{ Storage::url($photo) }}" alt="photo {{ $index + 1 }}">
                 </div>
+            @endforeach
+        </div>
+
+        {{-- Main image --}}
+        <div class="prd-gallery__main">
+            <figure class="prd-gallery__figure"
+                id="prdFigure"
+                onmousemove="prdZoomMove(event)"
+                onmouseleave="prdZoomReset()"
+                style="background-image: url('{{ Storage::url($post->photos[0] ?? '') }}')">
+                <img src="{{ Storage::url($post->photos[0] ?? '') }}"
+                    id="prdMainImg"
+                    class="prd-gallery__img"
+                    alt="{{ $post->titre }}"
+                    onclick="prdOpenModal(this.src)">
+            </figure>
+        </div>
+
+    </div>
+
+    {{-- Seller info (desktop) --}}
+    <div class="shopiner-heading">
+        <hr>
+        <h5 style="font-size: 20px; margin-top:20px;">
+            <b>{!! __('title') !!}</b>
+        </h5>
+        @php
+            $count = number_format($user->averageRating->average_rating ?? 1);
+            $avis  = $user->getReviewsAttribute->count();
+        @endphp
+        <div style="margin-top:25px;">
+            <table>
+                <tr>
+                    <td>
+                        <div class="avatar-shopinner-details">
+                            @if ($user->avatar == 'avatar.png' || !$user->avatar)
+                                <img src="https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+                                    alt="Default Avatar" height="80">
+                            @else
+                                <img src="{{ Storage::url($user->avatar) }}" alt="User Avatar" height="80">
+                            @endif
+                        </div>
+                    </td>
+                    <td>
+                        <h4 class="h6">
+                            <a href="/user/{{ $user->id }}" class="h4">
+                                <span class="color">{{ $user->username }}</span>
+                            </a>
+                        </h4>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    {{ trans_choice('messages.avis', $avis, ['count' => $avis]) }}
+                                </div>
+                                @if(auth()->check() && auth()->id() !== $user->id)
+                                    <div data-toggle="modal" data-target="#Noter">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <button type="button" class="btn-rating-modal"
+                                                style="{{ $ma_note >= $i ? 'color: #fab005;' : 'color: #ccc;' }}">
+                                                <i class="bi bi-star-fill"></i>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                @endif
+                            </div>
+                            @php
+                                $salesCount     = $user->total_sales->count();
+                                $adsCount       = $user->voyage_mode ? 0 : $user->ValidatedPosts->count();
+                                $categoriesCount = $user->categoriesWhereUserSell();
+                            @endphp
+                            <a href="{{ url('/user/' . $user->id) }}" style="color:#707070;">
+                                <span><b>{{ $salesCount }}</b> {{ trans_choice('messages.sales', $salesCount) }}</span>
+                                |
+                                <span><b>{{ $adsCount }}</b> {{ trans_choice('messages.annonces', $adsCount) }}</span>
+                            </a>
+                            |
+                            <span onclick="ShowPostsCatgorie({{ $user->id }})" class="cursor">
+                                <b>{{ $categoriesCount }}</b> {{ trans_choice('messages.categories', $categoriesCount) }}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
 
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
                     <div class="prd_details">

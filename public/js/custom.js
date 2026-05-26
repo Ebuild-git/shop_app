@@ -15,6 +15,60 @@ function change_principal_image(url) {
     document.getElementById("figure").setAttribute("data-url", url);
 }
 
+
+/**
+ * Switch active thumbnail and update main image + zoom background.
+ */
+function prdSelectThumb(thumbEl, url) {
+    // update active state
+    document.querySelectorAll('.prd-gallery__thumb').forEach(function(t) {
+        t.classList.remove('is-active');
+    });
+    thumbEl.classList.add('is-active');
+
+    // update main image
+    var img    = document.getElementById('prdMainImg');
+    var figure = document.getElementById('prdFigure');
+
+    img.src = url;
+    if (figure) {
+        figure.style.backgroundImage = "url('" + url + "')";
+    }
+}
+
+/**
+ * Move zoom background following the cursor (desktop only).
+ */
+function prdZoomMove(e) {
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    var figure = document.getElementById('prdFigure');
+    if (!figure) return;
+
+    var rect = figure.getBoundingClientRect();
+    var x    = ((e.clientX - rect.left) / rect.width)  * 100;
+    var y    = ((e.clientY - rect.top)  / rect.height) * 100;
+
+    figure.style.backgroundPosition = x + '% ' + y + '%';
+}
+
+/**
+ * Reset zoom position on mouse leave.
+ */
+function prdZoomReset() {
+    var figure = document.getElementById('prdFigure');
+    if (figure) figure.style.backgroundPosition = 'center';
+}
+
+/**
+ * Open the view modal with the given image src.
+ */
+function prdOpenModal(src) {
+    document.getElementById('modal-view-image').src = src;
+    $('#Modal-view').modal('show');
+}
+
+
 function confirmDeleteAccount(userId, livewireInstance) {
     Swal.fire({
         title: translations_swal.confirm_title,
