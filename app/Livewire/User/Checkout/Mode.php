@@ -45,6 +45,8 @@ class Mode extends Component
             $this->user->num_appartement = $secondAddress->apartment_number;
             $this->user->phone_number = $secondAddress->phone_number;
 
+            $this->user->setRelation('city', $secondAddress->city);
+
             $region = $secondAddress->regionExtra;
 
             if ($region) {

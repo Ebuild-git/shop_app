@@ -18,7 +18,7 @@
                     </p>
                     <hr class="my-3">
                     <b class="delivery-title"><i class="bi bi-geo-alt"></i> {{ __('Adresse de livraison') }}</b>
-                    <div class="address-card mt-3 p-3">
+                    {{-- <div class="address-card mt-3 p-3">
                         <p class="address-text">
                              <i class="bi bi-house-door"></i>
                              {{ $user->rue ? $user->rue . ',' : '' }}
@@ -35,6 +35,22 @@
                             <b><i class="bi bi-geo"></i> {{ $user->region_info->nom }}</b>
                         </p>
                         <p class="phone-text">
+                            <i class="bi bi-telephone"></i> {{ $user->phone_number }}
+                        </p>
+                    </div> --}}
+                    <div class="address-card mt-3 p-3">
+                        <p class="address-text mb-1">
+                            {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
+                            {!! ($user->etage !== null && $user->etage !== '') ? 'Étage ' . $user->etage . ', ' : '' !!}
+                            {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
+                            {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
+                            {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
+                            {!! optional($user->region_info)->nom ? $user->region_info->nom : '' !!}
+                        </p>
+                        <p class="region-text mb-1">
+                            <b><i class="bi bi-geo"></i> {{ $user->region_info->nom }}</b>
+                        </p>
+                        <p class="phone-text mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
                     </div>

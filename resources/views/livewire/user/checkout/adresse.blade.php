@@ -525,23 +525,6 @@
 
 
             <div class="d-flex justify-content-end mt-3">
-                {{-- @php
-                    $isDefaultExtraAddressComplete = $defaultAddress &&
-                        !empty($defaultAddress->region) &&
-                        !empty($defaultAddress->city_id) &&
-                        !empty($defaultAddress->street) &&
-                        !empty($defaultAddress->building_name) &&
-                        !empty($defaultAddress->floor) &&
-                        !empty($defaultAddress->apartment_number) &&
-                        !empty($defaultAddress->phone_number);
-
-                    $isPrimaryAddressComplete = !$defaultAddress &&
-                        !empty($user->region) &&
-                        !empty($user->city_id) &&
-                        !empty($user->rue) && !empty($user->etage) &&
-                        !empty($user->nom_batiment) && !empty($user->num_appartement) &&
-                        !empty($user->phone_number);
-                @endphp --}}
                 @php
                     $isDefaultExtraAddressComplete = $defaultAddress &&
                         !empty($defaultAddress->region) &&
