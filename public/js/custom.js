@@ -63,10 +63,10 @@ function prdZoomReset() {
 /**
  * Open the view modal with the given image src.
  */
-function prdOpenModal(src) {
-    document.getElementById('modal-view-image').src = src;
-    $('#Modal-view').modal('show');
-}
+// function prdOpenModal(src) {
+//     document.getElementById('modal-view-image').src = src;
+//     $('#Modal-view').modal('show');
+// }
 
 
 
@@ -113,12 +113,17 @@ document.addEventListener('DOMContentLoaded', function () {
  * Open the modal at a specific photo src (finds its index automatically).
  */
 function prdOpenModal(src) {
-    var idx = prdModalPhotos.findIndex(function (p) { return p === src; });
+    var idx = prdModalPhotos.findIndex(function(p) { return p === src; });
     prdModalCurrent = idx >= 0 ? idx : 0;
     prdModalSetImage(prdModalCurrent);
-    $('#Modal-view').modal('show');
+    document.getElementById('Modal-view').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
 
+function prdCloseModal() {
+    document.getElementById('Modal-view').style.display = 'none';
+    document.body.style.overflow = '';
+}
 /**
  * Navigate prev (-1) or next (+1).
  */
@@ -144,9 +149,9 @@ function prdModalSetImage(idx) {
 /**
  * Close the modal.
  */
-function prdCloseModal() {
-    $('#Modal-view').modal('hide');
-}
+// function prdCloseModal() {
+//     $('#Modal-view').modal('hide');
+// }
 
 
 
