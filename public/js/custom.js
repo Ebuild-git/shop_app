@@ -69,6 +69,92 @@ function prdOpenModal(src) {
 }
 
 
+
+
+
+
+
+
+
+// All photo URLs collected from the gallery
+var prdModalPhotos  = [];
+var prdModalCurrent = 0;
+
+/**
+ * Build the photos array once from the rendered thumbnails.
+ */
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.prd-gallery__thumb img').forEach(function (img) {
+        prdModalPhotos.push(img.src);
+    });
+
+    // hide arrows if single photo
+    if (prdModalPhotos.length <= 1) {
+        document.querySelectorAll('.prd-modal-view__arrow').forEach(function (btn) {
+            btn.classList.add('is-hidden');
+        });
+    }
+
+    // close on backdrop click
+    document.getElementById('Modal-view').addEventListener('click', function (e) {
+        if (e.target === this) prdCloseModal();
+    });
+
+    // keyboard nav
+    document.addEventListener('keydown', function (e) {
+        if (!document.getElementById('Modal-view').classList.contains('show')) return;
+        if (e.key === 'ArrowRight') prdModalNav(1);
+        if (e.key === 'ArrowLeft')  prdModalNav(-1);
+        if (e.key === 'Escape')     prdCloseModal();
+    });
+});
+
+/**
+ * Open the modal at a specific photo src (finds its index automatically).
+ */
+function prdOpenModal(src) {
+    var idx = prdModalPhotos.findIndex(function (p) { return p === src; });
+    prdModalCurrent = idx >= 0 ? idx : 0;
+    prdModalSetImage(prdModalCurrent);
+    $('#Modal-view').modal('show');
+}
+
+/**
+ * Navigate prev (-1) or next (+1).
+ */
+function prdModalNav(dir) {
+    prdModalCurrent = (prdModalCurrent + dir + prdModalPhotos.length) % prdModalPhotos.length;
+    prdModalSetImage(prdModalCurrent);
+}
+
+/**
+ * Set modal image and counter by index.
+ */
+function prdModalSetImage(idx) {
+    var img     = document.getElementById('modal-view-image');
+    var counter = document.getElementById('prdModalCounter');
+
+    img.src = prdModalPhotos[idx];
+
+    if (prdModalPhotos.length > 1) {
+        counter.textContent = (idx + 1) + ' / ' + prdModalPhotos.length;
+    }
+}
+
+/**
+ * Close the modal.
+ */
+function prdCloseModal() {
+    $('#Modal-view').modal('hide');
+}
+
+
+
+
+
+
+
+
 function confirmDeleteAccount(userId, livewireInstance) {
     Swal.fire({
         title: translations_swal.confirm_title,

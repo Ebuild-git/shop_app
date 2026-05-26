@@ -687,7 +687,7 @@
 
 
     <!-- Modal view-->
-    <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
+    {{-- <div class="modal fade" id="Modal-view" tabindex="1" role="dialog" aria-labelledby="loginmodal"
         aria-hidden="true">
         <div class="modal-dialog modal-lg login-pop-form text-center" role="document">
             <div>
@@ -697,7 +697,35 @@
                 <img src="" id="modal-view-image" alt="image" class="zoom-in modal-view-img">
             </div>
         </div>
+    </div> --}}
+    <!-- ── Image Viewer Modal ── -->
+    <div class="modal fade prd-modal-view" id="Modal-view" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="prd-modal-view__dialog" role="document">
+
+            {{-- Close button --}}
+            <button class="prd-modal-view__close" onclick="prdCloseModal()" aria-label="Close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            {{-- Image --}}
+            <div class="prd-modal-view__body">
+                <img src="" id="modal-view-image" class="prd-modal-view__img" alt="image">
+            </div>
+
+            {{-- Prev / Next arrows --}}
+            <button class="prd-modal-view__arrow prd-modal-view__arrow--prev" onclick="prdModalNav(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="prd-modal-view__arrow prd-modal-view__arrow--next" onclick="prdModalNav(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+
+            {{-- Counter --}}
+            <div class="prd-modal-view__counter" id="prdModalCounter"></div>
+
+        </div>
     </div>
+    <!-- ── End Image Viewer Modal ── -->
     <!-- End Modal -->
 
     <div class="modal fade" id="Noter" tabindex="1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
