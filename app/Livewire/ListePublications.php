@@ -307,7 +307,7 @@ class ListePublications extends Component
                         "\n",
                         __('post_deleted_notification_message', [
                             'title'  => $post->titre,
-                            'reason' => $motif_suppression,
+                            'reason' => $this->motif_suppression,
                         ])
                     )
                 );
