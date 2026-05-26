@@ -548,6 +548,7 @@ class PostsController extends Controller
         $achats = $query->get();
 
         $achats = $achats->map(function ($post) {
+            $post->prix = $post->getPrix();
             $postData = $post->toArray();
 
             if (!empty($postData['photos'])) {
