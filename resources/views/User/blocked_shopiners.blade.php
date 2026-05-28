@@ -255,21 +255,21 @@
                     </span>
                 @endif
             </h1>
-            <p>{!! \App\Traits\TranslateTrait::TranslateText('Les utilisateurs que vous avez bloqués n\'apparaissent pas dans vos recherches.') !!}</p>
+            <p>{{ __('Les utilisateurs que vous avez bloqués n\'apparaissent pas dans vos recherches.') }}</p>
         </div>
 
         @if($blockedUsers->isEmpty())
             <div class="blocked-empty-wrap">
                 <span class="blocked-empty-emoji">😊</span>
                 <div class="blocked-empty-title">
-                    {!! \App\Traits\TranslateTrait::TranslateText('Aucun shopiner bloqué') !!}
+                    {{ __('Aucun shopiner bloqué') }}
                 </div>
                 <div class="blocked-empty-sub">
-                    {!! \App\Traits\TranslateTrait::TranslateText('Vous n\'avez bloqué personne pour l\'instant.') !!}
+                    {{ __('Vous n\'avez bloqué personne pour l\'instant.') }}
                 </div>
                 <a href="{{ route('shopiners') }}" class="btn-back-shopiners">
                     <i class="bi bi-arrow-left"></i>
-                    {!! \App\Traits\TranslateTrait::TranslateText('Retour aux shopiners') !!}
+                    {{ __('Retour aux shopiners') }}
                 </a>
             </div>
         @else

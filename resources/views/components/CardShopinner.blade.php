@@ -40,11 +40,6 @@
                                     <img src="/icons/icons9.png" height="20" width="20" alt="{{ __('ping') }}">
                                 </button>
                             @endif
-                            {{-- <button wire:click="blockUser({{ $user->id }})" class="btn btn-sm btn-outline-secondary px-1 py-0"
-                                title="{{ __('Bloquer') }}"
-                                onclick="return confirm('{!! \App\Traits\TranslateTrait::TranslateText('Voulez-vous bloquer cet utilisateur ?') !!}')">
-                                <i class="bi bi-slash-circle" style="font-size: 14px;"></i>
-                            </button> --}}
                         @endif
                     @endauth
                 </div>
@@ -70,7 +65,7 @@
                         <div>
                             <img width="20" height="20" src="/icons/shopping-en-ligne.svg" alt="external" />
                         </div>
-                        {!! \App\Traits\TranslateTrait::TranslateText('Annonces') !!} :
+                        {{ __('Annonces1') }} :
                         {{ $user->voyage_mode ? 0 : $user->ValidatedPosts->count() }}
                     </a>
                 </div>

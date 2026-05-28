@@ -27,6 +27,9 @@ class FcmService
      */
     public function sendToUser($userId, $title, $body, $data = [])
     {
+        $title = strip_tags($title);
+        $body  = strip_tags($body);
+
         $user = User::find($userId);
 
         if (!$user || !$user->fcm_token) {

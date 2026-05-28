@@ -122,6 +122,7 @@
     "Voilà le SHOPINER": "إليكم SHOPINER",
     "Ventes": "المبيعات",
     "Annonces": "إعلانات",
+    "Annonces1": "إعلانات",
     "Articles similaires": "عناصر مشابهة",
     "title2": "منتجات من <span class=\"ft-bold\">الشوب<span class=\"color\">ين</span>ر</span>",
     "currency": "درهم",
@@ -1121,9 +1122,8 @@
 "luxury_price_placeholder": "بين 800 و :max درهم",
 "normal_price_placeholder": "بين :min و :max درهم",
 "price_min_50": "يجب أن يكون السعر 50 على الأقل.",
-    "rate_seller_notification_title": "يمكنك تقييم البائع!",
-    "rate_seller_notification_message": "تم تسليم منتجك <a href=':url' class='underlined-link'>:title</a>. يمكنك الآن تقييم البائع.",
-    "rate_seller_fcm_title": "يمكنك تقييم البائع",
-    "rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه."
+"rate_seller_notification_title": "يمكنك تقييم المتسوق!",
+"rate_seller_notification_message": "تم توصيل طلبك <a href=':url' class='underlined-link'>« :title »</a>. يمكنك الآن تقييم المتسوق <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>اضغط على الرابط التالي لإضافة تقييم.</a>",
+"rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه."
 
 }

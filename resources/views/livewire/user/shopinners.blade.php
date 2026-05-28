@@ -20,8 +20,8 @@
          </div>
      </div>
      <br>
- 
-     <div class="row" dir="{{ in_array(App::getLocale(), ['ar', 'fr']) ? 'rtl' : 'ltr' }}">
+
+     <div class="row" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
          @forelse ($shopiners as $key => $shopiner)
              <div class="col-sm-4">
                  @include('components.CardShopinner', ['user' => $shopiner, 'page' => 'shopiners'])

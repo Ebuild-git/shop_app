@@ -122,6 +122,7 @@
     "avis": "avis",
     "Ventes": "Ventes",
     "Annonces": "Annonces",
+    "Annonces1": "Annonces",
     "Articles similaires": "Articles similaires",
     "title2": "Articles de <span class=\"ft-bold\">SHOP<span class=\"color\">IN</span>ER</span>",
     "currency": "DH",
@@ -1122,8 +1123,8 @@
     "luxury_price_placeholder": "Entre 800 et :max DH",
     "normal_price_placeholder": "Entre :min et :max DH",
     "price_min_50": "Le prix doit être au moins 50.",
-    "rate_seller_notification_title": "Vous pouvez noter le vendeur !",
-    "rate_seller_notification_message": "Votre article <a href=':url' class='underlined-link'>:title</a> a été livré. Vous pouvez maintenant noter le vendeur.",
+    "rate_seller_notification_title": "Vous pouvez évaluer le Shopiner !",
+    "rate_seller_notification_message": "Votre commande <a href=':url' class='underlined-link'>« :title »</a> a été livrée. Vous pouvez maintenant évaluer le Shopiner <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>Appuyez sur le lien suivant pour attribuer une note.</a>",
     "rate_seller_fcm_title": "Vous pouvez noter le vendeur",
     "rate_seller_fcm_body": "Votre achat \" :title\" a été livré. Vous pouvez maintenant le noter."
 }

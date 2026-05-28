@@ -1,75 +1,3 @@
-{{-- @extends('User.fixe')
-@section('titre', 'Shopiners')
-@section('content')
-@section('body')
-
-
-    <!-- ======================= Filter Wrap Style 1 ======================== -->
-    <div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-        <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/" aria-label="{{ __('home') }}"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                <a href="{{ route('shopiners') }}">{{ __('Shopiners') }}</a>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ============================= Filter Wrap ============================== -->
-
-
-    <!-- ======================= All Product List ======================== -->
-    <div>
-        <div class="container pt-5 pb-5">
-            @livewire('User.Shopinners')
-        </div>
-    </div>
-
-
-
-    <!-- ======================= All Product List ======================== -->
-
-
-@endsection
-<style>
-    .custom-select {
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-clip: padding-box;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    appearance: none;
-    position: relative;
-}
-
-.custom-select::after {
-    content: "\25BC";
-    position: absolute;
-    top: 50%;
-    right: 0.75rem;
-    pointer-events: none;
-    transform: translateY(-50%);
-    font-size: 1rem;
-    color: #495057;
-}
-
-.custom-select:hover, .custom-select:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-</style> --}}
 @extends('User.fixe')
 @section('titre', 'Shopiners')
 @section('content')
@@ -95,11 +23,11 @@
     <div class="shopiner-tabs-wrap">
         <button class="shopiner-tab active" id="tab-all" onclick="switchTab('all')">
             <i class="bi bi-people"></i>
-            {!! \App\Traits\TranslateTrait::TranslateText('Shopiners') !!}
+            {{ __('Shopiners')}}
         </button>
         <button class="shopiner-tab" id="tab-blocked" onclick="switchTab('blocked')">
             <i class="bi bi-slash-circle"></i>
-            {!! \App\Traits\TranslateTrait::TranslateText('Bloqués') !!}
+            {{ __('Shopiners Bloqués') }}
             @php $blockedCount = count(auth()->user()->blockedUserIds()); @endphp
             @if($blockedCount > 0)
                 <span class="tab-blocked-count">{{ $blockedCount }}</span>
@@ -126,7 +54,7 @@
             <div class="blocked-page-header">
                 <h1>
                     <span class="header-icon"><i class="bi bi-slash-circle"></i></span>
-                    {!! \App\Traits\TranslateTrait::TranslateText('Shopiners Bloqués') !!}
+                    {{ __('Shopiners Bloqués')}}
                     @if($blockedUsers->isNotEmpty())
                         <span class="blocked-count-badge">
                             <i class="bi bi-person-fill"></i>
@@ -134,17 +62,17 @@
                         </span>
                     @endif
                 </h1>
-                <p>{!! \App\Traits\TranslateTrait::TranslateText('Les utilisateurs que vous avez bloqués n\'apparaissent pas dans vos recherches.') !!}</p>
+                <p>{{ __('Les utilisateurs que vous avez bloqués n\'apparaissent pas dans vos recherches.') }}</p>
             </div>
 
             @if($blockedUsers->isEmpty())
                 <div class="blocked-empty-wrap">
                     <span class="blocked-empty-emoji">😊</span>
                     <div class="blocked-empty-title">
-                        {!! \App\Traits\TranslateTrait::TranslateText('Aucun shopiner bloqué') !!}
+                        {{ __('Aucun shopiner bloqué') }}
                     </div>
                     <div class="blocked-empty-sub">
-                        {!! \App\Traits\TranslateTrait::TranslateText('Vous n\'avez bloqué personne pour l\'instant.') !!}
+                        {{ __('Vous n\'avez bloqué personne pour l\'instant.') }}
                     </div>
                 </div>
             @else
@@ -170,7 +98,7 @@
                             </div>
                             <button class="btn-do-unblock" onclick="unblockUser({{ $blocked->id }}, '{{ addslashes($blocked->username) }}')">
                                 <i class="bi bi-unlock"></i>
-                                {!! \App\Traits\TranslateTrait::TranslateText('Débloquer') !!}
+                                {{ __('Débloquer') }}
                             </button>
                         </div>
                     @endforeach

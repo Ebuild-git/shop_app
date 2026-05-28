@@ -75,21 +75,7 @@ class OrdersController extends Controller
         $order->forceDelete();
         return response()->json(['success' => true]);
     }
-    // public function updateStatus(Request $request, $id)
-    // {
-    //     $type = $request->input('type');
-    //     $value = $request->input('value');
 
-    //     $item = OrdersItem::findOrFail($id);
-    //     if ($type === 'post') {
-    //         $item->post?->update(['statut' => $value]);
-    //     } elseif ($type === 'order') {
-    //         $order = Order::findOrFail($item->order->id);
-    //         $order->update(['status' => $value]);
-    //     }
-
-    //     return response()->json(['success' => true]);
-    // }
     public function updateStatus(Request $request, $id)
     {
         $type  = $request->input('type');
@@ -115,10 +101,16 @@ class OrdersController extends Controller
                         $notification->url                 = "/post/" . $post->id;
                         $notification->id_post             = $post->id;
                         $notification->destination         = "user";
-                        $notification->message             = __('rate_seller_notification_message', [
-                            'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
-                            'title' => $post->titre,
+                        $notification->message = __('rate_seller_notification_message', [
+                            'url'      => route('details_post2', [
+                                'id' => $post->id,
+                                'titre' => $post->titre,
+                            ]),
+                            'title'    => $post->titre,
+                            'user_url' => url('user/' . $post->id_user),
+                            'shopiner' => $post->user_info?->username ?? '',
                         ]);
+
                         $notification->save();
 
                         App::setLocale(config('app.locale'));
