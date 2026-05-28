@@ -1124,7 +1124,7 @@
 "luxury_min_price": "The minimum price for a Luxury item is 800 DH.",
 "luxury_price_placeholder": "Between 800 and :max DH",
     "normal_price_placeholder": "Between :min and :max DH",
-    "price_min_50": "The price must be at least 50.",
+    "price_min_50": "The price must be at least 50 DH.",
     "rate_seller_notification_title": "You can rate the Shopiner!",
         "rate_seller_notification_message": "Your order <a href=':url' class='underlined-link'>“:title”</a> has been delivered. You can now rate the Shopiner <a href=':user_url' class='underlined-link'>“:shopiner”</a>.<br><br><a href=':user_url' class='underlined-link'>Click the following link to leave a rating.</a>",
 "rate_seller_fcm_title": "You can rate the seller",
