@@ -464,7 +464,7 @@
     "prix.min": "يجب أن يكون السعر أكبر من 1 درهم",
     "price_change_limit": "لقد قمت بتغيير السعر في آخر 7 أيام. يمكنك إجراء تغيير جديد في :daysRemaining يوم و :hoursRemaining ساعة.",
     "price_change_error": "يرجى إدخال سعر أقل من السعر الحالي.",
-    "time_remaining": ":daysRemaining و :hoursRemaining و :minutesRemaining",
+    "time_remaining": "يمكن التعديل خلال :remaining",
     "days_remaining": "{0} لا أيام متبقية|{1} :count يوم |[2,*] :count أيام",
     "hours_remaining": "{0} لا ساعات متبقية|{1} :count ساعة |[2,*] :count ساعة",
     "minutes_remaining": "{0} لا دقائق متبقية|{1} :count دقيقة |[2,*] :count دقيقة",

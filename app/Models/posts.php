@@ -169,6 +169,34 @@ class posts extends Model
         return 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
     }
 
+    // public function next_time_to_edit_price()
+    // {
+    //     if ($this->updated_price_at) {
+    //         $updatedPriceDate = Carbon::parse($this->updated_price_at);
+    //         $expiryDate = $updatedPriceDate->addDays(2);
+    //         $now = Carbon::now();
+
+    //         if ($expiryDate <= $now) {
+    //             return false;
+    //         }
+    //         $diffInDays = $now->diffInDays($expiryDate);
+    //         $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
+    //         $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
+
+    //         // Translate and pluralize days, hours, and minutes
+    //         $daysRemaining = trans_choice('days_remaining', $diffInDays, ['count' => $diffInDays]);
+    //         $hoursRemaining = trans_choice('hours_remaining', $diffInHours, ['count' => $diffInHours]);
+    //         $minutesRemaining = trans_choice('minutes_remaining', $diffInMinutes, ['count' => $diffInMinutes]);
+
+    //         return __('time_remaining', [
+    //             'daysRemaining' => $daysRemaining,
+    //             'hoursRemaining' => $hoursRemaining,
+    //             'minutesRemaining' => $minutesRemaining,
+    //         ]);
+    //     } else {
+    //         return false;
+    //     }
+    // }
     public function next_time_to_edit_price()
     {
         if ($this->updated_price_at) {
@@ -179,19 +207,19 @@ class posts extends Model
             if ($expiryDate <= $now) {
                 return false;
             }
+
             $diffInDays = $now->diffInDays($expiryDate);
             $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($expiryDate);
             $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($expiryDate);
 
-            // Translate and pluralize days, hours, and minutes
-            $daysRemaining = trans_choice('days_remaining', $diffInDays, ['count' => $diffInDays]);
-            $hoursRemaining = trans_choice('hours_remaining', $diffInHours, ['count' => $diffInHours]);
-            $minutesRemaining = trans_choice('minutes_remaining', $diffInMinutes, ['count' => $diffInMinutes]);
+            $parts = array_filter([
+                $diffInDays > 0 ? trans_choice('days_remaining', $diffInDays, ['count' => $diffInDays]) : null,
+                $diffInHours > 0 ? trans_choice('hours_remaining', $diffInHours, ['count' => $diffInHours]) : null,
+                $diffInMinutes > 0 ? trans_choice('minutes_remaining', $diffInMinutes, ['count' => $diffInMinutes]) : null,
+            ]);
 
             return __('time_remaining', [
-                'daysRemaining' => $daysRemaining,
-                'hoursRemaining' => $hoursRemaining,
-                'minutesRemaining' => $minutesRemaining,
+                'remaining' => implode(' ', $parts),
             ]);
         } else {
             return false;
