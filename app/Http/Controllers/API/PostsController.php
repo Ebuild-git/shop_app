@@ -994,18 +994,22 @@ class PostsController extends Controller
 
         $validated = $validator->validated();
 
+        $config = configurations::first();
+
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
         // Category price rules
-        if ($category->luxury && $validated['prix'] < 800) {
+        if ($category->luxury && $validated['prix'] < $prix_min_luxury) {
             return response()->json([
                 'success' => false,
-                'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
+                'message' => "The sale price must exceed {$prix_min_luxury} DH to be added to the LUXURY category"
             ], 422);
         }
 
-        if (!$category->luxury && $validated['prix'] >= 800) {
+        if (!$category->luxury && $validated['prix'] < $prix_min_non_luxury) {
             return response()->json([
                 'success' => false,
-                'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
+                'message' => "The minimum price is {$prix_min_non_luxury} DH."
             ], 422);
         }
 
