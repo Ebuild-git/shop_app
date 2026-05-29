@@ -4718,3 +4718,85 @@ body[dir="rtl"] .custom-cancel-btn {
     .prd-modal-view__arrow--prev { left: -17px; }
     .prd-modal-view__arrow--next { right: -17px; }
 }
+
+
+.filter-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* shared box style */
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 14px;
+    border-radius: 12px;
+
+    background: #f8f9fb;
+    border: 1px solid #e9ecef;
+
+    transition: all 0.2s ease;
+}
+
+/* hover effect */
+.filter-item:hover {
+    background: #fff;
+    border-color: #d0d7de;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* icon */
+.filter-item i {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* input */
+.filter-input {
+    border: none;
+    outline: none;
+    background: transparent;
+
+    min-width: 240px;
+    font-size: 14px;
+}
+
+/* select */
+.filter-select {
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* remove ugly focus stretching */
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .filter-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-input {
+        min-width: 100%;
+    }
+}
