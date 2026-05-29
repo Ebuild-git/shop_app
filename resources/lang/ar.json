@@ -1125,6 +1125,21 @@
 "rate_seller_notification_title": "يمكنك تقييم المتسوق!",
 "rate_seller_notification_message": "تم توصيل طلبك <a href=':url' class='underlined-link'>« :title »</a>. يمكنك الآن تقييم المتسوق <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>اضغط على الرابط التالي لإضافة تقييم.</a>",
 "rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه.",
-"prix_min_error": "يجب أن يكون سعر البيع أكبر من :prix درهم."
+"prix_min_error": "يجب أن يكون سعر البيع أكبر من :prix درهم.",
+"email.welcome.title": "مرحباً بك في SHOPIN",
+  "email.welcome.secure_title": "سوق آمن",
+  "email.welcome.secure_subtitle": "تسوّق وبع بشكل مجهول",
+  "email.welcome.heading": "مرحباً بك في <span>SHOPIN</span>!",
+  "email.welcome.greeting": "مرحباً :username",
+  "email.welcome.message": "تم إنشاء حسابك على SHOPIN بنجاح. قبل أن تتمكن من استخدام حسابك، يرجى تأكيد أن عنوان البريد الإلكتروني هذا يخصك.",
+  "email.welcome.cta_button": "تأكيد عنوان بريدي الإلكتروني",
+  "email.welcome.account_info_title": "معلومات حسابك",
+  "email.welcome.label_username": "اسم المستخدم:",
+  "email.welcome.label_email": "عنوان البريد الإلكتروني:",
+  "email.welcome.security_title": "أمانك هو أولويتنا",
+  "email.welcome.security_text": "تحمي SHOPIN هوية المشترين والبائعين. يُرجى التواصل حصرياً عبر تطبيقنا.",
+  "email.welcome.footer_contact": "تواصل معنا",
+  "email.welcome.footer_trust": "الثقة والسلامة",
+  "email.welcome.footer_note": "هذه رسالة آلية، يُرجى عدم الرد عليها."
 
 }

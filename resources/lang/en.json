@@ -1129,7 +1129,22 @@
 "rate_seller_notification_message": "Your order <a href=':url' class='underlined-link'>“:title”</a> has been delivered. You can now rate the Shopiner <a href=':user_url' class='underlined-link'>“:shopiner”</a>.<br><br><a href=':user_url' class='underlined-link'>Click the following link to leave a rating.</a>",
 "rate_seller_fcm_title": "You can rate the seller",
 "rate_seller_fcm_body": "Your purchase \" :title\" has been delivered. You can now rate them.",
-"prix_min_error": "The sale price must be at least :prix DH."
+"prix_min_error": "The sale price must be at least :prix DH.",
+"email.welcome.title": "Welcome to SHOPIN",
+  "email.welcome.secure_title": "Secure Marketplace",
+  "email.welcome.secure_subtitle": "Buy and sell anonymously",
+  "email.welcome.heading": "Welcome to <span>SHOPIN</span>!",
+  "email.welcome.greeting": "Hello :username",
+  "email.welcome.message": "Your SHOPIN account has been successfully created. Before you can use your account, please confirm that this email address belongs to you.",
+  "email.welcome.cta_button": "Confirm my email address",
+  "email.welcome.account_info_title": "Your account information",
+  "email.welcome.label_username": "Username:",
+  "email.welcome.label_email": "Email address:",
+  "email.welcome.security_title": "Your security is our priority",
+  "email.welcome.security_text": "SHOPIN protects the anonymity of buyers and sellers. Please communicate exclusively through our application.",
+  "email.welcome.footer_contact": "Contact us",
+  "email.welcome.footer_trust": "Trust & Safety",
+  "email.welcome.footer_note": "This is an automated message, please do not reply."
 
 }
 
