@@ -44,10 +44,35 @@ class CategoriesController extends Controller
      *     )
      * )
      */
+    // public function list_categorie()
+    // {
+    //     $categories = categories::where('active', true)
+    //         ->orderBy('order')
+    //         ->get()
+    //         ->map(function ($cat) {
+    //             $cat->icon = $cat->icon ? asset('storage/' . $cat->icon) : null;
+    //             $cat->small_icon = $cat->small_icon ? asset('storage/' . $cat->small_icon) : null;
+    //             return $cat;
+    //         });
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $categories
+    //     ]);
+    // }
     public function list_categorie()
     {
+        $locale = app()->getLocale();
+
+        $orderColumn = match ($locale) {
+            'en' => 'title_en',
+            'ar' => 'title_ar',
+            default => 'titre',
+        };
+
         $categories = categories::where('active', true)
-            ->orderBy('order')
+            ->orderBy($orderColumn, 'asc')
+            ->orderBy('order', 'asc')
             ->get()
             ->map(function ($cat) {
                 $cat->icon = $cat->icon ? asset('storage/' . $cat->icon) : null;
@@ -180,16 +205,54 @@ class CategoriesController extends Controller
      *     )
      * )
      */
+    // public function list_sub_categorie()
+    // {
+    //     $subcategories = sous_categories::with('categorie')
+    //         // ->withCount(['getPost as products_count'])
+    //         ->withCount(['getPost as products_count' => function ($query) {
+    //                 $query->whereHas('user_info', function ($q) {
+    //                     $q->where('voyage_mode', 0);
+    //                 });
+    //             }])
+    //         ->orderBy('order')
+    //         ->get()
+    //         ->map(function ($sub) {
+    //             if ($sub->categorie) {
+    //                 if ($sub->categorie->icon && !filter_var($sub->categorie->icon, FILTER_VALIDATE_URL)) {
+    //                     $sub->categorie->icon = asset('storage/' . $sub->categorie->icon);
+    //                 }
+
+    //                 if ($sub->categorie->small_icon && !filter_var($sub->categorie->small_icon, FILTER_VALIDATE_URL)) {
+    //                     $sub->categorie->small_icon = asset('storage/' . $sub->categorie->small_icon);
+    //                 }
+    //             }
+
+    //             return $sub;
+    //         });
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $subcategories
+    //     ]);
+    // }
     public function list_sub_categorie()
     {
+        $locale = app()->getLocale();
+
+        $orderColumn = match ($locale) {
+            'en' => 'title_en',
+            'ar' => 'title_ar',
+            default => 'titre',
+        };
+
         $subcategories = sous_categories::with('categorie')
-            // ->withCount(['getPost as products_count'])
             ->withCount(['getPost as products_count' => function ($query) {
-                    $query->whereHas('user_info', function ($q) {
-                        $q->where('voyage_mode', 0);
-                    });
-                }])
-            ->orderBy('order')
+                $query->whereHas('user_info', function ($q) {
+                    $q->where('voyage_mode', 0);
+                });
+            }])
+            ->orderBy($orderColumn, 'asc')
+            ->orderBy('order', 'asc') // optional but recommended
             ->get()
             ->map(function ($sub) {
                 if ($sub->categorie) {
