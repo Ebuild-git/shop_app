@@ -41,4 +41,72 @@ class LanguageController extends Controller
 
         return redirect()->back();
     }
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/user/language",
+     *     summary="Update authenticated user language",
+     *     description="Updates the locale of the currently authenticated user using Sanctum authentication.",
+     *     tags={"User"},
+     *     security={{"sanctum":{}}},
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"lang"},
+     *             @OA\Property(
+     *                 property="lang",
+     *                 type="string",
+     *                 enum={"en", "fr", "ar"},
+     *                 example="fr"
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Language updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Language updated successfully"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="locale", type="string", example="fr")
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
+    public function updateLanguage(Request $request)
+    {
+        $request->validate([
+            'lang' => 'required|string|in:en,fr,ar',
+        ]);
+
+        $user = $request->user();
+
+        $user->update([
+            'locale' => $request->lang,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Language updated successfully',
+            'data' => [
+                'locale' => $user->locale,
+            ]
+        ]);
+    }
 }

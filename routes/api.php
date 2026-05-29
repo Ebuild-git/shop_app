@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\PostsController as postController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FcmController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\API\AddressController;
 use App\Http\Controllers\API\RatingController;
 use App\Models\User;
@@ -123,6 +124,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/notifications/delete/{id}', [NotificationsController::class, 'delete_notification'])->name('delete_notification');
     Route::get('/notifications/unread-count', [NotificationsController::class, 'get_unread_count'])->name('get_unread_count');
 
+    Route::post('/user/language', [LanguageController::class, 'updateLanguage']);
 
 });
 

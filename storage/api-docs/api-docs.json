@@ -5914,6 +5914,82 @@
                 ]
             }
         },
+        "/api/user/language": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update authenticated user language",
+                "description": "Updates the locale of the currently authenticated user using Sanctum authentication.",
+                "operationId": "31443cbb932bc76480dcbb0f2c6a05a3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lang"
+                                ],
+                                "properties": {
+                                    "lang": {
+                                        "type": "string",
+                                        "enum": [
+                                            "en",
+                                            "fr",
+                                            "ar"
+                                        ],
+                                        "example": "fr"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Language updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Language updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "locale": {
+                                                    "type": "string",
+                                                    "example": "fr"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/user/notifications": {
             "get": {
                 "tags": [
