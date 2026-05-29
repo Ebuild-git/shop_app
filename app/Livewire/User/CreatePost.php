@@ -93,9 +93,26 @@ class CreatePost extends Component
 
     public function updatedSelectedCategory($value)
     {
+        // if ($value != 'x') {
+        //     $c = sous_categories::where('id_categorie', $value)
+        //         ->orderby('titre', 'Asc')
+        //         ->get();
+        //     $this->sous_categories = $c;
+        // } else {
+        //     $this->selectedCategory = null;
+        //     $this->sous_categories = [];
+        // }
+        // $this->validateCategoryPrice();
         if ($value != 'x') {
+            $locale = app()->getLocale();
+            $orderColumn = match($locale) {
+                'en' => 'title_en',
+                'ar' => 'title_ar',
+                default => 'titre',
+            };
+
             $c = sous_categories::where('id_categorie', $value)
-                ->orderby('titre', 'Asc')
+                ->orderBy($orderColumn, 'asc')
                 ->get();
             $this->sous_categories = $c;
         } else {
