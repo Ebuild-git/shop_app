@@ -115,7 +115,7 @@ class Mode extends Component
         // $this->processCartItems();
         $order = $this->processCartItems();
         $this->sendBuyerNotification($order);
-        $this->notifySellers();
+        $this->notifySellers($order);
         $this->sendConfirmationEmail();
         $this->notifyAdminAboutPurchase();
 
@@ -258,7 +258,7 @@ class Mode extends Component
         }
     }
 
-    private function notifySellers()
+    private function notifySellers(Order $order)
     {
         $vendeurUsernames = array_unique(array_column($this->articles_panier, 'vendeur'));
         $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
@@ -273,12 +273,12 @@ class Mode extends Component
             if (empty($articlesPourCeVendeur))
                 continue;
 
-            $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur);
+            $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $order->id);
             $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
         }
     }
 
-    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur)
+    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $orderId)
     {
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
@@ -298,7 +298,9 @@ class Mode extends Component
                 $seller,
                 $buyerPseudo,
                 $articlesWithGain,
-                $salutation
+                $salutation,
+                $this->user,
+                $orderId
             ));
         } catch (\Exception $e) {
             logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
