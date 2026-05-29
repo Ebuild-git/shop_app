@@ -1,23 +1,23 @@
 <div>
      <div class="row" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
         <div class="col-md-12">
-            <div class="filter-card">
+            <div class="filter-card1">
 
                 <!-- Search -->
-                <div class="filter-item search-box">
+                <div class="filter-item1 search-box">
                     <i class="fa fa-search"></i>
 
                     <input type="text"
                         wire:model.live="key"
-                        class="filter-input"
+                        class="filter-input1"
                         placeholder="{!! \App\Traits\TranslateTrait::TranslateText('Trouvez votre shopiner idéal') !!}">
                 </div>
 
                 <!-- Rating -->
-                <div class="filter-item select-box">
+                <div class="filter-item1 select-box">
                     <i class="fa fa-star"></i>
 
-                    <select wire:model.live="rating" class="filter-select">
+                    <select wire:model.live="rating" class="filter-select1">
                         <option value="">
                             {!! \App\Traits\TranslateTrait::TranslateText('Filtrer par avis') !!}
                         </option>

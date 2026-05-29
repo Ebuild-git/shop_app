@@ -4720,7 +4720,7 @@ body[dir="rtl"] .custom-cancel-btn {
 }
 
 
-.filter-card {
+.filter-card1 {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -4735,7 +4735,7 @@ body[dir="rtl"] .custom-cancel-btn {
 }
 
 /* shared box style */
-.filter-item {
+.filter-item1 {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -4750,20 +4750,20 @@ body[dir="rtl"] .custom-cancel-btn {
 }
 
 /* hover effect */
-.filter-item:hover {
+.filter-item1:hover {
     background: #fff;
     border-color: #d0d7de;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 /* icon */
-.filter-item i {
+.filter-item1 i {
     color: #6c757d;
     font-size: 14px;
 }
 
 /* input */
-.filter-input {
+.filter-input1 {
     border: none;
     outline: none;
     background: transparent;
@@ -4773,7 +4773,7 @@ body[dir="rtl"] .custom-cancel-btn {
 }
 
 /* select */
-.filter-select {
+.filter-select1 {
     border: none;
     outline: none;
     background: transparent;
@@ -4783,20 +4783,20 @@ body[dir="rtl"] .custom-cancel-btn {
 }
 
 /* remove ugly focus stretching */
-.filter-input:focus,
-.filter-select:focus {
+.filter-input1:focus,
+.filter-select1:focus {
     outline: none;
     box-shadow: none;
 }
 
 /* responsive */
 @media (max-width: 768px) {
-    .filter-card {
+    .filter-card1 {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .filter-input {
+    .filter-input1 {
         min-width: 100%;
     }
 }
