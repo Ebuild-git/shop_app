@@ -745,6 +745,11 @@ class PostsController extends Controller
         }
 
         $category = $subcategory->categorie;
+
+        $config = configurations::first();
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
+
         Log::info('[PostStore] Subcategory and category resolved', [
             'user_id' => $user->id,
             'subcategory_id' => $subcategory->id,
@@ -803,25 +808,25 @@ class PostsController extends Controller
         $validated = $validator->validated();
         Log::info('[PostStore] Validation passed', ['user_id' => $user->id]);
 
-        if ($category->luxury && $validated['prix'] < 800) {
+        if ($category->luxury && $validated['prix'] < $prix_min_luxury) {
             Log::warning('[PostStore] Luxury price too low', [
                 'user_id' => $user->id,
                 'prix' => $validated['prix'],
             ]);
             return response()->json([
                 'success' => false,
-                'message' => "The sale price must exceed 800 DH to be added to the LUXURY category"
+                'message' => "The sale price must exceed {$prix_min_luxury} DH to be added to the LUXURY category"
             ], 422);
         }
 
-        if (!$category->luxury && $validated['prix'] >= 800) {
+        if (!$category->luxury && $validated['prix'] >= $prix_min_luxury) {
             Log::warning('[PostStore] Non-luxury price too high', [
                 'user_id' => $user->id,
                 'prix' => $validated['prix'],
             ]);
             return response()->json([
                 'success' => false,
-                'message' => "The sale price must be less than 800 DH for the non-luxury version of this category."
+                'message' => "The sale price must be less than {$prix_min_luxury} DH for the non-luxury version of this category."
             ], 422);
         }
 
@@ -850,7 +855,7 @@ class PostsController extends Controller
             'photos_count' => count($photos),
         ]);
 
-        $config = configurations::first();
+        // $config = configurations::first();
 
         $post = new posts();
         $post->photos = $photos;
@@ -1159,8 +1164,12 @@ class PostsController extends Controller
             return response()->json(['success' => false, 'message' => 'Post not found'], 404);
         }
 
+        $config = configurations::first();
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
+
         $validator = Validator::make($request->all(), [
-            'prix' => 'required|numeric|min:1',
+            'prix' => 'required|numeric|min:' . $prix_min_non_luxury,
         ]);
 
         if ($validator->fails()) {
@@ -1185,17 +1194,17 @@ class PostsController extends Controller
         }
 
         $isLuxury = $post->sous_categorie_info?->categorie?->luxury ?? false;
-        if ($isLuxury && $newPrice < 800) {
+        if ($isLuxury && $newPrice < $prix_min_luxury) {
             return response()->json([
                 'success' => false,
-                'message' => "The minimum price for a Luxury item is 800 DH."
+                'message' => "The minimum price for a Luxury item is {$prix_min_luxury} DH."
             ], 422);
         }
 
-        if (!$isLuxury && $newPrice < 50) {
+        if (!$isLuxury && $newPrice < $prix_min_non_luxury) {
             return response()->json([
                 'success' => false,
-                'message' => "The minimum price is 50 DH."
+                'message' => "The minimum price is {$prix_min_non_luxury} DH."
             ], 422);
         }
 

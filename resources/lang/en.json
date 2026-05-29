@@ -642,8 +642,8 @@
     "11 ans": "11 years",
     "12 ans": "12 years",
     "13 ans": "13 years",
-    "price_luxury_error_high": "The sale price must exceed 800 DH to be added to the LUXURY category",
-    "price_luxury_error_low": "The sale price must be less than 800 DH for the non-luxury version of this category.",
+    "price_luxury_error_high": "The sale price must exceed :prix DH to be added to the LUXURY category",
+    "price_luxury_error_low": "The sale price must be less than :prix DH for the non-luxury version of this category.",
     "order_notification": "Order Notification",
     "salutation": "Hello",
     "new_order_message": "We inform you that you have received a new order from <span class=\"pseudo\">:buyer_pseudo</span>. Please prepare the item for shipping. A delivery agent from our logistics partner will contact you soon to pick up the item.",
@@ -1121,13 +1121,15 @@
 "validation.building_required": "The building name field is required.",
 "validation.floor_required": "The floor field is required.",
 "validation.apartment_required": "The apartment number field is required.",
-"luxury_min_price": "The minimum price for a Luxury item is 800 DH.",
-"luxury_price_placeholder": "Between 800 and :max DH",
-    "normal_price_placeholder": "Between :min and :max DH",
-    "price_min_50": "The price must be at least 50 DH.",
-    "rate_seller_notification_title": "You can rate the Shopiner!",
-        "rate_seller_notification_message": "Your order <a href=':url' class='underlined-link'>“:title”</a> has been delivered. You can now rate the Shopiner <a href=':user_url' class='underlined-link'>“:shopiner”</a>.<br><br><a href=':user_url' class='underlined-link'>Click the following link to leave a rating.</a>",
+"luxury_min_price": "The minimum price for a Luxury item is :prix DH.",
+"luxury_price_placeholder": "Between :min and :max DH",
+"normal_price_placeholder": "Between :min and :max DH",
+"price_min_error": "The price must be at least :prix DH.",
+"rate_seller_notification_title": "You can rate the Shopiner!",
+"rate_seller_notification_message": "Your order <a href=':url' class='underlined-link'>“:title”</a> has been delivered. You can now rate the Shopiner <a href=':user_url' class='underlined-link'>“:shopiner”</a>.<br><br><a href=':user_url' class='underlined-link'>Click the following link to leave a rating.</a>",
 "rate_seller_fcm_title": "You can rate the seller",
-    "rate_seller_fcm_body": "Your purchase \" :title\" has been delivered. You can now rate them."
+"rate_seller_fcm_body": "Your purchase \" :title\" has been delivered. You can now rate them.",
+"prix_min_error": "The sale price must be at least :prix DH."
+
 }
 

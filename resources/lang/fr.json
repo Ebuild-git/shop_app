@@ -644,8 +644,8 @@
     "11 ans": "11 ans",
     "12 ans": "12 ans",
     "13 ans": "13 ans",
-    "price_luxury_error_high": "Le prix de vente doit dépasser les 800 DH pour être ajouter à la catégorie LUXURY",
-    "price_luxury_error_low": "Le prix de vente doit être inférieur à 800 DH pour la version non-luxury de cette catégorie.",
+    "price_luxury_error_high": "Le prix de vente doit dépasser les :prix DH pour être ajouter à la catégorie LUXURY",
+    "price_luxury_error_low": "Le prix de vente doit être inférieur à :prix DH pour la version non-luxury de cette catégorie.",
     "order_notification": "Notification de commande",
     "salutation": "Bonjour",
     "new_order_message": "Nous vous informons que vous avez reçu une nouvelle commande de la part de <span class=\"pseudo\">:buyer_pseudo</span>. Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer l'article.",
@@ -1119,14 +1119,16 @@
 "validation.building_required": "Veuillez renseigner le nom du résidence.",
 "validation.floor_required": "Veuillez renseigner l'étage.",
 "validation.apartment_required": "Veuillez renseigner le numéro d'appartement.",
-    "luxury_min_price": "Le prix minimum pour un article Luxury est de 800 DH.",
-    "luxury_price_placeholder": "Entre 800 et :max DH",
-    "normal_price_placeholder": "Entre :min et :max DH",
-    "price_min_50": "Le prix doit être au moins 50 DH.",
-    "rate_seller_notification_title": "Vous pouvez évaluer le Shopiner !",
-    "rate_seller_notification_message": "Votre commande <a href=':url' class='underlined-link'>« :title »</a> a été livrée. Vous pouvez maintenant évaluer le Shopiner <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>Appuyez sur le lien suivant pour attribuer une note.</a>",
-    "rate_seller_fcm_title": "Vous pouvez noter le vendeur",
-    "rate_seller_fcm_body": "Votre achat \" :title\" a été livré. Vous pouvez maintenant le noter."
+"luxury_min_price": "Le prix minimum pour un article Luxury est de :prix DH.",
+"luxury_price_placeholder": "Entre :min et :max DH",
+"normal_price_placeholder": "Entre :min et :max DH",
+"price_min_error": "Le prix doit être au moins :prix DH.",
+"rate_seller_notification_title": "Vous pouvez évaluer le Shopiner !",
+"rate_seller_notification_message": "Votre commande <a href=':url' class='underlined-link'>« :title »</a> a été livrée. Vous pouvez maintenant évaluer le Shopiner <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>Appuyez sur le lien suivant pour attribuer une note.</a>",
+"rate_seller_fcm_title": "Vous pouvez noter le vendeur",
+"rate_seller_fcm_body": "Votre achat \" :title\" a été livré. Vous pouvez maintenant le noter.",
+"prix_min_error": "Le prix de vente doit être supérieur à :prix DH."
+
 }
 
 

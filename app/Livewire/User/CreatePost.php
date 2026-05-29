@@ -222,14 +222,16 @@ class CreatePost extends Component
             return;
         }
 
-        if ($category->luxury && $this->prix < 800) {
-            logger('luxury category and low price');
-            $this->addError('prix', __('price_luxury_error_high'));
-        } elseif (! $category->luxury && $this->prix >= 800) {
-            logger('non-luxury category and high price');
-            $this->addError('prix', __('price_luxury_error_low'));
+
+        $config = configurations::first();
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
+
+        if ($category->luxury && $this->prix < $prix_min_luxury) {
+            $this->addError('prix', __('price_luxury_error_high', ['prix' => $prix_min_luxury]));
+        } elseif (! $category->luxury && $this->prix >= $prix_min_luxury) {
+            $this->addError('prix', __('price_luxury_error_low', ['prix' => $prix_min_luxury]));
         } else {
-            logger('price valid');
             $this->resetErrorBag('prix');
         }
     }
@@ -249,6 +251,10 @@ class CreatePost extends Component
                 }
             }
         }
+        $config = configurations::first();
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
+
         $rules = [
             'titre' => 'required|min:2',
             'description' => 'string|nullable',
@@ -257,7 +263,7 @@ class CreatePost extends Component
             'photo3' => 'nullable|min:1',
             'photo4' => 'nullable|min:1',
             'region' => 'required|integer|exists:regions,id',
-            'prix' => 'required|numeric|min:50',
+            'prix' => 'required|numeric|min:' . $prix_min_non_luxury,
             'prix_achat' => 'nullable|numeric|min:50',
             'etat' => ['required', 'string'],
             'selectedSubcategory' => 'required|integer|exists:sous_categories,id',
@@ -271,7 +277,7 @@ class CreatePost extends Component
         try {
             $this->validate($rules, [
                 'required' => __('required2'),
-                'prix.min' => 'Le prix doit être supérieur à 50 DH.',
+                'prix.min' => __('prix_min_error', ['prix' => $prix_min_non_luxury]),
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = $e->validator->getMessageBag();
@@ -357,15 +363,6 @@ class CreatePost extends Component
 
             return;
         }
-
-        // if (is_null($user->photo_verified_at)) {
-        //     $this->dispatch('alert', [
-        //         'message' => __('photo_pending_warning'),
-        //         'type' => 'warning',
-        //     ]);
-
-        //     return;
-        // }
 
         $this->validateCategoryPrice();
 

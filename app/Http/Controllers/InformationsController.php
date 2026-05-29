@@ -91,6 +91,8 @@ class InformationsController extends Controller
             'instagram' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
             'email_send_message' => ['nullable', 'email'],
+            'prix_min_luxury'     => ['nullable', 'numeric', 'min:0'],
+            'prix_min_non_luxury' => ['nullable', 'numeric', 'min:0'],
             'logo' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:4048',
         ]);
 
@@ -113,6 +115,8 @@ class InformationsController extends Controller
         $config->valider_publication = $request->valider_publication ? true : false;
         $config->valider_photo = $request->valider_photo ? true : false;
         $config->email_send_message = $request->email_send_message;
+        $config->prix_min_luxury     = $request->prix_min_luxury;
+        $config->prix_min_non_luxury = $request->prix_min_non_luxury;
         $config->save();
 
         //show success message

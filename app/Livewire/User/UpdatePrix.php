@@ -6,6 +6,7 @@ use App\Events\AdminEvent;
 use App\Models\History_change_price;
 use App\Models\notifications;
 use App\Models\posts;
+use App\Models\configurations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -59,11 +60,21 @@ class UpdatePrix extends Component
 
     public function render()
     {
-        return view('livewire.user.update-prix');
+        $config = configurations::first();
+
+        return view('livewire.user.update-prix', [
+            'prix_min_luxury'     => $config->prix_min_luxury ?? 800,
+            'prix_min_non_luxury' => $config->prix_min_non_luxury ?? 50,
+        ]);
+
     }
 
     public function form_update_prix()
     {
+        $config = configurations::first();
+        $prix_min_luxury = $config->prix_min_luxury ?? 800;
+        $prix_min_non_luxury = $config->prix_min_non_luxury ?? 50;
+
         // Validation
         $this->validate([
             'prix' => 'required|numeric|min:1',
@@ -84,13 +95,14 @@ class UpdatePrix extends Component
             $newRawPrix = (int) round($this->prix);
 
             $isLuxury = $post->sous_categorie_info?->categorie?->luxury ?? false;
-            if ($isLuxury && $newRawPrix < 800) {
-                $this->addError('prix', __('luxury_min_price'));
+
+            if ($isLuxury && $newRawPrix < $prix_min_luxury) {
+                $this->addError('prix', __('luxury_min_price', ['prix' => $prix_min_luxury]));
                 return;
             }
 
-            if (!$isLuxury && $newRawPrix < 50) {
-                $this->addError('prix', __('price_min_50'));
+            if (!$isLuxury && $newRawPrix < $prix_min_non_luxury) {
+                $this->addError('prix', __('price_min_error', ['prix' => $prix_min_non_luxury]));
                 return;
             }
             // Check if price is the same

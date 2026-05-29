@@ -643,8 +643,8 @@
     "11 ans": "11 سنة",
     "12 ans": "12 سنة",
     "13 ans": "13 سنة",
-    "price_luxury_error_high": "يجب أن يتجاوز سعر البيع 800 درهم ليتم إضافته إلى فئة الفخامة",
-    "price_luxury_error_low": "يجب أن يكون سعر البيع أقل من 800 درهم للمنتج غير الفخامة من هذه الفئة.",
+    "price_luxury_error_high": "يجب أن يتجاوز سعر البيع :prix درهم ليتم إضافته إلى فئة الفخامة",
+    "price_luxury_error_low": "يجب أن يكون سعر البيع أقل من :prix درهم للمنتج غير الفخامة من هذه الفئة.",
     "order_notification": "إشعار الطلب",
     "salutation": "مرحبًا",
     "new_order_message": "نعلمك بأنك تلقيت طلبًا جديدًا من <span class=\"pseudo\">:buyer_pseudo</span>. يرجى تحضير المنتج للشحن. سيتصل بك مندوب التوصيل من شريكنا اللوجستي قريبًا لاستلام المنتج.",
@@ -1118,12 +1118,13 @@
 "validation.building_required": "يرجى إدخال اسم البناية.",
 "validation.floor_required": "يرجى إدخال رقم الطابق.",
 "validation.apartment_required": "يرجى إدخال رقم الشقة.",
-"luxury_min_price": "الحد الأدنى للسعر لمنتج Luxury هو 800 درهم.",
-"luxury_price_placeholder": "بين 800 و :max درهم",
+"luxury_min_price": "الحد الأدنى للسعر لمنتج Luxury هو :prix درهم.",
+"luxury_price_placeholder": "بين :min و :max درهم",
 "normal_price_placeholder": "بين :min و :max درهم",
-"price_min_50": "يجب أن يكون السعر 50 درهم على الأقل.",
+"price_min_error": "يجب أن يكون السعر :prix درهم على الأقل.",
 "rate_seller_notification_title": "يمكنك تقييم المتسوق!",
 "rate_seller_notification_message": "تم توصيل طلبك <a href=':url' class='underlined-link'>« :title »</a>. يمكنك الآن تقييم المتسوق <a href=':user_url' class='underlined-link'>« :shopiner »</a>.<br><br><a href=':user_url' class='underlined-link'>اضغط على الرابط التالي لإضافة تقييم.</a>",
-"rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه."
+"rate_seller_fcm_body": "تم تسليم مشترياتك \" :title\". يمكنك الآن تقييمه.",
+"prix_min_error": "يجب أن يكون سعر البيع أكبر من :prix درهم."
 
 }

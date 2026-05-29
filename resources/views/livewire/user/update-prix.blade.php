@@ -26,26 +26,19 @@
                         <label for="" class="strong color">
                             {{ __('new_reduced_price') }}
                         </label>
-                        {{-- <input type="number"
-                            class="form-control border-r @error('prix') is-invalid @endif" placeholder="{{ __('less_than_price') }} {{ $old_price }} {{ __('currency') }}"
-                step="0.1" wire:model='prix'> --}}
-                {{-- <input type="number"
-                    class="form-control border-r @error('prix') is-invalid @endif"
-                    placeholder="{{ $post->sous_categorie_info?->categorie?->luxury ? __('luxury_price_placeholder', ['min' => 800, 'max' => $old_price]) : __('less_than_price') . ' ' . $old_price . ' ' . __('currency') }}"
-                    step="0.1" wire:model='prix'> --}}
-                    <input type="number"
+                        <input type="number"
                         class="form-control border-r @error('prix') is-invalid @endif"
                         placeholder="{{ $post->sous_categorie_info?->categorie?->luxury
-                            ? __('luxury_price_placeholder', ['min' => 800, 'max' => $old_price])
-                            : __('normal_price_placeholder', ['min' => 50, 'max' => $old_price]) }}"
+                            ? __('luxury_price_placeholder', ['min' => $prix_min_luxury, 'max' => $old_price])
+                            : __('normal_price_placeholder', ['min' => $prix_min_non_luxury, 'max' => $old_price]) }}"
                         step="0.1" wire:model='prix'>
-            @error('prix')
-                <div class="small text-center text-danger alert p-2">
-                    <img width="30" height="30" src="/icons/error--v1.png"
-            alt="error--v1" /> <br>
-                    {!! $message !!}
-                </div>
-            @enderror
+                        @error('prix')
+                            <div class="small text-center text-danger alert p-2">
+                                <img width="30" height="30" src="/icons/error--v1.png"
+                        alt="error--v1" /> <br>
+                                {!! $message !!}
+                            </div>
+                        @enderror
             @if ($show) <div class="text-end
                 mt-3">
             <button type="submit" class="btn btn-sm bg-red">

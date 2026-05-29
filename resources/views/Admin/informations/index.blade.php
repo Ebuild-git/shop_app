@@ -153,7 +153,27 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="prix_min_luxury">Prix minimum Luxury</label>
+                            <input type="number" name="prix_min_luxury" step="0.01" min="0"
+                                value="{{ old('prix_min_luxury', $configuration->prix_min_luxury) }}"
+                                class="form-control">
+                            @error('prix_min_luxury')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="prix_min_non_luxury">Prix minimum Non Luxury</label>
+                            <input type="number" name="prix_min_non_luxury" step="0.01" min="0"
+                                value="{{ old('prix_min_non_luxury', $configuration->prix_min_non_luxury) }}"
+                                class="form-control">
+                            @error('prix_min_non_luxury')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
+
+
 
 
                     <div class="modal-footer">
