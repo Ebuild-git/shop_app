@@ -1116,7 +1116,7 @@
 "cin_reject_notification_title": "Votre carte d'identité a été rejetée",
 "cin_reject_notification_message": "Nous vous informons que votre carte d'identité n'a pas été acceptée par les administrateurs. Veuillez soumettre une photo claire et valide.",
 "validation.street_required1": "Veuillez renseigner la rue.",
-"validation.building_required": "Veuillez renseigner le nom du résidence.",
+"validation.building_required": "Veuillez renseigner le nom de la résidence.",
 "validation.floor_required": "Veuillez renseigner l'étage.",
 "validation.apartment_required": "Veuillez renseigner le numéro d'appartement.",
 "luxury_min_price": "Le prix minimum pour un article Luxury est de :prix DH.",
