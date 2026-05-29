@@ -809,24 +809,16 @@ class PostsController extends Controller
         Log::info('[PostStore] Validation passed', ['user_id' => $user->id]);
 
         if ($category->luxury && $validated['prix'] < $prix_min_luxury) {
-            Log::warning('[PostStore] Luxury price too low', [
-                'user_id' => $user->id,
-                'prix' => $validated['prix'],
-            ]);
             return response()->json([
                 'success' => false,
                 'message' => "The sale price must exceed {$prix_min_luxury} DH to be added to the LUXURY category"
             ], 422);
         }
 
-        if (!$category->luxury && $validated['prix'] >= $prix_min_luxury) {
-            Log::warning('[PostStore] Non-luxury price too high', [
-                'user_id' => $user->id,
-                'prix' => $validated['prix'],
-            ]);
+        if (!$category->luxury && $validated['prix'] < $prix_min_non_luxury) {
             return response()->json([
                 'success' => false,
-                'message' => "The sale price must be less than {$prix_min_luxury} DH for the non-luxury version of this category."
+                'message' => "The minimum price is {$prix_min_non_luxury} DH."
             ], 422);
         }
 

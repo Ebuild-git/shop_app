@@ -229,8 +229,8 @@ class CreatePost extends Component
 
         if ($category->luxury && $this->prix < $prix_min_luxury) {
             $this->addError('prix', __('price_luxury_error_high', ['prix' => $prix_min_luxury]));
-        } elseif (! $category->luxury && $this->prix >= $prix_min_luxury) {
-            $this->addError('prix', __('price_luxury_error_low', ['prix' => $prix_min_luxury]));
+        } elseif (! $category->luxury && $this->prix < $prix_min_non_luxury) {
+            $this->addError('prix', __('prix_min_error', ['prix' => $prix_min_non_luxury]));
         } else {
             $this->resetErrorBag('prix');
         }
