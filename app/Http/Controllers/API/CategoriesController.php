@@ -4,11 +4,40 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{categories, sous_categories, proprietes};
+use App\Models\{categories, sous_categories, proprietes, configurations};
 use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/config/prices",
+     *     tags={"Configuration"},
+     *     summary="Get minimum pricing configuration",
+     *     description="Returns minimum prices for luxury and non-luxury items",
+     *     operationId="getConfigPrices",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error"
+     *     )
+     * )
+     */
+    public function prices()
+    {
+        $config = configurations::first();
+
+        return response()->json([
+            'prix_min_luxury' => $config->prix_min_luxury ?? 800,
+            'prix_min_non_luxury' => $config->prix_min_non_luxury ?? 50,
+        ]);
+    }
+
     /**
      * @OA\Get(
      *     path="/api/categories",

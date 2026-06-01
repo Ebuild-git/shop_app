@@ -535,7 +535,10 @@ class PostsController extends Controller
         $month = $request->input('month');
         $year  = $request->input('year');
 
-        $query = posts::with("sous_categorie_info.categorie")->where("id_user_buy", $userId)
+        $query = posts::with([
+            "sous_categorie_info.categorie",
+            "user_info" => fn($q) => $q->select('id', 'username')
+            ])->where("id_user_buy", $userId)
             ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
                     "statut", "prix", "sell_at")
             ->orderBy('sell_at', 'desc');

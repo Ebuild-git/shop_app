@@ -40,6 +40,7 @@ Route::post('/resend-email-verification', [AuthController::class, 'resendEmailVe
 
 Route::get('/regions', [ShopController::class, 'regions']);
 Route::get('/cities', [ShopController::class, 'cities']);
+Route::get('/config/prices', [CategoriesController::class, 'prices']);
 
 Route::get('/categories', [CategoriesController::class, 'list_categorie'])->name('list_categorie');
 Route::get('/categorie/{id}', [CategoriesController::class, 'details_categorie'])->name('details_categorie');

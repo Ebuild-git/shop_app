@@ -1675,6 +1675,24 @@
                 ]
             }
         },
+        "/api/config/prices": {
+            "get": {
+                "tags": [
+                    "Configuration"
+                ],
+                "summary": "Get minimum pricing configuration",
+                "description": "Returns minimum prices for luxury and non-luxury items",
+                "operationId": "getConfigPrices",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
