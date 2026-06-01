@@ -1,3 +1,9 @@
+@error('general')
+    <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle"></i> {{ $message }}
+    </div>
+@enderror
+
 <form wire:submit="submit" id="my-form">
 
 

@@ -93,16 +93,6 @@ class CreatePost extends Component
 
     public function updatedSelectedCategory($value)
     {
-        // if ($value != 'x') {
-        //     $c = sous_categories::where('id_categorie', $value)
-        //         ->orderby('titre', 'Asc')
-        //         ->get();
-        //     $this->sous_categories = $c;
-        // } else {
-        //     $this->selectedCategory = null;
-        //     $this->sous_categories = [];
-        // }
-        // $this->validateCategoryPrice();
         if ($value != 'x') {
             $locale = app()->getLocale();
             $orderColumn = match($locale) {
@@ -155,9 +145,22 @@ class CreatePost extends Component
     // {
     //     $this->prix = round($value);
     // }
+    // public function updatedPrix($value)
+    // {
+    //     $this->prix = (int) round($value);
+    // }
     public function updatedPrix($value)
     {
-        $this->prix = (int) round($value);
+        if ($value === '' || $value === null) {
+            $this->prix = null;
+            return;
+        }
+        if (!is_numeric($value)) {
+            $this->prix = null;
+            return;
+        }
+        $this->prix = (int) round((float) $value);
+        $this->validateCategoryPrice();
     }
 
     public function updatedPtitre($value)
@@ -218,10 +221,30 @@ class CreatePost extends Component
             ->with('categories', $categories);
     }
 
+    public function updatedPrixAchat($value)
+    {
+        if ($value === '' || $value === null) {
+            $this->prix_achat = null;
+            return;
+        }
+        if (!is_numeric($value)) {
+            $this->prix_achat = null;
+        }
+    }
+
     public function inputChanged($value)
     {
-        $this->prix = (int) round($value);
+        if ($value === '' || $value === null || !is_numeric($value)) {
+            $this->prix = null;
+            return;
+        }
+        $this->prix = (int) round((float) $value);
     }
+
+    // public function inputChanged($value)
+    // {
+    //     $this->prix = (int) round($value);
+    // }
 
     public function updated($propertyName)
     {
@@ -236,6 +259,11 @@ class CreatePost extends Component
 
         $category = categories::find($this->selectedCategory);
         if (! $category) {
+            return;
+        }
+
+        if ($this->prix === null || $this->prix === '') {
+            $this->resetErrorBag('prix');
             return;
         }
 
@@ -480,17 +508,32 @@ class CreatePost extends Component
     }
 
 
+    // public function getPrix($prix)
+    // {
+    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
+    //     if ($sous_cat) {
+    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
+    //         $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));  // use $prix param, not $this->prix
+
+    //         return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
+    //     } else {
+    //         return 'N/A';
+    //     }
+    // }
     public function getPrix($prix)
     {
+        if (!$prix || !is_numeric($prix)) {
+            return '0.00';
+        }
+
         $sous_cat = sous_categories::find($this->selectedSubcategory);
         if ($sous_cat) {
-            $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
-            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));  // use $prix param, not $this->prix
-
-            return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
-        } else {
-            return 'N/A';
+            $pourcentage_gain = $sous_cat->categorie->pourcentage_gain ?? 0;
+            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
+            return number_format($prix_calculé, 2, '.', '');
         }
+
+        return number_format($prix, 2, '.', '');
     }
 
     public function RemoveMe($index)
@@ -525,5 +568,15 @@ class CreatePost extends Component
             $post->photos = json_encode($photosArray);
             $post->save();
         }
+    }
+
+    protected function handleException(\Throwable $e): void
+    {
+        // Log it but show a friendly validation error instead of crashing
+        \Log::error('CreatePost component error: ' . $e->getMessage(), [
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        $this->addError('general', __('Une erreur inattendue s\'est produite. Veuillez réessayer.'));
     }
 }
