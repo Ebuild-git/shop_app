@@ -301,16 +301,10 @@ class ListePublications extends Component
                 //     'reason' => $motif_suppression,
                 // ]);
 
-                $notification->message = strip_tags(
-                    str_replace(
-                        ['<br>', '<br/>', '<br />'],
-                        "\n",
-                        __('post_deleted_notification_message', [
-                            'title'  => $post->titre,
-                            'reason' => $this->motif_suppression,
-                        ])
-                    )
-                );
+                $notification->message = __('post_deleted_notification_message', [
+                    'title'  => $post->titre,
+                    'reason' => __($this->motif_suppression),
+                ]);
                 $notification->save();
 
                 App::setLocale(config('app.locale'));
@@ -322,7 +316,7 @@ class ListePublications extends Component
                 $sent = $fcmService->sendToUser(
                     $post->id_user,
                     "{$greeting} " . $post->user_info->username,
-                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
+                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . __($this->motif_suppression),
                     [
                         'type'            => 'alerte',
                         'notification_id' => $notification->id,

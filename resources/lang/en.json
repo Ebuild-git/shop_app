@@ -1240,7 +1240,19 @@
 "footer": "© Shopin. All rights reserved.",
 "total_ventes": "Total sales",
 "you_earn": "You earn",
-"buyer_pays": "Buyer pays"
+"buyer_pays": "Buyer pays",
+ "Annonce de produits interdits ou illégaux": "Listing of prohibited or illegal products",
+  "Annonce multiple du même article": "Multiple listings of the same item",
+  "Autres violations des politiques du site": "Other website policy violations",
+  "Contenu inapproprié": "Inappropriate content",
+  "Description trompeuse de l'état de l'article": "Misleading item condition description",
+  "Fraude ou activité suspecte": "Fraud or suspicious activity",
+  "Information incorrecte sur la taille, la couleur, etc.": "Incorrect information about size, color, etc.",
+  "Photos floues ou de mauvaise qualité": "Blurry or low-quality photos",
+  "Prix excessif pour le produit mis en vente": "Excessive price for the listed product",
+  "Produit contrefait ou non authentique": "Counterfeit or non-authentic product",
+  "Publicité non autorisée ou spam": "Unauthorized advertising or spam",
+  "Violation des droits d'auteur ou de la propriété intellectuelle": "Copyright or intellectual property violation"
 
 
 }

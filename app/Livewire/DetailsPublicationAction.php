@@ -36,125 +36,6 @@ class DetailsPublicationAction extends Component
         return view('livewire.details-publication-action');
     }
 
-    // public function valider()
-    // {
-    //     //valider le post
-    //     $post = posts::find($this->post->id);
-    //     if ($post) {
-    //         //update verified_at date
-    //         $post->verified_at = now();
-    //         $post->statut = 'vente';
-    //         $post->save();
-
-    //         event(new UserEvent($post->id_user));
-    //         //make notification
-    //         $notification = new notifications();
-    //         $notification->titre = "Votre publication a été validé !";
-    //         $notification->id_user_destination = $post->id_user;
-    //         $notification->type = "alerte";
-    //         $notification->url = "/post/" . $post->id;
-    //         $notification->id_post = $post->id;
-    //         $notification->destination = "user";
-    //         $notification->id_user = $post->id_user;
-    //         $notification->message = "Nous vous informons que votre publication
-    //         <a href='" . route('details_post2', ['id' => $post->id, 'titre' => $post->titre]) . "' class='underlined-link'>
-    //             $post->titre
-    //         </a> a été validé par les administrateurs.";
-    //         $notification->save();
-
-    //         // Send FCM notification
-    //         $fcmService = app(\App\Services\FcmService::class);
-    //         $sent = $fcmService->sendToUser(
-    //             $post->id_user,
-    //             "Votre publication a été validé !",
-    //             "Nous vous informons que votre publication " . $post->titre . " a été validé par les administrateurs.",
-    //             [
-    //                 'type' => 'alerte',
-    //                 'notification_id' => $notification->id,
-    //                 'destination' => 'user',
-    //                 'action' => 'post_validated',
-    //                 'post_id' => $post->id,
-    //             ]
-    //         );
-
-    //         if ($sent) {
-    //             \Log::info("FCM notification sent successfully", [
-    //                 'user_id' => $post->id_user,
-    //                 'notification_id' => $notification->id,
-    //                 'type' => 'post_validated'
-    //             ]);
-    //         } else {
-    //             \Log::warning("FCM notification failed to send", [
-    //                 'user_id' => $post->id_user,
-    //                 'notification_id' => $notification->id,
-    //                 'reason' => 'User has no FCM token or token invalid'
-    //             ]);
-    //         }
-
-
-    //         // Message de succès
-    //         session()->flash("success", "Le publication a été validée");
-
-    //     } else {
-    //         session()->flash("error", "Une erreur est survenue lors de la validation de la publication, veuillez réessayer plus tard.");
-    //     }
-    // }
-
-
-    // public function remettre()
-    // {
-    //     $post = posts::find($this->post->id);
-    //     if ($post) {
-    //         $post->update([
-    //             'sell_at' => null,
-    //             'id_user_buy' => null,
-    //             'statut' => 'vente',
-    //         ]);
-
-    //         event(new UserEvent($post->id_user));
-
-    //         $notification = new notifications();
-    //         $notification->titre = "Une vente a été retournée";
-    //         $notification->id_user_destination = $post->id_user;
-    //         $notification->type = "alerte";
-    //         $notification->url = "/post/" . $post->id;
-    //         $notification->message = "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !";
-    //         $notification->save();
-
-    //         // Send FCM notification
-    //         $fcmService = app(\App\Services\FcmService::class);
-    //         $sent = $fcmService->sendToUser(
-    //             $post->id_user,
-    //             "Une vente a été retournée",
-    //             "Nous vous informons que votre publication \"" . $post->titre . "\" a été retournée à la vente !",
-    //             [
-    //                 'type' => 'alerte',
-    //                 'notification_id' => $notification->id,
-    //                 'destination' => 'user',
-    //                 'action' => 'post_returned_to_sale',
-    //                 'post_id' => $post->id,
-    //             ]
-    //         );
-
-    //         if ($sent) {
-    //             \Log::info("FCM notification sent successfully", [
-    //                 'user_id' => $post->id_user,
-    //                 'notification_id' => $notification->id,
-    //                 'type' => 'post_returned_to_sale'
-    //             ]);
-    //         } else {
-    //             \Log::warning("FCM notification failed to send", [
-    //                 'user_id' => $post->id_user,
-    //                 'notification_id' => $notification->id,
-    //                 'reason' => 'User has no FCM token or token invalid'
-    //             ]);
-    //         }
-    //         session()->flash('success', 'La publication a bien été remise');
-    //     } else {
-    //         // Show error message
-    //         session()->flash("error", "Une erreur est survenue, veuillez réessayer plus tard.");
-    //     }
-    // }
     public function valider()
     {
         $post = posts::find($this->post->id);
@@ -352,149 +233,6 @@ class DetailsPublicationAction extends Component
         }
     }
 
-
-    // public function confirmDelete($id)
-    // {
-    //     $post = posts::withTrashed()->find($id);
-
-    //     if ($post) {
-    //         if (!empty($this->motif_suppression)) {
-    //             $post->motif_suppression = $this->motif_suppression;
-    //             $post->save();
-
-    //             $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
-    //             $notification = new notifications();
-    //             $notification->titre = "{$greeting} " . $post->user_info->username;
-    //             $notification->id_user_destination = $post->id_user;
-    //             $notification->type = "alerte";
-    //             $notification->url = "#";
-    //             $notification->message = "
-    //                 Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
-    //                 La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
-    //                 Merci pour votre compréhension.
-    //             ";
-    //             $notification->save();
-    //             event(new UserEvent($post->id_user));
-
-    //             // Send FCM notification
-    //             $fcmService = app(\App\Services\FcmService::class);
-    //             $sent = $fcmService->sendToUser(
-    //                 $post->id_user,
-    //                 "{$greeting} " . $post->user_info->username,
-    //                 "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
-    //                 [
-    //                     'type' => 'alerte',
-    //                     'notification_id' => $notification->id,
-    //                     'destination' => 'user',
-    //                     'action' => 'post_deleted',
-    //                     'post_id' => $post->id,
-    //                 ]
-    //             );
-
-    //             if ($sent) {
-    //                 \Log::info("FCM notification sent successfully", [
-    //                     'user_id' => $post->id_user,
-    //                     'notification_id' => $notification->id,
-    //                     'type' => 'post_deleted'
-    //                 ]);
-    //             } else {
-    //                 \Log::warning("FCM notification failed to send", [
-    //                     'user_id' => $post->id_user,
-    //                     'notification_id' => $notification->id,
-    //                     'reason' => 'User has no FCM token or token invalid'
-    //                 ]);
-    //             }
-
-    //             $post->delete();
-    //             session()->flash('success', 'La publication a été supprimée avec succès !');
-    //             $this->dispatch('hide-delete-modal');
-
-    //         } else {
-    //             session()->flash('error', 'Veuillez sélectionner un motif de suppression.');
-    //             $this->dispatch('hide-delete-modal');
-
-    //         }
-    //     } else {
-    //         session()->flash('error', "Une erreur est survenue lors de la suppression !");
-    //         $this->dispatch('hide-delete-modal');
-    //     }
-    // }
-    // public function confirmDelete($id)
-    // {
-    //     $post = posts::withTrashed()->find($id);
-
-    //     if ($post) {
-    //         if (!empty($this->motif_suppression)) {
-    //             $post->motif_suppression = $this->motif_suppression;
-    //             $post->save();
-
-    //             $greeting = $post->user_info->gender === 'female' ? "Chère" : "Cher";
-    //             $notification = new notifications();
-    //             $notification->titre = "{$greeting} " . $post->user_info->username;
-    //             $notification->id_user_destination = $post->id_user;
-    //             $notification->type = "alerte";
-    //             $notification->url = "#";
-    //             $notification->message = "
-    //                 Votre annonce pour <strong>" . htmlspecialchars($post->titre) . "</strong> a été retirée par l'équipe de <span style='color: black; font-weight: 500;'>SHOP</span><span style='color: #008080; font-weight: 500;'>IN</span>.
-    //                 La raison de la suppression est la suivante: <b style='color: #e74c3c;'>" . htmlspecialchars($this->motif_suppression) . "</b> <br/>
-    //                 Merci pour votre compréhension.
-    //             ";
-    //             $notification->save();
-    //             event(new UserEvent($post->id_user));
-
-    //             $fcmService = app(\App\Services\FcmService::class);
-    //             $fcmService->sendToUser(
-    //                 $post->id_user,
-    //                 "{$greeting} " . $post->user_info->username,
-    //                 "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
-    //                 [
-    //                     'type' => 'alerte',
-    //                     'notification_id' => $notification->id,
-    //                     'destination' => 'user',
-    //                     'action' => 'post_deleted',
-    //                     'post_id' => $post->id,
-    //                 ]
-    //             );
-
-    //             $post->delete();
-
-    //             // ✅ Just redirect — no modal event needed
-    //             return redirect(request()->header('Referer'))->with('success', 'La publication a été supprimée avec succès !');
-
-    //         } else {
-    //             return redirect(request()->header('Referer'))->with('error', 'Veuillez sélectionner un motif de suppression.');
-    //         }
-    //     } else {
-    //         return redirect(request()->header('Referer'))->with('error', "Une erreur est survenue lors de la suppression !");
-    //     }
-    // }
-
-    // public function restaurer()
-    // {
-    //     $post = posts::withTrashed()->find($this->id);
-    //     if ($post && $post->trashed()) {
-    //         $post->restore();
-    //         $post->motif_suppression = null;
-    //         $post->save();
-
-    //         event(new UserEvent($post->id_user));
-
-    //         $notification = new notifications();
-    //         $notification->titre = "Votre publication a été restaurée !";
-    //         $notification->id_user_destination = $post->id_user;
-    //         $notification->type = "alerte";
-    //         $notification->url = "/post/" . $post->id;
-    //         $notification->id_post = $post->id;
-    //         $notification->destination = "user";
-    //         $notification->id_user = $post->id_user;
-    //         $notification->message = "Votre publication <strong>" . htmlspecialchars($post->titre) . "</strong> a été restaurée par les administrateurs.";
-    //         $notification->save();
-
-    //         session()->flash('success', 'La publication a été restaurée avec succès !');
-    //     } else {
-    //         session()->flash('error', 'Impossible de restaurer cette publication.');
-    //     }
-    // }
     public function confirmDelete($id)
     {
         $post = posts::withTrashed()->find($id);
@@ -519,16 +257,10 @@ class DetailsPublicationAction extends Component
                 //     'title'  => $post->titre,
                 //     'reason' => $motif_suppression,
                 // ]);
-                $notification->message = strip_tags(
-                    str_replace(
-                        ['<br>', '<br/>', '<br />'],
-                        "\n",
-                        __('post_deleted_notification_message', [
-                            'title'  => $post->titre,
-                            'reason' => $this->motif_suppression,
-                        ])
-                    )
-                );
+                $notification->message = __('post_deleted_notification_message', [
+                    'title'  => $post->titre,
+                    'reason' => __($this->motif_suppression),
+                ]);
                 $notification->save();
 
                 App::setLocale(config('app.locale'));
@@ -539,7 +271,7 @@ class DetailsPublicationAction extends Component
                 $fcmService->sendToUser(
                     $post->id_user,
                     "{$greeting} " . $post->user_info->username,
-                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . $this->motif_suppression,
+                    "Votre annonce pour " . $post->titre . " a été retirée. Raison: " . __($this->motif_suppression),
                     [
                         'type'            => 'alerte',
                         'notification_id' => $notification->id,

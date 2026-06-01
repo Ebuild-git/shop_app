@@ -1235,6 +1235,18 @@
 
 "total_ventes": "إجمالي المبيعات",
 "you_earn": "أنت تربح",
-"buyer_pays": "المشتري يدفع"
+"buyer_pays": "المشتري يدفع",
+"Annonce de produits interdits ou illégaux": "إعلان عن منتجات محظورة أو غير قانونية",
+  "Annonce multiple du même article": "إعلان مكرر لنفس المنتج",
+  "Autres violations des politiques du site": "انتهاكات أخرى لسياسات الموقع",
+  "Contenu inapproprié": "محتوى غير مناسب",
+  "Description trompeuse de l'état de l'article": "وصف مضلل لحالة المنتج",
+  "Fraude ou activité suspecte": "احتيال أو نشاط مشبوه",
+  "Information incorrecte sur la taille, la couleur, etc.": "معلومات غير صحيحة عن المقاس أو اللون إلخ",
+  "Photos floues ou de mauvaise qualité": "صور ضبابية أو ذات جودة ضعيفة",
+  "Prix excessif pour le produit mis en vente": "سعر مبالغ فيه للمنتج المعروض",
+  "Produit contrefait ou non authentique": "منتج مقلد أو غير أصلي",
+  "Publicité non autorisée ou spam": "إعلانات غير مصرح بها أو رسائل مزعجة",
+  "Violation des droits d'auteur ou de la propriété intellectuelle": "انتهاك حقوق النشر أو الملكية الفكرية"
 
 }
