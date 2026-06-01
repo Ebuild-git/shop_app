@@ -74,6 +74,7 @@
     display: block;
 }
 .item-meta .item-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; color: #1a1a2e; }
+.item-meta .item-id { font-weight: 400; font-size: 12px; margin-bottom: 2px; color: #000000; }
 .item-meta .item-date { font-size: 12px; color: #aaa; margin-top: 2px; }
 .item-meta a.link { color: #1a1a2e; text-decoration: none; }
 .item-meta a.link:hover { color: #0d7c7c; }
@@ -228,6 +229,9 @@
                             <a href="/post/{{ $item->id }}" class="link">
                                 {{ Str::limit($item->titre, 20) }}
                             </a>
+                        </div>
+                        <div class="item-id">
+                            {{ 'P' . $item->id }}
                         </div>
                         <div class="item-date">
                             {{ __('Publié le') }} {{ $item->created_at->format('d-m-Y') }} {{ __('at') }} {{ $item->created_at->format('H:i') }}
