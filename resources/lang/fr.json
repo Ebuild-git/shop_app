@@ -943,6 +943,7 @@
   "article17_title": "Article 17 - Acceptation des CGU",
   "article17_content": "L'utilisation de la Plateforme implique l'acceptation pleine et entière des présentes CGU. Lors de la création de son compte, l'utilisateur déclare avoir pris connaissance des CGU et les accepter sans réserve en cochant la case prévue à cet effet.",
   "last_update": "Date de dernière mise à jour : <strong>01/01/2026</strong>",
+  "last_update1": "Date de dernière mise à jour",
   "seller_commission_intro1": "SHOP<span class=\"color\">IN</span> perçoit une commission sur chaque vente réalisée via la plateforme, déduite automatiquement du montant reversé au vendeur après confirmation de la livraison.",
   "luxury_brand_commission1": "— Articles de luxe (mode, accessoires, parfums de marque) : commission de <strong>10%</strong>",
   "other_category_commission1": "— Autres catégories (vêtements, chaussures, jouets, livres, articles de maison…) : commission de <strong>7%</strong>",
@@ -1231,7 +1232,10 @@
 "buy_sell_anonymous": "Achetez & vendez anonymement",
 "contact_us1": "Nous contacter",
 "automated_message": "Ceci est un message automatique, merci de ne pas y répondre.",
-"footer": "© Shopin. Tous droits réservés."
+"footer": "© Shopin. Tous droits réservés.",
+"total_ventes": "Total des ventes",
+"you_earn": "Vous gagnez",
+  "buyer_pays": "L’acheteur paie"
 
 
 }

@@ -2,216 +2,255 @@
 @section('titre', 'Mes ' . $type . 's')
 @section('body')
 
-<!-- ======================= Top Breadcrubms ======================== -->
-<div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-    <div class="container">
-        <div class="row">
-            <div class="colxl-12 col-lg-12 col-md-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/" aria-label="{{ __('home') }}"><i class="fas fa-home"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
+<style>
+    .sales-page {
+        background: #f5f6f8;
+        min-height: 100vh;
+        padding: 32px;
+        font-family: 'DM Sans', sans-serif;
+    }
 
-                            {{ \App\Traits\TranslateTrait::TranslateText('Mes ' . $type . 's') }}
+    /* ── Header ── */
+    .sales-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+    }
+    .sales-header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        flex: 1;
+        color: #1a1a2e;
+        margin: 0;
+    }
+    .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .filter-bar input[type="text"],
+    .filter-bar select {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        border: 1.5px solid #e0e3ea;
+        border-radius: 10px;
+        background: #fff;
+        color: #555;
+        padding: 10px 14px;
+        outline: none;
+        cursor: pointer;
+        box-shadow: none;
+        transition: border-color .2s;
+    }
+    .filter-bar input[type="text"]:focus,
+    .filter-bar select:focus {
+        border-color: #0d7c7c;
+    }
+    .filter-bar select {
+        padding-right: 34px;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+    }
+    .search-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .search-wrap input {
+        padding-right: 40px !important;
+        min-width: 220px;
+    }
+    .search-wrap .search-icon {
+        position: absolute;
+        right: 13px;
+        color: #aaa;
+        pointer-events: none;
+        display: flex;
+    }
+    .btn-filter-submit {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #0d7c7c;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background .2s, transform .15s;
+    }
+    .btn-filter-submit:hover {
+        background: #0a6060;
+        transform: translateY(-1px);
+    }
 
-                        </li>
-                    </ol>
-                </nav>
+    /* ── Stat Cards ── */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+    .stat-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .stat-icon {
+        width: 54px; height: 54px;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+    .stat-icon.teal   { background: #0d7c7c; }
+    .stat-icon.blue   { background: #3f7fe0; }
+    .stat-icon.green  { background: #27ae60; }
+    .stat-icon.orange { background: #f39c12; }
+    .stat-icon svg { width: 24px; height: 24px; color: #fff; }
+    .stat-info p { font-size: 13px; color: #888; margin-bottom: 4px; }
+    .stat-info strong { font-size: 26px; font-weight: 700; color: #1a1a2e; }
+
+    @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 700px) {
+        .sales-page { padding: 16px; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .sales-header { flex-direction: column; align-items: flex-start; }
+        .filter-bar { width: 100%; }
+        .filter-bar input[type="text"],
+        .filter-bar select,
+        .btn-filter-submit { width: 100%; }
+        .search-wrap { width: 100%; }
+        .search-wrap input { width: 100% !important; min-width: unset; }
+    }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<div class="sales-page" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+
+    <!-- ── Header ── -->
+    <div class="sales-header">
+        <h1>
+            @if($type == 'vente')
+                {{ \App\Traits\TranslateTrait::TranslateText('Mes ventes') }}
+            @else
+                {{ \App\Traits\TranslateTrait::TranslateText('Mes annonces') }}
+            @endif
+        </h1>
+
+        <form method="get" action="{{ route('mes-publication') }}" class="filter-bar">
+            <input type="hidden" name="type" value="{{ $type }}">
+
+            <div class="search-wrap">
+                <input type="text" name="key" value="{{ $key }}" placeholder="{{ __('keyword') }}">
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+            </div>
+
+            <select name="statut">
+                <option value="">{{ __('status') }}</option>
+                <option value="validation"         {{ $statut == 'validation'               ? 'selected' : '' }}>{{ __('validation') }}</option>
+                <option value="vente"              {{ $statut == 'vente'                    ? 'selected' : '' }}>{{ __('vente') }}</option>
+                <option value="vendu"              {{ $statut == 'vendu'                    ? 'selected' : '' }}>{{ __('vendu') }}</option>
+                <option value="livraison"          {{ $statut == 'livraison'                ? 'selected' : '' }}>{{ __('livraison') }}</option>
+                <option value="livré"              {{ $statut == 'livré'                    ? 'selected' : '' }}>{{ __('livré') }}</option>
+                <option value="refusé"             {{ $statut == 'refusé'                   ? 'selected' : '' }}>{{ __('refusé') }}</option>
+                <option value="préparation"        {{ $statut == 'préparation'              ? 'selected' : '' }}>{{ __('préparation') }}</option>
+                <option value="en voyage"          {{ $statut == 'en voyage'                ? 'selected' : '' }}>{{ __('en voyage') }}</option>
+                <option value="en cours de livraison" {{ $statut == 'en cours de livraison' ? 'selected' : '' }}>{{ __('en cours de livraison') }}</option>
+                <option value="ramassée"           {{ $statut == 'ramassée'                 ? 'selected' : '' }}>{{ __('ramassée') }}</option>
+                <option value="retourné"           {{ $statut == 'retourné'                 ? 'selected' : '' }}>{{ __('retourné') }}</option>
+            </select>
+
+            <select name="month">
+                <option value="">{{ __('month') }}</option>
+                @foreach(['01'=>'january','02'=>'february','03'=>'march','04'=>'april','05'=>'may','06'=>'june','07'=>'july','08'=>'august','09'=>'september','10'=>'october','11'=>'november','12'=>'december'] as $val => $label)
+                <option value="{{ $val }}" {{ $month == $val ? 'selected' : '' }}>{{ __($label) }}</option>
+                @endforeach
+            </select>
+
+            <select name="year" id="year-select">
+                <option value="">{{ __('year') }}</option>
+            </select>
+            <script>
+                const yearSelect = document.getElementById('year-select');
+                for (let y = 2024; y <= new Date().getFullYear(); y++) {
+                    const opt = document.createElement('option');
+                    opt.value = y; opt.textContent = y;
+                    if (y == "{{ $year }}") opt.selected = true;
+                    yearSelect.appendChild(opt);
+                }
+            </script>
+
+            <button class="btn-filter-submit" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                {{ __('filter') }}
+            </button>
+        </form>
+    </div>
+
+    <!-- ── Stat Cards ── -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon teal">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="stat-info">
+                <p>{{ $type == 'vente' ? __('total_ventes') : __('total_articles') }}</p>
+                <strong>{{ $totalItems }}</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <div class="stat-info">
+                <p>{{ __('préparation') }}</p>
+                <strong>{{ $posts->where('statut', 'préparation')->count() }}</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <div class="stat-info">
+                <p>{{ __('vendu') }}</p>
+                <strong>{{ $posts->where('statut', 'vendu')->count() }}</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon orange">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="stat-info">
+                <p>{{ __('livré') }}</p>
+                <strong>{{ $posts->where('statut', 'livré')->count() }}</strong>
             </div>
         </div>
     </div>
-</div>
 
-
-<div class="container">
-    <div class="p-3 row">
-        <div class="col-sm-4 my-auto">
-            <b>
-                @if($type == 'vente')
-
-                    {{ \App\Traits\TranslateTrait::TranslateText('Nombre total de mes ventes :') }}
-                @else
-
-                    {{ \App\Traits\TranslateTrait::TranslateText('Nombre total de mes annonces :') }}
-                @endif
-            </b> {{ $posts->count() }}
-        </div>
-        <div class="col-sm-8" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-            <form method="get" action="{{ route('mes-publication') }}">
-                <div class="filter-container">
-                    <div class="filter-group">
-                        <input type="hidden" name="type" value="{{ $type }}">
-
-                        <!-- Icon inside the input field as a placeholder -->
-                        <input type="text" name="key" class="filter-select" value="{{ $key }}" placeholder="&#xF002; {{ __('keyword') }}" style="font-family:Arial, FontAwesome; min-width: 180px;">
-
-                        <select class="filter-select" name="statut">
-                            <option value="">{{ __('status') }}</option>
-                            <option value="validation">{{ __('validation') }}</option>
-                            <option value="vente">{{ __('vente') }}</option>
-                            <option value="vendu">{{ __('vendu') }}</option>
-                            <option value="livraison">{{ __('livraison') }}</option>
-                            <option value="livré">{{ __('livré') }}</option>
-                            <option value="refusé">{{ __('refusé') }}</option>
-                            <option value="préparation">{{ __('préparation') }}</option>
-                            <option value="en voyage">{{ __('en voyage') }}</option>
-                            <option value="en cours de livraison">{{ __('en cours de livraison') }}</option>
-                            <option value="ramassée">{{ __('ramassée') }}</option>
-                            <option value="retourné">{{ __('retourné') }}</option>
-                        </select>
-
-
-                        <select class="filter-select" name="month">
-                            <option value="">{{ __('month') }}</option>
-                            <option value="01" {{ $month == '01' ? 'selected' : '' }}>{{ __('january') }}</option>
-                            <option value="02" {{ $month == '02' ? 'selected' : '' }}>{{ __('february') }}</option>
-                            <option value="03" {{ $month == '03' ? 'selected' : '' }}>{{ __('march') }}</option>
-                            <option value="04" {{ $month == '04' ? 'selected' : '' }}>{{ __('april') }}</option>
-                            <option value="05" {{ $month == '05' ? 'selected' : '' }}>{{ __('may') }}</option>
-                            <option value="06" {{ $month == '06' ? 'selected' : '' }}>{{ __('june') }}</option>
-                            <option value="07" {{ $month == '07' ? 'selected' : '' }}>{{ __('july') }}</option>
-                            <option value="08" {{ $month == '08' ? 'selected' : '' }}>{{ __('august') }}</option>
-                            <option value="09" {{ $month == '09' ? 'selected' : '' }}>{{ __('september') }}</option>
-                            <option value="10" {{ $month == '10' ? 'selected' : '' }}>{{ __('october') }}</option>
-                            <option value="11" {{ $month == '11' ? 'selected' : '' }}>{{ __('november') }}</option>
-                            <option value="12" {{ $month == '12' ? 'selected' : '' }}>{{ __('december') }}</option>
-                        </select>
-
-                        <select class="filter-select" name="year" id="year-select">
-                            <option value="">{{ __('year') }}</option>
-                        </select>
-
-                        <script>
-                            const yearSelect = document.getElementById('year-select');
-                            const startYear = 2024;
-                            const endYear = new Date().getFullYear();
-                            for (let year = startYear; year <= endYear; year++) {
-                                const option = document.createElement('option');
-                                option.value = year;
-                                option.textContent = year;
-                                if (year == "{{ $year }}") {
-                                    option.selected = true;
-                                }
-                                yearSelect.appendChild(option);
-                            }
-                        </script>
-
-                        <button class="btn bg-red p-2" type="submit">
-                            <i class="bi bi-filter"></i> {{ __('filter') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        @include('components.Liste-mes-posts', ['posts' => $posts, 'showRemainingTimeColumn' => $type == 'vente'])
-
-    </div>
+    <!-- ── Table Component ── -->
+    @include('components.Liste-mes-posts', ['posts' => $posts, 'showRemainingTimeColumn' => $type == 'vente'])
 
 </div>
-<style>
-    .filter-container {
-        display: flex;
-        justify-content: flex-end;
-
-    }
-    .filter-group {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    .filter-select {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    .filter-select:focus {
-        outline: none;
-        border-color: #00a699;
-        box-shadow: 0 0 0 2px rgba(0,166,153,0.2);
-    }
-    .btn.bg-red {
-        background-color: #008080;
-        color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        border-radius: 4px;
-    }
-    .btn.bg-red:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-
-
-/* Responsive Styles for Mobile */
-@media (max-width: 768px) {
-    .filter-container {
-        justify-content: center;
-        margin-bottom: 10px;
-    }
-
-    .filter-group {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .filter-select, .btn.bg-red {
-        width: 100%;
-        font-size: 12px;
-    }
-
-    #table-scroll {
-        height: auto; /* Adjust height to auto for better fit */
-        max-height: 300px; /* Limit the max height on mobile to avoid excessive scrolling */
-        overflow-x: auto; /* Ensure horizontal scrolling */
-    }
-
-    #table-wrapper table {
-        min-width: 600px; /* Ensure the table is scrollable horizontally */
-    }
-
-    thead th, tbody td {
-        font-size: 13px; /* Reduce font size for header and cells */
-        padding: 6px; /* Reduce padding for better spacing */
-    }
-
-    tbody td {
-        text-align: left;
-    }
-}
-
-/* Further adjustments for very small screens */
-@media (max-width: 480px) {
-    .filter-group {
-        gap: 6px;
-    }
-
-    thead th, tbody td {
-        font-size: 10px; /* Further reduce font size */
-        padding: 4px; /* Further reduce padding */
-    }
-
-    .filter-select, .btn.bg-red {
-        padding: 5px 8px; /* Smaller padding for buttons and selects */
-        font-size: 10px; /* Smaller font size */
-    }
-
-    #table-scroll {
-        max-height: 250px; /* Further reduce max height for very small screens */
-    }
-
-    #table-wrapper table {
-        min-width: 500px; /* Slightly reduce the min-width for smaller screens */
-    }
-}
-</style>
 
 @endsection
-
 @section('modal')
 @endsection
