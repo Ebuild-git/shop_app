@@ -314,7 +314,18 @@
                                                 @required($requi)
                                                 class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
                                                 <option value="">{{ __('please_select')}}</option>
-                                                @foreach (json_decode($propriete_info->options) as $option)
+                                                @php
+                                                    $options = json_decode($propriete_info->options, true);
+                                                    // Sort options based on their type (numeric or alphabetic)
+                                                    if (!empty($options)) {
+                                                        if (is_numeric($options[0] ?? '')) {
+                                                            sort($options, SORT_NUMERIC);
+                                                        } else {
+                                                            sort($options, SORT_STRING | SORT_FLAG_CASE);
+                                                        }
+                                                    }
+                                                @endphp
+                                                @foreach ($options as $option)
                                                     <option value="{{ $option }}">
                                                         {{ __($option) }}
                                                     </option>
