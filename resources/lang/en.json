@@ -461,7 +461,7 @@
     "prix.required": "Price is required",
     "prix.numeric": "The price must be a number",
     "prix.min": "The price must be greater than 1 DH",
-    "price_change_limit": "You have already made a price change in the last 7 days. You will be able to make a new change in :daysRemaining days and :hoursRemaining hours.",
+    "price_change_limit": "You have already made a price change in the last 48 hours. You will be able to make a new change in :daysRemaining days and :hoursRemaining hours.",
     "price_change_error": "Please enter a price lower than your current price.",
     "time_remaining": "Available to edit in :remaining",
     "days_remaining": "{0} No days remaining|{1} :count day|[2,*] :count days",

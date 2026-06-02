@@ -51,8 +51,9 @@ class ShopController extends Controller
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
         $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'id_user')
-            ->whereIn('statut', ['vente', 'vendu'])
-            ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
+            // ->whereIn('statut', ['vente', 'vendu'])
+            // ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
+            ->whereNotIn('statut', ['validation'])
             ->whereNotIn('id_user', $usersWithVoyageMode)
             ->whereHas('user_info', function ($q) {
                 $q->whereNull('deleted_at');
@@ -273,7 +274,7 @@ class ShopController extends Controller
 
 
         foreach ($posts as $post) {
-            if ($post->statut == "vente" || $post->statut == "vendu") {
+            if (!in_array($post->statut, ['validation'])) {
                 // Calculate discount percentage if there is a price change
                 $originalPrice = $post->getOldPrix();
                 $currentPrice = $post->getPrix();
@@ -282,6 +283,8 @@ class ShopController extends Controller
                 if ($originalPrice && $originalPrice > $currentPrice) {
                     $discountPercentage = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
                 }
+
+                $isSold = $post->statut !== 'vente';
 
                 // Pass the discount percentage to the view
                 $subCardPostHtml = view('components.sub-card-post', [
@@ -302,7 +305,7 @@ class ShopController extends Controller
                             <div class="badge-container position-absolute top-0 start-0 d-flex gap-4 mobile-display-luxe" style="z-index: 5;' . (app()->getLocale() == 'ar' ? ' left: 4px; right: auto;' : '') . '">'
                             . ($discountPercentage ? '
                                 <div class="badge-new badge-discount">-' . $discountPercentage . '%</div>' : '')
-                            . ($post->statut === 'préparation' ? '
+                            . ($isSold ? '
                                 <div class="badge-new badge-sale bg-danger text-white">' . \App\Traits\TranslateTrait::TranslateText('vendu') . '</div>' : '') .
                             '</div>
 

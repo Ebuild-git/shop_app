@@ -202,7 +202,6 @@
                     <th>{{ __('discount_price') }}</th>
                     <th>{{ __('base_price') }}</th>
                     <th>{{ __('last_price_update') }}</th>
-                    <th>{{ __('remaining_time_to_update') }}</th>
                 @endif
                 <th>{{ __('ad_status') }}</th>
                 <th>{{ __('deletion_reason') }}</th>
@@ -246,7 +245,7 @@
                         <span class="price-new">{{ $basePx }} <sup>{{ __('currency') }}</sup></span>
                     </td>
                     <td>
-                        <span class="price-new">{{ $item->getPrix() }} <sup>{{ __('currency') }}</sup></span>
+                        {{ $item->old_prix ?? $item->prix }} <sup>{{ __('currency') }}</sup>
                     </td>
                     <td>
                         <div class="date-cell">
@@ -279,9 +278,6 @@
                         @else
                             <span class="dash">—</span>
                         @endif
-                    </td>
-                    <td>
-                        <span style="font-size:13px; color:#555;">{{ $item->next_time_to_edit_price() }}</span>
                     </td>
                 @endif
 

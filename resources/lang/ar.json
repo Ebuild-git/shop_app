@@ -462,7 +462,7 @@
     "prix.required": "السعر مطلوب",
     "prix.numeric": "يجب أن يكون السعر رقماً",
     "prix.min": "يجب أن يكون السعر أكبر من 1 درهم",
-    "price_change_limit": "لقد قمت بتغيير السعر في آخر 7 أيام. يمكنك إجراء تغيير جديد في :daysRemaining يوم و :hoursRemaining ساعة.",
+    "price_change_limit": "لقد قمت بتغيير السعر خلال الـ 48 ساعة الماضية. يمكنك إجراء تغيير جديد خلال :daysRemaining يوم و :hoursRemaining ساعة.",
     "price_change_error": "يرجى إدخال سعر أقل من السعر الحالي.",
     "time_remaining": "يمكن التعديل خلال :remaining",
     "days_remaining": "{0} لا أيام متبقية|{1} :count يوم |[2,*] :count أيام",
