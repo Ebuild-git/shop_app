@@ -342,7 +342,7 @@ class PostsController extends Controller
         $statut = $request->input('statut');
         $key    = $request->input('key');
 
-        $query = posts::with("sous_categorie_info.categorie")->where("id_user", $user->id);
+        $query = posts::withTrashed()->with("sous_categorie_info.categorie")->where("id_user", $user->id);
 
         if ($key) {
             $query->where(function($q) use ($key) {
@@ -433,6 +433,9 @@ class PostsController extends Controller
 
             $postData['prix']     = $post->getPrix();
             $postData['old_prix'] = $post->getOldPrix();
+
+            $postData['deleted_at'] = $post->deleted_at;
+            $postData['motif_suppression'] = $post->motif_suppression;
 
             if (!empty($postData['photos'])) {
                 $photos = $postData['photos'];
