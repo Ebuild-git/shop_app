@@ -190,6 +190,7 @@ class PostsController extends Controller
     public function list_post(Request $request)
     {
         $query = posts::with("sous_categorie_info.categorie")
+            ->withCount('favoris')
             ->whereHas('user_info', function ($query) {
                 $query->where('voyage_mode', 0);
             });
@@ -247,6 +248,8 @@ class PostsController extends Controller
             $post->is_solder = $post->getOldPrix() ? true : false;
 
             $postData = $post->toArray();
+
+            $postData['favoris_count'] = $post->favoris_count;
 
             if (!empty($postData['photos']) && is_array($postData['photos'])) {
                 $postData['photos'] = array_map(function ($photo) {
