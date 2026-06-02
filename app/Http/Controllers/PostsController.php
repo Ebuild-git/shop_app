@@ -387,7 +387,8 @@ class PostsController extends Controller
                     );
                 }
             ])
-                ->findOrFail($id);
+            ->withCount('favoris')
+            ->findOrFail($id);
 
             $post->photos = collect($post->photos)->map(
                 fn($photo) => asset('storage/' . $photo)
@@ -429,6 +430,7 @@ class PostsController extends Controller
 
             $post->prix = $post->getPrix();
             $post->old_prix = $post->getOldPrix();
+            $post->favoris_count = $post->favoris_count;
 
             return response()->json([
                 'success' => true,
