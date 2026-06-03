@@ -177,7 +177,7 @@ class SendMessage extends Component
                 $salutation = __($genderKey);
 
                 $notification = new notifications();
-                $notification->titre = __('admin_message_title');
+                $notification->titre = __('message_received');
                 $notification->id_user_destination = $this->user_id;
                 $notification->type = "alerte";
                 $notification->url = "#";
