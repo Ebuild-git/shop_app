@@ -618,7 +618,7 @@ class ShopController extends Controller
             if (empty($articlesPourCeVendeur))
                 continue;
 
-            $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur);
+            $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $buyer, $order);
 
             $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
         }
