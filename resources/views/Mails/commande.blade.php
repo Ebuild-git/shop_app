@@ -19,7 +19,7 @@
       <td style="padding:18px 28px;text-align:right;">
         <table cellpadding="0" cellspacing="0" style="margin-left:auto;">
           <tr>
-            <td style="padding-right:10px;font-size:24px;">🛡️</td>
+            <td style="padding-right:10px;font-size:24px;">🛡</td>
             <td>
               <div style="color:#fff;font-size:14px;font-weight:700;">
                 {{ __('secure_marketplace') }}
@@ -66,35 +66,46 @@
 
     <!-- PRODUCTS -->
     @foreach ($articles_panier as $article)
+
     <table width="100%" cellpadding="0" cellspacing="0"
-           style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
-      <tr>
+   style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
+    <tr>
 
         <td style="width:140px;padding:12px;vertical-align:top;">
-          <img src="{{ $article['photo'] }}"
-               alt="{{ $article['titre'] }}"
-               style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
+            <img src="{{ $article['photo'] }}"
+                alt="{{ $article['titre'] }}"
+                style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
         </td>
 
-        <td style="padding:14px;vertical-align:top;">
-          <div style="font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:8px;">
-            {{ $article['titre'] }}
-          </div>
+        <td style="padding:14px;vertical-align:middle;">
+            <div style="font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:8px;">
+                {{ $article['titre'] }}
+            </div>
 
-          <div style="font-size:13px;color:#555;margin-bottom:6px;">
-            {{ __('seller2') }} :
-            <span style="color:#1a7a6e;font-weight:700;">
-              {{ $article['vendeur'] ?? 'N/A' }}
-            </span>
-          </div>
+            <div style="font-size:13px;color:#555;margin-bottom:4px;">
+                {{ __('product_ref') }} :
+                <span style="color:#1a7a6e;font-weight:700;">
+                    P-{{ $article['id'] }}
+                </span>
+            </div>
 
-          <div style="font-size:18px;font-weight:800;color:#1a1a1a;">
-            {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
-          </div>
+            <div style="font-size:13px;color:#555;">
+                {{ __('seller2') }} :
+                <span style="color:#1a7a6e;font-weight:700;">
+                    {{ $article['vendeur'] ?? 'N/A' }}
+                </span>
+            </div>
         </td>
 
-      </tr>
-    </table>
+        <!-- Price aligned to middle (same level as seller/ref lines) -->
+        <td style="padding:14px;vertical-align:middle;text-align:right;white-space:nowrap;">
+            <div style="font-size:18px;font-weight:800;color:#1a1a1a;">
+                {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
+            </div>
+        </td>
+
+    </tr>
+</table>
 
     @php $total += $article['prix']; @endphp
     @endforeach
@@ -231,7 +242,7 @@
 
         <a href="{{ config('app.url') }}/trust-safety"
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 20px;">
-          🛡️ {{ __('trust_safety') }}
+          🛡 {{ __('trust_safety') }}
         </a>
       </td>
     </tr>

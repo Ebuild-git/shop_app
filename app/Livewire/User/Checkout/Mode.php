@@ -207,6 +207,10 @@ class Mode extends Component
     private function sendBuyerNotification(Order $order)
     {
         $buyer = Auth::user();
+
+        $buyerLocale = $buyer->locale ?? config('app.locale');
+        app()->setLocale($buyerLocale);
+
         $salutations = $buyer->gender === 'female'
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
@@ -227,6 +231,8 @@ class Mode extends Component
         $notification->save();
 
         event(new UserEvent($buyer->id));
+
+        app()->setLocale(config('app.locale'));
 
         // Send FCM notification
         $fcmService = app(\App\Services\FcmService::class);
@@ -280,6 +286,9 @@ class Mode extends Component
 
     private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $orderId)
     {
+        $sellerLocale = $seller->locale ?? config('app.locale');
+        app()->setLocale($sellerLocale);
+
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
@@ -305,10 +314,15 @@ class Mode extends Component
         } catch (\Exception $e) {
             logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
         }
+
+        app()->setLocale(config('app.locale'));
     }
 
     private function createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur)
     {
+        $sellerLocale = $seller->locale ?? config('app.locale');
+        app()->setLocale($sellerLocale);
+
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
@@ -339,6 +353,8 @@ class Mode extends Component
         ]);
         $notification->save();
         event(new UserEvent($seller->id));
+
+        app()->setLocale(config('app.locale'));
 
         // Send FCM notification
         $fcmService = app(\App\Services\FcmService::class);
@@ -397,7 +413,12 @@ class Mode extends Component
         }
 
         $totalShippingFees = $uniqueVendorsCount > 0 ? $frais * $uniqueVendorsCount : 0;
+        $buyerLocale = $this->user->locale ?? config('app.locale');
+        app()->setLocale($buyerLocale);
+
         Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier, $totalShippingFees));
+
+        app()->setLocale(config('app.locale'));
     }
 
 }
