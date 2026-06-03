@@ -540,7 +540,7 @@ class ShopController extends Controller
 
         $this->sendBuyerNotification($user, $order);
 
-        $this->notifySellers($user, $articles_panier);
+        $this->notifySellers($user, $articles_panier, $order);
 
         $this->notifyAdminAboutPurchase($user, count($articles_panier));
 
@@ -603,7 +603,7 @@ class ShopController extends Controller
         }
     }
 
-    private function notifySellers($buyer, $articles)
+    private function notifySellers($buyer, $articles, $order)
     {
         $vendeurUsernames = array_unique(array_column($articles, 'vendeur'));
         $vendeurs = User::whereIn('username', $vendeurUsernames)->get()->keyBy('username');
@@ -624,7 +624,7 @@ class ShopController extends Controller
         }
     }
 
-    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur)
+    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur,  $buyer, Order $order)
     {
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
@@ -644,7 +644,9 @@ class ShopController extends Controller
                 $seller,
                 $buyerPseudo,
                 $articlesWithGain,
-                $salutation
+                $salutation,
+                $buyer,
+                $order->id
             ));
         } catch (\Exception $e) {
             logger("Failed to send email to {$seller->email}: " . $e->getMessage());
