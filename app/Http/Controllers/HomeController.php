@@ -13,6 +13,7 @@ use App\Models\notifications;
 use App\Models\posts;
 use App\Models\ratings;
 use App\Models\regions;
+use App\Models\OrdersItem;
 use App\Models\signalements;
 use App\Models\sous_categories;
 use App\Models\User;
@@ -998,23 +999,57 @@ class HomeController extends Controller
         return view('User.Auth.forget');
     }
 
+    // public function index_mes_achats(Request $request)
+    // {
+
+    //     $month = $request->input('month') ?? null;
+    //     $year = $request->input('year') ?? null;
+
+    //     $query = posts::where('id_user_buy', Auth::id())
+    //         ->select('titre', 'photos', 'id_sous_categorie', 'id_user', 'statut', 'prix', 'sell_at', 'id')
+    //         ->orderBy('sell_at', 'desc');
+
+    //     if ($month && $year) {
+    //         $query->whereYear('sell_at', $year)
+    //             ->whereMonth('sell_at', $month);
+    //     }
+
+    //     $achats = $query->paginate(20);
+    //     $total = posts::where('id_user_buy', Auth::id())->count();
+
+    //     return view('User.mes-achats')
+    //         ->with('achats', $achats)
+    //         ->with('month', $month)
+    //         ->with('year', $year)
+    //         ->with('total', $total);
+    // }
     public function index_mes_achats(Request $request)
     {
-
         $month = $request->input('month') ?? null;
-        $year = $request->input('year') ?? null;
+        $year  = $request->input('year') ?? null;
 
-        $query = posts::where('id_user_buy', Auth::id())
-            ->select('titre', 'photos', 'id_sous_categorie', 'id_user', 'statut', 'prix', 'sell_at', 'id')
-            ->orderBy('sell_at', 'desc');
+        $query = OrdersItem::withTrashed()
+            ->whereHas('order', function ($q) {
+                $q->where('buyer_id', Auth::id());
+            })
+            ->with([
+                'post' => function ($q) {
+                    $q->withTrashed()
+                    ->with(['changements_prix', 'user_info' => fn($q) => $q->withTrashed()]);
+                },
+                'order',
+            ])
+            ->orderBy('created_at', 'desc');
 
         if ($month && $year) {
-            $query->whereYear('sell_at', $year)
-                ->whereMonth('sell_at', $month);
+            $query->whereYear('created_at', $year)
+                ->whereMonth('created_at', $month);
         }
 
         $achats = $query->paginate(20);
-        $total = posts::where('id_user_buy', Auth::id())->count();
+        $total  = OrdersItem::withTrashed()
+            ->whereHas('order', fn($q) => $q->where('buyer_id', Auth::id()))
+            ->count();
 
         return view('User.mes-achats')
             ->with('achats', $achats)

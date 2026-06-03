@@ -13,69 +13,65 @@
             </thead>
             <tbody>
                 @forelse ($achats as $achat)
+                    @php $post = $achat->post; @endphp
                     <tr>
                         <td style="width: 41px;">
                             <div class="avatar-small-product">
-                                <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avtar">
+                                <img src="{{ Storage::url($post->photos[0] ?? '') }}" alt="avatar">
                             </div>
                         </td>
                         <td>
-                            <a href="/post/{{ $achat->id }}" class="link h6"> {{ $achat->titre }}</a>
+                            <a href="/post/{{ $post->id }}" class="link h6">{{ $post->titre }}</a>
+                            <div style="font-size: 11px; color: #888; margin-top: 2px;">
+                                <span>P{{ $post->id }}</span>
+                                &nbsp;·&nbsp;
+                                <span>CMD-{{ $achat->order_id }}</span>
+                            </div>
                         </td>
                         <td>
-                            {{  \Carbon\Carbon::parse($achat->sell_at)->format("d-m-Y") }}
+                            {{ \Carbon\Carbon::parse($achat->created_at)->format('d-m-Y') }}
                         </td>
                         <td>
-                            @if ($achat->changements_prix->count())
+                            @if ($post->changements_prix->count())
                                 <div class="d-inline-block text-start">
                                     <span class="strong color d-block">
                                         <i class="bi bi-tag"></i>
-                                        {{ $achat->getPrix() }}
-                                        <sup>{{ __('currency') }}</sup>
+                                        {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                     </span>
                                     <span class="strong text-muted d-block" style="font-size: smaller;">
-                                        <strike>
-                                            <i class="bi bi-tag"></i>
-                                            {{ $achat->getOldPrix() }}
-                                        </strike>
+                                        <strike><i class="bi bi-tag"></i> {{ $post->getOldPrix() }}</strike>
                                         <sup>{{ __('currency') }}</sup>
                                     </span>
                                 </div>
                             @else
                                 <span class="strong color">
                                     <i class="bi bi-tag"></i>
-                                    {{ $achat->getPrix() }}
-                                    <sup>{{ __('currency') }}</sup>
+                                    {{ $post->getPrix() }} <sup>{{ __('currency') }}</sup>
                                 </span>
                             @endif
                         </td>
                         <td>
-                            @if ($achat->user_info)
-                                <a href="{{ route('user_profile', ['id' => $achat->user_info->id]) }}">
-                                    {{ $achat->user_info->username }}
+                            @if ($post->user_info)
+                                <a href="{{ route('user_profile', ['id' => $post->user_info->id]) }}">
+                                    {{ $post->user_info->username }}
                                 </a>
                             @endif
-                            <br/>
-                            @if ($achat->user_info->deleted_at)
-                                <span class="text-danger">
-                                    ( {{ __('shopiner supprimé') }} )
-                                </span>
+                            @if ($post->user_info?->deleted_at)
+                                <br/>
+                                <span class="text-danger">( {{ __('shopiner supprimé') }} )</span>
                             @endif
-
                         </td>
                         <td class="text-end">
                             @php
-                                $hasDeletedOrder = $achat->orderItems()->whereHas('order', function ($q) {
-                                    $q->onlyTrashed();
-                                })->exists();
+                                $isCancelled = $achat->trashed() ||
+                                            optional($achat->order)->trashed();
                             @endphp
-                            @if ($achat->user_info->deleted_at || $hasDeletedOrder)
-                                <span class="badge bg-danger">
-                                    {{ __('commande annulée') }}
-                                </span>
+
+                            @if ($post->user_info?->deleted_at || $isCancelled)
+                                <span class="badge bg-danger">{{ __('commande annulée') }}</span>
+                            @else
+                                <x-StatutLivraison :statut="$post->statut"></x-StatutLivraison>
                             @endif
-                            <br/>
-                            <x-StatutLivraison :statut="$achat->statut"></x-StatutLivraison>
                         </td>
                     </tr>
                 @empty

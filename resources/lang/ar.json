@@ -1247,6 +1247,10 @@
   "Prix excessif pour le produit mis en vente": "سعر مبالغ فيه للمنتج المعروض",
   "Produit contrefait ou non authentique": "منتج مقلد أو غير أصلي",
   "Publicité non autorisée ou spam": "إعلانات غير مصرح بها أو رسائل مزعجة",
-  "Violation des droits d'auteur ou de la propriété intellectuelle": "انتهاك حقوق النشر أو الملكية الفكرية"
+  "Violation des droits d'auteur ou de la propriété intellectuelle": "انتهاك حقوق النشر أو الملكية الفكرية",
+  "order_item_cancelled_title": "تم إزالة منتج من طلبك",
+"order_item_cancelled_message": "تم تحديث طلبك :shipment_id. تمت إزالة المنتج « :post_title » من طلبك من قِبل فريق Shopin.",
+"order_item_restored_title": "تم استعادة منتج في طلبك",
+"order_item_restored_message": "خبر سار! تمت استعادة المنتج « :post_title » في طلبك :shipment_id."
 
 }

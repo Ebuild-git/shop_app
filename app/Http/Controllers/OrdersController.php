@@ -207,17 +207,167 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
+    // public function destroyItem(OrdersItem $item)
+    // {
+    //     $item->delete();
+    //     $item->update(['status' => 'supprimée']);
+    //     return response()->json(['success' => true]);
+    // }
+
+    // public function restoreItem($itemId)
+    // {
+    //     $item = OrdersItem::onlyTrashed()->findOrFail($itemId);
+    //     $item->restore();
+    //     return response()->json(['success' => true]);
+    // }
+
     public function destroyItem(OrdersItem $item)
     {
+        $post  = $item->post;
+        $order = $item->order;
+
         $item->delete();
         $item->update(['status' => 'supprimée']);
+
+        if ($post) {
+            $saleWasInProgress = in_array($post->statut, [
+                'préparation', 'en cours de livraison', 'ramassée', 'livraison', 'livré', 'retourné', 'vendu'
+            ]);
+
+            if ($saleWasInProgress) {
+                $post->statut      = 'vente';
+                $post->sell_at     = null;
+                $post->id_user_buy = null;
+                $post->save();
+            }
+        }
+
+        // Notify buyer
+        if ($order && $order->buyer) {
+            $buyer = $order->buyer;
+
+            event(new \App\Events\UserEvent($buyer->id));
+
+            $buyerLocale = $buyer->locale ?? config('app.locale');
+            App::setLocale($buyerLocale);
+
+            $notification = new \App\Models\notifications();
+            $notification->titre               = __('order_item_cancelled_title');
+            $notification->id_user_destination = $buyer->id;
+            $notification->type                = 'alerte';
+            $notification->url                 = '/informations?section=commandes';
+            $notification->message             = __('order_item_cancelled_message', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+            ]);
+            $notification->save();
+
+            App::setLocale(config('app.locale'));
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $buyer->id,
+                __('order_item_cancelled_title'),
+                __('order_item_cancelled_message', [
+                    'shipment_id' => 'CMD-' . $order->id,
+                    'post_title'  => $post?->titre ?? '',
+                ]),
+                [
+                    'type'            => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination'     => 'user',
+                    'action'          => 'order_item_cancelled',
+                    'order_id'        => $order->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id'         => $buyer->id,
+                    'notification_id' => $notification->id,
+                    'type'            => 'order_item_cancelled',
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id'         => $buyer->id,
+                    'notification_id' => $notification->id,
+                    'reason'          => 'User has no FCM token or token invalid',
+                ]);
+            }
+        }
+
         return response()->json(['success' => true]);
     }
 
     public function restoreItem($itemId)
     {
-        $item = OrdersItem::onlyTrashed()->findOrFail($itemId);
+        $item  = OrdersItem::onlyTrashed()->findOrFail($itemId);
         $item->restore();
+
+        $post  = $item->post;
+        $order = $item->order;
+
+        if ($post && $post->statut === 'vente' && is_null($post->sell_at)) {
+            $post->statut      = 'préparation';
+            $post->sell_at     = $item->created_at;
+            $post->id_user_buy = $order->buyer_id ?? null;
+            $post->save();
+        }
+
+        // Notify buyer
+        if ($order && $order->buyer) {
+            $buyer = $order->buyer;
+
+            event(new \App\Events\UserEvent($buyer->id));
+
+            $buyerLocale = $buyer->locale ?? config('app.locale');
+            App::setLocale($buyerLocale);
+
+            $notification = new \App\Models\notifications();
+            $notification->titre               = __('order_item_restored_title');
+            $notification->id_user_destination = $buyer->id;
+            $notification->type                = 'alerte';
+            $notification->url                 = '/informations?section=commandes';
+            $notification->message             = __('order_item_restored_message', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+            ]);
+            $notification->save();
+
+            App::setLocale(config('app.locale'));
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $sent = $fcmService->sendToUser(
+                $buyer->id,
+                __('order_item_restored_title'),
+                __('order_item_restored_message', [
+                    'shipment_id' => 'CMD-' . $order->id,
+                    'post_title'  => $post?->titre ?? '',
+                ]),
+                [
+                    'type'            => 'alerte',
+                    'notification_id' => $notification->id,
+                    'destination'     => 'user',
+                    'action'          => 'order_item_restored',
+                    'order_id'        => $order->id,
+                ]
+            );
+
+            if ($sent) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id'         => $buyer->id,
+                    'notification_id' => $notification->id,
+                    'type'            => 'order_item_restored',
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id'         => $buyer->id,
+                    'notification_id' => $notification->id,
+                    'reason'          => 'User has no FCM token or token invalid',
+                ]);
+            }
+        }
+
         return response()->json(['success' => true]);
     }
 
