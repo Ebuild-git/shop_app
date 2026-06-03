@@ -64,203 +64,6 @@
                         </thead>
                         <tbody id="commande-table-body">
                             @forelse ($orders as $order)
-                                {{-- @foreach ($order->items as $item)
-                                    <tr>
-                                        <td>CMD-{{ $order->id }}</td>
-
-                                        <td>
-                                            @if($item->vendor)
-                                                <a href="/admin/client/{{ $item->vendor->id }}/view">
-                                                    @if(!$item->vendor->deleted_at)
-                                                        {{ $item->vendor->username }}
-                                                    @else
-                                                        {{ $item->vendor->username_deleted }}
-                                                    @endif
-                                                </a>
-                                                <br>
-                                                <small>
-                                                    <b class="text-color2">Région:</b> {{ $item->vendor->region_info->nom ?? '/' }}
-                                                </small>
-                                                <div>
-                                                        @if($item->vendor->deleted_at))
-                                                        <span class="text-danger">(Utilisateur supprimé)</span>
-                                                        @else
-                                                            <span class="message-style"
-                                                                onclick="OpenModalMessage(
-                                                                    '{{ $item->vendor->id ?? 0 }}',
-                                                                    '{{ $item->vendor->username ?? '—' }}',
-                                                                    '{{ $item->post->titre ?? '—' }}',
-                                                                    '{{ $item->post->id ?? 0 }}',
-                                                                    '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                                )">
-                                                                <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                            </span>
-                                                    @endif
-                                                </div>
-                                            @else
-                                                <span class="text-muted">—</span>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            @if($order->buyer)
-                                                <a href="/admin/client/{{ $order->buyer->id }}/view">
-                                                    @if(!$order->buyer->deleted_at)
-                                                        {{ $order->buyer->username }}
-                                                    @else
-                                                        {{ $order->buyer->username_deleted }}
-                                                    @endif
-                                                </a>
-                                                <br>
-                                                <small>
-                                                    <b class="text-color2">Région:</b> {{ $order->buyer->region_info->nom ?? '/' }}
-                                                </small>
-                                                <div>
-                                                    @if( $order->buyer->deleted_at)
-                                                        <span class="text-danger">(Utilisateur supprimé)</span>
-                                                    @else
-                                                    <span class="message-style"
-                                                        onclick="OpenModalMessage(
-                                                            '{{ $order->buyer->id ?? 0 }}',
-                                                            '{{ $order->buyer->username ?? '—' }}',
-                                                            '{{ $item->post->titre ?? '—' }}',
-                                                            '{{ $item->post->id ?? 0 }}',
-                                                            '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                        )">
-                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                    </span>
-                                                    @endif
-                                                </div>
-                                            @else
-                                                <span class="text-muted">—</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @php
-                                                $acheteurSupprime = $order->buyer?->deleted_at ? true : false;
-                                                $vendeurSupprime = $item->vendor?->deleted_at ? true : false;
-                                            @endphp
-
-                                            @if(!$acheteurSupprime && !$vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🟢</span> OK
-                                            @elseif($acheteurSupprime && !$vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🔴</span> Acheteur supprimé
-                                            @elseif(!$acheteurSupprime && $vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🟠</span> Vendeur supprimé
-                                            @else
-                                                <span style="font-size: 1.2rem;">🔴🟠</span> Les deux supprimés
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            @if($item->post)
-                                                <a href="/admin/publication/{{ $item->post->id }}/view">
-                                                    {{ $item->post->titre ?? '—' }}
-                                                </a>
-                                            @else
-                                                <span class="text-muted">Post supprimé</span>
-                                            @endif
-                                        </td>
-
-                                        <td>{{ $item->shipment_id ?? '—' }}</td>
-
-                                        <td>{{ $item->delivery_fee ?? 0 }} <sup>DH</sup></td>
-                                        <td>
-                                            @php $statut = $item->post?->statut ?? '—'; @endphp
-                                            <div class="d-flex align-items-center gap-1">
-                                                <span class="badge-etat
-                                                    @if($statut === 'validation') etat-validation
-                                                    @elseif($statut === 'vente') etat-vente
-                                                    @elseif($statut === 'vendu') etat-vendu
-                                                    @elseif($statut === 'livraison') etat-livraison
-                                                    @elseif($statut === 'livré') etat-livre
-                                                    @elseif($statut === 'refusé') etat-refuse
-                                                    @elseif($statut === 'préparation') etat-preparation
-                                                    @elseif($statut === 'en voyage') etat-en-voyage
-                                                    @elseif($statut === 'en cours de livraison') etat-en-cours
-                                                    @elseif($statut === 'ramassée') etat-ramassee
-                                                    @elseif($statut === 'retourné') etat-retourne
-                                                    @endif">
-                                                    {{ $statut }}
-                                                </span>
-
-                                                <button type="button"
-                                                    class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
-                                                    data-id="{{ $item->id }}"
-                                                    data-type="post"
-                                                    data-current="{{ $statut }}"
-                                                    title="Modifier le statut du post">
-                                                    <i class="fa fa-pen text-secondary" style="font-size: 12px;"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            @php $status = $order->status ?? '—'; @endphp
-                                            <div class="d-flex align-items-center gap-1">
-                                                @switch($status)
-                                                    @case('pending')
-                                                        <span class="badge bg-secondary">Crée</span>
-                                                        @break
-                                                    @case('expédiée')
-                                                        <span class="badge bg-info text-dark">Expédiée</span>
-                                                        @break
-                                                    @case('livrée')
-                                                        <span class="badge bg-success">Livrée</span>
-                                                        @break
-                                                    @case('Rétablie')
-                                                        <span class="badge bg-success">Rétablie</span>
-                                                        @break
-                                                    @case('annulée')
-                                                        <span class="badge bg-danger">Annulée</span>
-                                                        @break
-                                                    @case('supprimée')
-                                                        <span class="badge bg-danger">Supprimée</span>
-                                                        @break
-                                                    @default
-                                                        <span class="badge bg-light text-dark">{{ ucfirst($status) }}</span>
-                                                @endswitch
-
-                                                <button type="button"
-                                                    class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
-                                                    data-id="{{ $item->id }}"
-                                                    data-type="order"
-                                                    data-current="{{ $status }}"
-                                                    title="Modifier le statut de la commande">
-                                                    <i class="fa fa-pen text-secondary" style="font-size: 12px;"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>{{ $order->created_at ? $order->created_at->format('d/m/Y H:i') : '—' }}</td>
-
-                                        <td class="text-wrap" style="max-width: 250px;">
-                                            @if($order->note)
-                                                <span>{{ Str::limit($order->note, 120) }}</span>
-                                            @else
-                                                <span>Aucune note</span>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            @if(!$item->shipment_id)
-                                                <button class="btn btn-sm btn-outline-primary mt-1"
-                                                    onclick="synchronizeWithAramex({{ $order->id }})">
-                                                    Synchroniser avec Aramex
-                                                </button>
-                                            @else
-                                                <span class="badge bg-success mt-1">Synchronisé</span>
-                                            @endif
-                                            <button class="btn btn-sm btn-outline-secondary mt-1"
-                                                onclick="openNoteModal({{ $order->id }}, '{{ addslashes($order->note ?? '') }}')">
-                                                <i class="bi bi-journal-text"></i> Note
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger mt-1"
-                                                onclick="confirmDeleteOrder({{ $order->id }})">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach --}}
                                 @foreach ($order->items as $item)
 
                                     @php
@@ -506,8 +309,12 @@
                                                 Note
                                             </button>
 
-                                            <button class="btn btn-sm btn-outline-danger mt-1"
+                                            {{-- <button class="btn btn-sm btn-outline-danger mt-1"
                                                 onclick="confirmDeleteOrder({{ $order->id }})">
+                                                <i class="bi bi-trash"></i>
+                                            </button> --}}
+                                            <button class="btn btn-sm btn-outline-danger mt-1"
+                                                onclick="confirmDeleteItem({{ $item->id }})">
                                                 <i class="bi bi-trash"></i>
                                             </button>
 
@@ -691,6 +498,38 @@ function confirmDeleteOrder(orderId) {
                 }).catch(err => {
                     Swal.fire("Erreur", "Une erreur est survenue.", "error");
                 });
+        }
+    });
+}
+
+function confirmDeleteItem(itemId) {
+    Swal.fire({
+        title: "Supprimer cet article de la commande ?",
+        text: "Cette action est réversible depuis les commandes supprimées.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/order-items/${itemId}`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    "Accept": "application/json"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire("Supprimé!", "L'article a été supprimé.", "success")
+                        .then(() => location.reload());
+                } else {
+                    Swal.fire("Erreur", "Une erreur est survenue.", "error");
+                }
+            });
         }
     });
 }

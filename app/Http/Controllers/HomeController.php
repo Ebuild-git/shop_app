@@ -213,16 +213,33 @@ class HomeController extends Controller
         $statut = $request->input('statut') ?? null;
         $key = $request->input('key') ?? null;
         $Query = posts::where('id_user', Auth::user()->id);
+        // if ($key) {
+        //     $Query->where('titre', 'LIKE', "%{$key}%")
+        //         ->orWhere('description', 'LIKE', "%{$key}%");
+        // }
         if ($key) {
-            $Query->where('titre', 'LIKE', "%{$key}%")
+            $Query->where(function ($q) use ($key) {
+                $q->where('titre', 'LIKE', "%{$key}%")
                 ->orWhere('description', 'LIKE', "%{$key}%");
+            });
         }
 
         if ($type != 'annonce') {
             $type = 'vente';
         }
         if ($type == 'vente') {
-            $Query = $Query->where('statut', '!=', 'vente');
+            // $Query = $Query->where('statut', '!=', 'vente');
+
+            // if ($month && $year) {
+            //     $Query->whereYear('sell_at', $year)
+            //         ->whereMonth('sell_at', $month);
+            // }
+            // $Query->orderBy('sell_at', 'desc');
+            $Query->whereNotNull('sell_at')
+                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné'])
+                ->whereDoesntHave('orderItems', function ($q) {
+                    $q->onlyTrashed();
+                });
 
             if ($month && $year) {
                 $Query->whereYear('sell_at', $year)

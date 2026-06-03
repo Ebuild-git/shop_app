@@ -62,161 +62,162 @@
                             </tr>
                         </thead>
                         <tbody id="commande-table-body">
-                            @forelse ($orders as $order)
-                                @foreach ($order->items as $item)
-                                    <tr>
-                                        <td>CMD-{{ $order->id }}</td>
+                            @forelse ($items as $item)
+                                @php
+                                    $order = $item->order;
+                                    $postImage = $item->post?->photos[0] ?? null
+                                        ? config('app.url') . Storage::url($item->post->photos[0])
+                                        : asset('assets-admin/img/no-image.png');
+                                    $acheteurSupprime = $order->buyer?->deleted_at ? true : false;
+                                    $vendeurSupprime  = $item->vendor?->deleted_at ? true : false;
+                                    $statut = $item->post?->statut ?? '—';
+                                @endphp
+                                <tr>
+                                    <td>CMD-{{ $order->id }}</td>
 
-                                        <td>
-                                            @if($item->vendor)
-                                                <a href="/admin/client/{{ $item->vendor->id }}/view">
-                                                    {{ $item->vendor->username ?? '—' }}
-                                                </a>
-                                                <br>
-                                                <small>
-                                                    <b class="text-color2">Région:</b> {{ $item->vendor->region_info->nom ?? '/' }}
-                                                </small>
-                                                <div>
-                                                        @if($item->vendor->deleted_at))
-                                                        <span class="text-danger">(Utilisateur supprimé)</span>
-                                                        @else
-                                                            <span class="message-style"
-                                                                onclick="OpenModalMessage(
-                                                                    '{{ $item->vendor->id ?? 0 }}',
-                                                                    '{{ $item->vendor->username ?? '—' }}',
-                                                                    '{{ $item->post->titre ?? '—' }}',
-                                                                    '{{ $item->post->id ?? 0 }}',
-                                                                    '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
-                                                                )">
-                                                                <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
-                                                            </span>
-                                                    @endif
-                                                </div>
-                                            @else
-                                                <span class="text-muted">—</span>
-                                            @endif
-                                        </td>
+                                    <td>
+                                        @if($item->vendor)
+                                            <a href="/admin/client/{{ $item->vendor->id }}/view">
+                                                {{ $item->vendor->deleted_at ? $item->vendor->username_deleted : $item->vendor->username }}
+                                            </a>
+                                            <br>
+                                            <small>
+                                                <b class="text-color2">Région:</b> {{ $item->vendor->region_info->nom ?? '/' }}
+                                            </small>
+                                            <div>
+                                                @if($item->vendor->deleted_at)
+                                                    <span class="text-danger">(Utilisateur supprimé)</span>
+                                                @else
+                                                    <span class="message-style"
+                                                        onclick="OpenModalMessage(
+                                                            '{{ $item->vendor->id ?? 0 }}',
+                                                            '{{ $item->vendor->username ?? '—' }}',
+                                                            '{{ $item->post->titre ?? '—' }}',
+                                                            '{{ $item->post->id ?? 0 }}',
+                                                            '{{ $postImage }}'
+                                                        )">
+                                                        <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <span class="text-muted">—</span>
+                                        @endif
+                                    </td>
 
-                                        <td>
-                                            @if($order->buyer)
-                                                <a href="/admin/client/{{ $order->buyer->id }}/view">
-                                                    {{ $order->buyer->username ?? '—' }}
-                                                </a>
-                                                <br>
-                                                <small>
-                                                    <b class="text-color2">Région:</b> {{ $order->buyer->region_info->nom ?? '/' }}
-                                                </small>
-                                                <div>
-                                                    @if( $order->buyer->deleted_at)
-                                                        <span class="text-danger">(Utilisateur supprimé)</span>
-                                                    @else
+                                    <td>
+                                        @if($order->buyer)
+                                            <a href="/admin/client/{{ $order->buyer->id }}/view">
+                                                {{ $order->buyer->deleted_at ? $order->buyer->username_deleted : $order->buyer->username }}
+                                            </a>
+                                            <br>
+                                            <small>
+                                                <b class="text-color2">Région:</b> {{ $order->buyer->region_info->nom ?? '/' }}
+                                            </small>
+                                            <div>
+                                                @if($order->buyer->deleted_at)
+                                                    <span class="text-danger">(Utilisateur supprimé)</span>
+                                                @else
                                                     <span class="message-style"
                                                         onclick="OpenModalMessage(
                                                             '{{ $order->buyer->id ?? 0 }}',
                                                             '{{ $order->buyer->username ?? '—' }}',
                                                             '{{ $item->post->titre ?? '—' }}',
                                                             '{{ $item->post->id ?? 0 }}',
-                                                            '{{ $item->post->photos[0] ? config('app.url') . Storage::url($item->post->photos[0]) : asset('assets-admin/img/no-image.png') }}'
+                                                            '{{ $postImage }}'
                                                         )">
                                                         <i class="bi bi-chat-left-text-fill" style="margin-right: 5px;"></i> Message
                                                     </span>
-                                                    @endif
-                                                </div>
-                                            @else
-                                                <span class="text-muted">—</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @php
-                                                $acheteurSupprime = $order->buyer?->deleted_at ? true : false;
-                                                $vendeurSupprime = $item->vendor?->deleted_at ? true : false;
-                                            @endphp
+                                                @endif
+                                            </div>
+                                        @else
+                                            <span class="text-muted">—</span>
+                                        @endif
+                                    </td>
 
-                                            @if(!$acheteurSupprime && !$vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🟢</span> OK
-                                            @elseif($acheteurSupprime && !$vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🔴</span> Acheteur supprimé
-                                            @elseif(!$acheteurSupprime && $vendeurSupprime)
-                                                <span style="font-size: 1.2rem;">🟠</span> Vendeur supprimé
-                                            @else
-                                                <span style="font-size: 1.2rem;">🔴🟠</span> Les deux supprimés
-                                            @endif
-                                        </td>
+                                    <td class="text-center">
+                                        @if(!$acheteurSupprime && !$vendeurSupprime)
+                                            <span style="font-size: 1.2rem;">🟢</span> OK
+                                        @elseif($acheteurSupprime && !$vendeurSupprime)
+                                            <span style="font-size: 1.2rem;">🔴</span> Acheteur supprimé
+                                        @elseif(!$acheteurSupprime && $vendeurSupprime)
+                                            <span style="font-size: 1.2rem;">🟠</span> Vendeur supprimé
+                                        @else
+                                            <span style="font-size: 1.2rem;">🔴🟠</span> Les deux supprimés
+                                        @endif
+                                    </td>
 
-                                        <td>
-                                            @if($item->post)
-                                                <a href="/admin/publication/{{ $item->post->id }}/view">
-                                                    {{ $item->post->titre ?? '—' }}
-                                                </a>
-                                            @else
-                                                <span class="text-muted">Post supprimé</span>
-                                            @endif
-                                        </td>
+                                    <td>
+                                        @if($item->post)
+                                            <a href="/admin/publication/{{ $item->post->id }}/view">
+                                                {{ $item->post->titre ?? '—' }}
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Post supprimé</span>
+                                        @endif
+                                    </td>
 
-                                        <td>{{ $item->shipment_id ?? '—' }}</td>
+                                    <td>{{ $item->shipment_id ?? '—' }}</td>
 
-                                        <td>{{ $item->delivery_fee ?? 0 }} <sup>DH</sup></td>
+                                    <td>{{ $item->delivery_fee ?? 0 }} <sup>DH</sup></td>
 
-                                        <td>
-                                            @php $statut = $item->post?->statut ?? '—'; @endphp
-                                            <span class="badge-etat
-                                                @if($statut === 'validation') etat-validation
-                                                @elseif($statut === 'vente') etat-vente
-                                                @elseif($statut === 'vendu') etat-vendu
-                                                @elseif($statut === 'livraison') etat-livraison
-                                                @elseif($statut === 'livré') etat-livre
-                                                @elseif($statut === 'refusé') etat-refuse
-                                                @elseif($statut === 'préparation') etat-preparation
-                                                @elseif($statut === 'en voyage') etat-en-voyage
-                                                @elseif($statut === 'en cours de livraison') etat-en-cours
-                                                @elseif($statut === 'ramassée') etat-ramassee
-                                                @elseif($statut === 'retourné') etat-retourne
-                                                @endif">
-                                                {{ $statut }}
-                                            </span>
-                                        </td>
+                                    <td>
+                                        <span class="badge-etat
+                                            @if($statut === 'validation') etat-validation
+                                            @elseif($statut === 'vente') etat-vente
+                                            @elseif($statut === 'vendu') etat-vendu
+                                            @elseif($statut === 'livraison') etat-livraison
+                                            @elseif($statut === 'livré') etat-livre
+                                            @elseif($statut === 'refusé') etat-refuse
+                                            @elseif($statut === 'préparation') etat-preparation
+                                            @elseif($statut === 'en voyage') etat-en-voyage
+                                            @elseif($statut === 'en cours de livraison') etat-en-cours
+                                            @elseif($statut === 'ramassée') etat-ramassee
+                                            @elseif($statut === 'retourné') etat-retourne
+                                            @endif">
+                                            {{ $statut }}
+                                        </span>
+                                    </td>
 
-                                        <td>
-                                            @switch($order->status)
-                                                @case('pending')
-                                                    <span class="badge bg-secondary">Crée</span>
-                                                    @break
-                                                @case('expédiée')
-                                                    <span class="badge bg-info text-dark">Expédiée</span>
-                                                    @break
-                                                @case('livrée')
-                                                    <span class="badge bg-success">Livrée</span>
-                                                    @break
-                                                @case('annulée')
-                                                    <span class="badge bg-danger">Annulée</span>
-                                                    @break
-                                                @case('supprimée')
-                                                    <span class="badge bg-danger">Supprimée</span>
-                                                    @break
-                                                @default
-                                                    <span class="badge bg-light text-dark">{{ ucfirst($order->status) }}</span>
-                                            @endswitch
-                                        </td>
+                                    <td>
+                                        @switch($order->status)
+                                            @case('pending')
+                                                <span class="badge bg-secondary">Crée</span>
+                                                @break
+                                            @case('expédiée')
+                                                <span class="badge bg-info text-dark">Expédiée</span>
+                                                @break
+                                            @case('livrée')
+                                                <span class="badge bg-success">Livrée</span>
+                                                @break
+                                            @case('annulée')
+                                                <span class="badge bg-danger">Annulée</span>
+                                                @break
+                                            @case('supprimée')
+                                                <span class="badge bg-danger">Supprimée</span>
+                                                @break
+                                            @default
+                                                <span class="badge bg-light text-dark">{{ ucfirst($order->status) }}</span>
+                                        @endswitch
+                                    </td>
 
-                                        <td>{{ $order->deleted_at ? $order->deleted_at->format('d/m/Y H:i') : '—' }}</td>
+                                    <td>{{ $item->deleted_at?->format('d/m/Y H:i') ?? '—' }}</td>
 
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-success mt-1"
-                                                onclick="restoreOrder({{ $order->id }})">
-                                                <i class="bi bi-arrow-counterclockwise"></i> Restaurer
-                                            </button>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-success mt-1"
+                                            onclick="restoreItem({{ $item->id }})">
+                                            <i class="bi bi-arrow-counterclockwise"></i> Restaurer
+                                        </button>
 
-                                            <button class="btn btn-sm btn-outline-danger mt-1"
-                                                onclick="confirmForceDelete({{ $order->id }})">
-                                                <i class="bi bi-trash"></i> Supprimer définitivement
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                        <button class="btn btn-sm btn-outline-danger mt-1"
+                                            onclick="confirmForceDeleteItem({{ $item->id }})">
+                                            <i class="bi bi-trash"></i> Supprimer définitivement
+                                        </button>
+                                    </td>
+                                </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="p-3">Aucune commande trouvée</div>
                                     </td>
                                 </tr>
@@ -225,7 +226,7 @@
                     </table>
                 </div>
 
-                <div class="p-3">{{ $orders->links('pagination::bootstrap-4') }}</div>
+                <div class="p-3">{{ $items->links('pagination::bootstrap-4') }}</div>
             </div>
         </div>
     </div>
@@ -304,64 +305,61 @@ function attachPaginationListeners() {
 
 attachPaginationListeners();
 </script>
-<script>
-    function restoreOrder(orderId) {
-        Swal.fire({
-            title: "Restaurer cette commande ?",
-            text: "Elle sera de nouveau active dans le système.",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Oui, restaurer",
-            cancelButtonText: "Annuler",
-            confirmButtonColor: "#198754",
-            cancelButtonColor: "#6c757d"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`/admin/orders/${orderId}/restore`, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        "Accept": "application/json"
-                    }
-                }).then(res => res.json())
-                  .then(data => {
-                      Swal.fire("Restauré!", "La commande a été restaurée.", "success")
-                          .then(() => location.reload());
-                  }).catch(err => {
-                      Swal.fire("Erreur", "Une erreur est survenue.", "error");
-                  });
-            }
-        });
-    }
-    function confirmForceDelete(orderId) {
-        Swal.fire({
-            title: "Êtes-vous sûr ?",
-            text: "Cette action supprimera définitivement la commande !",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Oui, supprimer",
-            cancelButtonText: "Annuler",
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#6c757d"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`/admin/orders/${orderId}/force-delete`, {
-                    method: "DELETE",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        "Accept": "application/json"
-                    }
-                }).then(res => res.json())
-                .then(data => {
-                    Swal.fire("Supprimé!", "La commande a été supprimée définitivement.", "success")
-                        .then(() => location.reload());
-                }).catch(err => {
-                    Swal.fire("Erreur", "Une erreur est survenue.", "error");
-                });
-            }
-        });
-    }
-</script>
 
+<script>
+function restoreItem(itemId) {
+    Swal.fire({
+        title: "Restaurer cet article ?",
+        text: "Il sera de nouveau actif dans la commande.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Oui, restaurer",
+        cancelButtonText: "Annuler",
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#6c757d"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/order-items/${itemId}/restore`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    "Accept": "application/json"
+                }
+            }).then(res => res.json())
+              .then(() => {
+                  Swal.fire("Restauré!", "L'article a été restauré.", "success")
+                      .then(() => location.reload());
+              }).catch(() => Swal.fire("Erreur", "Une erreur est survenue.", "error"));
+        }
+    });
+}
+
+function confirmForceDeleteItem(itemId) {
+    Swal.fire({
+        title: "Supprimer définitivement ?",
+        text: "Cette action est irréversible !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/order-items/${itemId}/force`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    "Accept": "application/json"
+                }
+            }).then(res => res.json())
+              .then(() => {
+                  Swal.fire("Supprimé!", "L'article a été supprimé définitivement.", "success")
+                      .then(() => location.reload());
+              }).catch(() => Swal.fire("Erreur", "Une erreur est survenue.", "error"));
+        }
+    });
+}
+</script>
 
 @endsection

@@ -418,7 +418,9 @@
                     <th>{{ __('last_price_update') }}</th>
                 @endif
                 <th>{{ __('ad_status') }}</th>
-                <th>{{ __('deletion_reason') }}</th>
+                @if(!$showRemainingTimeColumn)
+                    <th>{{ __('deletion_reason') }}</th>
+                @endif
                 @if(!$showRemainingTimeColumn)
                     <th></th>
                 @endif
@@ -545,15 +547,17 @@
                         @endif
                     </td>
 
-                    <td>
-                        @if ($item->motif_suppression)
-                            <div class="reason-text" title="{{ \App\Traits\TranslateTrait::TranslateText($item->motif_suppression) }}">
-                                {{ \App\Traits\TranslateTrait::TranslateText($item->motif_suppression) }}
-                            </div>
-                        @else
-                            <span class="dash">—</span>
-                        @endif
-                    </td>
+                    @if(!$showRemainingTimeColumn)
+                        <td>
+                            @if ($item->motif_suppression)
+                                <div class="reason-text" title="{{ \App\Traits\TranslateTrait::TranslateText($item->motif_suppression) }}">
+                                    {{ \App\Traits\TranslateTrait::TranslateText($item->motif_suppression) }}
+                                </div>
+                            @else
+                                <span class="dash">—</span>
+                            @endif
+                        </td>
+                    @endif
 
                     @if(!$showRemainingTimeColumn)
                         <td style="text-align:right; white-space:nowrap; padding: 10px 6px;">

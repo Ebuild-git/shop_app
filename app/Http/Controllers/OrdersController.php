@@ -22,43 +22,82 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
+    // public function deletedOrders(Request $request)
+    // {
+    //     $query = Order::onlyTrashed()->with(['items.post', 'items.vendor', 'buyer'])->orderBy('deleted_at', 'desc');
+
+    //     // Filter by region
+    //     if ($request->filled('region_id')) {
+    //         $regionId = $request->region_id;
+    //         $query->where(function ($q) use ($regionId) {
+    //             $q->whereHas('items.vendor', fn($q2) => $q2->where('region', $regionId))
+    //             ->orWhereHas('buyer', fn($q2) => $q2->where('region', $regionId));
+    //         });
+    //     }
+
+    //     // Filter by date
+    //     if ($request->filled('date')) {
+    //         $query->whereDate('created_at', $request->date);
+    //     }
+
+    //     // Filter by search
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+
+    //         $query->where(function($q) use ($search) {
+    //             if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
+    //                 $id = $matches[1];
+    //                 $q->where('id', $id);
+    //             } else {
+    //                 $q->whereHas('items.vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
+    //                 ->orWhereHas('buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
+    //                 ->orWhere('shipment_id', 'like', "%{$search}%");
+    //             }
+    //         });
+    //     }
+
+    //     $orders = $query->paginate(10)->appends($request->all());
+    //     $regions = regions::all();
+    //     return view('Admin.shipement.deleted', compact('orders', 'regions'));
+    // }
     public function deletedOrders(Request $request)
     {
-        $query = Order::onlyTrashed()->with(['items.post', 'items.vendor', 'buyer'])->orderBy('deleted_at', 'desc');
+        $query = OrdersItem::onlyTrashed()
+            ->with(['post', 'vendor', 'order.buyer'])
+            ->orderBy('deleted_at', 'desc');
 
         // Filter by region
         if ($request->filled('region_id')) {
             $regionId = $request->region_id;
             $query->where(function ($q) use ($regionId) {
-                $q->whereHas('items.vendor', fn($q2) => $q2->where('region', $regionId))
-                ->orWhereHas('buyer', fn($q2) => $q2->where('region', $regionId));
+                $q->whereHas('vendor', fn($q2) => $q2->where('region', $regionId))
+                ->orWhereHas('order.buyer', fn($q2) => $q2->where('region', $regionId));
             });
         }
 
         // Filter by date
         if ($request->filled('date')) {
-            $query->whereDate('created_at', $request->date);
+            $query->whereDate('deleted_at', $request->date);
         }
 
         // Filter by search
         if ($request->filled('search')) {
             $search = $request->search;
-
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
-                    $id = $matches[1];
-                    $q->where('id', $id);
+                    $q->where('order_id', $matches[1]);
                 } else {
-                    $q->whereHas('items.vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
-                    ->orWhereHas('buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
+                    $q->whereHas('vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
+                    ->orWhereHas('order.buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
                     ->orWhere('shipment_id', 'like', "%{$search}%");
                 }
             });
         }
 
-        $orders = $query->paginate(10)->appends($request->all());
+        $items = $query->paginate(10)->appends($request->all());
         $regions = regions::all();
-        return view('Admin.shipement.deleted', compact('orders', 'regions'));
+
+        return view('Admin.shipement.deleted', compact('items', 'regions'));
     }
 
     public function restore($orderId)
@@ -165,6 +204,27 @@ class OrdersController extends Controller
         $order->note = $request->note;
         $order->save();
 
+        return response()->json(['success' => true]);
+    }
+
+    public function destroyItem(OrdersItem $item)
+    {
+        $item->delete();
+        $item->update(['status' => 'supprimée']);
+        return response()->json(['success' => true]);
+    }
+
+    public function restoreItem($itemId)
+    {
+        $item = OrdersItem::onlyTrashed()->findOrFail($itemId);
+        $item->restore();
+        return response()->json(['success' => true]);
+    }
+
+    public function forceDeleteItem($itemId)
+    {
+        $item = OrdersItem::onlyTrashed()->findOrFail($itemId);
+        $item->forceDelete();
         return response()->json(['success' => true]);
     }
 

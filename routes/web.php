@@ -230,6 +230,10 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::post('/admin/orders/{order}/restore', [OrdersController::class, 'restore'])->name('admin.orders.restore');
     Route::delete('/admin/orders/{order}/force-delete', [OrdersController::class, 'forceDelete'])->name('admin.orders.forceDelete');
 
+    Route::delete('/admin/order-items/{item}', [OrdersController::class, 'destroyItem'])->name('order-items.destroy');
+    Route::post('/admin/order-items/{item}/restore', [OrdersController::class, 'restoreItem'])->name('order-items.restore');
+    Route::delete('/admin/order-items/{item}/force', [OrdersController::class, 'forceDeleteItem'])->name('order-items.force-delete');
+
     Route::delete('/admin/violations/delete-all', [SignalementsController::class, 'deleteAll'])->name('violations.deleteAll');
     Route::delete('/admin/violations/{id}', [SignalementsController::class, 'destroy'])->name('violations.destroy');
 
