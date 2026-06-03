@@ -19,7 +19,7 @@
       <td style="padding:18px 28px;text-align:right;">
         <table cellpadding="0" cellspacing="0" style="margin-left:auto;">
           <tr>
-            <td style="padding-right:10px;font-size:24px;">🛡</td>
+            <td style="padding-right:10px;font-size:24px;">🛡️</td>
             <td>
               <div style="color:#fff;font-size:14px;font-weight:700;">
                 {{ __('secure_marketplace') }}
@@ -38,7 +38,7 @@
   <div style="padding:30px 32px 28px;">
 
     <!-- Greeting -->
-    <h2 style="font-size:24px;font-weight:800;color:#1a1a1a;margin:0 0 14px;">
+    <h2 style="font-size:24px;font-weight:800;color:#1a7a6e;margin:0 0 14px;">
       {{ __('thank_you2', ['username' => $user->username]) }}
     </h2>
 
@@ -51,64 +51,73 @@
     </p>
 
     <!-- ORDER SUMMARY -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+    <table width="100%" cellpadding="0" cellspacing="0"
+           style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
       <tr>
-        <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;font-size:20px;">
-          🔒
-        </td>
-        <td style="padding-left:14px;font-size:13px;font-weight:800;color:#1a1a1a;text-transform:uppercase;">
-          {{ __('order_summary2') }}
+        <td style="padding:14px 18px;">
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;font-size:20px;">
+                🔒
+              </td>
+              <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;">
+                {{ __('order_summary2') }}
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
+
+      @php $total = 0; @endphp
+
+      <!-- PRODUCTS -->
+      @foreach ($articles_panier as $article)
+      <tr>
+        <td style="padding:0 14px 14px 14px;">
+          <table width="100%" cellpadding="0" cellspacing="0"
+                 style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;">
+            <tr>
+              <!-- Image -->
+              <td style="width:140px;padding:12px;vertical-align:top;">
+                <img src="{{ $article['photo'] }}"
+                     alt="{{ $article['titre'] }}"
+                     style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
+              </td>
+
+              <!-- Info -->
+              <td style="padding:14px 10px;vertical-align:top;">
+                <div style="font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">
+                  {{ $article['titre'] }}
+                </div>
+                <div style="font-size:13px;color:#555;margin-bottom:4px;">
+                  {{ __('product_ref') }} :
+                  <span style="color:#1a7a6e;font-weight:700;">P-{{ $article['id'] }}</span>
+                </div>
+                <div style="font-size:13px;color:#555;">
+                  {{ __('seller_label') }} :
+                  <span style="color:#1a7a6e;font-weight:700;">{{ $article['vendeur'] ?? 'N/A' }}</span>
+                </div>
+              </td>
+
+              <!-- Price label + value stacked, aligned to ref/seller rows -->
+              <td style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
+                <!-- Empty spacer to push price down to ref/seller level -->
+                <div style="font-size:16px;font-weight:800;color:transparent;margin-bottom:10px;">.</div>
+                <div style="font-size:12px;color:#555;margin-bottom:2px;">
+                  {{ __('article_price') }}
+                </div>
+                <div style="font-size:18px;font-weight:800;color:#1a1a1a;">
+                  {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      @php $total += $article['prix']; @endphp
+      @endforeach
+
     </table>
-
-    @php $total = 0; @endphp
-
-    <!-- PRODUCTS -->
-    @foreach ($articles_panier as $article)
-
-    <table width="100%" cellpadding="0" cellspacing="0"
-   style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
-    <tr>
-
-        <td style="width:140px;padding:12px;vertical-align:top;">
-            <img src="{{ $article['photo'] }}"
-                alt="{{ $article['titre'] }}"
-                style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
-        </td>
-
-        <td style="padding:14px;vertical-align:middle;">
-            <div style="font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:8px;">
-                {{ $article['titre'] }}
-            </div>
-
-            <div style="font-size:13px;color:#555;margin-bottom:4px;">
-                {{ __('product_ref') }} :
-                <span style="color:#1a7a6e;font-weight:700;">
-                    P-{{ $article['id'] }}
-                </span>
-            </div>
-
-            <div style="font-size:13px;color:#555;">
-                {{ __('seller2') }} :
-                <span style="color:#1a7a6e;font-weight:700;">
-                    {{ $article['vendeur'] ?? 'N/A' }}
-                </span>
-            </div>
-        </td>
-
-        <!-- Price aligned to middle (same level as seller/ref lines) -->
-        <td style="padding:14px;vertical-align:middle;text-align:right;white-space:nowrap;">
-            <div style="font-size:18px;font-weight:800;color:#1a1a1a;">
-                {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
-            </div>
-        </td>
-
-    </tr>
-</table>
-
-    @php $total += $article['prix']; @endphp
-    @endforeach
 
     <!-- TOTALS -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:18px;">
@@ -117,16 +126,15 @@
           {{ __('shipping_fees') }}
         </td>
         <td style="text-align:right;font-size:14px;font-weight:700;color:#1a1a1a;">
-          {{ number_format($totalShippingFees, 2, '.', '') }} {{ __('currency') }}
+          {{ number_format($totalShippingFees, 2, ',', '') }} {{ __('currency') }}
         </td>
       </tr>
-
       <tr>
         <td style="padding:10px 0;font-size:16px;font-weight:800;color:#1a1a1a;border-top:1px solid #eee;">
           {{ __('total2') }}
         </td>
         <td style="text-align:right;font-size:18px;font-weight:900;color:#1a7a6e;border-top:1px solid #eee;">
-          {{ number_format($total + $totalShippingFees, 2, '.', '') }} {{ __('currency') }}
+          {{ number_format($total + $totalShippingFees, 2, ',', '') }} {{ __('currency') }}
         </td>
       </tr>
     </table>
@@ -135,18 +143,20 @@
     <table width="100%" cellpadding="0" cellspacing="0"
            style="border:1px solid #e0e0e0;border-radius:10px;margin-bottom:14px;">
       <tr>
-        <td style="width:60px;padding:18px 0 18px 18px;vertical-align:top;">
+        <td style="width:60px;padding:18px 0 18px 18px;vertical-align:middle;">
           <div style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;line-height:44px;font-size:20px;">
             💵
           </div>
         </td>
-        <td style="padding:18px;">
-          <div style="font-size:13px;color:#777;margin-bottom:4px;">
+        <td style="padding:18px;vertical-align:middle;">
+          <span style="font-size:14px;font-weight:800;color:#1a1a1a;">
             {{ __('payment_method') }}
-          </div>
-          <div style="font-size:15px;font-weight:800;color:#1a1a1a;">
+          </span>
+        </td>
+        <td style="padding:18px;text-align:right;vertical-align:middle;">
+          <span style="font-size:14px;font-weight:700;color:#1a7a6e;">
             {{ __('payment_method1') }}
-          </div>
+          </span>
         </td>
       </tr>
     </table>
@@ -154,8 +164,8 @@
     <!-- DELIVERY -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
       <tr>
-        <td style="width:44px;font-size:22px;">📍</td>
-        <td style="font-size:15px;font-weight:800;color:#1a1a1a;">
+        <td style="width:44px;font-size:22px;vertical-align:middle;">📍</td>
+        <td style="font-size:15px;font-weight:800;color:#1a1a1a;vertical-align:middle;">
           {{ __('delivery_information') }}
         </td>
       </tr>
@@ -166,42 +176,41 @@
 
       <!-- ADDRESS -->
       <tr>
-        <td style="padding:14px 18px;border-bottom:1px solid #eee;">
-          <strong style="display:block;margin-bottom:6px;">🏠 {{ __('delivery_address') }}</strong>
+        <td style="width:50px;padding:16px 0 16px 18px;vertical-align:middle;font-size:20px;">🏠</td>
+        <td style="padding:16px 8px;vertical-align:middle;">
+          <strong style="font-size:13px;color:#1a1a1a;">{{ __('delivery_address') }}</strong>
+        </td>
+        <td style="padding:16px 18px 16px 0;vertical-align:middle;text-align:right;">
           <span style="font-size:13px;color:#555;line-height:1.6;">
-
             {!! $user->num_appartement ? 'App. ' . e($user->num_appartement) . ', ' : '' !!}
             {!! ($user->etage !== null && $user->etage !== '') ? __('floor') . ' ' . e($user->etage) . ', ' : '' !!}
             {!! $user->nom_batiment ? 'Résidence ' . e($user->nom_batiment) . ', ' : '' !!}
-            {!! $user->rue ? 'Rue ' . e($user->rue) . ', ' : '' !!}
+            {!! $user->rue ? e($user->rue) . ', ' : '' !!}
             {!! $user->address ? e($user->address) . ', ' : '' !!}
-
-            {!! optional($user->city)->name
-                    ? 'Ville ' . e($user->city->name) . ', '
-                    : '' !!}
-
-            {!! optional($user->region_info)->nom
-                    ? e($user->region_info->nom)
-                    : '' !!}
-
+            {!! optional($user->city)->name ? e($user->city->name) . ', ' : '' !!}
+            {!! optional($user->region_info)->nom ? e($user->region_info->nom) : '' !!}
           </span>
         </td>
       </tr>
 
-      <!-- REGION -->
-      <tr>
-        <td style="padding:14px 18px;border-bottom:1px solid #eee;">
-          <strong>🗺️ {{ __('region') }}</strong><br>
+      <tr style="border-top:1px solid #eee;">
+        <td style="width:50px;padding:16px 0 16px 18px;vertical-align:middle;font-size:20px;">🗺️</td>
+        <td style="padding:16px 8px;vertical-align:middle;">
+          <strong style="font-size:13px;color:#1a1a1a;">{{ __('region') }}</strong>
+        </td>
+        <td style="padding:16px 18px 16px 0;vertical-align:middle;text-align:right;">
           <span style="font-size:13px;color:#555;">
             {{ $user->region_info->nom ?? '-' }}
           </span>
         </td>
       </tr>
 
-      <!-- PHONE -->
-      <tr>
-        <td style="padding:14px 18px;">
-          <strong>📞 {{ __('phone_number') }}</strong><br>
+      <tr style="border-top:1px solid #eee;">
+        <td style="width:50px;padding:16px 0 16px 18px;vertical-align:middle;font-size:20px;">📞</td>
+        <td style="padding:16px 8px;vertical-align:middle;">
+          <strong style="font-size:13px;color:#1a1a1a;">{{ __('phone_number') }}</strong>
+        </td>
+        <td style="padding:16px 18px 16px 0;vertical-align:middle;text-align:right;">
           <a href="tel:{{ $user->phone_number }}"
              style="color:#1a7a6e;font-size:13px;font-weight:700;text-decoration:none;">
             {{ $user->phone_number ?? '-' }}
@@ -215,7 +224,7 @@
     <table width="100%" cellpadding="0" cellspacing="0"
            style="background:#eef6f5;border-radius:10px;">
       <tr>
-        <td style="width:46px;padding:18px;font-size:22px;">🛡️</td>
+        <td style="width:46px;padding:18px;font-size:22px;vertical-align:middle;">🛡️</td>
         <td style="padding:18px 18px 18px 0;">
           <div style="font-size:14px;font-weight:800;color:#1a1a1a;margin-bottom:4px;">
             {{ __('safety_title') }}
@@ -237,12 +246,10 @@
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 20px;">
           ✉️ {{ __('contact_us1') }}
         </a>
-
         <span style="color:#4a7a76;">|</span>
-
         <a href="{{ config('app.url') }}/trust-safety"
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 20px;">
-          🛡 {{ __('trust_safety') }}
+          🛡️ {{ __('trust_safety') }}
         </a>
       </td>
     </tr>

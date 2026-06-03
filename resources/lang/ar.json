@@ -1253,6 +1253,8 @@
 "order_item_restored_title": "تم استعادة منتج في طلبك",
 "order_item_restored_message": "خبر سار! تمت استعادة المنتج « :post_title » في طلبك :shipment_id.",
 "no_purchase": "لا توجد مشتريات!",
-    "no_purchase_message": "ليس لديك أي مشتريات حالياً."
+    "no_purchase_message": "ليس لديك أي مشتريات حالياً.",
+    "article_price": "سعر المنتج"
+
 
 }
