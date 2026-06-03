@@ -1256,7 +1256,9 @@
   "order_item_cancelled_title": "Item removed from your order",
 "order_item_cancelled_message": "Your order :shipment_id has been updated. The item « :post_title » has been removed from your order by the Shopin team.",
 "order_item_restored_title": "Item restored to your order",
-"order_item_restored_message": "Good news! The item « :post_title » has been restored to your order :shipment_id."
+"order_item_restored_message": "Good news! The item « :post_title » has been restored to your order :shipment_id.",
+"no_purchase": "No Purchases!",
+    "no_purchase_message": "You currently have no purchases."
 
 
 }

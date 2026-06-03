@@ -1251,7 +1251,9 @@
   "order_item_cancelled_title": "Article retiré de votre commande",
 "order_item_cancelled_message": "Votre commande :shipment_id a été modifiée. L'article « :post_title » a été retiré de votre commande par l'équipe Shopin.",
 "order_item_restored_title": "Article rétabli dans votre commande",
-"order_item_restored_message": "Bonne nouvelle ! L'article « :post_title » a été rétabli dans votre commande :shipment_id."
+"order_item_restored_message": "Bonne nouvelle ! L'article « :post_title » a été rétabli dans votre commande :shipment_id.",
+"no_purchase": "Aucun achat !",
+    "no_purchase_message": "Vous n'avez actuellement aucun achat."
 
 
 }

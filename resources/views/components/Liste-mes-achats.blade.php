@@ -83,11 +83,9 @@
                                         src="https://img.icons8.com/carbon-copy/100/737373/shopping-cart-loaded.png"
                                         alt="shopping-cart-loaded" />
                                 </div>
-                                <h6 class="text-center">Aucun Achat !</h6>
+                                <h6 class="text-center">{{ __('no_purchase') }}</h6>
                                 <span class="text-muted">
-                                    <i>
-                                        vous n'avez pas d'achat actuellement .
-                                    </i>
+                                    <i>{{ __('no_purchase_message') }}</i>
                                 </span>
                             </div>
                         </td>
