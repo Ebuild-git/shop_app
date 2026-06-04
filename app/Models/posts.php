@@ -34,14 +34,41 @@ class posts extends Model
 
     protected $appends = ['discountPercentage'];
 
+    // public function getPrix()
+    // {
+    //     $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+    //     $prix = (int) $this->attributes['prix'];
+    //     $prix_calculé = (int) ceil($prix + (($pourcentage_gain * $prix) / 100));
+
+    //     return $prix_calculé;
+    // }
+
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-        $prix = (int) $this->attributes['prix'];
-        $prix_calculé = (int) round($prix + (($pourcentage_gain * $prix) / 100));
+        $prix = (float) $this->attributes['prix']; // ← keeps 100.2 as 100.2
+        $prix_calculé = (int) ceil($prix * (1 + $pourcentage_gain / 100));
 
         return $prix_calculé;
     }
+
+
+
+    // public function getOldPrix()
+    // {
+    //     if ($this->changements_prix->isNotEmpty()) {
+    //         $firstChangementPrix = $this->changements_prix->first();
+    //         $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
+    //         if ($old_prix !== null) {
+    //             $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+    //             $prix_calculé = (int) ceil($old_prix + (($pourcentage_gain * $old_prix) / 100));
+
+    //             return $prix_calculé;
+    //         }
+    //     }
+
+    //     return null;
+    // }
 
     public function getOldPrix()
     {
@@ -50,7 +77,7 @@ class posts extends Model
             $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
             if ($old_prix !== null) {
                 $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-                $prix_calculé = (int) round($old_prix + (($pourcentage_gain * $old_prix) / 100));
+                $prix_calculé = (int) ceil((float) $old_prix * (1 + $pourcentage_gain / 100));
 
                 return $prix_calculé;
             }
