@@ -159,7 +159,8 @@ class CreatePost extends Component
             $this->prix = null;
             return;
         }
-        $this->prix = (int) round((float) $value);
+        // $this->prix = (int) round((float) $value);
+        $this->prix = (float) $value;
         $this->validateCategoryPrice();
     }
 
@@ -378,7 +379,8 @@ class CreatePost extends Component
             'categorie' => sous_categories::find($this->selectedSubcategory)->categorie,
             'id_region' => $this->region,
             'region' => regions::find($this->region),
-            'prix' => $this->getPrix(round($this->prix)),
+            // 'prix' => $this->getPrix(round($this->prix)),
+            'prix' => $this->getPrix($this->prix),
             'id_user' => Auth::user()->id,
             'statut' => 'vente',
             'prix_achat' => $this->prix_achat ?? 0,
@@ -485,7 +487,8 @@ class CreatePost extends Component
         if ($this->prix_achat > 0) {
             $post->prix_achat = $this->prix_achat;
         }
-        $post->prix = (int) round($this->prix);
+        // $post->prix = (int) round($this->prix);
+        $post->prix = (float) $this->prix;
         $post->id_user = Auth::user()->id;
         if ($config->valider_publication == 0) {
             $post->verified_at = now();
@@ -529,11 +532,11 @@ class CreatePost extends Component
         $sous_cat = sous_categories::find($this->selectedSubcategory);
         if ($sous_cat) {
             $pourcentage_gain = $sous_cat->categorie->pourcentage_gain ?? 0;
-            $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));
+            $prix_calculé = (int) ceil((float) $prix * (1 + $pourcentage_gain / 100));
             return number_format($prix_calculé, 2, '.', '');
         }
 
-        return number_format($prix, 2, '.', '');
+        return number_format((float) $prix, 2, '.', '');
     }
 
     public function RemoveMe($index)

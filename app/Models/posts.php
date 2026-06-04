@@ -46,7 +46,7 @@ class posts extends Model
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-        $prix = (float) $this->attributes['prix']; // ← keeps 100.2 as 100.2
+        $prix = (float) $this->attributes['prix'];
         $prix_calculé = (int) ceil($prix * (1 + $pourcentage_gain / 100));
 
         return $prix_calculé;
