@@ -297,9 +297,17 @@ class Mode extends Component
         $postIds = collect($articlesPourCeVendeur)->pluck('id')->filter();
         $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
 
+        // $articlesWithGain = collect($articlesPourCeVendeur)->map(function ($article) use ($posts) {
+        //     $post = $posts[$article['id']] ?? null;
+        //     $article['gain'] = $post ? $post->calculateGain() : 0;
+        //     return $article;
+        // });
         $articlesWithGain = collect($articlesPourCeVendeur)->map(function ($article) use ($posts) {
             $post = $posts[$article['id']] ?? null;
+            // calculateGain() returns $this->prix which is the raw price (no platform percentage)
+            // We also override 'prix' so nothing in the template accidentally shows the buyer price
             $article['gain'] = $post ? $post->calculateGain() : 0;
+            $article['prix'] = $post ? $post->prix : $article['prix']; // raw price, no percentage
             return $article;
         });
 

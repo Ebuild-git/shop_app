@@ -117,11 +117,18 @@ class posts extends Model
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
 
+    // public function calculateGain()
+    // {
+    //     $price = $this->prix;
+
+    //     return $price;
+    // }
     public function calculateGain()
     {
-        $price = $this->prix;
-
-        return $price;
+        // $this->prix is the raw price the seller entered
+        // getPrix() adds the platform percentage on top for the buyer
+        // So the seller receives exactly what they listed, platform takes the difference
+        return $this->prix;
     }
 
     public function user_info()
