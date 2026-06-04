@@ -229,13 +229,6 @@ class HomeController extends Controller
             $type = 'vente';
         }
         if ($type == 'vente') {
-            // $Query = $Query->where('statut', '!=', 'vente');
-
-            // if ($month && $year) {
-            //     $Query->whereYear('sell_at', $year)
-            //         ->whereMonth('sell_at', $month);
-            // }
-            // $Query->orderBy('sell_at', 'desc');
             $Query->whereNotNull('sell_at')
                 ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné'])
                 ->whereDoesntHave('orderItems', function ($q) {
@@ -253,6 +246,7 @@ class HomeController extends Controller
                 $Query->whereYear('created_at', $year)
                     ->whereMonth('created_at', $month);
             }
+            $Query->withTrashed();
             $Query->orderBy('created_at', 'desc');
         }
 
