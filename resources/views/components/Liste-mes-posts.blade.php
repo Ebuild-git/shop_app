@@ -547,7 +547,8 @@
                         @endif
                     </td> --}}
                     {{-- AFTER --}}
-                    @php
+                    <td>
+                        @php
                         $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
                         $hasDeletedOrder = $item->hasDeletedOrders();
                     @endphp
@@ -599,6 +600,8 @@
                     @else
                         <span class="s-badge s-deleted">{{ __('deleted_by_shopin') }}</span>
                     @endif
+                    </td>
+
 
                     @if(!$showRemainingTimeColumn)
                         <td>
