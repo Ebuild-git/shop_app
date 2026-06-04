@@ -52,91 +52,124 @@
 
     <!-- ORDER SUMMARY -->
     <table width="100%" cellpadding="0" cellspacing="0"
-           style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
-      <tr>
+        style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
+    <tr>
         <td style="padding:14px 18px;">
-          <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0">
             <tr>
-              <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;font-size:20px;">
+            <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;font-size:20px;">
                 🔒
-              </td>
-              <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;">
+            </td>
+            <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;">
                 {{ __('order_summary2') }}
-              </td>
+            </td>
             </tr>
-          </table>
+        </table>
         </td>
-      </tr>
+    </tr>
 
-      @php $total = 0; @endphp
+    @php
+        $total = 0;
+        $groupedBySeller = collect($articles_panier)->groupBy('vendeur');
+    @endphp
 
-      <!-- PRODUCTS -->
-      @foreach ($articles_panier as $article)
-      <tr>
-        <td style="padding:0 14px 14px 14px;">
-          <table width="100%" cellpadding="0" cellspacing="0"
-                 style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;">
+    @foreach ($groupedBySeller as $sellerName => $sellerArticles)
+
+        {{-- Seller Header --}}
+        <tr>
+        <td style="padding:10px 14px 4px 14px;">
+            <table cellpadding="0" cellspacing="0">
             <tr>
-              <!-- Image -->
-              <td style="width:140px;padding:12px;vertical-align:top;">
-                <img src="{{ $article['photo'] }}"
-                     alt="{{ $article['titre'] }}"
-                     style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
-              </td>
+                <td style="font-size:20px;padding-right:8px;">🏪</td>
+                <td style="font-size:13px;font-weight:800;color:#1a7a6e;">
+                {{ __('seller_label') }}: {{ $sellerName }}
+                </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
 
-              <!-- Info -->
-              <td style="padding:14px 10px;vertical-align:top;">
+        {{-- Seller Articles --}}
+        @foreach ($sellerArticles as $article)
+        <tr>
+        <td style="padding:0 14px 10px 14px;">
+            <table width="100%" cellpadding="0" cellspacing="0"
+                style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;">
+            <tr>
+                <td style="width:140px;padding:12px;vertical-align:top;">
+                <img src="{{ $article['photo'] }}"
+                    alt="{{ $article['titre'] }}"
+                    style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
+                </td>
+                <td style="padding:14px 10px;vertical-align:top;">
                 <div style="font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">
-                  {{ $article['titre'] }}
+                    {{ $article['titre'] }}
                 </div>
                 <div style="font-size:13px;color:#555;margin-bottom:4px;">
-                  {{ __('product_ref') }} :
-                  <span style="color:#1a7a6e;font-weight:700;">P-{{ $article['id'] }}</span>
+                    {{ __('product_ref') }} :
+                    <span style="color:#1a7a6e;font-weight:700;">P-{{ $article['id'] }}</span>
                 </div>
-                <div style="font-size:13px;color:#555;">
-                  {{ __('seller_label') }} :
-                  <span style="color:#1a7a6e;font-weight:700;">{{ $article['vendeur'] ?? 'N/A' }}</span>
-                </div>
-              </td>
-
-              <!-- Price label + value stacked, aligned to ref/seller rows -->
-              <td style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
-                <!-- Empty spacer to push price down to ref/seller level -->
+                </td>
+                <td style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
                 <div style="font-size:16px;font-weight:800;color:transparent;margin-bottom:10px;">.</div>
                 <div style="font-size:12px;color:#555;margin-bottom:2px;">
-                  {{ __('article_price') }}
+                    {{ __('article_price') }}
                 </div>
                 <div style="font-size:18px;font-weight:800;color:#1a1a1a;">
-                  {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
+                    {{ $article['prix'] }} <span style="font-size:13px;color:#555;">{{ __('currency') }}</span>
                 </div>
-              </td>
+                </td>
             </tr>
-          </table>
+            </table>
         </td>
-      </tr>
-      @php $total += $article['prix']; @endphp
-      @endforeach
+        </tr>
+        @php $total += $article['prix']; @endphp
+        @endforeach
+
+        {{-- Delivery Fee Row per Seller --}}
+        @php
+        $sellerDeliveryFee = $sellerArticles->first()['delivery_fee'] ?? null;
+        @endphp
+        @if (!is_null($sellerDeliveryFee))
+        <tr>
+        <td style="padding:4px 18px 14px 18px;">
+            <table width="100%" cellpadding="0" cellspacing="0"
+                style="border-top:1px dashed #e0e0e0;padding-top:10px;">
+            <tr>
+                <td style="font-size:13px;color:#555;padding-top:8px;">
+                🚚 {{ __('delivery_fees') }} ({{ __('from') }} {{ $sellerName }})
+                </td>
+                <td style="text-align:right;font-size:13px;font-weight:700;color:#1a1a1a;padding-top:8px;">
+                {{ number_format($sellerDeliveryFee, 2, ',', '') }} {{ __('currency') }}
+                </td>
+            </tr>
+            </table>
+        </td>
+        </tr>
+        @endif
+
+    @endforeach
 
     </table>
 
     <!-- TOTALS -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:18px;">
-      <tr>
+    <tr>
         <td style="padding:10px 0;font-size:14px;color:#555;">
-          {{ __('shipping_fees') }}
+        {{ __('shipping_fees') }}
         </td>
         <td style="text-align:right;font-size:14px;font-weight:700;color:#1a1a1a;">
-          {{ number_format($totalShippingFees, 2, ',', '') }} {{ __('currency') }}
+        {{ number_format($totalShippingFees, 2, ',', '') }} {{ __('currency') }}
         </td>
-      </tr>
-      <tr>
+    </tr>
+    <tr>
         <td style="padding:10px 0;font-size:16px;font-weight:800;color:#1a1a1a;border-top:1px solid #eee;">
-          {{ __('total2') }}
+        {{ __('total2') }}
         </td>
         <td style="text-align:right;font-size:18px;font-weight:900;color:#1a7a6e;border-top:1px solid #eee;">
-          {{ number_format($total + $totalShippingFees, 2, ',', '') }} {{ __('currency') }}
+        {{ number_format($total + $totalShippingFees, 2, ',', '') }} {{ __('currency') }}
         </td>
-      </tr>
+    </tr>
     </table>
 
     <!-- PAYMENT -->

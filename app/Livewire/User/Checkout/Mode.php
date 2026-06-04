@@ -93,7 +93,8 @@ class Mode extends Component
                     "photo" => config('app.url') . Storage::url($post->photos[0]),
                     "vendeur" => $post->user_info->username,
                     "is_solder" => $post->old_prix ? true : false,
-                    "old_prix" => $post->old_prix
+                    "old_prix" => $post->old_prix,
+                    "delivery_fee" => $frais,
                 ];
                 $total += round($post->getPrix(), 3);
                 $nbre_article++;
