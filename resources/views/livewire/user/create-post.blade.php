@@ -163,7 +163,7 @@
                     <span class="bold text-danger">*</span>
                     <div class="form-group">
                         <input type="number" class="form-control cusor border-r" placeholder="{{ __('placeholder_price') }}" required
-                            wire:model.live="prix">
+                            wire:model.live="prix" onwheel="this.blur()">
                         @error('prix')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -192,7 +192,7 @@
                     <label>{{ __('original_price') }}</label>
                     <div class="form-group">
                         <input type="number" class="form-control cusor border-r " placeholder="{{ __('placeholder_initial_price') }}"
-                            wire:model.live="prix_achat">
+                            wire:model.live="prix_achat" onwheel="this.blur()">
                         @error('prix_achat')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
