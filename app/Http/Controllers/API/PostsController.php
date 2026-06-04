@@ -433,6 +433,7 @@ class PostsController extends Controller
 
             $postData['prix']     = $post->getPrix();
             $postData['old_prix'] = $post->getOldPrix();
+            $postData['prix_base'] = $post->prix;
 
             $postData['deleted_at'] = $post->deleted_at;
             $postData['motif_suppression'] = $post->motif_suppression;
