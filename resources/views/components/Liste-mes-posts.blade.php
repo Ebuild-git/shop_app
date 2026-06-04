@@ -150,7 +150,7 @@
 }
 
 /* Status badges */
-.s-badge {
+/* .s-badge {
     display: inline-block;
     padding: 3px 8px;
     border-radius: 18px;
@@ -161,6 +161,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+} */
+
+.s-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 18px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .s-validation {
@@ -228,16 +239,23 @@
     color: #c0392b;
 }
 
-.status-sub {
+/* .status-sub {
     font-size: 10px;
     color: #aaa;
     max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+} */
+
+.status-sub {
+    font-size: 10px;
+    color: #aaa;
+    white-space: normal;
+    word-break: break-word;
 }
 
-.reason-text {
+/* .reason-text {
     font-size: 11px;
     color: #555;
     font-weight: 500;
@@ -245,6 +263,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+} */
+
+.reason-text {
+    font-size: 11px;
+    color: #555;
+    font-weight: 500;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .dash {
