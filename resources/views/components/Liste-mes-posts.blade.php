@@ -579,7 +579,11 @@
                         $hasDeletedOrder = $item->hasDeletedOrders();
                     @endphp
 
-                    @if (!$item->motif_suppression)
+                    @if ($item->deleted_at && !$item->motif_suppression)
+                            {{-- Soft deleted by the user themselves --}}
+                            <span class="s-badge s-deleted">{{ __('deleted_by_me') }}</span>
+
+                    @elseif (!$item->motif_suppression)
 
                         @if ($isUserDeleted || $hasDeletedOrder)
                             {{-- Order was cancelled: show ONLY this badge, nothing else --}}
@@ -643,6 +647,24 @@
 
                     @if(!$showRemainingTimeColumn)
                         <td style="text-align:right; white-space:nowrap; padding: 10px 6px;">
+                            @if (!$item->deleted_at)  {{-- hide all buttons if soft deleted --}}
+                                @if (!$item->id_user_buy && $item->statut !== 'validation')
+                                    <button class="btn-reduce" onclick="Update_post_price({{ $item->id }})" title="{{ __('Réduire le prix') }}">
+                                        <i class="bi bi-graph-down-arrow"></i>
+                                    </button>
+                                @endif
+                                @if ($item->statut == 'validation' || $item->statut == 'vente')
+                                    &nbsp;
+                                    <button class="btn-del" type="button" onclick="delete_my_post({{ $item->id }})" title="{{ __('Supprimer') }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                @endif
+                            @endif
+                        </td>
+                    @endif
+
+                    {{-- @if(!$showRemainingTimeColumn)
+                        <td style="text-align:right; white-space:nowrap; padding: 10px 6px;">
                             @if (!$item->id_user_buy && $item->statut !== 'validation')
                                 <button class="btn-reduce" onclick="Update_post_price({{ $item->id }})" title="{{ __('Réduire le prix') }}">
                                     <i class="bi bi-graph-down-arrow"></i>
@@ -655,7 +677,7 @@
                                 </button>
                             @endif
                         </td>
-                    @endif
+                    @endif --}}
                 </tr>
             @empty
                 <tr>

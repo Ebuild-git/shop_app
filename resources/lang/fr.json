@@ -1262,7 +1262,8 @@
 "article_price": "Prix de l'article",
     "admin_message_notification_message": ":salutation :username,<br><br>Vous avez reçu un nouveau message de l'équipe Shopin.<br><br><strong>Sujet :</strong> :sujet<br><br><strong>Pour l'article :</strong> :titre<br><br><strong>Message :</strong><br>:message",
     "delivery_fees": "Frais de Livraison",
-  "from": "de"
+  "from": "de",
+  "deleted_by_me": "Supprimé par moi"
 
 
 

@@ -1262,7 +1262,9 @@
 "article_price": "سعر المنتج",
     "admin_message_notification_message": ":salutation :username،<br><br>لقد تلقيت رسالة جديدة من فريق Shopin.<br><br><strong>الموضوع:</strong> :sujet<br><br><strong>بخصوص المقال:</strong> :titre<br><br><strong>الرسالة:</strong><br>:message",
     "delivery_fees": "رسوم التوصيل",
-  "from": "من"
+  "from": "من",
+  "deleted_by_me": "محذوف بواسطتي"
+
 
 
 
