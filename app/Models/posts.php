@@ -43,11 +43,21 @@ class posts extends Model
     //     return $prix_calculé;
     // }
 
+    // public function getPrix()
+    // {
+    //     $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+    //     $prix = (float) $this->attributes['prix'];
+    //     $prix_calculé = (int) ceil($prix * (1 + $pourcentage_gain / 100));
+
+    //     return $prix_calculé;
+    // }
     public function getPrix()
     {
         $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
-        $prix = (float) $this->attributes['prix'];
-        $prix_calculé = (int) ceil($prix * (1 + $pourcentage_gain / 100));
+        $prix = (int) $this->attributes['prix'];
+
+        // No floating-point = no precision errors
+        $prix_calculé = (int) ceil(($prix * (100 + $pourcentage_gain)) / 100);
 
         return $prix_calculé;
     }
