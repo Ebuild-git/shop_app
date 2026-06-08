@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\User;
 use App\Models\UserCart;
 use Livewire\Component;
+use Illuminate\Support\Facades\App;
 
 class Connexion extends Component
 {
@@ -70,9 +71,24 @@ class Connexion extends Component
         $user->update(['last_login_at' => now()]);
         auth()->login($user);
 
-        $locale = session('locale') ?? request()->cookie('locale');
-        if (in_array($locale, ['en', 'fr', 'ar']) && $user->locale !== $locale) {
-            $user->update(['locale' => $locale]);
+        // $locale = session('locale') ?? request()->cookie('locale');
+        // if (in_array($locale, ['en', 'fr', 'ar']) && $user->locale !== $locale) {
+        //     $user->update(['locale' => $locale]);
+        // }
+        $sessionLocale = session('locale') ?? request()->cookie('locale');
+        $allowedLocales = ['en', 'fr', 'ar'];
+
+        if (in_array($sessionLocale, $allowedLocales)) {
+            // Session/cookie has a locale → update user's DB locale to match
+            if ($user->locale !== $sessionLocale) {
+                $user->update(['locale' => $sessionLocale]);
+            }
+            App::setLocale($sessionLocale);
+        } elseif (in_array($user->locale, $allowedLocales)) {
+            // No session/cookie locale → apply user's saved locale
+            session(['locale' => $user->locale]);
+            cookie()->queue('locale', $user->locale, 60 * 24 * 30);
+            App::setLocale($user->locale);
         }
 
 
