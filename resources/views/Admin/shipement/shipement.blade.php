@@ -64,6 +64,7 @@
                         </thead>
                         <tbody id="commande-table-body">
                             @forelse ($orders as $order)
+                                @php $shownAramexVendors = []; @endphp
                                 @foreach ($order->items as $item)
 
                                     @php
@@ -73,6 +74,20 @@
 
                                         $postTitle = $item->post?->titre ?? '—';
                                         $postId = $item->post?->id ?? 0;
+                                        $vendorId = $item->vendor?->id ?? 0;
+                                        $aramexAlreadyShown = in_array($vendorId, $shownAramexVendors);
+
+                                        // Check if this vendor has any unsynced item in this order
+                                        $vendorHasUnsynced = $order->items
+                                            ->where('vendor_id', $vendorId)
+                                            ->whereNull('shipment_id')
+                                            ->isNotEmpty();
+
+                                        $vendorAllSynced = $order->items
+                                            ->where('vendor_id', $vendorId)
+                                            ->whereNotNull('shipment_id')
+                                            ->count() === $order->items->where('vendor_id', $vendorId)->count();
+
                                     @endphp
 
                                     <tr>
@@ -178,7 +193,9 @@
                                                 <a href="/admin/publication/{{ $item->post->id }}/view">
                                                     {{ $item->post->titre }}
                                                 </a>
-                                            @else
+                                                <br>
+                                                <small class="text-muted">P{{ $item->post->id }}</small>
+                                                @else
                                                 <span class="text-muted">Post supprimé</span>
                                             @endif
                                         </td>
@@ -289,7 +306,7 @@
 
                                         <td>
 
-                                            @if(!$item->shipment_id)
+                                            {{-- @if(!$item->shipment_id)
                                                 <button class="btn btn-sm btn-outline-primary mt-1"
                                                     onclick="synchronizeWithAramex({{ $order->id }})">
                                                     Synchroniser avec Aramex
@@ -298,6 +315,19 @@
                                                 <span class="badge bg-success mt-1">
                                                     Synchronisé
                                                 </span>
+                                            @endif --}}
+                                            @if(!$aramexAlreadyShown)
+                                                @if($vendorHasUnsynced)
+                                                    <button class="btn btn-sm btn-outline-primary mt-1"
+                                                        onclick="synchronizeWithAramex({{ $order->id }})">
+                                                        Synchroniser avec Aramex
+                                                    </button>
+                                                @else
+                                                    <span class="badge bg-success mt-1">
+                                                        Synchronisé
+                                                    </span>
+                                                @endif
+                                                @php $shownAramexVendors[] = $vendorId; @endphp
                                             @endif
 
                                             <button class="btn btn-sm btn-outline-secondary mt-1"
@@ -452,10 +482,20 @@ function synchronizeWithAramex(commandeId) {
                         location.reload();
                     });
                 } else {
+                    const messages = [...new Set(
+                        (data.results || [])
+                            .filter(r => !r.success && r.message)
+                            .map(r => r.message)
+                    )];
+
+                    const messageHtml = messages.length
+                        ? messages.map(m => `<p class="mb-1">• ${m}</p>`).join('')
+                        : data.message;
+
                     Swal.fire({
                         icon: "error",
                         title: "Échec de la synchronisation",
-                        html: data.message + "<br><br><pre>" + JSON.stringify(data.results, null, 2) + "</pre>",
+                        html: messageHtml,
                         confirmButtonColor: "#d33",
                     });
                 }
