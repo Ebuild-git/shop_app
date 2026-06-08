@@ -302,7 +302,7 @@ class Mode extends Component
         //     $article['gain'] = $post ? $post->calculateGain() : 0;
         //     return $article;
         // });
-        $articlesWithGain = collect($articlesPourCeVendeur)->map(function ($article) use ($posts) {
+        $articlesWithGain = collect($articlesPourCeVendeur)->values()->map(function ($article) use ($posts) {
             $post = $posts[$article['id']] ?? null;
             // calculateGain() returns $this->prix which is the raw price (no platform percentage)
             // We also override 'prix' so nothing in the template accidentally shows the buyer price
