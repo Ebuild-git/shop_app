@@ -263,6 +263,22 @@ class OrdersController extends Controller
             ]);
             $notification->save();
 
+            $postImage = $post && isset($post->photos[0])
+                ? config('app.url') . \Storage::url($post->photos[0])
+                : asset('assets-admin/img/no-image.png');
+
+            $emailSubject = __('oic_cancelled_title');
+            $emailBody    = __('oic_cancelled_body', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+                'app_url'     => config('app.url'),
+            ]);
+
+            \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+                $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody
+            ));
+
             App::setLocale(config('app.locale'));
 
             $fcmService = app(\App\Services\FcmService::class);
@@ -337,6 +353,21 @@ class OrdersController extends Controller
             ]);
             $notification->save();
 
+            $postImage = $post && isset($post->photos[0])
+                ? config('app.url') . \Storage::url($post->photos[0])
+                : asset('assets-admin/img/no-image.png');
+
+            $emailSubject = __('oic_restored_title');
+            $emailBody    = __('oic_restored_body', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+                'app_url'     => config('app.url'),
+            ]);
+
+            \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+                $buyer, $order, $post, $postImage, 'restored', $emailSubject, $emailBody
+            ));
             App::setLocale(config('app.locale'));
 
             $fcmService = app(\App\Services\FcmService::class);

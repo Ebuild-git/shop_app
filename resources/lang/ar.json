@@ -1266,7 +1266,15 @@
   "deleted_by_me": "محذوف بواسطتي",
   "order_item_cancelled_message1": "تم تحديث طلبك :shipment_id. تمت إزالة المنتج <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> من طلبك من قِبل فريق Shopin.",
 
-"order_item_restored_message1": "خبر سار! تمت استعادة المنتج <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> في طلبك :shipment_id."
+"order_item_restored_message1": "خبر سار! تمت استعادة المنتج <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> في طلبك :shipment_id.",
+"oic_cancelled_title": "تمت إزالة منتج من طلبك",
+"oic_restored_title": "تمت استعادة منتج في طلبك",
+"oic_cancelled_body": "تم تحديث طلبك :shipment_id. تمت إزالة المنتج <a href=':app_url/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> من طلبك من قِبل فريق Shopin. إذا كان لديك أي استفسار، لا تتردد في <a href=':app_url/contact' style='color:#008080;text-decoration:underline;'>التواصل معنا</a>.",
+"oic_restored_body": "خبر سار! تمت استعادة المنتج <a href=':app_url/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> في طلبك :shipment_id. إذا كان لديك أي استفسار، لا تتردد في <a href=':app_url/contact' style='color:#008080;text-decoration:underline;'>التواصل معنا</a>.",
+"oic_hello": "مرحباً، :username",
+"oic_item_removed_badge": "تمت الإزالة",
+"oic_item_restored_badge": "تمت الاستعادة",
+"oic_view_orders_btn": "عرض طلباتي"
 
 
 

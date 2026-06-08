@@ -1272,7 +1272,15 @@
 
   "order_item_cancelled_message1": "Your order :shipment_id has been updated. The item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been removed from your order by the Shopin team.",
 
-"order_item_restored_message1": "Good news! The item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been restored to your order :shipment_id."
+"order_item_restored_message1": "Good news! The item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been restored to your order :shipment_id.",
+"oic_cancelled_title": "An item has been removed from your order",
+"oic_restored_title": "An item has been restored to your order",
+"oic_cancelled_body": "Your order :shipment_id has been updated. The item <a href=':app_url/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been removed from your order by the Shopin team. If you have any questions, feel free to <a href=':app_url/contact' style='color:#008080;text-decoration:underline;'>contact us</a>.",
+"oic_restored_body": "Good news! The item <a href=':app_url/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been restored to your order :shipment_id. If you have any questions, feel free to <a href=':app_url/contact' style='color:#008080;text-decoration:underline;'>contact us</a>.",
+"oic_hello": "Hello, :username",
+"oic_item_removed_badge": "Removed",
+"oic_item_restored_badge": "Restored",
+"oic_view_orders_btn": "View my orders"
 
 
 
