@@ -1022,8 +1022,7 @@ class HomeController extends Controller
         $month = $request->input('month') ?? null;
         $year  = $request->input('year') ?? null;
 
-        $query = OrdersItem::withTrashed()
-            ->whereHas('order', function ($q) {
+        $query = OrdersItem::whereHas('order', function ($q) {
                 $q->where('buyer_id', Auth::id());
             })
             ->with([
@@ -1041,8 +1040,7 @@ class HomeController extends Controller
         }
 
         $achats = $query->paginate(20);
-        $total  = OrdersItem::withTrashed()
-            ->whereHas('order', fn($q) => $q->where('buyer_id', Auth::id()))
+        $total  = OrdersItem::whereHas('order', fn($q) => $q->where('buyer_id', Auth::id()))
             ->count();
 
         return view('User.mes-achats')

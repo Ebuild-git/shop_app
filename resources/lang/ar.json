@@ -1263,7 +1263,10 @@
     "admin_message_notification_message": ":salutation :username،<br><br>لقد تلقيت رسالة جديدة من فريق Shopin.<br><br><strong>الموضوع:</strong> :sujet<br><br><strong>بخصوص المقال:</strong> :titre<br><br><strong>الرسالة:</strong><br>:message",
     "delivery_fees": "رسوم التوصيل",
   "from": "من",
-  "deleted_by_me": "محذوف بواسطتي"
+  "deleted_by_me": "محذوف بواسطتي",
+  "order_item_cancelled_message1": "تم تحديث طلبك :shipment_id. تمت إزالة المنتج <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> من طلبك من قِبل فريق Shopin.",
+
+"order_item_restored_message1": "خبر سار! تمت استعادة المنتج <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> في طلبك :shipment_id."
 
 
 

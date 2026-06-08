@@ -256,9 +256,10 @@ class OrdersController extends Controller
             $notification->id_user_destination = $buyer->id;
             $notification->type                = 'alerte';
             $notification->url                 = '/informations?section=commandes';
-            $notification->message             = __('order_item_cancelled_message', [
+            $notification->message             = __('order_item_cancelled_message1', [
                 'shipment_id' => 'CMD-' . $order->id,
                 'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
             ]);
             $notification->save();
 
@@ -268,9 +269,10 @@ class OrdersController extends Controller
             $sent = $fcmService->sendToUser(
                 $buyer->id,
                 __('order_item_cancelled_title'),
-                __('order_item_cancelled_message', [
+                __('order_item_cancelled_message1', [
                     'shipment_id' => 'CMD-' . $order->id,
                     'post_title'  => $post?->titre ?? '',
+                    'post_id'     => $post?->id ?? '#',
                 ]),
                 [
                     'type'            => 'alerte',
@@ -328,9 +330,10 @@ class OrdersController extends Controller
             $notification->id_user_destination = $buyer->id;
             $notification->type                = 'alerte';
             $notification->url                 = '/informations?section=commandes';
-            $notification->message             = __('order_item_restored_message', [
+            $notification->message             = __('order_item_restored_message1', [
                 'shipment_id' => 'CMD-' . $order->id,
                 'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
             ]);
             $notification->save();
 
@@ -340,9 +343,10 @@ class OrdersController extends Controller
             $sent = $fcmService->sendToUser(
                 $buyer->id,
                 __('order_item_restored_title'),
-                __('order_item_restored_message', [
+                __('order_item_restored_message1', [
                     'shipment_id' => 'CMD-' . $order->id,
                     'post_title'  => $post?->titre ?? '',
+                    'post_id'     => $post?->id ?? '#',
                 ]),
                 [
                     'type'            => 'alerte',

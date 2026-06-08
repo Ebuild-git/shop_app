@@ -564,7 +564,7 @@ function confirmDeleteItem(itemId) {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    Swal.fire("Supprimé!", "L'article a été supprimé.", "success")
+                    Swal.fire("Supprimé!", "La commande a été supprimée.", "success")
                         .then(() => location.reload());
                 } else {
                     Swal.fire("Erreur", "Une erreur est survenue.", "error");

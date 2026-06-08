@@ -214,7 +214,7 @@
     "keyword": "Mot clé",
     "status": "Statut",
     "validation": "En validation",
-    "vente": "En cours de vente",
+    "vente": "En vente",
     "vendu": "Vendu",
     "vendu1": "Vendu",
     "livraison": "En cours de livraison",
@@ -1263,7 +1263,10 @@
     "admin_message_notification_message": ":salutation :username,<br><br>Vous avez reçu un nouveau message de l'équipe Shopin.<br><br><strong>Sujet :</strong> :sujet<br><br><strong>Pour l'article :</strong> :titre<br><br><strong>Message :</strong><br>:message",
     "delivery_fees": "Frais de Livraison",
   "from": "de",
-  "deleted_by_me": "Supprimé par moi"
+  "deleted_by_me": "Supprimé par moi",
+  "order_item_cancelled_message1": "Votre commande :shipment_id a été modifiée. L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> a été retiré de votre commande par l'équipe Shopin.",
+
+"order_item_restored_message1": "Bonne nouvelle ! L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> a été rétabli dans votre commande :shipment_id."
 
 
 
