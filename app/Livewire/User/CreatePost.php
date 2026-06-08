@@ -523,6 +523,22 @@ class CreatePost extends Component
     //         return 'N/A';
     //     }
     // }
+    // public function getPrix($prix)
+    // {
+    //     if (!$prix || !is_numeric($prix)) {
+    //         return '0.00';
+    //     }
+
+    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
+    //     if ($sous_cat) {
+    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain ?? 0;
+    //         $prix_calculé = (int) ceil((float) $prix * (1 + $pourcentage_gain / 100));
+    //         return number_format($prix_calculé, 2, '.', '');
+    //     }
+
+    //     return number_format((float) $prix, 2, '.', '');
+    // }
+
     public function getPrix($prix)
     {
         if (!$prix || !is_numeric($prix)) {
@@ -532,7 +548,7 @@ class CreatePost extends Component
         $sous_cat = sous_categories::find($this->selectedSubcategory);
         if ($sous_cat) {
             $pourcentage_gain = $sous_cat->categorie->pourcentage_gain ?? 0;
-            $prix_calculé = (int) ceil((float) $prix * (1 + $pourcentage_gain / 100));
+            $prix_calculé = (int) ceil(round((float) $prix * (1 + $pourcentage_gain / 100), 2));
             return number_format($prix_calculé, 2, '.', '');
         }
 
