@@ -428,11 +428,6 @@ class PostsController extends Controller
                 ];
             }
 
-            $post->prix = $post->getPrix();
-            $post->old_prix = $post->getOldPrix();
-            $post->favoris_count = $post->favoris_count;
-
-            // ✅ Calculate discount percentage if old price exists
             $post->discountPercentage = 0;
             if ($post->old_prix && $post->old_prix > 0) {
                 $post->discountPercentage = round(
@@ -440,6 +435,13 @@ class PostsController extends Controller
                     2
                 );
             }
+
+            $post->prix = $post->getPrix();
+            $post->old_prix = $post->getOldPrix();
+            $post->favoris_count = $post->favoris_count;
+
+            // ✅ Calculate discount percentage if old price exists
+
 
             return response()->json([
                 'success' => true,
