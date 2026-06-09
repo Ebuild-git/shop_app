@@ -247,9 +247,17 @@ class PostsController extends Controller
             $post->old_prix = $post->getOldPrix();
             $post->is_solder = $post->getOldPrix() ? true : false;
 
+            $discountPercentage = null;
+            if ($post->old_prix && $post->old_prix > $post->prix) {
+                $discountPercentage = (int) round(
+                    (($post->old_prix - $post->prix) / $post->old_prix) * 100
+                );
+            }
+
             $postData = $post->toArray();
 
             $postData['favoris_count'] = $post->favoris_count;
+            $postData['discountPercentage'] = $discountPercentage;
 
             if (!empty($postData['photos']) && is_array($postData['photos'])) {
                 $postData['photos'] = array_map(function ($photo) {
