@@ -370,6 +370,91 @@ class PostsController extends Controller
      *     @OA\Response(response=404, description="Post not found")
      * )
      */
+    // public function details_post($id)
+    // {
+    //     try {
+    //         $post = posts::with([
+    //             'sous_categorie_info.categorie',
+    //             'user_info' => function ($q) {
+    //                 $q->select(
+    //                     'id',
+    //                     'firstname',
+    //                     'lastname',
+    //                     'username',
+    //                     'avatar',
+    //                     'email',
+    //                     'voyage_mode'
+    //                 );
+    //             }
+    //         ])
+    //         ->withCount('favoris')
+    //         ->findOrFail($id);
+
+    //         $post->photos = collect($post->photos)->map(
+    //             fn($photo) => asset('storage/' . $photo)
+    //         );
+
+    //         if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
+    //             $categorie = $post->sous_categorie_info->categorie;
+    //             $categorie->icon = $categorie->icon
+    //                 ? asset('storage/' . $categorie->icon)
+    //                 : null;
+    //             $categorie->small_icon = $categorie->small_icon
+    //                 ? asset('storage/' . $categorie->small_icon)
+    //                 : null;
+    //         }
+
+    //         if ($post->user_info) {
+    //             $user = $post->user_info;
+
+    //             $user->avatar = $user->avatar
+    //                 ? asset('storage/' . $user->avatar)
+    //                 : null;
+
+    //             $avis = $user->getReviewsAttribute->count();
+    //             $averageRating = number_format(
+    //                 $user->averageRating->average_rating ?? 1,
+    //                 1
+    //             );
+
+    //             $totalSales = $user->total_sales->count();
+    //             $validatedPosts = $user->ValidatedPosts->count();
+
+    //             $user->stats = [
+    //                 'avis' => $avis,
+    //                 'average_rating' => $averageRating,
+    //                 'total_sales' => $totalSales,
+    //                 'total_annonces' => $validatedPosts,
+    //             ];
+    //         }
+
+    //         $post->discountPercentage = 0;
+    //         if ($post->old_prix && $post->old_prix > 0) {
+    //             $post->discountPercentage = round(
+    //                 (($post->old_prix - $post->prix) / $post->old_prix) * 100,
+    //                 2
+    //             );
+    //         }
+
+    //         $post->prix = $post->getPrix();
+    //         $post->old_prix = $post->getOldPrix();
+    //         $post->favoris_count = $post->favoris_count;
+
+    //         // ✅ Calculate discount percentage if old price exists
+
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'post' => $post,
+    //         ]);
+
+    //     } catch (\Exception $exception) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Impossible de trouver le post'
+    //         ]);
+    //     }
+    // }
     public function details_post($id)
     {
         try {
@@ -428,20 +513,22 @@ class PostsController extends Controller
                 ];
             }
 
-            $post->discountPercentage = 0;
-            if ($post->old_prix && $post->old_prix > 0) {
-                $post->discountPercentage = round(
-                    (($post->old_prix - $post->prix) / $post->old_prix) * 100,
-                    2
-                );
-            }
+            // ✅ IMPORTANT: Get raw values BEFORE any transformations
+            $rawPrix = (float) $post->getAttribute('prix');
+            $rawOldPrix = (float) $post->getAttribute('old_prix');
 
             $post->prix = $post->getPrix();
             $post->old_prix = $post->getOldPrix();
             $post->favoris_count = $post->favoris_count;
 
-            // ✅ Calculate discount percentage if old price exists
-
+            // ✅ Calculate AFTER everything, using raw database values
+            $post->discountPercentage = 0;
+            if ($rawOldPrix && $rawOldPrix > 0) {
+                $post->discountPercentage = round(
+                    (($rawOldPrix - $rawPrix) / $rawOldPrix) * 100,
+                    2
+                );
+            }
 
             return response()->json([
                 'success' => true,
