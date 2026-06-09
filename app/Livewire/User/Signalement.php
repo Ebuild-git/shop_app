@@ -52,7 +52,7 @@ class Signalement extends Component
         event(new AdminEvent('Un post a été signalé.'));
 
         $notification = new notifications();
-        $notification->type = "new_post";
+        $notification->type = "post_reported";
         $notification->titre = Auth::user()->username . " a signalé une publication";
         $notification->url = "/admin/publication/" . $this->post->id . "/view";
         $notification->message = "Raison : " . $this->type . " — " . $this->message;

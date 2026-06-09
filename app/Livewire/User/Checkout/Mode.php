@@ -131,7 +131,7 @@ class Mode extends Component
         $itemCount = count($this->articles_panier);
 
         $notification = new notifications();
-        $notification->type = "new_post";
+        $notification->type = "commande_passée";
         $notification->titre = $buyer->username . " a acheté $itemCount article(s)";
         $notification->url = "/admin/orders";
         $notification->message = "Nouvelle commande passée par " . $buyer->username;
@@ -223,7 +223,7 @@ class Mode extends Component
         $notification = new notifications();
         $notification->titre = __('notifications.order_confirmed_title');
         $notification->id_user_destination = $buyer->id;
-        $notification->type = "alerte";
+        $notification->type = "order_confirmed";
         $notification->url = "/informations?section=commandes";
         $notification->message = __('notifications.order_confirmed_message', [
             'salutations' => $salutations,
@@ -351,7 +351,7 @@ class Mode extends Component
         $notification = new notifications();
         $notification->titre = __('notifications.new_order_title');
         $notification->id_user_destination = $seller->id;
-        $notification->type = "alerte";
+        $notification->type = "new_order";
         $notification->url = "/informations?section=commandes";
         $notification->message = __('notifications.new_order_message', [
             'salutation' => $salutation,

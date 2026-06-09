@@ -202,7 +202,7 @@ class AdminController extends Controller
             $notification = new notifications();
             $notification->titre = __('cin_notification_title');
             $notification->id_user_destination = $user->id;
-            $notification->type = "alerte";
+            $notification->type = "cin_approved";
             $notification->destination = "user";
             $notification->message = __('cin_notification_message');
             $notification->save();

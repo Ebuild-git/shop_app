@@ -117,7 +117,7 @@ class UpdateInformations extends Component
                 if (!is_null($user->photo_verified_at)) {
                     event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
                     $notification = new notifications();
-                    $notification->type = "photo";
+                    $notification->type = "photo_profil_updated";
                     $notification->titre = $user->username . " vient de changé sa photo de profil";
                     $notification->url = "/admin/client/" . $user->id . "/view";
                     $notification->message = "Le client a modifié sa photo de profil";
@@ -174,7 +174,7 @@ class UpdateInformations extends Component
 
             $user->delete();
             $notification = new notifications();
-            $notification->type = "new_post";
+            $notification->type = "user_deleted_account";
             $notification->titre = "Un utilisateur a supprimé son compte";
             $notification->url = "/admin/utilisateurs/supprime";
             $notification->message = "L'utilisateur {$username} a supprimé son compte.";

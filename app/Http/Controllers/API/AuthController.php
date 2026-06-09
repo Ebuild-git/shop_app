@@ -342,7 +342,7 @@ class AuthController extends Controller
 
         event(new AdminEvent("Un nouvel utilisateur s'est inscrit."));
         $notification = new notifications();
-        $notification->type = "photo";
+        $notification->type = "new_user";
         $notification->titre = "Nouvel utilisateur : " . $user->username;
         $notification->url = "/admin/client/" . $user->id . "/view";
         $notification->message = "Un nouveau compte a été créé";
@@ -906,7 +906,7 @@ class AuthController extends Controller
             $user->delete();
 
             $notification = new notifications();
-            $notification->type = "new_post";
+            $notification->type = "utilisateur_supprime";
             $notification->titre = "Un utilisateur a supprimé son compte";
             $notification->url = "/admin/utilisateurs/supprime";
             $notification->message = "L'utilisateur {$username} a supprimé son compte.";

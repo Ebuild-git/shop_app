@@ -217,7 +217,7 @@ class UserController extends Controller
         $notification = new notifications();
         $notification->titre = __('photo_validated_title');
         $notification->id_user_destination = $user->id;
-        $notification->type = "alerte";
+        $notification->type = "photo_validated";
         $notification->url = "/informations";
         $notification->destination = "user";
         $notification->id_user = $user->id;
@@ -278,7 +278,7 @@ class UserController extends Controller
             $notification = new notifications();
             $notification->titre = __('photo_rejected_title');
             $notification->id_user_destination = $user->id;
-            $notification->type = "alerte";
+            $notification->type = "photo_rejected";
             $notification->url = "/informations";
             $notification->destination = "user";
             $notification->id_user = $user->id;

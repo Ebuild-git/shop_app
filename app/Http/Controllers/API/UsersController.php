@@ -240,7 +240,7 @@ class UsersController extends Controller
                     event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
 
                     $notification = new notifications();
-                    $notification->type = "photo";
+                    $notification->type = "photo_updated";
                     $notification->titre = $user->username . " vient de changer sa photo de profil";
                     $notification->url = "/admin/client/" . $user->id . "/view";
                     $notification->message = "Le client a modifié sa photo de profil";
@@ -319,7 +319,7 @@ class UsersController extends Controller
                 event(new AdminEvent("Un utilisateur a mis à jour son RIB."));
 
                 $notification = new notifications();
-                $notification->type = "rib";
+                $notification->type = "rib_updated";
                 $notification->titre = $user->username . " a mis à jour son RIB.";
                 $notification->url = "/admin/client/" . $user->id . "/view";
                 $notification->message = "RIB en attente de vérification.";
@@ -350,7 +350,7 @@ class UsersController extends Controller
             event(new AdminEvent("Un utilisateur a mis à jour sa carte d'identité."));
 
             $notification = new notifications();
-            $notification->type = "photo";
+            $notification->type = "photo_cin_updated";
             $notification->titre = $user->username . " a mis à jour sa carte d'identité.";
             $notification->url = "/admin/client/" . $user->id . "/view";
             $notification->message = "Carte d'identité en attente de validation.";

@@ -35,7 +35,7 @@ class InformationsController extends Controller
                 $notification = new notifications();
                 $notification->titre = "Votre photo de profil a été validé !";
                 $notification->id_user_destination = $user->id;
-                $notification->type = "alerte";
+                $notification->type = "photo_de_profil_valide";
                 $notification->destination = "user";
                 $notification->message = "Nous vous informons que votre photo de profil a été validé par les administrateurs";
                 $notification->save();

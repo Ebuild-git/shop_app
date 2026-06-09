@@ -216,7 +216,7 @@ class ListeUtilisateurs extends Component
             $notification = new \App\Models\notifications();
             $notification->titre = __('cin_notification_title');
             $notification->id_user_destination = $user->id;
-            $notification->type = "alerte";
+            $notification->type = "cin_approved";
             $notification->destination = "user";
             $notification->message = __('cin_notification_message');
             $notification->save();
@@ -268,7 +268,7 @@ class ListeUtilisateurs extends Component
             $notification = new \App\Models\notifications();
             $notification->titre = __('cin_reject_notification_title');
             $notification->id_user_destination = $user->id;
-            $notification->type = "alerte";
+            $notification->type = "cin_rejected";
             $notification->destination = "user";
             $notification->message = __('cin_reject_notification_message');
             $notification->save();

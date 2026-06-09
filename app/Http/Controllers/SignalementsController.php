@@ -100,7 +100,7 @@ class SignalementsController extends Controller
             $notification = new Notifications();
             $notification->titre = "{$greeting} " . $post->user_info->username;
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_deleted";
             $notification->url = "#";
             // $notification->message = __('post_deleted_notification_message', [
             //     'title'  => $post->titre,

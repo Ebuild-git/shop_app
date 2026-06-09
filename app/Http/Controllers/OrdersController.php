@@ -136,7 +136,7 @@ class OrdersController extends Controller
                         $notification = new \App\Models\notifications();
                         $notification->titre               = __('rate_seller_notification_title');
                         $notification->id_user_destination = $post->id_user_buy;
-                        $notification->type                = "alerte";
+                        $notification->type                = "status_commande_updated";
                         $notification->url                 = "/post/" . $post->id;
                         $notification->id_post             = $post->id;
                         $notification->destination         = "user";
@@ -254,7 +254,7 @@ class OrdersController extends Controller
             $notification = new \App\Models\notifications();
             $notification->titre               = __('order_item_cancelled_title');
             $notification->id_user_destination = $buyer->id;
-            $notification->type                = 'alerte';
+            $notification->type                = "order_item_cancelled";
             $notification->url                 = '/informations?section=commandes';
             $notification->message             = __('order_item_cancelled_message1', [
                 'shipment_id' => 'CMD-' . $order->id,
@@ -344,7 +344,7 @@ class OrdersController extends Controller
             $notification = new \App\Models\notifications();
             $notification->titre               = __('order_item_restored_title');
             $notification->id_user_destination = $buyer->id;
-            $notification->type                = 'alerte';
+            $notification->type                = 'order_item_restored';
             $notification->url                 = '/informations?section=commandes';
             $notification->message             = __('order_item_restored_message1', [
                 'shipment_id' => 'CMD-' . $order->id,

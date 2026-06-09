@@ -223,7 +223,7 @@ class ListePublications extends Component
             $notification = new notifications();
             $notification->titre = __('post_returned_title');
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_returned";
             $notification->url = "/post/" . $post->id;
             $notification->message = __('post_returned_message', [
                 'title' => $post->titre,
@@ -294,7 +294,7 @@ class ListePublications extends Component
                 $notification = new notifications();
                 $notification->titre = "{$greeting} " . $post->user_info->username;
                 $notification->id_user_destination = $post->id_user;
-                $notification->type = "alerte";
+                $notification->type = "post_deleted";
                 $notification->url = "#";
                 // $notification->message = __('post_deleted_notification_message', [
                 //     'title'  => $post->titre,
@@ -374,7 +374,7 @@ class ListePublications extends Component
             $notification = new notifications();
             $notification->titre = "{$greeting} " . $post->user_info->username;
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_restored";
             $notification->url = "#";
             $notification->message = __('post_restore_notification_message', [
                 'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),

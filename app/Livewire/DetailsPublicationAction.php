@@ -52,7 +52,7 @@ class DetailsPublicationAction extends Component
             $notification = new notifications();
             $notification->titre = __('post_validated_title');
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_validated";
             $notification->url = "/post/" . $post->id;
             $notification->id_post = $post->id;
             $notification->destination = "user";
@@ -120,7 +120,7 @@ class DetailsPublicationAction extends Component
             $notification = new notifications();
             $notification->titre = __('post_returned_title');
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_returned_to_sale";
             $notification->url = "/post/" . $post->id;
             $notification->message = __('post_returned_message', [
                 'title' => $post->titre,
@@ -185,7 +185,7 @@ class DetailsPublicationAction extends Component
                     $notification = new notifications();
                     $notification->titre               = __('rate_seller_notification_title');
                     $notification->id_user_destination = $post->id_user_buy;
-                    $notification->type                = "alerte";
+                    $notification->type                = "rate_seller_notification";
                     $notification->url                 = "/post/" . $post->id;
                     $notification->id_post             = $post->id;
                     $notification->destination         = "user";
@@ -251,7 +251,7 @@ class DetailsPublicationAction extends Component
                 $notification = new notifications();
                 $notification->titre = "{$greeting} " . $post->user_info->username;
                 $notification->id_user_destination = $post->id_user;
-                $notification->type = "alerte";
+                $notification->type = "post_deleted";
                 $notification->url = "#";
                 // $notification->message = __('post_deleted_notification_message', [
                 //     'title'  => $post->titre,
@@ -309,7 +309,7 @@ class DetailsPublicationAction extends Component
             $notification = new notifications();
             $notification->titre = __('post_restored_title');
             $notification->id_user_destination = $post->id_user;
-            $notification->type = "alerte";
+            $notification->type = "post_restored";
             $notification->url = "/post/" . $post->id;
             $notification->id_post = $post->id;
             $notification->destination = "user";

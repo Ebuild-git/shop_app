@@ -167,7 +167,7 @@ class UpdatePrix extends Component
                 event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
 
                 $notification = new notifications();
-                $notification->type = 'photo';
+                $notification->type = 'price_reduction';
                 $notification->titre = Auth::user()->username.' a réduit le prix d\'un article.';
                 $notification->url = '/admin/publication/'.$post->id.'/view';
                 $notification->message = "Prix mis à jour de {$post->old_prix} à {$post->prix}.";

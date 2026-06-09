@@ -565,7 +565,7 @@ class ShopController extends Controller
         $notification = new notifications();
         $notification->titre = __('notifications.order_confirmed_title');
         $notification->id_user_destination = $buyer->id;
-        $notification->type = "alerte";
+        $notification->type = "order_confirmed";
         $notification->url = "/informations?section=commandes";
         $notification->message = __('notifications.order_confirmed_message', [
             'salutations' => $salutations,
@@ -675,7 +675,7 @@ class ShopController extends Controller
         $notification = new notifications();
         $notification->titre = "A new order!";
         $notification->id_user_destination = $seller->id;
-        $notification->type = "alerte";
+        $notification->type = "new_order";
         $notification->url = "/informations?section=commandes";
         $notification->message = "{$salutation} {$seller->username}, your item {$postTitles} has been ordered by {$buyerPseudo}.\n\nPlease prepare the item for shipping. A courier from our logistics partner will contact you soon and pick up the item.\n\nPlease confirm or update your bank details (RIB) so we can transfer the funds when the sale process is complete.";
         $notification->save();
@@ -715,7 +715,7 @@ class ShopController extends Controller
     private function notifyAdminAboutPurchase($buyer, $itemCount)
     {
         $notification = new notifications();
-        $notification->type = "new_post";
+        $notification->type = "new_order";
         $notification->titre = $buyer->username . " a acheté $itemCount article(s)";
         $notification->url = "/admin/orders";
         $notification->message = "Nouvelle commande passée par " . $buyer->username;

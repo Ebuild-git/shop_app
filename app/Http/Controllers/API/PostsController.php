@@ -1246,7 +1246,7 @@ class PostsController extends Controller
         event(new AdminEvent('Un utilisateur a réduit le prix de son article.'));
 
         $notification = new notifications();
-        $notification->type = "photo";
+        $notification->type = "reduction_prix";
         $notification->titre = $user->username . " a réduit le prix d’un article.";
         $notification->url = "/admin/publication/" . $post->id . "/view";
         $notification->message = "Prix mis à jour de {$oldPrice} à {$newPrice}.";
