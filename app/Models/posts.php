@@ -32,7 +32,8 @@ class posts extends Model
         // d'autres colonnes de date
     ];
 
-    protected $appends = ['discountPercentage'];
+    // protected $appends = ['discountPercentage'];
+    protected $appends = [];
 
     // public function getPrix()
     // {
