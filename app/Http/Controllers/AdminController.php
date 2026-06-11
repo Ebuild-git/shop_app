@@ -524,17 +524,47 @@ class AdminController extends Controller
 
     private function buildShipmentPayloadItem($order, $vendorItems)
     {
-        $buyer      = $order->buyer;
-        $vendor     = $vendorItems->first()->vendor;
-        $itemCount  = $vendorItems->count();
+        $buyer         = $order->buyer;
+        $vendor        = $vendorItems->first()->vendor;
+        $itemCount     = $vendorItems->count();
+        $buyerAddress  = $buyer->addresses()->where('is_default', true)->first();
+        $vendorAddress = $vendor->addresses()->where('is_default', true)->first();
 
         $now       = new DateTime();
         $due       = (new DateTime())->modify('+4 days');
         $nowAramex = '/Date(' . ($now->getTimestamp() * 1000) . '-0000)/';
         $dueAramex = '/Date(' . ($due->getTimestamp() * 1000) . '-0000)/';
 
+        // Buyer resolved fields: default address → fallback to user profile
+        $buyerLine1     = $buyerAddress
+            ? ($buyerAddress->street          ?? $buyer->rue             ?? ($buyer->city ? $buyer->city->name : ''))
+            : ($buyer->rue                    ?? ($buyer->city ? $buyer->city->name : ''));
+        $buyerCity      = $buyerAddress
+            ? ($buyerAddress->city            ? $buyerAddress->city->name  : ($buyer->city ? $buyer->city->name : ''))
+            : ($buyer->city                   ? $buyer->city->name         : '');
+        $buyerBuilding  = $buyerAddress ? ($buyerAddress->building_name    ?? $buyer->nom_batiment    ?? '') : ($buyer->nom_batiment    ?? '');
+        $buyerFloor     = $buyerAddress ? ($buyerAddress->floor            ?? $buyer->etage           ?? '') : ($buyer->etage           ?? '');
+        $buyerApartment = $buyerAddress ? ($buyerAddress->apartment_number ?? $buyer->num_appartement ?? '') : ($buyer->num_appartement ?? '');
+        $buyerPhone     = $buyerAddress ? ($buyerAddress->phone_number     ?? $buyer->phone_number)          : $buyer->phone_number;
+
+        // Vendor resolved fields: default address → fallback to user profile
+        $vendorLine1     = $vendorAddress
+            ? ($vendorAddress->street          ?? $vendor->rue            ?? ($vendor->city ? $vendor->city->name : ''))
+            : ($vendor->rue                    ?? ($vendor->city ? $vendor->city->name : ''));
+        $vendorCity      = $vendorAddress
+            ? ($vendorAddress->city            ? $vendorAddress->city->name : ($vendor->city ? $vendor->city->name : ''))
+            : ($vendor->city                   ? $vendor->city->name        : '');
+        $vendorBuilding  = $vendorAddress ? ($vendorAddress->building_name    ?? $vendor->nom_batiment    ?? '') : ($vendor->nom_batiment    ?? '');
+        $vendorFloor     = $vendorAddress ? ($vendorAddress->floor            ?? $vendor->etage           ?? '') : ($vendor->etage           ?? '');
+        $vendorApartment = $vendorAddress ? ($vendorAddress->apartment_number ?? $vendor->num_appartement ?? '') : ($vendor->num_appartement ?? '');
+        $vendorPhone     = $vendorAddress ? ($vendorAddress->phone_number     ?? $vendor->phone_number)          : $vendor->phone_number;
+
         // Build one shipment object per item
-        $shipments = $vendorItems->map(function ($item) use ($order, $buyer, $vendor, $nowAramex, $dueAramex) {
+        $shipments = $vendorItems->map(function ($item) use (
+            $order, $buyer, $vendor, $nowAramex, $dueAramex,
+            $buyerLine1, $buyerCity, $buyerBuilding, $buyerFloor, $buyerApartment, $buyerPhone,
+            $vendorLine1, $vendorCity, $vendorBuilding, $vendorFloor, $vendorApartment, $vendorPhone
+        ) {
             $post = $item->post;
 
             return [
@@ -542,38 +572,38 @@ class AdminController extends Controller
                 'Reference2' => '',
                 'Reference3' => '',
                 'Shipper'    => [
-                    'Reference1'    => 'Shop Address',
+                    'Reference1'    => '',
                     'Reference2'    => '',
                     'AccountNumber' => env('ARAMEX_ACCOUNT_NUMBER'),
                     'PartyAddress'  => [
-                        'Line1'               => trim($vendor->city ? $vendor->city->name : $vendor->address),
-                        'Line2'               => '',
-                        'Line3'               => '',
-                        'City'                => trim($vendor->city ? $vendor->city->name : $vendor->address),
+                        'Line1'               => trim($vendorLine1),
+                        'Line2'               => $vendorBuilding,
+                        'Line3'               => $vendorFloor,
+                        'City'                => trim($vendorCity),
                         'StateOrProvinceCode' => '',
                         'PostCode'            => '23000',
                         'CountryCode'         => 'MA',
                         'Longitude'           => 0,
                         'Latitude'            => 0,
                         'BuildingNumber'      => null,
-                        'BuildingName'        => null,
-                        'Floor'               => null,
-                        'Apartment'           => null,
+                        'BuildingName'        => $vendorBuilding,
+                        'Floor'               => $vendorFloor,
+                        'Apartment'           => $vendorApartment,
                         'POBox'               => null,
                         'Description'         => null,
                     ],
                     'Contact' => [
                         'Department'      => '',
-                        'PersonName'      => 'Shopin',
+                        'PersonName'      => $vendor->firstname . ' ' . $vendor->lastname,
                         'Title'           => '',
-                        'CompanyName'     => 'Shopin',
-                        'PhoneNumber1'    => '1234567890',
+                        'CompanyName'     => $vendor->firstname . ' ' . $vendor->lastname,
+                        'PhoneNumber1'    => $vendorPhone,
                         'PhoneNumber1Ext' => '',
-                        'PhoneNumber2'    => '1234567890',
+                        'PhoneNumber2'    => $vendorPhone,
                         'PhoneNumber2Ext' => '',
                         'FaxNumber'       => '',
-                        'CellPhone'       => '1234567890',
-                        'EmailAddress'    => 'malak.ibrahim.salame@gmail.com',
+                        'CellPhone'       => $vendorPhone,
+                        'EmailAddress'    => $vendor->email ?? '',
                         'Type'            => '',
                     ],
                 ],
@@ -582,19 +612,19 @@ class AdminController extends Controller
                     'Reference2'    => '',
                     'AccountNumber' => '',
                     'PartyAddress'  => [
-                        'Line1'               => $buyer->city ? $buyer->city->name : $buyer->address,
-                        'Line2'               => '',
-                        'Line3'               => '',
-                        'City'                => $buyer->city ? $buyer->city->name : $buyer->address,
+                        'Line1'               => $buyerLine1,
+                        'Line2'               => $buyerBuilding,
+                        'Line3'               => $buyerFloor,
+                        'City'                => $buyerCity,
                         'StateOrProvinceCode' => '',
                         'PostCode'            => '23000',
                         'CountryCode'         => 'MA',
                         'Longitude'           => 0,
                         'Latitude'            => 0,
-                        'BuildingNumber'      => '',
-                        'BuildingName'        => '',
-                        'Floor'               => '',
-                        'Apartment'           => '',
+                        'BuildingNumber'      => null,
+                        'BuildingName'        => $buyerBuilding,
+                        'Floor'               => $buyerFloor,
+                        'Apartment'           => $buyerApartment,
                         'POBox'               => null,
                         'Description'         => '',
                     ],
@@ -602,14 +632,14 @@ class AdminController extends Controller
                         'Department'      => '',
                         'PersonName'      => $buyer->firstname . ' ' . $buyer->lastname,
                         'Title'           => '',
-                        'CompanyName'     => $buyer->username,
-                        'PhoneNumber1'    => $buyer->phone_number,
+                        'CompanyName'     => $buyer->username ?? '',
+                        'PhoneNumber1'    => $buyerPhone,
                         'PhoneNumber1Ext' => '',
-                        'PhoneNumber2'    => $buyer->phone_number,
+                        'PhoneNumber2'    => $buyerPhone,
                         'PhoneNumber2Ext' => '',
                         'FaxNumber'       => '',
-                        'CellPhone'       => $buyer->phone_number,
-                        'EmailAddress'    => $buyer->email,
+                        'CellPhone'       => $buyerPhone,
+                        'EmailAddress'    => $buyer->email ?? '',
                         'Type'            => '',
                     ],
                 ],
@@ -637,7 +667,7 @@ class AdminController extends Controller
                     'ChargeableWeight'                => null,
                     'DescriptionOfGoods'              => $post->titre ?? 'Article',
                     'GoodsOriginCountry'              => 'MA',
-                    'NumberOfPieces'                  => 1,
+                    'NumberOfPieces'                  => $itemCount,
                     'ProductGroup'                    => 'DOM',
                     'ProductType'                     => 'CDS',
                     'PaymentType'                     => 'P',
@@ -675,34 +705,34 @@ class AdminController extends Controller
             ],
             'Pickup' => [
                 'PickupAddress' => [
-                    'Line1'               => trim($vendor->city ? $vendor->city->name : $vendor->address),
-                    'Line2'               => '',
-                    'Line3'               => '',
-                    'City'                => trim($vendor->city ? $vendor->city->name : $vendor->address),
+                    'Line1'               => trim($vendorLine1),
+                    'Line2'               => $vendorBuilding,
+                    'Line3'               => $vendorFloor,
+                    'City'                => trim($vendorCity),
                     'StateOrProvinceCode' => '',
                     'PostCode'            => '23000',
                     'CountryCode'         => 'MA',
                     'Longitude'           => 0,
                     'Latitude'            => 0,
                     'BuildingNumber'      => null,
-                    'BuildingName'        => null,
-                    'Floor'               => null,
-                    'Apartment'           => null,
+                    'BuildingName'        => $vendorBuilding,
+                    'Floor'               => $vendorFloor,
+                    'Apartment'           => $vendorApartment,
                     'POBox'               => null,
                     'Description'         => null,
                 ],
                 'PickupContact' => [
                     'Department'      => '',
-                    'PersonName'      => 'Shopin',
+                    'PersonName'      => $vendor->firstname . ' ' . $vendor->lastname,
                     'Title'           => '',
-                    'CompanyName'     => 'Shopin',
-                    'PhoneNumber1'    => '1234567890',
+                    'CompanyName'     => $vendor->firstname . ' ' . $vendor->lastname,
+                    'PhoneNumber1'    => $vendorPhone,
                     'PhoneNumber1Ext' => '',
-                    'PhoneNumber2'    => '',
+                    'PhoneNumber2'    => $vendorPhone,
                     'PhoneNumber2Ext' => '',
                     'FaxNumber'       => '',
-                    'CellPhone'       => '1234567890',
-                    'EmailAddress'    => 'malak.ibrahim.salame@gmail.com',
+                    'CellPhone'       => $vendorPhone,
+                    'EmailAddress'    => $vendor->email ?? '',
                     'Type'            => '',
                 ],
                 'PickupLocation'  => 'Reception',
@@ -714,17 +744,17 @@ class AdminController extends Controller
                 'Reference1'      => 'CMD-' . $order->id,
                 'Reference2'      => '',
                 'Vehicle'         => '',
-                'Shipments'       => $shipments,  // ← all items as separate shipments
+                'Shipments'       => $shipments,
                 'PickupItems'     => [
                     [
                         'ProductGroup'       => 'DOM',
                         'ProductType'        => 'CDS',
-                        'NumberOfShipments'  => $itemCount,  // ← real count
+                        'NumberOfShipments'  => $itemCount,
                         'PackageType'        => 'Box',
                         'Payment'            => 'P',
                         'ShipmentWeight'     => ['Unit' => 'KG', 'Value' => $itemCount],
                         'ShipmentVolume'     => null,
-                        'NumberOfPieces'     => $itemCount,  // ← real count
+                        'NumberOfPieces'     => $itemCount,
                         'CashAmount'         => null,
                         'ExtraCharges'       => null,
                         'ShipmentDimensions' => ['Length' => 0, 'Width' => 0, 'Height' => 0, 'Unit' => ''],
