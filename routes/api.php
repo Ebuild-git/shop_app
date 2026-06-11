@@ -58,7 +58,7 @@ Route::post('/contact/send', [UsersController::class, 'send']);
 
 Route::get('/category/{id_user}/post_user', [shopinerController::class, 'get_user_categorie']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'check.locked'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

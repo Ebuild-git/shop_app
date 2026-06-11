@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'loggedOut' => \App\Http\Middleware\CheckIfUserIsLoggedOut::class,
         'jwt.auth' => \PHPOpenSourceSaver\JWTAuth\Http\Middleware\Authenticate::class,
+        'check.locked' => \App\Http\Middleware\CheckUserLocked::class,
 
     ];
 }

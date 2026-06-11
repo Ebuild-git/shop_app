@@ -108,6 +108,13 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($user->locked) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account has been locked. Please contact support.'
+            ], 403);
+        }
+
         if (is_null($user->email_verified_at)) {
             return response()->json([
                 'status' => false,
