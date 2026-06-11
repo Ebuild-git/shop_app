@@ -1280,7 +1280,9 @@
 "oic_hello": "Hello, :username",
 "oic_item_removed_badge": "Removed",
 "oic_item_restored_badge": "Restored",
-"oic_view_orders_btn": "View my orders"
+"oic_view_orders_btn": "View my orders",
+"order_number": "Your order number"
+
 
 
 

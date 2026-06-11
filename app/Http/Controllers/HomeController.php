@@ -1059,7 +1059,8 @@ class HomeController extends Controller
         }
 
         return view('User.checkout')
-            ->with('step', $step);
+            ->with('step', $step)
+            ->with('order_id', $request->get('order_id'));
     }
 
     public function about()

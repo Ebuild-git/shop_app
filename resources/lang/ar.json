@@ -1274,7 +1274,9 @@
 "oic_hello": "مرحباً، :username",
 "oic_item_removed_badge": "تمت الإزالة",
 "oic_item_restored_badge": "تمت الاستعادة",
-"oic_view_orders_btn": "عرض طلباتي"
+"oic_view_orders_btn": "عرض طلباتي",
+"order_number": "رقم طلبك"
+
 
 
 

@@ -51,6 +51,13 @@
                     <p>
                         {{ __('confirmation_message') }}
                     </p>
+
+                    @if ($order_id)
+                        <p class="mt-2">
+                            {{ __('order_number') }} :
+                            <strong style="font-size: 1.2rem;">CMD-{{ $order_id }}</strong>
+                        </p>
+                    @endif
                     <a href="/" class="btn btn-outline-dark">
                         <i class="bi bi-house-door-fill"></i>
                         {{ __('back_home') }}

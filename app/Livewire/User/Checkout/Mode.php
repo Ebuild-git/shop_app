@@ -122,7 +122,7 @@ class Mode extends Component
 
         $token = md5(uniqid(rand(), true));
         Cookie::queue(Cookie::forget('cart'));
-        return redirect("/checkout?step=4&action=$token");
+        return redirect("/checkout?step=4&action=$token&order_id={$order->id}");
     }
 
     private function notifyAdminAboutPurchase()
