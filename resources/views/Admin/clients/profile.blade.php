@@ -434,7 +434,8 @@
                                     <th>Photo</th>
                                     <th>Titre</th>
                                     <th>Date</th>
-                                    <th>Prix</th>
+                                    <th>Prix de Base</th>
+                                    <th>Prix Public</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -450,6 +451,28 @@
 
                                     <td> {{ $post->titre }} </td>
                                     <td>{{ $post->created_at }}</td>
+                                    <td>
+                                        @php
+                                            $prix = $post->prix;
+                                            $old_prix = $post->old_prix;
+                                        @endphp
+
+                                        @if ($old_prix)
+                                            <span class="strong color strong">
+                                                <strike>
+                                                    {{ number_format($old_prix, 2) }}
+                                                </strike> <sup>{{ __('currency') }}</sup>
+                                            </span>
+                                            <br>
+                                            <span class="text-danger strong">
+                                                {{ number_format($prix, 2) }} <sup>{{ __('currency') }}</sup>
+                                            </span>
+                                        @else
+                                            <span class="color strong">
+                                                {{ number_format($prix, 2) }} <sup>{{ __('currency') }}</sup>
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($post->old_prix)
                                             <span class="strong color strong">
