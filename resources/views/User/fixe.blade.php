@@ -815,28 +815,6 @@
             </div>
 
         </footer>
-
-        <!-- Newsletter Section -->
-        {{-- <div class="newsletter-section py-5" style="background-color: #f8f9fa; {{ app()->getLocale() == 'ar' ? 'direction: rtl;' : 'direction: ltr;' }}">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-8 text-center">
-                        <h3 class="mb-3">{{ __('newsletter_subscribe') }}</h3>
-                        <p class="mb-4">{{ __('newsletter_description') }}</p>
-                        <form action="{{ route('newsletter.subscribe') }}" method="POST">
-                            @csrf
-                            <div class="newsletter-input-group">
-                                <input type="email" name="email" class="newsletter-input"
-                                    placeholder="{{ __('enter_your_email') }}" required>
-                                <button class="btn-newsletter" type="submit">
-                                    {{ __('subscribe') }}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div class="newsletter-section py-5" style="background-color: #f8f9fa; {{ app()->getLocale() == 'ar' ? 'direction: rtl;' : 'direction: ltr;' }}">
             <div class="container">
                 <div class="row justify-content-center">
@@ -967,98 +945,115 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-        <footer class="light-footer" style="background-">
-            <footer class="light-footer" style="background-color: #edeff1 !important;">
-                <div class="footer-middle">
-                    <div class="container">
-                        <div class="row">
+        {{-- <footer class="light-footer" style="background-"> --}}
+        <footer class="light-footer" style="background-color: #edeff1 !important;">
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
 
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <div class="footer_widget">
-                                    <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="footer_widget">
+                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
 
-                                    {{-- <div class="address mt-3">
-                                        {{ $configurations->adresse ?? '' }}
-                                    </div> --}}
-                                    <div class="address mt-3">
-                                        {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
-                                    </div>
-                                    <div class="address mt-3">
-                                        <ul class="list-inline">
-                                            @if ($configurations->facebook)
-                                                <li class="list-inline-item"><a
-                                                        href="{{ $configurations->facebook }}"><i
-                                                            class="lni lni-facebook-filled"></i></a></li>
-                                            @endif
-                                            @if ($configurations->tiktok)
-                                                <li class="list-inline-item"><a
-                                                        href="{{ $configurations->tiktok }}"><i
-                                                            class="lni lni-tiktok-filled"></i></a></li>
-                                            @endif
-                                            @if ($configurations->instagram)
-                                                <li class="list-inline-item"><a
-                                                        href="{{ $configurations->instagram }}"><i
-                                                            class="lni lni-instagram-filled"></i></a></li>
-                                            @endif
-                                            @if ($configurations->linkedin)
-                                                <li class="list-inline-item"><a
-                                                        href="{{ $configurations->linkedin }}"><i
-                                                            class="lni lni-linkedin-original"></i></a></li>
-                                            @endif
-                                        </ul>
-                                    </div>
+                                {{-- <div class="address mt-3">
+                                    {{ $configurations->adresse ?? '' }}
+                                </div> --}}
+                                <div class="address mt-3">
+                                    {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
                                 </div>
-                            </div>
-
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ __('generales') }}</h4>
-                                    <ul class="footer-menu">
-                                        <li><a href="/contact"> {{ __('contactez_nous') }}</a></li>
-                                        <li><a href="#"> {{ __('page_faqs') }}</a></li>
-                                        @guest
-                                            <li><a href="/inscription"> {{ __('abonnez_vous') }}</a></li>
-                                            <li><a href="/connexion"> {{ __('connexion') }}</a></li>
-                                        @endguest
+                                <div class="address mt-3">
+                                    <ul class="list-inline">
+                                        @if ($configurations->facebook)
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->facebook }}"><i
+                                                        class="lni lni-facebook-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->tiktok)
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->tiktok }}"><i
+                                                        class="lni lni-tiktok-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->instagram)
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->instagram }}"><i
+                                                        class="lni lni-instagram-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->linkedin)
+                                            <li class="list-inline-item"><a
+                                                    href="{{ $configurations->linkedin }}"><i
+                                                        class="lni lni-linkedin-original"></i></a></li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
+                        </div>
 
-
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ __('informations') }}</h4>
-                                    <ul class="footer-menu">
-                                        <li><a href="/about">{{ __('a_propos') }}</a></li>
-                                        <li><a href="/how_sell">{{ __('how_sell') }}</a></li>
-                                        <li><a href="/how_buy">{{ __('how_buy') }}</a></li>
-                                        <li><a href="/conditions">{{ __('terms_and_conditions') }}</a></li>
-                                        <li><a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('politiques_tarifaires') }}</a></li>
-                                    </ul>
-                                </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="footer_widget">
+                                <h4 class="widget_title"> {{ __('generales') }}</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="/contact"> {{ __('contactez_nous') }}</a></li>
+                                    <li><a href="#"> {{ __('page_faqs') }}</a></li>
+                                    @guest
+                                        <li><a href="/inscription"> {{ __('abonnez_vous') }}</a></li>
+                                        <li><a href="/connexion"> {{ __('connexion') }}</a></li>
+                                    @endguest
+                                </ul>
                             </div>
+                        </div>
 
 
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <div class="footer_widget">
-                                    <h4 class="widget_title"> {{ __('our_partners') }}</h4>
-                                    <div class="address mt-3">
-                                        <div class="container-logo-home">
-                                            <div class="logo-list-logo-home">
-                                                @foreach (json_decode($configurations->partenaires) ?? [] as $item)
-                                                    <img src="{{ Storage::url($item) }}" alt=""
-                                                        srcset="">
-                                                @endforeach
-                                            </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="footer_widget">
+                                <h4 class="widget_title"> {{ __('informations') }}</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="/about">{{ __('a_propos') }}</a></li>
+                                    <li><a href="/how_sell">{{ __('how_sell') }}</a></li>
+                                    <li><a href="/how_buy">{{ __('how_buy') }}</a></li>
+                                    <li><a href="/conditions">{{ __('terms_and_conditions') }}</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#tarifaire">{{ __('politiques_tarifaires') }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <div class="footer_widget">
+                                <h4 class="widget_title"> {{ __('our_partners') }}</h4>
+                                <div class="address mt-3">
+                                    <div class="container-logo-home">
+                                        <div class="logo-list-logo-home">
+                                            @foreach (json_decode($configurations->partenaires) ?? [] as $item)
+                                                <img src="{{ Storage::url($item) }}" alt=""
+                                                    srcset="">
+                                            @endforeach
                                         </div>
-
                                     </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                            <!-- App Download Badges HERE -->
+                            <div class="footer_widget">
+                                <h4 class="widget_title">{{ __('Télécharger') }}</h4>
+                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                    <a href="https://play.google.com/store/apps/details?id=com.shopin.app" target="_blank">
+                                        <img src="/assets/img/Google_Play_Store_badge_EN.svg.webp" style="height: 60px; width: auto;">
+                                    </a>
+                                    <a href="https://apps.apple.com/app/shopin/id123456789" target="_blank">
+                                        <img src="/assets/img/Download_on_the_App_Store_Badge.svg.webp" style="height: 60px; width: auto;">
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
             <!-- ============================ Footer End ================================== -->
 
     </div>
