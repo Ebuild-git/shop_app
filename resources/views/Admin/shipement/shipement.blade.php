@@ -372,37 +372,35 @@
 
                 <!-- History Modal -->
                 <div class="modal fade" id="historyModal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-md">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">
-                                    <i class="bi bi-clock-history me-2"></i>
-                                    Historique des statuts — Expédition <span id="history-shipment-id"></span>
-                                </h5>
+                            <div class="modal-header border-0 pb-0">
+                                <div>
+                                    <h5 class="modal-title fw-bold">
+                                        <i class="bi bi-clock-history me-2 text-primary"></i>
+                                        Historique des statuts
+                                    </h5>
+                                    <small class="text-muted">Expédition : <span id="history-shipment-id" class="fw-semibold text-dark"></span></small>
+                                </div>
                                 <button type="button" class="btn-close" onclick="historyModalInstance && historyModalInstance.hide()"></button>
-
                             </div>
-                            <div class="modal-body">
-                                <div id="history-loading" class="text-center py-4">
+
+                            <div class="modal-body pt-3">
+
+                                <div id="history-loading" class="text-center py-5">
                                     <div class="spinner-border text-primary" role="status"></div>
                                     <p class="mt-2 text-muted">Chargement...</p>
                                 </div>
+
                                 <div id="history-content" class="d-none">
-                                    <table class="table table-sm table-bordered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Ancien état</th>
-                                                <th>Nouvel état</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="history-tbody"></tbody>
-                                    </table>
+                                    <div id="history-timeline" class="timeline-container"></div>
                                 </div>
-                                <div id="history-empty" class="d-none text-center text-muted py-4">
+
+                                <div id="history-empty" class="d-none text-center text-muted py-5">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     Aucun historique disponible.
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -733,14 +731,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
-    const etatBadge = (etat) => {
+const etatConfig = (etat) => {
     const map = {
-        'validation': 'secondary', 'vente': 'primary', 'vendu': 'dark',
-        'livraison': 'info', 'livré': 'success', 'refusé': 'danger',
-        'préparation': 'warning', 'en cours de livraison': 'info',
-        'ramassée': 'info', 'retourné': 'danger', 'supprimée': 'danger'
+        'validation':           { color: 'secondary', icon: 'bi-hourglass'            },
+        'vente':                { color: 'primary',   icon: 'bi-tag'                  },
+        'vendu':                { color: 'dark',      icon: 'bi-bag-check'            },
+        'livraison':            { color: 'info',      icon: 'bi-truck'                },
+        'livré':                { color: 'success',   icon: 'bi-check-circle-fill'    },
+        'refusé':               { color: 'danger',    icon: 'bi-x-circle-fill'        },
+        'préparation':          { color: 'warning',   icon: 'bi-box-seam'             },
+        'en voyage':            { color: 'info',      icon: 'bi-airplane'             },
+        'en cours de livraison':{ color: 'info',      icon: 'bi-truck'                },
+        'ramassée':             { color: 'info',      icon: 'bi-archive'              },
+        'retourné':             { color: 'danger',    icon: 'bi-arrow-return-left'    },
+        'supprimée':            { color: 'danger',    icon: 'bi-trash'                },
     };
-    const color = map[etat] ?? 'secondary';
+    return map[etat] ?? { color: 'secondary', icon: 'bi-circle' };
+};
+
+const etatBadge = (etat) => {
+    const { color } = etatConfig(etat);
     return `<span class="badge bg-${color}">${etat ?? '—'}</span>`;
 };
 
@@ -753,12 +763,9 @@ function openHistoryModal(itemId, shipmentId) {
     document.getElementById('history-empty').classList.add('d-none');
 
     const modalEl = document.getElementById('historyModal');
-
-    // Reuse existing instance instead of creating a new one each time
     if (!historyModalInstance) {
         historyModalInstance = new bootstrap.Modal(modalEl);
     }
-
     historyModalInstance.show();
 
     fetch(`/admin/order-items/${itemId}/history`, {
@@ -773,22 +780,37 @@ function openHistoryModal(itemId, shipmentId) {
             return;
         }
 
-        const tbody = document.getElementById('history-tbody');
-        tbody.innerHTML = data.map((row, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${etatBadge(row.old_etat)}</td>
-                <td>${etatBadge(row.new_etat)}</td>
-                <td>${row.created_at}</td>
-            </tr>
-        `).join('');
+        const timeline = document.getElementById('history-timeline');
+        timeline.innerHTML = data.map((row, i) => {
+            const newCfg = etatConfig(row.new_etat);
+            const isLast = i === 0; // newest first
+
+            return `
+                <div class="timeline-item">
+                    <div class="timeline-dot dot-${newCfg.color}"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-arrow">
+                            ${row.old_etat
+                                ? `${etatBadge(row.old_etat)}
+                                   <i class="bi bi-arrow-right text-muted"></i>`
+                                : ''}
+                            ${etatBadge(row.new_etat)}
+                            ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
+                        </div>
+                        <div class="timeline-date">
+                            <i class="bi bi-calendar3 me-1"></i>${row.created_at}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
 
         document.getElementById('history-content').classList.remove('d-none');
     })
     .catch(() => {
         document.getElementById('history-loading').classList.add('d-none');
         const emptyEl = document.getElementById('history-empty');
-        emptyEl.textContent = 'Erreur lors du chargement.';
+        emptyEl.innerHTML = '<i class="bi bi-exclamation-triangle fs-1 d-block mb-2 text-danger"></i>Erreur lors du chargement.';
         emptyEl.classList.remove('d-none');
     });
 }
