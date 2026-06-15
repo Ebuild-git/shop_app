@@ -15,9 +15,13 @@ class UpdateAramexStatus extends Command
 
     public function handle()
     {
-        // Get all order items with pending shipments (not yet delivered)
         $orderItems = OrdersItem::with(['order', 'post'])
-            ->where('status', '!=', 'livré')
+            ->whereIn('status', [
+                'préparation',
+                'ramassée',
+                'en cours de livraison',
+                'livraison',
+            ])
             ->whereNotNull('shipment_id')
             ->get();
 
@@ -49,27 +53,39 @@ class UpdateAramexStatus extends Command
                 $latestUpdate = $trackingResponse['TrackingResults'][0]['Value'][0]['UpdateCode'] ?? null;
 
                 if ($latestUpdate) {
-                    $newStatut = $this->mapAramexToStatut($latestUpdate);
+                    $newItemStatus  = $this->mapAramexToItemStatus($latestUpdate);   // for orders_items.status
+                    $newPostStatut  = $this->mapAramexToPostStatut($latestUpdate);   // for posts.statut
+                    $newOrderStatus = $this->mapAramexToOrderStatus($latestUpdate);  // for orders.status
 
-                    if ($item->status !== $newStatut) {
+                    if ($item->status !== $newItemStatus) {
 
                         ShipmentStatusHistory::create([
-                            'shipment_id'    => $item->shipment_id,
-                            'post_id'        => $item->post?->id,
-                            'order_item_id'  => $item->id,
-                            'old_etat'       => $item->status,
-                            'new_etat'       => $newStatut,
+                            'shipment_id'   => $item->shipment_id,
+                            'post_id'       => $item->post?->id,
+                            'order_item_id' => $item->id,
+                            'old_etat'      => $item->status,
+                            'new_etat'      => $newItemStatus,
                         ]);
-                        $item->update(['status' => $newStatut]);
 
+                        // Update OrdersItem status
+                        $item->update(['status' => $newItemStatus]);
+                        $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newItemStatus}");
+
+                        // Update Post statut
                         if ($item->post) {
-                            $item->post->update(['statut' => $newStatut]);
-                            $this->info("Updated Post ID {$item->post->id} statut to: {$newStatut}");
+                            $item->post->update(['statut' => $newPostStatut]);
+                            $this->info("Updated Post ID {$item->post->id} statut to: {$newPostStatut}");
                         }
 
-                        $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newStatut}");
+                        // Update Order status
+                        if ($item->order && $item->order->status !== $newOrderStatus) {
+                            $item->order->update(['status' => $newOrderStatus]);
+                            $this->info("Updated Order ID {$item->order_id} status to: {$newOrderStatus}");
+                        }
+
                         $updatedCount++;
 
+                        // If all items delivered → mark order as livrée
                         $this->updateOrderStatusIfComplete($item->order);
                     }
                 } else {
@@ -87,26 +103,57 @@ class UpdateAramexStatus extends Command
 
     private function updateOrderStatusIfComplete($order)
     {
-        // Reload order items to check if all are delivered
         $order->refresh();
         $allDelivered = $order->items()->where('status', '!=', 'livré')->doesntExist();
 
         if ($allDelivered) {
-            $order->update(['status' => 'livré']);
+            $order->update(['status' => 'livrée']);
             $this->info("✅ Order ID {$order->id} marked as fully delivered");
         }
     }
 
-    protected function mapAramexToStatut($updateCode)
+    /**
+     * orders_items.status
+     * Mirrors post statut values (Aramex pipeline stages)
+     */
+    protected function mapAramexToItemStatus($updateCode): string
     {
         return match ($updateCode) {
-            'SH001', 'SH014', 'SH203' => 'préparation',
-            'SH012' => 'ramassée',
-            'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
-            'SH005', 'SH006', 'SH007', 'SH154', 'SH234', 'SH496' => 'livré',
-            'SH008' => 'retourné',
-            'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
-            default => 'livraison',
+            'SH001', 'SH014', 'SH203'              => 'préparation',
+            'SH012'                                 => 'ramassée',
+            'SH003', 'SH004', 'SH073', 'SH252'     => 'en cours de livraison',
+            'SH005', 'SH006', 'SH007',
+            'SH154', 'SH234', 'SH496'              => 'livré',
+            'SH008'                                 => 'retourné',
+            'SH033', 'SH043', 'SH294', 'SH480'     => 'refusé',
+            default                                 => 'livraison',
+        };
+    }
+
+    /**
+     * posts.statut
+     * Same mapping as item status (both reflect Aramex pipeline)
+     */
+    protected function mapAramexToPostStatut($updateCode): string
+    {
+        return $this->mapAramexToItemStatus($updateCode);
+    }
+
+    /**
+     * orders.status
+     * Maps to the dropdown values: Crée, Expédiée, Livrée, Rétablie, Annulée
+     */
+    protected function mapAramexToOrderStatus($updateCode): string
+    {
+        return match ($updateCode) {
+            'SH001', 'SH014', 'SH203',
+            'SH012',
+            'SH003', 'SH004', 'SH073', 'SH252'     => 'expédiée',
+            'SH005', 'SH006', 'SH007',
+            'SH154', 'SH234', 'SH496'              => 'livrée',
+            'SH008', 'SH033', 'SH043',
+            'SH294', 'SH480'                        => 'annulée',
+            default                                 => 'expédiée',
         };
     }
 }
