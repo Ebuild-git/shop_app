@@ -10,7 +10,7 @@ use App\Services\AramexService;
 class UpdateAramexStatus extends Command
 {
     protected $signature = 'app:update-aramex-status';
-    protected $description = 'Update order item statuses based on Aramex tracking API';
+    protected $description = 'Update order item and post statuses based on Aramex tracking API';
 
     public function handle()
     {
@@ -51,7 +51,14 @@ class UpdateAramexStatus extends Command
                     $newStatut = $this->mapAramexToStatut($latestUpdate);
 
                     if ($item->status !== $newStatut) {
+                        // Update OrdersItem status
                         $item->update(['status' => $newStatut]);
+
+                        // Update Post statut (the listing status)
+                        if ($item->post) {
+                            $item->post->update(['statut' => $newStatut]);
+                            $this->info("Updated Post ID {$item->post->id} statut to: {$newStatut}");
+                        }
 
                         $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newStatut}");
                         $updatedCount++;
@@ -91,7 +98,6 @@ class UpdateAramexStatus extends Command
             'SH012' => 'ramassée',
             'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
             'SH005', 'SH006', 'SH007', 'SH154', 'SH234', 'SH496' => 'livré',
-            'SH076' => 'en voyage',
             'SH008' => 'retourné',
             'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
             default => 'livraison',
