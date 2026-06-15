@@ -3,54 +3,40 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\posts;
-use App\Models\Commande;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Services\AramexService;
 
 class UpdateAramexStatus extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'app:update-aramex-status';
+    protected $description = 'Update order item statuses based on Aramex tracking API';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Update post statuses based on Aramex tracking API';
-
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
-        $commandes = Commande::with('post')
-            ->whereHas('post', function ($query) {
-                $query->where('statut', '!=', 'livré');
-            })
+        // Get all order items with pending shipments (not yet delivered)
+        $orderItems = OrderItem::with(['order', 'post'])
+            ->where('status', '!=', 'livré')
             ->whereNotNull('shipment_id')
             ->get();
 
-        if ($commandes->isEmpty()) {
+        if ($orderItems->isEmpty()) {
             $this->info('No pending shipments to track.');
             return;
         }
 
         $aramexService = new AramexService();
         $updatedCount = 0;
+        $errorCount = 0;
 
-        foreach ($commandes as $commande) {
+        foreach ($orderItems as $item) {
             try {
                 $payload = [
                     'ClientInfo' => $aramexService->getClientInfo(),
                     'GetLastTrackingUpdateOnly' => true,
-                    'Shipments' => [$commande->shipment_id],
+                    'Shipments' => [$item->shipment_id],
                     'Transaction' => [
-                        'Reference1' => 'CMD-' . $commande->id,
+                        'Reference1' => 'ORD-' . $item->order_id . '-ITEM-' . $item->id,
                         'Reference2' => '',
                         'Reference3' => '',
                         'Reference4' => '',
@@ -63,21 +49,41 @@ class UpdateAramexStatus extends Command
 
                 if ($latestUpdate) {
                     $newStatut = $this->mapAramexToStatut($latestUpdate);
-                    if ($commande->post->statut !== $newStatut) {
-                        $commande->post->update(['statut' => $newStatut]);
-                        $this->info("Updated Post ID {$commande->post->id} (Shipment: {$commande->shipment_id}) to status: {$newStatut}");
+
+                    if ($item->status !== $newStatut) {
+                        $item->update(['status' => $newStatut]);
+
+                        $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newStatut}");
                         $updatedCount++;
+
+                        // Update order status if all items are delivered
+                        $this->updateOrderStatusIfComplete($item->order);
                     }
                 } else {
-                    $this->warn("No tracking data for Shipment ID: {$commande->shipment_id}");
+                    $this->warn("No tracking data for Shipment ID: {$item->shipment_id}");
+                    $errorCount++;
                 }
             } catch (\Exception $e) {
-                $this->error("Failed to track Shipment ID {$commande->shipment_id}: " . $e->getMessage());
+                $this->error("Failed to track Shipment ID {$item->shipment_id}: " . $e->getMessage());
+                $errorCount++;
             }
         }
 
-        $this->info("Aramex status update completed. {$updatedCount} posts updated.");
+        $this->info("Aramex status update completed. {$updatedCount} items updated, {$errorCount} errors.");
     }
+
+    private function updateOrderStatusIfComplete($order)
+    {
+        // Reload order items to check if all are delivered
+        $order->refresh();
+        $allDelivered = $order->items()->where('status', '!=', 'livré')->doesntExist();
+
+        if ($allDelivered) {
+            $order->update(['status' => 'livré']);
+            $this->info("✅ Order ID {$order->id} marked as fully delivered");
+        }
+    }
+
     protected function mapAramexToStatut($updateCode)
     {
         return match ($updateCode) {
@@ -85,11 +91,10 @@ class UpdateAramexStatus extends Command
             'SH012' => 'ramassée',
             'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
             'SH005', 'SH006', 'SH007', 'SH154', 'SH234', 'SH496' => 'livré',
-            'SH006' => 'en cours de livraison',
             'SH076' => 'en voyage',
             'SH008' => 'retourné',
             'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
-            default  => 'livraison',
+            default => 'livraison',
         };
     }
 }
