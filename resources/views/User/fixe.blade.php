@@ -952,12 +952,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="row">
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <div class="footer_widget">
+                            {{-- <div class="footer_widget">
                                 <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
 
-                                {{-- <div class="address mt-3">
-                                    {{ $configurations->adresse ?? '' }}
-                                </div> --}}
                                 <div class="address mt-3">
                                     {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
                                 </div>
@@ -984,6 +981,43 @@ document.addEventListener('DOMContentLoaded', function() {
                                                         class="lni lni-linkedin-original"></i></a></li>
                                         @endif
                                     </ul>
+                                </div>
+                            </div> --}}
+                            <div class="footer_widget">
+                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
+
+                                <div class="address mt-3">
+                                    {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
+                                </div>
+
+                                <div class="address mt-3">
+                                    <ul class="list-inline">
+                                        @if ($configurations->facebook)
+                                            <li class="list-inline-item"><a href="{{ $configurations->facebook }}"><i class="lni lni-facebook-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->tiktok)
+                                            <li class="list-inline-item"><a href="{{ $configurations->tiktok }}"><i class="lni lni-tiktok-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->instagram)
+                                            <li class="list-inline-item"><a href="{{ $configurations->instagram }}"><i class="lni lni-instagram-filled"></i></a></li>
+                                        @endif
+                                        @if ($configurations->linkedin)
+                                            <li class="list-inline-item"><a href="{{ $configurations->linkedin }}"><i class="lni lni-linkedin-original"></i></a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+
+                                {{-- App Download Badges --}}
+                                <div class="mt-3">
+                                    {{-- <h6 class="widget_title">{{ __('Télécharger') }}</h6> --}}
+                                    <div class="d-flex flex-row align-items-center" style="gap: 8px;">
+                                        <a href="https://play.google.com/store/apps/details?id=com.shopin.app" target="_blank">
+                                            <img src="/assets/img/Google_Play_Store_badge_EN.svg.webp" style="height: 40px; width: 130px;">
+                                        </a>
+                                        <a href="https://apps.apple.com/app/shopin/id123456789" target="_blank">
+                                            <img src="/assets/img/Download_on_the_App_Store_Badge.svg.webp" style="height: 40px; width: 130px;">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1023,21 +1057,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="footer_widget">
                                 <h4 class="widget_title"> {{ __('our_partners') }}</h4>
                                 <div class="address mt-3">
-                                    <div class="container-logo-home">
+                                    {{-- <div class="container-logo-home">
                                         <div class="logo-list-logo-home">
                                             @foreach (json_decode($configurations->partenaires) ?? [] as $item)
                                                 <img src="{{ Storage::url($item) }}" alt=""
                                                     srcset="">
                                             @endforeach
                                         </div>
+                                    </div> --}}
+                                    <div class="d-flex flex-wrap gap-2 align-items-center mt-2">
+                                        @foreach (json_decode($configurations->partenaires) ?? [] as $item)
+                                            <img src="{{ Storage::url($item) }}" alt="" style="height: 40px; width: auto; object-fit: contain;">
+                                        @endforeach
                                     </div>
 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                            <!-- App Download Badges HERE -->
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             <div class="footer_widget">
                                 <h4 class="widget_title">{{ __('Télécharger') }}</h4>
                                 <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -1049,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
