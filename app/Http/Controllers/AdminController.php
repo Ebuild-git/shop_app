@@ -458,7 +458,7 @@ class AdminController extends Controller
         $shipments = $vendorItems->map(function ($item) use (
             $order, $buyer, $vendor, $nowAramex, $dueAramex,
             $buyerLine1, $buyerCity, $buyerBuilding, $buyerFloor, $buyerApartment, $buyerPhone,
-            $vendorLine1, $vendorCity, $vendorBuilding, $vendorFloor, $vendorApartment, $vendorPhone
+            $vendorLine1, $vendorCity, $vendorBuilding, $vendorFloor, $vendorApartment, $vendorPhone, $itemCount
         ) {
             $post = $item->post;
 

@@ -343,6 +343,12 @@
                                                 onclick="confirmDeleteOrder({{ $order->id }})">
                                                 <i class="bi bi-trash"></i>
                                             </button> --}}
+
+                                            <button class="btn btn-sm btn-outline-info mt-1"
+                                                onclick="openHistoryModal({{ $item->id }}, '{{ $item->shipment_id ?? '' }}')">
+                                                <i class="bi bi-clock-history"></i>
+                                                Historique
+                                            </button>
                                             <button class="btn btn-sm btn-outline-danger mt-1"
                                                 onclick="confirmDeleteItem({{ $item->id }})">
                                                 <i class="bi bi-trash"></i>
@@ -363,6 +369,44 @@
                 </div>
 
                 <div class="p-3">{{ $orders->links('pagination::bootstrap-4') }}</div>
+
+                <!-- History Modal -->
+                <div class="modal fade" id="historyModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="bi bi-clock-history me-2"></i>
+                                    Historique des statuts — Expédition <span id="history-shipment-id"></span>
+                                </h5>
+                                <button type="button" class="btn-close" onclick="historyModalInstance && historyModalInstance.hide()"></button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div id="history-loading" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status"></div>
+                                    <p class="mt-2 text-muted">Chargement...</p>
+                                </div>
+                                <div id="history-content" class="d-none">
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Ancien état</th>
+                                                <th>Nouvel état</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="history-tbody"></tbody>
+                                    </table>
+                                </div>
+                                <div id="history-empty" class="d-none text-center text-muted py-4">
+                                    Aucun historique disponible.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -688,6 +732,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+<script>
+    const etatBadge = (etat) => {
+    const map = {
+        'validation': 'secondary', 'vente': 'primary', 'vendu': 'dark',
+        'livraison': 'info', 'livré': 'success', 'refusé': 'danger',
+        'préparation': 'warning', 'en cours de livraison': 'info',
+        'ramassée': 'info', 'retourné': 'danger', 'supprimée': 'danger'
+    };
+    const color = map[etat] ?? 'secondary';
+    return `<span class="badge bg-${color}">${etat ?? '—'}</span>`;
+};
 
+let historyModalInstance = null;
+
+function openHistoryModal(itemId, shipmentId) {
+    document.getElementById('history-shipment-id').textContent = shipmentId || '—';
+    document.getElementById('history-loading').classList.remove('d-none');
+    document.getElementById('history-content').classList.add('d-none');
+    document.getElementById('history-empty').classList.add('d-none');
+
+    const modalEl = document.getElementById('historyModal');
+
+    // Reuse existing instance instead of creating a new one each time
+    if (!historyModalInstance) {
+        historyModalInstance = new bootstrap.Modal(modalEl);
+    }
+
+    historyModalInstance.show();
+
+    fetch(`/admin/order-items/${itemId}/history`, {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('history-loading').classList.add('d-none');
+
+        if (!data.length) {
+            document.getElementById('history-empty').classList.remove('d-none');
+            return;
+        }
+
+        const tbody = document.getElementById('history-tbody');
+        tbody.innerHTML = data.map((row, i) => `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${etatBadge(row.old_etat)}</td>
+                <td>${etatBadge(row.new_etat)}</td>
+                <td>${row.created_at}</td>
+            </tr>
+        `).join('');
+
+        document.getElementById('history-content').classList.remove('d-none');
+    })
+    .catch(() => {
+        document.getElementById('history-loading').classList.add('d-none');
+        const emptyEl = document.getElementById('history-empty');
+        emptyEl.textContent = 'Erreur lors du chargement.';
+        emptyEl.classList.remove('d-none');
+    });
+}
+</script>
 
 @endsection

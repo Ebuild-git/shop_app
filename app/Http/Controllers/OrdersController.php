@@ -413,4 +413,17 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function itemHistory($id)
+    {
+        $history = \App\Models\ShipmentStatusHistory::where('order_item_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get(['old_etat', 'new_etat', 'created_at'])
+            ->map(fn($h) => [
+                'old_etat'   => $h->old_etat,
+                'new_etat'   => $h->new_etat,
+                'created_at' => $h->created_at->format('d/m/Y H:i'),
+            ]);
+
+        return response()->json($history);
+    }
 }
