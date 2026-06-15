@@ -337,8 +337,9 @@ class HomeController extends Controller
         $user = $post->user_info;
         $ipAddress = request()->ip();
         $viewedIps = json_decode($post->ip_address, true) ?? [];
+        $isOwner = Auth::check() && Auth::id() === $post->id_user;
 
-        if (!in_array($ipAddress, $viewedIps)) {
+        if (!$isOwner && !in_array($ipAddress, $viewedIps)) {
             $post->increment('views');
             $viewedIps[] = $ipAddress;
             $post->ip_address = json_encode($viewedIps);
