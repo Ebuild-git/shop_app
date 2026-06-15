@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\OrdersItem;
 use App\Services\AramexService;
 
 class UpdateAramexStatus extends Command
@@ -15,7 +15,7 @@ class UpdateAramexStatus extends Command
     public function handle()
     {
         // Get all order items with pending shipments (not yet delivered)
-        $orderItems = OrderItem::with(['order', 'post'])
+        $orderItems = OrdersItem::with(['order', 'post'])
             ->where('status', '!=', 'livré')
             ->whereNotNull('shipment_id')
             ->get();
