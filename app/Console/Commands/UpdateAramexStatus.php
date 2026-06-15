@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrdersItem;
 use App\Services\AramexService;
 use App\Models\ShipmentStatusHistory;
+use Carbon\Carbon;
 
 class UpdateAramexStatus extends Command
 {
@@ -31,16 +32,16 @@ class UpdateAramexStatus extends Command
         }
 
         $aramexService = new AramexService();
-        $updatedCount = 0;
-        $errorCount = 0;
+        $updatedCount  = 0;
+        $errorCount    = 0;
 
         foreach ($orderItems as $item) {
             try {
                 $payload = [
-                    'ClientInfo' => $aramexService->getClientInfo(),
+                    'ClientInfo'               => $aramexService->getClientInfo(),
                     'GetLastTrackingUpdateOnly' => true,
-                    'Shipments' => [$item->shipment_id],
-                    'Transaction' => [
+                    'Shipments'                => [$item->shipment_id],
+                    'Transaction'              => [
                         'Reference1' => 'ORD-' . $item->order_id . '-ITEM-' . $item->id,
                         'Reference2' => '',
                         'Reference3' => '',
@@ -50,25 +51,43 @@ class UpdateAramexStatus extends Command
                 ];
 
                 $trackingResponse = $aramexService->trackShipment($payload);
-                $latestUpdate = $trackingResponse['TrackingResults'][0]['Value'][0]['UpdateCode'] ?? null;
+                $latestEntry      = $trackingResponse['TrackingResults'][0]['Value'][0] ?? null;
+                $latestUpdate     = $latestEntry['UpdateCode'] ?? null;
 
                 if ($latestUpdate) {
-                    $newItemStatus  = $this->mapAramexToItemStatus($latestUpdate);   // for orders_items.status
-                    $newPostStatut  = $this->mapAramexToPostStatut($latestUpdate);   // for posts.statut
-                    $newOrderStatus = $this->mapAramexToOrderStatus($latestUpdate);  // for orders.status
+                    $newItemStatus  = $this->mapAramexToItemStatus($latestUpdate);
+                    $newPostStatut  = $this->mapAramexToPostStatut($latestUpdate);
+                    $newOrderStatus = $this->mapAramexToOrderStatus($latestUpdate);
 
                     if ($item->status !== $newItemStatus) {
 
+                        // Parse Aramex datetime: /Date(1781538540000+0200)/
+                        $updateDatetime = null;
+                        if (!empty($latestEntry['UpdateDateTime'])) {
+                            preg_match('/\/Date\((\d+)/', $latestEntry['UpdateDateTime'], $matches);
+                            if (!empty($matches[1])) {
+                                $updateDatetime = Carbon::createFromTimestampMs($matches[1]);
+                            }
+                        }
+
                         ShipmentStatusHistory::create([
-                            'shipment_id'   => $item->shipment_id,
-                            'post_id'       => $item->post?->id,
-                            'order_item_id' => $item->id,
-                            'old_etat'      => $item->status,
-                            'new_etat'      => $newItemStatus,
+                            'shipment_id'        => $item->shipment_id,
+                            'post_id'            => $item->post?->id,
+                            'order_item_id'      => $item->id,
+                            'old_etat'           => $item->aramex_update_description, // previous raw Aramex description
+                            'new_etat'           => $latestEntry['UpdateDescription'], // new raw Aramex description
+                            'update_code'        => $latestEntry['UpdateCode'],
+                            'update_description' => $latestEntry['UpdateDescription'],
+                            'update_location'    => $latestEntry['UpdateLocation'] ?? null,
+                            'update_datetime'    => $updateDatetime,
                         ]);
 
-                        // Update OrdersItem status
-                        $item->update(['status' => $newItemStatus]);
+                        // Update OrdersItem: status (mapped) + store raw description for next run's old_etat
+                        $item->update([
+                            'status'                    => $newItemStatus,
+                            'aramex_update_description' => $latestEntry['UpdateDescription'],
+                        ]);
+
                         $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newItemStatus}");
 
                         // Update Post statut
@@ -114,25 +133,23 @@ class UpdateAramexStatus extends Command
 
     /**
      * orders_items.status
-     * Mirrors post statut values (Aramex pipeline stages)
      */
     protected function mapAramexToItemStatus($updateCode): string
     {
         return match ($updateCode) {
-            'SH001', 'SH014', 'SH203'              => 'préparation',
-            'SH012'                                 => 'ramassée',
-            'SH003', 'SH004', 'SH073', 'SH252'     => 'en cours de livraison',
+            'SH001', 'SH014', 'SH203'          => 'préparation',
+            'SH012'                             => 'ramassée',
+            'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
             'SH005', 'SH006', 'SH007',
-            'SH154', 'SH234', 'SH496'              => 'livré',
-            'SH008'                                 => 'retourné',
-            'SH033', 'SH043', 'SH294', 'SH480'     => 'refusé',
-            default                                 => 'en cours de livraison',
+            'SH154', 'SH234', 'SH496'          => 'livré',
+            'SH008'                             => 'retourné',
+            'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
+            default                             => 'en cours de livraison',
         };
     }
 
     /**
-     * posts.statut
-     * Same mapping as item status (both reflect Aramex pipeline)
+     * posts.statut — mirrors item status
      */
     protected function mapAramexToPostStatut($updateCode): string
     {
@@ -140,20 +157,19 @@ class UpdateAramexStatus extends Command
     }
 
     /**
-     * orders.status
-     * Maps to the dropdown values: Crée, Expédiée, Livrée, Rétablie, Annulée
+     * orders.status — dropdown values
      */
     protected function mapAramexToOrderStatus($updateCode): string
     {
         return match ($updateCode) {
             'SH001', 'SH014', 'SH203',
             'SH012',
-            'SH003', 'SH004', 'SH073', 'SH252'     => 'expédiée',
+            'SH003', 'SH004', 'SH073', 'SH252' => 'expédiée',
             'SH005', 'SH006', 'SH007',
-            'SH154', 'SH234', 'SH496'              => 'livrée',
+            'SH154', 'SH234', 'SH496'          => 'livrée',
             'SH008', 'SH033', 'SH043',
-            'SH294', 'SH480'                        => 'annulée',
-            default                                 => 'expédiée',
+            'SH294', 'SH480'                    => 'annulée',
+            default                             => 'expédiée',
         };
     }
 }

@@ -15,6 +15,10 @@ class ShipmentStatusHistory extends Model
         'order_item_id',
         'old_etat',
         'new_etat',
+        'update_code',
+        'update_description',
+        'update_location',
+        'update_datetime',
     ];
 
     public function post()

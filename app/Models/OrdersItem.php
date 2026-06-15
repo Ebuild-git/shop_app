@@ -19,7 +19,7 @@ class OrdersItem extends Model
         'vendor_id',
         'price',
         'delivery_fee',
-        'status', 'shipment_id'
+        'status', 'shipment_id', 'aramex_update_description'
     ];
 
     public function order(): BelongsTo
