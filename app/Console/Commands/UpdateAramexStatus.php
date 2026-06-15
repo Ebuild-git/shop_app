@@ -141,7 +141,7 @@ class UpdateAramexStatus extends Command
             'SH012'                             => 'ramassée',
             'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
             'SH005', 'SH006', 'SH007',
-            'SH154', 'SH234', 'SH496'          => 'livré',
+            'SH154', 'SH234', 'SH496', 'SH239'    => 'livré',
             'SH008'                             => 'retourné',
             'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
             default                             => 'en cours de livraison',
