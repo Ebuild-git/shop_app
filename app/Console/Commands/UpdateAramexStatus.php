@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Order;
 use App\Models\OrdersItem;
 use App\Services\AramexService;
+use App\Models\ShipmentStatusHistory;
 
 class UpdateAramexStatus extends Command
 {
@@ -51,10 +52,16 @@ class UpdateAramexStatus extends Command
                     $newStatut = $this->mapAramexToStatut($latestUpdate);
 
                     if ($item->status !== $newStatut) {
-                        // Update OrdersItem status
+
+                        ShipmentStatusHistory::create([
+                            'shipment_id'    => $item->shipment_id,
+                            'post_id'        => $item->post?->id,
+                            'order_item_id'  => $item->id,
+                            'old_etat'       => $item->status,
+                            'new_etat'       => $newStatut,
+                        ]);
                         $item->update(['status' => $newStatut]);
 
-                        // Update Post statut (the listing status)
                         if ($item->post) {
                             $item->post->update(['statut' => $newStatut]);
                             $this->info("Updated Post ID {$item->post->id} statut to: {$newStatut}");
@@ -63,7 +70,6 @@ class UpdateAramexStatus extends Command
                         $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newStatut}");
                         $updatedCount++;
 
-                        // Update order status if all items are delivered
                         $this->updateOrderStatusIfComplete($item->order);
                     }
                 } else {
