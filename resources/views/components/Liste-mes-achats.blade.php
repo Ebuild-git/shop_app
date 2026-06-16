@@ -26,6 +26,10 @@
                                 <span>P{{ $post->id }}</span>
                                 &nbsp;·&nbsp;
                                 <span>CMD-{{ $achat->order_id }}</span>
+                                @if($achat->shipment_id)
+                                    &nbsp;·&nbsp;
+                                    <span><i class="bi bi-box-seam"></i> {{ $achat->shipment_id }}</span>
+                                @endif
                             </div>
                         </td>
                         <td>
