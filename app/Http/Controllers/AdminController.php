@@ -317,10 +317,8 @@ class AdminController extends Controller
             ]);
         }
 
-        $aramex  = new AramexService();
-        $results = [];
-
-        // One pickup per vendor, containing all their unsynced items
+        $aramex        = new AramexService();
+        $results       = [];
         $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
 
         foreach ($itemsByVendor as $vendorId => $vendorItems) {
@@ -336,31 +334,33 @@ class AdminController extends Controller
                     $pickupGuid         = $processedPickup['GUID'] ?? null;
                     $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
 
-                    foreach ($vendorItems->values() as $index => $item) {
-                        $processedShipment = $processedShipments[$index] ?? [];
-                        $shipmentId        = $processedShipment['ID'] ?? null;
+                    // One shipment per vendor — index 0
+                    $processedShipment = $processedShipments[0] ?? [];
+                    $shipmentId        = $processedShipment['ID'] ?? null;
 
-                        if (!$pickupId || !$pickupGuid || !$shipmentId) {
-                            Log::warning('⚠️ Incomplete Aramex response', [
-                                'order_id'    => $order->id,
-                                'item_id'     => $item->id,
-                                'pickup_id'   => $pickupId,
-                                'pickup_guid' => $pickupGuid,
-                                'shipment_id' => $shipmentId,
-                                'response'    => $response,
-                            ]);
-                        }
+                    if (!$pickupId || !$pickupGuid || !$shipmentId) {
+                        \Log::warning('⚠️ Incomplete Aramex response', [
+                            'order_id'    => $order->id,
+                            'vendor_id'   => $vendorId,
+                            'pickup_id'   => $pickupId,
+                            'pickup_guid' => $pickupGuid,
+                            'shipment_id' => $shipmentId,
+                            'response'    => $response,
+                        ]);
+                    }
 
-                        $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
-                        if ($shipmentHasErrors) {
-                            $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
-                            Log::warning('⚠️ Processed shipment has errors', [
-                                'order_id' => $order->id,
-                                'item_id'  => $item->id,
-                                'message'  => $msg,
-                            ]);
-                        }
+                    $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
+                    if ($shipmentHasErrors) {
+                        $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
+                        \Log::warning('⚠️ Processed shipment has errors', [
+                            'order_id'  => $order->id,
+                            'vendor_id' => $vendorId,
+                            'message'   => $msg,
+                        ]);
+                    }
 
+                    // All items from this vendor share the same shipment ID
+                    foreach ($vendorItems->values() as $item) {
                         $item->pickup_id   = $pickupId;
                         $item->pickup_guid = $pickupGuid;
                         $item->shipment_id = $shipmentId;
@@ -386,7 +386,7 @@ class AdminController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                Log::error('🔥 Exception during Aramex sync', [
+                \Log::error('🔥 Exception during Aramex sync', [
                     'order_id'  => $order->id,
                     'vendor_id' => $vendorId,
                     'error'     => $e->getMessage(),
@@ -425,45 +425,49 @@ class AdminController extends Controller
         $buyerAddress  = $buyer->addresses()->where('is_default', true)->first();
         $vendorAddress = $vendor->addresses()->where('is_default', true)->first();
 
-        $now       = new DateTime();
-        $due       = (new DateTime())->modify('+4 days');
+        $now       = new \DateTime();
+        $due       = (new \DateTime())->modify('+4 days');
         $nowAramex = '/Date(' . ($now->getTimestamp() * 1000) . '-0000)/';
         $dueAramex = '/Date(' . ($due->getTimestamp() * 1000) . '-0000)/';
 
-        // Buyer resolved fields: default address → fallback to user profile
+        // All post titles for this vendor — max 100 chars
+        $descriptionOfGoods = mb_substr(
+            $vendorItems->map(fn($i) => $i->post?->titre ?? 'Article')->unique()->implode(', '),
+            0, 100
+        );
+
+        // Buyer fields
         $buyerLine1     = $buyerAddress
-            ? ($buyerAddress->street          ?? $buyer->rue             ?? ($buyer->city ? $buyer->city->name : ''))
-            : ($buyer->rue                    ?? ($buyer->city ? $buyer->city->name : ''));
+            ? ($buyerAddress->street ?? $buyer->rue ?? ($buyer->city?->name ?? ''))
+            : ($buyer->rue ?? ($buyer->city?->name ?? ''));
         $buyerCity      = $buyerAddress
-            ? ($buyerAddress->city            ? $buyerAddress->city->name  : ($buyer->city ? $buyer->city->name : ''))
-            : ($buyer->city                   ? $buyer->city->name         : '');
+            ? ($buyerAddress->city?->name ?? ($buyer->city?->name ?? ''))
+            : ($buyer->city?->name ?? '');
         $buyerBuilding  = $buyerAddress ? ($buyerAddress->building_name    ?? $buyer->nom_batiment    ?? '') : ($buyer->nom_batiment    ?? '');
         $buyerFloor     = $buyerAddress ? ($buyerAddress->floor            ?? $buyer->etage           ?? '') : ($buyer->etage           ?? '');
         $buyerApartment = $buyerAddress ? ($buyerAddress->apartment_number ?? $buyer->num_appartement ?? '') : ($buyer->num_appartement ?? '');
         $buyerPhone     = $buyerAddress ? ($buyerAddress->phone_number     ?? $buyer->phone_number)          : $buyer->phone_number;
 
-        // Vendor resolved fields: default address → fallback to user profile
+        // Vendor fields
         $vendorLine1     = $vendorAddress
-            ? ($vendorAddress->street          ?? $vendor->rue            ?? ($vendor->city ? $vendor->city->name : ''))
-            : ($vendor->rue                    ?? ($vendor->city ? $vendor->city->name : ''));
+            ? ($vendorAddress->street ?? $vendor->rue ?? ($vendor->city?->name ?? ''))
+            : ($vendor->rue ?? ($vendor->city?->name ?? ''));
         $vendorCity      = $vendorAddress
-            ? ($vendorAddress->city            ? $vendorAddress->city->name : ($vendor->city ? $vendor->city->name : ''))
-            : ($vendor->city                   ? $vendor->city->name        : '');
+            ? ($vendorAddress->city?->name ?? ($vendor->city?->name ?? ''))
+            : ($vendor->city?->name ?? '');
         $vendorBuilding  = $vendorAddress ? ($vendorAddress->building_name    ?? $vendor->nom_batiment    ?? '') : ($vendor->nom_batiment    ?? '');
         $vendorFloor     = $vendorAddress ? ($vendorAddress->floor            ?? $vendor->etage           ?? '') : ($vendor->etage           ?? '');
         $vendorApartment = $vendorAddress ? ($vendorAddress->apartment_number ?? $vendor->num_appartement ?? '') : ($vendor->num_appartement ?? '');
         $vendorPhone     = $vendorAddress ? ($vendorAddress->phone_number     ?? $vendor->phone_number)          : $vendor->phone_number;
 
-        // Build one shipment object per item
-        $shipments = $vendorItems->map(function ($item) use (
-            $order, $buyer, $vendor, $nowAramex, $dueAramex,
-            $buyerLine1, $buyerCity, $buyerBuilding, $buyerFloor, $buyerApartment, $buyerPhone,
-            $vendorLine1, $vendorCity, $vendorBuilding, $vendorFloor, $vendorApartment, $vendorPhone, $itemCount
-        ) {
-            $post = $item->post;
+        $deliveryFee = $vendorItems->first()->delivery_fee ?? 0;
+        $itemsTotal  = $vendorItems->sum(fn($i) => $i->post ? $i->post->getPrix() : 0);
+        $codAmount = number_format($itemsTotal + $deliveryFee, 3, '.', '');
 
-            return [
-                'Reference1' => 'CMD-' . $order->id . '-ITEM-' . $item->id,
+        // One shipment for all items from this vendor
+        $shipments = [
+            [
+                'Reference1' => 'CMD-' . $order->id,
                 'Reference2' => '',
                 'Reference3' => '',
                 'Shipper'    => [
@@ -558,9 +562,9 @@ class AdminController extends Controller
                 ],
                 'Details' => [
                     'Dimensions'                      => null,
-                    'ActualWeight'                    => ['Unit' => 'KG', 'Value' => 1],
+                    'ActualWeight'                    => ['Unit' => 'KG', 'Value' => $itemCount],
                     'ChargeableWeight'                => null,
-                    'DescriptionOfGoods'              => $post->titre ?? 'Article',
+                    'DescriptionOfGoods'              => $descriptionOfGoods,
                     'GoodsOriginCountry'              => 'MA',
                     'NumberOfPieces'                  => $itemCount,
                     'ProductGroup'                    => 'DOM',
@@ -568,12 +572,15 @@ class AdminController extends Controller
                     'PaymentType'                     => 'P',
                     'PaymentOptions'                  => '',
                     'CustomsValueAmount'              => null,
-                    'CashOnDeliveryAmount'            => null,
+                    'CashOnDeliveryAmount' => [
+                        'CurrencyCode' => 'MAD',
+                        'Value'        => $codAmount,
+                    ],
                     'InsuranceAmount'                 => null,
                     'CashAdditionalAmount'            => null,
                     'CashAdditionalAmountDescription' => '',
                     'CollectAmount'                   => null,
-                    'Services'                        => '',
+                    'Services'                        => 'CODS',
                     'Items'                           => [],
                     'DeliveryInstructions'            => null,
                 ],
@@ -589,8 +596,8 @@ class AdminController extends Controller
                 'PickupGUID'             => null,
                 'Number'                 => '',
                 'ScheduledDelivery'      => null,
-            ];
-        })->values()->toArray();
+            ],
+        ];
 
         return [
             'ClientInfo' => (new AramexService())->getClientInfo(),
@@ -644,7 +651,7 @@ class AdminController extends Controller
                     [
                         'ProductGroup'       => 'DOM',
                         'ProductType'        => 'CDS',
-                        'NumberOfShipments'  => $itemCount,
+                        'NumberOfShipments'  => 1,
                         'PackageType'        => 'Box',
                         'Payment'            => 'P',
                         'ShipmentWeight'     => ['Unit' => 'KG', 'Value' => $itemCount],
