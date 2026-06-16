@@ -323,9 +323,19 @@
                                                         Synchroniser avec Aramex
                                                     </button>
                                                 @else
-                                                    <span class="badge bg-success mt-1">
+                                                    {{-- <span class="badge bg-success mt-1">
                                                         Synchronisé
-                                                    </span>
+                                                    </span> --}}
+                                                        <span class="badge bg-success mt-1">Synchronisé</span>
+                                                        @php
+                                                            $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
+                                                        @endphp
+                                                        @if($pickupGuid)
+                                                            <button class="btn btn-sm btn-outline-danger mt-1"
+                                                                onclick="cancelPickup({{ $order->id }}, '{{ $pickupGuid }}')">
+                                                                <i class="bi bi-x-circle"></i> Annuler pickup
+                                                            </button>
+                                                        @endif
                                                 @endif
                                                 @php $shownAramexVendors[] = $vendorId; @endphp
                                             @endif
@@ -815,5 +825,68 @@ function openHistoryModal(itemId, shipmentId) {
     });
 }
 </script>
+<script>
+    function cancelPickup(orderId, pickupGuid) {
+    Swal.fire({
+        title: "Annuler le pickup Aramex ?",
+        html: `
+            <p class="text-muted mb-3">GUID : <code>${pickupGuid}</code></p>
+            <label class="form-label text-start d-block">Commentaire (optionnel)</label>
+            <textarea id="cancel-comments" class="form-control" rows="3"
+                placeholder="Raison de l'annulation..."></textarea>
+        `,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, annuler",
+        cancelButtonText: "Retour",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+        preConfirm: () => {
+            return document.getElementById('cancel-comments').value;
+        }
+    }).then((result) => {
+        if (!result.isConfirmed) return;
 
+        Swal.fire({
+            title: "Annulation en cours...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        fetch(`/admin/commande/${orderId}/cancel-pickup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                pickup_guid: pickupGuid,
+                comments: result.value || ''
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Pickup annulé !",
+                    text: data.message,
+                    confirmButtonColor: "#008080",
+                }).then(() => location.reload());
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Échec de l'annulation",
+                    text: data.message,
+                    confirmButtonColor: "#d33",
+                });
+            }
+        })
+        .catch(() => {
+            Swal.fire("Erreur", "Une erreur est survenue.", "error");
+        });
+    });
+}
+</script>
 @endsection

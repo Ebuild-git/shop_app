@@ -231,6 +231,8 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::delete('/admin/orders/{order}/force-delete', [OrdersController::class, 'forceDelete'])->name('admin.orders.forceDelete');
     Route::get('/admin/order-items/{id}/history', [OrdersController::class, 'itemHistory']);
 
+    Route::post('/admin/commande/{id}/cancel-pickup', [OrdersController::class, 'cancelPickup']);
+
     Route::delete('/admin/order-items/{item}', [OrdersController::class, 'destroyItem'])->name('order-items.destroy');
     Route::post('/admin/order-items/{item}/restore', [OrdersController::class, 'restoreItem'])->name('order-items.restore');
     Route::delete('/admin/order-items/{item}/force', [OrdersController::class, 'forceDeleteItem'])->name('order-items.force-delete');

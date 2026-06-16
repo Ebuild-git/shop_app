@@ -178,19 +178,21 @@ class Mode extends Component
                 $frais = $regionCategory ? (float) $regionCategory->prix : 0;
             }
 
-            if (!isset($vendorsCounted[$post->id_user])) {
-                $totalDeliveryFees += $frais;
-                $vendorsCounted[$post->id_user] = true;
-            }
-
             OrdersItem::create([
                 'order_id' => $order->id,
                 'post_id' => $post->id,
                 'vendor_id' => $post->id_user,
                 'price' => $post->getPrix(),
-                'delivery_fee' => $frais,
+                'delivery_fee' => isset($vendorsCounted[$post->id_user]) ? 0 : $frais,
                 'status' => 'pending',
             ]);
+
+            if (!isset($vendorsCounted[$post->id_user])) {
+                $totalDeliveryFees += $frais;
+                $vendorsCounted[$post->id_user] = true;
+            }
+
+
 
             $total += $post->getPrix();
         }

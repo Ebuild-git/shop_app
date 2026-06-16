@@ -207,20 +207,6 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function destroyItem(OrdersItem $item)
-    // {
-    //     $item->delete();
-    //     $item->update(['status' => 'supprimée']);
-    //     return response()->json(['success' => true]);
-    // }
-
-    // public function restoreItem($itemId)
-    // {
-    //     $item = OrdersItem::onlyTrashed()->findOrFail($itemId);
-    //     $item->restore();
-    //     return response()->json(['success' => true]);
-    // }
-
     public function destroyItem(OrdersItem $item)
     {
         $post  = $item->post;
@@ -425,5 +411,52 @@ class OrdersController extends Controller
             ]);
 
         return response()->json($history);
+    }
+
+    public function cancelPickup(Request $request, $orderId)
+    {
+        $request->validate([
+            'pickup_guid' => 'required|string',
+            'comments'    => 'nullable|string|max:500',
+        ]);
+
+        $order = Order::with('items')->findOrFail($orderId);
+
+        $pickupGuid = $request->input('pickup_guid');
+        $comments   = $request->input('comments', '');
+
+        $aramex   = new AramexService();
+        $response = $aramex->cancelPickup($pickupGuid, $comments);
+
+        $hasErrors = $response['HasErrors'] ?? true;
+
+        if ($hasErrors) {
+            $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+            return response()->json([
+                'success' => false,
+                'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+            ]);
+        }
+
+        // Clear pickup info from all items with this pickup_guid
+        $order->items()
+            ->where('pickup_guid', $pickupGuid)
+            ->update([
+                'pickup_id'   => null,
+                'pickup_guid' => null,
+                'shipment_id' => null,
+                'status'      => 'pending',
+            ]);
+
+        // Reset order status if all items are now unsynced
+        $hasAnySynced = $order->fresh()->items()->whereNotNull('shipment_id')->exists();
+        if (!$hasAnySynced) {
+            $order->update(['status' => 'pending']);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pickup annulé avec succès.',
+        ]);
     }
 }

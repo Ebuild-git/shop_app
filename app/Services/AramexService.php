@@ -61,6 +61,26 @@ class AramexService
         return $this->sendRequest('/Shipping/Service_1_0.svc/json/CreatePickup', $payload);
     }
 
+    public function cancelPickup(string $pickupGuid, string $comments = ''): array
+    {
+        $clientInfo = $this->getClientInfo()['ClientInfo'];
+
+        $payload = [
+            'ClientInfo'  => $clientInfo,
+            'Comments'    => $comments,
+            'PickupGUID'  => $pickupGuid,
+            'Transaction' => [
+                'Reference1' => '',
+                'Reference2' => '',
+                'Reference3' => '',
+                'Reference4' => '',
+                'Reference5' => '',
+            ],
+        ];
+
+        return $this->sendRequest('/Shipping/Service_1_0.svc/json/CancelPickup', $payload);
+    }
+
     public function getClientInfo(): array
     {
         return [
