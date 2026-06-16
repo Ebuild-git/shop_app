@@ -1377,6 +1377,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var cinLockedMsg     = @json(__('account_locked_message'));
         var cinContactLabel  = @json(__('contact_support'));
         var cinAddNowLabel   = @json(__('Ajouter maintenant'));
+        var cinRequiredMsg     = @json(__('id_card_required'));
+        var cinRequiredNote    = @json(__('id_card_cndp_note'));
 
         function checkCinBeforePublish(e) {
             e.preventDefault();
@@ -1425,7 +1427,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // 4. No CIN at all → ask to add one
-                modalBody.innerText = cinRequiredMsg;
+                // modalBody.innerText = cinRequiredMsg;
+                modalBody.innerHTML = `
+                    <p class="text-dark mb-2" style="font-size:14px;font-weight: bold;">${cinRequiredMsg}</p>
+                    <p class="text-muted" style="font-size:12px;">${cinRequiredNote}</p>
+                `;
                 modalFooter.innerHTML = `<a href="/informations?section=cord" class="rounded-link">${cinAddNowLabel}</a>`;
                 modal.show();
             })
