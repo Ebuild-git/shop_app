@@ -319,6 +319,7 @@
                     </div>
 
                     <div class="p-1">
+                        <p>{{ __('cndp_rights_notice')}}</p>
                         <p>{{ __('terms_condition') }}</p>
                         <input type="checkbox" id="acceptConditions" onclick="toggleSubmitButton()">
                         <label for="acceptConditions">
