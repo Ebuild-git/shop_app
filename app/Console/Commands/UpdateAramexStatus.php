@@ -21,7 +21,11 @@ class UpdateAramexStatus extends Command
                 'préparation',
                 'ramassée',
                 'en cours de livraison',
-                'livraison',
+                'commande confirmée',
+                'tentative de livraison',
+                'livraison retardée',
+                'ramassage planifié',
+                'reprogrammé',
             ])
             ->whereNotNull('shipment_id')
             ->get();
@@ -137,14 +141,18 @@ class UpdateAramexStatus extends Command
     protected function mapAramexToItemStatus($updateCode): string
     {
         return match ($updateCode) {
-            'SH001', 'SH014', 'SH203'          => 'préparation',
-            'SH012'                             => 'ramassée',
-            'SH003', 'SH004', 'SH073', 'SH252' => 'en cours de livraison',
+            'SH001', 'SH014', 'SH203'                          => 'commande confirmée',
+            'SH012', 'SH314'                                   => 'ramassée',
+            'SH003', 'SH004'                                   => 'en cours de livraison',
+            'SH033'                                            => 'tentative de livraison',
             'SH005', 'SH006', 'SH007',
-            'SH154', 'SH234', 'SH496', 'SH239'    => 'livré',
-            'SH008'                             => 'retourné',
-            'SH033', 'SH043', 'SH294', 'SH480' => 'refusé',
-            default                             => 'en cours de livraison',
+            'SH154', 'SH234', 'SH496', 'SH597', 'SH239'       => 'livré',
+            'SH704'                                            => 'retourné à l\'expéditeur',
+            'SH313'                                            => 'annulé',
+            'SH008', 'SH043', 'SH076'                         => 'livraison retardée',
+            'SH308'                                            => 'ramassage planifié',
+            'SH312'                                            => 'reprogrammé',
+            default                                            => 'commande confirmée',
         };
     }
 
