@@ -1267,7 +1267,7 @@
 "no_purchase": "No Purchases!",
 "no_purchase_message": "You currently have no purchases.",
 "article_price": "Item Price",
-"admin_message_notification_message": ":salutation :username,<br><br><strong>Subject:</strong> :sujet<br><br><strong>Message:</strong><br>:message",
+"admin_message_notification_message": ":salutation :username,<br><br><strong>Subject:</strong> :sujet<br><br><strong>Regarding the item:</strong> <a href='/publication/:post_id/:post_slug'>:titre</a><br><br><strong>Message:</strong><br>:message",
 "delivery_fees": "Delivery Fees",
 "from": "from",
 "deleted_by_me": "Deleted by me",

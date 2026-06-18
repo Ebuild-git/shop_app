@@ -1262,7 +1262,7 @@
 "no_purchase": "Aucun achat !",
 "no_purchase_message": "Vous n'avez actuellement aucun achat.",
 "article_price": "Prix de l'article",
-"admin_message_notification_message": ":salutation :username,<br><br><strong>Sujet :</strong> :sujet<br><br><strong>Message :</strong><br>:message",
+"admin_message_notification_message": ":salutation :username,<br><br><strong>Sujet :</strong> :sujet<br><br><strong>Concernant l'article :</strong> <a href='/publication/:post_id/:post_slug'>:titre</a><br><br><strong>Message :</strong><br>:message",
 "delivery_fees": "Frais de Livraison",
 "from": "de",
 "deleted_by_me": "Supprimé par moi",

@@ -1262,7 +1262,7 @@
 "no_purchase": "لا توجد مشتريات!",
 "no_purchase_message": "ليس لديك أي مشتريات حالياً.",
 "article_price": "سعر المنتج",
-"admin_message_notification_message": ":salutation :username،<br><br><strong>الموضوع:</strong> :sujet<br><br><strong>الرسالة:</strong><br>:message",
+"admin_message_notification_message": ":salutation :username،<br><br><strong>الموضوع:</strong> :sujet<br><br><strong>المنتج المعني:</strong> <a href='/publication/:post_id/:post_slug'>:titre</a><br><br><strong>الرسالة:</strong><br>:message",
 "delivery_fees": "رسوم التوصيل",
 "from": "من",
 "deleted_by_me": "محذوف بواسطتي",
