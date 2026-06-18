@@ -285,10 +285,7 @@ class HomeController extends Controller
         $statut = $request->input('statut') ?? null;
         $key = $request->input('key') ?? null;
         $Query = posts::where('id_user', Auth::user()->id);
-        // if ($key) {
-        //     $Query->where('titre', 'LIKE', "%{$key}%")
-        //         ->orWhere('description', 'LIKE', "%{$key}%");
-        // }
+
         if ($key) {
             $Query->where(function ($q) use ($key) {
                 $q->where('titre', 'LIKE', "%{$key}%")
@@ -301,7 +298,7 @@ class HomeController extends Controller
         }
         if ($type == 'vente') {
             $Query->whereNotNull('sell_at')
-                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné'])
+                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé'])
                 ->whereDoesntHave('orderItems', function ($q) {
                     $q->onlyTrashed();
                 });
@@ -588,59 +585,108 @@ class HomeController extends Controller
         $showRemainingTimeColumn = $type == 'ventes';
 
         if ($type == 'achats') {
-            $achats = posts::where('id_user_buy', Auth::id())
-                ->Orderby('sell_at', 'Desc')
+            $achats = OrdersItem::whereHas('order', function ($q) {
+                    $q->where('buyer_id', Auth::id());
+                })
+                ->with([
+                    'post' => function ($q) {
+                        $q->withTrashed()
+                        ->with(['changements_prix', 'user_info' => fn($q) => $q->withTrashed()]);
+                    },
+                    'order',
+                ])
+                ->whereHas('post', fn($q) => $q->withTrashed())
+                ->orderBy('created_at', 'desc')
                 ->paginate(20);
 
             return view('User.historiques', compact('type', 'count', 'achats'));
         }
+        // if ($type == 'ventes') {
+        //     $ventes = posts::where('id_user', Auth::user()->id)
+        //         ->Orderby('created_at', 'Desc')
+        //         ->where('statut', 'vendu')
+        //         ->paginate(20);
+
+        //     // Pagination variables
+        //     $currentPage = $ventes->currentPage();
+        //     $lastPage = $ventes->lastPage();
+        //     $nextPageUrl = $ventes->nextPageUrl();
+        //     $previousPageUrl = $ventes->previousPageUrl();
+        //     $totalItems = $ventes->total();
+
+        //     return view('User.historiques', compact(
+        //         'type',
+        //         'count',
+        //         'ventes',
+        //         'showRemainingTimeColumn',
+        //         'currentPage',
+        //         'lastPage',
+        //         'nextPageUrl',
+        //         'previousPageUrl',
+        //         'totalItems'
+        //     ));
+        // }
+        // if ($type == 'annonces') {
+        //     $annonces = posts::where('id_user', Auth::user()->id)
+        //         ->Orderby('created_at', 'Desc')
+        //         ->paginate(20);
+
+        //     // Pagination variables
+        //     $currentPage = $annonces->currentPage();
+        //     $lastPage = $annonces->lastPage();
+        //     $nextPageUrl = $annonces->nextPageUrl();
+        //     $previousPageUrl = $annonces->previousPageUrl();
+        //     $totalItems = $annonces->total();
+
+        //     return view('User.historiques', compact(
+        //         'type',
+        //         'count',
+        //         'annonces',
+        //         'showRemainingTimeColumn',
+        //         'currentPage',
+        //         'lastPage',
+        //         'nextPageUrl',
+        //         'previousPageUrl',
+        //         'totalItems'
+        //     ));
+        // }
         if ($type == 'ventes') {
             $ventes = posts::where('id_user', Auth::user()->id)
-                ->Orderby('created_at', 'Desc')
-                ->where('statut', 'vendu')
+                ->whereNotNull('sell_at')
+                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé'])
+                ->whereDoesntHave('orderItems', function ($q) {
+                    $q->onlyTrashed();
+                })
+                ->orderBy('sell_at', 'desc')
                 ->paginate(20);
 
-            // Pagination variables
-            $currentPage = $ventes->currentPage();
-            $lastPage = $ventes->lastPage();
-            $nextPageUrl = $ventes->nextPageUrl();
+            $currentPage     = $ventes->currentPage();
+            $lastPage        = $ventes->lastPage();
+            $nextPageUrl     = $ventes->nextPageUrl();
             $previousPageUrl = $ventes->previousPageUrl();
-            $totalItems = $ventes->total();
+            $totalItems      = $ventes->total();
 
             return view('User.historiques', compact(
-                'type',
-                'count',
-                'ventes',
-                'showRemainingTimeColumn',
-                'currentPage',
-                'lastPage',
-                'nextPageUrl',
-                'previousPageUrl',
-                'totalItems'
+                'type', 'count', 'ventes', 'showRemainingTimeColumn',
+                'currentPage', 'lastPage', 'nextPageUrl', 'previousPageUrl', 'totalItems'
             ));
         }
+
         if ($type == 'annonces') {
             $annonces = posts::where('id_user', Auth::user()->id)
-                ->Orderby('created_at', 'Desc')
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
                 ->paginate(20);
 
-            // Pagination variables
-            $currentPage = $annonces->currentPage();
-            $lastPage = $annonces->lastPage();
-            $nextPageUrl = $annonces->nextPageUrl();
+            $currentPage     = $annonces->currentPage();
+            $lastPage        = $annonces->lastPage();
+            $nextPageUrl     = $annonces->nextPageUrl();
             $previousPageUrl = $annonces->previousPageUrl();
-            $totalItems = $annonces->total();
+            $totalItems      = $annonces->total();
 
             return view('User.historiques', compact(
-                'type',
-                'count',
-                'annonces',
-                'showRemainingTimeColumn',
-                'currentPage',
-                'lastPage',
-                'nextPageUrl',
-                'previousPageUrl',
-                'totalItems'
+                'type', 'count', 'annonces', 'showRemainingTimeColumn',
+                'currentPage', 'lastPage', 'nextPageUrl', 'previousPageUrl', 'totalItems'
             ));
         }
     }
@@ -1104,6 +1150,7 @@ class HomeController extends Controller
                 },
                 'order',
             ])
+            ->whereHas('post', fn($q) => $q->withTrashed())
             ->orderBy('created_at', 'desc');
 
         if ($month && $year) {

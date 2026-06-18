@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div style="text-align: right">
-                <a href="/publication">
+                <a href="#" onclick="checkCinBeforePublish(event)">
                     <button type="button" class="btn btn-light btn-sm my-2 my-sm-0 btn-vend">
                         <i class="bi bi-plus-circle-fill"></i>
                         {{ __('publish_article') }}
