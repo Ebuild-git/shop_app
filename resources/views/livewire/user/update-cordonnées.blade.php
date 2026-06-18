@@ -45,7 +45,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-12">
+        {{-- <div class="col-sm-12">
             <div class="form-group">
                 <label for="cin_img">{{ __('cin_image') }}</label>
                 <span class="text-danger">*</span>
@@ -57,9 +57,9 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
+        </div> --}}
 
-        @if ($cin_img)
+        {{-- @if ($cin_img)
             <div class="mt-2">
                 <img src="{{ $cin_img->temporaryUrl() }}" alt="CIN Preview" class="img-fluid rounded" style="max-height: 200px;">
             </div>
@@ -68,7 +68,55 @@
                 <label class="form-label d-block">{{ __('current_cin_image') }}</label>
                 <img src="{{ asset('storage/' . $existingCinImg) }}" alt="CIN Image" class="img-fluid rounded" style="max-height: 200px;">
             </div>
-        @endif
+        @endif --}}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="cin_img">{{ __('cin_image') }} <small class="text-muted">({{ __('recto') }})</small></label>
+                <span class="text-danger">*</span>
+                <input type="file" class="form-control" id="cin_img" wire:model="cin_img" accept="image/*">
+                <small class="form-text text-muted">
+                    {{ __('cin_img_info') }}
+                </small>
+                @error('cin_img')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            @if ($cin_img)
+                <div class="mt-2">
+                    <img src="{{ $cin_img->temporaryUrl() }}" alt="CIN Recto Preview" class="img-fluid rounded" style="max-height: 200px;">
+                </div>
+            @elseif ($existingCinImg)
+                <div class="mt-2">
+                    <label class="form-label d-block">{{ __('current_cin_image') }}</label>
+                    <img src="{{ asset('storage/' . $existingCinImg) }}" alt="CIN Recto" class="img-fluid rounded" style="max-height: 200px;">
+                </div>
+            @endif
+        </div>
+
+        {{-- CIN Verso --}}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="cin_img2">{{ __('cin_image') }} <small class="text-muted">({{ __('verso') }})</small></label>
+                <span class="text-danger">*</span>
+                <input type="file" class="form-control" id="cin_img2" wire:model="cin_img2" accept="image/*">
+                <small class="form-text text-muted">
+                    {{ __('cin_img_info') }}
+                </small>
+                @error('cin_img2')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            @if ($cin_img2)
+                <div class="mt-2">
+                    <img src="{{ $cin_img2->temporaryUrl() }}" alt="CIN Verso Preview" class="img-fluid rounded" style="max-height: 200px;">
+                </div>
+            @elseif ($existingCinImg2)
+                <div class="mt-2">
+                    <label class="form-label d-block">{{ __('current_cin_image') }}</label>
+                    <img src="{{ asset('storage/' . $existingCinImg2) }}" alt="CIN Verso" class="img-fluid rounded" style="max-height: 200px;">
+                </div>
+            @endif
+        </div>
 
     </div>
     <div class="modal-footer mt-3">

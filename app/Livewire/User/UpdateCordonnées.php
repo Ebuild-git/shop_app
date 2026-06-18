@@ -21,8 +21,11 @@ class UpdateCordonnées extends Component
     public $bank_name;
     public $titulaire_name;
     public $cin_img;
+    public $cin_img2;
 
     public $existingCinImg;
+    public $existingCinImg2;
+
 
     public function mount()
     {
@@ -40,6 +43,7 @@ class UpdateCordonnées extends Component
             $this->bank_name = $user->bank_name;
             $this->titulaire_name = $user->titulaire_name;
             $this->existingCinImg = $user->cin_img;
+            $this->existingCinImg2 = $user->cin_img2;
         }
     }
 
@@ -54,18 +58,17 @@ class UpdateCordonnées extends Component
     {
         try {
             $this->validate([
-                'rib_number' => 'nullable|string|size:24',
-                'bank_name' => 'nullable|string',
+                'rib_number'    => 'nullable|string|size:24',
+                'bank_name'     => 'nullable|string',
                 'titulaire_name' => 'required|string',
-                'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+                'cin_img'       => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
+                'cin_img2'      => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ], [
-                'rib_number.required' => __('rib_number_required'),
-                'rib_number.min' => __('rib_number_min'),
-                'rib_number.size' => __('rib_number_size'),
-                'rib_number.max' => __('rib_number_max'),
-                'bank_name.required' => __('bank_name_required'),
-                'titulaire_name.required' => __('titulaire_name_required'),
-                'cin_img.image' => __('cin_img_image'),
+                'rib_number.size'          => __('rib_number_size'),
+                'bank_name.required'       => __('bank_name_required'),
+                'titulaire_name.required'  => __('titulaire_name_required'),
+                'cin_img.image'            => __('cin_img_image'),
+                'cin_img2.image'           => __('cin_img_image'),
             ]);
         } catch (ValidationException $e) {
             $firstError = collect($e->errors())->flatten()->first();
@@ -79,6 +82,7 @@ class UpdateCordonnées extends Component
             $changes = false;
             $changedFields = [];
 
+            // --- Banking fields ---
             if ($user->rib_number) {
                 try {
                     $current_rib_number = Crypt::decryptString($user->rib_number);
@@ -107,7 +111,6 @@ class UpdateCordonnées extends Component
                 $changedFields[] = 'Titulaire';
             }
 
-            // Send ONE notification for all banking info changes
             if (!empty($changedFields)) {
                 event(new AdminEvent("Un utilisateur a mis à jour ses informations bancaires."));
                 $notification = new notifications();
@@ -120,7 +123,9 @@ class UpdateCordonnées extends Component
                 $notification->save();
             }
 
-            // CIN — separate notification
+            // --- CIN images — single notification covering both ---
+            $cinChanged = [];
+
             if ($this->cin_img) {
                 $path = \App\Services\ImageService::uploadAndConvert($this->cin_img, 'cin_images');
 
@@ -139,13 +144,38 @@ class UpdateCordonnées extends Component
                 $user->cin_img = $path;
                 $user->cin_approved = false;
                 $changes = true;
+                $cinChanged[] = 'Recto';
+            }
 
+            if ($this->cin_img2) {
+                $path2 = \App\Services\ImageService::uploadAndConvert($this->cin_img2, 'cin_images');
+
+                if ($user->cin_img2) {
+                    $oldCinImages = $user->old_cin_images;
+                    if (is_string($oldCinImages)) {
+                        $oldCinImages = json_decode($oldCinImages, true);
+                    }
+                    if (!is_array($oldCinImages)) {
+                        $oldCinImages = [];
+                    }
+                    $oldCinImages[] = $user->cin_img2;
+                    $user->old_cin_images = $oldCinImages;
+                }
+
+                $user->cin_img2 = $path2;
+                $user->cin_approved = false;
+                $changes = true;
+                $cinChanged[] = 'Verso';
+            }
+
+            if (!empty($cinChanged)) {
+                $cinLabel = implode(' & ', $cinChanged);
                 event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
                 $notification = new notifications();
                 $notification->type = "cin_updated";
-                $notification->titre = Auth::user()->username . " a mis à jour sa carte d'identité.";
+                $notification->titre = Auth::user()->username . " a mis à jour sa carte d'identité ({$cinLabel}).";
                 $notification->url = "/admin/client/" . $user->id . "/view";
-                $notification->message = "Carte d'identité en attente de validation.";
+                $notification->message = "Carte d'identité ({$cinLabel}) en attente de validation.";
                 $notification->id_user = Auth::user()->id;
                 $notification->destination = "admin";
                 $notification->save();
@@ -154,9 +184,9 @@ class UpdateCordonnées extends Component
             if ($changes) {
                 $user->save();
                 $this->existingCinImg = $user->cin_img;
+                $this->existingCinImg2 = $user->cin_img2;
                 $this->dispatch('cin-updated');
-                // $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
-                $alertMessage = $this->cin_img
+                $alertMessage = !empty($cinChanged)
                     ? __('info_updated') . '<br>' . __('cin_pending_warning')
                     : __('info_updated');
                 $this->dispatch('alert', ['message' => $alertMessage, 'type' => 'info']);

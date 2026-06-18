@@ -139,7 +139,59 @@
                                  </button>
                              </td>
                          @elseif($verified === 'no')
-                             <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
+                                <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
+                                <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->phone_number ?? '/' }}</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        {{-- Recto --}}
+                                        <div>
+                                            <small class="text-muted d-block">Recto</small>
+                                            @if($user->cin_img)
+                                                <img src="{{ asset('storage/' . $user->cin_img) }}"
+                                                    style="max-width: 80px; cursor:pointer;"
+                                                    onclick="window.open(this.src)">
+                                            @else
+                                                <span class="text-muted">—</span>
+                                            @endif
+                                        </div>
+                                        {{-- Verso --}}
+                                        <div>
+                                            <small class="text-muted d-block">Verso</small>
+                                            @if($user->cin_img2)
+                                                <img src="{{ asset('storage/' . $user->cin_img2) }}"
+                                                    style="max-width: 80px; cursor:pointer;"
+                                                    onclick="window.open(this.src)">
+                                            @else
+                                                <span class="text-muted">—</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-success" wire:click="approveCin({{ $user->id }})">
+                                        Approuver
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" wire:click="rejectCin({{ $user->id }})">
+                                        Rejeter
+                                    </button>
+                                    @if($user->cin_img)
+                                        <a href="{{ asset('storage/' . $user->cin_img) }}"
+                                        download="U{{ $user->id + 1000 }}_cin_recto"
+                                        class="btn btn-sm btn-outline-primary" title="Recto">
+                                            <i class="bi bi-download"></i> R
+                                        </a>
+                                    @endif
+                                    @if($user->cin_img2)
+                                        <a href="{{ asset('storage/' . $user->cin_img2) }}"
+                                        download="U{{ $user->id + 1000 }}_cin_verso"
+                                        class="btn btn-sm btn-outline-secondary" title="Verso">
+                                            <i class="bi bi-download"></i> V
+                                        </a>
+                                    @endif
+                                </td>
+                             {{-- <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
                              <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
                              <td>{{ $user->email }}</td>
                              <td>{{ $user->phone_number ?? '/' }}</td>
@@ -166,7 +218,7 @@
                                             <i class="bi bi-download"></i>
                                         </a>
                                     @endif
-                             </td>
+                             </td> --}}
                          @else
                         <td><a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ 'U' . ($user->id + 1000) }}</a></td>
                         @if($showTrashed !== 'yes')

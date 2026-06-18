@@ -1279,7 +1279,9 @@
 "oic_view_orders_btn": "Voir mes commandes",
 "order_number": "Votre numéro de commande",
 "Télécharger": "Télécharger",
-"cndp_rights_notice": "Conformément à la loi 09-08, vous disposez d'un droit d'accès, de rectification et d'opposition au traitement de vos données personnelles. Ce traitement a été autorisé par la CNDP sous le n° D-743/2026."
+"cndp_rights_notice": "Conformément à la loi 09-08, vous disposez d'un droit d'accès, de rectification et d'opposition au traitement de vos données personnelles. Ce traitement a été autorisé par la CNDP sous le n° D-743/2026.",
+"recto": "Recto",
+"verso": "Verso"
 
 
 

@@ -352,7 +352,7 @@
                 <!--/ About User -->
                 <!-- Add the CIN images after the user info -->
                 <!-- CIN Images Section -->
-                <div class="card mb-4">
+                {{-- <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Images CIN</h5>
 
@@ -394,6 +394,85 @@
                                                 #CIN-{{ $loop->iteration }}
                                             </div>
 
+                                            <a href="{{ $oldCin }}"
+                                            download="U{{ $user->id + 1000 }}_cin_{{ $loop->iteration }}"
+                                            class="btn btn-sm btn-success mt-2">
+                                                <i class="bi bi-download"></i> Télécharger
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div> --}}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Images CIN</h5>
+
+                        @if ($currentCinImg || $currentCinImg2)
+                            <div class="mb-3">
+                                <h6>Images du CIN actuelles :</h6>
+
+                                <div class="row g-3 mt-1">
+                                    {{-- Recto --}}
+                                    <div class="col-6">
+                                        <p class="mb-1 fw-semibold text-muted" style="font-size:12px;">RECTO</p>
+                                        @if ($currentCinImg)
+                                            <img src="{{ $currentCinImg }}" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
+                                            <a href="{{ $currentCinImg }}" download="U{{ $user->id + 1000 }}_cin_recto" class="btn btn-sm btn-success d-block">
+                                                <i class="bi bi-download"></i> Télécharger
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Aucune image</span>
+                                        @endif
+                                    </div>
+
+                                    {{-- Verso --}}
+                                    <div class="col-6">
+                                        <p class="mb-1 fw-semibold text-muted" style="font-size:12px;">VERSO</p>
+                                        @if ($currentCinImg2)
+                                            <img src="{{ $currentCinImg2 }}" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
+                                            <a href="{{ $currentCinImg2 }}" download="U{{ $user->id + 1000 }}_cin_verso" class="btn btn-sm btn-success d-block">
+                                                <i class="bi bi-download"></i> Télécharger
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Aucune image</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                {{-- Approve / already approved --}}
+                                <div class="mt-3">
+                                    @if (!$user->cin_approved)
+                                        <button
+                                            id="approveCinBtn"
+                                            class="btn btn-sm btn-primary"
+                                            onclick="approveCIN({{ $user->id }})">
+                                            <i class="bi bi-check-circle"></i> Approuver la carte d'identité
+                                        </button>
+                                        <div id="approveMessage" class="text-success mt-2" style="display: none;">
+                                            ✅ Carte d'identité approuvée avec succès.
+                                        </div>
+                                    @else
+                                        <div class="text-gray mt-2">
+                                            ✅ Cette carte d'identité est déjà approuvée.
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @else
+                            <p class="text-muted">Aucune image CIN soumise.</p>
+                        @endif
+
+                        {{-- Old CIN images --}}
+                        @if (!empty($oldCinImages))
+                            <div class="mb-3">
+                                <h6>Anciennes images du CIN :</h6>
+                                <div class="row">
+                                    @foreach ($oldCinImages as $oldCin)
+                                        <div class="col-4 mb-2">
+                                            <div class="fw-bold mb-1">#CIN-{{ $loop->iteration }}</div>
                                             <a href="{{ $oldCin }}"
                                             download="U{{ $user->id + 1000 }}_cin_{{ $loop->iteration }}"
                                             class="btn btn-sm btn-success mt-2">

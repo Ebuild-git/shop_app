@@ -258,6 +258,7 @@ class ListeUtilisateurs extends Component
             $user = User::findOrFail($id);
             $user->cin_approved = false;
             $user->cin_img = null;
+            $user->cin_img2 = null;
             $user->save();
 
             event(new \App\Events\UserEvent($user->id));

@@ -89,6 +89,50 @@ class HomeController extends Controller
         return view('User.post', compact('id', 'step'));
     }
 
+    // public function checkCinStatus()
+    // {
+    //     if (!Auth::check()) {
+    //         return response()->json(['locked' => true, 'unauthenticated' => true]);
+    //     }
+
+    //     $user = Auth::user();
+
+    //     if ($user->locked) {
+    //         return response()->json(['locked' => true]);
+    //     }
+
+    //     $hasCin = $user->cin_img ? true : false;
+    //     $approved = $user->cin_approved ? true : false;
+
+    //     if ($hasCin && !$approved) {
+    //         $existingRappel = notifications::where('id_user', $user->id)
+    //             ->where('type', 'rappel_cin')
+    //             ->where('destination', 'admin')
+    //             ->where('created_at', '>=', now()->subDays(1))
+    //             ->first();
+
+    //         if (!$existingRappel) {
+    //             $admin = User::where('role', 'admin')->first();
+    //             if ($admin) {
+    //                 $notification = new notifications();
+    //                 $notification->titre = 'Rappel validation CIN';
+    //                 $notification->id_user_destination = $admin->id;
+    //                 $notification->id_user = $user->id;
+    //                 $notification->type = 'rappel_cin';
+    //                 $notification->destination = 'admin';
+    //                 $notification->url = '/admin/client/' . $user->id . '/view';
+    //                 $notification->message = 'L\'utilisateur ' . $user->username . ' attend la validation de son CIN depuis longtemps.';
+    //                 $notification->save();
+    //             }
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'locked' => false,
+    //         'has_cin' => $hasCin,
+    //         'approved' => $approved,
+    //     ]);
+    // }
     public function checkCinStatus()
     {
         if (!Auth::check()) {
@@ -101,10 +145,12 @@ class HomeController extends Controller
             return response()->json(['locked' => true]);
         }
 
-        $hasCin = $user->cin_img ? true : false;
+        $hasCin  = $user->cin_img  ? true : false;
+        $hasCin2 = $user->cin_img2 ? true : false;
+        $hasBothCin = $hasCin && $hasCin2;
         $approved = $user->cin_approved ? true : false;
 
-        if ($hasCin && !$approved) {
+        if ($hasBothCin && !$approved) {
             $existingRappel = notifications::where('id_user', $user->id)
                 ->where('type', 'rappel_cin')
                 ->where('destination', 'admin')
@@ -128,9 +174,11 @@ class HomeController extends Controller
         }
 
         return response()->json([
-            'locked' => false,
-            'has_cin' => $hasCin,
-            'approved' => $approved,
+            'locked'      => false,
+            'has_cin'     => $hasCin,
+            'has_cin2'    => $hasCin2,
+            'has_both_cin' => $hasBothCin,
+            'approved'    => $approved,
         ]);
     }
 

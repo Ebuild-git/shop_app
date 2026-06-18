@@ -48,7 +48,8 @@ class User extends Authenticatable implements JWTSubject
         'rib_number',
         'fcm_token',
         'locked_at',
-        'city_id'
+        'city_id',
+        'cin_img2'
     ];
 
     /**

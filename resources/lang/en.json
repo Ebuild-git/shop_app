@@ -1285,7 +1285,9 @@
 "oic_view_orders_btn": "View my orders",
 "order_number": "Your order number",
 "Télécharger": "Download",
-"cndp_rights_notice": "In accordance with law 09-08, you have the right to access, rectify and oppose the processing of your personal data. This processing has been authorized by the CNDP under n° D-743/2026."
+"cndp_rights_notice": "In accordance with law 09-08, you have the right to access, rectify and oppose the processing of your personal data. This processing has been authorized by the CNDP under n° D-743/2026.",
+"recto": "Front side",
+"verso": "Back side"
 
 
 

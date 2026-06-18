@@ -62,147 +62,75 @@ class UserController extends Controller
             ->with("photo_verified", $photo_verified);
     }
 
+    // public function details_user(Request $request)
+    // {
+    //     $id = $request->id;
+    //     try {
+    //         $user = User::withTrashed()->findOrFail($id);
+    //         $posts = Posts::where('id_user', $user->id)->orderBy('created_at', 'desc')->paginate(30);
+    //         // $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
+    //         try {
+    //             $decryptedRib = $user->rib_number
+    //                 ? Crypt::decryptString($user->rib_number)
+    //                 : null;
+    //         } catch (\Exception $e) {
+    //             $decryptedRib = null; // fallback instead of crashing
+    //         }
+    //         $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
+    //         $currentCinFilename = $user->cin_img ? basename($user->cin_img) : null;
+    //         $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
+    //         $oldCinImages = array_map(fn($img) => asset('storage/' . $img), $oldCinImages);
+
+    //         return view("Admin.clients.profile")
+    //             ->with("user", $user)
+    //             ->with("posts", $posts)
+    //             ->with("decryptedRib", $decryptedRib)
+    //             ->with("currentCinImg", $currentCinImg)
+    //             ->with("currentCinFilename", $currentCinFilename)
+    //             ->with("oldCinImages", $oldCinImages);
+    //     } catch (\Throwable $th) {
+    //         abort(404, "Page non trouvée");
+    //     }
+    // }
     public function details_user(Request $request)
     {
         $id = $request->id;
         try {
             $user = User::withTrashed()->findOrFail($id);
             $posts = Posts::where('id_user', $user->id)->orderBy('created_at', 'desc')->paginate(30);
-            // $decryptedRib = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
+
             try {
                 $decryptedRib = $user->rib_number
                     ? Crypt::decryptString($user->rib_number)
                     : null;
             } catch (\Exception $e) {
-                $decryptedRib = null; // fallback instead of crashing
+                $decryptedRib = null;
             }
-            $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
-            $currentCinFilename = $user->cin_img ? basename($user->cin_img) : null;
+
+            $currentCinImg      = $user->cin_img  ? asset('storage/' . $user->cin_img)  : null;
+            $currentCinImg2     = $user->cin_img2 ? asset('storage/' . $user->cin_img2) : null;
+            $currentCinFilename = $user->cin_img  ? basename($user->cin_img)  : null;
+            $currentCinFilename2= $user->cin_img2 ? basename($user->cin_img2) : null;
+
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
             $oldCinImages = array_map(fn($img) => asset('storage/' . $img), $oldCinImages);
 
             return view("Admin.clients.profile")
-                ->with("user", $user)
-                ->with("posts", $posts)
-                ->with("decryptedRib", $decryptedRib)
-                ->with("currentCinImg", $currentCinImg)
+                ->with("user",               $user)
+                ->with("posts",              $posts)
+                ->with("decryptedRib",       $decryptedRib)
+                ->with("currentCinImg",      $currentCinImg)
+                ->with("currentCinImg2",     $currentCinImg2)
                 ->with("currentCinFilename", $currentCinFilename)
-                ->with("oldCinImages", $oldCinImages);
+                ->with("currentCinFilename2",$currentCinFilename2)
+                ->with("oldCinImages",       $oldCinImages);
+
         } catch (\Throwable $th) {
             abort(404, "Page non trouvée");
         }
     }
 
-    // public function validatePhoto($id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $user->photo_verified_at = now();
-    //     $user->save();
 
-    //     event(new UserEvent($user->id));
-    //     //make notification
-    //     $notification = new notifications();
-    //     $notification->titre = "Votre photo de profile a été validé !";
-    //     $notification->id_user_destination = $user->id;
-    //     $notification->type = "alerte";
-    //     $notification->url = "/informations";
-    //     $notification->destination = "user";
-    //     $notification->id_user = $user->id;
-    //     $notification->message = "Nous vous informons que votre photo de profile a été validé par les administrateurs.";
-    //     $notification->save();
-
-    //     // Send FCM notification
-    //     $fcmService = app(\App\Services\FcmService::class);
-    //     $sent = $fcmService->sendToUser(
-    //         $user->id,
-    //         "Votre photo de profile a été validé !",
-    //         "Nous vous informons que votre photo de profile a été validé par les administrateurs.",
-    //         [
-    //             'type' => 'alerte',
-    //             'notification_id' => $notification->id,
-    //             'destination' => 'user',
-    //             'action' => 'photo_validated',
-    //         ]
-    //     );
-
-    //     if ($sent) {
-    //         \Log::info("FCM notification sent successfully", [
-    //             'user_id' => $user->id,
-    //             'notification_id' => $notification->id,
-    //             'type' => 'photo_validated'
-    //         ]);
-    //     } else {
-    //         \Log::warning("FCM notification failed to send", [
-    //             'user_id' => $user->id,
-    //             'notification_id' => $notification->id,
-    //             'reason' => 'User has no FCM token or token invalid'
-    //         ]);
-    //     }
-
-    //     return back()->with('success', 'La photo de profil a été validée avec succès.');
-    // }
-
-    // public function rejectPhoto($id)
-    // {
-    //     try {
-    //         $user = User::findOrFail($id);
-
-    //         // Delete the avatar file from storage if it exists and is not the default
-    //         if ($user->avatar && $user->avatar != 'avatar.png') {
-    //             Storage::disk('public')->delete($user->avatar);
-    //         }
-
-    //         // Reset avatar to default
-    //         $user->avatar = null;
-    //         $user->photo_verified_at = null;
-    //         $user->save();
-
-    //         event(new UserEvent($user->id));
-    //         // Create notification for the user
-    //         $notification = new notifications();
-    //         $notification->titre = "Votre photo de profile a été rejetée";
-    //         $notification->id_user_destination = $user->id;
-    //         $notification->type = "alerte";
-    //         $notification->url = "/informations";
-    //         $notification->destination = "user";
-    //         $notification->id_user = $user->id;
-    //         $notification->message = "Nous vous informons que votre photo de profile a été rejetée par les administrateurs. Veuillez télécharger une nouvelle photo appropriée.";
-    //         $notification->save();
-
-    //         // Send FCM notification
-    //         $fcmService = app(\App\Services\FcmService::class);
-    //         $sent = $fcmService->sendToUser(
-    //             $user->id,
-    //             "Votre photo de profile a été rejetée",
-    //             "Nous vous informons que votre photo de profile a été rejetée par les administrateurs. Veuillez télécharger une nouvelle photo appropriée.",
-    //             [
-    //                 'type' => 'alerte',
-    //                 'notification_id' => $notification->id,
-    //                 'destination' => 'user',
-    //                 'action' => 'photo_rejected',
-    //             ]
-    //         );
-
-    //         if ($sent) {
-    //             \Log::info("FCM rejection notification sent successfully", [
-    //                 'user_id' => $user->id,
-    //                 'notification_id' => $notification->id,
-    //                 'type' => 'photo_rejected'
-    //             ]);
-    //         }
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'La photo de profil a été rejetée et supprimée avec succès.'
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         \Log::error("Error rejecting photo: " . $th->getMessage());
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Impossible de rejeter la photo de profil.'
-    //         ], 500);
-    //     }
-    // }
     public function validatePhoto($id)
     {
         $user = User::findOrFail($id);

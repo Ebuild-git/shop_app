@@ -1412,22 +1412,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // 2. Has CIN and approved → go to publication
-                if (data.has_cin && data.approved) {
+                if (data.has_both_cin && data.approved) {
                     window.location.href = "/publication";
                     return;
                 }
 
-                // 3. Has CIN but waiting for approval
-                if (data.has_cin && !data.approved) {
+                // 3. Has both CINs but waiting for approval
+                if (data.has_both_cin && !data.approved) {
                     modalBody.innerText = cinValidationMsg;
-                    modalFooter.innerHTML = ''; // hide the button, nothing to do
+                    modalFooter.innerHTML = '';
                     modal.show();
                     return;
                 }
 
-                // 4. No CIN at all → ask to add one
-                // modalBody.innerText = cinRequiredMsg;
                 modalBody.innerHTML = `
                     <p class="text-dark mb-2" style="font-size:14px;font-weight: bold;">${cinRequiredMsg}</p>
                     <p class="text-muted" style="font-size:12px;">${cinRequiredNote}</p>
