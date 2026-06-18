@@ -5,7 +5,6 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label>{{ __('current_rib_number') }}</label>
-                <span class="text-danger">*</span>
                 <input
                         type="text"
                         class="form-control border-r shadow-none @error('rib_number') is-invalid @enderror"
@@ -23,7 +22,6 @@
         <div class="col-sm-6">
             <div>
                 <label>{{ __('bank_name') }}</label>
-                <span class="text-danger">*</span>
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="bank-name"
                         @error('bank_name') is-invalid @enderror wire:model="bank_name" required>
