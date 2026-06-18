@@ -192,10 +192,11 @@ class HomeController extends Controller
     public function submitRib(Request $request)
     {
         $request->validate([
-            'ribNumber' => 'required|string|digits:24',
-            'bankName' => 'required|string',
+            'ribNumber'     => 'required|string|digits:24',
+            'bankName'      => 'required|string',
             'titulaireName' => 'required|string',
-            'cin_img' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
+            'cin_img'       => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
+            'cin_img2'      => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
         ], [
             'ribNumber.digits' => __('validation.rib_digits'),
         ]);
@@ -210,46 +211,68 @@ class HomeController extends Controller
             $currentDecrypted = $user->rib_number;
         }
 
-        $user->rib_number = Crypt::encryptString($request->input('ribNumber'));
-        $user->bank_name = $request->input('bankName');
+        $user->rib_number     = Crypt::encryptString($request->input('ribNumber'));
+        $user->bank_name      = $request->input('bankName');
         $user->titulaire_name = $request->input('titulaireName');
 
         if ($currentDecrypted !== $request->input('ribNumber')) {
             event(new AdminEvent('Un utilisateur a mis à jour son RIB.'));
-            $notification = new notifications();
-            $notification->type = 'photo';
-            $notification->titre = $user->username . ' a mis à jour son RIB.';
-            $notification->url = '/admin/client/' . $user->id . '/view';
-            $notification->message = 'RIB en attente de vérification.';
-            $notification->id_user = $user->id;
+            $notification              = new notifications();
+            $notification->type        = 'photo';
+            $notification->titre       = $user->username . ' a mis à jour son RIB.';
+            $notification->url         = '/admin/client/' . $user->id . '/view';
+            $notification->message     = 'RIB en attente de vérification.';
+            $notification->id_user     = $user->id;
             $notification->destination = 'admin';
             $notification->save();
         }
 
+        // Track which CIN sides were updated for a single notification
+        $cinChanged = [];
+
+        // --- CIN Recto ---
         if ($request->hasFile('cin_img')) {
             if ($user->cin_img) {
-                $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
+                $oldCinImages   = json_decode($user->old_cin_images, true) ?? [];
                 $oldCinImages[] = $user->cin_img;
                 $user->old_cin_images = json_encode($oldCinImages);
             }
-            $image = $request->file('cin_img');
-            $imagePath = $image->store('cin_images', 'public');
-            $user->cin_img = $imagePath;
+            $user->cin_img      = $request->file('cin_img')->store('cin_images', 'public');
             $user->cin_approved = false;
+            $cinChanged[]       = 'Recto';
+        }
 
+        // --- CIN Verso ---
+        if ($request->hasFile('cin_img2')) {
+            if ($user->cin_img2) {
+                $oldCinImages   = json_decode($user->old_cin_images, true) ?? [];
+                $oldCinImages[] = $user->cin_img2;
+                $user->old_cin_images = json_encode($oldCinImages);
+            }
+            $user->cin_img2     = $request->file('cin_img2')->store('cin_images', 'public');
+            $user->cin_approved = false;
+            $cinChanged[]       = 'Verso';
+        }
+
+        // Single notification covering both sides
+        if (!empty($cinChanged)) {
+            $cinLabel = implode(' & ', $cinChanged);
             event(new AdminEvent('Un utilisateur a mis à jour sa carte d\'identité.'));
-            $notification = new notifications();
-            $notification->type = 'photo';
-            $notification->titre = $user->username . " a mis à jour sa carte d'identité.";
-            $notification->url = '/admin/client/' . $user->id . '/view';
-            $notification->message = "Carte d'identité en attente de validation.";
-            $notification->id_user = $user->id;
+            $notification              = new notifications();
+            $notification->type        = 'photo';
+            $notification->titre       = $user->username . " a mis à jour sa carte d'identité ({$cinLabel}).";
+            $notification->url         = '/admin/client/' . $user->id . '/view';
+            $notification->message     = "Carte d'identité ({$cinLabel}) en attente de validation.";
+            $notification->id_user     = $user->id;
             $notification->destination = 'admin';
             $notification->save();
         }
 
         $user->save();
-        $message = $isNew ? __('Informations ajoutées avec succès.') : __('Informations modifiées avec succès.');
+
+        $message = $isNew
+            ? __('Informations ajoutées avec succès.')
+            : __('Informations modifiées avec succès.');
 
         return response()->json(['message' => $message]);
     }

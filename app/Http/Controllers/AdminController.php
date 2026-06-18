@@ -696,6 +696,7 @@ class AdminController extends Controller
             'titulaire_name'  => 'required|string',
             'rib_number'      => 'nullable|string|size:24',
             'cin_img'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'cin_img2'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
         ], [
             'firstname.required'      => 'Le champ Prénom est obligatoire.',
             'firstname.max'           => 'Le prénom ne peut pas dépasser 255 caractères.',
@@ -721,8 +722,11 @@ class AdminController extends Controller
             'titulaire_name.required'  => 'Le champ Nom du titulaire est obligatoire.',
             'rib_number.required'      => 'Le champ Numéro RIB est obligatoire.',
             'rib_number.size'          => 'Le numéro RIB doit contenir exactement 24 chiffres.',
-            'cin_img.image'            => 'Le fichier CIN doit être une image.',
-            'cin_img.mimes'            => 'Le CIN doit être au format JPEG, PNG, JPG, GIF ou WEBP.',
+            'cin_img.image'   => 'Le fichier CIN (recto) doit être une image.',
+            'cin_img.mimes'   => 'Le CIN recto doit être au format JPEG, PNG, JPG, GIF ou WEBP.',
+            'cin_img2.image'  => 'Le fichier CIN (verso) doit être une image.',
+            'cin_img2.mimes'  => 'Le CIN verso doit être au format JPEG, PNG, JPG, GIF ou WEBP.',
+
         ]);
 
         // --- Age validation ---
@@ -802,8 +806,24 @@ class AdminController extends Controller
                 $oldCinImages[]       = $user->cin_img;
                 $user->old_cin_images = $oldCinImages;
             }
-
             $user->cin_img      = ImageService::uploadAndConvert($request->file('cin_img'), 'cin_images');
+            $user->cin_approved = false;
+        }
+
+        // --- CIN Verso ---
+        if ($request->hasFile('cin_img2')) {
+            if ($user->cin_img2) {
+                $oldCinImages = $user->old_cin_images;
+                if (is_string($oldCinImages)) {
+                    $oldCinImages = json_decode($oldCinImages, true);
+                }
+                if (!is_array($oldCinImages)) {
+                    $oldCinImages = [];
+                }
+                $oldCinImages[]       = $user->cin_img2;
+                $user->old_cin_images = $oldCinImages;
+            }
+            $user->cin_img2     = ImageService::uploadAndConvert($request->file('cin_img2'), 'cin_images');
             $user->cin_approved = false;
         }
 

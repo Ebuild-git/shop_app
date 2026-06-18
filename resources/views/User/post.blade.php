@@ -97,7 +97,7 @@
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
                     >
                 </div>
-                <div class="mb-4 position-relative">
+                {{-- <div class="mb-4 position-relative">
                     <label for="cinImg" class="form-label">{{ __('cin_upload')}}</label>
                     <div class="file-upload-container">
                         @if(Auth::user()->cin_img)
@@ -125,7 +125,54 @@
                             <span>{{ __('choose_file')}}</span>
                         </label>
                     </div>
+                </div> --}}
+                <div class="mb-4 row g-3">
+    {{-- CIN Recto --}}
+    <div class="col-md-6">
+        <label for="cinImg" class="form-label">
+            {{ __('cin_upload') }} <small class="text-muted">({{ __('recto') }})</small>
+        </label>
+        <div class="file-upload-container">
+            @if(Auth::user()->cin_img)
+                <div class="file-upload-preview">
+                    <img id="imagePreview" src="{{ asset('storage/' . Auth::user()->cin_img) }}" alt="CIN Recto">
                 </div>
+            @else
+                <div class="file-upload-preview">
+                    <img id="imagePreview" src="#" alt="CIN Recto" style="display:none;">
+                </div>
+            @endif
+            <input type="file" class="file-input" id="cinImg" name="cin_img" accept="image/*">
+            <label for="cinImg" class="upload-icon-label">
+                <i class="fas fa-upload"></i>
+                <span>{{ __('choose_file') }}</span>
+            </label>
+        </div>
+    </div>
+
+    {{-- CIN Verso --}}
+    <div class="col-md-6">
+        <label for="cinImg2" class="form-label">
+            {{ __('cin_upload') }} <small class="text-muted">({{ __('verso') }})</small>
+        </label>
+        <div class="file-upload-container">
+            @if(Auth::user()->cin_img2)
+                <div class="file-upload-preview">
+                    <img id="imagePreview2" src="{{ asset('storage/' . Auth::user()->cin_img2) }}" alt="CIN Verso">
+                </div>
+            @else
+                <div class="file-upload-preview">
+                    <img id="imagePreview2" src="#" alt="CIN Verso" style="display:none;">
+                </div>
+            @endif
+            <input type="file" class="file-input" id="cinImg2" name="cin_img2" accept="image/*">
+            <label for="cinImg2" class="upload-icon-label">
+                <i class="fas fa-upload"></i>
+                <span>{{ __('choose_file') }}</span>
+            </label>
+        </div>
+    </div>
+</div>
 
                 {{-- @php
                 $isDataAvailable = Auth::user()->titulaire_name && Auth::user()->bank_name && Auth::user()->decrypted_rib;
@@ -165,6 +212,19 @@
                 const imagePreview = document.getElementById('imagePreview');
                 imagePreview.src = event.target.result;
                 imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('cinImg2').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imagePreview2 = document.getElementById('imagePreview2');
+                imagePreview2.src = event.target.result;
+                imagePreview2.style.display = 'block';
             };
             reader.readAsDataURL(file);
         }

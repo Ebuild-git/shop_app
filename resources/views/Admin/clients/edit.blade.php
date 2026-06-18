@@ -244,7 +244,7 @@
                                 </div>
 
                                 {{-- CIN image --}}
-                                <div class="mb-3 col-md-12">
+                                {{-- <div class="mb-3 col-md-12">
                                     <label for="cin_img" class="form-label">Carte d'identité (CIN)</label>
                                     @if ($user->cin_img)
                                         <div class="mb-2 d-flex align-items-center gap-2">
@@ -263,6 +263,57 @@
                                         class="form-control @error('cin_img') is-invalid @enderror"
                                         accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
                                     @error('cin_img')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div> --}}
+                                {{-- CIN Recto --}}
+                                <div class="mb-3 col-md-6">
+                                    <label for="cin_img" class="form-label">
+                                        Carte d'identité — Recto
+                                    </label>
+                                    @if ($user->cin_img)
+                                        <div class="mb-2 d-flex align-items-center gap-2">
+                                            <img src="{{ Storage::url($user->cin_img) }}" alt="CIN Recto"
+                                                style="max-height: 80px;" class="rounded border" />
+                                            <span class="text-muted small">Image actuelle
+                                                @if ($user->cin_approved)
+                                                    <span class="badge bg-success ms-1">Approuvée</span>
+                                                @else
+                                                    <span class="badge bg-warning ms-1">En attente</span>
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endif
+                                    <input type="file" id="cin_img" name="cin_img"
+                                        class="form-control @error('cin_img') is-invalid @enderror"
+                                        accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
+                                    @error('cin_img')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                {{-- CIN Verso --}}
+                                <div class="mb-3 col-md-6">
+                                    <label for="cin_img2" class="form-label">
+                                        Carte d'identité — Verso
+                                    </label>
+                                    @if ($user->cin_img2)
+                                        <div class="mb-2 d-flex align-items-center gap-2">
+                                            <img src="{{ Storage::url($user->cin_img2) }}" alt="CIN Verso"
+                                                style="max-height: 80px;" class="rounded border" />
+                                            <span class="text-muted small">Image actuelle
+                                                @if ($user->cin_approved)
+                                                    <span class="badge bg-success ms-1">Approuvée</span>
+                                                @else
+                                                    <span class="badge bg-warning ms-1">En attente</span>
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endif
+                                    <input type="file" id="cin_img2" name="cin_img2"
+                                        class="form-control @error('cin_img2') is-invalid @enderror"
+                                        accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
+                                    @error('cin_img2')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
