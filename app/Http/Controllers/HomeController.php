@@ -601,55 +601,6 @@ class HomeController extends Controller
 
             return view('User.historiques', compact('type', 'count', 'achats'));
         }
-        // if ($type == 'ventes') {
-        //     $ventes = posts::where('id_user', Auth::user()->id)
-        //         ->Orderby('created_at', 'Desc')
-        //         ->where('statut', 'vendu')
-        //         ->paginate(20);
-
-        //     // Pagination variables
-        //     $currentPage = $ventes->currentPage();
-        //     $lastPage = $ventes->lastPage();
-        //     $nextPageUrl = $ventes->nextPageUrl();
-        //     $previousPageUrl = $ventes->previousPageUrl();
-        //     $totalItems = $ventes->total();
-
-        //     return view('User.historiques', compact(
-        //         'type',
-        //         'count',
-        //         'ventes',
-        //         'showRemainingTimeColumn',
-        //         'currentPage',
-        //         'lastPage',
-        //         'nextPageUrl',
-        //         'previousPageUrl',
-        //         'totalItems'
-        //     ));
-        // }
-        // if ($type == 'annonces') {
-        //     $annonces = posts::where('id_user', Auth::user()->id)
-        //         ->Orderby('created_at', 'Desc')
-        //         ->paginate(20);
-
-        //     // Pagination variables
-        //     $currentPage = $annonces->currentPage();
-        //     $lastPage = $annonces->lastPage();
-        //     $nextPageUrl = $annonces->nextPageUrl();
-        //     $previousPageUrl = $annonces->previousPageUrl();
-        //     $totalItems = $annonces->total();
-
-        //     return view('User.historiques', compact(
-        //         'type',
-        //         'count',
-        //         'annonces',
-        //         'showRemainingTimeColumn',
-        //         'currentPage',
-        //         'lastPage',
-        //         'nextPageUrl',
-        //         'previousPageUrl',
-        //         'totalItems'
-        //     ));
-        // }
         if ($type == 'ventes') {
             $ventes = posts::where('id_user', Auth::user()->id)
                 ->whereNotNull('sell_at')

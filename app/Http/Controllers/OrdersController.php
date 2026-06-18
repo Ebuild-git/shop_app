@@ -217,7 +217,7 @@ class OrdersController extends Controller
 
         if ($post) {
             $saleWasInProgress = in_array($post->statut, [
-                'préparation', 'en cours de livraison', 'ramassée', 'livraison', 'livré', 'retourné', 'vendu'
+                'préparation', 'en cours de livraison', 'ramassée', 'livraison', 'livré', 'retourné', 'vendu', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé'
             ]);
 
             if ($saleWasInProgress) {

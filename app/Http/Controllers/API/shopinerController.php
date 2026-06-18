@@ -490,7 +490,7 @@ class shopinerController extends Controller
         $categories = [];
 
         $posts = posts::where('id_user', $user->id)
-            ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation'])
+            ->whereIn('statut', ['livré', 'vendu', 'livraison', 'préparation', 'commande confirmée'])
             ->whereNotBlocked($request->user()?->id)
             ->get();
 
