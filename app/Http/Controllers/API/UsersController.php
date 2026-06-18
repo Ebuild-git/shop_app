@@ -141,76 +141,70 @@ class UsersController extends Controller
         $cin_message = null;
 
         $rules = [
-            'email' => 'sometimes|nullable|email|max:100',
-            'phone_number' => 'sometimes|nullable|string|min:9',
-            'firstname' => 'sometimes|nullable|string',
-            'lastname' => 'sometimes|nullable|string',
-            'region' => 'sometimes|nullable|integer|exists:regions,id',
-            'rue' => 'sometimes|nullable|string',
-            'nom_batiment' => 'sometimes|nullable|string',
-            'etage' => 'sometimes|nullable|string',
+            'email'           => 'sometimes|nullable|email|max:100',
+            'phone_number'    => 'sometimes|nullable|string|min:9',
+            'firstname'       => 'sometimes|nullable|string',
+            'lastname'        => 'sometimes|nullable|string',
+            'region'          => 'sometimes|nullable|integer|exists:regions,id',
+            'rue'             => 'sometimes|nullable|string',
+            'nom_batiment'    => 'sometimes|nullable|string',
+            'etage'           => 'sometimes|nullable|string',
             'num_appartement' => 'sometimes|nullable|string',
-            'city_id' => 'sometimes|nullable|integer|exists:cities,id',
+            'city_id'         => 'sometimes|nullable|integer|exists:cities,id',
 
-            'jour' => 'sometimes|nullable|integer|min:1|max:31',
-            'mois' => 'sometimes|nullable|integer|min:1|max:12',
+            'jour'  => 'sometimes|nullable|integer|min:1|max:31',
+            'mois'  => 'sometimes|nullable|integer|min:1|max:12',
             'annee' => 'sometimes|nullable|integer',
 
-            'avatar' => 'sometimes|image|mimes:jpg,png,jpeg,webp',
-            'cin_img' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'avatar'   => 'sometimes|image|mimes:jpg,png,jpeg,webp',
+            'cin_img'  => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'cin_img2' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp',
 
-            'rib_number' => 'sometimes|nullable|string|min:24',
-            'bank_name' => 'sometimes|nullable|string',
+            'rib_number'     => 'sometimes|nullable|string|min:24',
+            'bank_name'      => 'sometimes|nullable|string',
             'titulaire_name' => 'sometimes|nullable|string',
 
             'voyage_mode' => 'sometimes|nullable|integer'
         ];
 
         $messages = [
-            'email.email' => 'Email format is invalid',
-            'email.max' => 'Email must not exceed 100 characters',
-
-            'phone_number.min' => 'Phone number must be at least 9 digits',
+            'email.email'         => 'Email format is invalid',
+            'email.max'           => 'Email must not exceed 100 characters',
+            'phone_number.min'    => 'Phone number must be at least 9 digits',
             'phone_number.string' => 'Phone number must be a valid string',
-
-            'region.exists' => 'Selected region does not exist',
-
-            'jour.min' => 'Day must be between 1 and 31',
-            'jour.max' => 'Day must be between 1 and 31',
-            'mois.min' => 'Month must be between 1 and 12',
-            'mois.max' => 'Month must be between 1 and 12',
-
-            'avatar.image' => 'Avatar must be an image',
-            'avatar.mimes' => 'Avatar must be jpg, png, jpeg or webp',
-
-            'cin_img.image' => 'CIN must be an image',
-            'cin_img.mimes' => 'CIN must be jpeg, png, jpg, gif, svg or webp',
-
-            'rib_number.min' => 'RIB must be at least 24 characters',
-
+            'region.exists'       => 'Selected region does not exist',
+            'jour.min'            => 'Day must be between 1 and 31',
+            'jour.max'            => 'Day must be between 1 and 31',
+            'mois.min'            => 'Month must be between 1 and 12',
+            'mois.max'            => 'Month must be between 1 and 12',
+            'avatar.image'        => 'Avatar must be an image',
+            'avatar.mimes'        => 'Avatar must be jpg, png, jpeg or webp',
+            'cin_img.image'       => 'CIN (front) must be an image',
+            'cin_img.mimes'       => 'CIN (front) must be jpeg, png, jpg, gif, svg or webp',
+            'cin_img2.image'      => 'CIN (back) must be an image',
+            'cin_img2.mimes'      => 'CIN (back) must be jpeg, png, jpg, gif, svg or webp',
+            'rib_number.min'      => 'RIB must be at least 24 characters',
             'voyage_mode.integer' => 'Voyage mode must be a valid number',
         ];
 
         if ($request->has('password')) {
             $rules = array_merge($rules, [
                 'old_password' => 'required|string',
-                'password' => 'required|confirmed|string|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/'
+                'password'     => 'required|confirmed|string|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/'
             ]);
         }
 
-        // $validated = $request->validate($rules);
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation errors',
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
         $validated = $validator->validated();
-
-        $changes = false;
+        $changes   = false;
 
         if ($request->filled('email') && $request->email !== $user->email) {
             if (User::where('email', $request->email)->exists()) {
@@ -220,17 +214,15 @@ class UsersController extends Controller
             $changes = true;
         }
 
-
         if ($request->hasFile('avatar')) {
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $path = \App\Services\ImageService::uploadAndConvert($request->file('avatar'), 'uploads/avatars');
+            $path         = \App\Services\ImageService::uploadAndConvert($request->file('avatar'), 'uploads/avatars');
             $user->avatar = $path;
 
             $config = configurations::first();
-
             if (!$config) {
                 return response()->json(['message' => 'Configuration missing'], 500);
             }
@@ -238,38 +230,30 @@ class UsersController extends Controller
             if ($config->valider_photo == 1) {
                 if ($user->photo_verified_at) {
                     event(new AdminEvent('Un utilisateur a changé sa photo de profil'));
-
-                    $notification = new notifications();
-                    $notification->type = "photo_updated";
-                    $notification->titre = $user->username . " vient de changer sa photo de profil";
-                    $notification->url = "/admin/client/" . $user->id . "/view";
-                    $notification->message = "Le client a modifié sa photo de profil";
-                    $notification->id_user = $user->id;
+                    $notification              = new notifications();
+                    $notification->type        = "photo_updated";
+                    $notification->titre       = $user->username . " vient de changer sa photo de profil";
+                    $notification->url         = "/admin/client/" . $user->id . "/view";
+                    $notification->message     = "Le client a modifié sa photo de profil";
+                    $notification->id_user     = $user->id;
                     $notification->destination = "admin";
                     $notification->save();
                 }
                 $user->photo_verified_at = null;
-                $profile_photo_message = "We inform you that your profile photo will undergo a validation process, which may take up to a maximum of 24 hours before it is approved.";
-
-
+                $profile_photo_message   = "We inform you that your profile photo will undergo a validation process, which may take up to a maximum of 24 hours before it is approved.";
             } else {
                 $user->photo_verified_at = now();
-                $profile_photo_message = "Profile photo updated successfully";
-
+                $profile_photo_message   = "Profile photo updated successfully";
             }
 
             $changes = true;
         }
 
-
         if ($request->filled(['jour', 'mois', 'annee'])) {
-            // $date = Carbon::create($request->annee, $request->mois, $request->jour);
             try {
                 $date = Carbon::create($request->annee, $request->mois, $request->jour);
             } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'Invalid birthdate'
-                ], 422);
+                return response()->json(['message' => 'Invalid birthdate'], 422);
             }
 
             if ($date->diffInYears(now()) < 18) {
@@ -277,53 +261,39 @@ class UsersController extends Controller
             }
 
             $user->birthdate = $date;
-            $changes = true;
+            $changes         = true;
         }
 
         foreach ([
-            'firstname',
-            'lastname',
-            'phone_number',
-            'region',
-            'city_id',
-            'rue',
-            'nom_batiment',
-            'etage',
-            'num_appartement',
-            'voyage_mode'
+            'firstname', 'lastname', 'phone_number', 'region', 'city_id',
+            'rue', 'nom_batiment', 'etage', 'num_appartement', 'voyage_mode'
         ] as $field) {
-
             if ($request->has($field)) {
                 $user->$field = $request->$field;
-                $changes = true;
+                $changes      = true;
             }
         }
 
         if ($request->filled('rib_number')) {
-
-            // $current = $user->rib_number ? Crypt::decryptString($user->rib_number) : null;
-
             $current = null;
             if ($user->rib_number) {
                 try {
                     $current = Crypt::decryptString($user->rib_number);
                 } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-                    $current = null; // cannot decrypt, assume different
+                    $current = null;
                 }
             }
             if ($current !== $request->rib_number) {
-
                 $user->rib_number = Crypt::encryptString($request->rib_number);
-                $changes = true;
+                $changes          = true;
 
                 event(new AdminEvent("Un utilisateur a mis à jour son RIB."));
-
-                $notification = new notifications();
-                $notification->type = "rib_updated";
-                $notification->titre = $user->username . " a mis à jour son RIB.";
-                $notification->url = "/admin/client/" . $user->id . "/view";
-                $notification->message = "RIB en attente de vérification.";
-                $notification->id_user = $user->id;
+                $notification              = new notifications();
+                $notification->type        = "rib_updated";
+                $notification->titre       = $user->username . " a mis à jour son RIB.";
+                $notification->url         = "/admin/client/" . $user->id . "/view";
+                $notification->message     = "RIB en attente de vérification.";
+                $notification->id_user     = $user->id;
                 $notification->destination = "admin";
                 $notification->save();
             }
@@ -331,44 +301,61 @@ class UsersController extends Controller
 
         if ($request->filled('bank_name')) {
             $user->bank_name = $request->bank_name;
-            $changes = true;
+            $changes         = true;
         }
 
         if ($request->filled('titulaire_name')) {
             $user->titulaire_name = $request->titulaire_name;
-            $changes = true;
+            $changes              = true;
         }
 
+        // --- CIN handling: single notification for both sides ---
+        $cinChanged = [];
+
         if ($request->hasFile('cin_img')) {
-
-            $path = \App\Services\ImageService::uploadAndConvert($request->file('cin_img'), 'cin_images');
-            $user->cin_img = $path;
+            if ($user->cin_img) {
+                $oldCinImages   = is_string($user->old_cin_images) ? json_decode($user->old_cin_images, true) : ($user->old_cin_images ?? []);
+                $oldCinImages[] = $user->cin_img;
+                $user->old_cin_images = json_encode($oldCinImages);
+            }
+            $user->cin_img      = \App\Services\ImageService::uploadAndConvert($request->file('cin_img'), 'cin_images');
             $user->cin_approved = false;
+            $changes            = true;
+            $cinChanged[]       = 'front';
+        }
 
-            $changes = true;
+        if ($request->hasFile('cin_img2')) {
+            if ($user->cin_img2) {
+                $oldCinImages   = is_string($user->old_cin_images) ? json_decode($user->old_cin_images, true) : ($user->old_cin_images ?? []);
+                $oldCinImages[] = $user->cin_img2;
+                $user->old_cin_images = json_encode($oldCinImages);
+            }
+            $user->cin_img2     = \App\Services\ImageService::uploadAndConvert($request->file('cin_img2'), 'cin_images');
+            $user->cin_approved = false;
+            $changes            = true;
+            $cinChanged[]       = 'back';
+        }
 
+        if (!empty($cinChanged)) {
+            $cinLabel = implode(' & ', $cinChanged);
             event(new AdminEvent("Un utilisateur a mis à jour sa carte d'identité."));
-
-            $notification = new notifications();
-            $notification->type = "photo_cin_updated";
-            $notification->titre = $user->username . " a mis à jour sa carte d'identité.";
-            $notification->url = "/admin/client/" . $user->id . "/view";
-            $notification->message = "Carte d'identité en attente de validation.";
-            $notification->id_user = $user->id;
+            $notification              = new notifications();
+            $notification->type        = "photo_cin_updated";
+            $notification->titre       = $user->username . " a mis à jour sa carte d'identité ({$cinLabel}).";
+            $notification->url         = "/admin/client/" . $user->id . "/view";
+            $notification->message     = "Carte d'identité ({$cinLabel}) en attente de validation.";
+            $notification->id_user     = $user->id;
             $notification->destination = "admin";
             $notification->save();
             $cin_message = "Your national identity card has been updated and is awaiting validation.";
-
         }
 
         if ($request->has('password')) {
-
             if (!Hash::check($request->old_password, $user->password)) {
                 return response()->json(['message' => 'old password incorrect'], 422);
             }
-
             $user->password = Hash::make($request->password);
-            $changes = true;
+            $changes        = true;
         }
 
         if ($changes) {
@@ -384,30 +371,31 @@ class UsersController extends Controller
             }
 
             return response()->json([
-                "message" => "Information updated successfully",
+                "message"               => "Information updated successfully",
                 "profile_photo_message" => $profile_photo_message,
-                "cin_message" => $cin_message,
+                "cin_message"           => $cin_message,
                 "user" => [
-                    "id" => $user->id,
-                    "firstname" => $user->firstname,
-                    "lastname" => $user->lastname,
-                    "birthdate" => $user->birthdate,
-                    "email" => $user->email,
-                    "username" => $user->username,
-                    "phone_number" => $user->phone_number,
-                    "region" => $user->region,
-                    "city_id" => $user->city_id,
-                    "rue" => $user->rue,
-                    "nom_batiment" => $user->nom_batiment,
-                    "etage" => $user->etage,
+                    "id"              => $user->id,
+                    "firstname"       => $user->firstname,
+                    "lastname"        => $user->lastname,
+                    "birthdate"       => $user->birthdate,
+                    "email"           => $user->email,
+                    "username"        => $user->username,
+                    "phone_number"    => $user->phone_number,
+                    "region"          => $user->region,
+                    "city_id"         => $user->city_id,
+                    "rue"             => $user->rue,
+                    "nom_batiment"    => $user->nom_batiment,
+                    "etage"           => $user->etage,
                     "num_appartement" => $user->num_appartement,
-                    "rib_number" => $decryptedRib,
-                    "bank_name" => $user->bank_name,
-                    "titulaire_name" => $user->titulaire_name,
-                    "avatar" => $user->avatar ? asset('storage/' . $user->avatar) : null,
-                    "cin_img" => $user->cin_img ? asset('storage/' . $user->cin_img) : null,
-                    "old_cin_images" => $user->old_cin_images ? asset('storage/' . $user->old_cin_images) : null,
-                    "voyage_mode" => $user->voyage_mode,
+                    "rib_number"      => $decryptedRib,
+                    "bank_name"       => $user->bank_name,
+                    "titulaire_name"  => $user->titulaire_name,
+                    "avatar"          => $user->avatar    ? asset('storage/' . $user->avatar)    : null,
+                    "cin_img"         => $user->cin_img   ? asset('storage/' . $user->cin_img)   : null,
+                    "cin_img2"        => $user->cin_img2  ? asset('storage/' . $user->cin_img2)  : null,
+                    "old_cin_images"  => $user->old_cin_images ? asset('storage/' . $user->old_cin_images) : null,
+                    "voyage_mode"     => $user->voyage_mode,
                 ]
             ], 200);
         }
@@ -568,10 +556,9 @@ class UsersController extends Controller
         $user = $request->user();
 
         $bankFields = [
-            'rib_number'     => $user->rib_number,
-            'bank_name'      => $user->bank_name,
             'titulaire_name' => $user->titulaire_name,
             'cin_img'        => $user->cin_img,
+            'cin_img2'       => $user->cin_img2,
         ];
 
         $missingFields = [];
@@ -581,9 +568,9 @@ class UsersController extends Controller
             }
         }
 
-        $isComplete   = empty($missingFields);
-        $cinApproved  = (bool) $user->cin_approved;
-        $canPost      = $isComplete && $cinApproved;
+        $isComplete  = empty($missingFields);
+        $cinApproved = (bool) $user->cin_approved;
+        $canPost     = $isComplete && $cinApproved;
 
         return response()->json([
             'success'        => true,

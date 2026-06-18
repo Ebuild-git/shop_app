@@ -222,6 +222,7 @@ class shopinerController extends Controller
             'users.voyage_mode',
             'users.avatar',
             'users.cin_img',
+            'users.cin_img2',      // added
             'users.old_cin_images',
             'users.rib_number',
             'users.bank_name',
@@ -255,6 +256,7 @@ class shopinerController extends Controller
                 'users.voyage_mode',
                 'users.avatar',
                 'users.cin_img',
+                'users.cin_img2',      // added
                 'users.old_cin_images',
                 'users.rib_number',
                 'users.bank_name',
@@ -272,11 +274,12 @@ class shopinerController extends Controller
             ], 404);
         }
 
-        $shopiner->avatar = $shopiner->avatar ? asset('storage/' . $shopiner->avatar) : null;
-        $shopiner->cin_img = $shopiner->cin_img ? asset('storage/' . $shopiner->cin_img) : null;
+        $shopiner->avatar         = $shopiner->avatar    ? asset('storage/' . $shopiner->avatar)    : null;
+        $shopiner->cin_img        = $shopiner->cin_img   ? asset('storage/' . $shopiner->cin_img)   : null;
+        $shopiner->cin_img2       = $shopiner->cin_img2  ? asset('storage/' . $shopiner->cin_img2)  : null; // added
         $shopiner->old_cin_images = $shopiner->old_cin_images ? asset('storage/' . $shopiner->old_cin_images) : null;
-        $shopiner->avatar_locked = is_null($shopiner->photo_verified_at);
-        // $shopiner->rib_number = $shopiner->rib_number;
+        $shopiner->avatar_locked  = is_null($shopiner->photo_verified_at);
+
         try {
             $shopiner->rib_number = $shopiner->rib_number
                 ? Crypt::decryptString($shopiner->rib_number)
@@ -294,16 +297,15 @@ class shopinerController extends Controller
             ->get();
 
         $posts->transform(function ($post) {
-            $post->prix = $post->getPrix();
+            $post->prix     = $post->getPrix();
             $post->old_prix = $post->getOldPrix();
             $post->is_solder = $post->getOldPrix() ? true : false;
-            $post->photos = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
+            $post->photos   = collect($post->photos)->map(fn($photo) => asset('storage/' . $photo));
             return $post;
         });
 
-        // Check if auth user has blocked this shopiner
         $isBlocked = false;
-        $authUser = Auth::user();
+        $authUser  = Auth::user();
         if ($authUser) {
             $isBlocked = UserBlock::where('blocker_id', $authUser->id)
                 ->where('blocked_id', $id)
@@ -313,8 +315,8 @@ class shopinerController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'shopiner' => $shopiner,
-                'posts' => $posts,
+                'shopiner'   => $shopiner,
+                'posts'      => $posts,
                 'is_blocked' => $isBlocked
             ]
         ]);
