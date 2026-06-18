@@ -556,7 +556,6 @@ class UsersController extends Controller
         $user = $request->user();
 
         $bankFields = [
-            'titulaire_name' => $user->titulaire_name,
             'cin_img'        => $user->cin_img,
             'cin_img2'       => $user->cin_img2,
         ];
