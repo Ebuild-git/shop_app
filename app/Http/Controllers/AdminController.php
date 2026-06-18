@@ -692,9 +692,9 @@ class AdminController extends Controller
             'num_appartement' => 'required|string|max:255',
             'birthdate'       => 'required|date',
             'avatar'          => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
-            'bank_name'       => 'required|string',
+            'bank_name'       => 'nullable|string',
             'titulaire_name'  => 'required|string',
-            'rib_number'      => 'required|string|size:24',
+            'rib_number'      => 'nullable|string|size:24',
             'cin_img'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
         ], [
             'firstname.required'      => 'Le champ Prénom est obligatoire.',
