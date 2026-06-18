@@ -693,7 +693,7 @@ class AdminController extends Controller
             'birthdate'       => 'required|date',
             'avatar'          => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
             'bank_name'       => 'nullable|string',
-            'titulaire_name'  => 'required|string',
+            'titulaire_name'  => 'nullable|string',
             'rib_number'      => 'nullable|string|size:24',
             'cin_img'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             'cin_img2'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',

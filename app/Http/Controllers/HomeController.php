@@ -192,9 +192,9 @@ class HomeController extends Controller
     public function submitRib(Request $request)
     {
         $request->validate([
-            'ribNumber'     => 'required|string|digits:24',
-            'bankName'      => 'required|string',
-            'titulaireName' => 'required|string',
+            'ribNumber'     => 'nullable|string|digits:24',
+            'bankName'      => 'nullable|string',
+            'titulaireName' => 'nullable|string',
             'cin_img'       => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
             'cin_img2'      => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10048',
         ], [

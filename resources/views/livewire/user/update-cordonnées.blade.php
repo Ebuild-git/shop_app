@@ -34,7 +34,6 @@
         <div class="col-sm-6">
             <div>
                 <label>{{ __('account_holder_name') }}</label>
-                <span class="text-danger">*</span>
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
                         @error('titulaire_name') is-invalid @enderror wire:model="titulaire_name"
