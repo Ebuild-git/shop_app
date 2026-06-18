@@ -7,6 +7,11 @@
 <form wire:submit="submit" id="my-form">
 
 
+    <div class="alert alert-danger d-flex align-items-start gap-2 mb-3 mt-5" role="alert" style="border-radius: 8px;">
+        <i class="bi bi-info-circle-fill mt-1"></i>
+        <span>{{ __('weight_limit_note') }}</span>
+    </div>
+
     <div class="header-titre-create">
         <div class="align-self-start ">
             <img src="/icons/icons8-1-100.png" alt="{{ __('choose_images') }}" height="40" width="40" srcset="">
