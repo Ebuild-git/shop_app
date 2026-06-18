@@ -1,3 +1,3 @@
 <span class="badge  badge-dark">
-    {{ $statut }}
+    {{ __($statut) }}
 </span>
