@@ -54,8 +54,8 @@ class UpdateCordonnées extends Component
     {
         try {
             $this->validate([
-                'rib_number' => 'required|string|size:24',
-                'bank_name' => 'required|string',
+                'rib_number' => 'nullable|string|size:24',
+                'bank_name' => 'nullable|string',
                 'titulaire_name' => 'required|string',
                 'cin_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ], [
