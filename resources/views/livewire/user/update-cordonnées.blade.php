@@ -12,7 +12,6 @@
                         inputmode="numeric"
                         maxlength="24"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
-                        required
                     >
                 @error('rib_number')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -24,7 +23,7 @@
                 <label>{{ __('bank_name') }}</label>
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="bank-name"
-                        @error('bank_name') is-invalid @enderror wire:model="bank_name" required>
+                        @error('bank_name') is-invalid @enderror wire:model="bank_name">
                 </div>
                 @error('bank_name')
                     <small class="form-text text-danger">{{ $message }}</small>
@@ -37,37 +36,13 @@
                 <div class="form-group" style="position: relative;">
                     <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
                         @error('titulaire_name') is-invalid @enderror wire:model="titulaire_name"
-                        required>
+                        >
                 </div>
                 @error('titulaire_name')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
         </div>
-        {{-- <div class="col-sm-12">
-            <div class="form-group">
-                <label for="cin_img">{{ __('cin_image') }}</label>
-                <span class="text-danger">*</span>
-                <input type="file" class="form-control" id="cin_img" wire:model="cin_img" accept="image/*">
-                <small class="form-text text-muted">
-                    {{ __('cin_img_info') }}
-                </small>
-                @error('cin_img')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div> --}}
-
-        {{-- @if ($cin_img)
-            <div class="mt-2">
-                <img src="{{ $cin_img->temporaryUrl() }}" alt="CIN Preview" class="img-fluid rounded" style="max-height: 200px;">
-            </div>
-        @elseif ($existingCinImg)
-            <div class="mt-2">
-                <label class="form-label d-block">{{ __('current_cin_image') }}</label>
-                <img src="{{ asset('storage/' . $existingCinImg) }}" alt="CIN Image" class="img-fluid rounded" style="max-height: 200px;">
-            </div>
-        @endif --}}
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="cin_img">{{ __('cin_image') }} <small class="text-muted">({{ __('recto') }})</small></label>

@@ -61,8 +61,8 @@ class UpdateCordonnées extends Component
                 'rib_number'    => 'nullable|string|size:24',
                 'bank_name'     => 'nullable|string',
                 'titulaire_name' => 'nullable|string',
-                'cin_img'       => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
-                'cin_img2'      => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
+                'cin_img'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
+                'cin_img2'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ], [
                 'rib_number.size'          => __('rib_number_size'),
                 'bank_name.required'       => __('bank_name_required'),
