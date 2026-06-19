@@ -75,8 +75,17 @@ class CategoriesController extends Controller
      */
     // public function list_categorie()
     // {
+    //     $locale = app()->getLocale();
+
+    //     $orderColumn = match ($locale) {
+    //         'en' => 'title_en',
+    //         'ar' => 'title_ar',
+    //         default => 'titre',
+    //     };
+
     //     $categories = categories::where('active', true)
-    //         ->orderBy('order')
+    //         ->orderBy($orderColumn, 'asc')
+    //         ->orderBy('order', 'asc')
     //         ->get()
     //         ->map(function ($cat) {
     //             $cat->icon = $cat->icon ? asset('storage/' . $cat->icon) : null;
@@ -91,17 +100,8 @@ class CategoriesController extends Controller
     // }
     public function list_categorie()
     {
-        $locale = app()->getLocale();
-
-        $orderColumn = match ($locale) {
-            'en' => 'title_en',
-            'ar' => 'title_ar',
-            default => 'titre',
-        };
-
         $categories = categories::where('active', true)
-            ->orderBy($orderColumn, 'asc')
-            ->orderBy('order', 'asc')
+            ->orderBy('order')
             ->get()
             ->map(function ($cat) {
                 $cat->icon = $cat->icon ? asset('storage/' . $cat->icon) : null;
