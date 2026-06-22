@@ -829,12 +829,32 @@ class PostsController extends Controller
             ], 422);
         }
 
+        // $photos = [];
+        // foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $p) {
+        //     if ($request->hasFile($p)) {
+        //         $path = $request->file($p)->store('uploads/posts', 'public');
+        //         $photos[] = $path;
+        //         Log::debug('[PostStore] Photo uploaded', ['field' => $p, 'path' => $path]);
+        //     }
+        // }
         $photos = [];
         foreach (['photos1', 'photos2', 'photos3', 'photos4', 'photos5'] as $p) {
             if ($request->hasFile($p)) {
                 $path = $request->file($p)->store('uploads/posts', 'public');
+
+                // ← ADD: Verify file actually exists
+                if (!Storage::disk('public')->exists($path)) {
+                    Log::error('[PostStore] File upload failed - file not found after store()', [
+                        'field' => $p,
+                        'path' => $path,
+                    ]);
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Failed to save image {$p}. Check disk space and permissions."
+                    ], 500);
+                }
+
                 $photos[] = $path;
-                Log::debug('[PostStore] Photo uploaded', ['field' => $p, 'path' => $path]);
             }
         }
 

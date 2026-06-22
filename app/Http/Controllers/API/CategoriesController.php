@@ -234,36 +234,6 @@ class CategoriesController extends Controller
      *     )
      * )
      */
-    // public function list_sub_categorie()
-    // {
-    //     $subcategories = sous_categories::with('categorie')
-    //         // ->withCount(['getPost as products_count'])
-    //         ->withCount(['getPost as products_count' => function ($query) {
-    //                 $query->whereHas('user_info', function ($q) {
-    //                     $q->where('voyage_mode', 0);
-    //                 });
-    //             }])
-    //         ->orderBy('order')
-    //         ->get()
-    //         ->map(function ($sub) {
-    //             if ($sub->categorie) {
-    //                 if ($sub->categorie->icon && !filter_var($sub->categorie->icon, FILTER_VALIDATE_URL)) {
-    //                     $sub->categorie->icon = asset('storage/' . $sub->categorie->icon);
-    //                 }
-
-    //                 if ($sub->categorie->small_icon && !filter_var($sub->categorie->small_icon, FILTER_VALIDATE_URL)) {
-    //                     $sub->categorie->small_icon = asset('storage/' . $sub->categorie->small_icon);
-    //                 }
-    //             }
-
-    //             return $sub;
-    //         });
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'data' => $subcategories
-    //     ]);
-    // }
     public function list_sub_categorie()
     {
         $locale = app()->getLocale();
