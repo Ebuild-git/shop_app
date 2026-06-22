@@ -185,6 +185,7 @@
 
     {{-- ARTICLE 13 --}}
     <h4>{!! __('article13_title') !!}</h4>
+    <p>{!! __('article13_description') !!}</p>
     <p>{!! __('article13_content') !!}</p>
 
     <br>
