@@ -131,8 +131,18 @@ class ListePublications extends Component
     {
         $this->categories = categories::all();
 
+        // $postsQuery = posts::query()
+        //     ->with(['signalements', 'favoris', 'user_info.city', 'sous_categorie_info', 'region']);
+
         $postsQuery = posts::query()
-            ->with(['signalements', 'favoris', 'user_info.city', 'sous_categorie_info', 'region']); // eager-load everything
+            ->with([
+                'signalements',
+                'favoris',
+                'user_info.city',
+                'sous_categorie_info.categorie',
+                'region',
+                'changements_prix',
+            ]);
 
         if ($this->deleted == 'oui') {
             $postsQuery->onlyTrashed()->orderBy('deleted_at', 'desc');

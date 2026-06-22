@@ -102,7 +102,10 @@
                         <th>ID</th>
                         <th>Titre</th>
                         <th>Catégorie</th>
-                        <th>Prix</th>
+                        <th>Prix de base</th>
+                        <th>Prix réduit</th>
+                        <th>Commission Shopin</th>
+                        <th>Prix public</th>
                         <th>Date de publication</th>
                         <th>Statut de la publication</th>
                         <th>Pseudonyme du vendeur</th>
@@ -212,7 +215,48 @@
                         <td><a href="{{ url('/admin/publication/' . $post->id . '/view') }}">{{ 'P' . $post->id }}</a></td>
                         <td>{{ $post->titre }}</td>
                         <td>{{ $post->sous_categorie_info->titre }}</td>
-                        <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td>
+                        {{-- <td>{{ $post->prix }} <sup>{{ __('currency') }}</sup></td> --}}
+                        {{-- Prix de base --}}
+                        <td>
+                            @php
+                                $hasReduction = $post->changements_prix->isNotEmpty()
+                                    && (float)$post->changements_prix->first()->old_price > (float)$post->prix;
+                            @endphp
+                            {{ $hasReduction
+                                ? number_format($post->changements_prix->first()->old_price, 2)
+                                : number_format($post->prix, 2) }}
+                            <sup>{{ __('currency') }}</sup>
+                        </td>
+
+                        {{-- Prix réduit --}}
+                        <td>
+                            @if($hasReduction)
+                                {{ number_format($post->prix, 2) }}
+                                <sup>{{ __('currency') }}</sup>
+                                <span class="badge bg-danger ms-1">
+                                    -{{ $post->discountPercentage }}%
+                                </span>
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
+
+                        {{-- Commission Shopin --}}
+                        <td>
+                            @php
+                                $pourcentage = $post->sous_categorie_info?->categorie?->pourcentage_gain ?? 0;
+                                $commission  = $post->getPrix() - $post->prix;
+                            @endphp
+                            {{ number_format($commission, 2) }}
+                            <sup>{{ __('currency') }}</sup>
+                            <small class="text-muted">({{ $pourcentage }}%)</small>
+                        </td>
+
+                        {{-- Prix public --}}
+                        <td>
+                            <strong>{{ number_format($post->getPrix(), 2) }}</strong>
+                            <sup>{{ __('currency') }}</sup>
+                        </td>
                         <td>{{ $post->created_at->format('d-m-Y') }}</td>
                         <td style="text-align: center;">
                             @if($post->verified_at !== null && $post->sell_at === null && $post->user_info->voyage_mode === 1)
