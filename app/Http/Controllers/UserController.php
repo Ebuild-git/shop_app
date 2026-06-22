@@ -460,4 +460,8 @@ class UserController extends Controller
             return back()->withErrors(['error' => 'Impossible de mettre à jour l\'utilisateur: ' . $th->getMessage()])->withInput();
         }
     }
+
+    public function liste_messages(){
+        return view('Admin.messages.index');
+    }
 }

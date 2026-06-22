@@ -486,6 +486,12 @@
 
                                     </ul>
                                 </li>
+                                <li class="menu-item">
+                                    <a href="{{ route('liste_messages') }}" class="menu-link">
+                                        <i class="menu-icon tf-icons bi bi-grid-fill"></i>
+                                        <div data-i18n="Messages">Messages</div>
+                                    </a>
+                                </li>
 
                             </ul>
                         </div>
@@ -583,6 +589,7 @@
                 titre: titre,
                 post_id: post_id,
                 image: image,
+                sent_from: window.location.href,
             });
             $("#destinataire").html(username);
             $('#MessageModal').modal('show');

@@ -19,12 +19,12 @@ use Livewire\Component;
 
 class SendMessage extends Component
 {
-    public $email, $message, $sujet, $username, $post, $titre, $user_id, $gender, $post_id, $image;
+    public $email, $message, $sujet, $username, $post, $titre, $user_id, $gender, $post_id, $image, $sent_from;
     public $recipientEmail;
     protected $listeners = ['sendDataUser'];
 
 
-    public function sendDataUser($user_id = null, $username = null, $titre = null, $post_id = null, $image = null)
+    public function sendDataUser($user_id = null, $username = null, $titre = null, $post_id = null, $image = null, $sent_from = null)
     {
         $user = User::withTrashed()->find($user_id);
         if ($user) {
@@ -42,6 +42,7 @@ class SendMessage extends Component
             $this->titre = $titre;
             $this->post_id = $post_id;
             $this->image = $image;
+            $this->sent_from = $sent_from;
         } else {
             session()->flash('error', 'User not found.');
         }
@@ -79,6 +80,15 @@ class SendMessage extends Component
 
         try {
             Mail::to($this->recipientEmail)->send(new MailSendMessage($message));
+
+            \App\Models\AdminMessage::create([
+                'from_user_id' => Auth::id(),
+                'to_user_id'   => $this->user_id,
+                'sujet'        => $this->sujet,
+                'message'      => $this->message,
+                'post_id'      => $this->post_id,
+                'sent_from'    => $this->sent_from,
+            ]);
 
             if (!empty($this->post_id)) {
                 // Set locale to the recipient's preferred language
