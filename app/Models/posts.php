@@ -96,70 +96,38 @@ class posts extends Model
         return null;
     }
 
+    // public function getDiscountPercentageAttribute()
+    // {
+    //     $current = $this->getPrix();
+    //     $old = $this->getOldPrix();
+
+    //     if ($old && $old > $current) {
+    //         return (int) round((($old - $current) / $old) * 100);
+    //     }
+
+    //     return null;
+    // }
     public function getDiscountPercentageAttribute()
     {
-        $current = $this->getPrix();
-        $old = $this->getOldPrix();
+        if ($this->changements_prix->isNotEmpty()) {
+            $firstChange = $this->changements_prix->first();
+            $old_raw = (float) $firstChange->old_price;
+            $new_raw = (float) $firstChange->new_price;
 
-        if ($old && $old > $current) {
-            return (int) round((($old - $current) / $old) * 100);
+            if ($old_raw && $old_raw > $new_raw) {
+                return (int) round((($old_raw - $new_raw) / $old_raw) * 100);
+            }
         }
 
         return null;
     }
-
-    // public function getDiscountPercentageAttribute()
-    // {
-    //     if ($this->old_prix && $this->old_prix > $this->prix) {
-    //         return round((($this->old_prix - $this->prix) / $this->old_prix) * 100);
-    //     }
-
-    //     return null;
-    // }
-
-    // public function getPrix()
-    // {
-    //     $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
-    //     $prix = $this->attributes['prix'];
-    //     $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100), 2);
-
-    //     return number_format($prix_calculé, 2, '.', '') ?? "N/A";
-    // }
-
-    // public function getOldPrix()
-    // {
-    //     if ($this->changements_prix->isNotEmpty()) {
-    //         $firstChangementPrix = $this->changements_prix->first();
-    //         $old_prix = $firstChangementPrix ? $firstChangementPrix->old_price : null;
-    //         if ($old_prix !== null) {
-    //             $pourcentage_gain = $this->sous_categorie_info?->categorie?->pourcentage_gain;
-    //             $prix_calculé = round($old_prix + (($pourcentage_gain * $old_prix) / 100), 2);
-    //             return number_format($prix_calculé, 2, '.', '') ?? "N/A";
-    //         }
-    //     }
-    //     return null;
-    // }
-
-    // public function Prix_initial(){
-    //     if($this->changements_prix->count() > 0){
-    //         $prix =  $this->changements_prix->first()->old_price;
-    //         return number_format($prix, 2, '.', '')?? null;
-    //     }else{
-    //         return null;
-    //     }
-    // }
 
     public function sous_categorie_info()
     {
         return $this->hasOne(sous_categories::class, 'id', 'id_sous_categorie');
     }
 
-    // public function calculateGain()
-    // {
-    //     $price = $this->prix;
 
-    //     return $price;
-    // }
     public function calculateGain()
     {
         // $this->prix is the raw price the seller entered
