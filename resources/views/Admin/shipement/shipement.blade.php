@@ -102,6 +102,7 @@
                                                         {{ $item->vendor->username_deleted }}
                                                     @endif
                                                 </a>
+                                                <br><small class="text-muted">{{ 'U' . ($item->vendor->id + 1000) }}</small>
 
                                                 <br>
 
@@ -142,6 +143,7 @@
                                                     @endif
                                                 </a>
 
+                                                <br><small class="text-muted">{{ 'U' . ($order->buyer->id + 1000) }}</small>
                                                 <br>
 
                                                 <small>
