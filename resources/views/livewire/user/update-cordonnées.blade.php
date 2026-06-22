@@ -2,47 +2,6 @@
     @include('components.alert-livewire')
 
     <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label>{{ __('current_rib_number') }}</label>
-                <input
-                        type="text"
-                        class="form-control border-r shadow-none @error('rib_number') is-invalid @enderror"
-                        wire:model="rib_number"
-                        inputmode="numeric"
-                        maxlength="24"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
-                    >
-                @error('rib_number')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div>
-                <label>{{ __('bank_name') }}</label>
-                <div class="form-group" style="position: relative;">
-                    <input type="text" class="form-control border-r shadow-none" id="bank-name"
-                        @error('bank_name') is-invalid @enderror wire:model="bank_name">
-                </div>
-                @error('bank_name')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div>
-                <label>{{ __('account_holder_name') }}</label>
-                <div class="form-group" style="position: relative;">
-                    <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
-                        @error('titulaire_name') is-invalid @enderror wire:model="titulaire_name"
-                        >
-                </div>
-                @error('titulaire_name')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="cin_img">{{ __('cin_image') }} <small class="text-muted">({{ __('recto') }})</small></label>
@@ -91,6 +50,48 @@
                 </div>
             @endif
         </div>
+        <div class="col-sm-6 mt-2">
+            <div class="form-group">
+                <label>{{ __('current_rib_number') }}</label>
+                <input
+                        type="text"
+                        class="form-control border-r shadow-none @error('rib_number') is-invalid @enderror"
+                        wire:model="rib_number"
+                        inputmode="numeric"
+                        maxlength="24"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 24)"
+                    >
+                @error('rib_number')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-sm-6 mt-2">
+            <div>
+                <label>{{ __('bank_name') }}</label>
+                <div class="form-group" style="position: relative;">
+                    <input type="text" class="form-control border-r shadow-none" id="bank-name"
+                        @error('bank_name') is-invalid @enderror wire:model="bank_name">
+                </div>
+                @error('bank_name')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+        {{-- <div class="col-sm-6">
+            <div>
+                <label>{{ __('account_holder_name') }}</label>
+                <div class="form-group" style="position: relative;">
+                    <input type="text" class="form-control border-r shadow-none" id="titulaire-name"
+                        @error('titulaire_name') is-invalid @enderror wire:model="titulaire_name"
+                        >
+                </div>
+                @error('titulaire_name')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div> --}}
+
 
     </div>
     <div class="modal-footer mt-3">

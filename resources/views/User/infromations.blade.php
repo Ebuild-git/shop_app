@@ -39,7 +39,7 @@
                     @livewire('User.UpdateInformations')
                 </div>
                 <div id="div-cordonnées" style="display: none;">
-                    <h4 class="text-muted">{{ __('my_bank_details') }}</h4>
+                    <h4 class="text-muted">{{ __('bank_details') }}</h4>
                     <hr>
                     @livewire('User.UpdateCordonnées')
                 </div>

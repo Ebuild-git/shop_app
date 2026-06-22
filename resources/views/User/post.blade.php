@@ -55,7 +55,7 @@
             </div>
             <form id="ribForm" enctype="multipart/form-data">
                 @csrf
-                <div class="mb-4 position-relative">
+                {{-- <div class="mb-4 position-relative">
                     <label for="titulaireName" class="form-label">{{ __('account_holder_name')}}</label>
                     <input
                         type="text"
@@ -66,7 +66,7 @@
                         required
                         placeholder="{{ __('account_holder_name')}}"
                     >
-                </div>
+                </div> --}}
 
                 <div class="mb-4 position-relative">
                     {{-- <i class="fas fa-building form-icon"></i> --}}
