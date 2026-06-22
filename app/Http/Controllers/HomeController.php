@@ -466,6 +466,18 @@ class HomeController extends Controller
             ->take(16)
             ->get();
 
+        $post->discountPercentage = null;
+        if ($post->changements_prix->isNotEmpty()) {
+            $firstChange = $post->changements_prix->first();
+            $old_raw = (float) $firstChange->old_price;
+            $new_raw = (float) $firstChange->new_price;
+
+            if ($old_raw && $old_raw > $new_raw) {
+                $post->discountPercentage = (int) round(
+                    (($old_raw - $new_raw) / $old_raw) * 100
+                );
+            }
+        }
         return view('User.details')
             ->with('post', $post)
             ->with('user', $user)
