@@ -39,7 +39,7 @@ class FcmService
 
     //     return $this->sendToToken($user->fcm_token, $title, $body, $data);
     // }
-    public function sendToUser($userId, $title, $body, $data = [])
+    public function sendToUser($userId, $title, $body, $data = [], $notification = null)
     {
         $title = strip_tags($title);
         $body  = strip_tags($body);
@@ -51,10 +51,9 @@ class FcmService
             return false;
         }
 
-        // Add unread count
-        $data['unread_count'] = notifications::where('id_user_destination', $userId)
-            ->where('statut', 'unread')
-            ->count();
+        $data['unread_count']    = notifications::where('id_user_destination', $userId)->where('statut', 'unread')->count();
+        $data['total_count']     = notifications::where('id_user_destination', $userId)->count();
+        $data['notification_id'] = $notification?->id;
 
         return $this->sendToToken($user->fcm_token, $title, $body, $data);
     }
@@ -152,7 +151,7 @@ class FcmService
     //         return false;
     //     }
     // }
-    public function sendDataOnly($userId, $data = [])
+    public function sendDataOnly($userId, $data = [], $notification = null)
     {
         $user = User::find($userId);
 
@@ -160,10 +159,9 @@ class FcmService
             return false;
         }
 
-        // Add unread count
-        $data['unread_count'] = notifications::where('id_user_destination', $userId)
-            ->where('statut', 'unread')
-            ->count();
+        $data['unread_count']    = notifications::where('id_user_destination', $userId)->where('statut', 'unread')->count();
+        $data['total_count']     = notifications::where('id_user_destination', $userId)->count();
+        $data['notification_id'] = $notification?->id;
 
         try {
             $message = CloudMessage::withTarget('token', $user->fcm_token)
