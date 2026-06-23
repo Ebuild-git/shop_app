@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Carbon\Carbon;
+use App\Services\FcmNotificationService;
+use Illuminate\Notifications\Events\NotificationSent;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +42,18 @@ class AppServiceProvider extends ServiceProvider
         }
 
         App::setLocale($locale);
+
+        $this->app['events']->listen(NotificationSent::class, function (NotificationSent $event) {
+            Log::info('NotificationSent event fired', [
+                'notifiable_type' => get_class($event->notifiable),
+                'notification_type' => get_class($event->notification),
+            ]);
+
+            $notifiable = $event->notifiable;
+
+            if ($notifiable instanceof \App\Models\User) {
+                app(FcmNotificationService::class)->sendCountUpdate($notifiable, $event->notification);
+            }
+        });
     }
 }

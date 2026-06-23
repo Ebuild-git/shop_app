@@ -25,21 +25,7 @@ class FcmService
      * Send notification to a specific user by ID
      * This is similar to Pusher Beams - you just need the user ID
      */
-    // public function sendToUser($userId, $title, $body, $data = [])
-    // {
-    //     $title = strip_tags($title);
-    //     $body  = strip_tags($body);
-
-    //     $user = User::find($userId);
-
-    //     if (!$user || !$user->fcm_token) {
-    //         Log::warning("FCM: User {$userId} has no token registered");
-    //         return false;
-    //     }
-
-    //     return $this->sendToToken($user->fcm_token, $title, $body, $data);
-    // }
-    public function sendToUser($userId, $title, $body, $data = [], $notification = null)
+    public function sendToUser($userId, $title, $body, $data = [])
     {
         $title = strip_tags($title);
         $body  = strip_tags($body);
@@ -51,12 +37,9 @@ class FcmService
             return false;
         }
 
-        $data['unread_count']    = notifications::where('id_user_destination', $userId)->where('statut', 'unread')->count();
-        $data['total_count']     = notifications::where('id_user_destination', $userId)->count();
-        $data['notification_id'] = $notification?->id;
-
         return $this->sendToToken($user->fcm_token, $title, $body, $data);
     }
+
 
     /**
      * Send notification directly to a token
@@ -132,36 +115,13 @@ class FcmService
     /**
      * Send data-only notification (silent, no popup)
      */
-    // public function sendDataOnly($userId, $data = [])
-    // {
-    //     $user = User::find($userId);
-
-    //     if (!$user || !$user->fcm_token) {
-    //         return false;
-    //     }
-
-    //     try {
-    //         $message = CloudMessage::withTarget('token', $user->fcm_token)
-    //             ->withData($data);
-
-    //         $this->messaging->send($message);
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         Log::error('FCM Error: ' . $e->getMessage());
-    //         return false;
-    //     }
-    // }
-    public function sendDataOnly($userId, $data = [], $notification = null)
+    public function sendDataOnly($userId, $data = [])
     {
         $user = User::find($userId);
 
         if (!$user || !$user->fcm_token) {
             return false;
         }
-
-        $data['unread_count']    = notifications::where('id_user_destination', $userId)->where('statut', 'unread')->count();
-        $data['total_count']     = notifications::where('id_user_destination', $userId)->count();
-        $data['notification_id'] = $notification?->id;
 
         try {
             $message = CloudMessage::withTarget('token', $user->fcm_token)
@@ -174,6 +134,7 @@ class FcmService
             return false;
         }
     }
+
 
     /**
      * Send notification with real-time unread count badge
