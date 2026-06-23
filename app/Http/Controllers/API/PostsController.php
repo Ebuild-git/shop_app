@@ -1237,15 +1237,29 @@ class PostsController extends Controller
 
         $now = Carbon::now();
 
+        // if ($lastChange && $lastChange->created_at->greaterThan($now->subWeek())) {
+
+        //     $nextChange = $lastChange->created_at->addWeek();
+        //     $days = $now->diffInDays($nextChange);
+        //     $hours = $now->copy()->addDays($days)->diffInHours($nextChange);
+
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => "You can change the price again in $days day(s) and $hours hour(s)."
+        //     ], 429);
+        // }
         if ($lastChange && $lastChange->created_at->greaterThan($now->subWeek())) {
 
             $nextChange = $lastChange->created_at->addWeek();
-            $days = $now->diffInDays($nextChange);
-            $hours = $now->copy()->addDays($days)->diffInHours($nextChange);
+
+            // Calculate remaining time accurately
+            $diffInDays = $now->diffInDays($nextChange);
+            $diffInHours = $now->copy()->addDays($diffInDays)->diffInHours($nextChange);
+            $diffInMinutes = $now->copy()->addDays($diffInDays)->addHours($diffInHours)->diffInMinutes($nextChange);
 
             return response()->json([
                 'success' => false,
-                'message' => "You can change the price again in $days day(s) and $hours hour(s)."
+                'message' => "You can change the price again in $diffInDays day(s) and $diffInHours hour(s)."
             ], 429);
         }
 
