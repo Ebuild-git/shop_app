@@ -117,7 +117,6 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/web/notifications/user/{userId}', [NotificationsController::class, 'getNotificationsJson']);
     Route::post('/web/notifications/user/{userId}/mark-read', [NotificationsController::class, 'markAllRead']);
     Route::delete('/web/notifications/user/{userId}/{id}', [NotificationsController::class, 'deleteNotification']);
-    Route::get('/post/{id}/deleted', [ControllersHomeController::class, 'deletedNotice'])->name('post.deleted');
 
     Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);
     Route::get('/count_notification', [NotificationsController::class, 'count_notification']);
@@ -147,6 +146,8 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/category/post_user', [ControllersHomeController::class, 'get_user_categorie_post'])->name('get_user_categorie_post');
 
     Route::get('/my-orders', [OrdersController::class, 'myOrders'])->name('myOrders');
+
+    Route::get('/mon-post/{id}/supprime', [ControllersHomeController::class, 'deletedNotice'])->name('post.deleted');
 
 });
 
