@@ -1452,7 +1452,7 @@ class HomeController extends Controller
     public function deletedNotice($id)
     {
         $post = posts::withTrashed()->findOrFail($id);
-        abort_unless($post->deleted_at || $post->motif_suppression, 404);
+        // abort_unless($post->deleted_at || $post->motif_suppression, 404);
         return view('User.post-deleted', compact('post'));
     }
 }
