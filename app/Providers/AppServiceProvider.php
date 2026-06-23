@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,9 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Paginator::useBootstrap();
-        // $locale = Cookie::get('locale', Session::get('locale', config('app.locale')));
-        // App::setLocale($locale);
+        date_default_timezone_set(config('app.timezone'));
+
         Paginator::useBootstrap();
 
         $allowedLocales = ['en', 'fr', 'ar'];

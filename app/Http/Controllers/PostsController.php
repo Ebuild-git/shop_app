@@ -452,15 +452,6 @@ class PostsController extends Controller
             $post->old_prix = $post->getOldPrix();
             $post->favoris_count = $post->favoris_count;
 
-            // ✅ OVERRIDE the accessor by calculating AFTER getPrix/getOldPrix
-            // Use the transformed values (with percentage already applied)
-            // if ($post->old_prix && $post->old_prix > $post->prix) {
-            //     $post->discountPercentage = (int) round(
-            //         (($post->old_prix - $post->prix) / $post->old_prix) * 100
-            //     );
-            // } else {
-            //     $post->discountPercentage = null;
-            // }
             $post->discountPercentage = null;
             if ($post->changements_prix->isNotEmpty()) {
                 $firstChange = $post->changements_prix->first();
