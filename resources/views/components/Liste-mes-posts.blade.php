@@ -463,10 +463,21 @@
 
                     <td>
                         <div class="item-meta">
-                            <div class="item-name" title="{{ $item->titre }}">
+                            {{-- <div class="item-name" title="{{ $item->titre }}">
                                 <a href="/post/{{ $item->id }}" class="link">
                                     {{ Str::limit($item->titre, 25, '...') }}
                                 </a>
+                            </div> --}}
+                            <div class="item-name" title="{{ $item->titre }}">
+                                @if($item->deleted_at || $item->motif_suppression)
+                                    <a href="{{ route('post.deleted', $item->id) }}" class="link">
+                                        {{ Str::limit($item->titre, 25, '...') }}
+                                    </a>
+                                @else
+                                    <a href="/post/{{ $item->id }}" class="link">
+                                        {{ Str::limit($item->titre, 25, '...') }}
+                                    </a>
+                                @endif
                             </div>
                             <div class="item-id">
                                 {{ 'P' . $item->id }}
@@ -520,59 +531,6 @@
                             @endif
                         </td>
                     @endif
-
-                    {{-- <td>
-                        @php
-                            $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
-                            $hasDeletedOrder = $item->hasDeletedOrders();
-                        @endphp
-
-                        @if (!$item->motif_suppression)
-                            @php
-                                $s = $item->statut;
-                                $vm = optional($item->user_info)->voyage_mode;
-                                if ($vm && $item->verified_at && !$item->sell_at) {
-                                    $s = 'en voyage';
-                                }
-
-                                $badgeMap = [
-                                    'validation'           => ['class' => 's-validation',  'label' => __('validation')],
-                                    'vente'                => ['class' => 's-vente',        'label' => __('vente')],
-                                    'vendu'                => ['class' => 's-vendu',        'label' => __('vendu')],
-                                    'livraison'            => ['class' => 's-livraison',    'label' => __('livraison')],
-                                    'livré'                => ['class' => 's-livre',        'label' => __('livré')],
-                                    'refusé'               => ['class' => 's-refuse',       'label' => __('refusé')],
-                                    'préparation'          => ['class' => 's-preparation',  'label' => __('préparation')],
-                                    'en voyage'            => ['class' => 's-en-voyage',    'label' => __('en voyage')],
-                                    'en cours de livraison'=> ['class' => 's-en-cours',     'label' => __('en cours de livraison')],
-                                    'ramassée'             => ['class' => 's-ramassee',     'label' => __('ramassée')],
-                                    'retourné'             => ['class' => 's-retourne',     'label' => __('retourné')],
-                                ];
-                                $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
-                            @endphp
-
-                            <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-
-                            @if ($item->sell_at)
-                                <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
-                                    {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y') }}
-                                </div>
-                            @elseif($item->verified_at)
-                                <div class="status-sub">
-                                    {{ \Carbon\Carbon::parse($item->verified_at)->format('d-m-Y') }}
-                                </div>
-                            @endif
-
-                            @if ($isUserDeleted || $hasDeletedOrder)
-                                <span class="s-badge s-annule" style="margin-top:2px; display:inline-block;">
-                                    {{ __('commande annulée') }}
-                                </span>
-                            @endif
-                        @else
-                            <span class="s-badge s-deleted">{{ __('deleted_by_shopin') }}</span>
-                        @endif
-                    </td> --}}
-                    {{-- AFTER --}}
                     <td>
                         @php
                         $isUserDeleted = $item->user_info && $item->user_info->deleted_at;

@@ -1448,4 +1448,11 @@ class HomeController extends Controller
             'total' => count($categories),
         ]);
     }
+
+    public function deletedNotice($id)
+    {
+        $post = posts::withTrashed()->findOrFail($id);
+        abort_unless($post->deleted_at || $post->motif_suppression, 404);
+        return view('User.post-deleted', compact('post'));
+    }
 }

@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
         return view('test-fcm');
     });
 
+
     Route::get('/user/{id}', [ControllersHomeController::class, 'user_profile'])->name('user_profile');
     Route::post('/user/{id}/block', [ControllersHomeController::class, 'blockUser'])->name('block_user');
     Route::delete('/user/{id}/block', [ControllersHomeController::class, 'unblockUser'])->name('unblock_user');
@@ -116,6 +117,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
     Route::get('/web/notifications/user/{userId}', [NotificationsController::class, 'getNotificationsJson']);
     Route::post('/web/notifications/user/{userId}/mark-read', [NotificationsController::class, 'markAllRead']);
     Route::delete('/web/notifications/user/{userId}/{id}', [NotificationsController::class, 'deleteNotification']);
+    Route::get('/post/{id}/deleted', [ControllersHomeController::class, 'deletedNotice'])->name('post.deleted');
 
     Route::get('/delete_notification', [NotificationsController::class, 'delete_notification']);
     Route::get('/count_notification', [NotificationsController::class, 'count_notification']);
