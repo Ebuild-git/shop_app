@@ -14,6 +14,19 @@ class notifications extends Model
         'statut',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($notification) {
+            $user = \App\Models\User::find($notification->id_user_destination);
+
+            if ($user) {
+                app(\App\Services\FcmNotificationService::class)->sendCountUpdate($user, $notification);
+            }
+        });
+    }
+
     //get  post
     public function getPost() {
         return $this->hasMany(posts::class, 'id','id_post');
