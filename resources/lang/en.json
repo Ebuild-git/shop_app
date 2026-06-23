@@ -1295,7 +1295,8 @@
 "cndp_rights_notice": "In accordance with law 09-08, you have the right to access, rectify and oppose the processing of your personal data. This processing has been authorized by the CNDP under n° D-743/2026.",
 "recto": "Front side",
 "verso": "Back side",
-"weight_limit_note": "Maximum accepted weight: 20 kg per item. Please ensure that your item does not exceed this weight limit"
+"weight_limit_note": "Maximum accepted weight: 20 kg per item. Please ensure that your item does not exceed this weight limit",
+"post_deleted_by_me_message": "You have deleted this item yourself. If you think this was a mistake, please contact us."
 
 
 

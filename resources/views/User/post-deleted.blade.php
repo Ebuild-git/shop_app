@@ -16,8 +16,5 @@
     <a href="/contact" class="btn btn-outline-danger mt-2">
         <i class="bi bi-envelope"></i> {{ __('contact_us') }}
     </a>
-    <a href="{{ route('mes-publication') }}" class="btn btn-outline-secondary mt-2 ms-2">
-        <i class="bi bi-arrow-left"></i> {{ __('back') }}
-    </a>
 </div>
 @endsection
