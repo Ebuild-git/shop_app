@@ -25,12 +25,9 @@ class posts extends Model
     protected $casts = [
         'photos' => 'json',
         'proprietes' => 'json',
+        'updated_price_at' => 'datetime:Y-m-d H:i:s',
     ];
 
-    protected $dates = [
-        'updated_price_at',
-        // d'autres colonnes de date
-    ];
 
     // protected $appends = ['discountPercentage'];
     protected $appends = [];
