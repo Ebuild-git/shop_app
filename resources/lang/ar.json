@@ -321,7 +321,7 @@
     "favorite_added": "تمت إضافة المنتج إلى المفضل لدي",
     "remove_all": "حذف الكل",
     "notifications.new_order_title": "طلب جديد!",
-    "notifications.new_order_message": ":salutation :seller، تم طلب منتجك <a href=':post_url' class='underlined-link'>:post_title</a> من قبل :buyer. يرجى تحضير المنتج للشحن. سيتواصل معك أحد مندوبي الشحن التابعين لنا قريبًا لاستلام المنتج.<br>يرجى <a href=':bank_info_url' class='underlined-link'>النقر هنا</a> لتأكيد أو تحديث معلوماتك البنكية (RIB)، حتى نتمكن من تحويل الأموال لك عند اكتمال عملية البيع.",
+    "notifications.new_order_message": ":salutation :seller، تم طلب منتجك <a href=':post_url' class='underlined-link'>:post_title</a> من قبل <span class='underlined-link'>:buyer</span>. يرجى تحضير المنتج للشحن. سيتواصل معك أحد مندوبي الشحن التابعين لنا قريبًا لاستلام المنتج.<br>يرجى <a href=':bank_info_url' class='underlined-link'>النقر هنا</a> لتأكيد أو تحديث معلوماتك البنكية (<span class='underlined-link'>RIB</span>)، حتى نتمكن من تحويل الأموال لك عند اكتمال عملية البيع.",
     "notifications.salutation_male": "عزيزي",
     "notifications.salutation_female": "عزيزتي",
     "Shopiners": "شوبينرز",
