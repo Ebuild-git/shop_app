@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\FcmToken;
 use App\Models\User;
+use App\Models\notifications;
 use Illuminate\Support\Facades\Log;
 
 class FcmNotificationService
@@ -11,28 +11,25 @@ class FcmNotificationService
     public function sendCountUpdate(User $user, $notification = null)
     {
         try {
-            $hasTokens = FcmToken::where('user_id', $user->id)->exists();
-
-            if (! $hasTokens) {
-                Log::warning("FCM: User {$user->id} has no tokens registered");
-
+            if (!$user->fcm_token) {
+                Log::warning("FCM: User {$user->id} has no token registered");
                 return false;
             }
 
-            $unreadCount = $user->unreadNotifications()->count();
-            $totalCount = $user->notifications()->count();
+            $unreadCount = notifications::where('id_user_destination', $user->id)->where('statut', 'unread')->count();
+            $totalCount  = notifications::where('id_user_destination', $user->id)->count();
 
             app(FcmService::class)->sendDataOnly($user->id, [
-                'type' => 'notification_count_update',
-                'unread_count' => $unreadCount,
-                'total_count' => $totalCount,
-                'notification_id' => $notification?->id,
-            ]);
+                'type'            => 'notification_count_update',
+                'unread_count'    => (string) $unreadCount,
+                'total_count'     => (string) $totalCount,
+                'notification_id' => (string) ($notification?->id ?? ''),
+            ], $notification);
 
             Log::info('FCM notification count update sent', [
-                'user_id' => $user->id,
+                'user_id'      => $user->id,
                 'unread_count' => $unreadCount,
-                'total_count' => $totalCount,
+                'total_count'  => $totalCount,
             ]);
 
             return true;
