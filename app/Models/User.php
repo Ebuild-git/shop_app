@@ -318,4 +318,14 @@ class User extends Authenticatable implements JWTSubject
             return null;
         }
     }
+
+    public function adminMessagesSent()
+    {
+        return $this->hasMany(AdminMessage::class, 'from_user_id');
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class, 'user_id');
+    }
 }

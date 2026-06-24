@@ -35,6 +35,7 @@ class ContactController extends Controller
                 'consent_rgpd_at' => now(),
                 'consent_newsletter' => $request->has('consent_newsletter'),
                 'newsletter_subscribed_at' => $request->has('consent_newsletter') ? now() : null,
+                'user_id' => auth()->id(),
             ]);
 
             if ($request->has('consent_newsletter')) {

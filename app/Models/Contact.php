@@ -23,7 +23,8 @@ class Contact extends Model
         'ip_address',
         'user_agent',
         'status',
-        'archived'
+        'archived',
+        'user_id',
     ];
 
     protected $casts = [
@@ -80,5 +81,10 @@ class Contact extends Model
             return false;
         }
         return $this->consent_rgpd_at->diffInYears(now()) < 2;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
