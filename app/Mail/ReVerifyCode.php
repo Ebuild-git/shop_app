@@ -18,7 +18,7 @@ class ReVerifyCode extends Mailable
     {
         $this->user = $user;
         $this->token = $token;
-        $this->from('shopin@fresh-home.store', 'SHOPIN');
+        $this->from('contact@shopin.ma', 'SHOPIN');
         $this->subject('Vérification code');
     }
 

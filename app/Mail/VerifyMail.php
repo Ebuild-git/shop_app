@@ -21,7 +21,7 @@ class VerifyMail extends Mailable
         $this->categorie = categories::first();
         $this->user = $user;
         $this->token = $token;
-        $this->from('shopin@fresh-home.store', 'SHOPIN');
+        $this->from('contact@shopin.ma', 'SHOPIN');
         $this->subject('Confirmation de votre inscription !');
 
     }

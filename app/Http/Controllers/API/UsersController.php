@@ -491,7 +491,7 @@ class UsersController extends Controller
             Mail::send('emails.contact_admin', $data, function ($mail) use ($validated, $configEmail) {
                 $mail->to($configEmail)
                     ->subject('[Contact] ' . $validated['subject'])
-                    ->from('shopin@fresh-home.store', 'Contact Shopin');
+                    ->from('contact@shopin.ma', 'Contact Shopin');
             });
 
             Mail::send('emails.contact_autoreply', $data, function ($mail) use ($validated, $configEmail) {

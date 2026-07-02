@@ -34,7 +34,7 @@ class VenteConfirmee extends Mailable
     public function build()
     {
         App::setLocale($this->seller->locale ?? 'fr');
-        return $this->from('shopin@fresh-home.store', 'SHOPIN')
+        return $this->from('contact@shopin.ma', 'SHOPIN')
                     ->subject("Votre article a été commandé")
                     ->view('Mails.sellerNotification');
     }
