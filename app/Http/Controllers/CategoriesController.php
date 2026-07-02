@@ -178,20 +178,18 @@ class CategoriesController extends Controller
     }
 
     public function changer_ordre_attribus(){
-        $ids = request()->get('ids');
-        $id_propriete = request()->get('id_propriete');
-        $propriete = proprietes::find($id_propriete);
-        if($propriete){
+        $ids = request()->get('sorted_ids');
+        $id_propriete = request()->get('propriete_id');
 
-        $tabIds = explode(",", $ids);
-        $sortedIds = [];
-        foreach ($tabIds as $id) {
-                $sortedIds[] = str($id);
+        $propriete = proprietes::find($id_propriete);
+        if ($propriete) {
+            $sortedIds = array_values(array_filter(explode(",", $ids)));
+            $propriete->options = $sortedIds;
+            $propriete->save();
+            return response()->json(['success' => true]);
         }
-        $propriete->options= $sortedIds;
-        $propriete->save();;
-        }
-        return response()->json(['success' => true]);
+
+        return response()->json(['success' => false, 'message' => 'Propriété introuvable'], 404);
     }
 
 
