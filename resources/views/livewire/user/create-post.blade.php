@@ -321,66 +321,66 @@
                                                 <option value="">{{ __('please_select')}}</option>
                                                 @php
                                                     $options = json_decode($propriete_info->options, true);
-                                                    // Sort options based on their type (numeric or alphabetic)
-                                                    if (!empty($options)) {
-                                                        // Check if options contain size patterns (numbers with XL, XS, etc.)
-                                                        $hasSizePattern = false;
-                                                        foreach ($options as $opt) {
-                                                            if (preg_match('/(XXS|XS|S|M|L|XL|XXL|XXXL|\d+XL)/i', $opt)) {
-                                                                $hasSizePattern = true;
-                                                                break;
-                                                            }
-                                                        }
+                                                    // // Sort options based on their type (numeric or alphabetic)
+                                                    // if (!empty($options)) {
+                                                    //     // Check if options contain size patterns (numbers with XL, XS, etc.)
+                                                    //     $hasSizePattern = false;
+                                                    //     foreach ($options as $opt) {
+                                                    //         if (preg_match('/(XXS|XS|S|M|L|XL|XXL|XXXL|\d+XL)/i', $opt)) {
+                                                    //             $hasSizePattern = true;
+                                                    //             break;
+                                                    //         }
+                                                    //     }
 
-                                                        if ($hasSizePattern) {
-                                                            // Custom sort for sizes
-                                                            usort($options, function($a, $b) {
-                                                                // Extract numeric values from size strings
-                                                                $getSizeValue = function($size) {
-                                                                    // First try to extract numbers like 48 from "3XL/48/16"
-                                                                    if (preg_match('/(\d+)/', $size, $matches)) {
-                                                                        $num = (int)$matches[1];
-                                                                        // If number is large (like 48,50), use it directly
-                                                                        if ($num >= 30) {
-                                                                            return $num;
-                                                                        }
-                                                                    }
+                                                    //     if ($hasSizePattern) {
+                                                    //         // Custom sort for sizes
+                                                    //         usort($options, function($a, $b) {
+                                                    //             // Extract numeric values from size strings
+                                                    //             $getSizeValue = function($size) {
+                                                    //                 // First try to extract numbers like 48 from "3XL/48/16"
+                                                    //                 if (preg_match('/(\d+)/', $size, $matches)) {
+                                                    //                     $num = (int)$matches[1];
+                                                    //                     // If number is large (like 48,50), use it directly
+                                                    //                     if ($num >= 30) {
+                                                    //                         return $num;
+                                                    //                     }
+                                                    //                 }
 
-                                                                    // Map letter sizes to numeric values
-                                                                    $sizeMap = [
-                                                                        'XXS' => 30,
-                                                                        'XS' => 32,
-                                                                        'S' => 34,
-                                                                        'M' => 36,
-                                                                        'L' => 38,
-                                                                        'XL' => 40,
-                                                                        'XXL' => 42,
-                                                                        'XXXL' => 44,
-                                                                        '3XL' => 48,
-                                                                        '4XL' => 50,
-                                                                        '5XL' => 52,
-                                                                    ];
+                                                    //                 // Map letter sizes to numeric values
+                                                    //                 $sizeMap = [
+                                                    //                     'XXS' => 30,
+                                                    //                     'XS' => 32,
+                                                    //                     'S' => 34,
+                                                    //                     'M' => 36,
+                                                    //                     'L' => 38,
+                                                    //                     'XL' => 40,
+                                                    //                     'XXL' => 42,
+                                                    //                     'XXXL' => 44,
+                                                    //                     '3XL' => 48,
+                                                    //                     '4XL' => 50,
+                                                    //                     '5XL' => 52,
+                                                    //                 ];
 
-                                                                    foreach ($sizeMap as $key => $value) {
-                                                                        if (stripos($size, $key) !== false) {
-                                                                            return $value;
-                                                                        }
-                                                                    }
+                                                    //                 foreach ($sizeMap as $key => $value) {
+                                                    //                     if (stripos($size, $key) !== false) {
+                                                    //                         return $value;
+                                                    //                     }
+                                                    //                 }
 
-                                                                    return 999;
-                                                                };
+                                                    //                 return 999;
+                                                    //             };
 
-                                                                $valueA = $getSizeValue($a);
-                                                                $valueB = $getSizeValue($b);
+                                                    //             $valueA = $getSizeValue($a);
+                                                    //             $valueB = $getSizeValue($b);
 
-                                                                return $valueA <=> $valueB;
-                                                            });
-                                                        } elseif (is_numeric($options[0] ?? '')) {
-                                                            sort($options, SORT_NUMERIC);
-                                                        } else {
-                                                            sort($options, SORT_STRING | SORT_FLAG_CASE);
-                                                        }
-                                                    }
+                                                    //             return $valueA <=> $valueB;
+                                                    //         });
+                                                    //     } elseif (is_numeric($options[0] ?? '')) {
+                                                    //         sort($options, SORT_NUMERIC);
+                                                    //     } else {
+                                                    //         sort($options, SORT_STRING | SORT_FLAG_CASE);
+                                                    //     }
+                                                    // }
                                                 @endphp
                                                 @foreach ($options as $option)
                                                     <option value="{{ $option }}">
