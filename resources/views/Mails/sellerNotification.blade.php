@@ -63,9 +63,9 @@
         </td>
         <!-- Product Details -->
         <td style="padding:16px 16px 16px 8px;vertical-align:top;">
-          <div style="display:inline-block;background:#1a4a47;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:10px;">
+          {{-- <div style="display:inline-block;background:#1a4a47;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:10px;">
             {{ __('email2.order.article') }} {{ $index + 1 }}
-          </div>
+          </div> --}}
           <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">{{ $item['titre'] }}</div>
           @if(!empty($orderId))
             <div style="font-size:13px;color:#555;margin-bottom:12px;">
@@ -123,7 +123,7 @@
               <td style="color:#333;font-size:14px;font-weight:700;padding-right:20px;white-space:nowrap;vertical-align:top;">{{ __('email2.order.pickup_address_label') }}</td>
               <td style="color:#555;font-size:14px;line-height:1.6;">
 
-                {!! $buyer->num_appartement ? 'App. ' . e($buyer->num_appartement) . ', ' : '' !!}
+                {{-- {!! $buyer->num_appartement ? 'App. ' . e($buyer->num_appartement) . ', ' : '' !!}
 
                 {!! ($buyer->etage !== null && $buyer->etage !== '')
                     ? 'Étage ' . e($buyer->etage) . ', '
@@ -143,7 +143,13 @@
 
                 {!! optional($buyer->region_info)->nom
                     ? e($buyer->region_info->nom)
-                    : '' !!}
+                    : '' !!} --}}
+                    {!! $pickupContact->num_appartement ? 'App. ' . e($pickupContact->num_appartement) . ', ' : '' !!}
+                    {!! ($pickupContact->etage !== null && $pickupContact->etage !== '') ? 'Étage ' . e($pickupContact->etage) . ', ' : '' !!}
+                    {!! $pickupContact->nom_batiment ? 'Résidence ' . e($pickupContact->nom_batiment) . ', ' : '' !!}
+                    {!! $pickupContact->rue ? 'Rue ' . e($pickupContact->rue) . ', ' : '' !!}
+                    {!! optional($pickupContact->city)->name ? 'Ville ' . e($pickupContact->city->name) . ', ' : '' !!}
+                    {!! optional($pickupContact->region_info)->nom ? e($pickupContact->region_info->nom) : '' !!}
 
             </td>
             </tr>
@@ -157,7 +163,7 @@
             <tr>
               <td style="font-size:18px;padding-right:14px;">🗺️</td>
               <td style="color:#333;font-size:14px;font-weight:700;padding-right:20px;white-space:nowrap;">{{ __('email2.order.region_label') }}</td>
-              <td style="color:#555;font-size:14px;">{{ optional($buyer->region_info)->nom }}</td>
+              <td style="color:#555;font-size:14px;">{{ optional($pickupContact->region_info)->nom }}</td>
             </tr>
           </table>
         </td>
@@ -169,7 +175,7 @@
             <tr>
               <td style="font-size:18px;padding-right:14px;">📞</td>
               <td style="color:#333;font-size:14px;font-weight:700;padding-right:20px;white-space:nowrap;">{{ __('email2.order.phone_label') }}</td>
-              <td><a href="tel: {{ $buyer->phone_number }}" style="color:#1a7a6e;font-size:14px;font-weight:600;text-decoration:none;">{{ $buyer->phone_number }}</a></td>
+              <td><a href="tel: {{ $pickupContact->phone_number }}" style="color:#1a7a6e;font-size:14px;font-weight:600;text-decoration:none;">{{ $pickupContact->phone_number }}</a></td>
             </tr>
           </table>
         </td>

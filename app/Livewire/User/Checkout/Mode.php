@@ -117,7 +117,7 @@ class Mode extends Component
         $order = $this->processCartItems();
         $this->sendBuyerNotification($order);
         $this->notifySellers($order);
-        $this->sendConfirmationEmail();
+        $this->sendConfirmationEmail($order->id);
         $this->notifyAdminAboutPurchase();
 
         $token = md5(uniqid(rand(), true));
@@ -289,8 +289,23 @@ class Mode extends Component
 
     private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $orderId)
     {
+
         $sellerLocale = $seller->locale ?? config('app.locale');
         app()->setLocale($sellerLocale);
+
+        $sellerAddress = $seller->addresses()->where('is_default', true)->first();
+        if ($sellerAddress) {
+            $seller->address = $sellerAddress->city;
+            $seller->rue = $sellerAddress->street;
+            $seller->nom_batiment = $sellerAddress->building_name;
+            $seller->etage = $sellerAddress->floor;
+            $seller->num_appartement = $sellerAddress->apartment_number;
+            $seller->phone_number = $sellerAddress->phone_number;
+            $seller->setRelation('city', $sellerAddress->city);
+            if ($region = $sellerAddress->regionExtra) {
+                $seller->region_info = $region;
+            }
+        }
 
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
@@ -319,7 +334,7 @@ class Mode extends Component
                 $buyerPseudo,
                 $articlesWithGain,
                 $salutation,
-                $this->user,
+                $seller,
                 $orderId
             ));
         } catch (\Exception $e) {
@@ -399,7 +414,7 @@ class Mode extends Component
         }
     }
 
-    private function sendConfirmationEmail()
+    private function sendConfirmationEmail($orderId)
     {
         $groupedByVendor = collect($this->articles_panier)->groupBy('vendeur');
         $uniqueVendorsCount = $groupedByVendor->count();
@@ -427,7 +442,7 @@ class Mode extends Component
         $buyerLocale = $this->user->locale ?? config('app.locale');
         app()->setLocale($buyerLocale);
 
-        Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier, $totalShippingFees));
+        Mail::to(Auth::user()->email)->send(new commande($this->user, $this->articles_panier, $totalShippingFees, $orderId));
 
         app()->setLocale(config('app.locale'));
     }

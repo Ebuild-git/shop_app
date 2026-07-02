@@ -68,6 +68,9 @@
               </td>
               <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.5px;">
                 {{ __('order_summary2') }}
+                @if(!empty($orderId))
+                    <span style="color:#1a7a6e;">— CMD-{{ $orderId }}</span>
+                @endif
               </td>
             </tr>
           </table>

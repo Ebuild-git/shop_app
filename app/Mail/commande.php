@@ -16,12 +16,13 @@ class commande extends Mailable
     /**
      * Create a new message instance.
      */
-    public $user,$articles_panier, $totalShippingFees;
-    public function __construct($user,$articles_panier, $totalShippingFees)
+    public $user,$articles_panier, $totalShippingFees, $orderId;
+    public function __construct($user,$articles_panier, $totalShippingFees, $orderId)
     {
         $this->user = $user;
         $this->articles_panier = $articles_panier;
         $this->totalShippingFees = $totalShippingFees;
+        $this->orderId = $orderId;
         $this->from('shopin@fresh-home.store', 'SHOPIN');
         $this->subject("Confirmation de votre commande");
     }

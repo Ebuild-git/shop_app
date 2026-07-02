@@ -14,16 +14,16 @@ class VenteConfirmee extends Mailable
 {
     use Queueable, SerializesModels;
     public $seller, $buyerPseudo, $articlesWithGain, $salutation;
-    public $buyer;
+    public $pickupContact;
     public $orderId;
 
-    public function __construct($seller, $buyerPseudo, $articlesWithGain, $salutation, $buyer, $orderId)
+    public function __construct($seller, $buyerPseudo, $articlesWithGain, $salutation, $pickupContact, $orderId)
     {
         $this->seller = $seller;
         $this->buyerPseudo = $buyerPseudo;
         $this->articlesWithGain = $articlesWithGain;
         $this->salutation = $salutation;
-        $this->buyer = $buyer;
+        $this->pickupContact = $pickupContact;
         $this->orderId = $orderId;
     }
 
