@@ -27,6 +27,8 @@ use App\Services\ImageService;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\App;
+use App\Mail\ShipmentConfirmee;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -300,6 +302,123 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
+    // public function syncWithAramex($id)
+    // {
+    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
+
+    //     if (!$order) {
+    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
+    //     }
+
+    //     $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
+
+    //     if ($unsyncedItems->isEmpty()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Tous les articles de cette commande sont déjà synchronisés.',
+    //         ]);
+    //     }
+
+    //     $aramex        = new AramexService();
+    //     $results       = [];
+    //     $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
+
+    //     foreach ($itemsByVendor as $vendorId => $vendorItems) {
+    //         try {
+    //             $payload  = $this->buildShipmentPayloadItem($order, $vendorItems);
+    //             $response = $aramex->createPickup($payload);
+
+    //             $hasErrors = $response['HasErrors'] ?? true;
+
+    //             if (!$hasErrors) {
+    //                 $processedPickup    = $response['ProcessedPickup'] ?? [];
+    //                 $pickupId           = $processedPickup['ID']   ?? null;
+    //                 $pickupGuid         = $processedPickup['GUID'] ?? null;
+    //                 $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
+
+    //                 // One shipment per vendor — index 0
+    //                 $processedShipment = $processedShipments[0] ?? [];
+    //                 $shipmentId        = $processedShipment['ID'] ?? null;
+
+    //                 if (!$pickupId || !$pickupGuid || !$shipmentId) {
+    //                     \Log::warning('⚠️ Incomplete Aramex response', [
+    //                         'order_id'    => $order->id,
+    //                         'vendor_id'   => $vendorId,
+    //                         'pickup_id'   => $pickupId,
+    //                         'pickup_guid' => $pickupGuid,
+    //                         'shipment_id' => $shipmentId,
+    //                         'response'    => $response,
+    //                     ]);
+    //                 }
+
+    //                 $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
+    //                 if ($shipmentHasErrors) {
+    //                     $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
+    //                     \Log::warning('⚠️ Processed shipment has errors', [
+    //                         'order_id'  => $order->id,
+    //                         'vendor_id' => $vendorId,
+    //                         'message'   => $msg,
+    //                     ]);
+    //                 }
+
+    //                 // All items from this vendor share the same shipment ID
+    //                 foreach ($vendorItems->values() as $item) {
+    //                     $item->pickup_id   = $pickupId;
+    //                     $item->pickup_guid = $pickupGuid;
+    //                     $item->shipment_id = $shipmentId;
+    //                     $item->status      = 'expédiée';
+    //                     $item->save();
+
+    //                     $results[] = [
+    //                         'item_id'     => $item->id,
+    //                         'success'     => true,
+    //                         'pickup_id'   => $pickupId,
+    //                         'pickup_guid' => $pickupGuid,
+    //                         'shipment_id' => $shipmentId,
+    //                     ];
+    //                 }
+    //             } else {
+    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+    //                 foreach ($vendorItems as $item) {
+    //                     $results[] = [
+    //                         'item_id' => $item->id,
+    //                         'success' => false,
+    //                         'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+    //                     ];
+    //                 }
+    //             }
+    //         } catch (\Exception $e) {
+    //             \Log::error('🔥 Exception during Aramex sync', [
+    //                 'order_id'  => $order->id,
+    //                 'vendor_id' => $vendorId,
+    //                 'error'     => $e->getMessage(),
+    //             ]);
+    //             foreach ($vendorItems as $item) {
+    //                 $results[] = [
+    //                     'item_id' => $item->id,
+    //                     'success' => false,
+    //                     'message' => $e->getMessage(),
+    //                 ];
+    //             }
+    //         }
+    //     }
+
+    //     $allSucceeded = collect($results)->every(fn($r) => $r['success']);
+
+    //     if ($allSucceeded) {
+    //         $order->status = 'expédiée';
+    //         $order->save();
+    //     }
+
+    //     return response()->json([
+    //         'success' => $allSucceeded,
+    //         'message' => $allSucceeded
+    //             ? 'Synchronisation Aramex réussie pour tous les articles.'
+    //             : 'Certains articles n\'ont pas pu être synchronisés avec Aramex.',
+    //         'results' => $results,
+    //     ]);
+    // }
+
     public function syncWithAramex($id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
@@ -320,6 +439,7 @@ class AdminController extends Controller
         $aramex        = new AramexService();
         $results       = [];
         $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
+        $shipmentsForBuyer = []; // NEW: collect all shipments created in this run
 
         foreach ($itemsByVendor as $vendorId => $vendorItems) {
             try {
@@ -334,7 +454,6 @@ class AdminController extends Controller
                     $pickupGuid         = $processedPickup['GUID'] ?? null;
                     $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
 
-                    // One shipment per vendor — index 0
                     $processedShipment = $processedShipments[0] ?? [];
                     $shipmentId        = $processedShipment['ID'] ?? null;
 
@@ -359,7 +478,6 @@ class AdminController extends Controller
                         ]);
                     }
 
-                    // All items from this vendor share the same shipment ID
                     foreach ($vendorItems->values() as $item) {
                         $item->pickup_id   = $pickupId;
                         $item->pickup_guid = $pickupGuid;
@@ -372,6 +490,17 @@ class AdminController extends Controller
                             'success'     => true,
                             'pickup_id'   => $pickupId,
                             'pickup_guid' => $pickupGuid,
+                            'shipment_id' => $shipmentId,
+                        ];
+                    }
+
+                    // NEW: only notify if this vendor's shipment actually succeeded
+                    if ($shipmentId && !$shipmentHasErrors) {
+                        $vendor = $vendorItems->first()->vendor;
+                        $this->notifySellerShipment($vendor, $order, $shipmentId, $vendorItems);
+
+                        $shipmentsForBuyer[] = [
+                            'vendor'      => $vendor->username ?? ($vendor->firstname . ' ' . $vendor->lastname),
                             'shipment_id' => $shipmentId,
                         ];
                     }
@@ -406,6 +535,11 @@ class AdminController extends Controller
         if ($allSucceeded) {
             $order->status = 'expédiée';
             $order->save();
+        }
+
+        // NEW: notify buyer once, with all shipments created in this run
+        if (!empty($shipmentsForBuyer)) {
+            $this->notifyBuyerShipment($order, $shipmentsForBuyer);
         }
 
         return response()->json([
@@ -673,6 +807,102 @@ class AdminController extends Controller
                 'Reference2' => '', 'Reference3' => '', 'Reference4' => '', 'Reference5' => '',
             ],
         ];
+    }
+
+    private function notifySellerShipment($vendor, Order $order, $shipmentId, $vendorItems)
+    {
+        $vendorLocale = $vendor->locale ?? config('app.locale');
+        app()->setLocale($vendorLocale);
+
+        $notification = new notifications();
+        $notification->titre = __('notifications.shipment_created_title');
+        $notification->id_user_destination = $vendor->id;
+        $notification->type = "shipment_created";
+        $notification->url = "/informations?section=commandes";
+        $notification->message = __('notifications.shipment_created_message', [
+            'shipment_id' => $shipmentId,
+            'order_id'    => 'CMD-' . $order->id,
+        ]);
+        $notification->save();
+
+        event(new UserEvent($vendor->id));
+
+        try {
+            Mail::to($vendor->email)->send(
+                new ShipmentConfirmee($vendor, $order->id, $shipmentId, $vendorItems, 'seller')
+            );
+        } catch (\Exception $e) {
+            logger("❌ Failed to send shipment email to seller: {$vendor->email}. Error: " . $e->getMessage());
+        }
+
+        $fcmService = app(\App\Services\FcmService::class);
+        $fcmService->sendToUser(
+            $vendor->id,
+            __('notifications.shipment_created_title'),
+            strip_tags(__('notifications.shipment_created_message', [
+                'shipment_id' => $shipmentId,
+                'order_id'    => 'CMD-' . $order->id,
+            ])),
+            [
+                'type'            => 'alerte',
+                'notification_id' => $notification->id,
+                'destination'     => 'user',
+                'action'          => 'shipment_created',
+                'order_id'        => $order->id,
+                'shipment_id'     => $shipmentId,
+            ]
+        );
+
+        app()->setLocale(config('app.locale'));
+    }
+
+    private function notifyBuyerShipment(Order $order, array $shipments)
+    {
+        $buyer = $order->buyer;
+        $buyerLocale = $buyer->locale ?? config('app.locale');
+        app()->setLocale($buyerLocale);
+
+        $shipmentIdsList = collect($shipments)->pluck('shipment_id')->implode(', ');
+
+        $notification = new notifications();
+        $notification->titre = __('notifications.order_shipped_title');
+        $notification->id_user_destination = $buyer->id;
+        $notification->type = "order_shipped";
+        $notification->url = "/informations?section=commandes";
+        $notification->message = __('notifications.order_shipped_message', [
+            'order_id'     => 'CMD-' . $order->id,
+            'shipment_ids' => $shipmentIdsList,
+        ]);
+        $notification->save();
+
+        event(new UserEvent($buyer->id));
+
+        try {
+            Mail::to($buyer->email)->send(
+                new ShipmentConfirmee($buyer, $order->id, $shipmentIdsList, $shipments, 'buyer')
+            );
+        } catch (\Exception $e) {
+            logger("❌ Failed to send shipment email to buyer: {$buyer->email}. Error: " . $e->getMessage());
+        }
+
+        $fcmService = app(\App\Services\FcmService::class);
+        $fcmService->sendToUser(
+            $buyer->id,
+            __('notifications.order_shipped_title'),
+            strip_tags(__('notifications.order_shipped_message', [
+                'order_id'     => 'CMD-' . $order->id,
+                'shipment_ids' => $shipmentIdsList,
+            ])),
+            [
+                'type'            => 'alerte',
+                'notification_id' => $notification->id,
+                'destination'     => 'user',
+                'action'          => 'order_shipped',
+                'order_id'        => $order->id,
+            ]
+        );
+
+        app()->setLocale(config('app.locale'));
     }
 
     public function profile_update(Request $request, $id)

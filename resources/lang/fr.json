@@ -1291,7 +1291,30 @@
 "recto": "Recto",
 "verso": "Verso",
 "weight_limit_note": "Poids maximal accepté : 20 kg par article. Veuillez vous assurer que votre article ne dépasse pas cette limite de poids",
-"post_deleted_by_me_message": "Vous avez supprimé cet article vous-même. Si vous pensez que c'est une erreur, veuillez nous contacter."
+"post_deleted_by_me_message": "Vous avez supprimé cet article vous-même. Si vous pensez que c'est une erreur, veuillez nous contacter.",
+"notifications.shipment_created_title": "Expédition créée",
+  "notifications.shipment_created_message": "Une expédition a été créée pour la commande :order_id. Numéro d'expédition : :shipment_id.",
+  "notifications.order_shipped_title": "Votre commande a été expédiée",
+  "notifications.order_shipped_message": "Votre commande :order_id a été expédiée. Numéro(s) d'expédition : :shipment_ids.",
+
+  "email2.shipment.subject": "Votre expédition a été créée",
+  "email2.shipment.header_title": "Mise à jour de l'expédition",
+  "email2.shipment.header_subtitle": "Livraison sécurisée et suivie",
+  "email2.shipment.greeting": "Bonjour",
+  "email2.shipment.seller_intro": "Une expédition a été créée pour l'une de vos ventes. Un livreur de notre partenaire logistique vous contactera bientôt pour récupérer le(s) article(s).",
+  "email2.shipment.buyer_intro": "Bonne nouvelle — votre commande est en route ! Voici vos références de suivi pour cette commande.",
+  "email2.shipment.details_title": "Détails de l'expédition",
+  "email2.shipment.order_label": "Commande",
+  "email2.shipment.shipment_label": "Numéro d'expédition",
+  "email2.shipment.tracking_title": "Références de suivi",
+  "email2.shipment.from_seller_label": "Vendeur",
+  "email2.shipment.pickup_reminder_title": "Rappel de retrait",
+  "email2.shipment.pickup_reminder_text": "Assurez-vous que le(s) article(s) soient emballés et prêts au moment du passage du livreur.",
+  "email2.shipment.buyer_notice_title": "Suivi sécurisé",
+  "email2.shipment.buyer_notice_text": "Utilisez le(s) numéro(s) d'expédition ci-dessus pour suivre l'état de votre colis.",
+  "email2.shipment.footer_contact": "Nous contacter",
+  "email2.shipment.footer_trust": "Confiance & Sécurité",
+  "email2.shipment.footer_note": "Ceci est un message automatique, merci de ne pas y répondre."
 
 
 

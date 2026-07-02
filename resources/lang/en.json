@@ -1296,7 +1296,30 @@
 "recto": "Front side",
 "verso": "Back side",
 "weight_limit_note": "Maximum accepted weight: 20 kg per item. Please ensure that your item does not exceed this weight limit",
-"post_deleted_by_me_message": "You have deleted this item yourself. If you think this was a mistake, please contact us."
+"post_deleted_by_me_message": "You have deleted this item yourself. If you think this was a mistake, please contact us.",
+"notifications.shipment_created_title": "Shipment created",
+  "notifications.shipment_created_message": "A shipment has been created for order :order_id. Shipment ID: :shipment_id.",
+  "notifications.order_shipped_title": "Your order has shipped",
+  "notifications.order_shipped_message": "Your order :order_id has shipped. Shipment ID(s): :shipment_ids.",
+
+  "email2.shipment.subject": "Your shipment has been created",
+  "email2.shipment.header_title": "Shipment Update",
+  "email2.shipment.header_subtitle": "Secure delivery, tracked",
+  "email2.shipment.greeting": "Hello",
+  "email2.shipment.seller_intro": "A shipment has been created for one of your sales. A courier from our logistics partner will contact you soon to pick up the item(s).",
+  "email2.shipment.buyer_intro": "Great news — your order is on its way! Below are your tracking references for this order.",
+  "email2.shipment.details_title": "Shipment Details",
+  "email2.shipment.order_label": "Order",
+  "email2.shipment.shipment_label": "Shipment ID",
+  "email2.shipment.tracking_title": "Tracking References",
+  "email2.shipment.from_seller_label": "Seller",
+  "email2.shipment.pickup_reminder_title": "Pickup Reminder",
+  "email2.shipment.pickup_reminder_text": "Please make sure the item(s) are packaged and ready when the courier arrives.",
+  "email2.shipment.buyer_notice_title": "Secure Tracking",
+  "email2.shipment.buyer_notice_text": "Use the shipment ID(s) above to track your package status.",
+  "email2.shipment.footer_contact": "Contact us",
+  "email2.shipment.footer_trust": "Trust & Safety",
+  "email2.shipment.footer_note": "This is an automated message, please do not reply."
 
 
 
