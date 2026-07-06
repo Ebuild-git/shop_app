@@ -343,26 +343,58 @@ class CreatePost extends Component
         });
 
         $photos = [];
-        if ($this->photo1) {
-            $path = \App\Services\ImageService::uploadAndConvert($this->photo1, 'uploads/posts');
-            $photos[] = $path;
+        $photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
+
+        // if ($this->photo1) {
+        //     $path = \App\Services\ImageService::uploadAndConvert($this->photo1, 'uploads/posts');
+        //     $photos[] = $path;
+        // }
+        // if ($this->photo2) {
+        //     $path = \App\Services\ImageService::uploadAndConvert($this->photo2, 'uploads/posts');
+        //     $photos[] = $path;
+        // }
+        // if ($this->photo3) {
+        //     $path = \App\Services\ImageService::uploadAndConvert($this->photo3, 'uploads/posts');
+        //     $photos[] = $path;
+        // }
+        // if ($this->photo4) {
+        //     $path = \App\Services\ImageService::uploadAndConvert($this->photo4, 'uploads/posts');
+        //     $photos[] = $path;
+        // }
+        // if ($this->photo5) {
+        //     $path = \App\Services\ImageService::uploadAndConvert($this->photo5, 'uploads/posts');
+        //     $photos[] = $path;
+        // }
+
+        foreach ($photoFields as $field) {
+            if (! $this->$field) {
+                continue;
+            }
+
+            try {
+                $path = \App\Services\ImageService::uploadAndConvert($this->$field, 'uploads/posts');
+
+                if (! $path) {
+                    throw new \RuntimeException("Empty path returned for {$field}");
+                }
+
+                $photos[] = $path;
+            } catch (\Throwable $e) {
+                \Log::error('[CreatePost] Image upload failed', [
+                    'field'   => $field,
+                    'user_id' => Auth::user()->id,
+                    'error'   => $e->getMessage(),
+                ]);
+
+                // Drop the bad file so the user can re-select it
+                $this->$field = null;
+
+                $this->addError('photos', __('image_upload_error'));
+
+                return false;
+            }
         }
-        if ($this->photo2) {
-            $path = \App\Services\ImageService::uploadAndConvert($this->photo2, 'uploads/posts');
-            $photos[] = $path;
-        }
-        if ($this->photo3) {
-            $path = \App\Services\ImageService::uploadAndConvert($this->photo3, 'uploads/posts');
-            $photos[] = $path;
-        }
-        if ($this->photo4) {
-            $path = \App\Services\ImageService::uploadAndConvert($this->photo4, 'uploads/posts');
-            $photos[] = $path;
-        }
-        if ($this->photo5) {
-            $path = \App\Services\ImageService::uploadAndConvert($this->photo5, 'uploads/posts');
-            $photos[] = $path;
-        }
+
         if (count($photos) < 3) {
             $this->addError('photos', __('min_photos'));
 
@@ -454,90 +486,133 @@ class CreatePost extends Component
         $this->dispatch('openmodalpreview', $this->data_post);
     }
 
+    // public function submit()
+    // {
+    //     $this->before_post();
+    //     if ($this->data_post) {
+
+    //         if (count($this->data_post['photos']) < 3) {
+    //             $this->dispatch('alert', ['message' => __('min_photos'), 'type' => 'warning']);
+
+    //             return;
+    //         } else {
+    //             $this->make_post($this->data_post);
+    //         }
+    //     } else {
+    //         $this->dispatch('alert', ['message' => 'Erreur de prévicualisation !', 'type' => 'warning']);
+
+    //         return;
+    //     }
+    // }
     public function submit()
     {
-        $this->before_post();
-        if ($this->data_post) {
+        if (! $this->before_post()) {
+            $message = $this->getErrorBag()->has('photos')
+                ? $this->getErrorBag()->first('photos')
+                : ($this->getErrorBag()->first() ?: __('post_creation_error'));
 
-            if (count($this->data_post['photos']) < 3) {
-                $this->dispatch('alert', ['message' => __('min_photos'), 'type' => 'warning']);
-
-                return;
-            } else {
-                $this->make_post($this->data_post);
-            }
-        } else {
-            $this->dispatch('alert', ['message' => 'Erreur de prévicualisation !', 'type' => 'warning']);
+            $this->dispatch('alert', ['message' => $message, 'type' => 'warning']);
 
             return;
         }
+
+        if (count($this->data_post['photos']) < 3) {
+            $this->dispatch('alert', ['message' => __('min_photos'), 'type' => 'warning']);
+
+            return;
+        }
+
+        $this->make_post($this->data_post);
     }
+
+    // public function make_post($data)
+    // {
+    //     $config = configurations::first();
+    //     $post = new posts();
+    //     $post->photos = $data['photos'];
+    //     $post->titre = $this->titre;
+    //     $post->description = $this->description;
+    //     $post->id_region = $this->region;
+    //     $post->etat = $this->etat;
+    //     $post->proprietes = $data['proprietes'];
+    //     $post->id_sous_categorie = $this->selectedSubcategory;
+    //     if ($this->prix_achat > 0) {
+    //         $post->prix_achat = $this->prix_achat;
+    //     }
+    //     // $post->prix = (int) round($this->prix);
+    //     $post->prix = (float) $this->prix;
+    //     $post->id_user = Auth::user()->id;
+    //     if ($config->valider_publication == 0) {
+    //         $post->verified_at = now();
+    //         $post->statut = 'vente';
+    //     }
+    //     $post->save();
+
+    //     event(new AdminEvent('Un post a été créé avec succès.'));
+    //     $notification = new notifications();
+    //     $notification->type = 'new_post';
+    //     $notification->titre = Auth::user()->username.' vient de publier un article ';
+    //     $notification->url = '/admin/publication/'.$post->id.'/view';
+    //     $notification->message = $post->titre;
+    //     $notification->id_post = $post->id;
+    //     $notification->id_user = Auth::user()->id;
+    //     $notification->destination = 'admin';
+    //     $notification->save();
+
+    //     return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
+    // }
+
 
     public function make_post($data)
     {
-        $config = configurations::first();
-        $post = new posts();
-        $post->photos = $data['photos'];
-        $post->titre = $this->titre;
-        $post->description = $this->description;
-        $post->id_region = $this->region;
-        $post->etat = $this->etat;
-        $post->proprietes = $data['proprietes'];
-        $post->id_sous_categorie = $this->selectedSubcategory;
-        if ($this->prix_achat > 0) {
-            $post->prix_achat = $this->prix_achat;
-        }
-        // $post->prix = (int) round($this->prix);
-        $post->prix = (float) $this->prix;
-        $post->id_user = Auth::user()->id;
-        if ($config->valider_publication == 0) {
-            $post->verified_at = now();
-            $post->statut = 'vente';
-        }
-        $post->save();
+        try {
+            $config = configurations::first();
+            $post = new posts();
+            $post->photos = $data['photos'];
+            $post->titre = $this->titre;
+            $post->description = $this->description;
+            $post->id_region = $this->region;
+            $post->etat = $this->etat;
+            $post->proprietes = $data['proprietes'];
+            $post->id_sous_categorie = $this->selectedSubcategory;
+            if ($this->prix_achat > 0) {
+                $post->prix_achat = $this->prix_achat;
+            }
+            $post->prix = (float) $this->prix;
+            $post->id_user = Auth::user()->id;
+            if ($config->valider_publication == 0) {
+                $post->verified_at = now();
+                $post->statut = 'vente';
+            }
+            $post->save();
 
-        event(new AdminEvent('Un post a été créé avec succès.'));
-        $notification = new notifications();
-        $notification->type = 'new_post';
-        $notification->titre = Auth::user()->username.' vient de publier un article ';
-        $notification->url = '/admin/publication/'.$post->id.'/view';
-        $notification->message = $post->titre;
-        $notification->id_post = $post->id;
-        $notification->id_user = Auth::user()->id;
-        $notification->destination = 'admin';
-        $notification->save();
+            event(new AdminEvent('Un post a été créé avec succès.'));
 
-        return redirect()->route('details_post_single', ['id' => $post->id])->with('show_validation_modal', $config->valider_publication == 1);
+            $notification = new notifications();
+            $notification->type = 'new_post';
+            $notification->titre = Auth::user()->username.' vient de publier un article ';
+            $notification->url = '/admin/publication/'.$post->id.'/view';
+            $notification->message = $post->titre;
+            $notification->id_post = $post->id;
+            $notification->id_user = Auth::user()->id;
+            $notification->destination = 'admin';
+            $notification->save();
+
+            return redirect()->route('details_post_single', ['id' => $post->id])
+                ->with('show_validation_modal', $config->valider_publication == 1);
+
+        } catch (\Throwable $e) {
+            \Log::error('[CreatePost] make_post failed', [
+                'user_id' => Auth::user()->id,
+                'error'   => $e->getMessage(),
+            ]);
+
+            $this->dispatch('alert', [
+                'message' => __('post_creation_error'),
+                'type'    => 'warning',
+            ]);
+        }
     }
-
-
-    // public function getPrix($prix)
-    // {
-    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
-    //     if ($sous_cat) {
-    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain;
-    //         $prix_calculé = round($prix + (($pourcentage_gain * $prix) / 100));  // use $prix param, not $this->prix
-
-    //         return number_format($prix_calculé, 2, '.', '') ?? 'N/A';
-    //     } else {
-    //         return 'N/A';
-    //     }
-    // }
-    // public function getPrix($prix)
-    // {
-    //     if (!$prix || !is_numeric($prix)) {
-    //         return '0.00';
-    //     }
-
-    //     $sous_cat = sous_categories::find($this->selectedSubcategory);
-    //     if ($sous_cat) {
-    //         $pourcentage_gain = $sous_cat->categorie->pourcentage_gain ?? 0;
-    //         $prix_calculé = (int) ceil((float) $prix * (1 + $pourcentage_gain / 100));
-    //         return number_format($prix_calculé, 2, '.', '');
-    //     }
-
-    //     return number_format((float) $prix, 2, '.', '');
-    // }
 
     public function getPrix($prix)
     {

@@ -1314,7 +1314,9 @@
   "email2.shipment.buyer_notice_text": "Utilisez le(s) numéro(s) d'expédition ci-dessus pour suivre l'état de votre colis.",
   "email2.shipment.footer_contact": "Nous contacter",
   "email2.shipment.footer_trust": "Confiance & Sécurité",
-  "email2.shipment.footer_note": "Ceci est un message automatique, merci de ne pas y répondre."
+  "email2.shipment.footer_note": "Ceci est un message automatique, merci de ne pas y répondre.",
+  "image_upload_error": "Une de vos photos n'a pas pu être traitée. Veuillez la réessayer ou utiliser une autre image.",
+"post_creation_error": "Une erreur est survenue lors de la création de votre annonce. Veuillez réessayer, et contactez le support si le problème persiste."
 
 
 

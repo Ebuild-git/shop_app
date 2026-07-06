@@ -1313,7 +1313,9 @@
 "email2.shipment.buyer_notice_text": "استخدم رقم (أرقام) الشحنة أعلاه لتتبع حالة طردك.",
 "email2.shipment.footer_contact": "اتصل بنا",
 "email2.shipment.footer_trust": "الثقة والأمان",
-"email2.shipment.footer_note": "هذه رسالة آلية، يرجى عدم الرد عليها."
+"email2.shipment.footer_note": "هذه رسالة آلية، يرجى عدم الرد عليها.",
+"image_upload_error": "تعذّرت معالجة إحدى صورك. يرجى إعادة رفعها أو استخدام صورة أخرى.",
+"post_creation_error": "حدث خطأ أثناء نشر إعلانك. يرجى المحاولة مرة أخرى، وإذا استمرت المشكلة يرجى التواصل مع الدعم."
 
 
 }

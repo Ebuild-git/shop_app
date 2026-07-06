@@ -1319,7 +1319,9 @@
   "email2.shipment.buyer_notice_text": "Use the shipment ID(s) above to track your package status.",
   "email2.shipment.footer_contact": "Contact us",
   "email2.shipment.footer_trust": "Trust & Safety",
-  "email2.shipment.footer_note": "This is an automated message, please do not reply."
+  "email2.shipment.footer_note": "This is an automated message, please do not reply.",
+  "image_upload_error": "One of your photos couldn't be processed. Please try uploading it again or use a different image.",
+    "post_creation_error": "Something went wrong while creating your post. Please try again, and contact support if the problem continues."
 
 
 
