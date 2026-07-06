@@ -455,7 +455,42 @@
                                         <td class="text-black cell">
                                             {{ Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }} </td>
                                     </tr>
-                                    @forelse ($post->proprietes ?? []  as $key => $value)
+                                    @php
+                                        $locale = app()->getLocale();
+
+                                        $proprieteRows = \Illuminate\Support\Facades\DB::table('proprietes')
+                                            ->whereIn('nom', array_keys($post->proprietes ?? []))
+                                            ->get()
+                                            ->keyBy('nom');
+
+                                        $localizeProprieteValue = function ($key, $value) use ($proprieteRows, $locale) {
+                                            $row = $proprieteRows->get($key);
+
+                                            if (! $row || $row->type !== 'option') {
+                                                return $value; // not an "option" type property, nothing to localize
+                                            }
+
+                                            $options = json_decode($row->options, true) ?? [];
+
+                                            foreach ($options as $option) {
+                                                if (is_array($option)) {
+                                                    $optValue = $option['value'] ?? ($option['titre'] ?? null);
+                                                    if ($optValue === $value) {
+                                                        return match ($locale) {
+                                                            'en' => $option['title_en'] ?: ($option['titre'] ?? $value),
+                                                            'ar' => $option['title_ar'] ?: ($option['titre'] ?? $value),
+                                                            default => $option['titre'] ?? $value,
+                                                        };
+                                                    }
+                                                } elseif ($option === $value) {
+                                                    return $option; // legacy plain-string option, nothing to localize
+                                                }
+                                            }
+
+                                            return $value; // no match found, fall back to raw stored value
+                                        };
+                                    @endphp
+                                    {{-- @forelse ($post->proprietes ?? []  as $key => $value)
                                         <tr>
                                             <td class="cell cell-bold">
                                                 {{ __(ucfirst($key)) }}
@@ -478,6 +513,35 @@
                                                 @else
                                                     <span class="text-capitalize">
                                                         {{ __($value) }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                    @endforelse --}}
+                                    @forelse ($post->proprietes ?? [] as $key => $value)
+                                        <tr>
+                                            <td class="cell cell-bold">
+                                                {{ __(ucfirst($key)) }}
+                                            </td>
+                                            <td class="text-black cell">
+                                                @if ($key == 'Couleur')
+                                                    @if ($value == '#000000000')
+                                                        <img src="/icons/color-wheel.png" height="20"
+                                                            width="20" alt="multicolor"
+                                                            title="Multi color" srcset="">
+                                                    @else
+                                                        <script>
+                                                            getColorName('{{ $value }}');
+                                                        </script>
+
+                                                        <div style="display: flex; align-items: center;">
+                                                            <div style="width: 24px; height: 24px; background-color: {{ $value }}; border-radius: 50%; border: 2px solid #ccc; margin-right: 8px;"></div>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <span class="text-capitalize">
+                                                        {{ __($localizeProprieteValue($key, $value)) }}
                                                     </span>
                                                 @endif
                                             </td>

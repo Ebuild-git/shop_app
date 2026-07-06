@@ -128,11 +128,37 @@
                                                         </div>
                                                     @endforelse
                                                 </div> --}}
-                                                <div class="row" id="sortable-list-options-{{ $proriete->id }}">
+                                                {{-- <div class="row" id="sortable-list-options-{{ $proriete->id }}">
                                                     @forelse ($proriete->options ?? [] as $item)
                                                         <div class="col-sm-3 col-3 cursor" wire:key="{{ $item }}" data-id="{{ $item }}">
                                                             <div class="alert alert-light text-center">
                                                                 {{ $item }}
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                        <div class="col-12">
+                                                            <div class="p-2 text-center">
+                                                                Aucune propriété !
+                                                            </div>
+                                                        </div>
+                                                    @endforelse
+                                                </div> --}}
+                                                <div class="row" id="sortable-list-options-{{ $proriete->id }}">
+                                                    @forelse ($proriete->options ?? [] as $item)
+                                                        @php
+                                                            // support both the new array shape and legacy plain-string options
+                                                            $optionValue = is_array($item) ? ($item['value'] ?? $item['titre'] ?? '') : $item;
+                                                            $optionLabel = is_array($item)
+                                                                ? match (app()->getLocale()) {
+                                                                    'en'    => $item['title_en'] ?: ($item['titre'] ?? ''),
+                                                                    'ar'    => $item['title_ar'] ?: ($item['titre'] ?? ''),
+                                                                    default => $item['titre'] ?? '',
+                                                                }
+                                                                : $item;
+                                                        @endphp
+                                                        <div class="col-sm-3 col-3 cursor" wire:key="{{ $optionValue }}" data-id="{{ $optionValue }}">
+                                                            <div class="alert alert-light text-center">
+                                                                {{ $optionLabel }}
                                                             </div>
                                                         </div>
                                                     @empty

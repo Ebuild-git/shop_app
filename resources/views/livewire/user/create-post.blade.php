@@ -320,71 +320,34 @@
                                                 class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
                                                 <option value="">{{ __('please_select')}}</option>
                                                 @php
-                                                    $options = json_decode($propriete_info->options, true);
-                                                    // // Sort options based on their type (numeric or alphabetic)
-                                                    // if (!empty($options)) {
-                                                    //     // Check if options contain size patterns (numbers with XL, XS, etc.)
-                                                    //     $hasSizePattern = false;
-                                                    //     foreach ($options as $opt) {
-                                                    //         if (preg_match('/(XXS|XS|S|M|L|XL|XXL|XXXL|\d+XL)/i', $opt)) {
-                                                    //             $hasSizePattern = true;
-                                                    //             break;
-                                                    //         }
-                                                    //     }
+                                                    // $options = json_decode($propriete_info->options, true);
+                                                    $locale = app()->getLocale();
+                                                    $options = json_decode($propriete_info->options, true) ?? [];
 
-                                                    //     if ($hasSizePattern) {
-                                                    //         // Custom sort for sizes
-                                                    //         usort($options, function($a, $b) {
-                                                    //             // Extract numeric values from size strings
-                                                    //             $getSizeValue = function($size) {
-                                                    //                 // First try to extract numbers like 48 from "3XL/48/16"
-                                                    //                 if (preg_match('/(\d+)/', $size, $matches)) {
-                                                    //                     $num = (int)$matches[1];
-                                                    //                     // If number is large (like 48,50), use it directly
-                                                    //                     if ($num >= 30) {
-                                                    //                         return $num;
-                                                    //                     }
-                                                    //                 }
-
-                                                    //                 // Map letter sizes to numeric values
-                                                    //                 $sizeMap = [
-                                                    //                     'XXS' => 30,
-                                                    //                     'XS' => 32,
-                                                    //                     'S' => 34,
-                                                    //                     'M' => 36,
-                                                    //                     'L' => 38,
-                                                    //                     'XL' => 40,
-                                                    //                     'XXL' => 42,
-                                                    //                     'XXXL' => 44,
-                                                    //                     '3XL' => 48,
-                                                    //                     '4XL' => 50,
-                                                    //                     '5XL' => 52,
-                                                    //                 ];
-
-                                                    //                 foreach ($sizeMap as $key => $value) {
-                                                    //                     if (stripos($size, $key) !== false) {
-                                                    //                         return $value;
-                                                    //                     }
-                                                    //                 }
-
-                                                    //                 return 999;
-                                                    //             };
-
-                                                    //             $valueA = $getSizeValue($a);
-                                                    //             $valueB = $getSizeValue($b);
-
-                                                    //             return $valueA <=> $valueB;
-                                                    //         });
-                                                    //     } elseif (is_numeric($options[0] ?? '')) {
-                                                    //         sort($options, SORT_NUMERIC);
-                                                    //     } else {
-                                                    //         sort($options, SORT_STRING | SORT_FLAG_CASE);
-                                                    //     }
-                                                    // }
                                                 @endphp
-                                                @foreach ($options as $option)
+                                                {{-- @foreach ($options as $option)
                                                     <option value="{{ $option }}">
                                                         {{ __($option) }}
+                                                    </option>
+                                                @endforeach --}}
+                                                @foreach ($options as $option)
+                                                    @php
+                                                        if (is_array($option)) {
+                                                            // new shape: { value, titre, title_en, title_ar }
+                                                            $optValue = $option['value'] ?? ($option['titre'] ?? '');
+                                                            $optLabel = match ($locale) {
+                                                                'en' => $option['title_en'] ?: ($option['titre'] ?? ''),
+                                                                'ar' => $option['title_ar'] ?: ($option['titre'] ?? ''),
+                                                                default => $option['titre'] ?? '',
+                                                            };
+                                                        } else {
+                                                            // legacy plain-string option
+                                                            $optValue = $option;
+                                                            $optLabel = $option;
+                                                        }
+                                                    @endphp
+                                                    <option value="{{ $optValue }}">
+                                                        {{ $optLabel }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -392,12 +355,34 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         @else
-                                            <input type="text"
+                                            {{-- <input type="text"
                                                 class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
                                                 @required($requi) placeholder="{{ $propriete_info->nom }}"
                                                 wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 data-suggestions="{{ $propriete_info->options }}"
-                                                data-model="{{ $propriete_info->nom }}">
+                                                data-model="{{ $propriete_info->nom }}"> --}}
+                                                @php
+                                                    $locale = app()->getLocale();
+                                                    $rawOptions = json_decode($propriete_info->options, true) ?? [];
+
+                                                    $localizedSuggestions = collect($rawOptions)->map(function ($option) use ($locale) {
+                                                        if (is_array($option)) {
+                                                            return match ($locale) {
+                                                                'en' => $option['title_en'] ?: ($option['titre'] ?? ''),
+                                                                'ar' => $option['title_ar'] ?: ($option['titre'] ?? ''),
+                                                                default => $option['titre'] ?? '',
+                                                            };
+                                                        }
+
+                                                        return $option;
+                                                    })->filter()->values();
+                                                @endphp
+                                                <input type="text"
+                                                    class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
+                                                    @required($requi) placeholder="{{ $propriete_info->nom }}"
+                                                    wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                    data-suggestions="{{ $localizedSuggestions->toJson() }}"
+                                                    data-model="{{ $propriete_info->nom }}">
                                             @error("article_propriete.{$propriete_info->nom}")
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror

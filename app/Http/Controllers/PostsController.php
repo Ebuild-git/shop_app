@@ -187,6 +187,122 @@ class PostsController extends Controller
      *     )
      * )
      */
+    // public function list_post(Request $request)
+    // {
+    //     $query = posts::with("sous_categorie_info.categorie")
+    //         ->withCount('favoris')
+    //         ->whereHas('user_info', function ($query) {
+    //             $query->where('voyage_mode', 0);
+    //         });
+
+    //     if ($request->has('luxury')) {
+    //         $luxuryValue = filter_var($request->luxury, FILTER_VALIDATE_BOOLEAN);
+    //         $query->whereHas('sous_categorie_info.categorie', function ($q) use ($luxuryValue) {
+    //             $q->where('luxury', $luxuryValue);
+    //         });
+    //     }
+
+    //     if ($request->filled('proprietes')) {
+    //         $proprietes = $request->proprietes; // e.g. ["Taille" => "4XL", "Article pour" => "Femme"]
+
+    //         if (is_array($proprietes)) {
+    //             foreach ($proprietes as $key => $value) {
+    //                 if (!empty($value)) {
+    //                     $query->whereRaw(
+    //                         "JSON_UNQUOTE(JSON_EXTRACT(proprietes, ?)) LIKE ?",
+    //                         ['$."' . $key . '"', "%{$value}%"]
+    //                     );
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     if ($request->filled('etat')) {
+    //         $query->where('etat', $request->etat);
+    //     }
+
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('titre', 'like', "%{$search}%")
+    //             ->orWhereHas('sous_categorie_info', function ($q2) use ($search) {
+    //                 $q2->where('titre', 'like', "%{$search}%")
+    //                 ->orWhere('title_en', 'like', "%{$search}%")
+    //                 ->orWhere('title_ar', 'like', "%{$search}%")
+    //                 ->orWhereHas('categorie', function ($q3) use ($search) {
+    //                     $q3->where('titre', 'like', "%{$search}%")
+    //                         ->orWhere('title_en', 'like', "%{$search}%")
+    //                         ->orWhere('title_ar', 'like', "%{$search}%");
+    //                 });
+    //             });
+    //         });
+    //     }
+
+    //     $query->orderBy('created_at', 'desc');
+
+    //     $posts = $query->paginate(20);
+
+    //     $posts->getCollection()->transform(function ($post) {
+    //         $post->prix     = $post->getPrix();
+    //         $post->old_prix = $post->getOldPrix();
+    //         $post->is_solder = $post->getOldPrix() ? true : false;
+
+    //         // $discountPercentage = null;
+    //         // if ($post->old_prix && $post->old_prix > $post->prix) {
+    //         //     $discountPercentage = (int) round(
+    //         //         (($post->old_prix - $post->prix) / $post->old_prix) * 100
+    //         //     );
+    //         // }
+    //         $discountPercentage = null;
+    //         if ($post->changements_prix->isNotEmpty()) {
+    //             $firstChange = $post->changements_prix->first();
+    //             $old_raw = (float) $firstChange->old_price;
+    //             $new_raw = (float) $firstChange->new_price;
+
+    //             if ($old_raw && $old_raw > $new_raw) {
+    //                 $discountPercentage = (int) round(
+    //                     (($old_raw - $new_raw) / $old_raw) * 100
+    //                 );
+    //             }
+    //         }
+
+    //         $postData = $post->toArray();
+
+    //         $postData['favoris_count'] = $post->favoris_count;
+    //         $postData['discountPercentage'] = $discountPercentage;
+
+    //         if (!empty($postData['photos']) && is_array($postData['photos'])) {
+    //             $postData['photos'] = array_map(function ($photo) {
+    //                 return asset('storage/' . ltrim($photo, '/'));
+    //             }, $postData['photos']);
+    //         }
+
+    //         if (!empty($postData['sous_categorie_info']['categorie'])) {
+    //             $cat = &$postData['sous_categorie_info']['categorie'];
+
+    //             if (!empty($cat['icon'])) {
+    //                 $cat['icon'] = asset('storage/' . ltrim($cat['icon'], '/'));
+    //             }
+    //             if (!empty($cat['small_icon'])) {
+    //                 $cat['small_icon'] = asset('storage/' . ltrim($cat['small_icon'], '/'));
+    //             }
+    //         }
+
+    //         return $postData;
+    //     });
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data'    => $posts->items(),
+    //         'meta'    => [
+    //             'current_page' => $posts->currentPage(),
+    //             'last_page'    => $posts->lastPage(),
+    //             'per_page'     => $posts->perPage(),
+    //             'total'        => $posts->total(),
+    //             'has_more'     => $posts->hasMorePages(),
+    //         ],
+    //     ]);
+    // }
     public function list_post(Request $request)
     {
         $query = posts::with("sous_categorie_info.categorie")
@@ -203,7 +319,7 @@ class PostsController extends Controller
         }
 
         if ($request->filled('proprietes')) {
-            $proprietes = $request->proprietes; // e.g. ["Taille" => "4XL", "Article pour" => "Femme"]
+            $proprietes = $request->proprietes;
 
             if (is_array($proprietes)) {
                 foreach ($proprietes as $key => $value) {
@@ -242,17 +358,29 @@ class PostsController extends Controller
 
         $posts = $query->paginate(20);
 
-        $posts->getCollection()->transform(function ($post) {
+        // Preload once: nom => [value => label] for the current locale
+        $locale = app()->getLocale();
+        $proprieteOptionsMap = \App\Models\proprietes::where('type', 'option')
+            ->get()
+            ->mapWithKeys(function ($propriete) use ($locale) {
+                return [
+                    $propriete->nom => collect($propriete->localizedOptions($locale))
+                        ->pluck('label', 'value'),
+                ];
+            });
+
+        $localizeProprietes = function (array $proprietes) use ($proprieteOptionsMap) {
+            return collect($proprietes)->mapWithKeys(function ($value, $key) use ($proprieteOptionsMap) {
+                $label = $proprieteOptionsMap->get($key)?->get($value);
+                return [$key => $label ?? $value]; // falls back for free-text/color props
+            })->toArray();
+        };
+
+        $posts->getCollection()->transform(function ($post) use ($localizeProprietes) {
             $post->prix     = $post->getPrix();
             $post->old_prix = $post->getOldPrix();
             $post->is_solder = $post->getOldPrix() ? true : false;
 
-            // $discountPercentage = null;
-            // if ($post->old_prix && $post->old_prix > $post->prix) {
-            //     $discountPercentage = (int) round(
-            //         (($post->old_prix - $post->prix) / $post->old_prix) * 100
-            //     );
-            // }
             $discountPercentage = null;
             if ($post->changements_prix->isNotEmpty()) {
                 $firstChange = $post->changements_prix->first();
@@ -270,6 +398,10 @@ class PostsController extends Controller
 
             $postData['favoris_count'] = $post->favoris_count;
             $postData['discountPercentage'] = $discountPercentage;
+
+            // localized display copy — raw `proprietes` is kept untouched
+            // for filtering / backward compatibility with existing clients
+            $postData['proprietes_display'] = $localizeProprietes($post->proprietes ?? []);
 
             if (!empty($postData['photos']) && is_array($postData['photos'])) {
                 $postData['photos'] = array_map(function ($photo) {
@@ -390,6 +522,93 @@ class PostsController extends Controller
      *     @OA\Response(response=404, description="Post not found")
      * )
      */
+    // public function details_post($id)
+    // {
+    //     try {
+    //         $post = posts::with([
+    //             'sous_categorie_info.categorie',
+    //             'user_info' => function ($q) {
+    //                 $q->select(
+    //                     'id',
+    //                     'firstname',
+    //                     'lastname',
+    //                     'username',
+    //                     'avatar',
+    //                     'email',
+    //                     'voyage_mode'
+    //                 );
+    //             }
+    //         ])
+    //         ->withCount('favoris')
+    //         ->findOrFail($id);
+
+    //         $post->photos = collect($post->photos)->map(
+    //             fn($photo) => asset('storage/' . $photo)
+    //         );
+
+    //         if ($post->sous_categorie_info && $post->sous_categorie_info->categorie) {
+    //             $categorie = $post->sous_categorie_info->categorie;
+    //             $categorie->icon = $categorie->icon
+    //                 ? asset('storage/' . $categorie->icon)
+    //                 : null;
+    //             $categorie->small_icon = $categorie->small_icon
+    //                 ? asset('storage/' . $categorie->small_icon)
+    //                 : null;
+    //         }
+
+    //         if ($post->user_info) {
+    //             $user = $post->user_info;
+
+    //             $user->avatar = $user->avatar
+    //                 ? asset('storage/' . $user->avatar)
+    //                 : null;
+
+    //             $avis = $user->getReviewsAttribute->count();
+    //             $averageRating = number_format(
+    //                 $user->averageRating->average_rating ?? 1,
+    //                 1
+    //             );
+
+    //             $totalSales = $user->total_sales->count();
+    //             $validatedPosts = $user->ValidatedPosts->count();
+
+    //             $user->stats = [
+    //                 'avis' => $avis,
+    //                 'average_rating' => $averageRating,
+    //                 'total_sales' => $totalSales,
+    //                 'total_annonces' => $validatedPosts,
+    //             ];
+    //         }
+
+    //         $post->prix = $post->getPrix();
+    //         $post->old_prix = $post->getOldPrix();
+    //         $post->favoris_count = $post->favoris_count;
+
+    //         $post->discountPercentage = null;
+    //         if ($post->changements_prix->isNotEmpty()) {
+    //             $firstChange = $post->changements_prix->first();
+    //             $old_raw = (float) $firstChange->old_price;
+    //             $new_raw = (float) $firstChange->new_price;
+
+    //             if ($old_raw && $old_raw > $new_raw) {
+    //                 $post->discountPercentage = (int) round(
+    //                     (($old_raw - $new_raw) / $old_raw) * 100
+    //                 );
+    //             }
+    //         }
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'post' => $post,
+    //         ]);
+
+    //     } catch (\Exception $exception) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Impossible de trouver le post'
+    //         ]);
+    //     }
+    // }
     public function details_post($id)
     {
         try {
@@ -464,6 +683,14 @@ class PostsController extends Controller
                     );
                 }
             }
+
+            // localized display copy — raw `proprietes` untouched
+            $locale = app()->getLocale();
+            $post->proprietes_display = collect($post->proprietes ?? [])
+                ->mapWithKeys(function ($value, $key) use ($locale) {
+                    return [$key => \App\Models\proprietes::localizeValueForName($key, $value, $locale)];
+                })
+                ->toArray();
 
             return response()->json([
                 'success' => true,
