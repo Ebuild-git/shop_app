@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class FormCreatePropriete extends Component
 {
-    public $type, $nom, $typeselected, $required, $affichage;
+    public $type, $nom, $nom_en, $nom_ar, $typeselected, $required, $affichage;
     public $optionsCases = [];
 
     public function render()
@@ -49,6 +49,8 @@ class FormCreatePropriete extends Component
         $rules = [
             'type'      => 'required',
             'nom'       => 'required',
+            'nom_en'    => 'nullable|string',
+            'nom_ar'    => 'nullable|string',
             'affichage' => 'nullable|in:case,input',
         ];
 
@@ -64,8 +66,10 @@ class FormCreatePropriete extends Component
         ]);
 
         $propriete = new proprietes();
-        $propriete->type = $this->type;
-        $propriete->nom  = $this->nom;
+        $propriete->type   = $this->type;
+        $propriete->nom    = $this->nom;
+        $propriete->nom_en = $this->nom_en;
+        $propriete->nom_ar = $this->nom_ar;
 
         if ($this->type == "option") {
             $propriete->affichage = $this->affichage;
@@ -87,6 +91,8 @@ class FormCreatePropriete extends Component
     {
         $this->type = null;
         $this->nom = null;
+        $this->nom_en = null;
+        $this->nom_ar = null;
     }
 
     public function delete($id)

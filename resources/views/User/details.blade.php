@@ -521,8 +521,17 @@
                                     @endforelse --}}
                                     @forelse ($post->proprietes ?? [] as $key => $value)
                                         <tr>
+                                            @php
+                                                // (existing $proprieteRows / $localizeProprieteValue setup from before, but also build a nom map)
+                                                $localizeProprieteNom = fn ($key) => match (app()->getLocale()) {
+                                                    'en' => $proprieteRows->get($key)?->nom_en ?: $key,
+                                                    'ar' => $proprieteRows->get($key)?->nom_ar ?: $key,
+                                                    default => $key,
+                                                };
+                                            @endphp
                                             <td class="cell cell-bold">
-                                                {{ __(ucfirst($key)) }}
+                                                {{-- {{ __(ucfirst($key)) }} --}}
+                                                {{ $localizeProprieteNom($key) }}
                                             </td>
                                             <td class="text-black cell">
                                                 @if ($key == 'Couleur')

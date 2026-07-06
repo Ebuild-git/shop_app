@@ -10,26 +10,24 @@ class proprietes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order'
+        'order', 'nom', 'nom_ar', 'nom_en'
     ];
 
     protected $casts = [
         'options' => 'json',
     ];
 
-    // public function localizedOptions(): \Illuminate\Support\Collection
-    // {
-    //     $key = match (app()->getLocale()) {
-    //         'en' => 'title_en',
-    //         'ar' => 'title_ar',
-    //         default => 'titre',
-    //     };
+    public function localizedNom(?string $locale = null): string
+    {
+        $locale = $locale ?? app()->getLocale();
 
-    //     return collect($this->options ?? [])->map(fn ($option) => [
-    //         'value' => $option['value'] ?? $option['titre'] ?? $option,
-    //         'label' => $option[$key] ?? $option['titre'] ?? (is_string($option) ? $option : ''),
-    //     ]);
-    // }
+        return match ($locale) {
+            'en' => $this->nom_en ?: $this->nom,
+            'ar' => $this->nom_ar ?: $this->nom,
+            default => $this->nom,
+        };
+    }
+
     public function localizedOptions(?string $locale = null): array
     {
         $locale = $locale ?? app()->getLocale();
@@ -75,5 +73,48 @@ class proprietes extends Model
         }
 
         return $value;
+    }
+    /**
+     * Localize the *field label itself* (e.g. "Taille" -> "Size" -> "الحجم")
+     * given the property `nom` used as a key on posts.proprietes.
+     */
+    public static function localizeNomForName(string $nom, ?string $locale = null): string
+    {
+        $propriete = static::where('nom', $nom)->first();
+
+        return $propriete ? $propriete->localizedNom($locale) : $nom;
+    }
+
+    public function toDisplayArray(): array
+    {
+        $data = [
+            'nom'    => $this->nom,
+            'nom_en' => $this->nom_en,
+            'nom_ar' => $this->nom_ar,
+            'type'   => $this->type,
+        ];
+
+        if ($this->type === 'option') {
+            $data['options'] = collect($this->options ?? [])->map(function ($option) {
+                if (is_array($option)) {
+                    return [
+                        'value'    => $option['value'] ?? ($option['titre'] ?? ''),
+                        'titre'    => $option['titre'] ?? '',
+                        'title_en' => $option['title_en'] ?? '',
+                        'title_ar' => $option['title_ar'] ?? '',
+                    ];
+                }
+
+                // legacy plain-string option
+                return [
+                    'value'    => $option,
+                    'titre'    => $option,
+                    'title_en' => '',
+                    'title_ar' => '',
+                ];
+            })->values()->toArray();
+        }
+
+        return $data;
     }
 }

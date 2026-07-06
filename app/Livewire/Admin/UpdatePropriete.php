@@ -7,13 +7,15 @@ use Livewire\Component;
 
 class UpdatePropriete extends Component
 {
-    public $nom, $type, $proprietes, $propriete, $typeselected, $affichage;
+    public $nom, $nom_en, $nom_ar, $type, $proprietes, $propriete, $typeselected, $affichage;
     public $optionsCases = [];
 
     public function mount($propriete)
     {
         $this->propriete    = $propriete;
         $this->nom          = $propriete->nom;
+        $this->nom_en       = $propriete->nom_en;
+        $this->nom_ar       = $propriete->nom_ar;
         $this->typeselected = $propriete->type;
         $this->affichage    = $propriete->affichage;
 
@@ -78,6 +80,8 @@ class UpdatePropriete extends Component
     {
         $rules = [
             'nom'       => 'required',
+            'nom_en'    => 'nullable|string',
+            'nom_ar'    => 'nullable|string',
             'affichage' => 'nullable|in:case,input',
         ];
 
@@ -94,8 +98,10 @@ class UpdatePropriete extends Component
 
         $propriete = proprietes::find($this->propriete->id);
         if ($propriete) {
-            $propriete->nom  = $this->nom;
-            $propriete->type = $this->typeselected;
+            $propriete->nom    = $this->nom;
+            $propriete->nom_en = $this->nom_en;
+            $propriete->nom_ar = $this->nom_ar;
+            $propriete->type   = $this->typeselected;
 
             if ($this->typeselected == "option") {
                 $propriete->affichage = $this->affichage;

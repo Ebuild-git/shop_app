@@ -294,8 +294,18 @@
                         @if ($propriete_info)
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="text-capitalize">
+                                    {{-- <label class="text-capitalize">
                                         {{ __($propriete_info->nom) }}
+                                    </label> --}}
+                                    @php
+                                        $proprieteLabel = match (app()->getLocale()) {
+                                            'en' => $propriete_info->nom_en ?: $propriete_info->nom,
+                                            'ar' => $propriete_info->nom_ar ?: $propriete_info->nom,
+                                            default => $propriete_info->nom,
+                                        };
+                                    @endphp
+                                    <label class="text-capitalize">
+                                        {{ $proprieteLabel }}
                                     </label>
 
                                     @php
@@ -415,7 +425,7 @@
                                     @enderror
                                     @else
                                         <input type="{{ $propriete_info->type }}" @required($requi)
-                                            placeholder="{{ __($propriete_info->nom) }} @if($propriete_info->nom == 'Poids' && $propriete_info->type == 'number') en KG @endif"
+                                            placeholder="{{ $proprieteLabel }} @if($propriete_info->nom == 'Poids' && $propriete_info->type == 'number') en KG @endif"
                                             class="form-control cusor border-r"
                                             wire:model="article_propriete.{{ $propriete_info->nom }}">
                                         @error("article_propriete.{$propriete_info->nom}")

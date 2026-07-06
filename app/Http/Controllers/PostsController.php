@@ -358,25 +358,32 @@ class PostsController extends Controller
 
         $posts = $query->paginate(20);
 
-        // Preload once: nom => [value => label] for the current locale
-        $locale = app()->getLocale();
-        $proprieteOptionsMap = \App\Models\proprietes::where('type', 'option')
-            ->get()
-            ->mapWithKeys(function ($propriete) use ($locale) {
-                return [
-                    $propriete->nom => collect($propriete->localizedOptions($locale))
-                        ->pluck('label', 'value'),
-                ];
-            });
+        // Preload every referenced property once, keyed by nom
+        $allProprieteNames = $posts->getCollection()
+            ->flatMap(fn ($post) => array_keys($post->proprietes ?? []))
+            ->unique()
+            ->values();
 
-        $localizeProprietes = function (array $proprietes) use ($proprieteOptionsMap) {
-            return collect($proprietes)->mapWithKeys(function ($value, $key) use ($proprieteOptionsMap) {
-                $label = $proprieteOptionsMap->get($key)?->get($value);
-                return [$key => $label ?? $value]; // falls back for free-text/color props
-            })->toArray();
+        $proprieteMap = \App\Models\proprietes::whereIn('nom', $allProprieteNames)
+            ->get()
+            ->keyBy('nom');
+
+        $buildProprietesDisplay = function (array $proprietes) use ($proprieteMap) {
+            return collect($proprietes)->map(function ($value, $key) use ($proprieteMap) {
+                $propriete = $proprieteMap->get($key);
+
+                if (! $propriete) {
+                    return ['nom' => $key, 'nom_en' => null, 'nom_ar' => null, 'value' => $value];
+                }
+
+                return array_merge(
+                    $propriete->toDisplayArray(),
+                    ['value' => $value]
+                );
+            })->values()->toArray();
         };
 
-        $posts->getCollection()->transform(function ($post) use ($localizeProprietes) {
+        $posts->getCollection()->transform(function ($post) use ($buildProprietesDisplay) {
             $post->prix     = $post->getPrix();
             $post->old_prix = $post->getOldPrix();
             $post->is_solder = $post->getOldPrix() ? true : false;
@@ -398,10 +405,7 @@ class PostsController extends Controller
 
             $postData['favoris_count'] = $post->favoris_count;
             $postData['discountPercentage'] = $discountPercentage;
-
-            // localized display copy — raw `proprietes` is kept untouched
-            // for filtering / backward compatibility with existing clients
-            $postData['proprietes_display'] = $localizeProprietes($post->proprietes ?? []);
+            $postData['proprietes_display'] = $buildProprietesDisplay($post->proprietes ?? []);
 
             if (!empty($postData['photos']) && is_array($postData['photos'])) {
                 $postData['photos'] = array_map(function ($photo) {
@@ -684,12 +688,25 @@ class PostsController extends Controller
                 }
             }
 
-            // localized display copy — raw `proprietes` untouched
-            $locale = app()->getLocale();
+            // Build full multilingual property display, including options if applicable
+            $proprieteMap = \App\Models\proprietes::whereIn('nom', array_keys($post->proprietes ?? []))
+                ->get()
+                ->keyBy('nom');
+
             $post->proprietes_display = collect($post->proprietes ?? [])
-                ->mapWithKeys(function ($value, $key) use ($locale) {
-                    return [$key => \App\Models\proprietes::localizeValueForName($key, $value, $locale)];
+                ->map(function ($value, $key) use ($proprieteMap) {
+                    $propriete = $proprieteMap->get($key);
+
+                    if (! $propriete) {
+                        return ['nom' => $key, 'nom_en' => null, 'nom_ar' => null, 'value' => $value];
+                    }
+
+                    return array_merge(
+                        $propriete->toDisplayArray(),
+                        ['value' => $value]
+                    );
                 })
+                ->values()
                 ->toArray();
 
             return response()->json([
