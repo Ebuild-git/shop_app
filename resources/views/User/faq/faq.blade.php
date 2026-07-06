@@ -27,7 +27,7 @@
                 <table>
                     <tr onmousemove="change_image(1)">
                         <td class="p-3 text-center align-top">
-                            <img src="/faq/1.png" alt="" height="50">
+                            <img src="/faq/1.png" alt="step 1" height="50">
                         </td>
                         <td>
                             <h4 class="title title-1 pointer-title"><b>{{ __('step_1_title') }}</b></h4>
@@ -36,7 +36,7 @@
                     </tr>
                     <tr onmousemove="change_image(2)">
                         <td class="p-3 text-center align-top">
-                            <img src="/faq/2.png" alt="" height="50">
+                            <img src="/faq/2.png" alt="step 2" height="50">
                         </td>
                         <td>
                             <h4 class="title title-2 pointer-title"><b>{{ __('step_2_title') }}</b></h4>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr onmousemove="change_image(3)">
                         <td class="p-3 text-center align-top">
-                            <img src="/faq/3.png" alt="" height="50">
+                            <img src="/faq/3.png" alt="step 3" height="50">
                         </td>
                         <td>
                             <h4 class="title title-3 pointer-title"><b>{{ __('step_3_title') }}</b></h4>
@@ -54,7 +54,7 @@
                     </tr>
                     <tr onmousemove="change_image(4)">
                         <td class="p-3 text-center align-top">
-                            <img src="/faq/4.png" alt="" height="45">
+                            <img src="/faq/4.png" alt="step 4" height="45">
                         </td>
                         <td>
                             <h4 class="title title-4 pointer-title"><b>{{ __('step_4_title') }}</b></h4>

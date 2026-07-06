@@ -27,7 +27,7 @@
                         @foreach($signalements as $signal)
                             <li class="d-flex align-items-center gap-2 mb-1">
                                 <img src="{{ $signal->auteur->getAvatar() }}"
-                                    class="rounded-circle" width="24" height="24">
+                                    alt="{{ $signal->auteur->username }}" class="rounded-circle" width="24" height="24">
                                 <a href="/admin/client/{{ $signal->auteur->id }}/view" class="text-dark fw-medium">
                                     {{ $signal->auteur->username }}
                                 </a>
@@ -50,7 +50,7 @@
                                 @foreach ($post->photos ?? [] as $key => $image)
                                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}"
                                         style="text-align: center !important">
-                                        <img class="" src="{{ Storage::url($image) }}" style="max-height: 400px;">
+                                        <img class="" src="{{ Storage::url($image) }}" alt="Photo de la publication" style="max-height: 400px;">
                                     </div>
                                 @endforeach
                             </div>
@@ -69,7 +69,7 @@
                     <div class="d-flex flex-row bd-highlight ">
                         @foreach ($post->photos ?? [] as $key => $image)
                                 <div class="card-image-details-post">
-                                    <img src="{{ Storage::url($image) }}" alt="" srcset="">
+                                    <img src="{{ Storage::url($image) }}" alt="Photo de la publication" srcset="">
                                 </div>
                         @endforeach
                     </div>

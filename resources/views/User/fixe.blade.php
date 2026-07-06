@@ -22,7 +22,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Themezhub" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" content="Shop now.">
     <title>@yield('titre') | {{ config('app.name', 'Shopin') }}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -602,7 +602,7 @@
                         <ul class="nav-menu text-uppercase">
                             <li class="elementToHideBeforeScroll d-none">
                                 <a href="/">
-                                    <img src="/icons/logo.png" class="logo" alt="" height="20" />
+                                    <img src="/icons/logo.png" class="logo" alt="logo" height="20" />
                                 </a>
                             </li>
                             <li>
@@ -984,7 +984,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div> --}}
                             <div class="footer_widget">
-                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
+                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="logo" />
 
                                 <div class="address mt-3">
                                     {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
@@ -1012,10 +1012,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {{-- <h6 class="widget_title">{{ __('Télécharger') }}</h6> --}}
                                     <div class="d-flex flex-row align-items-center" style="gap: 8px;">
                                         <a href="https://play.google.com/store/apps/details?id=com.shopin.app" target="_blank">
-                                            <img src="/assets/img/Google_Play_Store_badge_EN.svg.webp" style="height: 40px; width: 130px;">
+                                            <img src="/assets/img/Google_Play_Store_badge_EN.svg.webp" alt="Google Play Store" style="height: 40px; width: 130px;">
                                         </a>
                                         <a href="https://apps.apple.com/app/shopin/id123456789" target="_blank">
-                                            <img src="/assets/img/Download_on_the_App_Store_Badge.svg.webp" style="height: 40px; width: 130px;">
+                                            <img src="/assets/img/Download_on_the_App_Store_Badge.svg.webp" alt="App Store" style="height: 40px; width: 130px;">
                                         </a>
                                     </div>
                                 </div>
@@ -1067,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div> --}}
                                     <div class="d-flex flex-wrap gap-2 align-items-center mt-2">
                                         @foreach (json_decode($configurations->partenaires) ?? [] as $item)
-                                            <img src="{{ Storage::url($item) }}" alt="" style="height: 40px; width: auto; object-fit: contain;">
+                                            <img src="{{ Storage::url($item) }}" alt="partner logo" style="height: 40px; width: auto; object-fit: contain;">
                                         @endforeach
                                     </div>
 

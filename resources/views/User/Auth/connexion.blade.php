@@ -9,7 +9,7 @@
                 <div class="position-absolute">
                 </div>
                 <img src="/icons/login.png"
-                    class="img" alt="" srcset="">
+                    class="img" alt="avatar" srcset="">
             </div>
             <div class="col-sm-6" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
                 <hr>

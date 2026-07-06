@@ -11,7 +11,7 @@
                         <h4>
                             {!! __('login_to_sell_and_buy') !!}
                         </h4>
-                        <img style="width: 80%;" src="/icons/illus-register2.png" alt="" srcset="">
+                        <img style="width: 80%;" src="/icons/illus-register2.png" alt="icon" srcset="">
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group" style="position: relative; min-height: 80px;">
-                                <img src="/icons/maroc.webp" height="30" alt="" class="position-absolute"
+                                <img src="/icons/maroc.webp" height="30" alt="maroc" class="position-absolute"
                                     style="bottom:18px; {{ app()->getLocale() == 'ar' ? 'right: 14px;' : 'left: 14px;' }}; border-radius: 100%;">
                                 <span for="small">{{ __('telephone') }}</span>
                                 <span class="text-danger">*</span>

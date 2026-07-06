@@ -211,7 +211,7 @@
                 <div class="container-xxl">
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
                         <a href="/dashboard" class="app-brand-link gap-2">
-                            <img src="/icons/logo.png" alt="" srcset="" style="height: 25px;">
+                            <img src="/icons/logo.png" alt="logo" srcset="" style="height: 25px;">
                         </a>
 
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -273,7 +273,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->getAvatar() }}" alt class="h-auto rounded-circle" />
+                                        <img src="{{ Auth::user()->getAvatar() }}" alt="Avatar" class="h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -282,7 +282,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ Auth::user()->getAvatar() }}" alt
+                                                        <img src="{{ Auth::user()->getAvatar() }}" alt="Avatar"
                                                             class="h-auto rounded-circle" />
                                                     </div>
                                                 </div>

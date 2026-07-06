@@ -123,7 +123,7 @@
                              <td>{{ $user->phone_number ?? '/' }}</td>
                              <td>
                                  @if($user->avatar)
-                                     <img src="{{ $user->getAvatar() }}"
+                                     <img src="{{ $user->getAvatar() }}" alt="Avatar de l'utilisateur"
                                          style="max-width: 120px; cursor:pointer;"
                                          onclick="window.open(this.src)">
                                  @else
@@ -149,7 +149,7 @@
                                         <div>
                                             <small class="text-muted d-block">Recto</small>
                                             @if($user->cin_img)
-                                                <img src="{{ asset('storage/' . $user->cin_img) }}"
+                                                <img src="{{ asset('storage/' . $user->cin_img) }}" alt="Carte d'identité — Recto"
                                                     style="max-width: 80px; cursor:pointer;"
                                                     onclick="window.open(this.src)">
                                             @else
@@ -160,7 +160,7 @@
                                         <div>
                                             <small class="text-muted d-block">Verso</small>
                                             @if($user->cin_img2)
-                                                <img src="{{ asset('storage/' . $user->cin_img2) }}"
+                                                <img src="{{ asset('storage/' . $user->cin_img2) }}" alt="carte d'identité — Verso"
                                                     style="max-width: 80px; cursor:pointer;"
                                                     onclick="window.open(this.src)">
                                             @else
@@ -191,34 +191,7 @@
                                         </a>
                                     @endif
                                 </td>
-                             {{-- <td><a href="/admin/client/{{ $user->id }}/view">{{ 'U' . ($user->id + 1000) }}</a></td>
-                             <td><a href="/admin/client/{{ $user->id }}/view">{{ $user->username }}</a></td>
-                             <td>{{ $user->email }}</td>
-                             <td>{{ $user->phone_number ?? '/' }}</td>
-                             <td>
-                                 @if($user->cin_img)
-                                     <img src="{{ asset('storage/' . $user->cin_img) }}"
-                                         style="max-width: 120px; cursor:pointer;"
-                                         onclick="window.open(this.src)">
-                                 @else
-                                     <span class="text-muted">Aucune image</span>
-                                 @endif
-                             </td>
-                             <td>
-                                 <button class="btn btn-sm btn-success" wire:click="approveCin({{ $user->id }})">
-                                     Approuver
-                                 </button>
-                                 <button class="btn btn-sm btn-danger" wire:click="rejectCin({{ $user->id }})">
-                                     Rejeter
-                                 </button>
-                                    @if($user->cin_img)
-                                        <a href="{{ asset('storage/' . $user->cin_img) }}"
-                                        download="U{{ $user->id + 1000 }}_cin_actuelle"
-                                        class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-download"></i>
-                                        </a>
-                                    @endif
-                             </td> --}}
+
                          @else
                         <td><a href="/admin/client/{{ $user->id }}/view" class="cusor">{{ 'U' . ($user->id + 1000) }}</a></td>
                         @if($showTrashed !== 'yes')

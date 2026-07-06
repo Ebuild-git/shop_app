@@ -16,7 +16,7 @@
                     </div>
                     <div>
                         <h4 class="text-center">
-                            <img src="/icons/logo.png" height="30" alt="">
+                            <img src="/icons/logo.png" height="30" alt="logo">
                         </h4>
                     </div>
                     <div></div>

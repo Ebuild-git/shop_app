@@ -710,14 +710,14 @@
                                 <div>
                                     <div>
                                         <div>
-                                            <img src="{{ Storage::url($data_post['photos'][0]) }}" alt=""
+                                            <img src="{{ Storage::url($data_post['photos'][0]) }}" alt="photo principale"
                                                 style="width: 100% !important;">
                                         </div>
                                         <div class="p-2 d-flex justify-content-start">
                                             @foreach ($data_post['photos'] as $photo)
                                                 <div class="gallery-image-details-preview cusor"
                                                     onclick="change_principal_image('{{ Storage::url($photo) }}')">
-                                                    <img src="{{ Storage::url($photo) }}" alt=""
+                                                    <img src="{{ Storage::url($photo) }}" alt="photo de détail"
                                                         style="width: 100% !important;">
                                                 </div>
                                             @endforeach

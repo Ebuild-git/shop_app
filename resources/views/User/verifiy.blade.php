@@ -16,17 +16,17 @@
             <br>
             <div>
                 @isset($error)
-                    
+
                     <div class="text-center">
                         <img src="https://cdn-icons-png.flaticon.com/256/1933/1933606.png"
-                            alt="" style="width: 20%" srcset="">
+                            alt="avatar" style="width: 20%" srcset="">
                         <br>
                         <h4>{{ $error }}</h4>
                     </div>
                 @else
                     <div class="text-center">
                         <img src="https://c0.klipartz.com/pngpicture/296/544/gratis-png-felicitaciones-multicoloras-concurso-de-youtube-de-la-escuela-dunottar-icono-de-felicitaciones-de-s-thumbnail.png"
-                            alt="" style="width: 50%" srcset="">
+                            alt="avatar" style="width: 50%" srcset="">
                         <br>
                         <h4>Félicitation</h4>
                         <p>

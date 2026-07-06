@@ -15,13 +15,13 @@
                      <div class="quick_view_thmb">
                          <div class="quick_view_slide">
                              <div class="single_view_slide"><img src="https://via.placeholder.com/625x800"
-                                     class="img-fluid" alt="" /></div>
+                                     class="img-fluid" alt="icon" /></div>
                              <div class="single_view_slide"><img src="https://via.placeholder.com/625x800"
-                                     class="img-fluid" alt="" /></div>
+                                     class="img-fluid" alt="icon" /></div>
                              <div class="single_view_slide"><img src="https://via.placeholder.com/625x800"
-                                     class="img-fluid" alt="" /></div>
+                                     class="img-fluid" alt="icon" /></div>
                              <div class="single_view_slide"><img src="https://via.placeholder.com/625x800"
-                                     class="img-fluid" alt="" /></div>
+                                     class="img-fluid" alt="icon" /></div>
                          </div>
                      </div>
 

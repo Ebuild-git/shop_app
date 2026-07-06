@@ -27,7 +27,7 @@
                 <table class="">
                     <tr onmousemove="change_image(1)">
                         <td class="p-3 text-center align-top">
-                            <img src="/achat/1.png" alt="" height="50">
+                            <img src="/achat/1.png" alt="achat 1" height="50">
                         </td>
                         <td>
                             <h4 class="title title-1 pointer-title">
@@ -38,7 +38,7 @@
                     </tr>
                     <tr onmousemove="change_image(2)">
                         <td class="p-3 text-center align-top">
-                            <img src="/achat/2.png" alt="" height="50">
+                            <img src="/achat/2.png" alt="achat 2" height="50">
                         </td>
                         <td>
                             <h4 class="title title-2 pointer-title">
@@ -49,7 +49,7 @@
                     </tr>
                     <tr onmousemove="change_image(3)">
                         <td class="p-3 text-center align-top">
-                            <img src="/achat/3.png" alt="" height="50">
+                            <img src="/achat/3.png" alt="achat 3" height="50">
                         </td>
                         <td>
                             <h4 class="title title-3 pointer-title"><b>{{ __('validate_cart_title') }}</b></h4>
@@ -58,7 +58,7 @@
                     </tr>
                     <tr onmousemove="change_image(4)">
                         <td class="p-3 text-center align-top">
-                            <img src="/achat/4.png" alt="" height="45">
+                            <img src="/achat/4.png" alt="achat 4" height="45">
                         </td>
                         <td>
                             <h4 class="title title-4 pointer-title"><b>{{ __('receive_package_title') }}</b></h4>

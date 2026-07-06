@@ -45,7 +45,7 @@
                 <div class="text-center">
 
                     <h2 class="color">
-                        <img src="/icons/icons8-coche.gif" alt="" srcset=""> <br>
+                        <img src="/icons/icons8-coche.gif" alt="icons" srcset=""> <br>
                         {{ __('thank_you') }}
                     </h2>
                     <p>

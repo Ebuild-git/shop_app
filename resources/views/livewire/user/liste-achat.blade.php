@@ -44,7 +44,7 @@
                             <tr>
                                 <td style="width: 41px;">
                                     <div class="avatar-small-product">
-                                        <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avtar">
+                                        <img src="{{ Storage::url($achat->photos[0] ?? '') }}" alt="avatar">
                                     </div>
                                 </td>
                                 <td>

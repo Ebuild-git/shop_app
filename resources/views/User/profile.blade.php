@@ -154,7 +154,7 @@
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden" href="/post/{{ $post->id }}"><img
-                                                class="card-img-top" src="{{ Storage::url($post->photos[0] ?? '') }}" alt="...">
+                                                class="card-img-top" src="{{ Storage::url($post->photos[0] ?? '') }}" alt="post {{ $post->titre }}">
                                         </a>
                                     </div>
                                 </div>

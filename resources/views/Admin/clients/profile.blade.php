@@ -419,7 +419,7 @@
                                     <div class="col-6">
                                         <p class="mb-1 fw-semibold text-muted" style="font-size:12px;">RECTO</p>
                                         @if ($currentCinImg)
-                                            <img src="{{ $currentCinImg }}" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
+                                            <img src="{{ $currentCinImg }}" alt="Carte d'identité — Recto" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
                                             <a href="{{ $currentCinImg }}" download="U{{ $user->id + 1000 }}_cin_recto" class="btn btn-sm btn-success d-block">
                                                 <i class="bi bi-download"></i> Télécharger
                                             </a>
@@ -432,7 +432,7 @@
                                     <div class="col-6">
                                         <p class="mb-1 fw-semibold text-muted" style="font-size:12px;">VERSO</p>
                                         @if ($currentCinImg2)
-                                            <img src="{{ $currentCinImg2 }}" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
+                                            <img src="{{ $currentCinImg2 }}" alt="Carte d'identité — Verso" class="img-fluid rounded mb-2" style="cursor:pointer;" onclick="window.open(this.src)">
                                             <a href="{{ $currentCinImg2 }}" download="U{{ $user->id + 1000 }}_cin_verso" class="btn btn-sm btn-success d-block">
                                                 <i class="bi bi-download"></i> Télécharger
                                             </a>

@@ -79,10 +79,10 @@
         <div class="small">Suivez-nous</div>
 
         <div class="mb-5 mt-2">
-            <a href="#"><img width="30" height="30" src="https://img.icons8.com/glyph-neue/30/FFFFFF/facebook-new.png"></a>
-            <a href="#"><img width="30" height="30" src="https://img.icons8.com/ios-filled/30/FFFFFF/instagram-new--v1.png"></a>
-            <a href="#"><img width="30" height="30" src="https://img.icons8.com/glyph-neue/30/FFFFFF/linkedin-circled.png"></a>
-            <a href="#"><img width="30" height="30" src="https://img.icons8.com/ios-filled/30/FFFFFF/tiktok--v1.png"></a>
+            <a href="#"><img width="30" height="30" src="https://img.icons8.com/glyph-neue/30/FFFFFF/facebook-new.png" alt="facebook"></a>
+            <a href="#"><img width="30" height="30" src="https://img.icons8.com/ios-filled/30/FFFFFF/instagram-new--v1.png" alt="instagram"></a>
+            <a href="#"><img width="30" height="30" src="https://img.icons8.com/glyph-neue/30/FFFFFF/linkedin-circled.png" alt="linkedin"></a>
+            <a href="#"><img width="30" height="30" src="https://img.icons8.com/ios-filled/30/FFFFFF/tiktok--v1.png" alt="tiktok"></a>
         </div>
     </div>
 

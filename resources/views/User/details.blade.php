@@ -671,7 +671,7 @@
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $other->id }}"><img class="card-img-top"
-                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="...">
+                                                    src="{{ Storage::url($other->photos[0] ?? '') }}" alt="post {{ $other->titre }}">
                                             </a>
                                         </div>
                                     </div>
@@ -724,7 +724,7 @@
                                             @endif
                                             <a class="card-img-top d-block overflow-hidden"
                                                 href="/post/{{ $product->id }}"><img class="card-img-top"
-                                                    src="{{ Storage::url($product->photos[0] ?? '') }}" alt="...">
+                                                    src="{{ Storage::url($product->photos[0] ?? '') }}" alt="post {{ $product->titre }}">
                                             </a>
                                         </div>
                                     </div>

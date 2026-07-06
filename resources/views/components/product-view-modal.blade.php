@@ -15,7 +15,7 @@
                         <div class="quick_view_wrap">
 
                             <div class="quick_view_thmb">
-                                <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100" alt="" />
+                                <img src="{{ Storage::url($post->photos[0] ?? '') }}" class="w-100" alt="{{ $post->titre }}" />
                             </div>
 
                             <div class="quick_view_capt">
