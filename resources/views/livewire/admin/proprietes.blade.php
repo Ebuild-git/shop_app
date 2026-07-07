@@ -183,41 +183,6 @@
             </div>
         </div>
     </div>
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Initialize SortableJS for each modal's option list when opened
-            document.querySelectorAll(".modal").forEach((modal) => {
-                modal.addEventListener("shown.bs.modal", function () {
-                    let propertyId = this.id.replace("voir-", ""); // Extract property ID
-                    let sortableElement = document.getElementById('sortable-list-options-' + propertyId);
-
-                    if (sortableElement && !sortableElement.classList.contains('sortable-initialized')) {
-                        new Sortable(sortableElement, {
-                            animation: 150,
-                            onEnd: function (event) {
-                                let sortedIds = Array.from(event.to.children).map(item => item.getAttribute('data-id'));
-
-                                fetch('/admin/changer_ordre_attribus', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    },
-                                    body: JSON.stringify({
-                                        propriete_id: propertyId,
-                                        sorted_ids: sortedIds
-                                    })
-                                })
-                                .then(response => console.log('Ordre des options mis à jour'))
-                                .catch(error => console.error('Erreur lors de la mise à jour de l\'ordre : ', error));
-                            }
-                        });
-                        sortableElement.classList.add('sortable-initialized'); // Prevent duplicate initialization
-                    }
-                });
-            });
-        });
-    </script> --}}
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".modal").forEach((modal) => {
