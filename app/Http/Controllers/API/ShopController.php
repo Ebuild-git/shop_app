@@ -811,17 +811,76 @@ class ShopController extends Controller
     *      )
     * )
     */
+    // public function track($id)
+    // {
+    //     $order = Order::with([
+    //         'buyer:id,username,email',
+    //         'items' => function ($q) {
+    //             $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
+    //                 ->with([
+    //                     'post:id,titre,photos,statut'
+    //                 ]);
+    //         }
+    //     ])->find($id);
+
+    //     if (!$order) {
+    //         return response()->json(['error' => 'Order not found'], 404);
+    //     }
+
+    //     return response()->json([
+    //         'order_id' => $order->id,
+    //         'buyer' => $order->buyer,
+    //         'status' => $order->status,
+    //         'state' => $order->state,
+    //         'total' => $order->total,
+    //         'total_delivery_fees' => $order->total_delivery_fees,
+
+    //         'items' => $order->items->map(function ($item) {
+
+    //             $photos = [];
+    //             if ($item->post) {
+    //                 $photos = is_string($item->post->photos)
+    //                     ? json_decode($item->post->photos, true)
+    //                     : (is_array($item->post->photos) ? $item->post->photos : []);
+    //             }
+
+    //             $firstPhoto = $photos[0] ?? null;
+
+    //             $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
+
+    //             return [
+    //                 'post_id' => $item->post_id,
+    //                 'vendor_id' => $item->vendor_id,
+    //                 'price' => $item->price,
+    //                 'delivery_fee' => $item->delivery_fee,
+    //                 'status' => $item->status,
+    //                 'shipment_id' => $item->shipment_id,
+
+    //                 'post' => [
+    //                     'title' => $item->post->titre ?? null,
+    //                     'image' => $photoUrl,
+    //                     'statut' => $item->post->statut ?? null,
+    //                 ],
+    //             ];
+    //         }),
+
+
+    //         'updated_at' => $order->updated_at,
+    //     ]);
+    // }
     public function track($id)
     {
-        $order = Order::with([
-            'buyer:id,username,email',
-            'items' => function ($q) {
-                $q->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id')
-                    ->with([
-                        'post:id,titre,photos,statut'
-                    ]);
-            }
-        ])->find($id);
+        $order = Order::withTrashed()
+            ->with([
+                'buyer:id,username,email',
+                'items' => function ($q) {
+                    $q->withTrashed()
+                        ->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id', 'deleted_at')
+                        ->with([
+                            'post:id,titre,photos,statut'
+                        ]);
+                }
+            ])->find($id);
 
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
@@ -834,6 +893,7 @@ class ShopController extends Controller
             'state' => $order->state,
             'total' => $order->total,
             'total_delivery_fees' => $order->total_delivery_fees,
+            'deleted_at' => $order->deleted_at,
 
             'items' => $order->items->map(function ($item) {
 
@@ -855,6 +915,7 @@ class ShopController extends Controller
                     'delivery_fee' => $item->delivery_fee,
                     'status' => $item->status,
                     'shipment_id' => $item->shipment_id,
+                    'deleted_at' => $item->deleted_at,
 
                     'post' => [
                         'title' => $item->post->titre ?? null,
@@ -863,7 +924,6 @@ class ShopController extends Controller
                     ],
                 ];
             }),
-
 
             'updated_at' => $order->updated_at,
         ]);
