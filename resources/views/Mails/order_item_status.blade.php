@@ -135,7 +135,7 @@
     </table>
 
     <!-- CTA BUTTON -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+    {{-- <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
       <tr>
         <td style="text-align:center;">
           <a href="{{ config('app.url') }}/mes-achats"
@@ -144,6 +144,24 @@
           </a>
         </td>
       </tr>
+    </table> --}}
+    <!-- CTA BUTTON -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+    <tr>
+        <td style="text-align:center;">
+        @if($audience === 'seller')
+            <a href="{{ config('app.url') }}/mes-publication?type=vente"
+            style="display:inline-block;background:#008080;color:#fff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;">
+            {{ __('oic_view_sales_btn') }}
+            </a>
+        @else
+            <a href="{{ config('app.url') }}/mes-achats"
+            style="display:inline-block;background:#008080;color:#fff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;">
+            {{ __('oic_view_orders_btn') }}
+            </a>
+        @endif
+        </td>
+    </tr>
     </table>
 
     <!-- SAFETY NOTICE -->

@@ -1317,7 +1317,16 @@
   "email2.shipment.footer_note": "Ceci est un message automatique, merci de ne pas y répondre.",
   "image_upload_error": "Une de vos photos n'a pas pu être traitée. Veuillez la réessayer ou utiliser une autre image.",
 "post_creation_error": "Une erreur est survenue lors de la création de votre annonce. Veuillez réessayer, et contactez le support si le problème persiste.",
-"option_title_required": "Veuillez renseigner le titre de l'option (FR)."
+"option_title_required": "Veuillez renseigner le titre de l'option (FR).",
+"seller_order_item_cancelled_title": "Article de commande annulé",
+    "osc_cancelled_title": "Une commande pour votre article a été annulée",
+    "osc_cancelled_body": "La commande CMD-:shipment_id contenant votre article <strong>:post_title</strong> (ID :post_id) a été annulée par l'acheteur. Votre article est de nouveau disponible à la vente. <a href='{{ app_url }}'>Visitez SHOPIN</a> pour plus de détails.",
+
+    "seller_order_item_restored_title": "Article de commande restauré",
+    "osr_restored_title": "Une commande pour votre article a été restaurée",
+    "osr_restored_body": "La commande CMD-:shipment_id contenant votre article <strong>:post_title</strong> (ID :post_id) a été restaurée. <a href='{{ app_url }}'>Visitez SHOPIN</a> pour plus de détails.",
+    "oic_view_sales_btn": "Voir mes ventes"
+
 
 
 

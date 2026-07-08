@@ -298,10 +298,10 @@ class HomeController extends Controller
         }
         if ($type == 'vente') {
             $Query->whereNotNull('sell_at')
-                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé'])
-                ->whereDoesntHave('orderItems', function ($q) {
-                    $q->onlyTrashed();
-                });
+                ->whereIn('statut', ['vendu', 'livraison', 'préparation', 'en cours de livraison', 'ramassée', 'livré', 'retourné', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé']);
+                // ->whereDoesntHave('orderItems', function ($q) {
+                //     $q->onlyTrashed();
+                // });
 
             if ($month && $year) {
                 $Query->whereYear('sell_at', $year)

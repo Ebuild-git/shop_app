@@ -1322,10 +1322,20 @@
   "email2.shipment.footer_note": "This is an automated message, please do not reply.",
   "image_upload_error": "One of your photos couldn't be processed. Please try uploading it again or use a different image.",
     "post_creation_error": "Something went wrong while creating your post. Please try again, and contact support if the problem continues.",
-    "option_title_required": "Please fill in the option title (FR)."
+    "option_title_required": "Please fill in the option title (FR).",
+    "seller_order_item_cancelled_title": "Order item cancelled",
+    "osc_cancelled_title": "An order for your item has been cancelled",
+    "osc_cancelled_body": "The order CMD-:shipment_id containing your item <strong>:post_title</strong> (ID :post_id) has been cancelled by the buyer. Your item is now back on sale. <a href='{{ app_url }}'>Visit SHOPIN</a> for more details.",
+
+    "seller_order_item_restored_title": "Order item restored",
+    "osr_restored_title": "An order for your item has been restored",
+    "osr_restored_body": "The order CMD-:shipment_id containing your item <strong>:post_title</strong> (ID :post_id) has been restored. <a href='{{ app_url }}'>Visit SHOPIN</a> for more details.",
 
 
+"seller_order_item_cancelled_message": "The buyer has cancelled their order for your item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a>. Order: :shipment_id.",
 
+    "seller_order_item_restored_message": "An order for your item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> has been restored. Order: :shipment_id.",
+    "oic_view_sales_btn": "View my sales"
 
 
 

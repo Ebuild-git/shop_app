@@ -207,10 +207,195 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
+    // public function destroyItem(OrdersItem $item)
+    // {
+    //     $post  = $item->post;
+    //     $order = $item->order;
+
+    //     $item->delete();
+    //     $item->update(['status' => 'supprimée']);
+
+    //     if ($post) {
+    //         $saleWasInProgress = in_array($post->statut, [
+    //             'préparation', 'en cours de livraison', 'ramassée', 'livraison', 'livré', 'retourné', 'vendu', 'commande confirmée','tentative de livraison','retourné à l\'expéditeur','annulé','livraison retardée','ramassage planifié','reprogrammé'
+    //         ]);
+
+    //         if ($saleWasInProgress) {
+    //             $post->statut      = 'vente';
+    //             $post->sell_at     = null;
+    //             $post->id_user_buy = null;
+    //             $post->save();
+    //         }
+    //     }
+
+    //     // Notify buyer
+    //     if ($order && $order->buyer) {
+    //         $buyer = $order->buyer;
+
+    //         event(new \App\Events\UserEvent($buyer->id));
+
+    //         $buyerLocale = $buyer->locale ?? config('app.locale');
+    //         App::setLocale($buyerLocale);
+
+    //         $notification = new \App\Models\notifications();
+    //         $notification->titre               = __('order_item_cancelled_title');
+    //         $notification->id_user_destination = $buyer->id;
+    //         $notification->type                = "order_item_cancelled";
+    //         $notification->url                 = '/informations?section=commandes';
+    //         $notification->message             = __('order_item_cancelled_message1', [
+    //             'shipment_id' => 'CMD-' . $order->id,
+    //             'post_title'  => $post?->titre ?? '',
+    //             'post_id'     => $post?->id ?? '#',
+    //         ]);
+    //         $notification->save();
+
+    //         $postImage = $post && isset($post->photos[0])
+    //             ? config('app.url') . \Storage::url($post->photos[0])
+    //             : asset('assets-admin/img/no-image.png');
+
+    //         $emailSubject = __('oic_cancelled_title');
+    //         $emailBody    = __('oic_cancelled_body', [
+    //             'shipment_id' => 'CMD-' . $order->id,
+    //             'post_title'  => $post?->titre ?? '',
+    //             'post_id'     => $post?->id ?? '#',
+    //             'app_url'     => config('app.url'),
+    //         ]);
+
+    //         \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+    //             $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody
+    //         ));
+
+    //         App::setLocale(config('app.locale'));
+
+    //         $fcmService = app(\App\Services\FcmService::class);
+    //         $sent = $fcmService->sendToUser(
+    //             $buyer->id,
+    //             __('order_item_cancelled_title'),
+    //             __('order_item_cancelled_message1', [
+    //                 'shipment_id' => 'CMD-' . $order->id,
+    //                 'post_title'  => $post?->titre ?? '',
+    //                 'post_id'     => $post?->id ?? '#',
+    //             ]),
+    //             [
+    //                 'type'            => 'alerte',
+    //                 'notification_id' => $notification->id,
+    //                 'destination'     => 'user',
+    //                 'action'          => 'order_item_cancelled',
+    //                 'order_id'        => $order->id,
+    //             ]
+    //         );
+
+    //         if ($sent) {
+    //             \Log::info("FCM notification sent successfully", [
+    //                 'user_id'         => $buyer->id,
+    //                 'notification_id' => $notification->id,
+    //                 'type'            => 'order_item_cancelled',
+    //             ]);
+    //         } else {
+    //             \Log::warning("FCM notification failed to send", [
+    //                 'user_id'         => $buyer->id,
+    //                 'notification_id' => $notification->id,
+    //                 'reason'          => 'User has no FCM token or token invalid',
+    //             ]);
+    //         }
+    //     }
+
+    //     return response()->json(['success' => true]);
+    // }
+
+    // public function restoreItem($itemId)
+    // {
+    //     $item  = OrdersItem::onlyTrashed()->findOrFail($itemId);
+    //     $item->restore();
+
+    //     $post  = $item->post;
+    //     $order = $item->order;
+
+    //     if ($post && $post->statut === 'vente' && is_null($post->sell_at)) {
+    //         $post->statut      = 'préparation';
+    //         $post->sell_at     = $item->created_at;
+    //         $post->id_user_buy = $order->buyer_id ?? null;
+    //         $post->save();
+    //     }
+
+    //     // Notify buyer
+    //     if ($order && $order->buyer) {
+    //         $buyer = $order->buyer;
+
+    //         event(new \App\Events\UserEvent($buyer->id));
+
+    //         $buyerLocale = $buyer->locale ?? config('app.locale');
+    //         App::setLocale($buyerLocale);
+
+    //         $notification = new \App\Models\notifications();
+    //         $notification->titre               = __('order_item_restored_title');
+    //         $notification->id_user_destination = $buyer->id;
+    //         $notification->type                = 'order_item_restored';
+    //         $notification->url                 = '/informations?section=commandes';
+    //         $notification->message             = __('order_item_restored_message1', [
+    //             'shipment_id' => 'CMD-' . $order->id,
+    //             'post_title'  => $post?->titre ?? '',
+    //             'post_id'     => $post?->id ?? '#',
+    //         ]);
+    //         $notification->save();
+
+    //         $postImage = $post && isset($post->photos[0])
+    //             ? config('app.url') . \Storage::url($post->photos[0])
+    //             : asset('assets-admin/img/no-image.png');
+
+    //         $emailSubject = __('oic_restored_title');
+    //         $emailBody    = __('oic_restored_body', [
+    //             'shipment_id' => 'CMD-' . $order->id,
+    //             'post_title'  => $post?->titre ?? '',
+    //             'post_id'     => $post?->id ?? '#',
+    //             'app_url'     => config('app.url'),
+    //         ]);
+
+    //         \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+    //             $buyer, $order, $post, $postImage, 'restored', $emailSubject, $emailBody
+    //         ));
+    //         App::setLocale(config('app.locale'));
+
+    //         $fcmService = app(\App\Services\FcmService::class);
+    //         $sent = $fcmService->sendToUser(
+    //             $buyer->id,
+    //             __('order_item_restored_title'),
+    //             __('order_item_restored_message1', [
+    //                 'shipment_id' => 'CMD-' . $order->id,
+    //                 'post_title'  => $post?->titre ?? '',
+    //                 'post_id'     => $post?->id ?? '#',
+    //             ]),
+    //             [
+    //                 'type'            => 'alerte',
+    //                 'notification_id' => $notification->id,
+    //                 'destination'     => 'user',
+    //                 'action'          => 'order_item_restored',
+    //                 'order_id'        => $order->id,
+    //             ]
+    //         );
+
+    //         if ($sent) {
+    //             \Log::info("FCM notification sent successfully", [
+    //                 'user_id'         => $buyer->id,
+    //                 'notification_id' => $notification->id,
+    //                 'type'            => 'order_item_restored',
+    //             ]);
+    //         } else {
+    //             \Log::warning("FCM notification failed to send", [
+    //                 'user_id'         => $buyer->id,
+    //                 'notification_id' => $notification->id,
+    //                 'reason'          => 'User has no FCM token or token invalid',
+    //             ]);
+    //         }
+    //     }
+
+    //     return response()->json(['success' => true]);
+    // }
     public function destroyItem(OrdersItem $item)
     {
-        $post  = $item->post;
-        $order = $item->order;
+        $post   = $item->post;
+        $order  = $item->order;
+        $seller = $item->vendor; // <-- the seller for this specific item
 
         $item->delete();
         $item->update(['status' => 'supprimée']);
@@ -228,6 +413,10 @@ class OrdersController extends Controller
             }
         }
 
+        $postImage = $post && isset($post->photos[0])
+            ? config('app.url') . \Storage::url($post->photos[0])
+            : asset('assets-admin/img/no-image.png');
+
         // Notify buyer
         if ($order && $order->buyer) {
             $buyer = $order->buyer;
@@ -240,18 +429,14 @@ class OrdersController extends Controller
             $notification = new \App\Models\notifications();
             $notification->titre               = __('order_item_cancelled_title');
             $notification->id_user_destination = $buyer->id;
-            $notification->type                = "order_item_cancelled";
-            $notification->url                 = '/informations?section=commandes';
-            $notification->message             = __('order_item_cancelled_message1', [
+            $notification->type                 = "order_item_cancelled";
+            $notification->url                  = '/informations?section=commandes';
+            $notification->message              = __('order_item_cancelled_message1', [
                 'shipment_id' => 'CMD-' . $order->id,
                 'post_title'  => $post?->titre ?? '',
                 'post_id'     => $post?->id ?? '#',
             ]);
             $notification->save();
-
-            $postImage = $post && isset($post->photos[0])
-                ? config('app.url') . \Storage::url($post->photos[0])
-                : asset('assets-admin/img/no-image.png');
 
             $emailSubject = __('oic_cancelled_title');
             $emailBody    = __('oic_cancelled_body', [
@@ -262,7 +447,7 @@ class OrdersController extends Controller
             ]);
 
             \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
-                $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody
+                $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody, 'buyer'
             ));
 
             App::setLocale(config('app.locale'));
@@ -300,16 +485,82 @@ class OrdersController extends Controller
             }
         }
 
+        // Notify seller
+        if ($order && $seller) {
+            event(new \App\Events\UserEvent($seller->id));
+
+            $sellerLocale = $seller->locale ?? config('app.locale');
+            App::setLocale($sellerLocale);
+
+            $sellerNotification = new \App\Models\notifications();
+            $sellerNotification->titre               = __('seller_order_item_cancelled_title');
+            $sellerNotification->id_user_destination = $seller->id;
+            $sellerNotification->type                 = "seller_order_item_cancelled";
+            $sellerNotification->url                  = '/informations?section=commandes';
+            $sellerNotification->message              = __('seller_order_item_cancelled_message', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+            ]);
+            $sellerNotification->save();
+
+            $sellerEmailSubject = __('osc_cancelled_title');
+            $sellerEmailBody    = __('osc_cancelled_body', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+                'app_url'     => config('app.url'),
+            ]);
+
+            \Mail::to($seller->email)->send(new \App\Mail\OrderItemStatusMail(
+                $seller, $order, $post, $postImage, 'cancelled', $sellerEmailSubject, $sellerEmailBody, 'seller'
+            ));
+
+            App::setLocale(config('app.locale'));
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $sentSeller = $fcmService->sendToUser(
+                $seller->id,
+                __('seller_order_item_cancelled_title'),
+                __('seller_order_item_cancelled_message', [
+                    'shipment_id' => 'CMD-' . $order->id,
+                    'post_title'  => $post?->titre ?? '',
+                    'post_id'     => $post?->id ?? '#',
+                ]),
+                [
+                    'type'            => 'alerte',
+                    'notification_id' => $sellerNotification->id,
+                    'destination'     => 'user',
+                    'action'          => 'seller_order_item_cancelled',
+                    'order_id'        => $order->id,
+                ]
+            );
+
+            if ($sentSeller) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id'         => $seller->id,
+                    'notification_id' => $sellerNotification->id,
+                    'type'            => 'seller_order_item_cancelled',
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id'         => $seller->id,
+                    'notification_id' => $sellerNotification->id,
+                    'reason'          => 'User has no FCM token or token invalid',
+                ]);
+            }
+        }
+
         return response()->json(['success' => true]);
     }
-
     public function restoreItem($itemId)
     {
         $item  = OrdersItem::onlyTrashed()->findOrFail($itemId);
         $item->restore();
 
-        $post  = $item->post;
-        $order = $item->order;
+        $post   = $item->post;
+        $order  = $item->order;
+        $seller = $item->vendor; // <-- the seller for this specific item
 
         if ($post && $post->statut === 'vente' && is_null($post->sell_at)) {
             $post->statut      = 'préparation';
@@ -317,6 +568,10 @@ class OrdersController extends Controller
             $post->id_user_buy = $order->buyer_id ?? null;
             $post->save();
         }
+
+        $postImage = $post && isset($post->photos[0])
+            ? config('app.url') . \Storage::url($post->photos[0])
+            : asset('assets-admin/img/no-image.png');
 
         // Notify buyer
         if ($order && $order->buyer) {
@@ -339,10 +594,6 @@ class OrdersController extends Controller
             ]);
             $notification->save();
 
-            $postImage = $post && isset($post->photos[0])
-                ? config('app.url') . \Storage::url($post->photos[0])
-                : asset('assets-admin/img/no-image.png');
-
             $emailSubject = __('oic_restored_title');
             $emailBody    = __('oic_restored_body', [
                 'shipment_id' => 'CMD-' . $order->id,
@@ -352,7 +603,7 @@ class OrdersController extends Controller
             ]);
 
             \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
-                $buyer, $order, $post, $postImage, 'restored', $emailSubject, $emailBody
+                $buyer, $order, $post, $postImage, 'restored', $emailSubject, $emailBody, 'buyer'
             ));
             App::setLocale(config('app.locale'));
 
@@ -384,6 +635,72 @@ class OrdersController extends Controller
                 \Log::warning("FCM notification failed to send", [
                     'user_id'         => $buyer->id,
                     'notification_id' => $notification->id,
+                    'reason'          => 'User has no FCM token or token invalid',
+                ]);
+            }
+        }
+
+        // Notify seller
+        if ($order && $seller) {
+            event(new \App\Events\UserEvent($seller->id));
+
+            $sellerLocale = $seller->locale ?? config('app.locale');
+            App::setLocale($sellerLocale);
+
+            $sellerNotification = new \App\Models\notifications();
+            $sellerNotification->titre               = __('seller_order_item_restored_title');
+            $sellerNotification->id_user_destination = $seller->id;
+            $sellerNotification->type                 = 'seller_order_item_restored';
+            $sellerNotification->url                  = '/informations?section=commandes';
+            $sellerNotification->message              = __('seller_order_item_restored_message', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+            ]);
+            $sellerNotification->save();
+
+            $sellerEmailSubject = __('osr_restored_title');
+            $sellerEmailBody    = __('osr_restored_body', [
+                'shipment_id' => 'CMD-' . $order->id,
+                'post_title'  => $post?->titre ?? '',
+                'post_id'     => $post?->id ?? '#',
+                'app_url'     => config('app.url'),
+            ]);
+
+            \Mail::to($seller->email)->send(new \App\Mail\OrderItemStatusMail(
+                $seller, $order, $post, $postImage, 'restored', $sellerEmailSubject, $sellerEmailBody, 'seller'
+            ));
+
+            App::setLocale(config('app.locale'));
+
+            $fcmService = app(\App\Services\FcmService::class);
+            $sentSeller = $fcmService->sendToUser(
+                $seller->id,
+                __('seller_order_item_restored_title'),
+                __('seller_order_item_restored_message', [
+                    'shipment_id' => 'CMD-' . $order->id,
+                    'post_title'  => $post?->titre ?? '',
+                    'post_id'     => $post?->id ?? '#',
+                ]),
+                [
+                    'type'            => 'alerte',
+                    'notification_id' => $sellerNotification->id,
+                    'destination'     => 'user',
+                    'action'          => 'seller_order_item_restored',
+                    'order_id'        => $order->id,
+                ]
+            );
+
+            if ($sentSeller) {
+                \Log::info("FCM notification sent successfully", [
+                    'user_id'         => $seller->id,
+                    'notification_id' => $sellerNotification->id,
+                    'type'            => 'seller_order_item_restored',
+                ]);
+            } else {
+                \Log::warning("FCM notification failed to send", [
+                    'user_id'         => $seller->id,
+                    'notification_id' => $sellerNotification->id,
                     'reason'          => 'User has no FCM token or token invalid',
                 ]);
             }

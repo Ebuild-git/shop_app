@@ -1316,7 +1316,18 @@
 "email2.shipment.footer_note": "هذه رسالة آلية، يرجى عدم الرد عليها.",
 "image_upload_error": "تعذّرت معالجة إحدى صورك. يرجى إعادة رفعها أو استخدام صورة أخرى.",
 "post_creation_error": "حدث خطأ أثناء نشر إعلانك. يرجى المحاولة مرة أخرى، وإذا استمرت المشكلة يرجى التواصل مع الدعم.",
-"option_title_required": "يرجى إدخال عنوان الخيار (بالفرنسية)."
+"option_title_required": "يرجى إدخال عنوان الخيار (بالفرنسية).",
+ "seller_order_item_cancelled_title": "تم إلغاء عنصر الطلب",
+    "osc_cancelled_title": "تم إلغاء طلب يخص منتجك",
+    "osc_cancelled_body": "تم إلغاء الطلب CMD-:shipment_id الذي يحتوي على منتجك <strong>:post_title</strong> (رقم :post_id) من طرف المشتري. أصبح منتجك متاحًا للبيع من جديد. <a href='{{ app_url }}'>زر SHOPIN</a> لمزيد من التفاصيل.",
+
+    "seller_order_item_restored_title": "تمت استعادة عنصر الطلب",
+    "osr_restored_title": "تمت استعادة طلب يخص منتجك",
+    "osr_restored_body": "تمت استعادة الطلب CMD-:shipment_id الذي يحتوي على منتجك <strong>:post_title</strong> (رقم :post_id). <a href='{{ app_url }}'>زر SHOPIN</a> لمزيد من التفاصيل.",
+    "seller_order_item_cancelled_message": "قام المشتري بإلغاء طلبه الخاص بمنتجك <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a>. الطلب: :shipment_id.",
+
+    "seller_order_item_restored_message": "تمت استعادة طلب يخص منتجك <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a>. الطلب: :shipment_id.",
+    "oic_view_sales_btn": "عرض مبيعاتي"
 
 
 }
