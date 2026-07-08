@@ -112,38 +112,7 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- <div class="row" id="sortable-list{{ $proriete->id }}">
-                                                    @forelse ($proriete->options ?? [] as $item)
-                                                        <div class="col-sm-3 col-3 cusor" wire:key="{{ $item }}"
-                                                            data-id="{{ $item }}">
-                                                            <div class="alert alert-light text-center">
-                                                                {{ $item }}
-                                                            </div>
-                                                        </div>
-                                                    @empty
-                                                        <div class="col-12">
-                                                            <div class="p-2 text-center">
-                                                                Aucune propriété !
-                                                            </div>
-                                                        </div>
-                                                    @endforelse
-                                                </div> --}}
                                                 {{-- <div class="row" id="sortable-list-options-{{ $proriete->id }}">
-                                                    @forelse ($proriete->options ?? [] as $item)
-                                                        <div class="col-sm-3 col-3 cursor" wire:key="{{ $item }}" data-id="{{ $item }}">
-                                                            <div class="alert alert-light text-center">
-                                                                {{ $item }}
-                                                            </div>
-                                                        </div>
-                                                    @empty
-                                                        <div class="col-12">
-                                                            <div class="p-2 text-center">
-                                                                Aucune propriété !
-                                                            </div>
-                                                        </div>
-                                                    @endforelse
-                                                </div> --}}
-                                                <div class="row" id="sortable-list-options-{{ $proriete->id }}">
                                                     @forelse ($proriete->options ?? [] as $item)
                                                         @php
                                                             // support both the new array shape and legacy plain-string options
@@ -168,6 +137,50 @@
                                                             </div>
                                                         </div>
                                                     @endforelse
+                                                </div> --}}
+                                                <ul class="nav nav-tabs" id="langTabs-{{ $proriete->id }}">
+                                                    <li class="nav-item">
+                                                        <button class="nav-link active" data-bs-toggle="tab"
+                                                            data-bs-target="#opts-fr-{{ $proriete->id }}">FR</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button class="nav-link" data-bs-toggle="tab"
+                                                            data-bs-target="#opts-en-{{ $proriete->id }}">EN</button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button class="nav-link" data-bs-toggle="tab"
+                                                            data-bs-target="#opts-ar-{{ $proriete->id }}">AR</button>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="tab-content mt-3">
+                                                    @foreach (['fr', 'en', 'ar'] as $loc)
+                                                        <div class="tab-pane fade @if($loc == 'fr') show active @endif"
+                                                            id="opts-{{ $loc }}-{{ $proriete->id }}">
+                                                            <div class="row sortable-options" data-locale="{{ $loc }}"
+                                                                id="sortable-list-options-{{ $proriete->id }}-{{ $loc }}">
+                                                                @forelse ($proriete->orderedOptions($loc) as $item)
+                                                                    @php
+                                                                        $optionValue = is_array($item) ? ($item['value'] ?? $item['titre'] ?? '') : $item;
+                                                                        $optionLabel = is_array($item)
+                                                                            ? match ($loc) {
+                                                                                'en' => $item['title_en'] ?: ($item['titre'] ?? ''),
+                                                                                'ar' => $item['title_ar'] ?: ($item['titre'] ?? ''),
+                                                                                default => $item['titre'] ?? '',
+                                                                            }
+                                                                            : $item;
+                                                                    @endphp
+                                                                    <div class="col-sm-3 col-3 cursor" data-id="{{ $optionValue }}">
+                                                                        <div class="alert alert-light text-center">{{ $optionLabel }}</div>
+                                                                    </div>
+                                                                @empty
+                                                                    <div class="col-12">
+                                                                        <div class="p-2 text-center">Aucune propriété !</div>
+                                                                    </div>
+                                                                @endforelse
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
 
                                             </div>
@@ -184,27 +197,52 @@
         </div>
     </div>
     <script>
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     document.querySelectorAll(".modal").forEach((modal) => {
+        //         modal.addEventListener("shown.bs.modal", function () {
+        //             let propertyId = this.id.replace("voir-", ""); // Extract property ID
+        //             let sortableElement = document.getElementById('sortable-list-options-' + propertyId);
+
+        //             if (sortableElement && !sortableElement.dataset.sortableInitialized) {
+        //                 new Sortable(sortableElement, {
+        //                     animation: 150,
+        //                     onEnd: function (event) {
+        //                         let sortedIds = Array.from(event.to.children).map(item => item.getAttribute('data-id'));
+
+        //                         fetch(`/admin/changer_ordre_attribus?propriete_id=${propertyId}&sorted_ids=${sortedIds.join(",")}`)
+        //                         .then(response => response.json())
+        //                         .then(data => console.log('Ordre des options mis à jour'))
+        //                         .catch(error => console.error('Erreur lors de la mise à jour de l\'ordre : ', error));
+        //                                                 }
+        //                 });
+
+        //                 sortableElement.dataset.sortableInitialized = "true"; // Mark as initialized
+        //             }
+        //         });
+        //     });
+        // });
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".modal").forEach((modal) => {
                 modal.addEventListener("shown.bs.modal", function () {
-                    let propertyId = this.id.replace("voir-", ""); // Extract property ID
-                    let sortableElement = document.getElementById('sortable-list-options-' + propertyId);
+                    this.querySelectorAll(".sortable-options").forEach((el) => {
+                        if (el.dataset.sortableInitialized) return;
 
-                    if (sortableElement && !sortableElement.dataset.sortableInitialized) {
-                        new Sortable(sortableElement, {
+                        new Sortable(el, {
                             animation: 150,
                             onEnd: function (event) {
-                                let sortedIds = Array.from(event.to.children).map(item => item.getAttribute('data-id'));
+                                const sortedIds = Array.from(event.to.children).map(i => i.getAttribute('data-id'));
+                                const locale = event.to.dataset.locale;
+                                const propertyId = event.to.id.match(/sortable-list-options-(\d+)-/)[1];
 
-                                fetch(`/admin/changer_ordre_attribus?propriete_id=${propertyId}&sorted_ids=${sortedIds.join(",")}`)
-                                .then(response => response.json())
-                                .then(data => console.log('Ordre des options mis à jour'))
-                                .catch(error => console.error('Erreur lors de la mise à jour de l\'ordre : ', error));
-                                                        }
+                                fetch(`/admin/changer_ordre_attribus?propriete_id=${propertyId}&sorted_ids=${sortedIds.join(",")}&locale=${locale}`)
+                                    .then(r => r.json())
+                                    .then(() => console.log('Ordre mis à jour pour', locale))
+                                    .catch(e => console.error(e));
+                            }
                         });
 
-                        sortableElement.dataset.sortableInitialized = "true"; // Mark as initialized
-                    }
+                        el.dataset.sortableInitialized = "true";
+                    });
                 });
             });
         });

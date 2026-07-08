@@ -15,6 +15,7 @@ class proprietes extends Model
 
     protected $casts = [
         'options' => 'json',
+        'options_order' => 'json',
     ];
 
     public function localizedNom(?string $locale = null): string
@@ -116,5 +117,27 @@ class proprietes extends Model
         }
 
         return $data;
+    }
+
+    public function orderedOptions(?string $locale = null): array
+    {
+        $locale = $locale ?: app()->getLocale();
+        $options = collect($this->options ?? []);
+        $order = data_get($this->options_order, $locale);
+
+        $keyOf = fn($o) => is_array($o) ? ($o['value'] ?? $o['titre'] ?? '') : $o;
+
+        if (!$order) {
+            return $options->values()->toArray(); // fallback: default array order
+        }
+
+        $byValue = $options->keyBy($keyOf);
+
+        $ordered = collect($order)->map(fn($v) => $byValue->get($v))->filter()->values();
+
+        // keep any newly-added option that isn't in the saved order yet
+        $missing = $options->reject(fn($o) => in_array($keyOf($o), $order));
+
+        return $ordered->concat($missing)->values()->toArray();
     }
 }

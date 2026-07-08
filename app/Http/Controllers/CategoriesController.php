@@ -177,49 +177,56 @@ class CategoriesController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function changer_ordre_attribus(){
+    // public function changer_ordre_attribus()
+    // {
     //     $ids = request()->get('sorted_ids');
     //     $id_propriete = request()->get('propriete_id');
 
     //     $propriete = proprietes::find($id_propriete);
-    //     if ($propriete) {
-    //         $sortedIds = array_values(array_filter(explode(",", $ids)));
-    //         $propriete->options = $sortedIds;
-    //         $propriete->save();
-    //         return response()->json(['success' => true]);
+
+    //     if (! $propriete) {
+    //         return response()->json(['success' => false, 'message' => 'Propriété introuvable'], 404);
     //     }
 
-    //     return response()->json(['success' => false, 'message' => 'Propriété introuvable'], 404);
+    //     $sortedValues = array_values(array_filter(explode(",", $ids)));
+
+    //     $existingOptions = collect($propriete->options ?? []);
+
+    //     // Build a lookup keyed by each option's value (or the plain string itself for legacy options)
+    //     $optionsByValue = $existingOptions->keyBy(function ($option) {
+    //         return is_array($option) ? ($option['value'] ?? ($option['titre'] ?? '')) : $option;
+    //     });
+
+    //     // Rebuild the options array in the new order, keeping each option's full data intact
+    //     $reordered = collect($sortedValues)
+    //         ->map(fn ($value) => $optionsByValue->get($value))
+    //         ->filter() // drop any value that didn't match (shouldn't normally happen)
+    //         ->values()
+    //         ->toArray();
+
+    //     $propriete->options = $reordered;
+    //     $propriete->save();
+
+    //     return response()->json(['success' => true]);
     // }
     public function changer_ordre_attribus()
     {
         $ids = request()->get('sorted_ids');
         $id_propriete = request()->get('propriete_id');
+        $locale = request()->get('locale', app()->getLocale());
 
         $propriete = proprietes::find($id_propriete);
-
-        if (! $propriete) {
+        if (!$propriete) {
             return response()->json(['success' => false, 'message' => 'Propriété introuvable'], 404);
         }
 
         $sortedValues = array_values(array_filter(explode(",", $ids)));
 
-        $existingOptions = collect($propriete->options ?? []);
+        $optionsOrder = $propriete->options_order ?? [];
+        $optionsOrder[$locale] = $sortedValues;
 
-        // Build a lookup keyed by each option's value (or the plain string itself for legacy options)
-        $optionsByValue = $existingOptions->keyBy(function ($option) {
-            return is_array($option) ? ($option['value'] ?? ($option['titre'] ?? '')) : $option;
-        });
-
-        // Rebuild the options array in the new order, keeping each option's full data intact
-        $reordered = collect($sortedValues)
-            ->map(fn ($value) => $optionsByValue->get($value))
-            ->filter() // drop any value that didn't match (shouldn't normally happen)
-            ->values()
-            ->toArray();
-
-        $propriete->options = $reordered;
-        $propriete->save();
+        $propriete->options_order = $optionsOrder;
+        $propriete->save(); // note: options themselves are untouched
 
         return response()->json(['success' => true]);
     }

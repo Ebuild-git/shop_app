@@ -289,7 +289,8 @@
                 <div class="row">
                     @foreach ($proprietes as $propriete)
                         @php
-                            $propriete_info = DB::table('proprietes')->find($propriete);
+                            // $propriete_info = DB::table('proprietes')->find($propriete);
+                            $propriete_info = \App\Models\proprietes::find($propriete);
                         @endphp
                         @if ($propriete_info)
                             <div class="col-sm-6">
@@ -323,27 +324,20 @@
                                         <span class="bold text-danger">*</span>
                                     @endif
 
-                                    @if ($propriete_info->type == 'option')
+                                    {{-- @if ($propriete_info->type == 'option')
                                         @if ($propriete_info->affichage == 'case')
                                             <select wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                 @required($requi)
                                                 class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
                                                 <option value="">{{ __('please_select')}}</option>
                                                 @php
-                                                    // $options = json_decode($propriete_info->options, true);
                                                     $locale = app()->getLocale();
                                                     $options = json_decode($propriete_info->options, true) ?? [];
 
                                                 @endphp
-                                                {{-- @foreach ($options as $option)
-                                                    <option value="{{ $option }}">
-                                                        {{ __($option) }}
-                                                    </option>
-                                                @endforeach --}}
                                                 @foreach ($options as $option)
                                                     @php
                                                         if (is_array($option)) {
-                                                            // new shape: { value, titre, title_en, title_ar }
                                                             $optValue = $option['value'] ?? ($option['titre'] ?? '');
                                                             $optLabel = match ($locale) {
                                                                 'en' => $option['title_en'] ?: ($option['titre'] ?? ''),
@@ -351,7 +345,6 @@
                                                                 default => $option['titre'] ?? '',
                                                             };
                                                         } else {
-                                                            // legacy plain-string option
                                                             $optValue = $option;
                                                             $optLabel = $option;
                                                         }
@@ -360,18 +353,64 @@
                                                         {{ $optLabel }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            @if ($propriete_info->type == 'option')
+                                                @if ($propriete_info->affichage == 'case')
+                                                    <select wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                                        @required($requi)
+                                                        class="form-control cusor border-r option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}">
+                                                        <option value="">{{ __('please_select')}}</option>
+                                                        @php
+                                                            $locale = app()->getLocale();
+                                                            $options = $propriete_info->orderedOptions($locale); // <-- ordered per current locale
+                                                        @endphp
+                                                        @foreach ($options as $option)
+                                                            @php
+                                                                if (is_array($option)) {
+                                                                    $optValue = $option['value'] ?? ($option['titre'] ?? '');
+                                                                    $optLabel = match ($locale) {
+                                                                        'en' => $option['title_en'] ?: ($option['titre'] ?? ''),
+                                                                        'ar' => $option['title_ar'] ?: ($option['titre'] ?? ''),
+                                                                        default => $option['titre'] ?? '',
+                                                                    };
+                                                                } else {
+                                                                    $optValue = $option;
+                                                                    $optLabel = $option;
+                                                                }
+                                                            @endphp
+                                                            <option value="{{ $optValue }}">
+                                                                {{ $optLabel }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                             @error("article_propriete.{$propriete_info->nom}")
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         @else
-                                            {{-- <input type="text"
-                                                class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
-                                                @required($requi) placeholder="{{ $propriete_info->nom }}"
-                                                wire:model="article_propriete.{{ $propriete_info->nom }}"
-                                                data-suggestions="{{ $propriete_info->options }}"
-                                                data-model="{{ $propriete_info->nom }}"> --}}
-                                                @php
+
+                                        @php
+                                            $locale = app()->getLocale();
+                                            $rawOptions = $propriete_info->orderedOptions($locale); // <-- ordered per current locale
+
+                                            $localizedSuggestions = collect($rawOptions)->map(function ($option) use ($locale) {
+                                                if (is_array($option)) {
+                                                    return match ($locale) {
+                                                        'en' => $option['title_en'] ?: ($option['titre'] ?? ''),
+                                                        'ar' => $option['title_ar'] ?: ($option['titre'] ?? ''),
+                                                        default => $option['titre'] ?? '',
+                                                    };
+                                                }
+                                                return $option;
+                                            })->filter()->values();
+                                        @endphp
+                                        <input type="text"
+                                            class="form-control cusor border-r liste option-{{ str_replace(' ', '', strtolower($propriete_info->nom)) }}"
+                                            @required($requi) placeholder="{{ $propriete_info->nom }}"
+                                            wire:model="article_propriete.{{ $propriete_info->nom }}"
+                                            data-suggestions="{{ $localizedSuggestions->toJson() }}"
+                                            data-model="{{ $propriete_info->nom }}">
+
+                                                {{-- @php
                                                     $locale = app()->getLocale();
                                                     $rawOptions = json_decode($propriete_info->options, true) ?? [];
 
@@ -392,7 +431,7 @@
                                                     @required($requi) placeholder="{{ $propriete_info->nom }}"
                                                     wire:model="article_propriete.{{ $propriete_info->nom }}"
                                                     data-suggestions="{{ $localizedSuggestions->toJson() }}"
-                                                    data-model="{{ $propriete_info->nom }}">
+                                                    data-model="{{ $propriete_info->nom }}"> --}}
                                             @error("article_propriete.{$propriete_info->nom}")
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
