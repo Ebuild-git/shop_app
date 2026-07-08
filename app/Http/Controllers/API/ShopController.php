@@ -624,8 +624,23 @@ class ShopController extends Controller
         }
     }
 
-    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur,  $buyer, Order $order)
+    private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $buyer, Order $order)
     {
+        // Enrich the seller with their own default address, same as Mode::sendSellerEmail
+        $sellerAddress = $seller->addresses()->where('is_default', true)->first();
+        if ($sellerAddress) {
+            $seller->address = $sellerAddress->city;
+            $seller->rue = $sellerAddress->street;
+            $seller->nom_batiment = $sellerAddress->building_name;
+            $seller->etage = $sellerAddress->floor;
+            $seller->num_appartement = $sellerAddress->apartment_number;
+            $seller->phone_number = $sellerAddress->phone_number;
+            $seller->setRelation('city', $sellerAddress->city);
+            if ($region = $sellerAddress->regionExtra) {
+                $seller->region_info = $region;
+            }
+        }
+
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
             : __('notifications.salutation_male');
@@ -645,7 +660,7 @@ class ShopController extends Controller
                 $buyerPseudo,
                 $articlesWithGain,
                 $salutation,
-                $buyer,
+                $seller, // <-- pickupContact is the enriched SELLER, not $buyer
                 $order->id
             ));
         } catch (\Exception $e) {
