@@ -21,7 +21,7 @@
           <tr>
             <td style="padding-right:10px;vertical-align:middle;">
               <div style="width:32px;height:32px;background:#2d6b66;border-radius:6px;text-align:center;line-height:32px;font-size:13px;font-weight:900;color:#a8cbc8;font-family:Georgia,serif;">
-                S
+                🛡️
               </div>
             </td>
             <td style="vertical-align:middle;">
@@ -64,7 +64,7 @@
           <table cellpadding="0" cellspacing="0">
             <tr>
               <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;">
-                <span style="color:#fff;font-size:18px;font-weight:900;font-family:Georgia,serif;line-height:44px;">&#35;</span>
+                <span style="color:#fff;font-size:18px;font-weight:900;font-family:Georgia,serif;line-height:44px;">📋</span>
               </td>
               <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.5px;">
                 {{ __('order_summary2') }}
@@ -91,7 +91,7 @@
               <tr>
                 <td style="vertical-align:middle;padding-right:8px;">
                   <div style="width:24px;height:24px;background:#1a7a6e;border-radius:4px;text-align:center;line-height:24px;font-size:11px;font-weight:900;color:#fff;font-family:Arial,sans-serif;">
-                    V
+                    👤
                   </div>
                 </td>
                 <td style="font-size:13px;font-weight:800;color:#1a7a6e;vertical-align:middle;">
@@ -158,11 +158,14 @@
                     <tr>
                       <td style="vertical-align:middle;padding-right:7px;">
                         <div style="width:22px;height:22px;background:#f0f0f0;border-radius:4px;text-align:center;line-height:22px;font-size:10px;font-weight:900;color:#555;font-family:Arial,sans-serif;">
-                          &gt;
+                          🚚​
                         </div>
                       </td>
-                      <td style="font-size:13px;color:#555;vertical-align:middle;">
+                      {{-- <td style="font-size:13px;color:#555;vertical-align:middle;">
                         {{ __('delivery_fees') }} ({{ __('from') }} <strong style="color:#333;">{{ $sellerName }}</strong>)
+                      </td> --}}
+                      <td style="font-size:13px;color:#555;vertical-align:middle;">
+                        {{ __('delivery_fees') }} (P-{{ $sellerArticles->pluck('id')->implode(', P-') }})
                       </td>
                     </tr>
                   </table>
@@ -208,7 +211,7 @@
       <tr>
         <td style="width:60px;padding:16px 0 16px 16px;vertical-align:middle;">
           <div style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;line-height:44px;font-size:11px;font-weight:900;color:#fff;font-family:Arial,sans-serif;">
-            PAY
+            💳
           </div>
         </td>
         <td style="padding:16px;vertical-align:middle;">
@@ -229,7 +232,7 @@
       <tr>
         <td style="vertical-align:middle;padding-right:10px;width:28px;">
           <div style="width:24px;height:24px;background:#1a4a47;border-radius:4px;text-align:center;line-height:24px;font-size:11px;font-weight:900;color:#fff;font-family:Arial,sans-serif;">
-            &gt;
+            🚚​
           </div>
         </td>
         <td style="font-size:15px;font-weight:800;color:#1a1a1a;vertical-align:middle;">
@@ -246,7 +249,7 @@
       <tr>
         <td style="width:56px;padding:14px 0 14px 16px;vertical-align:middle;">
           <div style="width:30px;height:30px;background:#f0f0f0;border-radius:6px;text-align:center;line-height:30px;font-size:10px;font-weight:900;color:#1a4a47;font-family:Arial,sans-serif;">
-            ADR
+            🏠
           </div>
         </td>
         <td style="padding:14px 8px;vertical-align:middle;">
@@ -269,7 +272,7 @@
       <tr style="border-top:1px solid #eee;">
         <td style="width:56px;padding:14px 0 14px 16px;vertical-align:middle;">
           <div style="width:30px;height:30px;background:#f0f0f0;border-radius:6px;text-align:center;line-height:30px;font-size:10px;font-weight:900;color:#1a4a47;font-family:Arial,sans-serif;">
-            REG
+            🗺️
           </div>
         </td>
         <td style="padding:14px 8px;vertical-align:middle;">
@@ -286,7 +289,7 @@
       <tr style="border-top:1px solid #eee;">
         <td style="width:56px;padding:14px 0 14px 16px;vertical-align:middle;">
           <div style="width:30px;height:30px;background:#f0f0f0;border-radius:6px;text-align:center;line-height:30px;font-size:10px;font-weight:900;color:#1a4a47;font-family:Arial,sans-serif;">
-            TEL
+            📞
           </div>
         </td>
         <td style="padding:14px 8px;vertical-align:middle;">
@@ -308,7 +311,7 @@
       <tr>
         <td style="width:60px;padding:18px 0 18px 18px;vertical-align:middle;">
           <div style="width:38px;height:38px;background:#1a7a6e;border-radius:8px;text-align:center;line-height:38px;font-size:12px;font-weight:900;color:#fff;font-family:Arial,sans-serif;">
-            OK
+            🛡️
           </div>
         </td>
         <td style="padding:18px 18px 18px 12px;">
