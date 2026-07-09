@@ -78,7 +78,7 @@
           <table cellpadding="0" cellspacing="0">
             <tr>
               <td style="width:44px;height:44px;background:#1a4a47;border-radius:8px;text-align:center;vertical-align:middle;">
-                <span style="color:#fff;font-size:18px;font-weight:900;font-family:Georgia,serif;line-height:44px;">&#35;</span>
+                <span style="color:#fff;font-size:18px;font-weight:900;font-family:Georgia,serif;line-height:44px;">📋</span>
               </td>
               <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.5px;">
                 {{ __('order_summary2') }} — CMD-{{ $order->id }}
@@ -195,7 +195,7 @@
           {{ __('contact_us1') }}
         </a>
         <span style="color:#4a7a76;font-size:16px;">|</span>
-        <a href="{{ config('app.url') }}/trust-safety"
+        <a href="{{ config('app.url') }}/politique-confidentialite"
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 16px;">
           {{ __('trust_safety') }}
         </a>

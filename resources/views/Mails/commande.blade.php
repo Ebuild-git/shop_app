@@ -332,12 +332,12 @@
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a4a47;">
     <tr>
       <td style="padding:16px;text-align:center;">
-        <a href="mailto:{{ config('mail.from.address') }}"
+        <a href="{{ config('app.url') }}/contact"
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 16px;">
           {{ __('contact_us1') }}
         </a>
         <span style="color:#4a7a76;font-size:16px;">|</span>
-        <a href="{{ config('app.url') }}/trust-safety"
+        <a href="{{ config('app.url') }}/politique-confidentialite"
            style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:0 16px;">
           {{ __('trust_safety') }}
         </a>
