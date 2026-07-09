@@ -170,7 +170,7 @@
       <tr>
         <td style="width:60px;padding:18px 0 18px 18px;vertical-align:middle;">
           <div style="width:38px;height:38px;background:#1a7a6e;border-radius:8px;text-align:center;line-height:38px;font-size:12px;font-weight:900;color:#fff;font-family:Arial,sans-serif;">
-            OK
+            🛡️
           </div>
         </td>
         <td style="padding:18px 18px 18px 12px;">

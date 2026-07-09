@@ -60,7 +60,7 @@
                                 </td>
                             </tr>
                         </table> <br>
-                        <table>
+                        {{-- <table>
                             <tr>
                                 <td>
                                     <img width="50" height="50"
@@ -74,7 +74,7 @@
                                     <b>{{ $configuration->phone_number ?? 'xxxxxxx' }}</b>
                                 </td>
                             </tr>
-                        </table>
+                        </table> --}}
                     </div>
 
                     <div class="card-wrap-body mb-3">
