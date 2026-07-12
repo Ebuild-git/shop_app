@@ -1325,7 +1325,8 @@
     "seller_order_item_restored_title": "Article de commande restauré",
     "osr_restored_title": "Une commande pour votre article a été restaurée",
     "osr_restored_body": "La commande CMD-:shipment_id contenant votre article <strong>:post_title</strong> (ID :post_id) a été restaurée. <a href='{{ app_url }}'>Visitez SHOPIN</a> pour plus de détails.",
-    "oic_view_sales_btn": "Voir mes ventes"
+    "oic_view_sales_btn": "Voir mes ventes",
+    "seller_order_item_cancelled_message": "L'acheteur a annulé sa commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a>. Commande : :shipment_id."
 
 
 
