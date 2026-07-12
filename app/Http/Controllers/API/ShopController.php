@@ -544,7 +544,7 @@ class ShopController extends Controller
 
         $this->notifyAdminAboutPurchase($user, count($articles_panier));
 
-        $this->sendConfirmationEmail($user, $articles_panier);
+        $this->sendConfirmationEmail($user, $articles_panier, $order);
 
         UserCart::where('user_id', $user->id)->delete();
 
@@ -740,7 +740,7 @@ class ShopController extends Controller
         event(new AdminEvent('Une nouvelle commande a été passée.'));
     }
 
-    private function sendConfirmationEmail($user, $articles_panier)
+    private function sendConfirmationEmail($user, $articles_panier, $order)
     {
         $groupedByVendor = collect($articles_panier)->groupBy('vendeur');
         $uniqueVendorsCount = $groupedByVendor->count();
@@ -765,7 +765,7 @@ class ShopController extends Controller
         }
 
         $totalShippingFees = $uniqueVendorsCount > 0 ? $frais * $uniqueVendorsCount : 0;
-        Mail::to($user->email)->send(new commande($user, $articles_panier, $totalShippingFees));
+        Mail::to($user->email)->send(new commande($user, $articles_panier, $totalShippingFees, $order->id));
     }
 
     /**
