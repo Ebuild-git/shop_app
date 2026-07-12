@@ -104,11 +104,11 @@
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a4a47;">
     <tr>
       <td style="padding:16px 0;text-align:center;">
-        <a href="#" style="color:#fff !important;font-size:13px;font-weight:500;text-decoration:none;padding:0 32px;display:inline-block;">
+        <a href="{{ config('app.url') }}/contact" style="color:#fff !important;font-size:13px;font-weight:500;text-decoration:none;padding:0 32px;display:inline-block;">
           ✉️ <span style="color:#fff !important;">{{ __('email.welcome.footer_contact') }}</span>
         </a>
         <span style="display:inline-block;width:1px;height:20px;background:#4a7a76;vertical-align:middle;"></span>
-        <a href="#" style="color:#fff !important;font-size:13px;font-weight:500;text-decoration:none;padding:0 32px;display:inline-block;">
+        <a href="{{ config('app.url') }}/politique-confidentialite" style="color:#fff !important;font-size:13px;font-weight:500;text-decoration:none;padding:0 32px;display:inline-block;">
           🛡️ <span style="color:#fff !important;">{{ __('email.welcome.footer_trust') }}</span>
         </a>
       </td>
