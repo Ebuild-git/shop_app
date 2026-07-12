@@ -4099,7 +4099,7 @@ body[dir="rtl"] .custom-cancel-btn {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
+    z-index: 9999 !important;
     display: none;
     justify-content: center;
     align-items: center;

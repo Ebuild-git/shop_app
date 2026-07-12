@@ -1634,15 +1634,40 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <script>
+            // document.addEventListener('DOMContentLoaded', function () {
+            //     // Don't show on the informations page itself so the user can fill the form
+            //     var currentPath = window.location.pathname;
+            //     if (currentPath !== '/informations') {
+            //         var modal = new bootstrap.Modal(document.getElementById('incompleteProfileModal'), {
+            //             backdrop: 'static',
+            //             keyboard: false
+            //         });
+            //         modal.show();
+            //     }
+            // });
             document.addEventListener('DOMContentLoaded', function () {
-                // Don't show on the informations page itself so the user can fill the form
                 var currentPath = window.location.pathname;
                 if (currentPath !== '/informations') {
-                    var modal = new bootstrap.Modal(document.getElementById('incompleteProfileModal'), {
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-                    modal.show();
+                    var showProfileModal = function() {
+                        var modal = new bootstrap.Modal(document.getElementById('incompleteProfileModal'), {
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        modal.show();
+                    };
+
+                    if (document.getElementById('language-popup').style.display === 'flex'
+                        || document.getElementById('language-popup').style.display === '') {
+                        // wait for language popup to close first
+                        var checkInterval = setInterval(function() {
+                            if (document.getElementById('language-popup').style.display === 'none') {
+                                clearInterval(checkInterval);
+                                showProfileModal();
+                            }
+                        }, 300);
+                    } else {
+                        showProfileModal();
+                    }
                 }
             });
         </script>
