@@ -287,10 +287,10 @@
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-                        {{ __('call')}}:
+                        {{-- {{ __('call')}}:
                         <a href="callto:{{ $configurations->phone_number ?? '' }}" class="medium text-light">
                             {{ $configurations->phone_number ?? '' }}
-                        </a>
+                        </a> --}}
                     </div>
 
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 float-right d-flex justify-content-end">
