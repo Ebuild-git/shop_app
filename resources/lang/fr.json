@@ -1275,9 +1275,9 @@
 "delivery_fees": "Frais de Livraison",
 "from": "de",
 "deleted_by_me": "Supprimé par moi",
-"order_item_cancelled_message1": "Votre commande :shipment_id a été modifiée. L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> a été retiré de votre commande par l'équipe Shopin.",
+"order_item_cancelled_message1": "Votre commande :shipment_id a été modifiée. L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) a été retiré de votre commande par l'équipe Shopin.",
 
-"order_item_restored_message1": "Bonne nouvelle ! L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> a été rétabli dans votre commande :shipment_id.",
+"order_item_restored_message1": "Bonne nouvelle ! L'article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) a été rétabli dans votre commande :shipment_id.",
 "oic_cancelled_title": "Un article a été retiré de la commande",
 "oic_restored_title": "Un article a été rétabli dans votre commande",
 "oic_cancelled_body": "La commande :shipment_id a été modifiée. L'article <a href=':app_url/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> a été retiré de la commande par l'équipe Shopin. Pour toute question, n'hésitez pas à <a href=':app_url/contact' style='color:#008080;text-decoration:underline;'>nous contacter</a>.",
@@ -1327,7 +1327,9 @@
     "osr_restored_title": "Une commande pour votre article a été restaurée",
     "osr_restored_body": "La commande CMD-:shipment_id contenant votre article <strong>:post_title</strong> (ID :post_id) a été restaurée. <a href='{{ app_url }}'>Visitez SHOPIN</a> pour plus de détails.",
     "oic_view_sales_btn": "Voir mes ventes",
-    "seller_order_item_cancelled_message": "L'acheteur a annulé sa commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a>. Commande : :shipment_id."
+    "seller_order_item_cancelled_message": "L'acheteur a annulé sa commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id). Commande : :shipment_id.",
+    "seller_order_item_restored_message": "Une commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) a été restaurée. Commande : :shipment_id."
+
 
 
 

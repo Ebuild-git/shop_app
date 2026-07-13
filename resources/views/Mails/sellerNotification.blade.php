@@ -67,6 +67,12 @@
             {{ __('email2.order.article') }} {{ $index + 1 }}
           </div> --}}
           <div style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">{{ $item['titre'] }}</div>
+          <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;">
+        {{ __('email2.order.product_ref') }}
+        </div>
+        <div style="font-size:13px;color:#1a7a6e;font-weight:700;margin-bottom:10px;">
+        P-{{ $item['id'] }}
+        </div>
           @if(!empty($orderId))
             <div style="font-size:13px;color:#555;margin-bottom:12px;">
                 {{ __('email2.order.order_id') }}
