@@ -81,7 +81,7 @@
                 <span style="color:#fff;font-size:18px;font-weight:900;font-family:Georgia,serif;line-height:44px;">📋</span>
               </td>
               <td style="padding-left:14px;font-size:14px;font-weight:800;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.5px;">
-                {{ __('order_summary2') }} — CMD-{{ $order->id }}
+                {{ __('order_summary3') }} — CMD-{{ $order->id }}
               </td>
             </tr>
           </table>
@@ -134,18 +134,6 @@
 
     </table>
 
-    <!-- CTA BUTTON -->
-    {{-- <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
-      <tr>
-        <td style="text-align:center;">
-          <a href="{{ config('app.url') }}/mes-achats"
-             style="display:inline-block;background:#008080;color:#fff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;">
-            {{ __('oic_view_orders_btn') }}
-          </a>
-        </td>
-      </tr>
-    </table> --}}
-    <!-- CTA BUTTON -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
     <tr>
         <td style="text-align:center;">
