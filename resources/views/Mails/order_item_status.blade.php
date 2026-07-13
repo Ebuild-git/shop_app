@@ -113,6 +113,12 @@
                 <div style="font-size:13px;color:#1a7a6e;font-weight:700;">
                   P-{{ $post->id }}
                 </div>
+                <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;">
+                {{ __('article_price') }}
+                </div>
+                <div style="font-size:15px;font-weight:800;color:#1a1a1a;">
+                {{ $audience === 'seller' ? $post->calculateGain() : $post->getPrix() }}&nbsp;<span style="font-size:12px;color:#555;font-weight:400;">{{ __('currency') }}</span>
+                </div>
               </td>
               <!-- Status badge -->
               <td style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
