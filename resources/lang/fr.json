@@ -321,7 +321,7 @@
     "favorite_added": "Article ajouté aux favoris",
     "remove_all": "Tout supprimer",
     "notifications.new_order_title": "Une nouvelle commande !",
-    "notifications.new_order_message": ":salutation :seller, votre article <a href=':post_url' class='underlined-link'>:post_title</a> a été commandé par <span class='underlined-link'>:buyer</span>. Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt et passera pour récupérer l'article.<br>Merci de bien vouloir <a href=':bank_info_url' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos informations bancaires (<span class='underlined-link'>RIB</span>), afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.",
+"notifications.new_order_message": ":salutation :seller, votre article <a href=':post_url' style='color:#008080; text-decoration:none;'>:post_title</a> a été commandé par <span class='underlined-link'>:buyer</span>. Veuillez préparer l'article pour l'expédition. Un livreur de notre partenaire logistique vous contactera bientôt et passera pour récupérer l'article.<br>Merci de bien vouloir <a href=':bank_info_url' class='underlined-link'>cliquer ici</a> pour confirmer ou mettre à jour vos <span class='underlined-link'>informations bancaires (RIB)</span>, afin que nous puissions vous transférer les fonds lorsque le processus de vente sera finalisé.",
     "notifications.salutation_male": "Cher",
     "notifications.salutation_female": "Chère",
     "Shopiners": "Shopiners",
