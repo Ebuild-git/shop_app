@@ -320,8 +320,12 @@
                                             @endif --}}
                                             @if(!$aramexAlreadyShown)
                                                 @if($vendorHasUnsynced)
-                                                    <button class="btn btn-sm btn-outline-primary mt-1"
+                                                    {{-- <button class="btn btn-sm btn-outline-primary mt-1"
                                                         onclick="synchronizeWithAramex({{ $order->id }})">
+                                                        Synchroniser avec Aramex
+                                                    </button> --}}
+                                                    <button class="btn btn-sm btn-outline-primary mt-1"
+                                                        onclick="synchronizeWithAramex({{ $order->id }}, {{ $vendorId }})">
                                                         Synchroniser avec Aramex
                                                     </button>
                                                 @else
@@ -496,7 +500,7 @@ function attachPaginationListeners() {
 attachPaginationListeners();
 </script>
 <script>
-function synchronizeWithAramex(commandeId) {
+function synchronizeWithAramex(commandeId, vendorId) {
     Swal.fire({
         title: "Synchroniser avec Aramex ?",
         text: "Cette action enverra les informations de la commande à Aramex.",
@@ -522,7 +526,8 @@ function synchronizeWithAramex(commandeId) {
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     "Accept": "application/json"
-                }
+                },
+                body: JSON.stringify({ vendor_id: vendorId })
             })
             .then(res => res.json())
             .then(data => {

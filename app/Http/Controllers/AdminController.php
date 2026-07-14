@@ -347,7 +347,7 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
-    public function syncWithAramex($id)
+    public function syncWithAramex(Request $request, $id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
 
@@ -355,7 +355,13 @@ class AdminController extends Controller
             return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
         }
 
+        $vendorId = $request->input('vendor_id');
+
         $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
+
+        if ($vendorId) {
+            $unsyncedItems = $unsyncedItems->where('vendor_id', $vendorId);
+        }
 
         if ($unsyncedItems->isEmpty()) {
             return response()->json([
