@@ -434,6 +434,14 @@ class AdminController extends Controller
                     }
                 } else {
                     $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+
+                     \Log::error('❌ Aramex createPickup returned HasErrors=true', [
+                        'order_id'  => $order->id,
+                        'vendor_id' => $vendorId,
+                        'payload'   => $payload,   // what you sent
+                        'response'  => $response,  // what Aramex sent back, raw
+                    ]);
+
                     foreach ($vendorItems as $item) {
                         $results[] = [
                             'item_id' => $item->id,
@@ -447,6 +455,13 @@ class AdminController extends Controller
                     'order_id'  => $order->id,
                     'vendor_id' => $vendorId,
                     'error'     => $e->getMessage(),
+                ]);
+                 \Log::error('🔥 Exception during Aramex sync', [
+                    'order_id'  => $order->id,
+                    'vendor_id' => $vendorId,
+                    'error'     => $e->getMessage(),
+                    'trace'     => $e->getTraceAsString(),
+                    'payload'   => $payload ?? null,
                 ]);
                 foreach ($vendorItems as $item) {
                     $results[] = [
