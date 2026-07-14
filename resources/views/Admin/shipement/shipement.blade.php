@@ -307,31 +307,14 @@
                                         </td>
 
                                         <td>
-
-                                            {{-- @if(!$item->shipment_id)
-                                                <button class="btn btn-sm btn-outline-primary mt-1"
-                                                    onclick="synchronizeWithAramex({{ $order->id }})">
-                                                    Synchroniser avec Aramex
-                                                </button>
-                                            @else
-                                                <span class="badge bg-success mt-1">
-                                                    Synchronisé
-                                                </span>
-                                            @endif --}}
-                                            @if(!$aramexAlreadyShown)
+                                            {{-- @if(!$aramexAlreadyShown)
                                                 @if($vendorHasUnsynced)
-                                                    {{-- <button class="btn btn-sm btn-outline-primary mt-1"
-                                                        onclick="synchronizeWithAramex({{ $order->id }})">
-                                                        Synchroniser avec Aramex
-                                                    </button> --}}
                                                     <button class="btn btn-sm btn-outline-primary mt-1"
-                                                        onclick="synchronizeWithAramex({{ $order->id }}, {{ $vendorId }})">
+                                                        onclick="synchronizeWithAramex({{ $order->id }})">
                                                         Synchroniser avec Aramex
                                                     </button>
                                                 @else
-                                                    {{-- <span class="badge bg-success mt-1">
-                                                        Synchronisé
-                                                    </span> --}}
+
                                                         <span class="badge bg-success mt-1">Synchronisé</span>
                                                         @php
                                                             $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
@@ -342,6 +325,26 @@
                                                                 <i class="bi bi-x-circle"></i> Annuler pickup
                                                             </button>
                                                         @endif
+                                                @endif
+                                                @php $shownAramexVendors[] = $vendorId; @endphp
+                                            @endif --}}
+                                            @if(!$aramexAlreadyShown)
+                                                @if($vendorHasUnsynced)
+                                                    <button class="btn btn-sm btn-outline-primary mt-1"
+                                                        onclick="synchronizeWithAramex({{ $order->id }}, {{ $vendorId }})">
+                                                        Synchroniser avec Aramex
+                                                    </button>
+                                                @else
+                                                    <span class="badge bg-success mt-1">Synchronisé</span>
+                                                    @php
+                                                        $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
+                                                    @endphp
+                                                    @if($pickupGuid)
+                                                        <button class="btn btn-sm btn-outline-danger mt-1"
+                                                            onclick="cancelPickup({{ $order->id }}, '{{ $pickupGuid }}')">
+                                                            <i class="bi bi-x-circle"></i> Annuler pickup
+                                                        </button>
+                                                    @endif
                                                 @endif
                                                 @php $shownAramexVendors[] = $vendorId; @endphp
                                             @endif
@@ -500,10 +503,82 @@ function attachPaginationListeners() {
 attachPaginationListeners();
 </script>
 <script>
+// function synchronizeWithAramex(commandeId) {
+//     Swal.fire({
+//         title: "Synchroniser avec Aramex ?",
+//         text: "Cette action enverra les informations de la commande à Aramex.",
+//         icon: "question",
+//         showCancelButton: true,
+//         confirmButtonText: "Oui, synchroniser",
+//         cancelButtonText: "Annuler",
+//         confirmButtonColor: "#008080",
+//         cancelButtonColor: "#d33",
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire({
+//                 title: "Synchronisation en cours...",
+//                 text: "Veuillez patienter pendant l'envoi des données à Aramex.",
+//                 allowOutsideClick: false,
+//                 didOpen: () => {
+//                     Swal.showLoading();
+//                 },
+//             });
+
+//             fetch(`/admin/commande/${commandeId}/sync-aramex`, {
+//                 method: "POST",
+//                 headers: {
+//                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+//                     "Accept": "application/json"
+//                 }
+//             })
+//             .then(res => res.json())
+//             .then(data => {
+//                 if (data.success) {
+//                     Swal.fire({
+//                         icon: "success",
+//                         title: "Synchronisation réussie !",
+//                         text: data.message,
+//                         confirmButtonColor: "#008080",
+//                     }).then(() => {
+//                         location.reload();
+//                     });
+//                 } else {
+//                     const messages = [...new Set(
+//                         (data.results || [])
+//                             .filter(r => !r.success && r.message)
+//                             .map(r => r.message)
+//                     )];
+
+//                     const messageHtml = messages.length
+//                         ? messages.map(m => `<p class="mb-1">• ${m}</p>`).join('')
+//                         : data.message;
+
+//                     Swal.fire({
+//                         icon: "error",
+//                         title: "Échec de la synchronisation",
+//                         html: messageHtml,
+//                         confirmButtonColor: "#d33",
+//                     });
+//                 }
+//             })
+//             .catch(err => {
+//                 console.error(err);
+//                 Swal.fire({
+//                     icon: "error",
+//                     title: "Erreur",
+//                     text: "Une erreur est survenue lors de la synchronisation.",
+//                     confirmButtonColor: "#d33",
+//                 });
+//             });
+//         }
+//     });
+// }
 function synchronizeWithAramex(commandeId, vendorId) {
+        console.log('🔍 synchronizeWithAramex called with:', { commandeId, vendorId });
+
     Swal.fire({
         title: "Synchroniser avec Aramex ?",
-        text: "Cette action enverra les informations de la commande à Aramex.",
+        text: "Cette action enverra les informations de ce vendeur à Aramex.",
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Oui, synchroniser",
@@ -516,14 +591,13 @@ function synchronizeWithAramex(commandeId, vendorId) {
                 title: "Synchronisation en cours...",
                 text: "Veuillez patienter pendant l'envoi des données à Aramex.",
                 allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
+                didOpen: () => Swal.showLoading(),
             });
 
             fetch(`/admin/commande/${commandeId}/sync-aramex`, {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     "Accept": "application/json"
                 },
@@ -531,15 +605,14 @@ function synchronizeWithAramex(commandeId, vendorId) {
             })
             .then(res => res.json())
             .then(data => {
+                console.log('✅ Response from server:', data);
                 if (data.success) {
                     Swal.fire({
                         icon: "success",
                         title: "Synchronisation réussie !",
                         text: data.message,
                         confirmButtonColor: "#008080",
-                    }).then(() => {
-                        location.reload();
-                    });
+                    }).then(() => location.reload());
                 } else {
                     const messages = [...new Set(
                         (data.results || [])

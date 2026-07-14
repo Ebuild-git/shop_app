@@ -347,6 +347,152 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
+    // public function syncWithAramex($id)
+    // {
+    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
+
+    //     if (!$order) {
+    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
+    //     }
+
+    //     $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
+
+    //     if ($unsyncedItems->isEmpty()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Tous les articles de cette commande sont déjà synchronisés.',
+    //         ]);
+    //     }
+
+    //     $aramex        = new AramexService();
+    //     $results       = [];
+    //     $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
+    //     $shipmentsForBuyer = []; // NEW: collect all shipments created in this run
+
+    //     foreach ($itemsByVendor as $vendorId => $vendorItems) {
+    //         try {
+    //             $payload  = $this->buildShipmentPayloadItem($order, $vendorItems);
+    //             $response = $aramex->createPickup($payload);
+
+    //             $hasErrors = $response['HasErrors'] ?? true;
+
+    //             if (!$hasErrors) {
+    //                 $processedPickup    = $response['ProcessedPickup'] ?? [];
+    //                 $pickupId           = $processedPickup['ID']   ?? null;
+    //                 $pickupGuid         = $processedPickup['GUID'] ?? null;
+    //                 $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
+
+    //                 $processedShipment = $processedShipments[0] ?? [];
+    //                 $shipmentId        = $processedShipment['ID'] ?? null;
+
+    //                 if (!$pickupId || !$pickupGuid || !$shipmentId) {
+    //                     \Log::warning('⚠️ Incomplete Aramex response', [
+    //                         'order_id'    => $order->id,
+    //                         'vendor_id'   => $vendorId,
+    //                         'pickup_id'   => $pickupId,
+    //                         'pickup_guid' => $pickupGuid,
+    //                         'shipment_id' => $shipmentId,
+    //                         'response'    => $response,
+    //                     ]);
+    //                 }
+
+    //                 $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
+    //                 if ($shipmentHasErrors) {
+    //                     $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
+    //                     \Log::warning('⚠️ Processed shipment has errors', [
+    //                         'order_id'  => $order->id,
+    //                         'vendor_id' => $vendorId,
+    //                         'message'   => $msg,
+    //                     ]);
+    //                 }
+
+    //                 foreach ($vendorItems->values() as $item) {
+    //                     $item->pickup_id   = $pickupId;
+    //                     $item->pickup_guid = $pickupGuid;
+    //                     $item->shipment_id = $shipmentId;
+    //                     $item->status      = 'expédiée';
+    //                     $item->save();
+
+    //                     $results[] = [
+    //                         'item_id'     => $item->id,
+    //                         'success'     => true,
+    //                         'pickup_id'   => $pickupId,
+    //                         'pickup_guid' => $pickupGuid,
+    //                         'shipment_id' => $shipmentId,
+    //                     ];
+    //                 }
+
+    //                 // NEW: only notify if this vendor's shipment actually succeeded
+    //                 if ($shipmentId && !$shipmentHasErrors) {
+    //                     $vendor = $vendorItems->first()->vendor;
+    //                     $this->notifySellerShipment($vendor, $order, $shipmentId, $vendorItems);
+
+    //                     $shipmentsForBuyer[] = [
+    //                         'vendor'      => $vendor->username ?? ($vendor->firstname . ' ' . $vendor->lastname),
+    //                         'shipment_id' => $shipmentId,
+    //                     ];
+    //                 }
+    //             } else {
+    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+
+    //                  \Log::error('❌ Aramex createPickup returned HasErrors=true', [
+    //                     'order_id'  => $order->id,
+    //                     'vendor_id' => $vendorId,
+    //                     'payload'   => $payload,   // what you sent
+    //                     'response'  => $response,  // what Aramex sent back, raw
+    //                 ]);
+
+    //                 foreach ($vendorItems as $item) {
+    //                     $results[] = [
+    //                         'item_id' => $item->id,
+    //                         'success' => false,
+    //                         'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+    //                     ];
+    //                 }
+    //             }
+    //         } catch (\Exception $e) {
+    //             \Log::error('🔥 Exception during Aramex sync', [
+    //                 'order_id'  => $order->id,
+    //                 'vendor_id' => $vendorId,
+    //                 'error'     => $e->getMessage(),
+    //             ]);
+    //              \Log::error('🔥 Exception during Aramex sync', [
+    //                 'order_id'  => $order->id,
+    //                 'vendor_id' => $vendorId,
+    //                 'error'     => $e->getMessage(),
+    //                 'trace'     => $e->getTraceAsString(),
+    //                 'payload'   => $payload ?? null,
+    //             ]);
+    //             foreach ($vendorItems as $item) {
+    //                 $results[] = [
+    //                     'item_id' => $item->id,
+    //                     'success' => false,
+    //                     'message' => $e->getMessage(),
+    //                 ];
+    //             }
+    //         }
+    //     }
+
+    //     $allSucceeded = collect($results)->every(fn($r) => $r['success']);
+
+    //     if ($allSucceeded) {
+    //         $order->status = 'expédiée';
+    //         $order->save();
+    //     }
+
+    //     // NEW: notify buyer once, with all shipments created in this run
+    //     if (!empty($shipmentsForBuyer)) {
+    //         $this->notifyBuyerShipment($order, $shipmentsForBuyer);
+    //     }
+
+    //     return response()->json([
+    //         'success' => $allSucceeded,
+    //         'message' => $allSucceeded
+    //             ? 'Synchronisation Aramex réussie pour tous les articles.'
+    //             : 'Certains articles n\'ont pas pu être synchronisés avec Aramex.',
+    //         'results' => $results,
+    //     ]);
+    // }
     public function syncWithAramex(Request $request, $id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
@@ -355,27 +501,34 @@ class AdminController extends Controller
             return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
         }
 
-        $vendorId = $request->input('vendor_id');
+        // Only present when the click came from a specific vendor's row
+        $requestedVendorId = $request->input('vendor_id');
 
-        $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
-
-        if ($vendorId) {
-            $unsyncedItems = $unsyncedItems->where('vendor_id', $vendorId);
-        }
+        $unsyncedItems = $order->items->filter(function ($item) use ($requestedVendorId) {
+            if ($item->shipment_id) {
+                return false;
+            }
+            if ($requestedVendorId !== null && (int) $item->vendor_id !== (int) $requestedVendorId) {
+                return false;
+            }
+            return true;
+        });
 
         if ($unsyncedItems->isEmpty()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tous les articles de cette commande sont déjà synchronisés.',
+                'message' => $requestedVendorId
+                    ? 'Les articles de ce vendeur sont déjà synchronisés.'
+                    : 'Tous les articles de cette commande sont déjà synchronisés.',
             ]);
         }
 
-        $aramex        = new AramexService();
-        $results       = [];
-        $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
-        $shipmentsForBuyer = []; // NEW: collect all shipments created in this run
+        $aramex            = new AramexService();
+        $results           = [];
+        $itemsByVendor     = $unsyncedItems->groupBy('vendor_id');
+        $shipmentsForBuyer = [];
 
-        foreach ($itemsByVendor as $vendorId => $vendorItems) {
+        foreach ($itemsByVendor as $vId => $vendorItems) {
             try {
                 $payload  = $this->buildShipmentPayloadItem($order, $vendorItems);
                 $response = $aramex->createPickup($payload);
@@ -394,7 +547,7 @@ class AdminController extends Controller
                     if (!$pickupId || !$pickupGuid || !$shipmentId) {
                         \Log::warning('⚠️ Incomplete Aramex response', [
                             'order_id'    => $order->id,
-                            'vendor_id'   => $vendorId,
+                            'vendor_id'   => $vId,
                             'pickup_id'   => $pickupId,
                             'pickup_guid' => $pickupGuid,
                             'shipment_id' => $shipmentId,
@@ -407,7 +560,7 @@ class AdminController extends Controller
                         $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
                         \Log::warning('⚠️ Processed shipment has errors', [
                             'order_id'  => $order->id,
-                            'vendor_id' => $vendorId,
+                            'vendor_id' => $vId,
                             'message'   => $msg,
                         ]);
                     }
@@ -421,6 +574,7 @@ class AdminController extends Controller
 
                         $results[] = [
                             'item_id'     => $item->id,
+                            'vendor_id'   => $vId,
                             'success'     => true,
                             'pickup_id'   => $pickupId,
                             'pickup_guid' => $pickupGuid,
@@ -428,7 +582,6 @@ class AdminController extends Controller
                         ];
                     }
 
-                    // NEW: only notify if this vendor's shipment actually succeeded
                     if ($shipmentId && !$shipmentHasErrors) {
                         $vendor = $vendorItems->first()->vendor;
                         $this->notifySellerShipment($vendor, $order, $shipmentId, $vendorItems);
@@ -441,60 +594,63 @@ class AdminController extends Controller
                 } else {
                     $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
 
-                     \Log::error('❌ Aramex createPickup returned HasErrors=true', [
+                    \Log::error('❌ Aramex createPickup returned HasErrors=true', [
                         'order_id'  => $order->id,
-                        'vendor_id' => $vendorId,
-                        'payload'   => $payload,   // what you sent
-                        'response'  => $response,  // what Aramex sent back, raw
+                        'vendor_id' => $vId,
+                        'payload'   => $payload,
+                        'response'  => $response,
                     ]);
 
                     foreach ($vendorItems as $item) {
                         $results[] = [
-                            'item_id' => $item->id,
-                            'success' => false,
-                            'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+                            'item_id'   => $item->id,
+                            'vendor_id' => $vId,
+                            'success'   => false,
+                            'message'   => $msg ?: 'Erreur inconnue retournée par Aramex.',
                         ];
                     }
                 }
             } catch (\Exception $e) {
                 \Log::error('🔥 Exception during Aramex sync', [
                     'order_id'  => $order->id,
-                    'vendor_id' => $vendorId,
-                    'error'     => $e->getMessage(),
-                ]);
-                 \Log::error('🔥 Exception during Aramex sync', [
-                    'order_id'  => $order->id,
-                    'vendor_id' => $vendorId,
+                    'vendor_id' => $vId,
                     'error'     => $e->getMessage(),
                     'trace'     => $e->getTraceAsString(),
                     'payload'   => $payload ?? null,
                 ]);
                 foreach ($vendorItems as $item) {
                     $results[] = [
-                        'item_id' => $item->id,
-                        'success' => false,
-                        'message' => $e->getMessage(),
+                        'item_id'   => $item->id,
+                        'vendor_id' => $vId,
+                        'success'   => false,
+                        'message'   => $e->getMessage(),
                     ];
                 }
             }
         }
 
-        $allSucceeded = collect($results)->every(fn($r) => $r['success']);
+        $batchSucceeded = collect($results)->every(fn($r) => $r['success']);
 
-        if ($allSucceeded) {
+        // IMPORTANT: only mark the whole ORDER as "expédiée" once every vendor's
+        // items (not just the ones processed in this call) have a shipment_id.
+        $order->refresh();
+        $allOrderItemsSynced = $order->items->every(fn($item) => !is_null($item->shipment_id));
+
+        if ($allOrderItemsSynced) {
             $order->status = 'expédiée';
             $order->save();
         }
 
-        // NEW: notify buyer once, with all shipments created in this run
         if (!empty($shipmentsForBuyer)) {
             $this->notifyBuyerShipment($order, $shipmentsForBuyer);
         }
 
         return response()->json([
-            'success' => $allSucceeded,
-            'message' => $allSucceeded
-                ? 'Synchronisation Aramex réussie pour tous les articles.'
+            'success' => $batchSucceeded,
+            'message' => $batchSucceeded
+                ? ($requestedVendorId
+                    ? 'Synchronisation Aramex réussie pour ce vendeur.'
+                    : 'Synchronisation Aramex réussie pour tous les articles.')
                 : 'Certains articles n\'ont pas pu être synchronisés avec Aramex.',
             'results' => $results,
         ]);
