@@ -4,6 +4,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ __('thank_you1') }}</title>
+  <style>
+    /* Header-only responsive fix: shrink logo/badge and tighten padding on small screens */
+    @media only screen and (max-width: 480px) {
+
+      .header-padding {
+        padding: 12px 16px !important;
+      }
+
+      .header-logo {
+        height: 28px !important;
+      }
+
+      .badge-shield {
+        width: 24px !important;
+        height: 24px !important;
+        line-height: 24px !important;
+        font-size: 10px !important;
+        border-radius: 5px !important;
+      }
+
+      .badge-text-title {
+        font-size: 11px !important;
+      }
+
+      .badge-text-sub {
+        font-size: 9px !important;
+      }
+
+      /* Product row: shrink image, let price wrap instead of overflowing */
+      .product-img-cell {
+        width: 96px !important;
+        padding: 8px !important;
+      }
+
+      .product-img {
+        width: 76px !important;
+        height: 76px !important;
+      }
+
+      .product-info-cell {
+        padding: 10px 6px !important;
+      }
+
+      .product-info-cell .product-title {
+        font-size: 13px !important;
+      }
+
+      .product-price-cell {
+        padding: 10px 8px 10px 0 !important;
+        white-space: normal !important;
+      }
+
+      .product-price-cell .product-price-label {
+        font-size: 9px !important;
+      }
+
+      .product-price-cell .product-price-value {
+        font-size: 14px !important;
+      }
+
+      /* Per-vendor delivery fee row: same fix, no more nowrap overflow */
+      .delivery-fee-label-cell {
+        font-size: 11px !important;
+        white-space: normal !important;
+      }
+
+      .delivery-fee-value-cell {
+        font-size: 12px !important;
+        white-space: normal !important;
+      }
+    }
+  </style>
 </head>
 
 <body style="margin:0;padding:0;background:#f4f4f4;font-family:'Segoe UI',Arial,sans-serif;color:#222;">
@@ -13,22 +85,22 @@
   <!-- HEADER -->
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a4a47;">
     <tr>
-      <td style="padding:18px 28px;">
-        <img src="{{ config('app.url') }}/icons/logo.png" alt="{{ config('app.name') }}" style="height:44px;display:block;">
+      <td class="header-padding" style="padding:18px 28px;">
+        <img src="{{ config('app.url') }}/icons/logo.png" alt="{{ config('app.name') }}" class="header-logo" style="height:44px;display:block;">
       </td>
-      <td style="padding:18px 28px;text-align:right;">
+      <td class="header-padding" style="padding:18px 28px;text-align:right;">
         <table cellpadding="0" cellspacing="0" style="margin-left:auto;">
           <tr>
             <td style="padding-right:10px;vertical-align:middle;">
-              <div style="width:32px;height:32px;background:#2d6b66;border-radius:6px;text-align:center;line-height:32px;font-size:13px;font-weight:900;color:#a8cbc8;font-family:Georgia,serif;">
+              <div class="badge-shield" style="width:32px;height:32px;background:#2d6b66;border-radius:6px;text-align:center;line-height:32px;font-size:13px;font-weight:900;color:#a8cbc8;font-family:Georgia,serif;">
                 🛡️
               </div>
             </td>
             <td style="vertical-align:middle;">
-              <div style="color:#fff;font-size:14px;font-weight:700;line-height:1.3;">
+              <div class="badge-text-title" style="color:#fff;font-size:14px;font-weight:700;line-height:1.3;">
                 {{ __('secure_marketplace') }}
               </div>
-              <div style="color:#a8cbc8;font-size:12px;line-height:1.3;">
+              <div class="badge-text-sub" style="color:#a8cbc8;font-size:12px;line-height:1.3;">
                 {{ __('buy_sell_anonymous') }}
               </div>
             </td>
@@ -110,14 +182,15 @@
                    style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;">
               <tr>
                 <!-- Product image -->
-                <td style="width:140px;padding:12px;vertical-align:top;">
+                <td class="product-img-cell" style="width:140px;padding:12px;vertical-align:top;">
                   <img src="{{ $article['photo'] }}"
                        alt="{{ $article['titre'] }}"
+                       class="product-img"
                        style="width:120px;height:120px;object-fit:cover;border-radius:6px;display:block;">
                 </td>
                 <!-- Product info -->
-                <td style="padding:14px 10px;vertical-align:top;">
-                  <div style="font-size:15px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">
+                <td class="product-info-cell" style="padding:14px 10px;vertical-align:top;">
+                  <div class="product-title" style="font-size:15px;font-weight:800;color:#1a1a1a;margin-bottom:10px;">
                     {{ $article['titre'] }}
                   </div>
                   <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;">
@@ -128,11 +201,11 @@
                   </div>
                 </td>
                 <!-- Price -->
-                <td style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
-                  <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;margin-top:2px;">
+                <td class="product-price-cell" style="padding:14px 14px 14px 0;vertical-align:top;text-align:right;white-space:nowrap;">
+                  <div class="product-price-label" style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;margin-top:2px;">
                     {{ __('article_price') }}
                   </div>
-                  <div style="font-size:17px;font-weight:800;color:#1a1a1a;">
+                  <div class="product-price-value" style="font-size:17px;font-weight:800;color:#1a1a1a;">
                     {{ $article['prix'] }}&nbsp;<span style="font-size:12px;color:#555;font-weight:400;">{{ __('currency') }}</span>
                   </div>
                 </td>
@@ -164,13 +237,13 @@
                       {{-- <td style="font-size:13px;color:#555;vertical-align:middle;">
                         {{ __('delivery_fees') }} ({{ __('from') }} <strong style="color:#333;">{{ $sellerName }}</strong>)
                       </td> --}}
-                      <td style="font-size:13px;color:#555;vertical-align:middle;">
+                      <td class="delivery-fee-label-cell" style="font-size:13px;color:#555;vertical-align:middle;">
                         {{ __('delivery_fees') }} (P-{{ $sellerArticles->pluck('id')->implode(', P-') }})
                       </td>
                     </tr>
                   </table>
                 </td>
-                <td style="padding-top:10px;text-align:right;font-size:13px;font-weight:700;color:#1a1a1a;white-space:nowrap;">
+                <td class="delivery-fee-value-cell" style="padding-top:10px;text-align:right;font-size:13px;font-weight:700;color:#1a1a1a;white-space:nowrap;">
                   {{ number_format($sellerDeliveryFee, 2, ',', '') }}&nbsp;{{ __('currency') }}
                 </td>
               </tr>
