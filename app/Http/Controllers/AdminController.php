@@ -260,18 +260,63 @@ class AdminController extends Controller
         return redirect($notification->url);
     }
 
+    // public function orders(Request $request)
+    // {
+    //     $query = Order::with([
+    //         'items.post',
+    //         'items.vendor',
+    //         'buyer'
+    //     ])->orderBy('created_at', 'desc');
+
+    //     if ($request->filled('region_id')) {
+    //         $regionId = $request->region_id;
+    //         $query->whereHas('items.vendor', fn($q) => $q->where('region', $regionId))
+    //             ->orWhereHas('buyer', fn($q) => $q->where('region', $regionId));
+    //     }
+
+    //     if ($request->filled('date')) {
+    //         $query->whereDate('created_at', $request->date);
+    //     }
+
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+
+    //         $query->where(function ($q) use ($search) {
+
+    //             if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
+    //                 $id = $matches[1];
+    //                 $q->where('id', $id);
+    //             } else {
+    //                 $q->whereHas('items.vendor', function ($q2) use ($search) {
+    //                     $q2->where('username', 'like', "%{$search}%");
+    //                 })->orWhereHas('buyer', function ($q2) use ($search) {
+    //                     $q2->where('username', 'like', "%{$search}%");
+    //                 })->orWhere('shipment_id', 'like', "%{$search}%");
+    //             }
+    //         });
+    //     }
+
+    //     $orders = $query->paginate(10)->appends($request->all());
+    //     $regions = regions::all();
+
+    //     return view('Admin.shipement.shipement', compact('orders', 'regions'));
+    // }
     public function orders(Request $request)
     {
         $query = Order::with([
-            'items.post',
-            'items.vendor',
-            'buyer'
-        ])->orderBy('created_at', 'desc');
+                'items.post',
+                'items.vendor',
+                'buyer'
+            ])
+            ->whereHas('items') // don't waste a page slot on orders with zero items
+            ->orderBy('created_at', 'desc');
 
         if ($request->filled('region_id')) {
             $regionId = $request->region_id;
-            $query->whereHas('items.vendor', fn($q) => $q->where('region', $regionId))
-                ->orWhereHas('buyer', fn($q) => $q->where('region', $regionId));
+            $query->where(function ($q) use ($regionId) {
+                $q->whereHas('items.vendor', fn($q2) => $q2->where('region', $regionId))
+                ->orWhereHas('buyer', fn($q2) => $q2->where('region', $regionId));
+            });
         }
 
         if ($request->filled('date')) {
@@ -301,123 +346,6 @@ class AdminController extends Controller
 
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
-
-    // public function syncWithAramex($id)
-    // {
-    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
-
-    //     if (!$order) {
-    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
-    //     }
-
-    //     $unsyncedItems = $order->items->filter(fn($item) => !$item->shipment_id);
-
-    //     if ($unsyncedItems->isEmpty()) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Tous les articles de cette commande sont déjà synchronisés.',
-    //         ]);
-    //     }
-
-    //     $aramex        = new AramexService();
-    //     $results       = [];
-    //     $itemsByVendor = $unsyncedItems->groupBy('vendor_id');
-
-    //     foreach ($itemsByVendor as $vendorId => $vendorItems) {
-    //         try {
-    //             $payload  = $this->buildShipmentPayloadItem($order, $vendorItems);
-    //             $response = $aramex->createPickup($payload);
-
-    //             $hasErrors = $response['HasErrors'] ?? true;
-
-    //             if (!$hasErrors) {
-    //                 $processedPickup    = $response['ProcessedPickup'] ?? [];
-    //                 $pickupId           = $processedPickup['ID']   ?? null;
-    //                 $pickupGuid         = $processedPickup['GUID'] ?? null;
-    //                 $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
-
-    //                 // One shipment per vendor — index 0
-    //                 $processedShipment = $processedShipments[0] ?? [];
-    //                 $shipmentId        = $processedShipment['ID'] ?? null;
-
-    //                 if (!$pickupId || !$pickupGuid || !$shipmentId) {
-    //                     \Log::warning('⚠️ Incomplete Aramex response', [
-    //                         'order_id'    => $order->id,
-    //                         'vendor_id'   => $vendorId,
-    //                         'pickup_id'   => $pickupId,
-    //                         'pickup_guid' => $pickupGuid,
-    //                         'shipment_id' => $shipmentId,
-    //                         'response'    => $response,
-    //                     ]);
-    //                 }
-
-    //                 $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
-    //                 if ($shipmentHasErrors) {
-    //                     $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
-    //                     \Log::warning('⚠️ Processed shipment has errors', [
-    //                         'order_id'  => $order->id,
-    //                         'vendor_id' => $vendorId,
-    //                         'message'   => $msg,
-    //                     ]);
-    //                 }
-
-    //                 // All items from this vendor share the same shipment ID
-    //                 foreach ($vendorItems->values() as $item) {
-    //                     $item->pickup_id   = $pickupId;
-    //                     $item->pickup_guid = $pickupGuid;
-    //                     $item->shipment_id = $shipmentId;
-    //                     $item->status      = 'expédiée';
-    //                     $item->save();
-
-    //                     $results[] = [
-    //                         'item_id'     => $item->id,
-    //                         'success'     => true,
-    //                         'pickup_id'   => $pickupId,
-    //                         'pickup_guid' => $pickupGuid,
-    //                         'shipment_id' => $shipmentId,
-    //                     ];
-    //                 }
-    //             } else {
-    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-    //                 foreach ($vendorItems as $item) {
-    //                     $results[] = [
-    //                         'item_id' => $item->id,
-    //                         'success' => false,
-    //                         'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
-    //                     ];
-    //                 }
-    //             }
-    //         } catch (\Exception $e) {
-    //             \Log::error('🔥 Exception during Aramex sync', [
-    //                 'order_id'  => $order->id,
-    //                 'vendor_id' => $vendorId,
-    //                 'error'     => $e->getMessage(),
-    //             ]);
-    //             foreach ($vendorItems as $item) {
-    //                 $results[] = [
-    //                     'item_id' => $item->id,
-    //                     'success' => false,
-    //                     'message' => $e->getMessage(),
-    //                 ];
-    //             }
-    //         }
-    //     }
-
-    //     $allSucceeded = collect($results)->every(fn($r) => $r['success']);
-
-    //     if ($allSucceeded) {
-    //         $order->status = 'expédiée';
-    //         $order->save();
-    //     }
-
-    //     return response()->json([
-    //         'success' => $allSucceeded,
-    //         'message' => $allSucceeded
-    //             ? 'Synchronisation Aramex réussie pour tous les articles.'
-    //             : 'Certains articles n\'ont pas pu être synchronisés avec Aramex.',
-    //         'results' => $results,
-    //     ]);
-    // }
 
     public function syncWithAramex($id)
     {
