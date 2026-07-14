@@ -455,6 +455,105 @@ class ShopController extends Controller
      *      )
      * )
      */
+    // public function confirm(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     $cartItemIds = UserCart::where('user_id', $user->id)->pluck('post_id');
+    //     if ($cartItemIds->isEmpty()) {
+    //         return response()->json(['success' => false, 'message' => 'Cart is empty'], 422);
+    //     }
+
+    //     $articles_panier = [];
+    //     foreach ($cartItemIds as $id) {
+    //         $post = posts::with('user_info')->find($id);
+    //         if (!$post)
+    //             continue;
+
+    //         $articles_panier[] = [
+    //             'id' => $post->id,
+    //             'titre' => $post->titre,
+    //             'prix' => $post->getPrix(),
+    //             "photo" => config('app.url') . Storage::url($post->photos[0]),
+    //             'vendeur' => $post->user_info->username,
+    //             'old_prix' => $post->old_prix
+    //         ];
+    //     }
+
+    //     $order = Order::create([
+    //         'buyer_id' => $user->id,
+    //         'total' => 0,
+    //         'total_delivery_fees' => 0,
+    //         'status' => 'pending',
+    //         'state' => 'created',
+    //     ]);
+
+    //     $total = 0;
+    //     $totalDeliveryFees = 0;
+    //     $vendorsCounted = [];
+
+    //     foreach ($articles_panier as $article) {
+    //         $post = posts::find($article['id']);
+    //         if (!$post)
+    //             continue;
+
+    //         $post->update([
+    //             'statut' => 'préparation',
+    //             'sell_at' => now(),
+    //             'id_user_buy' => $user->id
+    //         ]);
+
+    //         $id_categorie = $post->id_sous_categorie
+    //             ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+    //             : null;
+    //         $id_region = $user->region ?? null;
+    //         $frais = 0;
+
+    //         if ($id_categorie && $id_region) {
+    //             $regionCategory = regions_categories::where('id_region', $id_region)
+    //                 ->where('id_categorie', $id_categorie)
+    //                 ->first();
+    //             $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+    //         }
+
+    //         if (!isset($vendorsCounted[$post->id_user])) {
+    //             $totalDeliveryFees += $frais;
+    //             $vendorsCounted[$post->id_user] = true;
+    //         }
+
+    //         OrdersItem::create([
+    //             'order_id' => $order->id,
+    //             'post_id' => $post->id,
+    //             'vendor_id' => $post->id_user,
+    //             'price' => $post->getPrix(),
+    //             'delivery_fee' => $frais,
+    //             'status' => 'pending',
+    //         ]);
+
+    //         $total += $post->getPrix();
+    //     }
+
+    //     $order->update([
+    //         'total' => $total,
+    //         'total_delivery_fees' => $totalDeliveryFees,
+    //     ]);
+
+    //     $this->sendBuyerNotification($user, $order);
+
+    //     $this->notifySellers($user, $articles_panier, $order);
+
+    //     $this->notifyAdminAboutPurchase($user, count($articles_panier));
+
+    //     $this->sendConfirmationEmail($user, $articles_panier, $order);
+
+    //     UserCart::where('user_id', $user->id)->delete();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Order confirmed',
+    //         'order_id' => $order->id
+    //     ]);
+    // }
     public function confirm(Request $request)
     {
         $user = $request->user();
@@ -464,11 +563,25 @@ class ShopController extends Controller
             return response()->json(['success' => false, 'message' => 'Cart is empty'], 422);
         }
 
+        $id_region = $user->region ?? null;
+
         $articles_panier = [];
         foreach ($cartItemIds as $id) {
             $post = posts::with('user_info')->find($id);
             if (!$post)
                 continue;
+
+            $id_categorie = $post->id_sous_categorie
+                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                : null;
+
+            $frais = 0;
+            if ($id_categorie && $id_region) {
+                $regionCategory = regions_categories::where('id_region', $id_region)
+                    ->where('id_categorie', $id_categorie)
+                    ->first();
+                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+            }
 
             $articles_panier[] = [
                 'id' => $post->id,
@@ -476,7 +589,8 @@ class ShopController extends Controller
                 'prix' => $post->getPrix(),
                 "photo" => config('app.url') . Storage::url($post->photos[0]),
                 'vendeur' => $post->user_info->username,
-                'old_prix' => $post->old_prix
+                'old_prix' => $post->old_prix,
+                'delivery_fee' => $frais,
             ];
         }
 
@@ -503,18 +617,8 @@ class ShopController extends Controller
                 'id_user_buy' => $user->id
             ]);
 
-            $id_categorie = $post->id_sous_categorie
-                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
-                : null;
-            $id_region = $user->region ?? null;
-            $frais = 0;
-
-            if ($id_categorie && $id_region) {
-                $regionCategory = regions_categories::where('id_region', $id_region)
-                    ->where('id_categorie', $id_categorie)
-                    ->first();
-                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
-            }
+            // Reuse the fee we already computed above instead of re-querying
+            $frais = $article['delivery_fee'];
 
             if (!isset($vendorsCounted[$post->id_user])) {
                 $totalDeliveryFees += $frais;
