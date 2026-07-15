@@ -12,7 +12,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a4a47;">
     <tr>
       <td style="padding:18px 28px;">
-        <img src="{{ config('app.url') }}/icons/logo.png" alt="SHOPIN" style="height:44px;display:block;">
+        <img src="{{ config('app.url') }}/icons/logo11.png" alt="SHOPIN" style="height:44px;display:block;">
       </td>
       <td style="padding:18px 28px;text-align:right;">
         <table cellpadding="0" cellspacing="0" style="margin-left:auto;">

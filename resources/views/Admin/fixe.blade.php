@@ -211,7 +211,7 @@
                 <div class="container-xxl">
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
                         <a href="/dashboard" class="app-brand-link gap-2">
-                            <img src="/icons/logo.png" alt="logo" srcset="" style="height: 25px;">
+                            <img src="/icons/logo11.png" alt="logo" srcset="" style="height: 25px;">
                         </a>
 
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">

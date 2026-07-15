@@ -78,7 +78,7 @@
 
     <div class="email-container" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="email-header">
-            <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo">
+            <img src="{{ config('app.url') }}/icons/logo11.png" alt="Logo">
         </div>
 
         <div class="email-content">

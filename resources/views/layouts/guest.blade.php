@@ -21,7 +21,7 @@
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <div class="text-center" style="text-align: center;">
                     <a href="/">
-                        <img src="/icons/logo.png" alt="logo" style="width: 50% !important">
+                        <img src="/icons/logo11.png" alt="logo" style="width: 50% !important">
                     </a>
                 </div>
                 <br>

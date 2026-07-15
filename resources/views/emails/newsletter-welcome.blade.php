@@ -136,7 +136,7 @@
 
     <div class="email-container">
         <div class="email-header">
-            <img src="{{ config('app.url') }}/icons/logo.png" alt="Logo">
+            <img src="{{ config('app.url') }}/icons/logo11.png" alt="Logo">
         </div>
 
         <div class="email-content">

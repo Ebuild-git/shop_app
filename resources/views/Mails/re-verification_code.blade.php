@@ -39,7 +39,7 @@
 <body class="pt-5 fw-light" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl; background-color: #f4f8fb;' : 'text-align: left; direction: ltr; background-color: #f4f8fb;' }}">
     <div class="container">
         <div class="text-center">
-            <img src="{{ config('app.url') }}/icons/logo.png" height="40" alt="Logo">
+            <img src="{{ config('app.url') }}/icons/logo11.png" height="40" alt="Logo">
         </div>
 
         <div class="text-center mt-3">

@@ -305,7 +305,7 @@
             <div class="row">
                 <div class="col-sm-3 col-4 logo-container">
                     <a class="nav-brand" href="/">
-                        <img src="/icons/logo.png" class="logo" alt="" />
+                        <img src="/icons/logo11.png" class="logo" alt="" />
                     </a>
                 </div>
                 <div class="col-sm-7 col-8">
@@ -471,7 +471,7 @@
 
 
                     <a class="nav-brand mobile-logo" href="/">
-                        <img src="/icons/logo.png" class="logo" alt="SHOPIN" />
+                        <img src="/icons/logo11.png" class="logo" alt="SHOPIN" />
                     </a>
                     <div class="mobile-only-icons" style="padding:0;margin:0;width:auto;">
                         @auth
@@ -602,7 +602,7 @@
                         <ul class="nav-menu text-uppercase">
                             <li class="elementToHideBeforeScroll d-none">
                                 <a href="/">
-                                    <img src="/icons/logo.png" class="logo" alt="logo" height="20" />
+                                    <img src="/icons/logo11.png" class="logo" alt="logo" height="20" />
                                 </a>
                             </li>
                             <li>
@@ -953,7 +953,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                             {{-- <div class="footer_widget">
-                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="" />
+                                <img src="/icons/logo11.png" class="img-footer small mb-2" alt="" />
 
                                 <div class="address mt-3">
                                     {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
@@ -984,7 +984,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div> --}}
                             <div class="footer_widget">
-                                <img src="/icons/logo.png" class="img-footer small mb-2" alt="logo" />
+                                <img src="/icons/logo11.png" class="img-footer small mb-2" alt="logo" />
 
                                 <div class="address mt-3">
                                     {{ $configurations->phone_number ?? '' }}<br>{{ $configurations->email ?? '' }}
