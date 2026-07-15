@@ -1336,7 +1336,28 @@
 "seller_order_item_cancelled_message": "The buyer has cancelled their order for your item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id). Order: :shipment_id.",
 
     "seller_order_item_restored_message": "An order for your item <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) has been restored. Order: :shipment_id.",
-    "oic_view_sales_btn": "View my sales"
+    "oic_view_sales_btn": "View my sales",
+    "email2.pickup_cancelled.subject": "Your shipment has been cancelled",
+  "email2.pickup_cancelled.header_title": "Shipment cancelled",
+  "email2.pickup_cancelled.header_subtitle": "Aramex",
+  "email2.pickup_cancelled.greeting": "Hello",
+  "email2.pickup_cancelled.seller_intro": "The Aramex pickup linked to your order has been cancelled. No action is required from you right now.",
+  "email2.pickup_cancelled.buyer_intro": "The shipment linked to your order has been cancelled by the seller. A new pickup will be scheduled shortly.",
+  "email2.pickup_cancelled.order_label": "Order",
+  "email2.pickup_cancelled.shipment_label": "Cancelled shipment",
+  "email2.pickup_cancelled.details_title": "Cancellation details",
+  "email2.pickup_cancelled.tracking_title": "Cancelled shipments",
+  "email2.pickup_cancelled.from_seller_label": "Seller",
+  "email2.pickup_cancelled.notice_title": "What happens next?",
+  "email2.pickup_cancelled.notice_text": "The seller will reschedule a new pickup for this order. You'll be notified as soon as a new shipment is created.",
+  "email2.pickup_cancelled.footer_contact": "Contact us",
+  "email2.pickup_cancelled.footer_trust": "Secure shopping",
+  "email2.pickup_cancelled.footer_note": "This email was sent automatically, please do not reply.",
+
+  "notifications.pickup_cancelled_title": "Pickup cancelled",
+  "notifications.pickup_cancelled_message": "The Aramex pickup for order :order_id (shipment :shipment_id) has been cancelled.",
+  "notifications.order_pickup_cancelled_title": "Shipment cancelled",
+  "notifications.order_pickup_cancelled_message": "Shipment :shipment_id for your order :order_id has been cancelled. A new pickup will be scheduled soon."
 
 
 

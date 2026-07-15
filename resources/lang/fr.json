@@ -1328,7 +1328,28 @@
     "osr_restored_body": "La commande CMD-:shipment_id contenant votre article <strong>:post_title</strong> (ID :post_id) a été restaurée. <a href='{{ app_url }}'>Visitez SHOPIN</a> pour plus de détails.",
     "oic_view_sales_btn": "Voir mes ventes",
     "seller_order_item_cancelled_message": "L'acheteur a annulé sa commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id). Commande : :shipment_id.",
-    "seller_order_item_restored_message": "Une commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) a été restaurée. Commande : :shipment_id."
+    "seller_order_item_restored_message": "Une commande pour votre article <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id) a été restaurée. Commande : :shipment_id.",
+      "email2.pickup_cancelled.subject": "Annulation de votre expédition",
+  "email2.pickup_cancelled.header_title": "Expédition annulée",
+  "email2.pickup_cancelled.header_subtitle": "Aramex",
+  "email2.pickup_cancelled.greeting": "Bonjour",
+  "email2.pickup_cancelled.seller_intro": "Le pickup Aramex associé à votre commande a été annulé. Aucune action n'est requise pour le moment.",
+  "email2.pickup_cancelled.buyer_intro": "L'expédition liée à votre commande a été annulée par le vendeur. Un nouveau pickup sera programmé prochainement.",
+  "email2.pickup_cancelled.order_label": "Commande",
+  "email2.pickup_cancelled.shipment_label": "Expédition annulée",
+  "email2.pickup_cancelled.details_title": "Détails de l'annulation",
+  "email2.pickup_cancelled.tracking_title": "Expéditions annulées",
+  "email2.pickup_cancelled.from_seller_label": "Vendeur",
+  "email2.pickup_cancelled.notice_title": "Que se passe-t-il ensuite ?",
+  "email2.pickup_cancelled.notice_text": "Le vendeur va reprogrammer un nouveau pickup pour cette commande. Vous serez notifié dès qu'une nouvelle expédition sera créée.",
+  "email2.pickup_cancelled.footer_contact": "Nous contacter",
+  "email2.pickup_cancelled.footer_trust": "Achats sécurisés",
+  "email2.pickup_cancelled.footer_note": "Cet e-mail a été envoyé automatiquement, merci de ne pas y répondre.",
+
+  "notifications.pickup_cancelled_title": "Pickup annulé",
+  "notifications.pickup_cancelled_message": "Le pickup Aramex pour la commande :order_id (expédition :shipment_id) a été annulé.",
+  "notifications.order_pickup_cancelled_title": "Expédition annulée",
+  "notifications.order_pickup_cancelled_message": "L'expédition :shipment_id de votre commande :order_id a été annulée. Un nouveau pickup sera bientôt programmé."
 
 
 

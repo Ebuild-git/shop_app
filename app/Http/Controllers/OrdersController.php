@@ -8,7 +8,10 @@ use App\Models\Shipment;
 use App\Models\{Order, OrdersItem};
 use App\Models\regions;
 use Illuminate\Support\Facades\App;
-
+use Illuminate\Support\Facades\Mail;
+use App\Events\UserEvent;
+use App\Models\notifications;
+use App\Mail\PickupCancelled;
 
 class OrdersController extends Controller
 {
@@ -565,10 +568,18 @@ class OrdersController extends Controller
 
     //     if ($hasErrors) {
     //         $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
-    //         ]);
+
+    //         // Aramex already considers this pickup cancelled on their side.
+    //         // Our local record is stale, so clean it up here too instead of
+    //         // leaving the "Annuler pickup" button stuck forever.
+    //         $alreadyCancelled = str_contains(strtolower($msg), 'cannot cancel a cancelled pickup');
+
+    //         if (!$alreadyCancelled) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+    //             ]);
+    //         }
     //     }
 
     //     // Clear pickup info from all items with this pickup_guid
@@ -589,7 +600,9 @@ class OrdersController extends Controller
 
     //     return response()->json([
     //         'success' => true,
-    //         'message' => 'Pickup annulé avec succès.',
+    //         'message' => $hasErrors
+    //             ? 'Ce pickup était déjà annulé chez Aramex. Données locales nettoyées.'
+    //             : 'Pickup annulé avec succès.',
     //     ]);
     // }
     public function cancelPickup(Request $request, $orderId)
@@ -599,10 +612,19 @@ class OrdersController extends Controller
             'comments'    => 'nullable|string|max:500',
         ]);
 
-        $order = Order::with('items')->findOrFail($orderId);
+        $order = Order::with(['items.vendor', 'items.post', 'buyer'])->findOrFail($orderId);
 
         $pickupGuid = $request->input('pickup_guid');
         $comments   = $request->input('comments', '');
+
+        $itemsToCancel = $order->items->where('pickup_guid', $pickupGuid)->values();
+
+        if ($itemsToCancel->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Aucun article trouvé pour ce pickup.',
+            ]);
+        }
 
         $aramex   = new AramexService();
         $response = $aramex->cancelPickup($pickupGuid, $comments);
@@ -625,15 +647,40 @@ class OrdersController extends Controller
             }
         }
 
-        // Clear pickup info from all items with this pickup_guid
-        $order->items()
-            ->where('pickup_guid', $pickupGuid)
-            ->update([
-                'pickup_id'   => null,
-                'pickup_guid' => null,
-                'shipment_id' => null,
-                'status'      => 'pending',
+        // Same shipment_id for every item in this pickup (one shipment per
+        // vendor per pickup), grab it once before we wipe it.
+        $shipmentId = $itemsToCancel->first()->shipment_id;
+
+        $itemsByVendor = $itemsToCancel->groupBy('vendor_id');
+
+        foreach ($itemsByVendor as $vId => $vendorItems) {
+            foreach ($vendorItems as $item) {
+                // Snapshot before clearing, so we don't lose the trail.
+                $item->cancelled_pickup_id   = $item->pickup_id;
+                $item->cancelled_pickup_guid = $item->pickup_guid;
+                $item->cancelled_shipment_id = $item->shipment_id;
+                $item->pickup_cancelled_at   = now();
+
+                $item->pickup_id   = null;
+                $item->pickup_guid = null;
+                $item->shipment_id = null;
+                $item->status      = 'pending';
+                $item->save();
+            }
+
+            \Log::info('🚫 Aramex pickup cancelled locally', [
+                'order_id'    => $order->id,
+                'vendor_id'   => $vId,
+                'pickup_guid' => $pickupGuid,
+                'shipment_id' => $shipmentId,
+                'item_ids'    => $vendorItems->pluck('id')->all(),
             ]);
+
+            $vendor = $vendorItems->first()->vendor;
+            $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $vendorItems);
+        }
+
+        $this->notifyBuyerPickupCancelled($order, $shipmentId, $itemsToCancel);
 
         // Reset order status if all items are now unsynced
         $hasAnySynced = $order->fresh()->items()->whereNotNull('shipment_id')->exists();
@@ -647,5 +694,99 @@ class OrdersController extends Controller
                 ? 'Ce pickup était déjà annulé chez Aramex. Données locales nettoyées.'
                 : 'Pickup annulé avec succès.',
         ]);
+    }
+
+    private function notifySellerPickupCancelled($vendor, Order $order, $shipmentId, $vendorItems)
+    {
+        $vendorLocale = $vendor->locale ?? config('app.locale');
+        app()->setLocale($vendorLocale);
+
+        $notification = new notifications();
+        $notification->titre = __('notifications.pickup_cancelled_title');
+        $notification->id_user_destination = $vendor->id;
+        $notification->type = "pickup_cancelled";
+        $notification->url = "/informations?section=commandes";
+        $notification->message = __('notifications.pickup_cancelled_message', [
+            'shipment_id' => $shipmentId,
+            'order_id'    => 'CMD-' . $order->id,
+        ]);
+        $notification->save();
+
+        event(new UserEvent($vendor->id));
+
+        try {
+            Mail::to($vendor->email)->send(
+                new PickupCancelled($vendor, $order->id, $shipmentId, $vendorItems, 'seller')
+            );
+        } catch (\Exception $e) {
+            logger("❌ Failed to send pickup-cancelled email to seller: {$vendor->email}. Error: " . $e->getMessage());
+        }
+
+        $fcmService = app(\App\Services\FcmService::class);
+        $fcmService->sendToUser(
+            $vendor->id,
+            __('notifications.pickup_cancelled_title'),
+            strip_tags(__('notifications.pickup_cancelled_message', [
+                'shipment_id' => $shipmentId,
+                'order_id'    => 'CMD-' . $order->id,
+            ])),
+            [
+                'type'            => 'alerte',
+                'notification_id' => $notification->id,
+                'destination'     => 'user',
+                'action'          => 'pickup_cancelled',
+                'order_id'        => $order->id,
+                'shipment_id'     => $shipmentId,
+            ]
+        );
+
+        app()->setLocale(config('app.locale'));
+    }
+
+    private function notifyBuyerPickupCancelled(Order $order, $shipmentId, $items)
+    {
+        $buyer = $order->buyer;
+        $buyerLocale = $buyer->locale ?? config('app.locale');
+        app()->setLocale($buyerLocale);
+
+        $notification = new notifications();
+        $notification->titre = __('notifications.order_pickup_cancelled_title');
+        $notification->id_user_destination = $buyer->id;
+        $notification->type = "order_pickup_cancelled";
+        $notification->url = "/informations?section=commandes";
+        $notification->message = __('notifications.order_pickup_cancelled_message', [
+            'order_id'    => 'CMD-' . $order->id,
+            'shipment_id' => $shipmentId,
+        ]);
+        $notification->save();
+
+        event(new UserEvent($buyer->id));
+
+        try {
+            Mail::to($buyer->email)->send(
+                new PickupCancelled($buyer, $order->id, $shipmentId, $items, 'buyer')
+            );
+        } catch (\Exception $e) {
+            logger("❌ Failed to send pickup-cancelled email to buyer: {$buyer->email}. Error: " . $e->getMessage());
+        }
+
+        $fcmService = app(\App\Services\FcmService::class);
+        $fcmService->sendToUser(
+            $buyer->id,
+            __('notifications.order_pickup_cancelled_title'),
+            strip_tags(__('notifications.order_pickup_cancelled_message', [
+                'order_id'    => 'CMD-' . $order->id,
+                'shipment_id' => $shipmentId,
+            ])),
+            [
+                'type'            => 'alerte',
+                'notification_id' => $notification->id,
+                'destination'     => 'user',
+                'action'          => 'order_pickup_cancelled',
+                'order_id'        => $order->id,
+            ]
+        );
+
+        app()->setLocale(config('app.locale'));
     }
 }

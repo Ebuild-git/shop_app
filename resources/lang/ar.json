@@ -1327,7 +1327,28 @@
     "seller_order_item_cancelled_message": "قام المشتري بإلغاء طلبه الخاص بمنتجك <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id). الطلب: :shipment_id.",
 
     "seller_order_item_restored_message": "تمت استعادة طلب يخص منتجك <a href='/post/:post_id' style='color:#008080;text-decoration:underline;'>:post_title</a> (P-:post_id). الطلب: :shipment_id.",
-    "oic_view_sales_btn": "عرض مبيعاتي"
+    "oic_view_sales_btn": "عرض مبيعاتي",
+    "email2.pickup_cancelled.subject": "تم إلغاء شحنتك",
+  "email2.pickup_cancelled.header_title": "تم إلغاء الشحنة",
+  "email2.pickup_cancelled.header_subtitle": "أرامكس",
+  "email2.pickup_cancelled.greeting": "مرحباً",
+  "email2.pickup_cancelled.seller_intro": "تم إلغاء عملية الاستلام (Pickup) الخاصة بأرامكس لطلبك. لا حاجة لأي إجراء من جانبك حالياً.",
+  "email2.pickup_cancelled.buyer_intro": "تم إلغاء الشحنة المرتبطة بطلبك من قبل البائع. سيتم جدولة عملية استلام جديدة قريباً.",
+  "email2.pickup_cancelled.order_label": "الطلب",
+  "email2.pickup_cancelled.shipment_label": "الشحنة الملغاة",
+  "email2.pickup_cancelled.details_title": "تفاصيل الإلغاء",
+  "email2.pickup_cancelled.tracking_title": "الشحنات الملغاة",
+  "email2.pickup_cancelled.from_seller_label": "البائع",
+  "email2.pickup_cancelled.notice_title": "ماذا سيحدث بعد ذلك؟",
+  "email2.pickup_cancelled.notice_text": "سيقوم البائع بجدولة عملية استلام جديدة لهذا الطلب. سيتم إعلامك فور إنشاء شحنة جديدة.",
+  "email2.pickup_cancelled.footer_contact": "اتصل بنا",
+  "email2.pickup_cancelled.footer_trust": "تسوق آمن",
+  "email2.pickup_cancelled.footer_note": "تم إرسال هذا البريد الإلكتروني تلقائياً، يرجى عدم الرد عليه.",
+
+  "notifications.pickup_cancelled_title": "تم إلغاء الاستلام",
+  "notifications.pickup_cancelled_message": "تم إلغاء عملية استلام أرامكس للطلب :order_id (الشحنة :shipment_id).",
+  "notifications.order_pickup_cancelled_title": "تم إلغاء الشحنة",
+  "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة :shipment_id الخاصة بطلبك :order_id. سيتم جدولة عملية استلام جديدة قريباً."
 
 
 }
