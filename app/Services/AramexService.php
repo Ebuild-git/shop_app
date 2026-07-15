@@ -4,16 +4,19 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
 
 class AramexService
 {
-    protected $client;
+     protected $client;
     protected $baseUrl;
-
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client([
+            'timeout'         => 25,
+            'connect_timeout' => 5,
+        ]);
         $this->baseUrl = env('ARAMEX_API_BASE_URL', 'https://ws.aramex.net/ShippingAPI.V2');
     }
 
@@ -25,8 +28,34 @@ class AramexService
                 'json' => $this->addClientInfo($payload),
             ]);
 
-            return json_decode($response->getBody()->getContents(), true);
+            $decoded = json_decode($response->getBody()->getContents(), true);
+
+            if (!is_array($decoded)) {
+                \Log::error('Aramex API returned a non-JSON/unparseable body', [
+                    'endpoint' => $endpoint,
+                    'body'     => $response->getBody()->getContents(),
+                ]);
+                return [
+                    'error'    => 'Réponse Aramex invalide ou non-JSON.',
+                    'response' => null,
+                ];
+            }
+
+            return $decoded;
+        } catch (ConnectException $e) {
+            \Log::error('Aramex connection failed', [
+                'endpoint' => $endpoint,
+                'error'    => $e->getMessage(),
+            ]);
+            return [
+                'error'    => $e->getMessage(),
+                'response' => null,
+            ];
         } catch (RequestException $e) {
+            \Log::error('Aramex request failed', [
+                'endpoint' => $endpoint,
+                'error'    => $e->getMessage(),
+            ]);
             return [
                 'error' => $e->getMessage(),
                 'response' => $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null,
