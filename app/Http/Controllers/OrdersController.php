@@ -546,6 +546,52 @@ class OrdersController extends Controller
         return response()->json($history);
     }
 
+    // public function cancelPickup(Request $request, $orderId)
+    // {
+    //     $request->validate([
+    //         'pickup_guid' => 'required|string',
+    //         'comments'    => 'nullable|string|max:500',
+    //     ]);
+
+    //     $order = Order::with('items')->findOrFail($orderId);
+
+    //     $pickupGuid = $request->input('pickup_guid');
+    //     $comments   = $request->input('comments', '');
+
+    //     $aramex   = new AramexService();
+    //     $response = $aramex->cancelPickup($pickupGuid, $comments);
+
+    //     $hasErrors = $response['HasErrors'] ?? true;
+
+    //     if ($hasErrors) {
+    //         $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+    //         ]);
+    //     }
+
+    //     // Clear pickup info from all items with this pickup_guid
+    //     $order->items()
+    //         ->where('pickup_guid', $pickupGuid)
+    //         ->update([
+    //             'pickup_id'   => null,
+    //             'pickup_guid' => null,
+    //             'shipment_id' => null,
+    //             'status'      => 'pending',
+    //         ]);
+
+    //     // Reset order status if all items are now unsynced
+    //     $hasAnySynced = $order->fresh()->items()->whereNotNull('shipment_id')->exists();
+    //     if (!$hasAnySynced) {
+    //         $order->update(['status' => 'pending']);
+    //     }
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Pickup annulé avec succès.',
+    //     ]);
+    // }
     public function cancelPickup(Request $request, $orderId)
     {
         $request->validate([
@@ -565,10 +611,18 @@ class OrdersController extends Controller
 
         if ($hasErrors) {
             $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-            return response()->json([
-                'success' => false,
-                'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
-            ]);
+
+            // Aramex already considers this pickup cancelled on their side.
+            // Our local record is stale, so clean it up here too instead of
+            // leaving the "Annuler pickup" button stuck forever.
+            $alreadyCancelled = str_contains(strtolower($msg), 'cannot cancel a cancelled pickup');
+
+            if (!$alreadyCancelled) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
+                ]);
+            }
         }
 
         // Clear pickup info from all items with this pickup_guid
@@ -589,7 +643,9 @@ class OrdersController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Pickup annulé avec succès.',
+            'message' => $hasErrors
+                ? 'Ce pickup était déjà annulé chez Aramex. Données locales nettoyées.'
+                : 'Pickup annulé avec succès.',
         ]);
     }
 }
