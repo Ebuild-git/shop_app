@@ -753,18 +753,35 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 const etatConfig = (etat) => {
     const map = {
-        'validation':           { color: 'secondary', icon: 'bi-hourglass'            },
-        'vente':                { color: 'primary',   icon: 'bi-tag'                  },
-        'vendu':                { color: 'dark',      icon: 'bi-bag-check'            },
-        'livraison':            { color: 'info',      icon: 'bi-truck'                },
-        'livré':                { color: 'success',   icon: 'bi-check-circle-fill'    },
-        'refusé':               { color: 'danger',    icon: 'bi-x-circle-fill'        },
-        'préparation':          { color: 'warning',   icon: 'bi-box-seam'             },
-        'en voyage':            { color: 'info',      icon: 'bi-airplane'             },
-        'en cours de livraison':{ color: 'info',      icon: 'bi-truck'                },
-        'ramassée':             { color: 'info',      icon: 'bi-archive'              },
-        'retourné':             { color: 'danger',    icon: 'bi-arrow-return-left'    },
-        'supprimée':            { color: 'danger',    icon: 'bi-trash'                },
+        // Post-level statuses (existing)
+        'validation':                { color: 'secondary', icon: 'bi-hourglass'            },
+        'vente':                     { color: 'primary',   icon: 'bi-tag'                  },
+        'vendu':                     { color: 'dark',      icon: 'bi-bag-check'            },
+        'livraison':                 { color: 'info',      icon: 'bi-truck'                },
+        'livré':                     { color: 'success',   icon: 'bi-check-circle-fill'    },
+        'refusé':                    { color: 'danger',    icon: 'bi-x-circle-fill'        },
+        'préparation':               { color: 'warning',   icon: 'bi-box-seam'             },
+        'en voyage':                 { color: 'info',      icon: 'bi-airplane'             },
+        'en cours de livraison':     { color: 'info',      icon: 'bi-truck'                },
+        'ramassée':                  { color: 'info',      icon: 'bi-archive'              },
+        'retourné':                  { color: 'danger',    icon: 'bi-arrow-return-left'    },
+        'supprimée':                 { color: 'danger',    icon: 'bi-trash'                },
+
+        // Aramex item-level statuses (mapAramexToItemStatus)
+        'commande confirmée':        { color: 'primary',   icon: 'bi-clipboard-check'      },
+        'tentative de livraison':    { color: 'warning',   icon: 'bi-exclamation-triangle'  },
+        'retourné à l\'expéditeur':  { color: 'danger',    icon: 'bi-arrow-return-left'    },
+        'annulé':                    { color: 'danger',    icon: 'bi-x-circle-fill'        },
+        'livraison retardée':        { color: 'warning',   icon: 'bi-clock-history'        },
+        'ramassage planifié':        { color: 'info',      icon: 'bi-calendar-event'       },
+        'reprogrammé':               { color: 'warning',   icon: 'bi-arrow-repeat'         },
+
+        // Order-level statuses (mapAramexToOrderStatus / orders.status)
+        'expédiée':                  { color: 'info',      icon: 'bi-truck'                },
+        'livrée':                    { color: 'success',   icon: 'bi-check-circle-fill'    },
+        'annulée':                   { color: 'danger',    icon: 'bi-x-circle-fill'        },
+        'rétablie':                  { color: 'success',   icon: 'bi-arrow-counterclockwise' },
+        'pending':                   { color: 'secondary', icon: 'bi-hourglass'            },
     };
     return map[etat] ?? { color: 'secondary', icon: 'bi-circle' };
 };
