@@ -1294,7 +1294,7 @@
 "weight_limit_note": "Poids maximal accepté : 20 kg par article. Veuillez vous assurer que votre article ne dépasse pas cette limite de poids",
 "post_deleted_by_me_message": "Vous avez supprimé cet article vous-même. Si vous pensez que c'est une erreur, veuillez nous contacter.",
 "notifications.shipment_created_title": "Expédition créée",
-  "notifications.shipment_created_message": "Une expédition a été créée pour la commande :order_id. Numéro d'expédition : :shipment_id.",
+ "notifications.shipment_created_message": "Une expédition a été créée pour la commande :order_id. Numéro d'expédition : <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
   "notifications.order_shipped_title": "Votre commande a été expédiée",
   "notifications.order_shipped_message": "Votre commande :order_id a été expédiée. Numéro(s) d'expédition : :shipment_ids.",
 

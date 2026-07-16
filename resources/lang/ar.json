@@ -1293,7 +1293,7 @@
 "weight_limit_note": "الوزن الأقصى المسموح به: 20 كغ لكل منتج. يرجى التأكد من أن وزن منتجك لا يتجاوز هذا الحد",
 "post_deleted_by_me_message": "لقد قمت بحذف هذا المنتج بنفسك. إذا كنت تعتقد أن هذا خطأ، يرجى التواصل معنا.",
 "notifications.shipment_created_title": "تم إنشاء الشحنة",
-"notifications.shipment_created_message": "تم إنشاء شحنة للطلب :order_id. رقم الشحنة: :shipment_id.",
+"notifications.shipment_created_message": "تم إنشاء شحنة للطلب :order_id. رقم الشحنة: <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
 "notifications.order_shipped_title": "تم شحن طلبك",
 "notifications.order_shipped_message": "تم شحن طلبك :order_id. رقم (أرقام) الشحنة: :shipment_ids.",
 "email2.shipment.subject": "تم إنشاء شحنتك",

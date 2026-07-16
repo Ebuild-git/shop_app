@@ -1299,7 +1299,7 @@
 "weight_limit_note": "Maximum accepted weight: 20 kg per item. Please ensure that your item does not exceed this weight limit",
 "post_deleted_by_me_message": "You have deleted this item yourself. If you think this was a mistake, please contact us.",
 "notifications.shipment_created_title": "Shipment created",
-  "notifications.shipment_created_message": "A shipment has been created for order :order_id. Shipment ID: :shipment_id.",
+"notifications.shipment_created_message": "A shipment has been created for order :order_id. Shipment ID: <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
   "notifications.order_shipped_title": "Your order has shipped",
   "notifications.order_shipped_message": "Your order :order_id has shipped. Shipment ID(s): :shipment_ids.",
 
