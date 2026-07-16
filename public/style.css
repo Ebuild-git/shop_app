@@ -4883,11 +4883,11 @@ input[type=number] {
     margin-top: 4px;
 }
 
-.etat-confirmee            { background-color: #0d6efd; color: #fff; }
-.etat-tentative             { background-color: #ffc107; color: #000; }
-.etat-retourne-expediteur   { background-color: #dc3545; color: #fff; }
-.etat-annule                { background-color: #6c757d; color: #fff; }
-.etat-retardee              { background-color: #fd7e14; color: #fff; }
-.etat-ramassage-planifie    { background-color: #17a2b8; color: #fff; }
-.etat-reprogramme           { background-color: #6610f2; color: #fff; }
+.etat-confirmee            { background-color: #0d6efd !important; color: #fff; }
+.etat-tentative             { background-color: #ffc107 !important; color: #000; }
+.etat-retourne-expediteur   { background-color: #dc3545 !important; color: #fff; }
+.etat-annule                { background-color: #6c757d !important; color: #fff; }
+.etat-retardee              { background-color: #fd7e14 !important; color: #fff; }
+.etat-ramassage-planifie    { background-color: #17a2b8 !important; color: #fff; }
+.etat-reprogramme           { background-color: #6610f2 !important; color: #fff; }
 
