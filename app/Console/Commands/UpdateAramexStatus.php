@@ -83,7 +83,7 @@ class UpdateAramexStatus extends Command
                     $newPostStatut  = $this->mapAramexToPostStatut($latestUpdate);
                     $newOrderStatus = $this->mapAramexToOrderStatus($latestUpdate);
 
-                    if ($item->status !== $newItemStatus) {
+                    if (($item->post?->statut) !== $newPostStatut) {
 
                         // Parse Aramex datetime: /Date(1781538540000+0200)/
                         $updateDatetime = null;
