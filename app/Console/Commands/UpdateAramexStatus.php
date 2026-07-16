@@ -26,6 +26,7 @@ class UpdateAramexStatus extends Command
                 'livraison retardée',
                 'ramassage planifié',
                 'reprogrammé',
+                'expédiée'
             ])
             ->whereNotNull('shipment_id')
             ->get();
