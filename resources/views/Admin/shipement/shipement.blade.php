@@ -917,23 +917,59 @@ function openHistoryModal(itemId, shipmentId) {
         }
 
         const timeline = document.getElementById('history-timeline');
+        // timeline.innerHTML = data.map((row, i) => {
+        //     const cfg = etatConfig(row.status);
+        //     const isLast = i === 0; // adjust if Aramex returns oldest-first
+
+        //     return `
+        //         <div class="timeline-item">
+        //             <div class="timeline-dot dot-${cfg.color}"></div>
+        //             <div class="timeline-card">
+        //                 <div class="timeline-arrow">
+        //                     ${etatBadge(row.status)}
+        //                     ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
+        //                 </div>
+        //                 <div class="timeline-date">
+        //                     <i class="bi bi-calendar3 me-1"></i>${row.date ?? '—'}
+        //                 </div>
+        //                 <div class="text-muted small mt-1">
+        //                     ${row.description ?? ''} ${row.location ? '· ' + row.location : ''}
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     `;
+        // }).join('');
         timeline.innerHTML = data.map((row, i) => {
-            const cfg = etatConfig(row.status);
-            const isLast = i === 0; // adjust if Aramex returns oldest-first
+            const isLast = i === 0; // Aramex returns newest first, adjust if needed
 
             return `
                 <div class="timeline-item">
-                    <div class="timeline-dot dot-${cfg.color}"></div>
+                    <div class="timeline-dot dot-secondary"></div>
                     <div class="timeline-card">
                         <div class="timeline-arrow">
-                            ${etatBadge(row.status)}
+                            <span class="badge bg-secondary">${row.description ?? '—'}</span>
                             ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
                         </div>
+
                         <div class="timeline-date">
                             <i class="bi bi-calendar3 me-1"></i>${row.date ?? '—'}
                         </div>
-                        <div class="text-muted small mt-1">
-                            ${row.description ?? ''} ${row.location ? '· ' + row.location : ''}
+
+                        ${row.location ? `
+                            <div class="text-muted small">
+                                <i class="bi bi-geo-alt me-1"></i>${row.location}
+                            </div>` : ''}
+
+                        ${row.comments ? `
+                            <div class="text-muted small mt-1">
+                                <i class="bi bi-chat-square-text me-1"></i>${row.comments}
+                            </div>` : ''}
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            ${row.code ? `<span class="badge bg-light text-dark border">Code: ${row.code}</span>` : ''}
+                            ${row.waybill ? `<span class="badge bg-light text-dark border">Waybill: ${row.waybill}</span>` : ''}
+                            ${row.problem_code ? `<span class="badge bg-light text-dark border">Problème: ${row.problem_code}</span>` : ''}
+                            ${row.gross_weight ? `<span class="badge bg-light text-dark border">Poids: ${row.gross_weight} ${row.weight_unit ?? ''}</span>` : ''}
                         </div>
                     </div>
                 </div>
