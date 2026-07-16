@@ -216,6 +216,21 @@
 
                                             <div class="d-flex align-items-center gap-1">
 
+                                                {{-- <span class="badge-etat
+                                                    @if($statut === 'validation') etat-validation
+                                                    @elseif($statut === 'vente') etat-vente
+                                                    @elseif($statut === 'vendu') etat-vendu
+                                                    @elseif($statut === 'livraison') etat-livraison
+                                                    @elseif($statut === 'livré') etat-livre
+                                                    @elseif($statut === 'refusé') etat-refuse
+                                                    @elseif($statut === 'préparation') etat-preparation
+                                                    @elseif($statut === 'en voyage') etat-en-voyage
+                                                    @elseif($statut === 'en cours de livraison') etat-en-cours
+                                                    @elseif($statut === 'ramassée') etat-ramassee
+                                                    @elseif($statut === 'retourné') etat-retourne
+                                                    @endif">
+                                                    {{ $statut }}
+                                                </span> --}}
                                                 <span class="badge-etat
                                                     @if($statut === 'validation') etat-validation
                                                     @elseif($statut === 'vente') etat-vente
@@ -228,6 +243,13 @@
                                                     @elseif($statut === 'en cours de livraison') etat-en-cours
                                                     @elseif($statut === 'ramassée') etat-ramassee
                                                     @elseif($statut === 'retourné') etat-retourne
+                                                    @elseif($statut === 'commande confirmée') etat-confirmee
+                                                    @elseif($statut === 'tentative de livraison') etat-tentative
+                                                    @elseif($statut === 'retourné à l\'expéditeur') etat-retourne-expediteur
+                                                    @elseif($statut === 'annulé') etat-annule
+                                                    @elseif($statut === 'livraison retardée') etat-retardee
+                                                    @elseif($statut === 'ramassage planifié') etat-ramassage-planifie
+                                                    @elseif($statut === 'reprogrammé') etat-reprogramme
                                                     @endif">
                                                     {{ $statut }}
                                                 </span>
