@@ -21,6 +21,7 @@ class UpdateAramexStatus extends Command
                 'préparation',
                 'ramassée',
                 'en cours de livraison',
+                'livraison',
                 'commande confirmée',
                 'tentative de livraison',
                 'livraison retardée',
