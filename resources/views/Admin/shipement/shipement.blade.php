@@ -731,7 +731,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     'en voyage': 'En voyage',
                     'en cours de livraison': 'En cours de livraison',
                     'ramassée': 'Ramassée',
-                    'retourné': 'Retourné'
+                    'retourné': 'Retourné',
+                    'commande confirmée': 'Commande confirmée',
+                    'tentative de livraison': 'Tentative de livraison',
+                    'retourné à l\'expéditeur': 'Retourné à l\'expéditeur',
+                    'annulé': 'Annulé',
+                    'livraison retardée': 'Livraison retardée',
+                    'ramassage planifié': 'Ramassage planifié',
+                    'reprogrammé': 'Reprogrammé'
                 };
             } else if (type === 'order') {
                 inputOptions = {
