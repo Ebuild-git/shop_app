@@ -16,21 +16,39 @@ class UpdateAramexStatus extends Command
 
     public function handle()
     {
+        $trackableStatuses = [
+            'préparation',
+            'ramassée',
+            'en cours de livraison',
+            'livraison',
+            'commande confirmée',
+            'tentative de livraison',
+            'livraison retardée',
+            'ramassage planifié',
+            'reprogrammé',
+        ];
+
+        // $orderItems = OrdersItem::with(['order', 'post'])
+        //     ->whereIn('status', [
+        //         'préparation',
+        //         'ramassée',
+        //         'en cours de livraison',
+        //         'livraison',
+        //         'commande confirmée',
+        //         'tentative de livraison',
+        //         'livraison retardée',
+        //         'ramassage planifié',
+        //         'reprogrammé',
+        //         'expédiée'
+        //     ])
+        //     ->whereNotNull('shipment_id')
+        //     ->get();
         $orderItems = OrdersItem::with(['order', 'post'])
-            ->whereIn('status', [
-                'préparation',
-                'ramassée',
-                'en cours de livraison',
-                'livraison',
-                'commande confirmée',
-                'tentative de livraison',
-                'livraison retardée',
-                'ramassage planifié',
-                'reprogrammé',
-                'expédiée'
-            ])
-            ->whereNotNull('shipment_id')
-            ->get();
+        ->whereHas('post', function ($query) use ($trackableStatuses) {
+            $query->whereIn('statut', $trackableStatuses);
+        })
+        ->whereNotNull('shipment_id')
+        ->get();
 
         if ($orderItems->isEmpty()) {
             $this->info('No pending shipments to track.');
