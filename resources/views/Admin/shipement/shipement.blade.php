@@ -233,7 +233,7 @@
                                                     'annulé'                    => 'secondary',
                                                     'livraison retardée'       => 'warning',
                                                     'ramassage planifié'       => 'info',
-                                                    'reprogrammé'               => 'purple', // bootstrap has no 'purple' by default, see note below
+                                                    'reprogrammé'               => 'primary', // bootstrap has no 'purple' by default, see note below
                                                 ];
                                                 $etatColor = $etatColors[$statut] ?? 'light text-dark';
                                             @endphp
