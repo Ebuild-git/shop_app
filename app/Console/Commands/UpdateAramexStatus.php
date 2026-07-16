@@ -26,6 +26,7 @@ class UpdateAramexStatus extends Command
             'livraison retardée',
             'ramassage planifié',
             'reprogrammé',
+            'retourné à l\'expéditeur'
         ];
 
         // $orderItems = OrdersItem::with(['order', 'post'])
