@@ -214,6 +214,29 @@
                                                 $statut = $item->post?->statut ?? '—';
                                             @endphp
 
+                                            @php
+                                                $etatColors = [
+                                                    'validation'                => 'secondary',
+                                                    'vente'                     => 'primary',
+                                                    'vendu'                     => 'dark',
+                                                    'livraison'                 => 'info',
+                                                    'livré'                     => 'success',
+                                                    'refusé'                    => 'danger',
+                                                    'préparation'               => 'warning',
+                                                    'en voyage'                 => 'info',
+                                                    'en cours de livraison'     => 'info',
+                                                    'ramassée'                  => 'info',
+                                                    'retourné'                  => 'danger',
+                                                    'commande confirmée'       => 'primary',
+                                                    'tentative de livraison'   => 'warning',
+                                                    'retourné à l\'expéditeur' => 'danger',
+                                                    'annulé'                    => 'secondary',
+                                                    'livraison retardée'       => 'warning',
+                                                    'ramassage planifié'       => 'info',
+                                                    'reprogrammé'               => 'purple', // bootstrap has no 'purple' by default, see note below
+                                                ];
+                                                $etatColor = $etatColors[$statut] ?? 'light text-dark';
+                                            @endphp
                                             <div class="d-flex align-items-center gap-1">
 
                                                 {{-- <span class="badge-etat
@@ -231,28 +254,10 @@
                                                     @endif">
                                                     {{ $statut }}
                                                 </span> --}}
-                                                <span class="badge-etat
-                                                    @if($statut === 'validation') etat-validation
-                                                    @elseif($statut === 'vente') etat-vente
-                                                    @elseif($statut === 'vendu') etat-vendu
-                                                    @elseif($statut === 'livraison') etat-livraison
-                                                    @elseif($statut === 'livré') etat-livre
-                                                    @elseif($statut === 'refusé') etat-refuse
-                                                    @elseif($statut === 'préparation') etat-preparation
-                                                    @elseif($statut === 'en voyage') etat-en-voyage
-                                                    @elseif($statut === 'en cours de livraison') etat-en-cours
-                                                    @elseif($statut === 'ramassée') etat-ramassee
-                                                    @elseif($statut === 'retourné') etat-retourne
-                                                    @elseif($statut === 'commande confirmée') etat-confirmee
-                                                    @elseif($statut === 'tentative de livraison') etat-tentative
-                                                    @elseif($statut === 'retourné à l\'expéditeur') etat-retourne-expediteur
-                                                    @elseif($statut === 'annulé') etat-annule
-                                                    @elseif($statut === 'livraison retardée') etat-retardee
-                                                    @elseif($statut === 'ramassage planifié') etat-ramassage-planifie
-                                                    @elseif($statut === 'reprogrammé') etat-reprogramme
-                                                    @endif">
+                                               <span class="badge bg-{{ $etatColor }}">
                                                     {{ $statut }}
                                                 </span>
+
 
                                                 <button type="button"
                                                     class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
