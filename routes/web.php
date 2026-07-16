@@ -250,7 +250,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::post('/admin/orders/{order}/note', [OrdersController::class, 'updateNote'])->name('orders.updateNote');
 
 
-    Route::get('/admin/shipment/{shipmentId}/history', [OrdersControllerr::class, 'shipmentHistory'])
+    Route::get('/admin/shipment/{shipmentId}/history', [OrdersController::class, 'shipmentHistory'])
         ->name('admin.shipment.history');
 
 });
