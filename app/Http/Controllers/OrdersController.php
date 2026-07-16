@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Mail\PickupCancelled;
+use App\Traits\ShipmentStatusTrait;
 
 class OrdersController extends Controller
 {
@@ -549,62 +550,6 @@ class OrdersController extends Controller
         return response()->json($history);
     }
 
-    // public function cancelPickup(Request $request, $orderId)
-    // {
-    //     $request->validate([
-    //         'pickup_guid' => 'required|string',
-    //         'comments'    => 'nullable|string|max:500',
-    //     ]);
-
-    //     $order = Order::with('items')->findOrFail($orderId);
-
-    //     $pickupGuid = $request->input('pickup_guid');
-    //     $comments   = $request->input('comments', '');
-
-    //     $aramex   = new AramexService();
-    //     $response = $aramex->cancelPickup($pickupGuid, $comments);
-
-    //     $hasErrors = $response['HasErrors'] ?? true;
-
-    //     if ($hasErrors) {
-    //         $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-
-    //         // Aramex already considers this pickup cancelled on their side.
-    //         // Our local record is stale, so clean it up here too instead of
-    //         // leaving the "Annuler pickup" button stuck forever.
-    //         $alreadyCancelled = str_contains(strtolower($msg), 'cannot cancel a cancelled pickup');
-
-    //         if (!$alreadyCancelled) {
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => $msg ?: 'Erreur inconnue retournée par Aramex.',
-    //             ]);
-    //         }
-    //     }
-
-    //     // Clear pickup info from all items with this pickup_guid
-    //     $order->items()
-    //         ->where('pickup_guid', $pickupGuid)
-    //         ->update([
-    //             'pickup_id'   => null,
-    //             'pickup_guid' => null,
-    //             'shipment_id' => null,
-    //             'status'      => 'pending',
-    //         ]);
-
-    //     // Reset order status if all items are now unsynced
-    //     $hasAnySynced = $order->fresh()->items()->whereNotNull('shipment_id')->exists();
-    //     if (!$hasAnySynced) {
-    //         $order->update(['status' => 'pending']);
-    //     }
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => $hasErrors
-    //             ? 'Ce pickup était déjà annulé chez Aramex. Données locales nettoyées.'
-    //             : 'Pickup annulé avec succès.',
-    //     ]);
-    // }
     public function cancelPickup(Request $request, $orderId)
     {
         $request->validate([
@@ -788,5 +733,55 @@ class OrdersController extends Controller
         );
 
         app()->setLocale(config('app.locale'));
+    }
+
+    public function shipmentHistory($shipmentId)
+    {
+        if (empty($shipmentId)) {
+            return response()->json(['error' => 'Aucun ID d\'expédition pour cet article.'], 422);
+        }
+
+        $clientInfo = [
+            'UserName'          => env('ARAMEX_API_USERNAME'),
+            'Password'          => env('ARAMEX_API_PASSWORD'),
+            'Version'           => env('ARAMEX_API_VERSION'),
+            'AccountNumber'     => env('ARAMEX_ACCOUNT_NUMBER'),
+            'AccountPin'        => env('ARAMEX_ACCOUNT_PIN'),
+            'AccountEntity'     => env('ARAMEX_ACCOUNT_ENTITY'),
+            'AccountCountryCode'=> env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
+            'Source'            => env('ARAMEX_SOURCE'),
+        ];
+
+        $payload = [
+            'ClientInfo' => $clientInfo,
+            'GetLastTrackingUpdateOnly' => false,
+            'Shipments' => [$shipmentId],
+            'Transaction' => [
+                'Reference1' => '', 'Reference2' => '', 'Reference3' => '',
+                'Reference4' => '', 'Reference5' => ''
+            ]
+        ];
+
+        try {
+            $response = (new AramexService())->trackShipment($payload);
+
+            $updates = [];
+            if (!empty($response['TrackingResults'][0]['Value'])) {
+                foreach ($response['TrackingResults'][0]['Value'] as $entry) {
+                    $updates[] = [
+                        'code'        => $entry['UpdateCode'] ?? null,
+                        'description' => $entry['UpdateDescription'] ?? null,
+                        'location'    => $entry['UpdateLocation'] ?? null,
+                        'date'        => $entry['UpdateDateTime'] ?? null,
+                        'status'      => ShipmentStatusTrait::getShipmentStatus($entry['UpdateCode'] ?? null),
+                    ];
+                }
+            }
+
+            // Aramex often returns most-recent-first already; if not, sort here.
+            return response()->json($updates);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

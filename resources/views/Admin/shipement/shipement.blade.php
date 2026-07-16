@@ -774,6 +774,66 @@ const etatBadge = (etat) => {
     return `<span class="badge bg-${color}">${etat ?? '—'}</span>`;
 };
 
+// let historyModalInstance = null;
+
+// function openHistoryModal(itemId, shipmentId) {
+//     document.getElementById('history-shipment-id').textContent = shipmentId || '—';
+//     document.getElementById('history-loading').classList.remove('d-none');
+//     document.getElementById('history-content').classList.add('d-none');
+//     document.getElementById('history-empty').classList.add('d-none');
+
+//     const modalEl = document.getElementById('historyModal');
+//     if (!historyModalInstance) {
+//         historyModalInstance = new bootstrap.Modal(modalEl);
+//     }
+//     historyModalInstance.show();
+
+//     fetch(`/admin/order-items/${itemId}/history`, {
+//         headers: { 'Accept': 'application/json' }
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         document.getElementById('history-loading').classList.add('d-none');
+
+//         if (!data.length) {
+//             document.getElementById('history-empty').classList.remove('d-none');
+//             return;
+//         }
+
+//         const timeline = document.getElementById('history-timeline');
+//         timeline.innerHTML = data.map((row, i) => {
+//             const newCfg = etatConfig(row.new_etat);
+//             const isLast = i === 0; // newest first
+
+//             return `
+//                 <div class="timeline-item">
+//                     <div class="timeline-dot dot-${newCfg.color}"></div>
+//                     <div class="timeline-card">
+//                         <div class="timeline-arrow">
+//                             ${row.old_etat
+//                                 ? `${etatBadge(row.old_etat)}
+//                                    <i class="bi bi-arrow-right text-muted"></i>`
+//                                 : ''}
+//                             ${etatBadge(row.new_etat)}
+//                             ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
+//                         </div>
+//                         <div class="timeline-date">
+//                             <i class="bi bi-calendar3 me-1"></i>${row.created_at}
+//                         </div>
+//                     </div>
+//                 </div>
+//             `;
+//         }).join('');
+
+//         document.getElementById('history-content').classList.remove('d-none');
+//     })
+//     .catch(() => {
+//         document.getElementById('history-loading').classList.add('d-none');
+//         const emptyEl = document.getElementById('history-empty');
+//         emptyEl.innerHTML = '<i class="bi bi-exclamation-triangle fs-1 d-block mb-2 text-danger"></i>Erreur lors du chargement.';
+//         emptyEl.classList.remove('d-none');
+//     });
+// }
 let historyModalInstance = null;
 
 function openHistoryModal(itemId, shipmentId) {
@@ -788,10 +848,22 @@ function openHistoryModal(itemId, shipmentId) {
     }
     historyModalInstance.show();
 
-    fetch(`/admin/order-items/${itemId}/history`, {
+    if (!shipmentId) {
+        document.getElementById('history-loading').classList.add('d-none');
+        const emptyEl = document.getElementById('history-empty');
+        emptyEl.innerHTML = '<i class="bi bi-inbox fs-1 d-block mb-2"></i>Aucun ID d\'expédition pour cet article.';
+        emptyEl.classList.remove('d-none');
+        return;
+    }
+
+    fetch(`/admin/shipment/${shipmentId}/history`, {
         headers: { 'Accept': 'application/json' }
     })
-    .then(res => res.json())
+    .then(async res => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erreur inconnue');
+        return data;
+    })
     .then(data => {
         document.getElementById('history-loading').classList.add('d-none');
 
@@ -802,23 +874,22 @@ function openHistoryModal(itemId, shipmentId) {
 
         const timeline = document.getElementById('history-timeline');
         timeline.innerHTML = data.map((row, i) => {
-            const newCfg = etatConfig(row.new_etat);
-            const isLast = i === 0; // newest first
+            const cfg = etatConfig(row.status);
+            const isLast = i === 0; // adjust if Aramex returns oldest-first
 
             return `
                 <div class="timeline-item">
-                    <div class="timeline-dot dot-${newCfg.color}"></div>
+                    <div class="timeline-dot dot-${cfg.color}"></div>
                     <div class="timeline-card">
                         <div class="timeline-arrow">
-                            ${row.old_etat
-                                ? `${etatBadge(row.old_etat)}
-                                   <i class="bi bi-arrow-right text-muted"></i>`
-                                : ''}
-                            ${etatBadge(row.new_etat)}
+                            ${etatBadge(row.status)}
                             ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
                         </div>
                         <div class="timeline-date">
-                            <i class="bi bi-calendar3 me-1"></i>${row.created_at}
+                            <i class="bi bi-calendar3 me-1"></i>${row.date ?? '—'}
+                        </div>
+                        <div class="text-muted small mt-1">
+                            ${row.description ?? ''} ${row.location ? '· ' + row.location : ''}
                         </div>
                     </div>
                 </div>
@@ -827,10 +898,10 @@ function openHistoryModal(itemId, shipmentId) {
 
         document.getElementById('history-content').classList.remove('d-none');
     })
-    .catch(() => {
+    .catch((err) => {
         document.getElementById('history-loading').classList.add('d-none');
         const emptyEl = document.getElementById('history-empty');
-        emptyEl.innerHTML = '<i class="bi bi-exclamation-triangle fs-1 d-block mb-2 text-danger"></i>Erreur lors du chargement.';
+        emptyEl.innerHTML = `<i class="bi bi-exclamation-triangle fs-1 d-block mb-2 text-danger"></i>${err.message || 'Erreur lors du chargement.'}`;
         emptyEl.classList.remove('d-none');
     });
 }
