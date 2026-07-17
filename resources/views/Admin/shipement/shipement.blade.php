@@ -392,8 +392,13 @@
                                                 Note
                                             </button>
 
-                                            <button class="btn btn-sm btn-outline-info mt-1"
+                                            {{-- <button class="btn btn-sm btn-outline-info mt-1"
                                                 onclick="openHistoryModal({{ $item->id }}, '{{ $item->shipment_id ?? '' }}')">
+                                                <i class="bi bi-clock-history"></i>
+                                                Historique
+                                            </button> --}}
+                                            <button class="btn btn-sm btn-outline-info mt-1"
+                                                onclick="openHistoryModal({{ $item->id }}, '{{ $item->shipment_id ?? '' }}', '{{ $item->cancelled_shipment_id ?? '' }}')">
                                                 <i class="bi bi-clock-history"></i>
                                                 Historique
                                             </button>
@@ -851,8 +856,9 @@ const etatBadge = (etat) => {
 
 let historyModalInstance = null;
 
-function openHistoryModal(itemId, shipmentId) {
-    document.getElementById('history-shipment-id').textContent = shipmentId || '—';
+function openHistoryModal(itemId, shipmentId, cancelledShipmentId) {
+    // document.getElementById('history-shipment-id').textContent = shipmentId || '—';
+    document.getElementById('history-shipment-id').textContent = shipmentId || cancelledShipmentId || '—';
     document.getElementById('history-loading').classList.remove('d-none');
     document.getElementById('history-content').classList.add('d-none');
     document.getElementById('history-empty').classList.add('d-none');
@@ -863,7 +869,7 @@ function openHistoryModal(itemId, shipmentId) {
     }
     historyModalInstance.show();
 
-    if (!shipmentId) {
+    if (!shipmentId && !cancelledShipmentId) {
         document.getElementById('history-loading').classList.add('d-none');
         const emptyEl = document.getElementById('history-empty');
         emptyEl.innerHTML = '<i class="bi bi-inbox fs-1 d-block mb-2"></i>Aucun ID d\'expédition pour cet article.';
@@ -871,9 +877,11 @@ function openHistoryModal(itemId, shipmentId) {
         return;
     }
 
-    fetch(`/admin/shipment/${shipmentId}/history`, {
-        headers: { 'Accept': 'application/json' }
-    })
+    // fetch(`/admin/shipment/${shipmentId}/history`, {
+    //     headers: { 'Accept': 'application/json' }
+    // })
+    const effectiveId = shipmentId || cancelledShipmentId;
+    fetch(`/admin/shipment/${effectiveId}/history`, { headers: { 'Accept': 'application/json' } })
     .then(async res => {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Erreur inconnue');

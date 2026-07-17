@@ -796,8 +796,64 @@ class OrdersController extends Controller
     //         return response()->json(['error' => $e->getMessage()], 500);
     //     }
     // }
-    public function shipmentHistory($shipmentId)
+    // public function shipmentHistory($shipmentId)
+    // {
+    //     if (empty($shipmentId)) {
+    //         return response()->json(['error' => 'Aucun ID d\'expédition pour cet article.'], 422);
+    //     }
+
+    //     $clientInfo = [
+    //         'UserName'          => env('ARAMEX_API_USERNAME'),
+    //         'Password'          => env('ARAMEX_API_PASSWORD'),
+    //         'Version'           => env('ARAMEX_API_VERSION'),
+    //         'AccountNumber'     => env('ARAMEX_ACCOUNT_NUMBER'),
+    //         'AccountPin'        => env('ARAMEX_ACCOUNT_PIN'),
+    //         'AccountEntity'     => env('ARAMEX_ACCOUNT_ENTITY'),
+    //         'AccountCountryCode'=> env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
+    //         'Source'            => env('ARAMEX_SOURCE'),
+    //     ];
+
+    //     $payload = [
+    //         'ClientInfo' => $clientInfo,
+    //         'GetLastTrackingUpdateOnly' => false,
+    //         'Shipments' => [$shipmentId],
+    //         'Transaction' => [
+    //             'Reference1' => '', 'Reference2' => '', 'Reference3' => '',
+    //             'Reference4' => '', 'Reference5' => ''
+    //         ]
+    //     ];
+
+    //     try {
+    //         $response = (new AramexService())->trackShipment($payload);
+
+    //         $updates = [];
+    //         if (!empty($response['TrackingResults'][0]['Value'])) {
+    //             foreach ($response['TrackingResults'][0]['Value'] as $entry) {
+    //                 $updates[] = [
+    //                     'waybill'      => $entry['WaybillNumber'] ?? null,
+    //                     'code'         => $entry['UpdateCode'] ?? null,
+    //                     'description'  => $entry['UpdateDescription'] ?? null,
+    //                     'location'     => $entry['UpdateLocation'] ?? null,
+    //                     'comments'     => $entry['Comments'] ?? null,
+    //                     'problem_code' => $entry['ProblemCode'] ?? null,
+    //                     'gross_weight' => $entry['GrossWeight'] ?? null,
+    //                     'weight_unit'  => $entry['WeightUnit'] ?? null,
+    //                     'date'         => $this->parseAramexDate($entry['UpdateDateTime'] ?? null),
+    //                 ];
+    //             }
+    //         }
+
+    //         return response()->json($updates);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], 500);
+    //     }
+    // }
+    public function shipmentHistory(Request $request, $shipmentId)
     {
+        if (empty($shipmentId)) {
+            $shipmentId = $request->query('cancelled_shipment_id');
+        }
+
         if (empty($shipmentId)) {
             return response()->json(['error' => 'Aucun ID d\'expédition pour cet article.'], 422);
         }
