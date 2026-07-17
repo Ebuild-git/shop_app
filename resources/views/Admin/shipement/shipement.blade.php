@@ -56,7 +56,7 @@
                                 <th>ID Expédition (Aramex)</th>
                                 <th>Frais Livraison</th>
                                 <th>Statut livraison</th>
-                                <th>Statut</th>
+                                <th>Statut Client</th>
                                 <th>Date</th>
                                 <th>Note</th>
                                 <th></th>
@@ -209,7 +209,60 @@
                                             <sup>DH</sup>
                                         </td>
 
-                                        {{-- <td>
+                                        <td>
+                                            @php
+                                                $statut = $item->post?->statut ?? '—';
+                                            @endphp
+                                            @php
+                                                $etatColors = [
+                                                    'validation'                => 'secondary',
+                                                    'vente'                     => 'primary',
+                                                    'vendu'                     => 'dark',
+                                                    'livraison'                 => 'info',
+                                                    'livré'                     => 'success',
+                                                    'refusé'                    => 'danger',
+                                                    'préparation'               => 'warning',
+                                                    'en voyage'                 => 'info',
+                                                    'en cours de livraison'     => 'info',
+                                                    'ramassée'                  => 'info',
+                                                    'retourné'                  => 'danger',
+                                                    'commande confirmée'       => 'primary',
+                                                    'tentative de livraison'   => 'warning',
+                                                    'retourné à l\'expéditeur' => 'danger',
+                                                    'annulé'                    => 'secondary',
+                                                    'livraison retardée'       => 'warning',
+                                                    'ramassage planifié'       => 'info',
+                                                    'reprogrammé'               => 'primary',
+                                                ];
+                                                $etatColor = $etatColors[$statut] ?? 'light text-dark';
+                                            @endphp
+
+                                            @if(!$item->shipment_id)
+                                                {{-- Not synced with Aramex: keep post statut + edit button --}}
+                                                <div class="d-flex align-items-center gap-1">
+                                                    <span class="badge bg-{{ $etatColor }}">
+                                                        {{ $statut }}
+                                                    </span>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
+                                                        data-id="{{ $item->id }}"
+                                                        data-type="post"
+                                                        data-current="{{ $statut }}">
+                                                        <i class="fa fa-pen text-secondary"
+                                                            style="font-size:12px;"></i>
+                                                    </button>
+                                                </div>
+                                            @else
+                                                {{-- Synced with Aramex: no edit button, show last (dernier) history status --}}
+                                                <div class="d-flex align-items-center gap-1 livraison-statut-wrapper"
+                                                    data-shipment-id="{{ $item->shipment_id }}">
+                                                    <span class="badge bg-secondary livraison-statut-badge">
+                                                        <i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
                                             @php
                                                 $statut = $item->post?->statut ?? '—';
                                             @endphp
@@ -242,121 +295,6 @@
                                                <span class="badge bg-{{ $etatColor }}">
                                                     {{ $statut }}
                                                 </span>
-
-
-                                                <button type="button"
-                                                    class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
-                                                    data-id="{{ $item->id }}"
-                                                    data-type="post"
-                                                    data-current="{{ $statut }}">
-                                                    <i class="fa fa-pen text-secondary"
-                                                        style="font-size:12px;"></i>
-                                                </button>
-
-                                            </div>
-                                        </td> --}}
-
-                                        <td>
-    @php
-        $statut = $item->post?->statut ?? '—';
-    @endphp
-    @php
-        $etatColors = [
-            'validation'                => 'secondary',
-            'vente'                     => 'primary',
-            'vendu'                     => 'dark',
-            'livraison'                 => 'info',
-            'livré'                     => 'success',
-            'refusé'                    => 'danger',
-            'préparation'               => 'warning',
-            'en voyage'                 => 'info',
-            'en cours de livraison'     => 'info',
-            'ramassée'                  => 'info',
-            'retourné'                  => 'danger',
-            'commande confirmée'       => 'primary',
-            'tentative de livraison'   => 'warning',
-            'retourné à l\'expéditeur' => 'danger',
-            'annulé'                    => 'secondary',
-            'livraison retardée'       => 'warning',
-            'ramassage planifié'       => 'info',
-            'reprogrammé'               => 'primary',
-        ];
-        $etatColor = $etatColors[$statut] ?? 'light text-dark';
-    @endphp
-
-    @if(!$item->shipment_id)
-        {{-- Not synced with Aramex: keep post statut + edit button --}}
-        <div class="d-flex align-items-center gap-1">
-            <span class="badge bg-{{ $etatColor }}">
-                {{ $statut }}
-            </span>
-            <button type="button"
-                class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
-                data-id="{{ $item->id }}"
-                data-type="post"
-                data-current="{{ $statut }}">
-                <i class="fa fa-pen text-secondary"
-                    style="font-size:12px;"></i>
-            </button>
-        </div>
-    @else
-        {{-- Synced with Aramex: no edit button, show last (dernier) history status --}}
-        <div class="d-flex align-items-center gap-1 livraison-statut-wrapper"
-            data-shipment-id="{{ $item->shipment_id }}">
-            <span class="badge bg-secondary livraison-statut-badge">
-                <i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i>
-            </span>
-        </div>
-    @endif
-</td>
-
-                                        <td>
-                                            @php
-                                                $status = $order->status ?? '—';
-                                            @endphp
-
-                                            <div class="d-flex align-items-center gap-1">
-
-                                                @switch($status)
-                                                    @case('pending')
-                                                        <span class="badge bg-secondary">Crée</span>
-                                                        @break
-
-                                                    @case('expédiée')
-                                                        <span class="badge bg-info text-dark">Expédiée</span>
-                                                        @break
-
-                                                    @case('livrée')
-                                                        <span class="badge bg-success">Livrée</span>
-                                                        @break
-
-                                                    @case('Rétablie')
-                                                        <span class="badge bg-success">Rétablie</span>
-                                                        @break
-
-                                                    @case('annulée')
-                                                        <span class="badge bg-danger">Annulée</span>
-                                                        @break
-
-                                                    @case('supprimée')
-                                                        <span class="badge bg-danger">Supprimée</span>
-                                                        @break
-
-                                                    @default
-                                                        <span class="badge bg-light text-dark">
-                                                            {{ ucfirst($status) }}
-                                                        </span>
-                                                @endswitch
-
-                                                <button type="button"
-                                                    class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
-                                                    data-id="{{ $item->id }}"
-                                                    data-type="order"
-                                                    data-current="{{ $status }}">
-                                                    <i class="fa fa-pen text-secondary"
-                                                        style="font-size:12px;"></i>
-                                                </button>
-
                                             </div>
                                         </td>
 
