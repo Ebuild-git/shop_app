@@ -55,7 +55,7 @@
                                 <th>Article</th>
                                 <th>ID Expédition (Aramex)</th>
                                 <th>Frais Livraison</th>
-                                <th>État</th>
+                                <th>Statut livraison</th>
                                 <th>Statut</th>
                                 <th>Date</th>
                                 <th>Note</th>
@@ -209,7 +209,7 @@
                                             <sup>DH</sup>
                                         </td>
 
-                                        <td>
+                                        {{-- <td>
                                             @php
                                                 $statut = $item->post?->statut ?? '—';
                                             @endphp
@@ -239,21 +239,6 @@
                                             @endphp
                                             <div class="d-flex align-items-center gap-1">
 
-                                                {{-- <span class="badge-etat
-                                                    @if($statut === 'validation') etat-validation
-                                                    @elseif($statut === 'vente') etat-vente
-                                                    @elseif($statut === 'vendu') etat-vendu
-                                                    @elseif($statut === 'livraison') etat-livraison
-                                                    @elseif($statut === 'livré') etat-livre
-                                                    @elseif($statut === 'refusé') etat-refuse
-                                                    @elseif($statut === 'préparation') etat-preparation
-                                                    @elseif($statut === 'en voyage') etat-en-voyage
-                                                    @elseif($statut === 'en cours de livraison') etat-en-cours
-                                                    @elseif($statut === 'ramassée') etat-ramassee
-                                                    @elseif($statut === 'retourné') etat-retourne
-                                                    @endif">
-                                                    {{ $statut }}
-                                                </span> --}}
                                                <span class="badge bg-{{ $etatColor }}">
                                                     {{ $statut }}
                                                 </span>
@@ -269,7 +254,61 @@
                                                 </button>
 
                                             </div>
-                                        </td>
+                                        </td> --}}
+
+                                        <td>
+    @php
+        $statut = $item->post?->statut ?? '—';
+    @endphp
+    @php
+        $etatColors = [
+            'validation'                => 'secondary',
+            'vente'                     => 'primary',
+            'vendu'                     => 'dark',
+            'livraison'                 => 'info',
+            'livré'                     => 'success',
+            'refusé'                    => 'danger',
+            'préparation'               => 'warning',
+            'en voyage'                 => 'info',
+            'en cours de livraison'     => 'info',
+            'ramassée'                  => 'info',
+            'retourné'                  => 'danger',
+            'commande confirmée'       => 'primary',
+            'tentative de livraison'   => 'warning',
+            'retourné à l\'expéditeur' => 'danger',
+            'annulé'                    => 'secondary',
+            'livraison retardée'       => 'warning',
+            'ramassage planifié'       => 'info',
+            'reprogrammé'               => 'primary',
+        ];
+        $etatColor = $etatColors[$statut] ?? 'light text-dark';
+    @endphp
+
+    @if(!$item->shipment_id)
+        {{-- Not synced with Aramex: keep post statut + edit button --}}
+        <div class="d-flex align-items-center gap-1">
+            <span class="badge bg-{{ $etatColor }}">
+                {{ $statut }}
+            </span>
+            <button type="button"
+                class="btn btn-sm btn-light p-0 border-0 ms-1 edit-statut-btn"
+                data-id="{{ $item->id }}"
+                data-type="post"
+                data-current="{{ $statut }}">
+                <i class="fa fa-pen text-secondary"
+                    style="font-size:12px;"></i>
+            </button>
+        </div>
+    @else
+        {{-- Synced with Aramex: no edit button, show last (dernier) history status --}}
+        <div class="d-flex align-items-center gap-1 livraison-statut-wrapper"
+            data-shipment-id="{{ $item->shipment_id }}">
+            <span class="badge bg-secondary livraison-statut-badge">
+                <i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i>
+            </span>
+        </div>
+    @endif
+</td>
 
                                         <td>
                                             @php
@@ -372,11 +411,6 @@
                                                 Note
                                             </button>
 
-                                            {{-- <button class="btn btn-sm btn-outline-danger mt-1"
-                                                onclick="confirmDeleteOrder({{ $order->id }})">
-                                                <i class="bi bi-trash"></i>
-                                            </button> --}}
-
                                             <button class="btn btn-sm btn-outline-info mt-1"
                                                 onclick="openHistoryModal({{ $item->id }}, '{{ $item->shipment_id ?? '' }}')">
                                                 <i class="bi bi-clock-history"></i>
@@ -465,6 +499,27 @@ function getFiltersQueryString() {
     return new URLSearchParams(new FormData(form)).toString();
 }
 
+// function fetchAndReplace(urlWithParams) {
+//     fetch(urlWithParams, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+//     .then(res => res.text())
+//     .then(html => {
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(html, 'text/html');
+
+//         const newTbody = doc.querySelector('#commande-table-body');
+//         const currentTbody = document.querySelector('#commande-table-body');
+//         if (newTbody && currentTbody) {
+//             currentTbody.innerHTML = newTbody.innerHTML;
+//         }
+
+//         const newPagination = doc.querySelector('.pagination');
+//         const currentPagination = document.querySelector('.pagination');
+//         if (newPagination && currentPagination) {
+//             currentPagination.innerHTML = newPagination.innerHTML;
+//             attachPaginationListeners();
+//         }
+//     });
+// }
 function fetchAndReplace(urlWithParams) {
     fetch(urlWithParams, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
     .then(res => res.text())
@@ -476,6 +531,7 @@ function fetchAndReplace(urlWithParams) {
         const currentTbody = document.querySelector('#commande-table-body');
         if (newTbody && currentTbody) {
             currentTbody.innerHTML = newTbody.innerHTML;
+            loadLivraisonStatuses(currentTbody); // <-- added
         }
 
         const newPagination = doc.querySelector('.pagination');
@@ -812,66 +868,6 @@ const etatBadge = (etat) => {
     return `<span class="badge bg-${color}">${etat ?? '—'}</span>`;
 };
 
-// let historyModalInstance = null;
-
-// function openHistoryModal(itemId, shipmentId) {
-//     document.getElementById('history-shipment-id').textContent = shipmentId || '—';
-//     document.getElementById('history-loading').classList.remove('d-none');
-//     document.getElementById('history-content').classList.add('d-none');
-//     document.getElementById('history-empty').classList.add('d-none');
-
-//     const modalEl = document.getElementById('historyModal');
-//     if (!historyModalInstance) {
-//         historyModalInstance = new bootstrap.Modal(modalEl);
-//     }
-//     historyModalInstance.show();
-
-//     fetch(`/admin/order-items/${itemId}/history`, {
-//         headers: { 'Accept': 'application/json' }
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         document.getElementById('history-loading').classList.add('d-none');
-
-//         if (!data.length) {
-//             document.getElementById('history-empty').classList.remove('d-none');
-//             return;
-//         }
-
-//         const timeline = document.getElementById('history-timeline');
-//         timeline.innerHTML = data.map((row, i) => {
-//             const newCfg = etatConfig(row.new_etat);
-//             const isLast = i === 0; // newest first
-
-//             return `
-//                 <div class="timeline-item">
-//                     <div class="timeline-dot dot-${newCfg.color}"></div>
-//                     <div class="timeline-card">
-//                         <div class="timeline-arrow">
-//                             ${row.old_etat
-//                                 ? `${etatBadge(row.old_etat)}
-//                                    <i class="bi bi-arrow-right text-muted"></i>`
-//                                 : ''}
-//                             ${etatBadge(row.new_etat)}
-//                             ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
-//                         </div>
-//                         <div class="timeline-date">
-//                             <i class="bi bi-calendar3 me-1"></i>${row.created_at}
-//                         </div>
-//                     </div>
-//                 </div>
-//             `;
-//         }).join('');
-
-//         document.getElementById('history-content').classList.remove('d-none');
-//     })
-//     .catch(() => {
-//         document.getElementById('history-loading').classList.add('d-none');
-//         const emptyEl = document.getElementById('history-empty');
-//         emptyEl.innerHTML = '<i class="bi bi-exclamation-triangle fs-1 d-block mb-2 text-danger"></i>Erreur lors du chargement.';
-//         emptyEl.classList.remove('d-none');
-//     });
-// }
 let historyModalInstance = null;
 
 function openHistoryModal(itemId, shipmentId) {
@@ -911,28 +907,6 @@ function openHistoryModal(itemId, shipmentId) {
         }
 
         const timeline = document.getElementById('history-timeline');
-        // timeline.innerHTML = data.map((row, i) => {
-        //     const cfg = etatConfig(row.status);
-        //     const isLast = i === 0; // adjust if Aramex returns oldest-first
-
-        //     return `
-        //         <div class="timeline-item">
-        //             <div class="timeline-dot dot-${cfg.color}"></div>
-        //             <div class="timeline-card">
-        //                 <div class="timeline-arrow">
-        //                     ${etatBadge(row.status)}
-        //                     ${isLast ? '<span class="badge bg-light text-muted border ms-1">Dernier</span>' : ''}
-        //                 </div>
-        //                 <div class="timeline-date">
-        //                     <i class="bi bi-calendar3 me-1"></i>${row.date ?? '—'}
-        //                 </div>
-        //                 <div class="text-muted small mt-1">
-        //                     ${row.description ?? ''} ${row.location ? '· ' + row.location : ''}
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     `;
-        // }).join('');
         timeline.innerHTML = data.map((row, i) => {
             const isLast = i === 0; // Aramex returns newest first, adjust if needed
 
@@ -979,6 +953,39 @@ function openHistoryModal(itemId, shipmentId) {
         emptyEl.classList.remove('d-none');
     });
 }
+
+function loadLivraisonStatuses(scope = document) {
+    scope.querySelectorAll('.livraison-statut-wrapper[data-shipment-id]').forEach(wrapper => {
+        const shipmentId = wrapper.dataset.shipmentId;
+        const badge = wrapper.querySelector('.livraison-statut-badge');
+        if (!shipmentId || !badge) return;
+
+        fetch(`/admin/shipment/${shipmentId}/history`, {
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(async res => {
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Erreur inconnue');
+            return data;
+        })
+        .then(data => {
+            badge.innerHTML = '';
+            if (!data.length) {
+                badge.textContent = '—';
+                return;
+            }
+            // data[0] = "Dernier" statut, same as in the history modal
+            badge.textContent = data[0].description ?? '—';
+        })
+        .catch(() => {
+            badge.innerHTML = '';
+            badge.textContent = '—';
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => loadLivraisonStatuses());
+
 </script>
 <script>
     function cancelPickup(orderId, pickupGuid) {
