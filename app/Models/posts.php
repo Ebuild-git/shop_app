@@ -323,4 +323,15 @@ class posts extends Model
 
         return $query;
     }
+
+    public function shipmentHistories()
+    {
+        return $this->hasMany(ShipmentStatusHistory::class, 'post_id');
+    }
+
+    public function latestShipmentHistory()
+    {
+        return $this->hasOne(ShipmentStatusHistory::class, 'post_id')
+                    ->latestOfMany('id');
+    }
 }

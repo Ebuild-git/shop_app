@@ -435,6 +435,7 @@
                 <th></th>
                 <th>{{ __('article') }}</th>
                 @if($showRemainingTimeColumn)
+                    <th>{{ __('expedition_number') }}</th>
                     <th>{{ __('current_price') }} <small>({{ __('you_earn') }})</small></th>
                     <th>{{ __('base_price') }} <small>({{ __('buyer_pays') }})</small></th>
                     <th>{{ __('last_update1') }}</th>
@@ -487,6 +488,16 @@
                             </div>
                         </div>
                     </td>
+
+                    @if($showRemainingTimeColumn)
+                        <td>
+                            @if($item->latestShipmentHistory?->shipment_id)
+                                {{ $item->latestShipmentHistory->shipment_id }}
+                            @else
+                                <span class="dash">—</span>
+                            @endif
+                        </td>
+                    @endif
 
                     @if($showRemainingTimeColumn)
                         <td>
@@ -572,7 +583,14 @@
                                 $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
                             @endphp
 
-                            <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
+                            {{-- <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span> --}}
+                            @if($item->latestShipmentHistory?->shipment_id)
+                                <span class="s-badge s-livraison" title="{{ __('dernier_etat_aramex') }}">
+                                    {{ $item->latestShipmentHistory->new_etat }}
+                                </span>
+                            @else
+                                <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
+                            @endif
 
                             @if ($item->sell_at)
                                 <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
