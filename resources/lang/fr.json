@@ -79,7 +79,7 @@
     "date_naissance": "Date de naissance",
     "email": "Adresse email",
     "ville": "Ville",
-    "rue": "Rue",
+    "rue": "Quartier et rue",
     "batiment": "Nom de résidence",
     "etage": "Étage",
     "num_appartement": "Numéro d'appartement",
