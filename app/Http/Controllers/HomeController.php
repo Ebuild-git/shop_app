@@ -1112,6 +1112,7 @@ class HomeController extends Controller
                     ->with(['changements_prix', 'user_info' => fn($q) => $q->withTrashed()]);
                 },
                 'order',
+                'latestShipmentHistory'
             ])
             ->whereHas('post', fn($q) => $q->withTrashed())
             ->orderBy('created_at', 'desc');

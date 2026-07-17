@@ -65,6 +65,18 @@
                                 <span class="text-danger">( {{ __('shopiner supprimé') }} )</span>
                             @endif
                         </td>
+                        {{-- <td class="text-end">
+                            @php
+                                $isCancelled = $achat->trashed() ||
+                                            optional($achat->order)->trashed();
+                            @endphp
+
+                            @if ($post->user_info?->deleted_at || $isCancelled)
+                                <span class="badge bg-danger">{{ __('commande annulée') }}</span>
+                            @else
+                                <x-StatutLivraison :statut="$post->statut"></x-StatutLivraison>
+                            @endif
+                        </td> --}}
                         <td class="text-end">
                             @php
                                 $isCancelled = $achat->trashed() ||
@@ -73,6 +85,10 @@
 
                             @if ($post->user_info?->deleted_at || $isCancelled)
                                 <span class="badge bg-danger">{{ __('commande annulée') }}</span>
+                            @elseif ($achat->latestShipmentHistory)
+                                <span class="badge bg-info text-dark" title="{{ __('dernier_etat_aramex') }}">
+                                    {{ $achat->latestShipmentHistory->new_etat }}
+                                </span>
                             @else
                                 <x-StatutLivraison :statut="$post->statut"></x-StatutLivraison>
                             @endif

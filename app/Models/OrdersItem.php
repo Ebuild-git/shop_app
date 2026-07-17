@@ -42,4 +42,15 @@ class OrdersItem extends Model
     {
         return $this->post ? $this->post->calculateGain() : 0;
     }
+
+    public function shipmentHistories()
+    {
+        return $this->hasMany(ShipmentStatusHistory::class, 'order_item_id');
+    }
+
+    public function latestShipmentHistory()
+    {
+        return $this->hasOne(ShipmentStatusHistory::class, 'order_item_id')
+                    ->latestOfMany('id');
+    }
 }
