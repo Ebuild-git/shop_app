@@ -199,14 +199,26 @@ class OrdersController extends Controller
     }
 
 
+    // public function updateNote(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'note' => 'nullable|string',
+    //     ]);
+    //     $order = Order::findOrFail($id);
+    //     $order->note = $request->note;
+    //     $order->save();
+
+    //     return response()->json(['success' => true]);
+    // }
     public function updateNote(Request $request, $id)
     {
         $request->validate([
             'note' => 'nullable|string',
         ]);
-        $order = Order::findOrFail($id);
-        $order->note = $request->note;
-        $order->save();
+
+        $item = OrdersItem::findOrFail($id);
+        $item->note = $request->note;
+        $item->save();
 
         return response()->json(['success' => true]);
     }

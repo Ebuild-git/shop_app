@@ -326,35 +326,14 @@
                                         </td>
 
                                         <td class="text-wrap" style="max-width:250px;">
-                                            @if($order->note)
-                                                {{ Str::limit($order->note,120) }}
+                                            @if($item->note)
+                                                {{ Str::limit($item->note,120) }}
                                             @else
                                                 Aucune note
                                             @endif
                                         </td>
 
                                         <td>
-                                            {{-- @if(!$aramexAlreadyShown)
-                                                @if($vendorHasUnsynced)
-                                                    <button class="btn btn-sm btn-outline-primary mt-1"
-                                                        onclick="synchronizeWithAramex({{ $order->id }})">
-                                                        Synchroniser avec Aramex
-                                                    </button>
-                                                @else
-
-                                                        <span class="badge bg-success mt-1">Synchronisé</span>
-                                                        @php
-                                                            $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
-                                                        @endphp
-                                                        @if($pickupGuid)
-                                                            <button class="btn btn-sm btn-outline-danger mt-1"
-                                                                onclick="cancelPickup({{ $order->id }}, '{{ $pickupGuid }}')">
-                                                                <i class="bi bi-x-circle"></i> Annuler pickup
-                                                            </button>
-                                                        @endif
-                                                @endif
-                                                @php $shownAramexVendors[] = $vendorId; @endphp
-                                            @endif --}}
                                             @if(!$aramexAlreadyShown)
                                                 @if($vendorHasUnsynced)
                                                     <button class="btn btn-sm btn-outline-primary mt-1"
@@ -376,10 +355,18 @@
                                                 @php $shownAramexVendors[] = $vendorId; @endphp
                                             @endif
 
-                                            <button class="btn btn-sm btn-outline-secondary mt-1"
+                                            {{-- <button class="btn btn-sm btn-outline-secondary mt-1"
                                                 onclick="openNoteModal(
                                                     {{ $order->id }},
                                                     '{{ addslashes($order->note ?? '') }}'
+                                                )">
+                                                <i class="bi bi-journal-text"></i>
+                                                Note
+                                            </button> --}}
+                                            <button class="btn btn-sm btn-outline-secondary mt-1"
+                                                onclick="openNoteModal(
+                                                    {{ $item->id }},
+                                                    '{{ addslashes($item->note ?? '') }}'
                                                 )">
                                                 <i class="bi bi-journal-text"></i>
                                                 Note
