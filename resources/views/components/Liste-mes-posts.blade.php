@@ -435,7 +435,7 @@
                 <th></th>
                 <th>{{ __('article') }}</th>
                 @if($showRemainingTimeColumn)
-                    <th>{{ __('expedition_number') }}</th>
+
                     <th>{{ __('current_price') }} <small>({{ __('you_earn') }})</small></th>
                     <th>{{ __('base_price') }} <small>({{ __('buyer_pays') }})</small></th>
                     <th>{{ __('last_update1') }}</th>
@@ -444,6 +444,7 @@
                     <th>{{ __('base_price') }}</th>
                     <th>{{ __('last_price_update') }}</th>
                 @endif
+                <th>{{ __('expedition_number') }}</th>
                 <th>{{ __('ad_status') }}</th>
                 @if(!$showRemainingTimeColumn)
                     <th>{{ __('deletion_reason') }}</th>
@@ -489,15 +490,7 @@
                         </div>
                     </td>
 
-                    @if($showRemainingTimeColumn)
-                        <td>
-                            @if($item->latestShipmentHistory?->shipment_id)
-                                {{ $item->latestShipmentHistory->shipment_id }}
-                            @else
-                                <span class="dash">—</span>
-                            @endif
-                        </td>
-                    @endif
+
 
                     @if($showRemainingTimeColumn)
                         <td>
@@ -537,6 +530,15 @@
                                     <div class="date">{{ \Carbon\Carbon::parse($item->updated_price_at)->format('d-m-Y') }}</div>
                                     <div class="time">{{ \Carbon\Carbon::parse($item->updated_price_at)->format('H:i') }}</div>
                                 </div>
+                            @else
+                                <span class="dash">—</span>
+                            @endif
+                        </td>
+                    @endif
+                    @if($showRemainingTimeColumn)
+                        <td>
+                            @if($item->latestShipmentHistory?->shipment_id)
+                                {{ $item->latestShipmentHistory->shipment_id }}
                             @else
                                 <span class="dash">—</span>
                             @endif

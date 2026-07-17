@@ -1348,7 +1348,8 @@
   "notifications.pickup_cancelled_title": "تم إلغاء الاستلام",
   "notifications.pickup_cancelled_message": "تم إلغاء عملية استلام أرامكس للطلب :order_id (الشحنة :shipment_id).",
   "notifications.order_pickup_cancelled_title": "تم إلغاء الشحنة",
-  "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة :shipment_id الخاصة بطلبك :order_id. سيتم جدولة عملية استلام جديدة قريباً."
+  "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة :shipment_id الخاصة بطلبك :order_id. سيتم جدولة عملية استلام جديدة قريباً.",
+   "expedition_number": "رقم الشحنة"
 
 
 }

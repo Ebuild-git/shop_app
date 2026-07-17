@@ -1357,7 +1357,8 @@
   "notifications.pickup_cancelled_title": "Pickup cancelled",
   "notifications.pickup_cancelled_message": "The Aramex pickup for order :order_id (shipment :shipment_id) has been cancelled.",
   "notifications.order_pickup_cancelled_title": "Shipment cancelled",
-  "notifications.order_pickup_cancelled_message": "Shipment :shipment_id for your order :order_id has been cancelled. A new pickup will be scheduled soon."
+  "notifications.order_pickup_cancelled_message": "Shipment :shipment_id for your order :order_id has been cancelled. A new pickup will be scheduled soon.",
+  "expedition_number": "Shipment Number"
 
 
 
