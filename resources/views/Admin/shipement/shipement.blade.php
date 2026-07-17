@@ -262,7 +262,7 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @php
                                                 $statut = $item->post?->statut ?? '—';
                                             @endphp
@@ -296,6 +296,49 @@
                                                     {{ $statut }}
                                                 </span>
                                             </div>
+                                        </td> --}}
+
+                                        <td>
+                                            @php
+                                                $statut = $item->post?->statut ?? '—';
+                                            @endphp
+                                            @php
+                                                $etatColors = [
+                                                    'validation'                => 'secondary',
+                                                    'vente'                     => 'primary',
+                                                    'vendu'                     => 'dark',
+                                                    'livraison'                 => 'info',
+                                                    'livré'                     => 'success',
+                                                    'refusé'                    => 'danger',
+                                                    'préparation'               => 'warning',
+                                                    'en voyage'                 => 'info',
+                                                    'en cours de livraison'     => 'info',
+                                                    'ramassée'                  => 'info',
+                                                    'retourné'                  => 'danger',
+                                                    'commande confirmée'       => 'primary',
+                                                    'tentative de livraison'   => 'warning',
+                                                    'retourné à l\'expéditeur' => 'danger',
+                                                    'annulé'                    => 'secondary',
+                                                    'livraison retardée'       => 'warning',
+                                                    'ramassage planifié'       => 'info',
+                                                    'reprogrammé'               => 'primary',
+                                                ];
+                                                $etatColor = $etatColors[$statut] ?? 'light text-dark';
+                                            @endphp
+
+                                            @if(!$item->shipment_id || !$item->post?->latestShipmentHistory)
+                                                <div class="d-flex align-items-center gap-1">
+                                                <span class="badge bg-{{ $etatColor }}">
+                                                        {{ $statut }}
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <div class="d-flex align-items-center gap-1">
+                                                <span class="badge bg-secondary" title="Dernier état Aramex">
+                                                        {{ $item->post->latestShipmentHistory->new_etat }}
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </td>
 
                                         <td>

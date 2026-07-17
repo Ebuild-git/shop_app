@@ -304,7 +304,7 @@ class AdminController extends Controller
     public function orders(Request $request)
     {
         $query = Order::with([
-                'items.post',
+                'items.post.latestShipmentHistory',
                 'items.vendor',
                 'buyer'
             ])
