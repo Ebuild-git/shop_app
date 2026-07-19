@@ -1342,7 +1342,7 @@
   "email2.pickup_cancelled.header_subtitle": "Aramex",
   "email2.pickup_cancelled.greeting": "Hello",
   "email2.pickup_cancelled.seller_intro": "The Aramex pickup linked to your order has been cancelled. No action is required from you right now.",
-  "email2.pickup_cancelled.buyer_intro": "The shipment linked to your order has been cancelled by the seller. A new pickup will be scheduled shortly.",
+  "email2.pickup_cancelled.buyer_intro": "The shipment linked to your order has been cancelled. If any further action is required, you will be notified. Thank you for your understanding.",
   "email2.pickup_cancelled.order_label": "Order",
   "email2.pickup_cancelled.shipment_label": "Cancelled shipment",
   "email2.pickup_cancelled.details_title": "Cancellation details",

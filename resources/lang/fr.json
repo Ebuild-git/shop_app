@@ -1334,7 +1334,7 @@
   "email2.pickup_cancelled.header_subtitle": "Aramex",
   "email2.pickup_cancelled.greeting": "Bonjour",
   "email2.pickup_cancelled.seller_intro": "Le pickup Aramex associé à votre commande a été annulé. Aucune action n'est requise pour le moment.",
-  "email2.pickup_cancelled.buyer_intro": "L'expédition liée à votre commande a été annulée par le vendeur. Un nouveau pickup sera programmé prochainement.",
+  "email2.pickup_cancelled.buyer_intro": "L'expédition liée à votre commande a été annulée. Si une action supplémentaire est nécessaire, vous en serez informé(e). Merci de votre compréhension.",
   "email2.pickup_cancelled.order_label": "Commande",
   "email2.pickup_cancelled.shipment_label": "Expédition annulée",
   "email2.pickup_cancelled.details_title": "Détails de l'annulation",

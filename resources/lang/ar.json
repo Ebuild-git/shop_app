@@ -1333,7 +1333,7 @@
   "email2.pickup_cancelled.header_subtitle": "أرامكس",
   "email2.pickup_cancelled.greeting": "مرحباً",
   "email2.pickup_cancelled.seller_intro": "تم إلغاء عملية الاستلام (Pickup) الخاصة بأرامكس لطلبك. لا حاجة لأي إجراء من جانبك حالياً.",
-  "email2.pickup_cancelled.buyer_intro": "تم إلغاء الشحنة المرتبطة بطلبك من قبل البائع. سيتم جدولة عملية استلام جديدة قريباً.",
+  "email2.pickup_cancelled.buyer_intro": "تم إلغاء الشحنة المرتبطة بطلبك. إذا كان هناك أي إجراء إضافي مطلوب، سيتم إعلامك به. شكراً لتفهمكم.",
   "email2.pickup_cancelled.order_label": "الطلب",
   "email2.pickup_cancelled.shipment_label": "الشحنة الملغاة",
   "email2.pickup_cancelled.details_title": "تفاصيل الإلغاء",
