@@ -16,40 +16,9 @@ class UpdateAramexStatus extends Command
 
     public function handle()
     {
-        $trackableStatuses = [
-            'préparation',
-            'ramassée',
-            'en cours de livraison',
-            'livraison',
-            'commande confirmée',
-            'tentative de livraison',
-            'livraison retardée',
-            'ramassage planifié',
-            'reprogrammé',
-            'retourné à l\'expéditeur'
-        ];
-
-        // $orderItems = OrdersItem::with(['order', 'post'])
-        //     ->whereIn('status', [
-        //         'préparation',
-        //         'ramassée',
-        //         'en cours de livraison',
-        //         'livraison',
-        //         'commande confirmée',
-        //         'tentative de livraison',
-        //         'livraison retardée',
-        //         'ramassage planifié',
-        //         'reprogrammé',
-        //         'expédiée'
-        //     ])
-        //     ->whereNotNull('shipment_id')
-        //     ->get();
         $orderItems = OrdersItem::with(['order', 'post'])
-        ->whereHas('post', function ($query) use ($trackableStatuses) {
-            $query->whereIn('statut', $trackableStatuses);
-        })
-        ->whereNotNull('shipment_id')
-        ->get();
+            ->whereNotNull('shipment_id')
+            ->get();
 
         if ($orderItems->isEmpty()) {
             $this->info('No pending shipments to track.');
@@ -62,11 +31,16 @@ class UpdateAramexStatus extends Command
 
         foreach ($orderItems as $item) {
             try {
+                // Once delivered, never touch this item/post again.
+                if ($item->post?->statut === 'livré' || $item->status === 'livré') {
+                    continue;
+                }
+
                 $payload = [
-                    'ClientInfo'               => $aramexService->getClientInfo(),
-                    'GetLastTrackingUpdateOnly' => true,
-                    'Shipments'                => [$item->shipment_id],
-                    'Transaction'              => [
+                    'ClientInfo'                 => $aramexService->getClientInfo(),
+                    'GetLastTrackingUpdateOnly'  => true,
+                    'Shipments'                  => [$item->shipment_id],
+                    'Transaction'                => [
                         'Reference1' => 'ORD-' . $item->order_id . '-ITEM-' . $item->id,
                         'Reference2' => '',
                         'Reference3' => '',
@@ -99,8 +73,8 @@ class UpdateAramexStatus extends Command
                             'shipment_id'        => $item->shipment_id,
                             'post_id'            => $item->post?->id,
                             'order_item_id'      => $item->id,
-                            'old_etat'           => $item->aramex_update_description, // previous raw Aramex description
-                            'new_etat'           => $latestEntry['UpdateDescription'], // new raw Aramex description
+                            'old_etat'           => $item->aramex_update_description,
+                            'new_etat'           => $latestEntry['UpdateDescription'],
                             'update_code'        => $latestEntry['UpdateCode'],
                             'update_description' => $latestEntry['UpdateDescription'],
                             'update_location'    => $latestEntry['UpdateLocation'] ?? null,
@@ -115,7 +89,7 @@ class UpdateAramexStatus extends Command
 
                         $this->info("Updated Item ID {$item->id} (Order: {$item->order_id}, Shipment: {$item->shipment_id}) to status: {$newItemStatus}");
 
-                        // Update Post statut
+                        // Update Post statut — only if not already livré (guarded above too)
                         if ($item->post) {
                             $item->post->update(['statut' => $newPostStatut]);
                             $this->info("Updated Post ID {$item->post->id} statut to: {$newPostStatut}");
@@ -156,9 +130,6 @@ class UpdateAramexStatus extends Command
         }
     }
 
-    /**
-     * orders_items.status
-     */
     protected function mapAramexToItemStatus($updateCode): string
     {
         return match ($updateCode) {
@@ -177,17 +148,11 @@ class UpdateAramexStatus extends Command
         };
     }
 
-    /**
-     * posts.statut — mirrors item status
-     */
     protected function mapAramexToPostStatut($updateCode): string
     {
         return $this->mapAramexToItemStatus($updateCode);
     }
 
-    /**
-     * orders.status — dropdown values
-     */
     protected function mapAramexToOrderStatus($updateCode): string
     {
         return match ($updateCode) {
