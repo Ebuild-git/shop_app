@@ -1301,7 +1301,7 @@
 "notifications.shipment_created_title": "Shipment created",
 "notifications.shipment_created_message": "A shipment has been created for order :order_id. Shipment ID: <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
   "notifications.order_shipped_title": "Your order has shipped",
-  "notifications.order_shipped_message": "Your order :order_id has shipped. Shipment ID(s): :shipment_ids.",
+  "notifications.order_shipped_message": "Your order :order_id has shipped. Shipment ID(s): <a href=\"/my-orders\" class=\"underlined-link\">:shipment_ids</a>.",
 
   "email2.shipment.subject": "Your shipment has been created",
   "email2.shipment.header_title": "Shipment Update",
@@ -1355,9 +1355,9 @@
   "email2.pickup_cancelled.footer_note": "This email was sent automatically, please do not reply.",
 
   "notifications.pickup_cancelled_title": "Pickup cancelled",
-  "notifications.pickup_cancelled_message": "The Aramex pickup for order :order_id (shipment :shipment_id) has been cancelled.",
+  "notifications.pickup_cancelled_message": "The Aramex pickup for order :order_id (Shipment ID <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>) has been cancelled.",
   "notifications.order_pickup_cancelled_title": "Shipment cancelled",
-  "notifications.order_pickup_cancelled_message": "Shipment :shipment_id for your order :order_id has been cancelled. A new pickup will be scheduled soon.",
+  "notifications.order_pickup_cancelled_message": "Shipment <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a> for your order :order_id has been cancelled. A new pickup will be scheduled soon.",
   "expedition_number": "Shipment Number"
 
 

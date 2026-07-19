@@ -1295,7 +1295,7 @@
 "notifications.shipment_created_title": "تم إنشاء الشحنة",
 "notifications.shipment_created_message": "تم إنشاء شحنة للطلب :order_id. رقم الشحنة: <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
 "notifications.order_shipped_title": "تم شحن طلبك",
-"notifications.order_shipped_message": "تم شحن طلبك :order_id. رقم (أرقام) الشحنة: :shipment_ids.",
+"notifications.order_shipped_message": "تم شحن طلبك :order_id. رقم (أرقام) الشحنة: <a href=\"/my-orders\" class=\"underlined-link\">:shipment_ids</a>.",
 "email2.shipment.subject": "تم إنشاء شحنتك",
 "email2.shipment.header_title": "تحديث الشحنة",
 "email2.shipment.header_subtitle": "توصيل آمن وقابل للتتبع",
@@ -1346,9 +1346,9 @@
   "email2.pickup_cancelled.footer_note": "تم إرسال هذا البريد الإلكتروني تلقائياً، يرجى عدم الرد عليه.",
 
   "notifications.pickup_cancelled_title": "تم إلغاء الاستلام",
-  "notifications.pickup_cancelled_message": "تم إلغاء عملية استلام أرامكس للطلب :order_id (الشحنة :shipment_id).",
+  "notifications.pickup_cancelled_message": "تم إلغاء عملية استلام أرامكس للطلب :order_id (رقم الشحنة <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>).",
   "notifications.order_pickup_cancelled_title": "تم إلغاء الشحنة",
-  "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة :shipment_id الخاصة بطلبك :order_id. سيتم جدولة عملية استلام جديدة قريباً.",
+  "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a> الخاصة بطلبك :order_id. سيتم جدولة عملية استلام جديدة قريباً.",
    "expedition_number": "رقم الشحنة"
 
 
