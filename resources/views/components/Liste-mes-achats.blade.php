@@ -28,7 +28,10 @@
                                 <span>CMD-{{ $achat->order_id }}</span>
                                 @if($achat->shipment_id)
                                     &nbsp;·&nbsp;
-                                    <span><i class="bi bi-box-seam"></i> {{ $achat->shipment_id }}</span>
+                                    <span>
+                                        <i class="bi bi-box-seam"></i>
+                                        <a href="{{ url('/my-orders') }}" class="underlined-link">{{ $achat->shipment_id }}</a>
+                                    </span>
                                 @endif
                             </div>
                         </td>
@@ -65,18 +68,6 @@
                                 <span class="text-danger">( {{ __('shopiner supprimé') }} )</span>
                             @endif
                         </td>
-                        {{-- <td class="text-end">
-                            @php
-                                $isCancelled = $achat->trashed() ||
-                                            optional($achat->order)->trashed();
-                            @endphp
-
-                            @if ($post->user_info?->deleted_at || $isCancelled)
-                                <span class="badge bg-danger">{{ __('commande annulée') }}</span>
-                            @else
-                                <x-StatutLivraison :statut="$post->statut"></x-StatutLivraison>
-                            @endif
-                        </td> --}}
                         <td class="text-end">
                             @php
                                 $isCancelled = $achat->trashed() ||
