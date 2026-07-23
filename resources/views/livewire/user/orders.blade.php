@@ -89,12 +89,12 @@
                                             </p>
                                         @endif
 
-                                        @if (!empty($entry['Comments']))
+                                        {{-- @if (!empty($entry['Comments']))
                                             <p class="mb-0 text-muted">
                                                 <i class="bi bi-chat-dots"></i>
                                                 {{ \App\Traits\TranslateTrait::TranslateText($entry['Comments']) }}
                                             </p>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
