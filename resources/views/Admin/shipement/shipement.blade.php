@@ -362,12 +362,31 @@
                                                     </button>
                                                 @else
                                                     <span class="badge bg-success mt-1">Synchronisé</span>
+                                                    {{-- @php
+                                                        $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
+                                                    @endphp --}}
                                                     @php
                                                         $pickupGuid = $order->items->where('vendor_id', $vendorId)->first()?->pickup_guid;
+
+                                                        $vendorShipmentIds = $order->items
+                                                            ->where('vendor_id', $vendorId)
+                                                            ->whereNotNull('shipment_id')
+                                                            ->pluck('shipment_id');
+
+                                                        $pickupAlreadyConfirmed = \App\Models\ShipmentStatusHistory::whereIn('shipment_id', $vendorShipmentIds)
+                                                            ->whereIn('update_code', ['SH012', 'SH314'])
+                                                            ->exists();
                                                     @endphp
-                                                    @if($pickupGuid)
+                                                    {{-- @if($pickupGuid)
                                                         <button class="btn btn-sm btn-outline-danger mt-1"
                                                             onclick="cancelPickup({{ $order->id }}, '{{ $pickupGuid }}')">
+                                                            <i class="bi bi-x-circle"></i> Annuler pickup
+                                                        </button>
+                                                    @endif --}}
+                                                    @if($pickupGuid)
+                                                        <button class="btn btn-sm btn-outline-danger mt-1"
+                                                            onclick="cancelPickup({{ $order->id }}, '{{ $pickupGuid }}')"
+                                                            @if($pickupAlreadyConfirmed) disabled title="Pickup déjà effectué par Aramex" @endif>
                                                             <i class="bi bi-x-circle"></i> Annuler pickup
                                                         </button>
                                                     @endif
