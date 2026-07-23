@@ -402,6 +402,14 @@
                                                 <i class="bi bi-clock-history"></i>
                                                 Historique
                                             </button>
+                                            @if($item->shipment_id)
+                                                <a href="{{ route('aramex.label.download', $item->shipment_id) }}"
+                                                target="_blank"
+                                                class="btn btn-sm btn-outline-success mt-1">
+                                                    <i class="bi bi-printer"></i>
+                                                    Label
+                                                </a>
+                                            @endif
                                             <button class="btn btn-sm btn-outline-danger mt-1"
                                                 onclick="confirmDeleteItem({{ $item->id }})">
                                                 <i class="bi bi-trash"></i>

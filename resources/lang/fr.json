@@ -1297,7 +1297,9 @@
 "notifications.shipment_created_message": "Une expédition a été créée pour la commande :order_id. Numéro d'expédition : <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>",
 "notifications.order_shipped_title": "Votre commande a été expédiée",
 "notifications.order_shipped_message": "Votre commande :order_id a été expédiée. Numéro(s) d'expédition : <a href=\"/my-orders\" class=\"underlined-link\">:shipment_ids</a>.",
-
+"notifications.shipment_action_required": "ACTION REQUISE",
+"notifications.shipment_action_text": "Imprimez votre étiquette d'expédition et collez-la sur votre colis avant le ramassage par Aramex.",
+"notifications.shipment_label_button": "Voir et imprimer l'étiquette d'expédition",
 "email2.shipment.subject": "Votre expédition a été créée",
 "email2.shipment.header_title": "Mise à jour de l'expédition",
 "email2.shipment.header_subtitle": "Livraison sécurisée et suivie",
@@ -1350,11 +1352,13 @@
 "notifications.pickup_cancelled_message": "Le pickup Aramex pour la commande :order_id (ID Expédition <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a>) a été annulé.",
 "notifications.order_pickup_cancelled_title": "Expédition annulée",
 "notifications.order_pickup_cancelled_message": "L'expédition <a href=\"/my-orders\" class=\"underlined-link\">:shipment_id</a> de votre commande :order_id a été annulée. Un nouveau pickup sera bientôt programmé.",
-"expedition_number": "Numéro d'expédition"
-
-
-
-
+"expedition_number": "Numéro d'expédition",
+"email2.shipment.next_step_title": "ÉTAPE SUIVANTE",
+"email2.shipment.next_step_text": "Veuillez imprimer votre étiquette d'expédition Shopin et la coller solidement sur votre colis avant de le remettre au livreur Aramex.",
+"email2.shipment.label_button": "VOIR ET IMPRIMER L'ÉTIQUETTE",
+"email2.shipment.label_required_note": "Cette étiquette est requise pour le ramassage.",
+"etiquette_expedition": "Étiquette d'expédition",
+"voir_telecharger_etiquette": "Voir et télécharger l'étiquette d'expédition"
 
 
 }

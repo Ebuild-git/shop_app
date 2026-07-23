@@ -16,6 +16,7 @@ class ShipmentConfirmee extends Mailable
     public $shipmentId;
     public $items;
     public $recipientType; // 'buyer' or 'seller'
+    public $labelUrl;
 
     public function __construct($recipient, $orderId, $shipmentId, $items, $recipientType)
     {
@@ -24,6 +25,7 @@ class ShipmentConfirmee extends Mailable
         $this->shipmentId    = $shipmentId;
         $this->items         = $items;
         $this->recipientType = $recipientType;
+        $this->labelUrl      = route('aramex.label.download', ['shipmentId' => $shipmentId]);
     }
 
     public function build()
@@ -36,6 +38,9 @@ class ShipmentConfirmee extends Mailable
 
         return $this->from('contact@shopin.ma', 'SHOPIN')
                     ->subject(__('email2.shipment.subject'))
-                    ->view($view);
+                    ->view($view)
+                    ->with([
+                        'labelUrl' => $this->labelUrl,
+                    ]);
     }
 }

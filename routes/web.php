@@ -82,6 +82,7 @@ Route::get('/count_panier', [ControllersHomeController::class, 'count_panier'])-
 Route::get('/like', [ControllersHomeController::class, 'like'])->name('like');
 
 Route::get('/check-cin-status', [ControllersHomeController::class, 'checkCinStatus']);
+Route::get('/aramex/label/{shipmentId}', [AdminController::class, 'downloadAramexLabel'])->name('aramex.label.download');
 
 
 Route::group(['middleware' => ['auth', 'loggedOut']], function () {

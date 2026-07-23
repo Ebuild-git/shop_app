@@ -445,6 +445,7 @@
                     <th>{{ __('last_price_update') }}</th>
                 @endif
                 <th>{{ __('expedition_number') }}</th>
+                <th>{{ __('etiquette_expedition') }}</th>
                 <th>{{ __('ad_status') }}</th>
                 @if(!$showRemainingTimeColumn)
                     <th>{{ __('deletion_reason') }}</th>
@@ -535,17 +536,27 @@
                             @endif
                         </td>
                     @endif
-                    @if($showRemainingTimeColumn)
-                        <td>
-                            @if($item->latestShipmentHistory?->shipment_id)
-                                <a href="{{ url('/my-orders') }}" class="underlined-link">
-                                    {{ $item->latestShipmentHistory->shipment_id }}
-                                </a>
-                            @else
-                                <span class="dash">—</span>
-                            @endif
-                        </td>
-                    @endif
+                    <td>
+                        @if($item->latestShipmentHistory?->shipment_id)
+                            <a href="{{ url('/my-orders') }}" class="underlined-link">
+                                {{ $item->latestShipmentHistory->shipment_id }}
+                            </a>
+                        @else
+                            <span class="dash">—</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($item->latestShipmentHistory?->shipment_id)
+                            <a href="{{ route('aramex.label.download', ['shipmentId' => $item->latestShipmentHistory->shipment_id]) }}"
+                            target="_blank"
+                            class="btn-reduce"
+                            title="{{ __('voir_telecharger_etiquette') }}">
+                                <i class="bi bi-printer"></i>
+                            </a>
+                        @else
+                            <span class="dash">—</span>
+                        @endif
+                    </td>
                     <td>
                         @php
                         $isUserDeleted = $item->user_info && $item->user_info->deleted_at;

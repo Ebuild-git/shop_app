@@ -22,6 +22,10 @@ class OrdersItem extends Model
         'status', 'shipment_id', 'aramex_update_description', 'pickup_cancelled_at', 'cancelled_pickup_guid', 'cancelled_shipment_id', 'cancelled_pickup_id', 'note'
     ];
 
+    protected $casts = [
+        'label_data' => 'array',
+    ];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id');

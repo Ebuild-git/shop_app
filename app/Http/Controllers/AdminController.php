@@ -29,6 +29,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\App;
 use App\Mail\ShipmentConfirmee;
 use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
 
 class AdminController extends Controller
 {
@@ -347,168 +350,6 @@ class AdminController extends Controller
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
     }
 
-    // public function syncWithAramex(Request $request, $id)
-    // {
-    //     $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
-
-    //     if (!$order) {
-    //         return response()->json(['success' => false, 'message' => 'Commande introuvable.']);
-    //     }
-
-    //     // Only present when the click came from a specific vendor's row
-    //     $requestedVendorId = $request->input('vendor_id');
-
-    //     $unsyncedItems = $order->items->filter(function ($item) use ($requestedVendorId) {
-    //         if ($item->shipment_id) {
-    //             return false;
-    //         }
-    //         if ($requestedVendorId !== null && (int) $item->vendor_id !== (int) $requestedVendorId) {
-    //             return false;
-    //         }
-    //         return true;
-    //     });
-
-    //     if ($unsyncedItems->isEmpty()) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $requestedVendorId
-    //                 ? 'Les articles de ce vendeur sont déjà synchronisés.'
-    //                 : 'Tous les articles de cette commande sont déjà synchronisés.',
-    //         ]);
-    //     }
-
-    //     $aramex            = new AramexService();
-    //     $results           = [];
-    //     $itemsByVendor     = $unsyncedItems->groupBy('vendor_id');
-    //     $shipmentsForBuyer = [];
-
-    //     foreach ($itemsByVendor as $vId => $vendorItems) {
-    //         try {
-    //             $payload  = $this->buildShipmentPayloadItem($order, $vendorItems);
-    //             $response = $aramex->createPickup($payload);
-
-    //             $hasErrors = $response['HasErrors'] ?? true;
-
-    //             if (!$hasErrors) {
-    //                 $processedPickup    = $response['ProcessedPickup'] ?? [];
-    //                 $pickupId           = $processedPickup['ID']   ?? null;
-    //                 $pickupGuid         = $processedPickup['GUID'] ?? null;
-    //                 $processedShipments = $processedPickup['ProcessedShipments'] ?? [];
-
-    //                 $processedShipment = $processedShipments[0] ?? [];
-    //                 $shipmentId        = $processedShipment['ID'] ?? null;
-
-    //                 if (!$pickupId || !$pickupGuid || !$shipmentId) {
-    //                     \Log::warning('⚠️ Incomplete Aramex response', [
-    //                         'order_id'    => $order->id,
-    //                         'vendor_id'   => $vId,
-    //                         'pickup_id'   => $pickupId,
-    //                         'pickup_guid' => $pickupGuid,
-    //                         'shipment_id' => $shipmentId,
-    //                         'response'    => $response,
-    //                     ]);
-    //                 }
-
-    //                 $shipmentHasErrors = $processedShipment['HasErrors'] ?? false;
-    //                 if ($shipmentHasErrors) {
-    //                     $msg = collect($processedShipment['Notifications'] ?? [])->pluck('Message')->implode('; ');
-    //                     \Log::warning('⚠️ Processed shipment has errors', [
-    //                         'order_id'  => $order->id,
-    //                         'vendor_id' => $vId,
-    //                         'message'   => $msg,
-    //                     ]);
-    //                 }
-
-    //                 foreach ($vendorItems->values() as $item) {
-    //                     $item->pickup_id   = $pickupId;
-    //                     $item->pickup_guid = $pickupGuid;
-    //                     $item->shipment_id = $shipmentId;
-    //                     $item->status      = 'expédiée';
-    //                     $item->save();
-
-    //                     $results[] = [
-    //                         'item_id'     => $item->id,
-    //                         'vendor_id'   => $vId,
-    //                         'success'     => true,
-    //                         'pickup_id'   => $pickupId,
-    //                         'pickup_guid' => $pickupGuid,
-    //                         'shipment_id' => $shipmentId,
-    //                     ];
-    //                 }
-
-    //                 if ($shipmentId && !$shipmentHasErrors) {
-    //                     $vendor = $vendorItems->first()->vendor;
-    //                     $this->notifySellerShipment($vendor, $order, $shipmentId, $vendorItems);
-
-    //                     $shipmentsForBuyer[] = [
-    //                         'vendor'      => $vendor->username ?? ($vendor->firstname . ' ' . $vendor->lastname),
-    //                         'shipment_id' => $shipmentId,
-    //                     ];
-    //                 }
-    //             } else {
-    //                 $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
-
-    //                 \Log::error('❌ Aramex createPickup returned HasErrors=true', [
-    //                     'order_id'  => $order->id,
-    //                     'vendor_id' => $vId,
-    //                     'payload'   => $payload,
-    //                     'response'  => $response,
-    //                 ]);
-
-    //                 foreach ($vendorItems as $item) {
-    //                     $results[] = [
-    //                         'item_id'   => $item->id,
-    //                         'vendor_id' => $vId,
-    //                         'success'   => false,
-    //                         'message'   => $msg ?: 'Erreur inconnue retournée par Aramex.',
-    //                     ];
-    //                 }
-    //             }
-    //         } catch (\Exception $e) {
-    //             \Log::error('🔥 Exception during Aramex sync', [
-    //                 'order_id'  => $order->id,
-    //                 'vendor_id' => $vId,
-    //                 'error'     => $e->getMessage(),
-    //                 'trace'     => $e->getTraceAsString(),
-    //                 'payload'   => $payload ?? null,
-    //             ]);
-    //             foreach ($vendorItems as $item) {
-    //                 $results[] = [
-    //                     'item_id'   => $item->id,
-    //                     'vendor_id' => $vId,
-    //                     'success'   => false,
-    //                     'message'   => $e->getMessage(),
-    //                 ];
-    //             }
-    //         }
-    //     }
-
-    //     $batchSucceeded = collect($results)->every(fn($r) => $r['success']);
-
-    //     // IMPORTANT: only mark the whole ORDER as "expédiée" once every vendor's
-    //     // items (not just the ones processed in this call) have a shipment_id.
-    //     $order->refresh();
-    //     $allOrderItemsSynced = $order->items->every(fn($item) => !is_null($item->shipment_id));
-
-    //     if ($allOrderItemsSynced) {
-    //         $order->status = 'expédiée';
-    //         $order->save();
-    //     }
-
-    //     if (!empty($shipmentsForBuyer)) {
-    //         $this->notifyBuyerShipment($order, $shipmentsForBuyer);
-    //     }
-
-    //     return response()->json([
-    //         'success' => $batchSucceeded,
-    //         'message' => $batchSucceeded
-    //             ? ($requestedVendorId
-    //                 ? 'Synchronisation Aramex réussie pour ce vendeur.'
-    //                 : 'Synchronisation Aramex réussie pour tous les articles.')
-    //             : 'Certains articles n\'ont pas pu être synchronisés avec Aramex.',
-    //         'results' => $results,
-    //     ]);
-    // }
     public function syncWithAramex(Request $request, $id)
     {
         $order = Order::with(['items.post', 'items.vendor', 'buyer'])->find($id);
@@ -626,6 +467,12 @@ class AdminController extends Controller
                     if ($shipmentId && !$shipmentHasErrors) {
                         $vendor = $vendorItems->first()->vendor;
                         $this->notifySellerShipment($vendor, $order, $shipmentId, $vendorItems);
+
+                        $labelData = $this->buildLabelData($order, $vendorItems, $shipmentId);
+                        foreach ($vendorItems->values() as $item) {
+                            $item->label_data = $labelData;
+                            $item->save();
+                        }
 
                         $shipmentsForBuyer[] = [
                             'vendor'      => $vendor->username ?? ($vendor->firstname . ' ' . $vendor->lastname),
@@ -959,20 +806,76 @@ class AdminController extends Controller
         ];
     }
 
+    private function buildLabelData($order, $vendorItems, $shipmentId)
+    {
+        $buyer         = $order->buyer;
+        $vendor        = $vendorItems->first()->vendor;
+        $itemCount     = $vendorItems->count();
+        $buyerAddress  = $buyer->addresses()->where('is_default', true)->first();
+        $vendorAddress = $vendor->addresses()->where('is_default', true)->first();
+
+        $vendorCity = $vendorAddress ? ($vendorAddress->city?->name ?? ($vendor->city?->name ?? '')) : ($vendor->city?->name ?? '');
+        $buyerCity  = $buyerAddress ? ($buyerAddress->city?->name ?? ($buyer->city?->name ?? '')) : ($buyer->city?->name ?? '');
+
+        $descriptionOfGoods = mb_substr(
+            $vendorItems->map(fn($i) => $i->post?->titre ?? 'Article')->unique()->implode(', '),
+            0, 100
+        );
+
+        $deliveryFee = $vendorItems->first()->delivery_fee ?? 0;
+        $itemsTotal  = $vendorItems->sum(fn($i) => $i->post ? $i->post->getPrix() : 0);
+        $codAmount   = number_format($itemsTotal + $deliveryFee, 3, '.', '');
+
+        return [
+            'shipment_id'   => $shipmentId,
+            'origin'        => trim($vendorCity),
+            'destination'   => trim($buyerCity),
+            'product'       => 'DOM',
+            'description'   => $descriptionOfGoods,
+            'customs_value' => '00',
+            'goods_origin'  => 'MA',
+            'cod_value'     => $codAmount,
+            'pcs'           => $itemCount,
+            'shipper' => [
+                'code'    => 'U' . ($vendor->id + 1000),
+                'name'    => $vendor->username,
+                'brand'   => $vendor->username,
+                'city'    => trim($vendorCity),
+                'country' => 'Morocco',
+            ],
+            'consignee' => [
+                'code' => 'U' . ($buyer->id + 1000),
+                'name' => $buyer->username,
+            ],
+            'services' => 'CODs',
+        ];
+    }
+
     private function notifySellerShipment($vendor, Order $order, $shipmentId, $vendorItems)
     {
         $vendorLocale = $vendor->locale ?? config('app.locale');
         app()->setLocale($vendorLocale);
+
+        $labelUrl = route('aramex.label.download', ['shipmentId' => $shipmentId]);
 
         $notification = new notifications();
         $notification->titre = __('notifications.shipment_created_title');
         $notification->id_user_destination = $vendor->id;
         $notification->type = "shipment_created";
         $notification->url = "/informations?section=commandes";
+        // $notification->message = __('notifications.shipment_created_message', [
+        //     'shipment_id' => $shipmentId,
+        //     'order_id'    => 'CMD-' . $order->id,
+        // ]);
         $notification->message = __('notifications.shipment_created_message', [
-            'shipment_id' => $shipmentId,
-            'order_id'    => 'CMD-' . $order->id,
-        ]);
+        'shipment_id' => $shipmentId,
+        'order_id'    => 'CMD-' . $order->id,
+        ]) . '<br><br>' .
+        '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
+        __('notifications.shipment_action_text') . '<br><br>' .
+        '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
+            __('notifications.shipment_label_button') .
+        '</a>';
         $notification->save();
 
         event(new UserEvent($vendor->id));
@@ -986,13 +889,29 @@ class AdminController extends Controller
         }
 
         $fcmService = app(\App\Services\FcmService::class);
+        // $fcmService->sendToUser(
+        //     $vendor->id,
+        //     __('notifications.shipment_created_title'),
+        //     strip_tags(__('notifications.shipment_created_message', [
+        //         'shipment_id' => $shipmentId,
+        //         'order_id'    => 'CMD-' . $order->id,
+        //     ])),
+        //     [
+        //         'type'            => 'alerte',
+        //         'notification_id' => $notification->id,
+        //         'destination'     => 'user',
+        //         'action'          => 'shipment_created',
+        //         'order_id'        => $order->id,
+        //         'shipment_id'     => $shipmentId,
+        //     ]
+        // );
         $fcmService->sendToUser(
             $vendor->id,
             __('notifications.shipment_created_title'),
             strip_tags(__('notifications.shipment_created_message', [
                 'shipment_id' => $shipmentId,
                 'order_id'    => 'CMD-' . $order->id,
-            ])),
+            ])) . ' ' . __('notifications.shipment_label_button') . ': ' . $labelUrl,
             [
                 'type'            => 'alerte',
                 'notification_id' => $notification->id,
@@ -1000,6 +919,7 @@ class AdminController extends Controller
                 'action'          => 'shipment_created',
                 'order_id'        => $order->id,
                 'shipment_id'     => $shipmentId,
+                'label_url'       => $labelUrl,
             ]
         );
 
@@ -1210,5 +1130,62 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+    }
+
+    public function downloadAramexLabel($shipmentId)
+    {
+        $item = OrdersItem::where('shipment_id', $shipmentId)->whereNotNull('label_data')->first();
+
+        if (!$item) {
+            return response()->json(['success' => false, 'message' => 'Étiquette introuvable.'], 404);
+        }
+
+        $data = $item->label_data;
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+        if (!is_array($data)) {
+            return response()->json(['success' => false, 'message' => 'Données d\'étiquette invalides.'], 422);
+        }
+
+        $data['print_date']  = now()->format('d/m/Y');
+        $data['shipment_id'] = $shipmentId;
+
+        $generator = new BarcodeGeneratorPNG();
+        $barcodePng = $generator->getBarcode((string) $shipmentId, $generator::TYPE_CODE_128, 2, 50);
+        $data['barcode_base64'] = 'data:image/png;base64,' . base64_encode($barcodePng);
+
+        $pdf = Pdf::loadView('pdf.label', $data);
+
+        // Render to a temp file at the generous "safe" size first
+        $tmpDir     = storage_path('app/tmp');
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0775, true);
+        }
+        $rawPath     = $tmpDir . "/aramex-raw-{$shipmentId}-" . uniqid() . '.pdf';
+        $croppedPath = $tmpDir . "/aramex-cropped-{$shipmentId}-" . uniqid() . '.pdf';
+
+        file_put_contents($rawPath, $pdf->output());
+
+        // Auto-crop to the actual content bounding box — eliminates both
+        // cropped content (page too small) and trailing blank space (page too big)
+        // regardless of how long the description/shipper name/etc. turn out to be.
+        $cmd = sprintf(
+            'pdfcrop --margins "10 10 10 10" %s %s 2>&1',
+            escapeshellarg($rawPath),
+            escapeshellarg($croppedPath)
+        );
+        exec($cmd, $output, $exitCode);
+
+        $finalPath = ($exitCode === 0 && file_exists($croppedPath)) ? $croppedPath : $rawPath;
+        $content   = file_get_contents($finalPath);
+
+        @unlink($rawPath);
+        @unlink($croppedPath);
+
+        return response($content, 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => "attachment; filename=\"aramex-label-{$shipmentId}.pdf\"",
+        ]);
     }
 }
