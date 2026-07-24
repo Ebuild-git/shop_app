@@ -543,13 +543,48 @@ class ShopController extends Controller
             'total_delivery_fees' => $totalDeliveryFees,
         ]);
 
-        $this->sendBuyerNotification($user, $order);
+        // $this->sendBuyerNotification($user, $order);
+        try {
+            $this->sendBuyerNotification($user, $order);
+        } catch (\Throwable $e) {
+            \Log::error('sendBuyerNotification failed', [
+                'order_id' => $order->id,
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
-        $this->notifySellers($user, $articles_panier, $order);
+        try {
+            $this->notifySellers($user, $articles_panier, $order);
+        } catch (\Throwable $e) {
+            \Log::error('notifySellers failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
-        $this->notifyAdminAboutPurchase($user, count($articles_panier));
+        // $this->notifySellers($user, $articles_panier, $order);
 
-        $this->sendConfirmationEmail($user, $articles_panier, $order);
+        // $this->notifyAdminAboutPurchase($user, count($articles_panier));
+        try {
+            $this->notifyAdminAboutPurchase($user, count($articles_panier));
+        } catch (\Throwable $e) {
+            \Log::error('notifyAdminAboutPurchase failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        // $this->sendConfirmationEmail($user, $articles_panier, $order);
+        try {
+            $this->sendConfirmationEmail($user, $articles_panier, $order);
+        } catch (\Throwable $e) {
+            \Log::error('sendConfirmationEmail failed', [
+                'order_id' => $order->id,
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         UserCart::where('user_id', $user->id)->delete();
 
@@ -623,9 +658,20 @@ class ShopController extends Controller
             if (empty($articlesPourCeVendeur))
                 continue;
 
-            $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $buyer, $order);
+            // $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $buyer, $order);
 
-            $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
+            // $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
+            try {
+                $this->sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $buyer, $order);
+            } catch (\Throwable $e) {
+                \Log::error('sendSellerEmail failed', ['seller_id' => $seller->id, 'error' => $e->getMessage()]);
+            }
+
+            try {
+                $this->createSellerNotification($seller, $buyerPseudo, $articlesPourCeVendeur);
+            } catch (\Throwable $e) {
+                \Log::error('createSellerNotification failed', ['seller_id' => $seller->id, 'error' => $e->getMessage()]);
+            }
         }
     }
 
