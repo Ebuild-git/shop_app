@@ -1366,7 +1366,8 @@
 "email2.shipment.label_button": "VIEW & PRINT SHIPPING LABEL",
 "email2.shipment.label_required_note": "This label is required for the pickup.",
 "etiquette_expedition": "Shipping Label",
-"voir_telecharger_etiquette": "View and download shipping label"
+"voir_telecharger_etiquette": "View and download shipping label",
+"shipping_address": "Shipping Address"
 
 
 }

@@ -1358,7 +1358,8 @@
 "email2.shipment.label_button": "عرض وطباعة ملصق الشحن",
 "email2.shipment.label_required_note": "هذا الملصق مطلوب لعملية الاستلام.",
 "etiquette_expedition": "ملصق الشحن",
-"voir_telecharger_etiquette": "عرض وتحميل ملصق الشحن"
+"voir_telecharger_etiquette": "عرض وتحميل ملصق الشحن",
+"shipping_address": "عنوان الشحن"
 
 
 }

@@ -389,11 +389,16 @@
                                             {{ __('orders.track_my_orders') }}
                                         </a>
                                     </li>
-<li>
+                                    <li>
                                          <a href="/informations" class=" medium link-red text-medium">
                                              {{ __('my_account') }}
                                          </a>
                                      </li>
+                                     <li>
+                                    <a href="https://shopin.ebuild.website/checkout?step=2" class=" medium link-red text-medium">
+                                        {{ __('shipping_address') }}
+                                    </a>
+                                </li>
                                      {{-- <li>
                                          <a href="{{ route('blocked_shopiners') }}" class=" medium link-red text-medium">
                                              <i class="bi bi-slash-circle me-1"></i> {{ __('Shopiners Bloqués') }}
@@ -543,11 +548,16 @@
                                            {{ __('orders.track_my_orders') }}
                                         </a>
                                     </li>
-<li>
+                                    <li>
                                          <a href="/informations" class="medium link-red text-medium">
                                              {{ __('my_account') }}
                                          </a>
                                      </li>
+                                     <li>
+                                        <a href="https://shopin.ebuild.website/checkout?step=2" class=" medium link-red text-medium">
+                                            {{ __('shipping_address') }}
+                                        </a>
+                                    </li>
                                      <li>
                                          <a href="{{ route('blocked_shopiners') }}" class="medium link-red text-medium">
                                              <i class="bi bi-slash-circle me-1"></i> {{ __('Shopiners Bloqués') }}

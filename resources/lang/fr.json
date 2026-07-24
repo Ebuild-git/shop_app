@@ -1358,7 +1358,8 @@
 "email2.shipment.label_button": "VOIR ET IMPRIMER L'ÉTIQUETTE",
 "email2.shipment.label_required_note": "Cette étiquette est requise pour le ramassage.",
 "etiquette_expedition": "Étiquette d'expédition",
-"voir_telecharger_etiquette": "Voir et télécharger l'étiquette d'expédition"
+"voir_telecharger_etiquette": "Voir et télécharger l'étiquette d'expédition",
+"shipping_address": "Adresse de livraison"
 
 
 }
