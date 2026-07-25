@@ -150,11 +150,18 @@ class UpdateInformations extends Component
         $this->dispatch('alert', ['message' => __('info_updated'), 'type' => 'info']);
 
         $this->dispatch('refreshAlluser-information');
+        // if (session()->has('redirect_after_profile')) {
+        //     $this->redirect(
+        //         session()->pull('redirect_after_profile'),
+        //         navigate: true
+        //     );
+        // }
         if (session()->has('redirect_after_profile')) {
             $this->redirect(
                 session()->pull('redirect_after_profile'),
                 navigate: true
             );
+            return;
         }
         $this->dispatch('redirect-home');
 
