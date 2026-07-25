@@ -4997,3 +4997,32 @@ input[type=number] {
 [dir="rtl"] .address-card__row {
     direction: rtl;
 }
+
+
+.btn-label-notification {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background-color: #008080;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none !important;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.btn-label-notification:hover {
+    background-color: #0a3d3d;
+    color: #ffffff !important;
+}
+
+.btn-label-notification::before {
+    content: "\f02f"; /* Bootstrap Icons printer glyph */
+    font-family: "bootstrap-icons";
+    font-size: 1rem;
+}
