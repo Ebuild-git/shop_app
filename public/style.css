@@ -4999,6 +4999,14 @@ input[type=number] {
 }
 
 
+.notif-action-box {
+    background-color: rgba(0, 128, 128, 0.08); /* light tint of #008080 */
+    border: 1px solid rgba(0, 128, 128, 0.2);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 4px;
+}
+
 .btn-label-notification {
     display: flex;
     align-items: center;

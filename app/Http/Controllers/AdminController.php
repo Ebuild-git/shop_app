@@ -870,11 +870,13 @@ class AdminController extends Controller
             'shipment_id' => $shipmentId,
             'order_id'    => 'CMD-' . $order->id,
         ]) . '<br><br>' .
-        '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
-        __('notifications.shipment_action_text') . '<br><br>' .
-        '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
-            '<i class="bi bi-printer"></i> ' . __('notifications.shipment_label_button') .
-        '</a>';
+        '<div class="notif-action-box">' .
+            '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
+            __('notifications.shipment_action_text') . '<br><br>' .
+            '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
+                '<i class="bi bi-printer"></i> ' . __('notifications.shipment_label_button') .
+            '</a>' .
+        '</div>';
         $notification->save();
 
         event(new UserEvent($vendor->id));
