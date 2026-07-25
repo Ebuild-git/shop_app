@@ -248,5 +248,12 @@
                 window.location.href = "{{ route('home') }}";
             }, 2500);
         });
+
+        Livewire.on('redirect-back', (event) => {
+            const target = Array.isArray(event) ? event[0]?.url : event.url;
+            setTimeout(() => {
+                window.location.href = target;
+            }, 2500);
+        });
     });
 </script>

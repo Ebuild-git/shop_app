@@ -157,10 +157,7 @@ class UpdateInformations extends Component
         //     );
         // }
         if (session()->has('redirect_after_profile')) {
-            $this->redirect(
-                session()->pull('redirect_after_profile'),
-                navigate: true
-            );
+            $this->dispatch('redirect-back', url: session()->pull('redirect_after_profile'));
             return;
         }
         $this->dispatch('redirect-home');
