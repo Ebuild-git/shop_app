@@ -23,6 +23,10 @@ class UpdateInformations extends Component
 
     public function mount()
     {
+        if (request()->filled('redirect_to')) {
+            session(['redirect_after_profile' => request()->query('redirect_to')]);
+        }
+
         $user = User::find(Auth::id());
         $this->email = $user->email;
         $this->ville = $user->ville;
