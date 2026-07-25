@@ -6,7 +6,7 @@
                     <span class="address-card__icon">
                         <i class="bi bi-geo-alt-fill"></i>
                     </span>
-                    <h5 class="address-card__title mb-0">{{ __('current_address') }}</h5>
+                    <h5 class="address-card__title mb-0">{{ __('current_address22') }}</h5>
                 </div>
 
                 <a href="{{ url('informations?section=perso') }}" class="address-card__edit-btn" title="{{ __('edit') }}">

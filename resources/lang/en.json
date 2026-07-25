@@ -340,6 +340,7 @@
     "save_button": "Save",
     "select_region": "Select a region",
     "current_address": "Current delivery address",
+    "current_address22": "Current address",
     "gender_male": "Mr.",
     "gender_female": "Mrs.",
     "incomplete_address": "Incomplete address",
