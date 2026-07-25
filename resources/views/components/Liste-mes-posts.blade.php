@@ -497,13 +497,13 @@
                         <td>
                             {{ $item->old_prix ?? $item->prix }} <sup>{{ __('currency') }}</sup>
                         </td>
-                        <td>
+                        {{-- <td>
                             @php
                                 $basePx = ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix()) ? $item->getOldPrix() : $item->getPrix();
                             @endphp
                             <span class="price-new">{{ $basePx }} <sup>{{ __('currency') }}</sup></span>
-                        </td>
-                        {{-- <td>
+                        </td> --}}
+                        <td>
                             @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                                 <span class="price-new">{{ $item->getPrix() }} <sup>{{ __('currency') }}</sup></span>
                                 <br>
@@ -513,7 +513,7 @@
                             @else
                                 <span class="price-new">{{ $item->getPrix() }} <sup>{{ __('currency') }}</sup></span>
                             @endif
-                        </td> --}}
+                        </td>
 
                         <td>
                             <div class="date-cell">
