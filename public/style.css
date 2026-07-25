@@ -5032,3 +5032,9 @@ input[type=number] {
 .btn-label-notification i {
     font-size: 1rem;
 }
+.price-old {
+    color: #888;
+    font-weight: 600;
+    font-size: 12px;
+    text-decoration: line-through;
+}
