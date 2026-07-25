@@ -141,7 +141,7 @@
                 @enderror
             </div>
         </div> --}}
-        <div class="col-sm-4">
+        {{-- <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('ville') }}</label>
                 <select class="form-control border-r shadow-none" wire:model="city_id">
@@ -154,7 +154,23 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
+        </div> --}}
+        <div class="col-sm-4">
+    <div class="form-group">
+        <label>{{ __('ville') }}</label>
+        <div wire:ignore>
+            <select class="form-control border-r shadow-none" id="city-select">
+                <option value="">{{ __('select_city') }}</option>
+                @foreach(\App\Models\City::all() as $city)
+                    <option value="{{ $city->id }}" @selected($city->id == $city_id)>{{ $city->name }}</option>
+                @endforeach
+            </select>
         </div>
+        @error('city_id')
+            <small class="form-text text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+</div>
         <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('rue') }}</label>
@@ -255,5 +271,33 @@
                 window.location.href = target;
             }, 2500);
         });
+    });
+</script>
+<script>
+    let citySelectChoices = null;
+
+    function initCitySelect() {
+        const el = document.getElementById('city-select');
+        if (!el || el.closest('.choices')) return; // already initialized
+
+        citySelectChoices = new Choices(el, {
+            searchEnabled: true,
+            searchPlaceholderValue: "{{ __('select_city') }}",
+            itemSelectText: '',
+            shouldSort: false,
+            placeholder: true,
+        });
+
+        el.addEventListener('change', function () {
+            @this.set('city_id', el.value);
+        });
+    }
+
+    document.addEventListener('livewire:initialized', () => {
+        initCitySelect();
+    });
+
+    document.addEventListener('livewire:navigated', () => {
+        initCitySelect();
     });
 </script>
