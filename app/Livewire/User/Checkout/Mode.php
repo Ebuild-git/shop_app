@@ -31,35 +31,10 @@ class Mode extends Component
     // public $frais  = 0 ;
     protected $lastShipmentId = null;
 
-
-    // public function mount()
-    // {
-    //     $this->user = Auth::user();
-    //     $secondAddress = $this->user->addresses()->where('is_default', true)->first();
-
-    //     if ($secondAddress) {
-    //         $this->user->address = $secondAddress->city;
-    //         $this->user->rue = $secondAddress->street;
-    //         $this->user->nom_batiment = $secondAddress->building_name;
-    //         $this->user->etage = $secondAddress->floor;
-    //         $this->user->num_appartement = $secondAddress->apartment_number;
-    //         $this->user->phone_number = $secondAddress->phone_number;
-
-    //         $this->user->setRelation('city', $secondAddress->city);
-
-    //         $region = $secondAddress->regionExtra;
-
-    //         if ($region) {
-    //             $this->user->region_info = $region;
-    //         }
-    //     }
-    // }
-
     public function mount()
     {
         $this->user = Auth::user();
     }
-
 
     public function render()
     {

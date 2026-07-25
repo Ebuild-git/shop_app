@@ -553,8 +553,7 @@ class AdminController extends Controller
         $buyer         = $order->buyer;
         $vendor        = $vendorItems->first()->vendor;
         $itemCount     = $vendorItems->count();
-        $buyerAddress  = $buyer->addresses()->where('is_default', true)->first();
-        $vendorAddress = $vendor->addresses()->where('is_default', true)->first();
+
 
         $now       = new \DateTime();
         $due       = (new \DateTime())->modify('+4 days');
@@ -568,16 +567,6 @@ class AdminController extends Controller
         );
 
         // Buyer fields
-        // $buyerLine1     = $buyerAddress
-        //     ? ($buyerAddress->street ?? $buyer->rue ?? ($buyer->city?->name ?? ''))
-        //     : ($buyer->rue ?? ($buyer->city?->name ?? ''));
-        // $buyerCity      = $buyerAddress
-        //     ? ($buyerAddress->city?->name ?? ($buyer->city?->name ?? ''))
-        //     : ($buyer->city?->name ?? '');
-        // $buyerBuilding  = $buyerAddress ? ($buyerAddress->building_name    ?? $buyer->nom_batiment    ?? '') : ($buyer->nom_batiment    ?? '');
-        // $buyerFloor     = $buyerAddress ? ($buyerAddress->floor            ?? $buyer->etage           ?? '') : ($buyer->etage           ?? '');
-        // $buyerApartment = $buyerAddress ? ($buyerAddress->apartment_number ?? $buyer->num_appartement ?? '') : ($buyer->num_appartement ?? '');
-        // $buyerPhone     = $buyerAddress ? ($buyerAddress->phone_number     ?? $buyer->phone_number)          : $buyer->phone_number;
 
         $buyerLine1     = $buyer->rue ?? ($buyer->city?->name ?? '');
         $buyerCity      = $buyer->city?->name ?? '';
@@ -587,17 +576,6 @@ class AdminController extends Controller
         $buyerPhone     = $buyer->phone_number;
 
         // Vendor fields
-        // $vendorLine1     = $vendorAddress
-        //     ? ($vendorAddress->street ?? $vendor->rue ?? ($vendor->city?->name ?? ''))
-        //     : ($vendor->rue ?? ($vendor->city?->name ?? ''));
-        // $vendorCity      = $vendorAddress
-        //     ? ($vendorAddress->city?->name ?? ($vendor->city?->name ?? ''))
-        //     : ($vendor->city?->name ?? '');
-        // $vendorBuilding  = $vendorAddress ? ($vendorAddress->building_name    ?? $vendor->nom_batiment    ?? '') : ($vendor->nom_batiment    ?? '');
-        // $vendorFloor     = $vendorAddress ? ($vendorAddress->floor            ?? $vendor->etage           ?? '') : ($vendor->etage           ?? '');
-        // $vendorApartment = $vendorAddress ? ($vendorAddress->apartment_number ?? $vendor->num_appartement ?? '') : ($vendor->num_appartement ?? '');
-        // $vendorPhone     = $vendorAddress ? ($vendorAddress->phone_number     ?? $vendor->phone_number)          : $vendor->phone_number;
-
         $vendorLine1     = $vendor->rue ?? ($vendor->city?->name ?? '');
         $vendorCity      = $vendor->city?->name ?? '';
         $vendorBuilding  = $vendor->nom_batiment ?? '';
@@ -825,11 +803,6 @@ class AdminController extends Controller
         $buyer         = $order->buyer;
         $vendor        = $vendorItems->first()->vendor;
         $itemCount     = $vendorItems->count();
-        // $buyerAddress  = $buyer->addresses()->where('is_default', true)->first();
-        // $vendorAddress = $vendor->addresses()->where('is_default', true)->first();
-
-        // $vendorCity = $vendorAddress ? ($vendorAddress->city?->name ?? ($vendor->city?->name ?? '')) : ($vendor->city?->name ?? '');
-        // $buyerCity  = $buyerAddress ? ($buyerAddress->city?->name ?? ($buyer->city?->name ?? '')) : ($buyer->city?->name ?? '');
 
         $vendorCity = $vendor->city?->name ?? '';
         $buyerCity  = $buyer->city?->name ?? '';
