@@ -167,7 +167,7 @@
                     {{-- <button type="button" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}" data-bs-toggle="modal" data-bs-target="#editAddressModal">
                         <i class="bi bi-pencil-square"></i>
                     </button> --}}
-                    <a href="{{ url('informations?section=perso') }}?redirect_to={{ urlencode(url()->full()) }}" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}">
+                    <a href="{{ url('informations?section=perso') }}&redirect_to={{ urlencode(url()->full()) }}" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}">
                         <i class="bi bi-pencil-square"></i>
                     </a>
 

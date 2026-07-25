@@ -13,7 +13,7 @@
                     <i class="bi bi-pencil-square"></i>
                     <span class="d-none d-sm-inline">{{ __('update') }}</span>
                 </a> --}}
-                <a href="{{ url('informations?section=perso') }}?redirect_to={{ urlencode(url()->full()) }}" class="address-card__edit-btn" title="{{ __('edit') }}">
+                <a href="{{ url('informations?section=perso') }}&redirect_to={{ urlencode(url()->full()) }}" class="address-card__edit-btn" title="{{ __('edit') }}">
                     <i class="bi bi-pencil-square"></i>
                     <span class="d-none d-sm-inline">{{ __('update') }}</span>
                 </a>
