@@ -5021,8 +5021,6 @@ input[type=number] {
     color: #ffffff !important;
 }
 
-.btn-label-notification::before {
-    content: "\f02f"; /* Bootstrap Icons printer glyph */
-    font-family: "bootstrap-icons";
+.btn-label-notification i {
     font-size: 1rem;
 }
