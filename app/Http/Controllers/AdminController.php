@@ -857,14 +857,23 @@ class AdminController extends Controller
         //     'shipment_id' => $shipmentId,
         //     'order_id'    => 'CMD-' . $order->id,
         // ]);
+        // $notification->message = __('notifications.shipment_created_message', [
+        // 'shipment_id' => $shipmentId,
+        // 'order_id'    => 'CMD-' . $order->id,
+        // ]) . '<br><br>' .
+        // '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
+        // __('notifications.shipment_action_text') . '<br><br>' .
+        // '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
+        //     __('notifications.shipment_label_button') .
+        // '</a>';
         $notification->message = __('notifications.shipment_created_message', [
-        'shipment_id' => $shipmentId,
-        'order_id'    => 'CMD-' . $order->id,
+            'shipment_id' => $shipmentId,
+            'order_id'    => 'CMD-' . $order->id,
         ]) . '<br><br>' .
         '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
         __('notifications.shipment_action_text') . '<br><br>' .
         '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
-            __('notifications.shipment_label_button') .
+            '<i class="bi bi-printer"></i> ' . __('notifications.shipment_label_button') .
         '</a>';
         $notification->save();
 
