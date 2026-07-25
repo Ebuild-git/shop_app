@@ -395,7 +395,7 @@
                                          </a>
                                      </li>
                                      <li>
-                                    <a href="https://shopin.ebuild.website/checkout?step=2" class=" medium link-red text-medium">
+                                    <a href="/mes-adresses" class=" medium link-red text-medium">
                                         {{ __('shipping_address') }}
                                     </a>
                                 </li>
@@ -554,7 +554,7 @@
                                          </a>
                                      </li>
                                      <li>
-                                        <a href="https://shopin.ebuild.website/checkout?step=2" class=" medium link-red text-medium">
+                                        <a href="/mes-adresses" class=" medium link-red text-medium">
                                             {{ __('shipping_address') }}
                                         </a>
                                     </li>

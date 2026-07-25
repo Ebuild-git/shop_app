@@ -4891,3 +4891,109 @@ input[type=number] {
 .etat-ramassage-planifie    { background-color: #17a2b8 !important; color: #fff; }
 .etat-reprogramme           { background-color: #6610f2 !important; color: #fff; }
 
+
+
+
+.address-wrapper {
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+.address-card {
+    background: #fff;
+    border: 1px solid #e3ecec;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.address-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: #e9f6f4;
+    border-bottom: 1px solid #d8ece9;
+    flex-wrap: wrap;
+}
+
+.address-card__header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.address-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #0d9488;
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.address-card__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f2d2d;
+}
+
+.address-card__edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    background: #0d9488;
+    color: #fff !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+}
+
+.address-card__edit-btn:hover {
+    background: #0b7a70;
+    color: #fff !important;
+}
+
+.address-card__body {
+    padding: 1.25rem 1.25rem 1.4rem;
+}
+
+.address-card__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+.address-card__row-icon {
+    color: #0d9488;
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+
+.address-card__name {
+    font-weight: 600;
+    color: #1f2d2d;
+}
+
+/* RTL support */
+[dir="rtl"] .address-card__header,
+[dir="rtl"] .address-card__row {
+    direction: rtl;
+}

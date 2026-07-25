@@ -1285,4 +1285,9 @@ class HomeController extends Controller
         // abort_unless($post->deleted_at || $post->motif_suppression, 404);
         return view('User.post-deleted', compact('post'));
     }
+
+    public function index_adresses(){
+
+        return view('User.adresseInfo');
+    }
 }

@@ -32,27 +32,32 @@ class Mode extends Component
     protected $lastShipmentId = null;
 
 
+    // public function mount()
+    // {
+    //     $this->user = Auth::user();
+    //     $secondAddress = $this->user->addresses()->where('is_default', true)->first();
+
+    //     if ($secondAddress) {
+    //         $this->user->address = $secondAddress->city;
+    //         $this->user->rue = $secondAddress->street;
+    //         $this->user->nom_batiment = $secondAddress->building_name;
+    //         $this->user->etage = $secondAddress->floor;
+    //         $this->user->num_appartement = $secondAddress->apartment_number;
+    //         $this->user->phone_number = $secondAddress->phone_number;
+
+    //         $this->user->setRelation('city', $secondAddress->city);
+
+    //         $region = $secondAddress->regionExtra;
+
+    //         if ($region) {
+    //             $this->user->region_info = $region;
+    //         }
+    //     }
+    // }
+
     public function mount()
     {
         $this->user = Auth::user();
-        $secondAddress = $this->user->addresses()->where('is_default', true)->first();
-
-        if ($secondAddress) {
-            $this->user->address = $secondAddress->city;
-            $this->user->rue = $secondAddress->street;
-            $this->user->nom_batiment = $secondAddress->building_name;
-            $this->user->etage = $secondAddress->floor;
-            $this->user->num_appartement = $secondAddress->apartment_number;
-            $this->user->phone_number = $secondAddress->phone_number;
-
-            $this->user->setRelation('city', $secondAddress->city);
-
-            $region = $secondAddress->regionExtra;
-
-            if ($region) {
-                $this->user->region_info = $region;
-            }
-        }
     }
 
 
@@ -287,25 +292,59 @@ class Mode extends Component
         }
     }
 
+    // private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $orderId)
+    // {
+
+    //     $sellerLocale = $seller->locale ?? config('app.locale');
+    //     app()->setLocale($sellerLocale);
+
+    //     $sellerAddress = $seller->addresses()->where('is_default', true)->first();
+    //     if ($sellerAddress) {
+    //         $seller->address = $sellerAddress->city;
+    //         $seller->rue = $sellerAddress->street;
+    //         $seller->nom_batiment = $sellerAddress->building_name;
+    //         $seller->etage = $sellerAddress->floor;
+    //         $seller->num_appartement = $sellerAddress->apartment_number;
+    //         $seller->phone_number = $sellerAddress->phone_number;
+    //         $seller->setRelation('city', $sellerAddress->city);
+    //         if ($region = $sellerAddress->regionExtra) {
+    //             $seller->region_info = $region;
+    //         }
+    //     }
+
+    //     $salutation = $seller->gender === 'female'
+    //         ? __('notifications.salutation_female')
+    //         : __('notifications.salutation_male');
+
+    //     $postIds = collect($articlesPourCeVendeur)->pluck('id')->filter();
+    //     $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
+
+    //     $articlesWithGain = collect($articlesPourCeVendeur)->values()->map(function ($article) use ($posts) {
+    //         $post = $posts[$article['id']] ?? null;
+    //         $article['gain'] = $post ? $post->calculateGain() : 0;
+    //         $article['prix'] = $post ? $post->prix : $article['prix']; // raw price, no percentage
+    //         return $article;
+    //     });
+
+    //     try {
+    //         Mail::to($seller->email)->send(new VenteConfirmee(
+    //             $seller,
+    //             $buyerPseudo,
+    //             $articlesWithGain,
+    //             $salutation,
+    //             $seller,
+    //             $orderId
+    //         ));
+    //     } catch (\Exception $e) {
+    //         logger("❌ Failed to send email to: {$seller->email}. Error: " . $e->getMessage());
+    //     }
+
+    //     app()->setLocale(config('app.locale'));
+    // }
     private function sendSellerEmail($seller, $buyerPseudo, $articlesPourCeVendeur, $orderId)
     {
-
         $sellerLocale = $seller->locale ?? config('app.locale');
         app()->setLocale($sellerLocale);
-
-        $sellerAddress = $seller->addresses()->where('is_default', true)->first();
-        if ($sellerAddress) {
-            $seller->address = $sellerAddress->city;
-            $seller->rue = $sellerAddress->street;
-            $seller->nom_batiment = $sellerAddress->building_name;
-            $seller->etage = $sellerAddress->floor;
-            $seller->num_appartement = $sellerAddress->apartment_number;
-            $seller->phone_number = $sellerAddress->phone_number;
-            $seller->setRelation('city', $sellerAddress->city);
-            if ($region = $sellerAddress->regionExtra) {
-                $seller->region_info = $region;
-            }
-        }
 
         $salutation = $seller->gender === 'female'
             ? __('notifications.salutation_female')
@@ -314,17 +353,10 @@ class Mode extends Component
         $postIds = collect($articlesPourCeVendeur)->pluck('id')->filter();
         $posts = posts::whereIn('id', $postIds)->get()->keyBy('id');
 
-        // $articlesWithGain = collect($articlesPourCeVendeur)->map(function ($article) use ($posts) {
-        //     $post = $posts[$article['id']] ?? null;
-        //     $article['gain'] = $post ? $post->calculateGain() : 0;
-        //     return $article;
-        // });
         $articlesWithGain = collect($articlesPourCeVendeur)->values()->map(function ($article) use ($posts) {
             $post = $posts[$article['id']] ?? null;
-            // calculateGain() returns $this->prix which is the raw price (no platform percentage)
-            // We also override 'prix' so nothing in the template accidentally shows the buyer price
             $article['gain'] = $post ? $post->calculateGain() : 0;
-            $article['prix'] = $post ? $post->prix : $article['prix']; // raw price, no percentage
+            $article['prix'] = $post ? $post->prix : $article['prix'];
             return $article;
         });
 

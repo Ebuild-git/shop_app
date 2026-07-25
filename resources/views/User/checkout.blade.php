@@ -14,7 +14,7 @@
                         </a>
                         <a href="{{ route('checkout') }}?step=2" class="step @if ($step == 2) active @endif">
                             <i class="bi bi-geo-alt"></i>
-                            {{ __('Adresse de livraison') }}
+                            {{ __('mon_adresse') }}
                         </a>
                         <a href="#"
                             class="step @if ($step == 3) active @endif">

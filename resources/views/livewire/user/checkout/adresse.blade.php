@@ -4,9 +4,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @media (max-width: 768px) {
-            /* Custom styles for tablets and mobile */
             .modal-dialog {
-                max-width: 90%; /* Adjust modal width for smaller screens */
+                max-width: 90%;
             }
             .modal-content {
                 padding: 15px;
@@ -20,8 +19,6 @@
             .alert {
                 font-size: 0.9rem;
             }
-
-            /* Adjustments to padding and margins */
             .mb-3, .my-3 {
                 margin-bottom: 15px;
             }
@@ -66,8 +63,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- End Modal -->
 @endsection
 
@@ -75,20 +70,14 @@
 <div>
     <div class="text-center">
         <h3>
-            <b class="color">
+            {{-- <b class="color">
                 {{ __("Choix de l'adresse de Livraison") }}
-            </b>
+            </b> --}}
         </h3>
     </div>
     <br>
     <div class="row" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
         <div class="col-lg-6 col-md-8 col-12 mx-auto">
-            {{-- <div class="d-flex-buttons mb-3" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-                <button type="button" class="btn btn-dark btn-modern w-100" onclick="get_location()">
-                    <i class="bi bi-geo-alt"></i> {{ __('Utiliser ma localisation') }}
-                </button>
-            </div> --}}
-
 
             <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
@@ -112,7 +101,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- City Dropdown -->
                                     <div class="col-md-6 mb-3">
                                         <label for="city_id" class="form-label">{{ __('city') }}<span class="text-danger">*</span></label>
                                         <select id="city_id" wire:model="city_id" class="form-select modern-input">
@@ -123,11 +111,6 @@
                                         </select>
                                         @error('city_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
-                                    {{-- <div class="col-md-6 mb-3">
-                                        <label for="address" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control modern-input" id="address" wire:model="address">
-                                        @error('address') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </div> --}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -176,156 +159,24 @@
                 </div>
             </div>
 
-            <div class="saved-address mt-4 position-relative">
+            <div class="saved-address mt-4 position-relative" id="saved-address">
                 <div class="address-card1 p-3 shadow-sm">
-
 
                     <h5 class="address-title text-center mb-3">{{ __('current_address') }}</h5>
 
-                    @php
-                        $defaultAddress = $userAddresses->where('is_default', true)->first();
-                    @endphp
+                    {{-- <button type="button" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}" data-bs-toggle="modal" data-bs-target="#editAddressModal">
+                        <i class="bi bi-pencil-square"></i>
+                    </button> --}}
+                    <a href="{{ url('informations?section=perso') }}" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
 
-                    @if ($defaultAddress)
-                        <div class="address-details">
-                            <b class="h6 d-block mb-1">
-
-                                {{ $user->gender == 'male' ? __('gender_male') : __('gender_female') }}
-
-                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
-                            </b>
-                            {{-- <p class="mb-1">
-                                {{ $defaultAddress->building_name ? $defaultAddress->building_name . ',' : '' }}
-                                {{ $defaultAddress->street ? $defaultAddress->street . ',' : '' }}
-                                {{ $defaultAddress->floor ? __('etage') . ' '  . $defaultAddress->floor . ',' : '' }}
-                                {{ $defaultAddress->apartment_number ? __('num_appartement') . ' ' . $defaultAddress->apartment_number . ',' : '' }}
-                                {{ optional($defaultAddress->city)->name ? optional($defaultAddress->city)->name . ',' : '' }}
-                                {{ optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' }}
-                            </p> --}}
-                            <p class="mb-1">
-                            {!! $defaultAddress->apartment_number ? 'App. ' . $defaultAddress->apartment_number . ', ' : '' !!}
-                            {!! ($defaultAddress->floor !== null && $defaultAddress->floor !== '') ? 'Étage ' . $defaultAddress->floor . ', ' : '' !!}
-                            {!! $defaultAddress->building_name ? 'Résidence ' . $defaultAddress->building_name . ', ' : '' !!}
-                            {!! $defaultAddress->street ? 'Rue ' . $defaultAddress->street . ', ' : '' !!}
-                            {!! optional($defaultAddress->city)->name ? 'Ville ' . $defaultAddress->city->name . ', ' : '' !!}
-                            {!! optional($defaultAddress->regionExtra)->nom ? $defaultAddress->regionExtra->nom : '' !!}
-                        </p>
-                            <p class="mb-0">
-                                <i class="bi bi-telephone"></i> {{ $defaultAddress->phone_number }}
-                            </p>
-
-
-                        </div>
-                        <div class="mt-auto d-flex justify-content-end">
-                            <button class="btn custom-edit btn-sm me-2 edit-address-btn"
-                                    wire:click="prepareForUpdate({{ $defaultAddress->id }})"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#extraAddressModal"
-                                    data-region="{{ $defaultAddress->region }}"
-                                    data-street="{{ $defaultAddress->street }}"
-                                    data-building="{{ $defaultAddress->building_name }}"
-                                    data-floor="{{ $defaultAddress->floor }}"
-                                    data-apartment="{{ $defaultAddress->apartment_number }}"
-                                    data-phone="{{ $defaultAddress->phone_number }}"
-                                    data-city-id="{{ $defaultAddress->city_id }}"
-                                    onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn custom-delete btn-sm" wire:click="deleteAddress({{ $defaultAddress->id }})">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    @else
-                        <!-- Show User's Address (from users table) -->
-                        <button type="button" class="btn-modern-1 position-absolute" style="{{ app()->getLocale() == 'ar' ? 'bottom: 10px; left: 24px' : 'bottom: 10px; right: 10px;' }}" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                        <div class="address-details">
-                            <b class="h6 d-block mb-1">
-
-                                {{ $user->gender == 'male' ? __('gender_male') : __('gender_female') }}
-
-                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
-                            </b>
-                             {{-- <p class="mb-1">
-                                 @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
-                                 {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
-                                 {{ $user->rue ? $user->rue . ', ' : '' }}
-                                 {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
-                                 {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                                 {{ optional($user->city)->name ? optional($user->city)->name . ', ' : '' }}
-                                 {{ optional($user->region_info)->nom ? optional($user->region_info)->nom : '' }}
-                                 @else
-                                     {{ __('incomplete_address') }}
-                                 @endif
-                             </p> --}}
-                             <p class="mb-1">
-                                @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
-                                    {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
-                                    {!! ($user->etage !== null && $user->etage !== '') ? 'Étage ' . $user->etage . ', ' : '' !!}
-                                    {!! $user->nom_batiment ? 'Résidence ' . $user->nom_batiment . ', ' : '' !!}
-                                    {!! $user->rue ? 'Rue ' . $user->rue . ', ' : '' !!}
-                                    {!! optional($user->city)->name ? 'Ville ' . $user->city->name . ', ' : '' !!}
-                                    {!! optional($user->region_info)->nom ? $user->region_info->nom : '' !!}
-                                @else
-                                    {{ __('incomplete_address') }}
-                                @endif
-                            </p>
-                            <p class="mb-0">
-                                <i class="bi bi-telephone"></i> {{ $user->phone_number }}
-                            </p>
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            <hr style="border-color: #807e7e; border-width: 1px;" class="my-4">
-
-            <!-- Extra Addresses Section -->
-            <div class="extra-addresses mt-4">
-                <div class="d-flex align-items-center mb-3">
-                    @if (app()->getLocale() == 'ar')
-                    <button class="add-new" data-bs-toggle="modal" data-bs-target="#extraAddressModal" wire:click="prepareForAdd">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
-                    <h5 class="mb-0">{{ __('other_addresses') }}</h5>
-                    @else
-                    <h5 class="mb-0">{{ __('other_addresses') }}</h5>
-                    <button class="add-new" data-bs-toggle="modal" data-bs-target="#extraAddressModal" wire:click="prepareForAdd">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
-                    @endif
-
-                </div>
-
-                <!-- Loop through other extra addresses -->
-                @foreach ($userAddresses as $address)
-                @if ($address->is_default)
-                    <div class="address-card p-3 shadow-sm mb-3">
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <b class="h6 mb-1">
-                                {{ $user->gender == 'male' ? __('gender_male') : __('gender_female') }}
-                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
-                            </b>
-                            @if (!$defaultAddress)
-                                <span class="badge" style="background-color: darkcyan;">{{ __('default_address') }}</span>
-                            @endif
-                        </div>
-                             {{-- <p class="mb-1">
-                             @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
-                             {{ $user->nom_batiment ? $user->nom_batiment . ', ' : '' }}
-                             {{ $user->rue ? $user->rue . ', ' : '' }}
-                             {{ $user->etage ? __('etage') . ' '  . $user->etage . ', ' : '' }}
-                             {{ $user->num_appartement ? __('num_appartement') . ' ' . $user->num_appartement . ', ' : '' }}
-                             {{ optional($user->city)->name ? optional($user->city)->name . ', ' : '' }}
-                             {{ optional($user->region_info)->nom ? optional($user->region_info)->nom : '' }}
-
-                             @else
-                                 {{ __('incomplete_address') }}
-                             @endif
-                         </p> --}}
-                         <p class="mb-1">
+                    <div class="address-details">
+                        <b class="h6 d-block mb-1">
+                            {{ $user->gender == 'male' ? __('gender_male') : __('gender_female') }}
+                            {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
+                        </b>
+                        <p class="mb-1">
                             @if ($user->city_id && $user->rue && $user->nom_batiment && $user->region_info)
                                 {!! $user->num_appartement ? 'App. ' . $user->num_appartement . ', ' : '' !!}
                                 {!! ($user->etage !== null && $user->etage !== '') ? 'Étage ' . $user->etage . ', ' : '' !!}
@@ -340,202 +191,13 @@
                         <p class="mb-0">
                             <i class="bi bi-telephone"></i> {{ $user->phone_number }}
                         </p>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <button class="btn custom-default btn-sm" wire:click="removeDefault">
-                                <i class="bi bi-arrow-counterclockwise"></i> {{ __('set_as_default') }}
-                            </button>
-                            <button type="button" class="btn-modern-1" data-bs-toggle="modal" data-bs-target="#editAddressModal">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </div>
-
-
-                    </div>
-
-                @endif
-                    @if ($address->is_default)
-                        <!-- Skip the default address since it's already shown above -->
-                        @continue
-                    @endif
-
-                    <div class="address-card p-3 shadow-sm mb-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <b class="h6 mb-1">
-
-                                {{ $user->gender == 'male' ? __('gender_male') : __('gender_female') }}
-                                {{ ucfirst($user->firstname) }} {{ ucfirst($user->lastname) }}
-                            </b>
-
-                            @if ($address->is_default)
-                                <span class="badge" style="background-color: darkcyan;">{{ __('default_address') }}</span>
-                            @endif
-                        </div>
-                        {{-- <p class="mb-1">
-                            {{ $address->building_name ? $address->building_name . ',' : '' }}
-                            {{ $address->street ? $address->street . ',' : '' }}
-                            {{ $address->floor ? __('etage') . ' '  . $address->floor . ',' : '' }}
-                            {{ $address->apartment_number ? __('num_appartement') . ' ' . $address->apartment_number . ',' : '' }}
-                            {{ optional($address->city)->name ? optional($address->city)->name . ',' : '' }}
-                            {{ optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' }}
-                        </p> --}}
-                        <p class="mb-1">
-                            {!! $address->apartment_number ? 'App. ' . $address->apartment_number . ', ' : '' !!}
-                            {!! ($address->floor !== null && $address->floor !== '') ? 'Étage ' . $address->floor . ', ' : '' !!}
-                            {!! $address->building_name ? 'Résidence ' . $address->building_name . ', ' : '' !!}
-                            {!! $address->street ? 'Rue ' . $address->street . ', ' : '' !!}
-                            {!! optional($address->city)->name ? 'Ville ' . $address->city->name . ', ' : '' !!}
-                            {!! optional($address->regionExtra)->nom ? $address->regionExtra->nom : '' !!}
-                        </p>
-                        <p class="mb-0"><i class="bi bi-telephone" style="color: teal;"></i> {{ $address->phone_number }}</p>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div>
-                                @if (!$address->is_default)
-                                    <button class="btn custom-default btn-sm" wire:click="setDefault({{ $address->id }})">
-                                        <i class="fa fa-map-pin"></i> {{ __('set_as_default') }}
-                                    </button>
-                                @endif
-                            </div>
-                            <div class="d-flex">
-                                <button class="btn custom-edit btn-sm me-2 edit-address-btn"
-                                        wire:click="prepareForUpdate({{ $address->id }})"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#extraAddressModal"
-                                        data-region="{{ $address->region }}"
-                                        data-street="{{ $address->street }}"
-                                        data-building="{{ $address->building_name }}"
-                                        data-floor="{{ $address->floor }}"
-                                        data-apartment="{{ $address->apartment_number }}"
-                                        data-phone="{{ $address->phone_number }}"
-                                        data-city-id="{{ $address->city_id }}"
-                                        onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn custom-delete btn-sm" wire:click="deleteAddress({{ $address->id }})">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-
-            <!-- Unified Add/Edit Extra Address Modal -->
-            <div class="modal fade" id="extraAddressModal" wire:ignore.self tabindex="-1" aria-labelledby="extraAddressModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content rounded-3">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="extraAddressModalLabel">
-                                {{ $isEditMode ? __('edit_address') : __('add_new_address') }}
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form wire:submit.prevent="{{ $isEditMode ? 'saveAddress' : 'saveAddress' }}" class="form-grid">
-                                <div class="grid-container">
-                                    <!-- Region Select -->
-                                    <div class="form-group">
-                                        <label for="extraRegion">{{ __('Région') }}</label>
-                                        <select wire:model="extraRegion" id="extraRegion" class="form-control">
-                                            <option value="">{{ __('select_region')}}</option>
-                                            @foreach($regions as $regionItem)
-                                                <option value="{{ $regionItem->id }}">{{ __($regionItem->nom) }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('extraRegion') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <!-- City Dropdown -->
-                                    <div class="form-group">
-                                        <label for="extraCityId" class="form-label">{{ __('city') }}<span class="text-danger">*</span></label>
-                                        <select id="extraCityId" class="form-control" wire:model="extraCityId">
-                                            <option value="">{{ __('select_city') }}</option>
-                                            @foreach($cities as $cityItem)
-                                                <option value="{{ $cityItem->id }}">{{ $cityItem->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('extraCityId') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <!-- City Input -->
-                                    {{-- <div class="form-group">
-                                        <label for="extraCity" class="form-label">{{ __('address') }}<span class="text-danger">*</span></label>
-                                        <input type="text" id="extraCity" class="form-control" wire:model="extraCity" required>
-                                        @error('extraCity') <span class="error">{{ $message }}</span> @enderror
-                                    </div> --}}
-
-                                    <!-- Street Input -->
-                                    <div class="form-group">
-                                        <label for="extraStreet" class="form-label">{{ __('rue') }}</label>
-                                        <input type="text" id="extraStreet" class="form-control" wire:model="extraStreet">
-                                        @error('extraStreet') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <!-- Building Name Input -->
-                                    <div class="form-group">
-                                        <label for="extraBuilding" class="form-label">{{ __('batiment') }}</label>
-                                        <input type="text" id="extraBuilding" class="form-control" wire:model="extraBuilding">
-                                        @error('extraBuilding') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <!-- Floor Input -->
-                                    <div class="form-group">
-                                        <label for="extraFloor" class="form-label">{{ __('etage') }}</label>
-                                        <input type="text" id="extraFloor" class="form-control" wire:model="extraFloor">
-                                        @error('extraFloor') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <!-- Apartment Number Input -->
-                                    <div class="form-group">
-                                        <label for="extraApartment" class="form-label">{{ __('num_appartement') }}</label>
-                                        <input type="text" id="extraApartment" class="form-control" wire:model="extraApartment">
-                                        @error('extraApartment') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-                                    <div class="form-group position-relative">
-                                        <label for="extraPhoneNumber" class="form-label">{{ __('telephone') }}</label>
-                                        <div class="input-container d-flex align-items-center position-relative">
-                                            @if (app()->getLocale() == 'ar')
-                                                <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber" style="padding-right: 45px;" maxlength="14" oninput="formatTelephone(this)">
-                                                <img src="/icons/maroc.webp" alt="Moroccan flag" class="flag-icon2" style="right: 10px; left: auto;">
-                                            @else
-                                                <img src="/icons/maroc.webp" alt="Moroccan flag" class="flag-icon2">
-                                                <input type="text" id="extraPhoneNumber" class="form-control" wire:model="extraPhoneNumber" style="padding-left: 45px;" maxlength="14" oninput="formatTelephone(this)">
-                                            @endif
-
-                                        </div>
-                                        @error('extraPhoneNumber') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-
-
-                                </div>
-
-
-                                <!-- Submit Button -->
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-dark btn-continue" id="modalSubmitBtn">{{ $isEditMode ? __('save_button') : __('add')  }}</button>
-                                </div>
-                            </form>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-
             <div class="d-flex justify-content-end mt-3">
                 @php
-                    $isDefaultExtraAddressComplete = $defaultAddress &&
-                        !empty($defaultAddress->region) &&
-                        !empty($defaultAddress->city_id) &&
-                        !empty($defaultAddress->street) &&
-                        !empty($defaultAddress->building_name) &&
-                        $defaultAddress->floor !== null && $defaultAddress->floor !== '' &&
-                        $defaultAddress->apartment_number !== null && $defaultAddress->apartment_number !== '' &&
-                        !empty($defaultAddress->phone_number);
-
-                    $isPrimaryAddressComplete = !$defaultAddress &&
+                    $isPrimaryAddressComplete =
                         !empty($user->region) &&
                         !empty($user->city_id) &&
                         !empty($user->rue) &&
@@ -545,64 +207,34 @@
                         !empty($user->phone_number);
                 @endphp
 
-                @if ($defaultAddress)
-                    @if ($isDefaultExtraAddressComplete)
-                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue {{ app()->getLocale() == 'ar' ? 'rtl-left-arrow' : '' }}">
-                            @if (app()->getLocale() == 'ar')
-                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
-                            @else
-                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
-                            @endif
-                        </button>
-                    @else
-                        <div class="alert alert-warning alert-clickable"
-                            wire:click="prepareForUpdate({{ $address->id }})"
-                                data-bs-toggle="modal"
-                                data-bs-target="#extraAddressModal"
-                                data-region="{{ $address->region }}"
-                                data-city="{{ $address->city }}"
-                                data-street="{{ $address->street }}"
-                                data-building="{{ $address->building_name }}"
-                                data-floor="{{ $address->floor }}"
-                                data-apartment="{{ $address->apartment_number }}"
-                                data-phone="{{ $address->phone_number }}"
-                                onclick="populateModal(this)" style="{{ app()->getLocale() == 'ar' ? 'margin-left: 5px;' : '' }}">
-                            {!! __('complete_address_info') !!}
-                        </div>
-                    @endif
+                @if ($isPrimaryAddressComplete)
+                    <button type="button" wire:click="valider()" class="btn btn-dark btn-continue {{ app()->getLocale() == 'ar' ? 'rtl-left-arrow' : '' }}">
+                        @if (app()->getLocale() == 'ar')
+                            {{ __('continue') }} <i class="bi bi-arrow-left"></i>
+                        @else
+                            {{ __('continue') }} <i class="bi bi-arrow-right"></i>
+                        @endif
+                    </button>
                 @else
-                    @if ($isPrimaryAddressComplete)
-                        <button type="button" wire:click="valider()" class="btn btn-dark btn-continue">
-                            @if (app()->getLocale() == 'ar')
-                                {{ __('continue') }} <i class="bi bi-arrow-left"></i>
-                            @else
-                                {{ __('continue') }} <i class="bi bi-arrow-right"></i>
-                            @endif
-                        </button>
-                    @else
-                        <div class="alert alert-warning alert-clickable" data-scroll-to="saved-address">
-                            {{ __('complete_main_address_info') }}
-                        </div>
-                    @endif
+                    <div class="alert alert-warning alert-clickable" data-scroll-to="saved-address">
+                        {{ __('complete_main_address_info') }}
+                    </div>
                 @endif
             </div>
 
-
         </div>
     </div>
-
 
     <div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         Loading...
     </div>
 </div>
 
- <!-- Bootstrap JS and dependencies -->
- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
- @livewireScripts
-
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@livewireScripts
 
 <script>
     window.addEventListener('addressUpdated', event => {
@@ -616,37 +248,6 @@
 </script>
 
 <script>
-    document.addEventListener('refreshAddresses', () => {
-        document.getElementById('loader').style.display = 'block';
-        setTimeout(() => {
-            location.reload();
-        }, 50);
-    });
-</script>
-
-<script>
-function populateModal(button) {
-    const region = button.getAttribute('data-region');
-    const cityId = button.getAttribute('data-city-id');
-    const street = button.getAttribute('data-street');
-    const building = button.getAttribute('data-building');
-    const floor = button.getAttribute('data-floor');
-    const apartment = button.getAttribute('data-apartment');
-    const phone = button.getAttribute('data-phone');
-
-    document.getElementById('extraRegion').value = region;
-    document.getElementById('extraStreet').value = street;
-    document.getElementById('extraBuilding').value = building;
-    document.getElementById('extraFloor').value = floor;
-    document.getElementById('extraApartment').value = apartment;
-    document.getElementById('extraPhoneNumber').value = phone;
-    // Set the city dropdown value
-   document.getElementById('extraCityId').value = cityId;
-
-}
-
-</script>
-<script>
     document.addEventListener('livewire:init', function () {
         document.querySelectorAll('.alert-clickable').forEach(alert => {
             alert.style.cursor = 'pointer';
@@ -657,10 +258,7 @@ function populateModal(button) {
                     const modal = new bootstrap.Modal(myModalEl);
                     modal.show();
                 }
-
             });
         });
     });
 </script>
-
-

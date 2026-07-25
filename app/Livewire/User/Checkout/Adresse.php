@@ -5,7 +5,6 @@ namespace App\Livewire\User\Checkout;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\regions;
-use App\Models\UserAddress;
 use App\Models\User;
 use App\Models\City;
 
@@ -24,22 +23,11 @@ class Adresse extends Component
     public $next = false;
     public $locationUsed = false;
 
-    // Extra address properties
-    public $userAddresses; // Array to store user addresses
-    public $extraRegion;
-    public $extraStreet;
-    public $extraBuilding;
-    public $extraFloor;
-    public $extraApartment;
-    public $extraPhoneNumber;
-    public $editingAddressId = null; // Tracks if we are editing an existing address
-    public $isEditMode = false; // New variable to track add or edit mode
-
     public $cities = [];
     public $city_id;
-    public $extraCityId;
 
-    public function mount(){
+    public function mount()
+    {
         $this->user = Auth::user();
         $this->region = $this->user->region;
         $this->rue = $this->user->rue;
@@ -50,19 +38,9 @@ class Adresse extends Component
         $this->city_id = $this->user->city_id;
         $this->cities  = City::orderBy('name')->get();
         $this->regions = regions::all();
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-        $this->loadAddresses();
+    }
 
-    }
-    public function loadAddresses()
-    {
-        // Load user and user addresses
-        $this->user = Auth::user();
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-    }
-    // protected $listeners=["UpdateUserAdresse","UpdateUserAdresse"];
     protected $listeners = ['storeLocation' => 'storeLocation'];
-
 
     protected $rules = [
         'region' => 'required|exists:regions,id',
@@ -73,24 +51,19 @@ class Adresse extends Component
     public function storeLocation($city)
     {
         $user = User::find(Auth::id());
-        UserAddress::create([
-            'user_id' => $user->id,
-            'city' => $city,
-            'region' => $user->region_info->id,
-            'street' => null,
-            'building_name' => null,
-            'floor' => null,
-            'apartment_number' => null,
-            'phone_number' => $user->phone_number,
-            'is_default' => false
-        ]);
+        $user->city = $city;
+        $user->save();
 
-        session()->flash('success', 'Nouvelle adresse ajoutée avec succès!');
+        $this->user = $user;
+
+        session()->flash('success', 'Adresse mise à jour avec succès!');
         return Redirect("/checkout?step=2");
     }
 
     public function updateAddress()
     {
+        $this->validate();
+
         $this->user->region = $this->region;
         $this->user->rue = $this->rue;
         $this->user->nom_batiment = $this->nom_batiment;
@@ -99,100 +72,19 @@ class Adresse extends Component
         $this->user->phone_number = $this->phone_number;
         $this->user->city_id = $this->city_id;
         $this->user->save();
+
+        $this->dispatch('addressUpdated');
+
         return Redirect("/checkout?step=2");
     }
 
-    public function setDefault($id)
-    {
-        UserAddress::where('user_id', $this->user->id)->update(['is_default' => false]);
-        $address = UserAddress::find($id);
-        $address->is_default = true;
-        $address->save();
-
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-        $this->loadAddresses();
-        $this->dispatch('refreshAddresses');
-
-    }
-    public function unsetDefault($id)
-    {
-        $address = UserAddress::find($id);
-        $address->is_default = false;
-        $address->save();
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-    }
-
-    public function deleteAddress($id)
-    {
-        UserAddress::find($id)->delete();
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-    }
-
-    public function resetForm()
-    {
-        $this->reset(['extraRegion', 'extraCityId', 'extraStreet', 'extraBuilding', 'extraFloor', 'extraApartment', 'extraPhoneNumber', 'editingAddressId']);
-    }
-
-    public function prepareForAdd()
-    {
-        $this->resetForm();
-        $this->isEditMode = false;
-    }
-
-    public function prepareForUpdate($id)
-    {
-        $address = UserAddress::find($id);
-        if ($address) {
-            $this->extraRegion = $address->region;
-            $this->extraStreet = $address->street;
-            $this->extraBuilding = $address->building_name;
-            $this->extraFloor = $address->floor;
-            $this->extraApartment = $address->apartment_number;
-            $this->extraPhoneNumber = $address->phone_number;
-            $this->extraCityId = $address->city_id;
-            $this->editingAddressId = $id;
-            $this->isEditMode = true;
-        }
-    }
-
-
-    public function saveAddress()
-    {
-        $this->validate([
-            'extraCityId' => 'required|exists:cities,id',
-        ]);
-
-        $address = $this->editingAddressId ? UserAddress::find($this->editingAddressId) : new UserAddress();
-        $address->user_id = $this->user->id;
-        $address->region = $this->extraRegion;
-        $address->street = $this->extraStreet;
-        $address->building_name = $this->extraBuilding;
-        $address->floor = $this->extraFloor;
-        $address->apartment_number = $this->extraApartment;
-        $address->phone_number = $this->extraPhoneNumber;
-        $address->city_id = $this->extraCityId;
-        $address->save();
-
-        $this->resetForm();
-        $this->userAddresses = UserAddress::where('user_id', $this->user->id)->get();
-        return Redirect("/checkout?step=2");
-    }
-    public function removeDefault()
-    {
-        $this->user->addresses()->update(['is_default' => false]);
-        return Redirect("/checkout?step=2");
-
-    }
     public function render()
     {
-        // if (($this->user->address && $this->user->phone_number && $this->user->region && $this->user->rue && $this->user->nom_batiment && $this->user->etage && $this->user->num_appartement && $this->user->phone_number) || $this->locationUsed) {
-        //     $this->next = true;
-        // }
-        return view('livewire.user.checkout.adresse', ['userAddresses' => $this->userAddresses]);
+        return view('livewire.user.checkout.adresse');
     }
 
-
-    public function valider(){
+    public function valider()
+    {
         return Redirect("/checkout?step=3");
     }
 }

@@ -1359,7 +1359,8 @@
 "email2.shipment.label_required_note": "هذا الملصق مطلوب لعملية الاستلام.",
 "etiquette_expedition": "ملصق الشحن",
 "voir_telecharger_etiquette": "عرض وتحميل ملصق الشحن",
-"shipping_address": "عنوان الشحن"
+"shipping_address": "عناويني",
+"mon_adresse": "عنواني"
 
 
 }

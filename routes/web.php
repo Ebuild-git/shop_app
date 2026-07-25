@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth', 'loggedOut']], function () {
 
 
     Route::get('/publication', [ControllersHomeController::class, 'index_post'])->name('publication');
+    Route::get('/mes-adresses', [ControllersHomeController::class, 'index_adresses'])->name('mes-adresses');
 
 
     Route::get('/rib', [ControllersHomeController::class, 'showRibForm'])->name('rib.form');
