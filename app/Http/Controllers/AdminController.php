@@ -1122,6 +1122,62 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
     }
 
+    // public function downloadAramexLabel($shipmentId)
+    // {
+    //     $item = OrdersItem::where('shipment_id', $shipmentId)->whereNotNull('label_data')->first();
+
+    //     if (!$item) {
+    //         return response()->json(['success' => false, 'message' => 'Étiquette introuvable.'], 404);
+    //     }
+
+    //     $data = $item->label_data;
+    //     if (is_string($data)) {
+    //         $data = json_decode($data, true);
+    //     }
+    //     if (!is_array($data)) {
+    //         return response()->json(['success' => false, 'message' => 'Données d\'étiquette invalides.'], 422);
+    //     }
+
+    //     $data['print_date']  = now()->format('d/m/Y');
+    //     $data['shipment_id'] = $shipmentId;
+
+    //     $generator = new BarcodeGeneratorPNG();
+    //     $barcodePng = $generator->getBarcode((string) $shipmentId, $generator::TYPE_CODE_128, 2, 50);
+    //     $data['barcode_base64'] = 'data:image/png;base64,' . base64_encode($barcodePng);
+
+    //     $pdf = Pdf::loadView('pdf.label', $data);
+
+    //     // Render to a temp file at the generous "safe" size first
+    //     $tmpDir     = storage_path('app/tmp');
+    //     if (!is_dir($tmpDir)) {
+    //         mkdir($tmpDir, 0775, true);
+    //     }
+    //     $rawPath     = $tmpDir . "/aramex-raw-{$shipmentId}-" . uniqid() . '.pdf';
+    //     $croppedPath = $tmpDir . "/aramex-cropped-{$shipmentId}-" . uniqid() . '.pdf';
+
+    //     file_put_contents($rawPath, $pdf->output());
+
+    //     // Auto-crop to the actual content bounding box — eliminates both
+    //     // cropped content (page too small) and trailing blank space (page too big)
+    //     // regardless of how long the description/shipper name/etc. turn out to be.
+    //     $cmd = sprintf(
+    //         'pdfcrop --margins "10 10 10 10" %s %s 2>&1',
+    //         escapeshellarg($rawPath),
+    //         escapeshellarg($croppedPath)
+    //     );
+    //     exec($cmd, $output, $exitCode);
+
+    //     $finalPath = ($exitCode === 0 && file_exists($croppedPath)) ? $croppedPath : $rawPath;
+    //     $content   = file_get_contents($finalPath);
+
+    //     @unlink($rawPath);
+    //     @unlink($croppedPath);
+
+    //     return response($content, 200, [
+    //         'Content-Type'        => 'application/pdf',
+    //         'Content-Disposition' => "attachment; filename=\"aramex-label-{$shipmentId}.pdf\"",
+    //     ]);
+    // }
     public function downloadAramexLabel($shipmentId)
     {
         $item = OrdersItem::where('shipment_id', $shipmentId)->whereNotNull('label_data')->first();
@@ -1147,8 +1203,7 @@ class AdminController extends Controller
 
         $pdf = Pdf::loadView('pdf.label', $data);
 
-        // Render to a temp file at the generous "safe" size first
-        $tmpDir     = storage_path('app/tmp');
+        $tmpDir = storage_path('app/tmp');
         if (!is_dir($tmpDir)) {
             mkdir($tmpDir, 0775, true);
         }
@@ -1157,21 +1212,44 @@ class AdminController extends Controller
 
         file_put_contents($rawPath, $pdf->output());
 
-        // Auto-crop to the actual content bounding box — eliminates both
-        // cropped content (page too small) and trailing blank space (page too big)
-        // regardless of how long the description/shipper name/etc. turn out to be.
-        $cmd = sprintf(
-            'pdfcrop --margins "10 10 10 10" %s %s 2>&1',
-            escapeshellarg($rawPath),
-            escapeshellarg($croppedPath)
-        );
-        exec($cmd, $output, $exitCode);
+        $finalPath = $rawPath;
 
-        $finalPath = ($exitCode === 0 && file_exists($croppedPath)) ? $croppedPath : $rawPath;
-        $content   = file_get_contents($finalPath);
+        // Only attempt cropping if exec() is actually usable on this server.
+        // Some hosts disable exec/shell_exec/proc_open in php.ini's disable_functions,
+        // which previously caused a fatal "Call to undefined function exec()".
+        $execAvailable = function_exists('exec')
+            && !in_array('exec', array_map('trim', explode(',', ini_get('disable_functions'))));
+
+        if ($execAvailable) {
+            $cmd = sprintf(
+                'pdfcrop --margins "10 10 10 10" %s %s 2>&1',
+                escapeshellarg($rawPath),
+                escapeshellarg($croppedPath)
+            );
+
+            try {
+                exec($cmd, $output, $exitCode);
+                if ($exitCode === 0 && file_exists($croppedPath)) {
+                    $finalPath = $croppedPath;
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('pdfcrop exec failed, falling back to uncropped PDF', [
+                    'shipment_id' => $shipmentId,
+                    'error'       => $e->getMessage(),
+                ]);
+            }
+        } else {
+            \Log::info('exec() disabled on this server — skipping pdfcrop, serving uncropped label', [
+                'shipment_id' => $shipmentId,
+            ]);
+        }
+
+        $content = file_get_contents($finalPath);
 
         @unlink($rawPath);
-        @unlink($croppedPath);
+        if ($finalPath !== $rawPath) {
+            @unlink($croppedPath);
+        }
 
         return response($content, 200, [
             'Content-Type'        => 'application/pdf',
