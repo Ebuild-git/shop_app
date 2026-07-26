@@ -617,7 +617,7 @@ class PostsController extends Controller
             $postData = $post->toArray();
 
             // shipment id
-            $postData['shipment_id'] = optional($post->latestShipmentHistory)->id;
+            $postData['shipment_id'] = optional($post->latestShipmentHistory)->shipment_id;
 
             if (!empty($postData['photos'])) {
                 $photos = $postData['photos'];
