@@ -599,7 +599,8 @@ class PostsController extends Controller
         $query = posts::with([
             "sous_categorie_info.categorie",
             "user_info" => fn($q) => $q->select('id', 'username'),
-            "latestShipmentHistory" // <-- added
+            "latestShipmentHistory",
+            "latestOrderItem" // <-- added
             ])->where("id_user_buy", $userId)
             ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
                     "statut", "prix", "sell_at")
@@ -618,6 +619,7 @@ class PostsController extends Controller
 
             // shipment id
             $postData['shipment_id'] = optional($post->latestShipmentHistory)->shipment_id;
+            $postData['order_id'] = optional($post->latestOrderItem)->order_id;
 
             if (!empty($postData['photos'])) {
                 $photos = $postData['photos'];
@@ -642,7 +644,8 @@ class PostsController extends Controller
                 }
             }
 
-            unset($postData['latest_shipment_history']); // drop nested object if you only want the flat shipment_id
+            unset($postData['latest_shipment_history'], $postData['latest_order_item']);
+
 
             return $postData;
         });

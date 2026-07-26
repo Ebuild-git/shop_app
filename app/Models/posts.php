@@ -334,4 +334,9 @@ class posts extends Model
         return $this->hasOne(ShipmentStatusHistory::class, 'post_id')
                     ->latestOfMany('id');
     }
+    public function latestOrderItem()
+    {
+        return $this->hasOne(OrdersItem::class, 'post_id')
+                    ->latestOfMany('id');
+    }
 }
