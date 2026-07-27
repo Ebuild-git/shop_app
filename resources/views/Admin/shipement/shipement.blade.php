@@ -1018,7 +1018,6 @@ document.addEventListener('DOMContentLoaded', () => loadLivraisonStatuses());
     Swal.fire({
         title: "Annuler le pickup Aramex ?",
         html: `
-            <p class="text-muted mb-3">GUID : <code>${pickupGuid}</code></p>
             <label class="form-label text-start d-block">Commentaire (Obligatoire)</label>
             <textarea id="cancel-comments" class="form-control" rows="3"
                 placeholder="Raison de l'annulation..."></textarea>
