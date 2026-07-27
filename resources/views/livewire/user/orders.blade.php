@@ -13,6 +13,14 @@
                     <span class="input-group-text bg-white border-end-0">
                         <i class="bi bi-upc-scan text-teal"></i>
                     </span>
+                    {{-- <input
+                        type="text"
+                        id="shipmentId"
+                        wire:model="shipmentId"
+                        class="form-control border-start-0 ps-0"
+                        placeholder="{{ __('shipment_tracking.placeholder') }}"
+                        aria-label="ID d'expédition"
+                    > --}}
                     <input
                         type="text"
                         id="shipmentId"
@@ -46,64 +54,128 @@
                     </div>
                 @endif
 
-                @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
-                @php $results = $trackingResponse['TrackingResults']; @endphp
+                {{-- @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
+                    @php $results = $trackingResponse['TrackingResults']; @endphp
 
-                @if (empty($results))
-                    <div class="alert-modern alert-modern-info mt-4">
-                        <i class="bi bi-info-circle-fill"></i>
-                        <span>{{ __('shipment_tracking.no_info') }}</span>
-                    </div>
-                @else
-                    <div class="mt-4">
-                        <h6 class="fw-semibold text-uppercase text-muted small mb-3" style="letter-spacing: .05em;">
-                            {{ __('shipment_tracking.details') }}
-                        </h6>
+                    @if (empty($results))
+                        <div class="alert-modern alert-modern-info mt-4">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <span>{{ __('shipment_tracking.no_info') }}</span>
+                        </div>
+                    @else
+                        <div class="mt-4">
+                            <h6 class="fw-semibold text-uppercase text-muted small mb-3" style="letter-spacing: .05em;">
+                                {{ __('shipment_tracking.details') }}
+                            </h6>
 
-                        <div class="timeline">
-                            @foreach ($results as $tracking)
-                                @foreach ($tracking['Value'] as $index => $entry)
-                                    @php
-                                        preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
-                                        $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
-                                        $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y') : '';
+                            <div class="timeline">
+                                @foreach ($results as $tracking)
+                                    @foreach ($tracking['Value'] as $index => $entry)
+                                        @php
+                                            preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
+                                            $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
+                                            $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y') : '';
 
-                                        $statusKey = $entry['NormalizedStatus'] ?? 'unknown';
-                                        $label = __('shipment_status.' . $statusKey);
-                                        if ($label === 'shipment_status.' . $statusKey) {
-                                            $label = \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']);
-                                        }
-                                    @endphp
-                                    <div class="timeline-item {{ $index === 0 ? 'timeline-item-current' : '' }}">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                                                <span class="badge-status">{{ $label }}</span>
-                                                @if ($date)
-                                                    <span class="text-muted small">
-                                                        <i class="bi bi-calendar-event"></i> {{ $date }}
-                                                    </span>
+                                            $statusKey = $entry['NormalizedStatus'] ?? 'unknown';
+                                            $label = __('shipment_status.' . $statusKey);
+                                            if ($label === 'shipment_status.' . $statusKey) {
+                                                $label = \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']);
+                                            }
+                                        @endphp
+                                        <div class="timeline-item {{ $index === 0 ? 'timeline-item-current' : '' }}">
+                                            <div class="timeline-marker"></div>
+                                            <div class="timeline-content">
+                                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                                    <span class="badge-status">{{ $label }}</span>
+                                                    @if ($date)
+                                                        <span class="text-muted small">
+                                                            <i class="bi bi-calendar-event"></i> {{ $date }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+
+                                                <p class="mb-0 text-muted small mt-2">
+                                                    {{ __('shipment_tracking.number') }}:
+                                                    <strong class="text-dark">{{ $entry['WaybillNumber'] }}</strong>
+                                                </p>
+
+                                                @if (!empty($entry['UpdateLocation']))
+                                                    <p class="mb-0 text-muted small">
+                                                        <i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}
+                                                    </p>
                                                 @endif
                                             </div>
-
-                                            <p class="mb-0 text-muted small mt-2">
-                                                {{ __('shipment_tracking.number') }}:
-                                                <strong class="text-dark">{{ $entry['WaybillNumber'] }}</strong>
-                                            </p>
-
-                                            @if (!empty($entry['UpdateLocation']))
-                                                <p class="mb-0 text-muted small">
-                                                    <i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}
-                                                </p>
-                                            @endif
                                         </div>
-                                    </div>
+                                    @endforeach
                                 @endforeach
+                            </div>
+                        </div>
+                    @endif
+                @endif --}}
+                @if ($trackingResponse && isset($trackingResponse['TrackingResults']))
+                    @php $results = $trackingResponse['TrackingResults']; @endphp
+
+                    @if (empty($results))
+                        <div class="alert-modern alert-modern-info mt-4">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <span>{{ __('shipment_tracking.no_info') }}</span>
+                        </div>
+                    @else
+                        <div class="mt-4 d-flex flex-column gap-4">
+                            @foreach ($results as $tracking)
+                                @continue(empty($tracking['Value']))
+                                @php $firstEntry = $tracking['Value'][0] ?? null; @endphp
+
+                                <div class="shipment-group">
+                                    <h6 class="fw-semibold text-uppercase text-muted small mb-3" style="letter-spacing:.05em;">
+                                        {{ __('shipment_tracking.details') }}
+                                        @if ($firstEntry)
+                                            — <span class="text-dark">{{ $firstEntry['WaybillNumber'] }}</span>
+                                        @endif
+                                    </h6>
+
+                                    <div class="timeline">
+                                        @foreach ($tracking['Value'] as $index => $entry)
+                                            @php
+                                                preg_match('/\/Date\((\d+)(?:[+-]\d+)?\)\//', $entry['UpdateDateTime'], $matches);
+                                                $timestamp = isset($matches[1]) ? intval($matches[1]) / 1000 : null;
+                                                $date = $timestamp ? \Carbon\Carbon::createFromTimestamp($timestamp)->format('d/m/Y') : '';
+
+                                                $statusKey = $entry['NormalizedStatus'] ?? 'unknown';
+                                                $label = __('shipment_status.' . $statusKey);
+                                                if ($label === 'shipment_status.' . $statusKey) {
+                                                    $label = \App\Traits\TranslateTrait::TranslateText($entry['UpdateDescription']);
+                                                }
+                                            @endphp
+                                            <div class="timeline-item {{ $index === 0 ? 'timeline-item-current' : '' }}">
+                                                <div class="timeline-marker"></div>
+                                                <div class="timeline-content">
+                                                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                                        <span class="badge-status">{{ $label }}</span>
+                                                        @if ($date)
+                                                            <span class="text-muted small">
+                                                                <i class="bi bi-calendar-event"></i> {{ $date }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    <p class="mb-0 text-muted small mt-2">
+                                                        {{ __('shipment_tracking.number') }}:
+                                                        <strong class="text-dark">{{ $entry['WaybillNumber'] }}</strong>
+                                                    </p>
+                                                    @if (!empty($entry['UpdateLocation']))
+                                                        <p class="mb-0 text-muted small">
+                                                            <i class="bi bi-geo-alt-fill"></i> {{ $entry['UpdateLocation'] }}
+                                                        </p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
-                    </div>
+                    @endif
                 @endif
-            @endif
             </div>
         </div>
     </div>

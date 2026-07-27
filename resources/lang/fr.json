@@ -1297,7 +1297,7 @@
 "notifications.shipment_created_title": "Expédition créée",
 "notifications.shipment_created_message": "Une expédition a été créée pour la commande :order_id. Numéro d'expédition : <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a>",
 "notifications.order_shipped_title": "Votre commande a été expédiée",
-"notifications.order_shipped_message": "Votre commande :order_id a été expédiée. Numéro(s) d'expédition : <a href=\"/my-orders\" class=\"underlined-link\">:shipment_ids</a>.",
+"notifications.order_shipped_message": "Votre commande :order_id a été expédiée. Numéro(s) d'expédition : <a href=\"/my-orders?shipment_id=:shipment_ids_url\" class=\"underlined-link\">:shipment_ids</a>.",
 "notifications.shipment_action_required": "ACTION REQUISE",
 "notifications.shipment_action_text": "Imprimez votre étiquette d'expédition et collez-la sur votre colis avant le ramassage par Aramex.",
 "notifications.shipment_label_button": "Voir et imprimer l'étiquette d'expédition",

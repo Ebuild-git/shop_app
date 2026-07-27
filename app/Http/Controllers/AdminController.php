@@ -925,15 +925,17 @@ class AdminController extends Controller
         app()->setLocale($buyerLocale);
 
         $shipmentIdsList = collect($shipments)->pluck('shipment_id')->implode(', ');
+        $shipmentIdsQuery = collect($shipments)->pluck('shipment_id')->implode(',');
 
         $notification = new notifications();
         $notification->titre = __('notifications.order_shipped_title');
         $notification->id_user_destination = $buyer->id;
         $notification->type = "order_shipped";
-        $notification->url = "/informations?section=commandes";
+        $notification->url = "/my-orders?shipment_id=" . $shipmentIdsQuery;
         $notification->message = __('notifications.order_shipped_message', [
             'order_id'     => 'CMD-' . $order->id,
             'shipment_ids' => $shipmentIdsList,
+            'shipment_ids_url' => $shipmentIdsQuery,
         ]);
         $notification->save();
 
