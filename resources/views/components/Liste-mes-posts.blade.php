@@ -549,7 +549,7 @@
                     @endif
                     <td>
                         @if($item->latestShipmentHistory?->shipment_id)
-                            <a href="{{ url('/my-orders') }}" class="underlined-link">
+                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
                                 {{ $item->latestShipmentHistory->shipment_id }}
                             </a>
                         @else

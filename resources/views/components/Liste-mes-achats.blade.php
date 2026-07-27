@@ -30,7 +30,7 @@
                                     &nbsp;·&nbsp;
                                     <span>
                                         <i class="bi bi-box-seam"></i>
-                                        <a href="{{ url('/my-orders') }}" class="underlined-link">{{ $achat->shipment_id }}</a>
+                                        <a href="{{ url('/my-orders') }}?shipment_id={{ $achat->shipment_id }}" class="underlined-link">{{ $achat->shipment_id }}</a>
                                     </span>
                                 @endif
                             </div>
