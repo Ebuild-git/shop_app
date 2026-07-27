@@ -623,6 +623,13 @@ class OrdersController extends Controller
                 $item->shipment_id = null;
                 $item->status      = 'pending';
                 $item->save();
+
+                if ($item->post) {
+                    $item->post->statut      = 'vente';
+                    $item->post->sell_at     = null;
+                    $item->post->id_user_buy = null;
+                    $item->post->save();
+                }
             }
 
             \Log::info('🚫 Aramex pickup cancelled locally', [
