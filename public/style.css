@@ -5040,5 +5040,57 @@ input[type=number] {
 }
 
 
+.shipment-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--teal-light);
+    border: 1px solid var(--teal-border);
+    border-left: 4px solid var(--teal);
+    border-radius: 0.6rem;
+    padding: 0.65rem 1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--teal-dark);
+}
+
+.shipment-group-header i {
+    font-size: 1rem;
+}
+
+.shipment-group-id {
+    margin-left: auto;
+    background: #fff;
+    color: var(--teal-dark);
+    border: 1px solid var(--teal-border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: normal;
+    text-transform: none;
+    font-weight: 600;
+}
+
+.shipment-group + .shipment-group {
+    border-top: 1px dashed #e0e6e6;
+    padding-top: 1.5rem;
+}
+
+/* Fix long status text overflowing the pill */
+.badge-status {
+    background: var(--teal);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.3;
+}
 
 
