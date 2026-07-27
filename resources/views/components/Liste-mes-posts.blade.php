@@ -552,7 +552,14 @@
                     @endif
                     <td>
                         @if($isPickupCancelled)
-                            <span class="dash">—</span>
+                            <span class="dash" style="text-decoration: line-through;">
+                                {{ $item->latestOrderItem->cancelled_shipment_id ?? '—' }}
+                            </span>
+                            <div class="status-sub">
+                                <span class="s-badge s-annule" style="font-size:9px; padding:2px 6px;">
+                                    {{ __('pickup_annule') }}
+                                </span>
+                            </div>
                         @elseif($item->latestShipmentHistory?->shipment_id)
                             <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
                                 {{ $item->latestShipmentHistory->shipment_id }}
@@ -702,11 +709,11 @@
                                 @endphp
 
                                 <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-                                <div class="status-sub">
+                                {{-- <div class="status-sub">
                                     <span class="s-badge s-annule" style="font-size:9px; padding:2px 6px;">
                                         {{ __('pickup_annule') }}
                                     </span>
-                                </div>
+                                </div> --}}
 
                             @else
                                 @php
