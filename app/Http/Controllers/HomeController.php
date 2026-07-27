@@ -286,7 +286,7 @@ class HomeController extends Controller
         $key = $request->input('key') ?? null;
         // $Query = posts::where('id_user', Auth::user()->id);
         $Query = posts::where('id_user', Auth::user()->id)
-            ->with('latestShipmentHistory');
+            ->with('latestShipmentHistory', 'latestOrderItem');
 
         if ($key) {
             $Query->where(function ($q) use ($key) {

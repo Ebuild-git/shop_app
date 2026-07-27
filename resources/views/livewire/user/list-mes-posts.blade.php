@@ -62,8 +62,18 @@
                                     <i>Publié le {{ $item->created_at }}</i>
                                 </span>
                             </td>
+                            {{-- <td class="text-capitalize">
+                                <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
+                            </td> --}}
                             <td class="text-capitalize">
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
+
+                                @if ($item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id)
+                                    <br>
+                                    <span class="badge bg-warning text-dark" style="font-size:10px;" title="Le ramassage Aramex a été annulé, l'article est de nouveau en vente">
+                                        Pickup annulé
+                                    </span>
+                                @endif
                             </td>
                             <td>
                                 @if ($item->old_prix)
