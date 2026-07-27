@@ -7,11 +7,15 @@ use Illuminate\Support\Facades\Http;
 use App\Services\AramexService;
 use App\Models\Shipment;
 use App\Traits\ShipmentStatusTrait;
+use Livewire\Attributes\Url;
 
 class Orders extends Component
 {
     public $clientInfo = [];
+
+    #[Url]
     public $shipmentId = '';
+
     public $trackingResponse = null;
     public $error = null;
 
@@ -26,6 +30,10 @@ class Orders extends Component
         'AccountCountryCode' => env('ARAMEX_ACCOUNT_COUNTRY_CODE'),
         'Source' => env('ARAMEX_SOURCE'),
         ];
+
+        if (!empty($this->shipmentId)) {
+            $this->trackShipment();
+        }
 
     }
     public function trackShipment()
