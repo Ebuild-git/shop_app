@@ -68,7 +68,7 @@
                                 <span class="text-danger">( {{ __('shopiner supprimé') }} )</span>
                             @endif
                         </td>
-                        <td class="text-end">
+                        {{-- <td class="text-end">
                             @php
                                 $isCancelled = $achat->trashed() ||
                                             optional($achat->order)->trashed();
@@ -76,6 +76,30 @@
 
                             @if ($post->user_info?->deleted_at || $isCancelled)
                                 <span class="badge bg-danger">{{ __('commande annulée') }}</span>
+                            @elseif ($achat->latestShipmentHistory)
+                                <span class="badge bg-info text-dark" title="{{ __('dernier_etat_aramex') }}">
+                                    {{ $achat->latestShipmentHistory->new_etat }}
+                                </span>
+                            @else
+                                <x-StatutLivraison :statut="$post->statut"></x-StatutLivraison>
+                            @endif
+                        </td> --}}
+                        <td class="text-end">
+                            @php
+                                $isCancelled = $achat->trashed() ||
+                                            optional($achat->order)->trashed();
+
+                                // Pickup was cancelled and the item hasn't been re-synced since
+                                // (no active shipment_id means no new Aramex sync happened yet)
+                                $isPickupCancelled = $achat->pickup_cancelled_at && !$achat->shipment_id;
+                            @endphp
+
+                            @if ($post->user_info?->deleted_at || $isCancelled)
+                                <span class="badge bg-danger">{{ __('commande annulée') }}</span>
+                            @elseif ($isPickupCancelled)
+                                <span class="badge bg-warning text-dark" title="{{ __('pickup_annule_tooltip') }}">
+                                    {{ __('pickup_annule') }}
+                                </span>
                             @elseif ($achat->latestShipmentHistory)
                                 <span class="badge bg-info text-dark" title="{{ __('dernier_etat_aramex') }}">
                                     {{ $achat->latestShipmentHistory->new_etat }}
