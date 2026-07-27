@@ -13,7 +13,7 @@ class Orders extends Component
 {
     public $clientInfo = [];
 
-    #[Url]
+    #[Url(as: 'shipment_id')]
     public $shipmentId = '';
 
     public $trackingResponse = null;
