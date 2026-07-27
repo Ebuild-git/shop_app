@@ -66,7 +66,12 @@
                                 <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
                             </td> --}}
                             <td class="text-capitalize">
-                                <x-AnnonceStatut :statut="$item->statut"></x-AnnonceStatut>
+                                <x-AnnonceStatut
+                                    :statut="$item->statut"
+                                    :sellAt="$item->sell_at"
+                                    :verifiedAt="$item->verified_at"
+                                    :voyageMode="$item->user_info?->voyage_mode ?? 0"
+                                ></x-AnnonceStatut>
 
                                 @if ($item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id)
                                     <br>

@@ -13,18 +13,60 @@ class AnnonceStatut extends Component
      */
     public $statut;
 
+    // public function __construct($statut, $sellAt, $verifiedAt, $voyageMode)
+    // {
+    //     if($verifiedAt !== null && $sellAt === null && $voyageMode === 1) {
+    //         $this->statut = __('voyage_mode');
+    //     } elseif($verifiedAt !== null && $sellAt === null) {
+    //         $this->statut = __('on_sale1');
+    //     } elseif($sellAt !== null && $this->statut === 'livré') {
+    //         $this->statut = __('sold');
+    //     } else {
+    //         switch($statut) {
+    //             case 'validation':
+    //                 $this->statut = __('waiting_validation');
+    //                 break;
+    //             case 'livraison':
+    //                 $this->statut = __('in_delivery');
+    //                 break;
+    //             case 'livré':
+    //                 $this->statut = __('delivered');
+    //                 break;
+    //             case 'refusé':
+    //                 $this->statut = __('refused');
+    //                 break;
+    //             case 'préparation':
+    //                 $this->statut = __('preparation');
+    //                 break;
+    //             case 'en cours de livraison':
+    //                 $this->statut = __('in_progress_delivery');
+    //                 break;
+    //             case 'ramassée':
+    //                 $this->statut = __('picked_up');
+    //                 break;
+    //             case 'retourné':
+    //                 $this->statut = __('returned');
+    //                 break;
+    //             default:
+    //                 $this->statut = __('unknown_status');
+    //         }
+    //     }
+    // }
     public function __construct($statut, $sellAt, $verifiedAt, $voyageMode)
     {
-        if($verifiedAt !== null && $sellAt === null && $voyageMode === 1) {
+        if ($verifiedAt !== null && $sellAt === null && $voyageMode == 1) {
             $this->statut = __('voyage_mode');
-        } elseif($verifiedAt !== null && $sellAt === null) {
+        } elseif ($verifiedAt !== null && $sellAt === null) {
             $this->statut = __('on_sale1');
-        } elseif($sellAt !== null && $this->statut === 'livré') {
+        } elseif ($sellAt !== null && $statut === 'livré') {
             $this->statut = __('sold');
         } else {
-            switch($statut) {
+            switch ($statut) {
                 case 'validation':
                     $this->statut = __('waiting_validation');
+                    break;
+                case 'vente':
+                    $this->statut = __('on_sale1');
                     break;
                 case 'livraison':
                     $this->statut = __('in_delivery');
