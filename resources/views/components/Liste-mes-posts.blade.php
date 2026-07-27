@@ -458,6 +458,9 @@
         <tbody>
             @forelse ($posts as $item)
                 <tr id="tr-post-{{ $item->id }}">
+                    @php
+                        $isPickupCancelled = $item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id;
+                    @endphp
                     <td>
                         <div class="avatar-small-product">
                             <img src="{{ $item->FirstImage() }}" alt="{{ $item->titre }}">
@@ -548,6 +551,33 @@
                         </td>
                     @endif
                     <td>
+                        @if($isPickupCancelled)
+                            <span class="dash">—</span>
+                        @elseif($item->latestShipmentHistory?->shipment_id)
+                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
+                                {{ $item->latestShipmentHistory->shipment_id }}
+                            </a>
+                        @else
+                            <span class="dash">—</span>
+                        @endif
+                    </td>
+
+                    {{-- Étiquette expedition --}}
+                    <td>
+                        @if($isPickupCancelled)
+                            <span class="dash">—</span>
+                        @elseif($item->latestShipmentHistory?->shipment_id)
+                            <a href="{{ route('aramex.label.download', ['shipmentId' => $item->latestShipmentHistory->shipment_id]) }}"
+                            target="_blank"
+                            class="btn-reduce"
+                            title="{{ __('voir_telecharger_etiquette') }}">
+                                <i class="bi bi-printer"></i>
+                            </a>
+                        @else
+                            <span class="dash">—</span>
+                        @endif
+                    </td>
+                    {{-- <td>
                         @if($item->latestShipmentHistory?->shipment_id)
                             <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
                                 {{ $item->latestShipmentHistory->shipment_id }}
@@ -567,7 +597,7 @@
                         @else
                             <span class="dash">—</span>
                         @endif
-                    </td>
+                    </td> --}}
                     {{-- <td>
                         @php
                         $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
@@ -634,7 +664,7 @@
                         @php
                             $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
                             $hasDeletedOrder = $item->hasDeletedOrders();
-                            $isPickupCancelled = $item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id;
+                            // $isPickupCancelled = $item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id;
                         @endphp
 
                         @if ($item->deleted_at && !$item->motif_suppression)
