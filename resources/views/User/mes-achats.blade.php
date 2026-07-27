@@ -1,104 +1,157 @@
 @extends('User.fixe')
 @section('titre', 'Mes achats')
-@section('content')
 @section('body')
 
-<!-- ======================= Top Breadcrumbs ======================== -->
-<div class="gray py-3" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
-    <div class="container">
-        <div class="row">
-            <div class="colxl-12 col-lg-12 col-md-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/" aria-label="{{ __('home') }}"><i class="fas fa-home"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            {{ __('my_purchases')}}
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br>
-<div class="container">
-    <form method="get" action="{{ route('mes-achats') }}" style="{{ app()->getLocale() == 'ar' ? 'text-align: right; direction: rtl;' : 'text-align: left; direction: ltr;' }}">
-        <div class="filter-container">
-            <div class="filter-group">
-                <select class="filter-select" name="month">
-                    <option value="">{{ __('month') }}</option>
-                    <option value="01">{{ __('january') }}</option>
-                    <option value="02">{{ __('february') }}</option>
-                    <option value="03">{{ __('march') }}</option>
-                    <option value="04">{{ __('april') }}</option>
-                    <option value="05">{{ __('may') }}</option>
-                    <option value="06">{{ __('june') }}</option>
-                    <option value="07">{{ __('july') }}</option>
-                    <option value="08">{{ __('august') }}</option>
-                    <option value="09">{{ __('september') }}</option>
-                    <option value="10">{{ __('october') }}</option>
-                    <option value="11">{{ __('november') }}</option>
-                    <option value="12">{{ __('december') }}</option>
-                </select>
-                <select class="filter-select" name="year" id="year-select">
-                    <option value="">{{ __('year') }}</option>
-                </select>
-                <button class="btn bg-red p-2" type="submit">
-                    <i class="bi bi-filter"></i>
-                    {{ __('filter') }}
-                </button>
-            </div>
-        </div>
-    </form>
-    @include('components.Liste-mes-achats',["achats"=>$achats])
-</div>
-
 <style>
-    .filter-container {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 20px;
+    .sales-page {
+        background: #f5f6f8;
+        min-height: 100vh;
+        padding: 32px;
+        font-family: 'DM Sans', sans-serif;
     }
-    .filter-group {
+
+    /* ── Header ── */
+    .sales-header {
         display: flex;
-        gap: 10px;
         align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
     }
-    .filter-select {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    .sales-header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        flex: 1;
+        color: #1a1a2e;
+        margin: 0;
+    }
+    .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .filter-bar select {
+        font-family: 'DM Sans', sans-serif;
         font-size: 14px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    .filter-select:focus {
+        border: 1.5px solid #e0e3ea;
+        border-radius: 10px;
+        background: #fff;
+        color: #555;
+        padding: 10px 14px;
         outline: none;
-        border-color: #00a699;
-        box-shadow: 0 0 0 2px rgba(0,166,153,0.2);
+        cursor: pointer;
+        box-shadow: none;
+        transition: border-color .2s;
+        padding-right: 34px;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
     }
-    .btn.bg-red {
-        transition: all 0.3s ease;
+    .filter-bar select:focus {
+        border-color: #0d7c7c;
     }
-    .btn.bg-red:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    .btn-filter-submit {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #0d7c7c;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background .2s, transform .15s;
+    }
+    .btn-filter-submit:hover {
+        background: #0a6060;
+        transform: translateY(-1px);
+    }
+
+    /* ── Stat Cards ── */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+    .stat-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .stat-icon {
+        width: 54px; height: 54px;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+    .stat-icon.teal   { background: #0d7c7c; }
+    .stat-icon.blue   { background: #3f7fe0; }
+    .stat-icon.green  { background: #27ae60; }
+    .stat-icon svg { width: 24px; height: 24px; color: #fff; }
+    .stat-info p { font-size: 13px; color: #888; margin-bottom: 4px; }
+    .stat-info strong { font-size: 26px; font-weight: 700; color: #1a1a2e; }
+
+    @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 700px) {
+        .sales-page { padding: 16px; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .sales-header { flex-direction: column; align-items: flex-start; }
+        .filter-bar { width: 100%; }
+        .filter-bar select,
+        .btn-filter-submit { width: 100%; }
     }
 </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const yearSelect = document.getElementById('year-select');
-        const currentYear = new Date().getFullYear();
-        for (let year = currentYear; year >= 2024; year--) {
-            const option = document.createElement('option');
-            option.value = year;
-            option.textContent = year;
-            yearSelect.appendChild(option);
-        }
-    });
-</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<div class="sales-page" dir="{{ in_array(App::getLocale(), ['ar', 'fa']) ? 'rtl' : 'ltr' }}">
+
+    <!-- ── Header ── -->
+    <div class="sales-header">
+        <h1>{{ __('my_purchases') }}</h1>
+
+        <form method="get" action="{{ route('mes-achats') }}" class="filter-bar">
+            <select name="month">
+                <option value="">{{ __('month') }}</option>
+                @foreach(['01'=>'january','02'=>'february','03'=>'march','04'=>'april','05'=>'may','06'=>'june','07'=>'july','08'=>'august','09'=>'september','10'=>'october','11'=>'november','12'=>'december'] as $val => $label)
+                <option value="{{ $val }}" {{ $month == $val ? 'selected' : '' }}>{{ __($label) }}</option>
+                @endforeach
+            </select>
+
+            <select name="year" id="year-select">
+                <option value="">{{ __('year') }}</option>
+            </select>
+            <script>
+                const yearSelect = document.getElementById('year-select');
+                for (let y = 2024; y <= new Date().getFullYear(); y++) {
+                    const opt = document.createElement('option');
+                    opt.value = y; opt.textContent = y;
+                    if (y == "{{ $year }}") opt.selected = true;
+                    yearSelect.appendChild(opt);
+                }
+            </script>
+
+            <button class="btn-filter-submit" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                {{ __('filter') }}
+            </button>
+        </form>
+    </div>
+
+    <!-- ── Table Component ── -->
+    @include('components.Liste-mes-achats', ['achats' => $achats])
+
+</div>
 
 @endsection
