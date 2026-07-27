@@ -31,6 +31,10 @@ class Orders extends Component
         'Source' => env('ARAMEX_SOURCE'),
         ];
 
+        if (empty($this->shipmentId) && request()->filled('shipment_id')) {
+            $this->shipmentId = request()->query('shipment_id');
+        }
+
         if (!empty($this->shipmentId)) {
             $this->trackShipment();
         }
