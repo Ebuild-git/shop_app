@@ -767,6 +767,7 @@
                                 @else
                                     <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
                                 @endif --}}
+                                <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
 
                                 @if ($item->sell_at)
                                     <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
