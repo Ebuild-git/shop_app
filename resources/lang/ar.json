@@ -1353,7 +1353,7 @@
 "notifications.pickup_cancelled_message": "تم إلغاء عملية استلام أرامكس للطلب :order_id (رقم الشحنة <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a>).",
 "notifications.order_pickup_cancelled_title": "تم إلغاء الشحنة",
 "notifications.order_pickup_cancelled_message": "تم إلغاء الشحنة <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a> الخاصة بطلبك :order_id.",
-"expedition_number": "رقم الشحنة",
+"expedition_number": "الحالة ورقم الشحنة",
 "email2.shipment.next_step_title": "الخطوة التالية",
 "email2.shipment.next_step_text": "يرجى طباعة ملصق الشحن الخاص بك من Shopin ولصقه بإحكام على الطرد قبل تسليمه لمندوب أرامكس.",
 "email2.shipment.label_button": "عرض وطباعة ملصق الشحن",

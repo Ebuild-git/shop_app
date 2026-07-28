@@ -1361,7 +1361,7 @@
 "notifications.pickup_cancelled_message": "The Aramex pickup for order :order_id (Shipment ID <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a>) has been cancelled.",
 "notifications.order_pickup_cancelled_title": "Shipment cancelled",
 "notifications.order_pickup_cancelled_message": "Shipment <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a> for your order :order_id has been cancelled.",
-"expedition_number": "Shipment Number",
+"expedition_number": "Status and shipment Number",
 "email2.shipment.next_step_title": "NEXT STEP",
 "email2.shipment.next_step_text": "Please print your Shopin Shipping Label and securely attach it to your parcel before handing it to the Aramex courier.",
 "email2.shipment.label_button": "VIEW & PRINT SHIPPING LABEL",

@@ -550,6 +550,24 @@
                             @endif
                         </td>
                     @endif
+                    {{-- <td>
+                        @if($isPickupCancelled)
+                            <span class="dash" style="text-decoration: line-through;">
+                                {{ $item->latestOrderItem->cancelled_shipment_id ?? '—' }}
+                            </span>
+                            <div class="status-sub">
+                                <span class="s-badge s-annule" style="font-size:9px; padding:2px 6px;">
+                                    {{ __('pickup_annule') }}
+                                </span>
+                            </div>
+                        @elseif($item->latestShipmentHistory?->shipment_id)
+                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
+                                {{ $item->latestShipmentHistory->shipment_id }}
+                            </a>
+                        @else
+                            <span class="dash">—</span>
+                        @endif
+                    </td> --}}
                     <td>
                         @if($isPickupCancelled)
                             <span class="dash" style="text-decoration: line-through;">
@@ -561,6 +579,10 @@
                                 </span>
                             </div>
                         @elseif($item->latestShipmentHistory?->shipment_id)
+                            <span class="status-sub" title="{{ __('dernier_etat_aramex') }}">
+                                {{ $item->latestShipmentHistory->new_etat }}
+                            </span>
+                            <br>
                             <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
                                 {{ $item->latestShipmentHistory->shipment_id }}
                             </a>
@@ -738,13 +760,13 @@
                                     $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
                                 @endphp
 
-                                @if($item->latestShipmentHistory?->shipment_id)
+                                {{-- @if($item->latestShipmentHistory?->shipment_id)
                                     <span class="s-badge s-livraison" title="{{ __('dernier_etat_aramex') }}">
                                         {{ $item->latestShipmentHistory->new_etat }}
                                     </span>
                                 @else
                                     <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-                                @endif
+                                @endif --}}
 
                                 @if ($item->sell_at)
                                     <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
