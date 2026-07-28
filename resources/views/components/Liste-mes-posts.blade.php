@@ -579,7 +579,7 @@
                                 </span>
                             </div>
                         @elseif($item->latestShipmentHistory?->shipment_id)
-                            <span class="status-sub" title="{{ __('dernier_etat_aramex') }}">
+                            <span class="s-badge s-livraison" title="{{ __('dernier_etat_aramex') }}">
                                 {{ $item->latestShipmentHistory->new_etat }}
                             </span>
                             <br>
