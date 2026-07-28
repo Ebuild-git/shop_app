@@ -446,6 +446,13 @@ class AdminController extends Controller
                         $item->status      = 'expédiée';
                         $item->save();
 
+                        if ($item->post) {
+                            $item->post->statut      = 'vendu';
+                            $item->post->sell_at     = now();
+                            $item->post->id_user_buy = $order->buyer_id ?? $order->buyer?->id;
+                            $item->post->save();
+                        }
+
                         $results[] = [
                             'item_id'     => $item->id,
                             'vendor_id'   => $vId,
