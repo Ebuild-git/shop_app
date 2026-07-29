@@ -19,10 +19,13 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\signalements;
 use Illuminate\Support\Facades\Log;
+use App\Traits\HasShipmentHistory;
 
 
 class PostsController extends Controller
 {
+    use HasShipmentHistory;
+
     /**
      * @OA\Post(
      *     path="/api/favorites/toggle",
@@ -428,7 +431,9 @@ class PostsController extends Controller
 
         $posts = $query->get();
 
-        $posts = $posts->map(function($post) {
+        $shipmentHistories = $this->getShipmentHistoriesForPosts($posts->pluck('id')->all());
+
+        $posts = $posts->map(function($post) use ($shipmentHistories) {
             $postData = $post->toArray();
 
             $postData['prix']     = $post->getPrix();
@@ -461,6 +466,14 @@ class PostsController extends Controller
                     $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
                 }
             }
+
+            $postData['shipment_history'] = $shipmentHistories[$post->id] ?? [
+                'current_shipment_id'    => null,
+                'cancelled_shipment_ids' => [],
+                'current_history'        => [],
+                'cancelled_history'      => [],
+            ];
+
             return $postData;
         });
 
@@ -532,63 +545,6 @@ class PostsController extends Controller
      *     )
      * )
      */
-    // public function MesAchats(Request $request)
-    // {
-    //     $userId = $request->user()->id;
-
-    //     $month = $request->input('month');
-    //     $year  = $request->input('year');
-
-    //     $query = posts::with([
-    //         "sous_categorie_info.categorie",
-    //         "user_info" => fn($q) => $q->select('id', 'username')
-    //         ])->where("id_user_buy", $userId)
-    //         ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
-    //                 "statut", "prix", "sell_at")
-    //         ->orderBy('sell_at', 'desc');
-
-    //     if ($month && $year) {
-    //         $query->whereYear('sell_at', $year)
-    //             ->whereMonth('sell_at', $month);
-    //     }
-
-    //     $achats = $query->get();
-
-    //     $achats = $achats->map(function ($post) {
-    //         $post->prix = $post->getPrix();
-    //         $postData = $post->toArray();
-
-    //         if (!empty($postData['photos'])) {
-    //             $photos = $postData['photos'];
-    //             if (is_array($photos)) {
-    //                 $postData['photos'] = array_map(function($photo) {
-    //                     $cleanPath = ltrim($photo, '/');
-    //                     return asset('storage/' . $cleanPath);
-    //                 }, $photos);
-    //             }
-    //         }
-
-    //         if (!empty($postData['sous_categorie_info']['categorie'])) {
-    //             if (!empty($postData['sous_categorie_info']['categorie']['icon'])) {
-    //                 $iconPath = $postData['sous_categorie_info']['categorie']['icon'];
-    //                 $cleanIconPath = ltrim($iconPath, '/');
-    //                 $postData['sous_categorie_info']['categorie']['icon'] = asset('storage/' . $cleanIconPath);
-    //             }
-    //             if (!empty($postData['sous_categorie_info']['categorie']['small_icon'])) {
-    //                 $smallIconPath = $postData['sous_categorie_info']['categorie']['small_icon'];
-    //                 $cleanSmallIconPath = ltrim($smallIconPath, '/');
-    //                 $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
-    //             }
-    //         }
-
-    //         return $postData;
-    //     });
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'data' => $achats
-    //     ]);
-    // }
     public function MesAchats(Request $request)
     {
         $userId = $request->user()->id;
@@ -612,6 +568,8 @@ class PostsController extends Controller
         }
 
         $achats = $query->get();
+
+        $shipmentHistories = $this->getShipmentHistoriesForPosts($achats->pluck('id')->all());
 
         $achats = $achats->map(function ($post) {
             $post->prix = $post->getPrix();
@@ -645,6 +603,13 @@ class PostsController extends Controller
             }
 
             unset($postData['latest_shipment_history'], $postData['latest_order_item']);
+
+            $postData['shipment_history'] = $shipmentHistories[$post->id] ?? [
+                'current_shipment_id'    => null,
+                'cancelled_shipment_ids' => [],
+                'current_history'        => [],
+                'cancelled_history'      => [],
+            ];
 
 
             return $postData;

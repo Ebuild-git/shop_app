@@ -16,9 +16,12 @@ use App\Events\UserEvent;
 use App\Events\AdminEvent;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ShipmentStatusHistory;
+use App\Traits\HasShipmentHistory;
 
 class ShopController extends Controller
 {
+    use HasShipmentHistory;
+
     /**
      * @OA\Get(
      *     path="/api/regions",
@@ -890,6 +893,9 @@ class ShopController extends Controller
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
+        $postIds = $order->items->pluck('post_id')->filter()->unique()->all();
+        $shipmentHistories = $this->getShipmentHistoriesForPosts($postIds);
+
         return response()->json([
             'order_id' => $order->id,
             'buyer' => $order->buyer,
@@ -925,6 +931,12 @@ class ShopController extends Controller
                         'title' => $item->post->titre ?? null,
                         'image' => $photoUrl,
                         'statut' => $item->post->statut ?? null,
+                    ],
+                    'shipment_history' => $shipmentHistories[$item->post_id] ?? [
+                        'current_shipment_id'    => null,
+                        'cancelled_shipment_ids' => [],
+                        'current_history'        => [],
+                        'cancelled_history'      => [],
                     ],
                 ];
             }),
@@ -1000,6 +1012,55 @@ class ShopController extends Controller
     {
         $userId = $request->user()->id;
 
+        // $orders = Order::withTrashed()
+        //     ->where('buyer_id', $userId)
+        //     ->with([
+        //         'buyer:id,username,email',
+        //         'items' => function ($q) {
+        //             $q->withTrashed()
+        //                 ->select('id', 'order_id', 'post_id', 'vendor_id', 'price', 'delivery_fee', 'status', 'shipment_id', 'deleted_at')
+        //                 ->with(['post:id,titre,photos,statut']);
+        //         }
+        //     ])
+        //     ->orderBy('created_at', 'desc')
+        //     ->get()
+        //     ->map(function ($order) {
+        //         return [
+        //             'order_id' => $order->id,
+        //             'status' => $order->status,
+        //             'state' => $order->state,
+        //             'total' => $order->total,
+        //             'total_delivery_fees' => $order->total_delivery_fees,
+        //             'updated_at' => $order->updated_at,
+        //             'deleted_at' => $order->deleted_at,
+        //             'items' => $order->items->map(function ($item) {
+        //                 $photos = [];
+        //                 if ($item->post) {
+        //                     $photos = is_string($item->post->photos)
+        //                         ? json_decode($item->post->photos, true)
+        //                         : (is_array($item->post->photos) ? $item->post->photos : []);
+        //                 }
+        //                 $firstPhoto = $photos[0] ?? null;
+        //                 $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
+
+        //                 return [
+        //                     'post_id' => $item->post_id,
+        //                     'vendor_id' => $item->vendor_id,
+        //                     'price' => $item->price,
+        //                     'delivery_fee' => $item->delivery_fee,
+        //                     'status' => $item->status,
+        //                     'shipment_id' => $item->shipment_id,
+        //                     'deleted_at' => $item->deleted_at,
+        //                     'post' => [
+        //                         'title' => $item->post->titre ?? null,
+        //                         'image' => $photoUrl,
+        //                         'statut' => $item->post->statut ?? null,
+        //                     ],
+        //                 ];
+        //             }),
+        //             'buyer' => $order->buyer,
+        //         ];
+        //     });
         $orders = Order::withTrashed()
             ->where('buyer_id', $userId)
             ->with([
@@ -1011,44 +1072,56 @@ class ShopController extends Controller
                 }
             ])
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($order) {
-                return [
-                    'order_id' => $order->id,
-                    'status' => $order->status,
-                    'state' => $order->state,
-                    'total' => $order->total,
-                    'total_delivery_fees' => $order->total_delivery_fees,
-                    'updated_at' => $order->updated_at,
-                    'deleted_at' => $order->deleted_at,
-                    'items' => $order->items->map(function ($item) {
-                        $photos = [];
-                        if ($item->post) {
-                            $photos = is_string($item->post->photos)
-                                ? json_decode($item->post->photos, true)
-                                : (is_array($item->post->photos) ? $item->post->photos : []);
-                        }
-                        $firstPhoto = $photos[0] ?? null;
-                        $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
+            ->get();
 
-                        return [
-                            'post_id' => $item->post_id,
-                            'vendor_id' => $item->vendor_id,
-                            'price' => $item->price,
-                            'delivery_fee' => $item->delivery_fee,
-                            'status' => $item->status,
-                            'shipment_id' => $item->shipment_id,
-                            'deleted_at' => $item->deleted_at,
-                            'post' => [
-                                'title' => $item->post->titre ?? null,
-                                'image' => $photoUrl,
-                                'statut' => $item->post->statut ?? null,
-                            ],
-                        ];
-                    }),
-                    'buyer' => $order->buyer,
-                ];
-            });
+        // collect all post ids across all orders/items first
+        $allPostIds = $orders->flatMap(fn($order) => $order->items->pluck('post_id'))->filter()->unique()->all();
+        $shipmentHistories = $this->getShipmentHistoriesForPosts($allPostIds);
+
+        $orders = $orders->map(function ($order) use ($shipmentHistories) {
+            return [
+                'order_id' => $order->id,
+                'status' => $order->status,
+                'state' => $order->state,
+                'total' => $order->total,
+                'total_delivery_fees' => $order->total_delivery_fees,
+                'updated_at' => $order->updated_at,
+                'deleted_at' => $order->deleted_at,
+                'items' => $order->items->map(function ($item) use ($shipmentHistories) {
+                    $photos = [];
+                    if ($item->post) {
+                        $photos = is_string($item->post->photos)
+                            ? json_decode($item->post->photos, true)
+                            : (is_array($item->post->photos) ? $item->post->photos : []);
+                    }
+                    $firstPhoto = $photos[0] ?? null;
+                    $photoUrl = $firstPhoto ? asset('storage/' . $firstPhoto) : null;
+
+                    return [
+                        'post_id' => $item->post_id,
+                        'vendor_id' => $item->vendor_id,
+                        'price' => $item->price,
+                        'delivery_fee' => $item->delivery_fee,
+                        'status' => $item->status,
+                        'shipment_id' => $item->shipment_id,
+                        'deleted_at' => $item->deleted_at,
+                        'post' => [
+                            'title' => $item->post->titre ?? null,
+                            'image' => $photoUrl,
+                            'statut' => $item->post->statut ?? null,
+                        ],
+                        // ── new: attach shipment history ──
+                        'shipment_history' => $shipmentHistories[$item->post_id] ?? [
+                            'current_shipment_id'    => null,
+                            'cancelled_shipment_ids' => [],
+                            'current_history'        => [],
+                            'cancelled_history'      => [],
+                        ],
+                    ];
+                }),
+                'buyer' => $order->buyer,
+            ];
+        });
 
         return response()->json([
             'success' => true,
