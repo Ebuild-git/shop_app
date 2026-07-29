@@ -18,6 +18,8 @@ class ListeUtilisateurs extends Component
 
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public function mount($type, $locked = null, $showTrashed = null, $verified = null, $photo_verified = null)
     {
         if ($type == "shop") {
@@ -132,7 +134,7 @@ class ListeUtilisateurs extends Component
                 });
             }
         }
-        $users = $users->paginate(50);
+        $users = $users->paginate(20);
         $venduCountPerUser = [];
 
         foreach ($users as $user) {
