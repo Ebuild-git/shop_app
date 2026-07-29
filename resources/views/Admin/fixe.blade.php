@@ -512,12 +512,13 @@
                                     <script>
                                         document.write(new Date().getFullYear());
                                     </script>
-                                    , made with ❤️ by
+                                    Shopin
+                                    {{-- , made with ❤️ by
                                     <a href="https://e-build.tn" target="_blank" class="fw-medium" style="color: red;">
                                         <b>
                                             E-build
                                         </b>
-                                    </a>
+                                    </a> --}}
                                 </div>
 
                             </div>
