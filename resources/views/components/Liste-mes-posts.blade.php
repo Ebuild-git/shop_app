@@ -185,8 +185,8 @@
 }
 
 .s-vendu {
-    background: #d5f5e3;
-    color: #1a7a45;
+    background: #f5ded5;
+    color: #c0392b;
 }
 
 .s-livraison {
@@ -237,6 +237,11 @@
 .s-annule {
     background: #fde8e8;
     color: #c0392b;
+}
+
+.s-paid {
+    background: #d5d5f5;
+    color: #0f12ca;
 }
 
 /* .status-sub {
