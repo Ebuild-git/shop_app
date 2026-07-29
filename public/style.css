@@ -5094,3 +5094,12 @@ input[type=number] {
 }
 
 
+.s-vendu {
+    background: #fde8e8;
+    color: #c0392b;
+}
+
+.s-paid {
+    background: #d5f5e3;
+    color: #1a7a45;
+}

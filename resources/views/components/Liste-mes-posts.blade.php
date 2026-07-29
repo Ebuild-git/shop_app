@@ -606,89 +606,7 @@
                             <span class="dash">—</span>
                         @endif
                     </td>
-                    {{-- <td>
-                        @if($item->latestShipmentHistory?->shipment_id)
-                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
-                                {{ $item->latestShipmentHistory->shipment_id }}
-                            </a>
-                        @else
-                            <span class="dash">—</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($item->latestShipmentHistory?->shipment_id)
-                            <a href="{{ route('aramex.label.download', ['shipmentId' => $item->latestShipmentHistory->shipment_id]) }}"
-                            target="_blank"
-                            class="btn-reduce"
-                            title="{{ __('voir_telecharger_etiquette') }}">
-                                <i class="bi bi-printer"></i>
-                            </a>
-                        @else
-                            <span class="dash">—</span>
-                        @endif
-                    </td> --}}
-                    {{-- <td>
-                        @php
-                        $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
-                        $hasDeletedOrder = $item->hasDeletedOrders();
-                        @endphp
 
-                        @if ($item->deleted_at && !$item->motif_suppression)
-                                <span class="s-badge s-deleted">{{ __('deleted_by_me') }}</span>
-
-                        @elseif (!$item->motif_suppression)
-
-                            @if ($isUserDeleted || $hasDeletedOrder)
-                                <span class="s-badge s-annule">
-                                    {{ __('commande annulée') }}
-                                </span>
-
-                            @else
-                                @php
-                                    $s = $item->statut;
-                                    $vm = optional($item->user_info)->voyage_mode;
-                                    if ($vm && $item->verified_at && !$item->sell_at) {
-                                        $s = 'en voyage';
-                                    }
-                                    $badgeMap = [
-                                        'validation'            => ['class' => 's-validation',  'label' => __('validation')],
-                                        'vente'                 => ['class' => 's-vente',        'label' => __('vente')],
-                                        'vendu'                 => ['class' => 's-vendu',        'label' => __('vendu')],
-                                        'livraison'             => ['class' => 's-livraison',    'label' => __('livraison')],
-                                        'livré'                 => ['class' => 's-livre',        'label' => __('livré')],
-                                        'refusé'                => ['class' => 's-refuse',       'label' => __('refusé')],
-                                        'préparation'           => ['class' => 's-preparation',  'label' => __('préparation')],
-                                        'en voyage'             => ['class' => 's-en-voyage',    'label' => __('en voyage')],
-                                        'en cours de livraison' => ['class' => 's-en-cours',     'label' => __('en cours de livraison')],
-                                        'ramassée'              => ['class' => 's-ramassee',     'label' => __('ramassée')],
-                                        'retourné'              => ['class' => 's-retourne',     'label' => __('retourné')],
-                                    ];
-                                    $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
-                                @endphp
-
-                                @if($item->latestShipmentHistory?->shipment_id)
-                                    <span class="s-badge s-livraison" title="{{ __('dernier_etat_aramex') }}">
-                                        {{ $item->latestShipmentHistory->new_etat }}
-                                    </span>
-                                @else
-                                    <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-                                @endif
-
-                                @if ($item->sell_at)
-                                    <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
-                                        {{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y') }}
-                                    </div>
-                                @elseif($item->verified_at)
-                                    <div class="status-sub">
-                                        {{ \Carbon\Carbon::parse($item->verified_at)->format('d-m-Y') }}
-                                    </div>
-                                @endif
-                            @endif
-
-                        @else
-                            <span class="s-badge s-deleted">{{ __('deleted_by_shopin') }}</span>
-                        @endif
-                    </td> --}}
                     <td>
                         @php
                             $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
@@ -738,7 +656,7 @@
                                 </div> --}}
 
                             @else
-                                @php
+                                {{-- @php
                                     $s = $item->statut;
                                     $vm = optional($item->user_info)->voyage_mode;
                                     if ($vm && $item->verified_at && !$item->sell_at) {
@@ -758,16 +676,48 @@
                                         'retourné'              => ['class' => 's-retourne',     'label' => __('retourné')],
                                     ];
                                     $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
-                                @endphp
+                                @endphp --}}
 
-                                {{-- @if($item->latestShipmentHistory?->shipment_id)
-                                    <span class="s-badge s-livraison" title="{{ __('dernier_etat_aramex') }}">
-                                        {{ $item->latestShipmentHistory->new_etat }}
-                                    </span>
-                                @else
-                                    <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-                                @endif --}}
+                                @php
+                                    $vm = optional($item->user_info)->voyage_mode;
+
+                                    // Check if this order has been paid via Aramex (SH239 update code)
+                                    $isPaid = $item->latestShipmentHistory?->shipment_id
+                                        && $item->latestShipmentHistory?->update_code === 'SH239';
+
+                                    if ($item->statut === 'vente') {
+                                        $s = 'vente';
+                                    } elseif ($item->sell_at && $item->statut !== 'validation') {
+                                        $s = 'vendu';
+                                    } else {
+                                        $s = $item->statut;
+                                    }
+
+                                    // Voyage mode override (only applies if not yet sold)
+                                    if ($vm && $item->verified_at && !$item->sell_at) {
+                                        $s = 'en voyage';
+                                    }
+
+                                    $badgeMap = [
+                                        'validation'            => ['class' => 's-validation',  'label' => __('validation')],
+                                        'vente'                 => ['class' => 's-vente',        'label' => __('vente')],
+                                        'vendu'                 => ['class' => 's-vendu',        'label' => __('vendu')],
+                                        'livraison'             => ['class' => 's-livraison',    'label' => __('livraison')],
+                                        'livré'                 => ['class' => 's-livre',        'label' => __('livré')],
+                                        'refusé'                => ['class' => 's-refuse',       'label' => __('refusé')],
+                                        'préparation'           => ['class' => 's-preparation',  'label' => __('préparation')],
+                                        'en voyage'             => ['class' => 's-en-voyage',    'label' => __('en voyage')],
+                                        'en cours de livraison' => ['class' => 's-en-cours',     'label' => __('en cours de livraison')],
+                                        'ramassée'              => ['class' => 's-ramassee',     'label' => __('ramassée')],
+                                        'retourné'              => ['class' => 's-retourne',     'label' => __('retourné')],
+                                    ];
+                                    $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
+                                @endphp
                                 <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
+
+                                @if($s === 'vendu' && $isPaid)
+                                    <span class="s-badge s-paid" title="{{ __('paid') }}">{{ __('paid') }}</span>
+                                @endif
 
                                 @if ($item->sell_at)
                                     <div class="status-sub" title="{{ \Carbon\Carbon::parse($item->sell_at)->format('d-m-Y H:i') }}">
