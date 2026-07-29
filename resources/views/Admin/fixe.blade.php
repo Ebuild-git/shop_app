@@ -512,7 +512,7 @@
                                     <script>
                                         document.write(new Date().getFullYear());
                                     </script>
-                                    Shopin
+                                    , Shopin
                                     {{-- , made with ❤️ by
                                     <a href="https://e-build.tn" target="_blank" class="fw-medium" style="color: red;">
                                         <b>
