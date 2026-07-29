@@ -274,6 +274,20 @@ class UsersController extends Controller
             }
         }
 
+        $voyageModeJustActivated = false;
+
+        if ($request->has('voyage_mode')) {
+            $wasVoyageMode = (bool) $user->voyage_mode;
+            $isVoyageMode  = (bool) $request->voyage_mode;
+
+            $user->voyage_mode = $request->voyage_mode;
+            $changes = true;
+
+            if (!$wasVoyageMode && $isVoyageMode) {
+                $voyageModeJustActivated = true;
+            }
+        }
+
         if ($request->filled('rib_number')) {
             $current = null;
             if ($user->rib_number) {
@@ -360,6 +374,11 @@ class UsersController extends Controller
 
         if ($changes) {
             $user->save();
+
+            if ($voyageModeJustActivated) {
+                app(\App\Services\VoyageModeAlertService::class)
+                    ->handleVoyageModeActivated($user);
+            }
 
             $decryptedRib = null;
             if ($user->rib_number) {

@@ -22,6 +22,7 @@ use App\Events\AdminEvent;
 use App\Models\notifications;
 use App\Models\configurations;
 use Illuminate\Support\Str;
+use App\Services\UserDeletionService;
 
 class AuthController extends Controller
 {
@@ -98,8 +99,8 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->login)
-                    ->orWhere('username', $request->login)
-                    ->first();
+            ->orWhere('username', $request->login)
+            ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -438,8 +439,8 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)
-                    ->where('verification_code', $request->code)
-                    ->first();
+            ->where('verification_code', $request->code)
+            ->first();
 
         if (!$user) {
             return response()->json([
@@ -494,7 +495,7 @@ class AuthController extends Controller
         ]);
     }
 
-       /**
+    /**
      * @OA\Post(
      *     path="/api/request-password-reset",
      *     summary="Request a password reset OTP",
@@ -564,7 +565,7 @@ class AuthController extends Controller
         return response()->json(['error' => 'User not found'], 404);
     }
 
-        /**
+    /**
      * @OA\Post(
      *     path="/api/verify-otp",
      *     summary="Verify OTP for password reset",
@@ -901,7 +902,12 @@ class AuthController extends Controller
             $isCurrentUser = $authUser->id === $user->id;
 
             $username = $user->username;
-            $userPk   = $user->id;
+            $userPk = $user->id;
+
+            // Auto-cancel Aramex pickups before deleting the account
+            $deletionService = app(UserDeletionService::class);
+            $deletionService->handlePickupCancellations($user, 'vendeur');
+            $deletionService->handlePickupCancellations($user, 'acheteur');
 
             $user->email_deleted = $user->email;
             $user->username_deleted = $username;
@@ -925,21 +931,21 @@ class AuthController extends Controller
                 $authUser->currentAccessToken()->delete();
 
                 return response()->json([
-                    'status'  => true,
+                    'status' => true,
                     'message' => 'Account deleted successfully',
                 ], 200);
             }
 
             return response()->json([
-                'status'  => true,
+                'status' => true,
                 'message' => 'User deleted successfully',
             ], 200);
 
         } catch (\Throwable $e) {
             return response()->json([
-                'status'  => false,
+                'status' => false,
                 'message' => 'Impossible de supprimer cet utilisateur.',
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

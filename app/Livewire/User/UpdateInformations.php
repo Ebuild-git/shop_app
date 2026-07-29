@@ -8,6 +8,7 @@ use App\Models\notifications;
 use App\Models\regions;
 use App\Models\User;
 use App\Models\posts;
+use App\Services\UserDeletionService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -54,41 +55,41 @@ class UpdateInformations extends Component
     public function update()
     {
         try {
-        $this->validate([
-            'email' => 'required|email|max:100',
-            'phone_number' => [
-                'required',
-                'regex:/^[0-9 ]+$/',
-                function ($attribute, $value, $fail) {
-                    $cleaned = str_replace(' ', '', $value);
+            $this->validate([
+                'email' => 'required|email|max:100',
+                'phone_number' => [
+                    'required',
+                    'regex:/^[0-9 ]+$/',
+                    function ($attribute, $value, $fail) {
+                        $cleaned = str_replace(' ', '', $value);
 
-                    if (strlen($cleaned) !== 10) {
-                        $fail(__('phone_must_be_10_digits'));
-                    }
-                },
-            ],
-            'region' => 'required|integer|exists:regions,id',
-            'city_id' => 'nullable|exists:cities,id',
-            'rue' => 'required|string|max:255',
-            'nom_batiment' => 'required|string|max:255',
-            'etage' => 'required|string|max:255',
-            'num_appartement' => 'required|string|max:255',
-            'jour' => 'required|integer|min:1|max:31',
-            'mois' => 'required|integer|min:1|max:12',
-            'annee' => 'required|integer',
-            'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
-        ], [
-            'required' => __('required'),
-            'string' => __('string'),
-            'avatar.max' => __('avatar_max'),
-            'mimes' => __('mimes'),
-            'email' => __('email_validation'),
-            'phone_number.digits' => __('phone_must_be_10_digits'),
-        ]);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        $this->dispatch('scroll-to-first-error');
-        throw $e; // re-throw so Livewire still renders the errors
-    }
+                        if (strlen($cleaned) !== 10) {
+                            $fail(__('phone_must_be_10_digits'));
+                        }
+                    },
+                ],
+                'region' => 'required|integer|exists:regions,id',
+                'city_id' => 'nullable|exists:cities,id',
+                'rue' => 'required|string|max:255',
+                'nom_batiment' => 'required|string|max:255',
+                'etage' => 'required|string|max:255',
+                'num_appartement' => 'required|string|max:255',
+                'jour' => 'required|integer|min:1|max:31',
+                'mois' => 'required|integer|min:1|max:12',
+                'annee' => 'required|integer',
+                'avatar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
+            ], [
+                'required' => __('required'),
+                'string' => __('string'),
+                'avatar.max' => __('avatar_max'),
+                'mimes' => __('mimes'),
+                'email' => __('email_validation'),
+                'phone_number.digits' => __('phone_must_be_10_digits'),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('scroll-to-first-error');
+            throw $e; // re-throw so Livewire still renders the errors
+        }
 
         $date = \Carbon\Carbon::createFromDate($this->annee, $this->mois, $this->jour);
         $age = $date->diffInYears(\Carbon\Carbon::now());
@@ -179,6 +180,11 @@ class UpdateInformations extends Component
             $user->username = null;
             $user->save();
 
+
+            // Auto-cancel Aramex pickups before deleting the account
+            $deletionService = app(UserDeletionService::class);
+            $deletionService->handlePickupCancellations($user, 'vendeur');
+            $deletionService->handlePickupCancellations($user, 'acheteur');
 
             $user->delete();
             $notification = new notifications();

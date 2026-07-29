@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Events\UserEvent;
 use App\Models\notifications;
 use Illuminate\Support\Facades\App;
+use App\Services\UserDeletionService;
 
 class UserController extends Controller
 {
@@ -107,23 +108,23 @@ class UserController extends Controller
                 $decryptedRib = null;
             }
 
-            $currentCinImg      = $user->cin_img  ? asset('storage/' . $user->cin_img)  : null;
-            $currentCinImg2     = $user->cin_img2 ? asset('storage/' . $user->cin_img2) : null;
-            $currentCinFilename = $user->cin_img  ? basename($user->cin_img)  : null;
-            $currentCinFilename2= $user->cin_img2 ? basename($user->cin_img2) : null;
+            $currentCinImg = $user->cin_img ? asset('storage/' . $user->cin_img) : null;
+            $currentCinImg2 = $user->cin_img2 ? asset('storage/' . $user->cin_img2) : null;
+            $currentCinFilename = $user->cin_img ? basename($user->cin_img) : null;
+            $currentCinFilename2 = $user->cin_img2 ? basename($user->cin_img2) : null;
 
             $oldCinImages = json_decode($user->old_cin_images, true) ?? [];
             $oldCinImages = array_map(fn($img) => asset('storage/' . $img), $oldCinImages);
 
             return view("Admin.clients.profile")
-                ->with("user",               $user)
-                ->with("posts",              $posts)
-                ->with("decryptedRib",       $decryptedRib)
-                ->with("currentCinImg",      $currentCinImg)
-                ->with("currentCinImg2",     $currentCinImg2)
+                ->with("user", $user)
+                ->with("posts", $posts)
+                ->with("decryptedRib", $decryptedRib)
+                ->with("currentCinImg", $currentCinImg)
+                ->with("currentCinImg2", $currentCinImg2)
                 ->with("currentCinFilename", $currentCinFilename)
-                ->with("currentCinFilename2",$currentCinFilename2)
-                ->with("oldCinImages",       $oldCinImages);
+                ->with("currentCinFilename2", $currentCinFilename2)
+                ->with("oldCinImages", $oldCinImages);
 
         } catch (\Throwable $th) {
             abort(404, "Page non trouvée");
@@ -327,6 +328,12 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
+            // Auto-cancel Aramex pickups for this user's order items
+            $deletionService = app(UserDeletionService::class);
+            $deletionService->handlePickupCancellations($user, 'vendeur');
+            $deletionService->handlePickupCancellations($user, 'acheteur');
+
             $user->delete();
 
             return response()->json([
@@ -423,9 +430,9 @@ class UserController extends Controller
                 'nom_batiment' => 'nullable|string|max:255',
                 'etage' => 'nullable|string|max:50',
                 'num_appartement' => 'nullable|string|max:50',
-                 'region' => 'nullable|exists:regions,id',
-                 'city_id' => 'nullable|exists:cities,id',
-                 'phone_number' => 'nullable|string|max:20',
+                'region' => 'nullable|exists:regions,id',
+                'city_id' => 'nullable|exists:cities,id',
+                'phone_number' => 'nullable|string|max:20',
                 'bank_name' => 'nullable|string|max:255',
                 'titulaire_name' => 'nullable|string|max:255',
                 'rib_number' => 'nullable|string|max:255',
@@ -461,7 +468,8 @@ class UserController extends Controller
         }
     }
 
-    public function liste_messages(){
+    public function liste_messages()
+    {
         return view('Admin.messages.index');
     }
 }

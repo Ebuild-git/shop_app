@@ -19,7 +19,15 @@ class OrdersItem extends Model
         'vendor_id',
         'price',
         'delivery_fee',
-        'status', 'shipment_id', 'aramex_update_description', 'pickup_cancelled_at', 'cancelled_pickup_guid', 'cancelled_shipment_id', 'cancelled_pickup_id', 'note'
+        'status',
+        'shipment_id',
+        'aramex_update_description',
+        'pickup_cancelled_at',
+        'cancelled_pickup_guid',
+        'cancelled_shipment_id',
+        'cancelled_pickup_id',
+        'note',
+        'info_auto',
     ];
 
     protected $casts = [
@@ -55,6 +63,6 @@ class OrdersItem extends Model
     public function latestShipmentHistory()
     {
         return $this->hasOne(ShipmentStatusHistory::class, 'order_item_id')
-                    ->latestOfMany('id');
+            ->latestOfMany('id');
     }
 }

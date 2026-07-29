@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Services\UserDeletionService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 use Livewire\Component;
 
 class ListeUtilisateurs extends Component
 {
-    public $type, $list, $key, $statut,$etat;
+    public $type, $list, $key, $statut, $etat;
     public $locked = "no";
     public $showTrashed = "no";
     public $verified = null;
@@ -65,7 +66,7 @@ class ListeUtilisateurs extends Component
                 $users->where('locked', true)->orderBy("locked_at", "desc");
             } else {
                 $users->where('locked', false)
-                ->orderBy("id", "desc");
+                    ->orderBy("id", "desc");
             }
         }
 
@@ -97,13 +98,13 @@ class ListeUtilisateurs extends Component
                     ->orWhere('num_appartement', 'like', '%' . $this->key . '%')
                     ->orWhere('email', 'like', '%' . $this->key . '%');
 
-                    if (is_numeric($this->key)) {
-                        $query->orWhere('id', $this->key)
-                              ->orWhere('id', $this->key - 1000);
-                    } elseif (preg_match('/^U\d+$/i', $this->key)) {
-                        $rawId = (int)substr($this->key, 1) - 1000;
-                        $query->orWhere('id', $rawId);
-                    }
+                if (is_numeric($this->key)) {
+                    $query->orWhere('id', $this->key)
+                        ->orWhere('id', $this->key - 1000);
+                } elseif (preg_match('/^U\d+$/i', $this->key)) {
+                    $rawId = (int) substr($this->key, 1) - 1000;
+                    $query->orWhere('id', $rawId);
+                }
 
 
             });
@@ -128,9 +129,9 @@ class ListeUtilisateurs extends Component
                 $users->whereNotNull('email_verified_at')
                     ->where('cin_approved', true);
             } else {
-                $users->where(function($q) {
+                $users->where(function ($q) {
                     $q->whereNull('email_verified_at')
-                    ->orWhere('cin_approved', false);
+                        ->orWhere('cin_approved', false);
                 });
             }
         }
@@ -140,7 +141,7 @@ class ListeUtilisateurs extends Component
         foreach ($users as $user) {
             $venduCountPerUser[$user->id] = $user->GetPosts()->where('statut', 'vendu')->count();
         }
-        return view('livewire.liste-utilisateurs',  compact('users', 'venduCountPerUser'));
+        return view('livewire.liste-utilisateurs', compact('users', 'venduCountPerUser'));
     }
 
 
@@ -158,6 +159,12 @@ class ListeUtilisateurs extends Component
     {
         try {
             $user = User::findOrFail($id);
+
+            // Auto-cancel Aramex pickups for this user's order items
+            $deletionService = app(UserDeletionService::class);
+            $deletionService->handlePickupCancellations($user, 'vendeur');
+            $deletionService->handlePickupCancellations($user, 'acheteur');
+
             $user->delete();
             session()->flash('message', 'Utilisateur supprimé avec succès !');
         } catch (\Throwable $th) {
