@@ -571,7 +571,7 @@ class PostsController extends Controller
 
         $shipmentHistories = $this->getShipmentHistoriesForPosts($achats->pluck('id')->all());
 
-        $achats = $achats->map(function ($post) {
+        $achats = $achats->map(function ($post) use ($shipmentHistories) {
             $post->prix = $post->getPrix();
             $postData = $post->toArray();
 
