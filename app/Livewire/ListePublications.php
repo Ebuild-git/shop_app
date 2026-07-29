@@ -17,6 +17,8 @@ class ListePublications extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     protected $listeners = ['annonce-delete' => '$refresh'];
 
     public $type, $categories, $mot_key, $categorie_key, $region_key, $deleted, $date, $signalement;
@@ -30,103 +32,8 @@ class ListePublications extends Component
         $this->deleted = $deleted;
     }
 
-    public $status_filter; // This will hold the selected status for filtering
+    public $status_filter;
 
-    // public function render()
-    // {
-
-    //     $this->categories = categories::all();
-
-    //     $postsQuery = posts::query();
-    //     if ($this->deleted == 'oui') {
-    //         $postsQuery->onlyTrashed()->orderBy('deleted_at', 'desc');
-    //     } else {
-    //         $postsQuery->orderBy('id', 'desc');
-    //     }
-
-    //     if (strlen($this->status_filter) > 0) {
-    //         if ($this->status_filter === 'vente') {
-    //             $postsQuery->whereNotNull('verified_at')
-    //                 ->whereNull('sell_at');
-    //         } elseif ($this->status_filter === 'vendu') {
-    //             $postsQuery->whereNotNull('sell_at');
-    //         } elseif ($this->status_filter === 'en voyage') {
-    //             $postsQuery->whereNotNull('verified_at')
-    //                 ->whereNull('sell_at')
-    //                 ->whereHas('user_info', function ($query) {
-    //                     $query->where('voyage_mode', 1);
-    //                 });
-    //         } else {
-    //             $postsQuery->where('statut', $this->status_filter);
-    //         }
-    //     }
-
-
-    //     //filtre rn fonction de l'ordre des post les plus signaler
-    //     if (strlen($this->signalement) > 0) {
-    //         $order = $this->signalement == "Asc" ? 'asc' : 'desc';
-
-    //         $postsQuery->withCount('signalements')
-    //             ->orderBy('signalements_count', $order);
-    //     }
-
-    //     if (strlen($this->date) > 0) {
-    //         $date = $this->date;
-    //         $year = Carbon::createFromFormat('Y-m', $date)->year;
-    //         $month = Carbon::createFromFormat('Y-m', $date)->month;
-
-    //         $postsQuery->whereYear('created_at', $year)
-    //             ->whereMonth('created_at', $month);
-    //     }
-    //     // Filtrage par mot-clé
-    //     if (strlen($this->mot_key) > 0) {
-    //         $mot_key = $this->mot_key;
-
-    //         $postsQuery->where(function ($query) use ($mot_key) {
-
-
-    //             $query->whereHas('user_info', function ($q) use ($mot_key) {
-    //                 $q->where('username', 'like', '%' . $mot_key . '%')
-    //                     ->orWhere('firstname', 'like', '%' . $mot_key . '%')
-    //                     ->orWhere('lastname', 'like', '%' . $mot_key . '%');
-    //             });
-    //             if (strtoupper(substr($mot_key, 0, 1)) === 'P' && is_numeric(substr($mot_key, 1))) {
-    //                 $numericId = substr($mot_key, 1);
-    //                 $query->orWhere('id', $numericId);
-    //             }
-    //             if (is_numeric($mot_key)) {
-    //                 $query->orWhere('id', $mot_key);
-    //             }
-    //             $query->orWhere('titre', 'like', '%' . $mot_key . '%')
-    //                 ->orWhere('description', 'like', '%' . $mot_key . '%');
-    //         });
-    //     }
-
-
-    //     // Filtrage par catégories
-    //     if (strlen($this->categorie_key) > 0) {
-    //         $categorie = categories::find($this->categorie_key);
-    //         if ($categorie) {
-    //             $postsQuery->whereHas('sous_categorie_info', function ($query) use ($categorie) {
-    //                 $query->where('id_categorie', $categorie->id);
-    //             });
-    //         }
-    //     }
-
-
-    //     // Filtrage par region
-    //     if (strlen($this->region_key) > 0) {
-    //         $postsQuery->where('id_region', $this->region_key);
-    //     }
-
-
-    //     $posts = $postsQuery->paginate(50);
-    //     $regions = regions::all(['id', 'nom']);
-
-    //     //count total trashed post
-    //     $trashCount = posts::onlyTrashed()->count();
-    //     return view('livewire.liste-publications', compact('posts', 'regions', 'trashCount'));
-    // }
     public function render()
     {
         $this->categories = categories::all();
@@ -212,7 +119,7 @@ class ListePublications extends Component
             $postsQuery->where('id_region', $this->region_key);
         }
 
-        $posts      = $postsQuery->paginate(50);
+        $posts      = $postsQuery->paginate(20);
         $regions    = regions::all(['id', 'nom']);
         $trashCount = posts::onlyTrashed()->count();
 
