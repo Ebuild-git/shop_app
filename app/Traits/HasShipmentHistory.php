@@ -29,12 +29,6 @@ trait HasShipmentHistory
             return [];
         }
 
-        // Group order items by post_id to know each post's active vs cancelled shipment ids
-        $itemsByPost = OrdersItem::whereIn('post_id', $postIds)
-            ->get()
-            ->groupBy('post_id');
-
-        // Fetch all relevant history rows in one query, grouped by post_id
         $historyByPost = ShipmentStatusHistory::whereIn('post_id', $postIds)
             ->orderByDesc('update_datetime')
             ->get()
@@ -58,26 +52,26 @@ trait HasShipmentHistory
         $result = [];
 
         foreach ($postIds as $postId) {
-            $items = $itemsByPost->get($postId, collect());
-
-            $currentShipmentIds   = $items->pluck('shipment_id')->filter()->unique()->values();
-            $cancelledShipmentIds = $items->pluck('cancelled_shipment_id')->filter()->unique()->values();
-
             $rawHistory = $historyByPost->get($postId, collect());
 
+            // Most recent shipment_id in the post's history = the current one
+            $currentShipmentId = $rawHistory->first()?->shipment_id;
+
             $currentHistory = $rawHistory
-                ->filter(fn($row) => $currentShipmentIds->contains($row->shipment_id))
+                ->filter(fn($row) => $row->shipment_id === $currentShipmentId)
                 ->map($mapRow)
                 ->values();
 
             $cancelledHistory = $rawHistory
-                ->filter(fn($row) => $cancelledShipmentIds->contains($row->shipment_id))
+                ->filter(fn($row) => $row->shipment_id !== $currentShipmentId)
                 ->map($mapRow)
                 ->values();
 
+            $cancelledShipmentIds = $cancelledHistory->pluck('shipment_id')->unique()->values()->all();
+
             $result[$postId] = [
-                'current_shipment_id'    => $currentShipmentIds->first(),
-                'cancelled_shipment_ids' => $cancelledShipmentIds->values()->all(),
+                'current_shipment_id'    => $currentShipmentId,
+                'cancelled_shipment_ids' => $cancelledShipmentIds,
                 'current_history'        => $currentHistory->all(),
                 'cancelled_history'      => $cancelledHistory->all(),
             ];
