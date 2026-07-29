@@ -85,6 +85,8 @@ Route::middleware(['auth:sanctum', 'check.locked'])->group(function () {
     Route::post('/posts/{id}/reduce-price', [postController::class, 'reducePrice']);
     Route::post('/posts/{id}/report', [postController::class, 'report']);
     Route::delete('/my-posts/{id}', [postController::class, 'deletePost']);
+    Route::get('/posts/{postId}/shipment-history', [ShopController::class, 'byPost'])
+    ->name('post.shipment-history');
 
     //Cart
     Route::post('/add/panier', [ShopController::class, 'toggle_panier']);
@@ -126,6 +128,7 @@ Route::middleware(['auth:sanctum', 'check.locked'])->group(function () {
     Route::get('/notifications/unread-count', [NotificationsController::class, 'get_unread_count'])->name('get_unread_count');
 
     Route::post('/user/language', [LanguageController::class, 'updateLanguage']);
+
 
 });
 

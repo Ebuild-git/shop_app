@@ -15,6 +15,7 @@ use App\Mail\commande;
 use App\Events\UserEvent;
 use App\Events\AdminEvent;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ShipmentStatusHistory;
 
 class ShopController extends Controller
 {
@@ -1053,6 +1054,118 @@ class ShopController extends Controller
             'success' => true,
             'data' => $orders,
         ]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/posts/{postId}/shipment-history",
+     *     summary="Get Aramex shipment status history for a post",
+     *     description="Returns the full shipment status history (all shipment_ids ever linked) for a given post_id.",
+     *     operationId="getShipmentHistoryByPost",
+     *     tags={"Shipment History"},
+     *     @OA\Parameter(
+     *         name="postId",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the post",
+     *         @OA\Schema(type="integer", example=123)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Shipment history retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="post_id", type="integer", example=123),
+     *             @OA\Property(
+     *                 property="shipment_ids",
+     *                 type="array",
+     *                 @OA\Items(type="string", example="AR123456789")
+     *             ),
+     *             @OA\Property(
+     *                 property="history",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=45),
+     *                     @OA\Property(property="shipment_id", type="string", example="AR123456789"),
+     *                     @OA\Property(property="order_item_id", type="integer", nullable=true, example=98),
+     *                     @OA\Property(property="old_etat", type="string", nullable=true, example="préparation"),
+     *                     @OA\Property(property="new_etat", type="string", example="en cours de livraison"),
+     *                     @OA\Property(property="update_code", type="string", nullable=true, example="SH012"),
+     *                     @OA\Property(property="update_description", type="string", nullable=true, example="Shipment picked up"),
+     *                     @OA\Property(property="update_location", type="string", nullable=true, example="Casablanca Hub"),
+     *                     @OA\Property(property="update_datetime", type="string", nullable=true, example="2026-07-28 14:32"),
+     *                     @OA\Property(property="created_at", type="string", nullable=true, example="2026-07-28 14:33")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No shipment history found for this post",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aucun historique trouvé pour cette publication."),
+     *             @OA\Property(property="post_id", type="integer", example=123),
+     *             @OA\Property(property="history", type="array", @OA\Items())
+     *         )
+     *     )
+     * )
+     */
+    public function byPost(Request $request, int $postId)
+    {
+        $authUser = $request->user();
+        if (!$authUser) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $post = posts::find($postId);
+        if (!$post) {
+            return response()->json([
+                'message' => 'Publication introuvable.',
+                'post_id' => $postId,
+                'history' => [],
+            ], 404);
+        }
+
+        $isOwner  = $post->id_user == $authUser->id;
+        $isBuyer  = $post->id_user_buy == $authUser->id;
+
+        if (!$isOwner && !$isBuyer) {
+            return response()->json([
+                'message' => "Vous n'êtes pas autorisé à consulter cet historique.",
+            ], 403);
+        }
+
+        $history = ShipmentStatusHistory::where('post_id', $postId)
+            ->orderByDesc('update_datetime')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'id'                 => $row->id,
+                    'shipment_id'        => $row->shipment_id,
+                    'order_item_id'      => $row->order_item_id,
+                    'old_etat'           => $row->old_etat,
+                    'new_etat'           => $row->new_etat,
+                    'update_code'        => $row->update_code,
+                    'update_description' => $row->update_description,
+                    'update_location'    => $row->update_location,
+                    'update_datetime'    => optional($row->update_datetime)->format('Y-m-d H:i'),
+                    'created_at'         => optional($row->created_at)->format('Y-m-d H:i'),
+                ];
+            });
+
+        if ($history->isEmpty()) {
+            return response()->json([
+                'message' => 'Aucun historique trouvé pour cette publication.',
+                'post_id' => $postId,
+                'history' => [],
+            ], 404);
+        }
+
+        return response()->json([
+            'post_id'      => $postId,
+            'shipment_ids' => $history->pluck('shipment_id')->unique()->values(),
+            'history'      => $history,
+        ], 200);
     }
 
 
