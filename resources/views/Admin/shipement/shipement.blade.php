@@ -203,9 +203,27 @@
                                         </td>
 
                                         {{-- <td>{{ $item->shipment_id ?? '—' }}</td> --}}
+                                        {{-- <td>
+                                            @if($item->shipment_id)
+                                                {{ $item->shipment_id }}
+                                            @elseif($item->cancelled_shipment_id)
+                                                <span class="text-muted text-decoration-line-through">{{ $item->cancelled_shipment_id }}</span>
+                                                <br><span class="badge bg-danger bg-opacity-75" style="font-size:10px;">Annulé</span>
+                                            @else
+                                                —
+                                            @endif
+                                        </td> --}}
                                         <td>
                                             @if($item->shipment_id)
                                                 {{ $item->shipment_id }}
+
+                                                @if($item->cancelled_shipment_id)
+                                                    <br>
+                                                    <span class="text-muted text-decoration-line-through" style="font-size:11px;">
+                                                        {{ $item->cancelled_shipment_id }}
+                                                    </span>
+                                                    <span class="badge bg-danger bg-opacity-75" style="font-size:10px;">Annulé</span>
+                                                @endif
                                             @elseif($item->cancelled_shipment_id)
                                                 <span class="text-muted text-decoration-line-through">{{ $item->cancelled_shipment_id }}</span>
                                                 <br><span class="badge bg-danger bg-opacity-75" style="font-size:10px;">Annulé</span>
