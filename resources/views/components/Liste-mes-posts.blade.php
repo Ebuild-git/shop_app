@@ -570,15 +570,17 @@
                                 {{ $item->latestShipmentHistory->new_etat }}
                             </span>
                             <br>
+                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
+                                {{ $item->latestShipmentHistory->shipment_id }}
+                            </a>
+                            <br>
                             @if($item->latestOrderItem?->cancelled_shipment_id)
                                 <span class="dash" style="text-decoration: line-through;" title="{{ __('ancien_numero_expedition') }}">
                                     {{ $item->latestOrderItem->cancelled_shipment_id }}
                                 </span>
-                                <br>
+
                             @endif
-                            <a href="{{ url('/my-orders') }}?shipment_id={{ $item->latestShipmentHistory->shipment_id }}" class="underlined-link">
-                                {{ $item->latestShipmentHistory->shipment_id }}
-                            </a>
+
                         @else
                             <span class="dash">—</span>
                         @endif
