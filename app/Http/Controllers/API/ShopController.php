@@ -905,7 +905,7 @@ class ShopController extends Controller
             'total_delivery_fees' => $order->total_delivery_fees,
             'deleted_at' => $order->deleted_at,
 
-            'items' => $order->items->map(function ($item) {
+            'items' => $order->items->map(function ($item) use ($shipmentHistories) {
 
                 $photos = [];
                 if ($item->post) {
