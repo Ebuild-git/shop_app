@@ -402,7 +402,7 @@
                                                             ->pluck('shipment_id');
 
                                                         $pickupAlreadyConfirmed = \App\Models\ShipmentStatusHistory::whereIn('shipment_id', $vendorShipmentIds)
-                                                            ->whereIn('update_code', ['SH012', 'SH314'])
+                                                            ->whereIn('update_code', ['SH012', 'SH314', 'SH308', 'SH312'])
                                                             ->exists();
                                                     @endphp
                                                     {{-- @if($pickupGuid)
