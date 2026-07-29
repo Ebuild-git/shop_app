@@ -1056,11 +1056,11 @@ class ShopController extends Controller
         ]);
     }
 
-    /**
+   /**
      * @OA\Get(
-     *     path="/posts/{postId}/shipment-history",
+     *     path="/api/posts/{postId}/shipment-history",
      *     summary="Get Aramex shipment status history for a post",
-     *     description="Returns the full shipment status history (all shipment_ids ever linked) for a given post_id.",
+     *     description="Returns shipment status history for a post, split into 'current' (active shipment_id) and 'cancelled' (cancelled_shipment_id) groups. Only accessible to the post's seller (id_user) or buyer (id_user_buy).",
      *     operationId="getShipmentHistoryByPost",
      *     tags={"Shipment History"},
      *     @OA\Parameter(
@@ -1075,13 +1075,10 @@ class ShopController extends Controller
      *         description="Shipment history retrieved successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="post_id", type="integer", example=123),
+     *             @OA\Property(property="current_shipment_id", type="string", nullable=true, example="AR123456789"),
+     *             @OA\Property(property="cancelled_shipment_ids", type="array", @OA\Items(type="string", example="AR987654321")),
      *             @OA\Property(
-     *                 property="shipment_ids",
-     *                 type="array",
-     *                 @OA\Items(type="string", example="AR123456789")
-     *             ),
-     *             @OA\Property(
-     *                 property="history",
+     *                 property="current_history",
      *                 type="array",
      *                 @OA\Items(
      *                     type="object",
@@ -1096,16 +1093,42 @@ class ShopController extends Controller
      *                     @OA\Property(property="update_datetime", type="string", nullable=true, example="2026-07-28 14:32"),
      *                     @OA\Property(property="created_at", type="string", nullable=true, example="2026-07-28 14:33")
      *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="cancelled_history",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=40),
+     *                     @OA\Property(property="shipment_id", type="string", example="AR987654321"),
+     *                     @OA\Property(property="order_item_id", type="integer", nullable=true, example=98),
+     *                     @OA\Property(property="old_etat", type="string", nullable=true, example="ramassée"),
+     *                     @OA\Property(property="new_etat", type="string", example="annulé"),
+     *                     @OA\Property(property="update_code", type="string", nullable=true, example="SH400"),
+     *                     @OA\Property(property="update_description", type="string", nullable=true, example="Pickup cancelled"),
+     *                     @OA\Property(property="update_location", type="string", nullable=true, example="Rabat Hub"),
+     *                     @OA\Property(property="update_datetime", type="string", nullable=true, example="2026-07-20 09:10"),
+     *                     @OA\Property(property="created_at", type="string", nullable=true, example="2026-07-20 09:11")
+     *                 )
      *             )
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(@OA\Property(property="message", type="string", example="Unauthorized"))
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Authenticated user is neither the seller nor the buyer of this post",
+     *         @OA\JsonContent(@OA\Property(property="message", type="string", example="Vous n'êtes pas autorisé à consulter cet historique."))
+     *     ),
+     *     @OA\Response(
      *         response=404,
-     *         description="No shipment history found for this post",
+     *         description="Post not found or no shipment history found",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Aucun historique trouvé pour cette publication."),
-     *             @OA\Property(property="post_id", type="integer", example=123),
-     *             @OA\Property(property="history", type="array", @OA\Items())
+     *             @OA\Property(property="post_id", type="integer", example=123)
      *         )
      *     )
      * )
@@ -1122,12 +1145,11 @@ class ShopController extends Controller
             return response()->json([
                 'message' => 'Publication introuvable.',
                 'post_id' => $postId,
-                'history' => [],
             ], 404);
         }
 
-        $isOwner  = $post->id_user == $authUser->id;
-        $isBuyer  = $post->id_user_buy == $authUser->id;
+        $isOwner = $post->id_user == $authUser->id;
+        $isBuyer = $post->id_user_buy == $authUser->id;
 
         if (!$isOwner && !$isBuyer) {
             return response()->json([
@@ -1135,36 +1157,58 @@ class ShopController extends Controller
             ], 403);
         }
 
-        $history = ShipmentStatusHistory::where('post_id', $postId)
-            ->orderByDesc('update_datetime')
-            ->get()
-            ->map(function ($row) {
-                return [
-                    'id'                 => $row->id,
-                    'shipment_id'        => $row->shipment_id,
-                    'order_item_id'      => $row->order_item_id,
-                    'old_etat'           => $row->old_etat,
-                    'new_etat'           => $row->new_etat,
-                    'update_code'        => $row->update_code,
-                    'update_description' => $row->update_description,
-                    'update_location'    => $row->update_location,
-                    'update_datetime'    => optional($row->update_datetime)->format('Y-m-d H:i'),
-                    'created_at'         => optional($row->created_at)->format('Y-m-d H:i'),
-                ];
-            });
+        // Collect the active vs cancelled shipment ids for this post from its order items
+        $items = OrdersItem::where('post_id', $postId)->get();
 
-        if ($history->isEmpty()) {
+        $currentShipmentIds = $items->pluck('shipment_id')->filter()->unique()->values();
+        $cancelledShipmentIds = $items->pluck('cancelled_shipment_id')->filter()->unique()->values();
+
+        $allShipmentIds = $currentShipmentIds->merge($cancelledShipmentIds)->unique()->values();
+
+        $rawHistory = ShipmentStatusHistory::where('post_id', $postId)
+            ->orderByDesc('update_datetime')
+            ->get();
+
+        if ($rawHistory->isEmpty()) {
             return response()->json([
                 'message' => 'Aucun historique trouvé pour cette publication.',
                 'post_id' => $postId,
-                'history' => [],
             ], 404);
         }
 
+        $mapRow = function ($row) {
+            return [
+                'id'                 => $row->id,
+                'shipment_id'        => $row->shipment_id,
+                'order_item_id'      => $row->order_item_id,
+                'old_etat'           => $row->old_etat,
+                'new_etat'           => $row->new_etat,
+                'update_code'        => $row->update_code,
+                'update_description' => $row->update_description,
+                'update_location'    => $row->update_location,
+                'update_datetime'    => optional($row->update_datetime)->format('Y-m-d H:i'),
+                'created_at'         => optional($row->created_at)->format('Y-m-d H:i'),
+            ];
+        };
+
+        // Split history rows by whether their shipment_id matches a currently-active
+        // shipment vs one that was cancelled for this post
+        $currentHistory = $rawHistory
+            ->filter(fn($row) => $currentShipmentIds->contains($row->shipment_id))
+            ->map($mapRow)
+            ->values();
+
+        $cancelledHistory = $rawHistory
+            ->filter(fn($row) => $cancelledShipmentIds->contains($row->shipment_id))
+            ->map($mapRow)
+            ->values();
+
         return response()->json([
-            'post_id'      => $postId,
-            'shipment_ids' => $history->pluck('shipment_id')->unique()->values(),
-            'history'      => $history,
+            'post_id'                => $postId,
+            'current_shipment_id'    => $currentShipmentIds->first(),
+            'cancelled_shipment_ids' => $cancelledShipmentIds,
+            'current_history'        => $currentHistory,
+            'cancelled_history'      => $cancelledHistory,
         ], 200);
     }
 

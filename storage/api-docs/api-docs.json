@@ -4340,6 +4340,220 @@
                 ]
             }
         },
+        "/api/posts/{postId}/shipment-history": {
+            "get": {
+                "tags": [
+                    "Shipment History"
+                ],
+                "summary": "Get Aramex shipment status history for a post",
+                "description": "Returns shipment status history for a post, split into 'current' (active shipment_id) and 'cancelled' (cancelled_shipment_id) groups. Only accessible to the post's seller (id_user) or buyer (id_user_buy).",
+                "operationId": "getShipmentHistoryByPost",
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "description": "ID of the post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shipment history retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "post_id": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "current_shipment_id": {
+                                            "type": "string",
+                                            "example": "AR123456789",
+                                            "nullable": true
+                                        },
+                                        "cancelled_shipment_ids": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "AR987654321"
+                                            }
+                                        },
+                                        "current_history": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 45
+                                                    },
+                                                    "shipment_id": {
+                                                        "type": "string",
+                                                        "example": "AR123456789"
+                                                    },
+                                                    "order_item_id": {
+                                                        "type": "integer",
+                                                        "example": 98,
+                                                        "nullable": true
+                                                    },
+                                                    "old_etat": {
+                                                        "type": "string",
+                                                        "example": "préparation",
+                                                        "nullable": true
+                                                    },
+                                                    "new_etat": {
+                                                        "type": "string",
+                                                        "example": "en cours de livraison"
+                                                    },
+                                                    "update_code": {
+                                                        "type": "string",
+                                                        "example": "SH012",
+                                                        "nullable": true
+                                                    },
+                                                    "update_description": {
+                                                        "type": "string",
+                                                        "example": "Shipment picked up",
+                                                        "nullable": true
+                                                    },
+                                                    "update_location": {
+                                                        "type": "string",
+                                                        "example": "Casablanca Hub",
+                                                        "nullable": true
+                                                    },
+                                                    "update_datetime": {
+                                                        "type": "string",
+                                                        "example": "2026-07-28 14:32",
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2026-07-28 14:33",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "cancelled_history": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 40
+                                                    },
+                                                    "shipment_id": {
+                                                        "type": "string",
+                                                        "example": "AR987654321"
+                                                    },
+                                                    "order_item_id": {
+                                                        "type": "integer",
+                                                        "example": 98,
+                                                        "nullable": true
+                                                    },
+                                                    "old_etat": {
+                                                        "type": "string",
+                                                        "example": "ramassée",
+                                                        "nullable": true
+                                                    },
+                                                    "new_etat": {
+                                                        "type": "string",
+                                                        "example": "annulé"
+                                                    },
+                                                    "update_code": {
+                                                        "type": "string",
+                                                        "example": "SH400",
+                                                        "nullable": true
+                                                    },
+                                                    "update_description": {
+                                                        "type": "string",
+                                                        "example": "Pickup cancelled",
+                                                        "nullable": true
+                                                    },
+                                                    "update_location": {
+                                                        "type": "string",
+                                                        "example": "Rabat Hub",
+                                                        "nullable": true
+                                                    },
+                                                    "update_datetime": {
+                                                        "type": "string",
+                                                        "example": "2026-07-20 09:10",
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2026-07-20 09:11",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Authenticated user is neither the seller nor the buyer of this post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vous n'êtes pas autorisé à consulter cet historique."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found or no shipment history found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aucun historique trouvé pour cette publication."
+                                        },
+                                        "post_id": {
+                                            "type": "integer",
+                                            "example": 123
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/update": {
             "post": {
                 "tags": [
