@@ -9,9 +9,12 @@ use App\Models\ShipmentStatusHistory;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use App\Services\AramexService;
+use App\Services\Concerns\NotifiesPickupCancellation;
 
 class VoyageModeAlertService
 {
+    use NotifiesPickupCancellation;
+
     /**
      * update_codes indicating the shipment is already picked up / in a terminal
      * transit state — these don't need an admin heads-up since Aramex already
@@ -25,52 +28,6 @@ class VoyageModeAlertService
      *
      * @param User $user The user activating voyage mode
      */
-    // public function handleVoyageModeActivated(User $user): void
-    // {
-    //     $items = OrdersItem::where('vendor_id', $user->id)
-    //         ->whereNotNull('pickup_guid')
-    //         ->get();
-
-    //     if ($items->isEmpty()) {
-    //         return;
-    //     }
-
-    //     $now = Carbon::now()->format('Y-m-d H:i');
-    //     $pendingItems = collect();
-
-    //     foreach ($items as $item) {
-    //         $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
-
-    //         $latestHistory = ShipmentStatusHistory::where('order_item_id', $item->id)
-    //             ->orderByDesc('id')
-    //             ->first();
-
-    //         $latestCode = $latestHistory?->update_code;
-    //         $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
-
-    //         if ($isTerminal) {
-    //             // Already picked up by Aramex — nothing for admin to act on.
-    //             continue;
-    //         }
-
-    //         $item->info_auto = "[{$now}] Vendeur en mode voyage – Expédition {$shipmentId} – Pickup en attente, à surveiller";
-    //         $item->save();
-
-    //         $pendingItems->push($item);
-
-    //         \Log::info("VoyageModeAlertService: flagged item #{$item->id} for admin review", [
-    //             'user_id'  => $user->id,
-    //             'shipment' => $shipmentId,
-    //             'terminal' => $isTerminal,
-    //         ]);
-    //     }
-
-    //     if ($pendingItems->isEmpty()) {
-    //         return;
-    //     }
-
-    //     $this->notifyAdmins($user, $pendingItems);
-    // }
     public function handleVoyageModeActivated(User $user): void
     {
         $items = OrdersItem::where(function ($query) use ($user) {
@@ -137,6 +94,11 @@ class VoyageModeAlertService
                 }
 
                 $cancelledItems->push($item);
+            }
+
+            if ($order && $vendor) {
+                $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $groupedItems);
+                $this->notifyBuyerPickupCancelled($order, $shipmentId, $groupedItems);
             }
 
             \Log::info('VoyageModeAlertService: pickup auto-cancelled', [

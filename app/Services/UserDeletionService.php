@@ -6,9 +6,13 @@ use App\Models\OrdersItem;
 use App\Models\ShipmentStatusHistory;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use App\Services\Concerns\NotifiesPickupCancellation;
+use App\Services\AramexService;
 
 class UserDeletionService
 {
+    use NotifiesPickupCancellation;
+
     private const TERMINAL_CODES = ['SH012', 'SH314', 'SH308', 'SH312'];
 
     /**
@@ -79,6 +83,15 @@ class UserDeletionService
                         $item->post->sell_at     = null;
                         $item->post->id_user_buy = null;
                         $item->post->save();
+                    }
+
+                    if ($order && $vendor) {
+                        if ($vendor->id !== $user->id) {
+                            $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $groupedItems);
+                        }
+                        if ($order->buyer && $order->buyer->id !== $user->id) {
+                            $this->notifyBuyerPickupCancelled($order, $shipmentId, $groupedItems);
+                        }
                     }
                 }
             } else {
