@@ -183,8 +183,9 @@ class UpdateInformations extends Component
 
             // Auto-cancel Aramex pickups before deleting the account
             $deletionService = app(UserDeletionService::class);
-            $deletionService->handlePickupCancellations($user, 'vendeur');
-            $deletionService->handlePickupCancellations($user, 'acheteur');
+            // $deletionService->handlePickupCancellations($user, 'vendeur');
+            // $deletionService->handlePickupCancellations($user, 'acheteur');
+            app(UserDeletionService::class)->handlePickupCancellations($user);
 
             $user->delete();
             $notification = new notifications();

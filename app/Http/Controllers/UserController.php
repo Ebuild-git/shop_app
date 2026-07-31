@@ -331,8 +331,9 @@ class UserController extends Controller
 
             // Auto-cancel Aramex pickups for this user's order items
             $deletionService = app(UserDeletionService::class);
-            $deletionService->handlePickupCancellations($user, 'vendeur');
-            $deletionService->handlePickupCancellations($user, 'acheteur');
+            // $deletionService->handlePickupCancellations($user, 'vendeur');
+            // $deletionService->handlePickupCancellations($user, 'acheteur');
+            app(UserDeletionService::class)->handlePickupCancellations($user);
 
             $user->delete();
 

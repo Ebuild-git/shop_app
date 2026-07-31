@@ -906,8 +906,9 @@ class AuthController extends Controller
 
             // Auto-cancel Aramex pickups before deleting the account
             $deletionService = app(UserDeletionService::class);
-            $deletionService->handlePickupCancellations($user, 'vendeur');
-            $deletionService->handlePickupCancellations($user, 'acheteur');
+            // $deletionService->handlePickupCancellations($user, 'vendeur');
+            // $deletionService->handlePickupCancellations($user, 'acheteur');
+            app(UserDeletionService::class)->handlePickupCancellations($user);
 
             $user->email_deleted = $user->email;
             $user->username_deleted = $username;
