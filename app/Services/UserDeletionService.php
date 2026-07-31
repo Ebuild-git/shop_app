@@ -17,7 +17,9 @@ class UserDeletionService
 
     /**
      * Cancel any active Aramex pickups for order items linked to a deleted user
-     * and write an audit note in `info_auto`.
+     * and write an audit note in `info_auto`. Notifies the other party
+     * (buyer or seller) when a pickup they're involved in gets cancelled —
+     * but never notifies the user being deleted.
      *
      * @param User $user The user being deleted
      */
@@ -31,7 +33,8 @@ class UserDeletionService
             ->whereNotNull('pickup_guid')
             ->get();
 
-        $items = $sellerItems->merge($buyerItems)->unique('id');
+        $items = $sellerItems->merge($buyerItems)->unique('id')
+            ->load('order.buyer', 'vendor', 'post');
 
         if ($items->isEmpty()) {
             return;
@@ -50,20 +53,29 @@ class UserDeletionService
             $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
 
             if (!$isTerminal) {
-                try {
-                    $aramex->cancelPickup(
-                        $pickupGuid,
-                        "Pickup supprimé automatiquement - {$userLabel} supprimé"
-                    );
-                } catch (\Throwable $e) {
+                $response = $aramex->cancelPickup(
+                    $pickupGuid,
+                    "Pickup supprimé automatiquement - {$userLabel} supprimé"
+                );
+
+                $hasErrors = $response['HasErrors'] ?? true;
+                $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+                $alreadyCancelled = str_contains(strtolower($msg), 'cannot cancel a cancelled pickup');
+
+                if ($hasErrors && !$alreadyCancelled) {
                     \Log::warning("UserDeletionService: Aramex cancelPickup failed for pickup {$pickupGuid}", [
                         'user_id' => $user->id,
-                        'error'   => $e->getMessage(),
+                        'message' => $msg,
                     ]);
                 }
 
+                // Capture these ONCE per pickup group, before local fields get wiped below
+                $shipmentId = $groupedItems->first()->shipment_id;
+                $order      = $groupedItems->first()->order;
+                $vendor     = $groupedItems->first()->vendor;
+
                 foreach ($groupedItems as $item) {
-                    $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
+                    $itemShipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
 
                     $item->cancelled_pickup_id   = $item->pickup_id;
                     $item->cancelled_pickup_guid = $item->pickup_guid;
@@ -75,7 +87,7 @@ class UserDeletionService
                     $item->shipment_id = null;
                     $item->status      = 'pending';
 
-                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$shipmentId} – Pickup annulé automatiquement";
+                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$itemShipmentId} – Pickup annulé automatiquement";
                     $item->save();
 
                     if ($item->post) {
@@ -84,14 +96,15 @@ class UserDeletionService
                         $item->post->id_user_buy = null;
                         $item->post->save();
                     }
+                }
 
-                    if ($order && $vendor) {
-                        if ($vendor->id !== $user->id) {
-                            $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $groupedItems);
-                        }
-                        if ($order->buyer && $order->buyer->id !== $user->id) {
-                            $this->notifyBuyerPickupCancelled($order, $shipmentId, $groupedItems);
-                        }
+                // Notify once per pickup group — and never notify the user being deleted
+                if ($order && $vendor) {
+                    if ($vendor->id !== $user->id) {
+                        $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $groupedItems);
+                    }
+                    if ($order->buyer && $order->buyer->id !== $user->id) {
+                        $this->notifyBuyerPickupCancelled($order, $shipmentId, $groupedItems);
                     }
                 }
             } else {

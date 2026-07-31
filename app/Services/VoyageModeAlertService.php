@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Events\AdminEvent;
 use App\Models\notifications;
 use App\Models\OrdersItem;
-use App\Models\ShipmentStatusHistory;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use App\Services\AramexService;
@@ -23,8 +22,10 @@ class VoyageModeAlertService
     private const TERMINAL_CODES = ['SH012', 'SH314', 'SH308', 'SH312'];
 
     /**
-     * When a seller activates voyage mode, flag any of their active pickups
-     * that Aramex hasn't picked up yet, so admin can follow up manually.
+     * When a user activates voyage mode, attempt to auto-cancel any active
+     * Aramex pickups tied to them (as vendor or buyer). Successes and
+     * failures are both reported to admin, and the actual buyer/seller are
+     * notified for each pickup that gets cancelled.
      *
      * @param User $user The user activating voyage mode
      */
@@ -37,7 +38,7 @@ class VoyageModeAlertService
                       });
             })
             ->whereNotNull('pickup_guid')
-            ->with('latestShipmentHistory', 'order', 'post', 'vendor')
+            ->with('latestShipmentHistory', 'order.buyer', 'post', 'vendor')
             ->get();
 
         if ($items->isEmpty()) {
@@ -74,6 +75,11 @@ class VoyageModeAlertService
                 continue;
             }
 
+            // Capture these ONCE per pickup group, before local fields get wiped below
+            $shipmentId = $groupedItems->first()->shipment_id;
+            $order      = $groupedItems->first()->order;
+            $vendor     = $groupedItems->first()->vendor;
+
             foreach ($groupedItems as $item) {
                 $item->cancelled_pickup_id   = $item->pickup_id;
                 $item->cancelled_pickup_guid = $item->pickup_guid;
@@ -96,6 +102,7 @@ class VoyageModeAlertService
                 $cancelledItems->push($item);
             }
 
+            // Notify the real buyer/seller once per pickup group, not once per item
             if ($order && $vendor) {
                 $this->notifySellerPickupCancelled($vendor, $order, $shipmentId, $groupedItems);
                 $this->notifyBuyerPickupCancelled($order, $shipmentId, $groupedItems);
@@ -146,6 +153,9 @@ class VoyageModeAlertService
         ]);
     }
 
+    /**
+     * Create an admin-facing notification for pickups that were successfully auto-cancelled.
+     */
     private function notifyAdminsCancelled(User $user, $cancelledItems): void
     {
         $itemsList = $cancelledItems
@@ -165,5 +175,10 @@ class VoyageModeAlertService
         $notification->save();
 
         event(new AdminEvent($user->username . ' a activé le mode voyage – pickups annulés automatiquement.'));
+
+        \Log::info("VoyageModeAlertService: admin notified of auto-cancellations", [
+            'user_id' => $user->id,
+            'items_count' => $count,
+        ]);
     }
 }
