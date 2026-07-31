@@ -1302,7 +1302,7 @@
 "notifications.shipment_created_title": "Shipment created",
 "notifications.shipment_created_message": "A shipment has been created for order :order_id. Shipment ID: <a href=\"/my-orders?shipment_id=:shipment_id\" class=\"underlined-link\">:shipment_id</a>",
 "notifications.order_shipped_title": "Your shipment has been created",
-"notifications.order_shipped_message": "A shipment has been created for order your order :order_id . Shipment ID(s): <a href=\"/my-orders?shipment_id=:shipment_ids_url\" class=\"underlined-link\">:shipment_ids</a>.",
+"notifications.order_shipped_message": "A shipment has been created for order :order_id . Shipment ID(s): <a href=\"/my-orders?shipment_id=:shipment_ids_url\" class=\"underlined-link\">:shipment_ids</a>.",
 "notifications.shipment_action_required": "ACTION REQUIRED",
 "notifications.shipment_action_text": "Print your shipping label and attach it to your parcel before Aramex pickup.",
 "notifications.shipment_label_button": "View and print shipping label",
