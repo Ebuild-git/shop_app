@@ -343,7 +343,7 @@
                                                         style="white-space:normal;font-size:10px;line-height:1.3;"
                                                         title="{{ $item->info_auto }}">
                                                         <i class="bi bi-robot"></i>
-                                                        {{ Str::limit($item->info_auto, 80) }}
+                                                        {{ $item->info_auto }}
                                                     </span>
                                                 @else
                                                     <span class="text-muted">—</span>
