@@ -893,63 +893,135 @@ class AuthController extends Controller
      *     )
      * )
      */
+    // public function delete(Request $request, $userId)
+    // {
+    //     try {
+    //         $user = User::findOrFail($userId);
+
+    //         $authUser = $request->user();
+    //         $isCurrentUser = $authUser->id === $user->id;
+
+    //         $username = $user->username;
+    //         $userPk = $user->id;
+
+    //         // $deletionService = app(UserDeletionService::class);
+
+    //         $user->email_deleted = $user->email;
+    //         $user->username_deleted = $username;
+
+    //         $user->email = null;
+    //         $user->username = null;
+
+    //         app(UserDeletionService::class)->handlePickupCancellations($user);
+
+    //         $user->save();
+
+    //         $user->delete();
+
+    //         $notification = new notifications();
+    //         $notification->type = "utilisateur_supprime";
+    //         $notification->titre = "Un utilisateur a supprimé son compte";
+    //         $notification->url = "/admin/utilisateurs/supprime";
+    //         $notification->message = "L'utilisateur {$username} a supprimé son compte.";
+    //         $notification->id_user = $userPk;
+    //         $notification->destination = "admin";
+    //         $notification->save();
+
+    //         if ($isCurrentUser) {
+    //             $authUser->currentAccessToken()->delete();
+
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'message' => 'Account deleted successfully',
+    //             ], 200);
+    //         }
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'User deleted successfully',
+    //         ], 200);
+
+    //     } catch (\Throwable $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Impossible de supprimer cet utilisateur.',
+    //             'error' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
     public function delete(Request $request, $userId)
-    {
-        try {
-            $user = User::findOrFail($userId);
+{
+    try {
+        $user = User::findOrFail($userId);
 
-            $authUser = $request->user();
-            $isCurrentUser = $authUser->id === $user->id;
+        $authUser = $request->user();
+        $isCurrentUser = $authUser->id === $user->id;
 
-            $username = $user->username;
-            $userPk = $user->id;
+        $username = $user->username;
+        $userPk = $user->id;
 
-            // Auto-cancel Aramex pickups before deleting the account
-            $deletionService = app(UserDeletionService::class);
-            // $deletionService->handlePickupCancellations($user, 'vendeur');
-            // $deletionService->handlePickupCancellations($user, 'acheteur');
-            app(UserDeletionService::class)->handlePickupCancellations($user);
+        \Log::info('User deletion: starting', ['user_id' => $userPk, 'username' => $username]);
 
-            $user->email_deleted = $user->email;
-            $user->username_deleted = $username;
+        app(UserDeletionService::class)->handlePickupCancellations($user);
 
-            $user->email = null;
-            $user->username = null;
-            $user->save();
+        \Log::info('User deletion: pickup cancellations done', ['user_id' => $userPk]);
 
-            $user->delete();
+        $user->email_deleted = $user->email;
+        $user->username_deleted = $username;
 
-            $notification = new notifications();
-            $notification->type = "utilisateur_supprime";
-            $notification->titre = "Un utilisateur a supprimé son compte";
-            $notification->url = "/admin/utilisateurs/supprime";
-            $notification->message = "L'utilisateur {$username} a supprimé son compte.";
-            $notification->id_user = $userPk;
-            $notification->destination = "admin";
-            $notification->save();
+        $user->email = null;
+        $user->username = null;
+        $user->save();
 
-            if ($isCurrentUser) {
-                $authUser->currentAccessToken()->delete();
+        \Log::info('User deletion: anonymized', ['user_id' => $userPk]);
 
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Account deleted successfully',
-                ], 200);
-            }
+        $user->delete();
+
+        \Log::info('User deletion: soft-deleted', ['user_id' => $userPk]);
+
+        $notification = new notifications();
+        $notification->type = "utilisateur_supprime";
+        $notification->titre = "Un utilisateur a supprimé son compte";
+        $notification->url = "/admin/utilisateurs/supprime";
+        $notification->message = "L'utilisateur {$username} a supprimé son compte.";
+        $notification->id_user = $userPk;
+        $notification->destination = "admin";
+        $notification->save();
+
+        \Log::info('User deletion: admin notification saved', ['user_id' => $userPk]);
+
+        if ($isCurrentUser) {
+            $authUser->currentAccessToken()->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'User deleted successfully',
+                'message' => 'Account deleted successfully',
             ], 200);
-
-        } catch (\Throwable $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Impossible de supprimer cet utilisateur.',
-                'error' => $e->getMessage(),
-            ], 500);
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User deleted successfully',
+        ], 200);
+
+    } catch (\Throwable $e) {
+        \Log::error('User deletion failed', [
+            'user_id' => $userId,
+            'message' => $e->getMessage(),
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
+            'trace'   => $e->getTraceAsString(),
+        ]);
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Impossible de supprimer cet utilisateur.',
+            'error' => $e->getMessage(),
+            'file'  => $e->getFile(),
+            'line'  => $e->getLine(),
+        ], 500);
     }
+}
 
 
 }
