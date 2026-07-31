@@ -47,6 +47,7 @@ class VoyageModeAlertService
 
         $aramex = new AramexService();
         $now = Carbon::now()->format('Y-m-d H:i');
+        $userCode = 'U' . (1000 + $user->id);
         $pendingItems = collect();
         $cancelledItems = collect();
 
@@ -59,7 +60,7 @@ class VoyageModeAlertService
                 continue;
             }
 
-            $comment = "Pickup supprimé automatiquement - utilisateur #{$user->id} ({$user->username}) en mode voyage";
+            $comment = "Pickup supprimé automatiquement - {$userCode} ({$user->username}) en mode voyage";
 
             $response = $aramex->cancelPickup($pickupGuid, $comment);
             $hasErrors = $response['HasErrors'] ?? true;
@@ -68,7 +69,7 @@ class VoyageModeAlertService
 
             if ($hasErrors && !$alreadyCancelled) {
                 foreach ($groupedItems as $item) {
-                    $item->info_auto = "[{$now}] Utilisateur #{$user->id} en mode voyage – Ramassage déjà en cours {$pickupGuid} ({$msg}) – à traiter manuellement";
+                    $item->info_auto = "[{$now}] Utilisateur #{$userCode} en mode voyage – Ramassage déjà en cours – à traiter manuellement";
                     $item->save();
                     $pendingItems->push($item);
                 }
@@ -81,6 +82,11 @@ class VoyageModeAlertService
             $vendor     = $groupedItems->first()->vendor;
 
             foreach ($groupedItems as $item) {
+                $itemShipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
+                $formattedShipmentId = preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1-$2-$3-$4', $itemShipmentId);
+                $role = $item->vendor_id === $user->id ? 'Vendeur' : 'Acheteur';
+                $vendorCode = 'U' . (1000 + $item->vendor_id);
+
                 $item->cancelled_pickup_id   = $item->pickup_id;
                 $item->cancelled_pickup_guid = $item->pickup_guid;
                 $item->cancelled_shipment_id = $item->shipment_id;
@@ -90,7 +96,8 @@ class VoyageModeAlertService
                 $item->pickup_guid = null;
                 $item->shipment_id = null;
                 $item->status      = 'pending';
-                $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Mode voyage activé (utilisateur #{$user->id}).\nID expédition : {$itemShipmentId}.";
+                // $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Mode voyage activé (vendeur {$vendorCode}).\nID expédition : {$itemShipmentId}.";
+                $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : {$role} « {$user->username} » en voyage.\nID expédition : {$formattedShipmentId}.";
                 $item->save();
 
                 if ($item->post) {
@@ -130,8 +137,10 @@ class VoyageModeAlertService
      */
     private function notifyAdmins(User $user, $pendingItems): void
     {
+        $userCode = 'U' . (1000 + $user->id);
+
         $itemsList = $pendingItems
-            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / Article #' . $item->id)
+            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / P' . $item->post_id)
             ->implode(', ');
 
         $count = $pendingItems->count();
@@ -142,7 +151,7 @@ class VoyageModeAlertService
         $notification->type = 'voyage_mode_pending_pickup';
         $notification->destination = 'admin';
         $notification->url = '/admin/client/' . $user->id . '/view';
-        $notification->message = 'L\'utilisateur ' . $user->username . ' (ID ' . $user->id . ') a activé le mode voyage '
+        $notification->message = "L'utilisateur {$userCode} ({$user->username}) a activé le mode voyage "
             . 'alors que ' . $count . ' article(s) attendent toujours un ramassage Aramex : ' . $itemsList . '.';
         $notification->save();
 
@@ -159,8 +168,10 @@ class VoyageModeAlertService
      */
     private function notifyAdminsCancelled(User $user, $cancelledItems): void
     {
+        $userCode = 'U' . (1000 + $user->id);
+
         $itemsList = $cancelledItems
-            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / Article #' . $item->id)
+            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / P' . $item->post_id)
             ->implode(', ');
 
         $count = $cancelledItems->count();
@@ -171,7 +182,7 @@ class VoyageModeAlertService
         $notification->type = 'voyage_mode_pickup_auto_cancelled';
         $notification->destination = 'admin';
         $notification->url = '/admin/client/' . $user->id . '/view';
-        $notification->message = 'L\'utilisateur ' . $user->username . ' (ID ' . $user->id . ') a activé le mode voyage. '
+        $notification->message = "L'utilisateur {$userCode} ({$user->username}) a activé le mode voyage. "
             . $count . ' pickup(s) Aramex ont été annulés automatiquement : ' . $itemsList . '.';
         $notification->save();
 

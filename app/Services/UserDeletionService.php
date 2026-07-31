@@ -42,7 +42,7 @@ class UserDeletionService
 
         $aramex = app(AramexService::class);
         $now = Carbon::now()->format('Y-m-d H:i');
-        $userLabel = "utilisateur #{$user->id} ({$user->username})";
+        $userCode = 'U' . (1000 + $user->id);
 
         foreach ($items->groupBy('pickup_guid') as $pickupGuid => $groupedItems) {
             $latestHistory = ShipmentStatusHistory::where('order_item_id', $groupedItems->first()->id)
@@ -55,7 +55,7 @@ class UserDeletionService
             if (!$isTerminal) {
                 $response = $aramex->cancelPickup(
                     $pickupGuid,
-                    "Pickup supprimé automatiquement - {$userLabel} supprimé"
+                    "Pickup supprimé automatiquement - {$userCode} ({$user->username}) supprimé"
                 );
 
                 $hasErrors = $response['HasErrors'] ?? true;
@@ -86,7 +86,7 @@ class UserDeletionService
                     $item->pickup_guid = null;
                     $item->shipment_id = null;
                     $item->status      = 'pending';
-                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$itemShipmentId} – Pickup annulé automatiquement";
+                    $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Utilisateur supprimé ({$userCode} - {$user->username}).\nID expédition : {$itemShipmentId}.";
                     $item->save();
 
                     if ($item->post) {
@@ -109,7 +109,7 @@ class UserDeletionService
             } else {
                 foreach ($groupedItems as $item) {
                     $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
-                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$shipmentId} – Ramassage conservé (code: {$latestCode}) – à traiter manuellement";
+                    $item->info_auto = "[{$now}] Ramassage conservé, non annulé.\nRaison : Utilisateur supprimé ({$userCode} - {$user->username}), expédition déjà en transit (code : {$latestCode}).\nID expédition : {$shipmentId} – à traiter manuellement.";
                     $item->save();
                 }
             }
