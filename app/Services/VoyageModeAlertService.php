@@ -8,6 +8,7 @@ use App\Models\OrdersItem;
 use App\Models\ShipmentStatusHistory;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use App\Services\AramexService;
 
 class VoyageModeAlertService
 {
@@ -74,50 +75,84 @@ class VoyageModeAlertService
     {
         $items = OrdersItem::where(function ($query) use ($user) {
                 $query->where('vendor_id', $user->id)
-                    ->orWhereHas('order', function ($q) use ($user) {
-                        $q->where('buyer_id', $user->id);
-                    });
+                      ->orWhereHas('order', function ($q) use ($user) {
+                          $q->where('buyer_id', $user->id);
+                      });
             })
             ->whereNotNull('pickup_guid')
-            ->with('latestShipmentHistory', 'order')
+            ->with('latestShipmentHistory', 'order', 'post', 'vendor')
             ->get();
 
         if ($items->isEmpty()) {
             return;
         }
 
+        $aramex = new AramexService();
         $now = Carbon::now()->format('Y-m-d H:i');
         $pendingItems = collect();
+        $cancelledItems = collect();
 
-        foreach ($items as $item) {
-            $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
-            $role = $item->vendor_id === $user->id ? 'vendeur' : 'acheteur';
-
-            $latestCode = $item->latestShipmentHistory?->update_code;
+        // Group by pickup_guid since cancelling is per-pickup, not per-item
+        foreach ($items->groupBy('pickup_guid') as $pickupGuid => $groupedItems) {
+            $latestCode = $groupedItems->first()->latestShipmentHistory?->update_code;
             $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
 
             if ($isTerminal) {
                 continue;
             }
 
-            $item->info_auto = "[{$now}] " . ucfirst($role) . " en mode voyage – Expédition {$shipmentId} – Pickup en attente, à surveiller";
-            $item->save();
+            $comment = "Pickup supprimé automatiquement - utilisateur #{$user->id} ({$user->username}) en mode voyage";
 
-            $pendingItems->push($item);
+            $response = $aramex->cancelPickup($pickupGuid, $comment);
+            $hasErrors = $response['HasErrors'] ?? true;
+            $msg = collect($response['Notifications'] ?? [])->pluck('Message')->implode('; ');
+            $alreadyCancelled = str_contains(strtolower($msg), 'cannot cancel a cancelled pickup');
 
-            \Log::info("VoyageModeAlertService: flagged item #{$item->id} for admin review", [
-                'user_id'  => $user->id,
-                'role'     => $role,
-                'shipment' => $shipmentId,
-                'terminal' => $isTerminal,
+            if ($hasErrors && !$alreadyCancelled) {
+                foreach ($groupedItems as $item) {
+                    $item->info_auto = "[{$now}] Utilisateur #{$user->id} en mode voyage – Échec annulation auto pickup {$pickupGuid} ({$msg}) – à traiter manuellement";
+                    $item->save();
+                    $pendingItems->push($item);
+                }
+                continue;
+            }
+
+            foreach ($groupedItems as $item) {
+                $item->cancelled_pickup_id   = $item->pickup_id;
+                $item->cancelled_pickup_guid = $item->pickup_guid;
+                $item->cancelled_shipment_id = $item->shipment_id;
+                $item->pickup_cancelled_at   = now();
+
+                $item->pickup_id   = null;
+                $item->pickup_guid = null;
+                $item->shipment_id = null;
+                $item->status      = 'pending';
+                $item->save();
+
+                if ($item->post) {
+                    $item->post->statut      = 'vente';
+                    $item->post->sell_at     = null;
+                    $item->post->id_user_buy = null;
+                    $item->post->save();
+                }
+
+                $cancelledItems->push($item);
+            }
+
+            \Log::info('VoyageModeAlertService: pickup auto-cancelled', [
+                'user_id'     => $user->id,
+                'pickup_guid' => $pickupGuid,
+                'items'       => $groupedItems->pluck('id')->all(),
             ]);
         }
 
-        if ($pendingItems->isEmpty()) {
-            return;
+        if ($pendingItems->isNotEmpty()) {
+            $this->notifyAdmins($user, $pendingItems); // manual follow-up needed
         }
 
-        $this->notifyAdmins($user, $pendingItems);
+        if ($cancelledItems->isNotEmpty()) {
+            $this->notifyAdminsCancelled($user, $cancelledItems); // FYI, auto-handled
+        }
     }
 
     /**
