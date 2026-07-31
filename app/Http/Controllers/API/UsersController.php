@@ -137,6 +137,8 @@ class UsersController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        $originalVoyageMode = (bool) $user->voyage_mode;
+
         $profile_photo_message = null;
         $cin_message = null;
 
@@ -266,7 +268,7 @@ class UsersController extends Controller
 
         foreach ([
             'firstname', 'lastname', 'phone_number', 'region', 'city_id',
-            'rue', 'nom_batiment', 'etage', 'num_appartement', 'voyage_mode'
+            'rue', 'nom_batiment', 'etage', 'num_appartement'
         ] as $field) {
             if ($request->has($field)) {
                 $user->$field = $request->$field;
@@ -274,19 +276,32 @@ class UsersController extends Controller
             }
         }
 
+        // $voyageModeJustActivated = false;
+
+        // if ($request->has('voyage_mode')) {
+        //     $wasVoyageMode = (bool) $user->voyage_mode;
+        //     $isVoyageMode  = (bool) $request->voyage_mode;
+
+        //     $user->voyage_mode = $request->voyage_mode;
+        //     $changes = true;
+
+        //     if (!$wasVoyageMode && $isVoyageMode) {
+        //         $voyageModeJustActivated = true;
+        //     }
+        // }
         $voyageModeJustActivated = false;
 
         if ($request->has('voyage_mode')) {
-            $wasVoyageMode = (bool) $user->voyage_mode;
-            $isVoyageMode  = (bool) $request->voyage_mode;
+            $isVoyageMode = (bool) $request->voyage_mode;
 
             $user->voyage_mode = $request->voyage_mode;
             $changes = true;
 
-            if (!$wasVoyageMode && $isVoyageMode) {
+            if (!$originalVoyageMode && $isVoyageMode) {
                 $voyageModeJustActivated = true;
             }
         }
+
 
         if ($request->filled('rib_number')) {
             $current = null;
