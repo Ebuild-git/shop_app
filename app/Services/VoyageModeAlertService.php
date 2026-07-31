@@ -24,10 +24,62 @@ class VoyageModeAlertService
      *
      * @param User $user The user activating voyage mode
      */
+    // public function handleVoyageModeActivated(User $user): void
+    // {
+    //     $items = OrdersItem::where('vendor_id', $user->id)
+    //         ->whereNotNull('pickup_guid')
+    //         ->get();
+
+    //     if ($items->isEmpty()) {
+    //         return;
+    //     }
+
+    //     $now = Carbon::now()->format('Y-m-d H:i');
+    //     $pendingItems = collect();
+
+    //     foreach ($items as $item) {
+    //         $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
+
+    //         $latestHistory = ShipmentStatusHistory::where('order_item_id', $item->id)
+    //             ->orderByDesc('id')
+    //             ->first();
+
+    //         $latestCode = $latestHistory?->update_code;
+    //         $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
+
+    //         if ($isTerminal) {
+    //             // Already picked up by Aramex — nothing for admin to act on.
+    //             continue;
+    //         }
+
+    //         $item->info_auto = "[{$now}] Vendeur en mode voyage – Expédition {$shipmentId} – Pickup en attente, à surveiller";
+    //         $item->save();
+
+    //         $pendingItems->push($item);
+
+    //         \Log::info("VoyageModeAlertService: flagged item #{$item->id} for admin review", [
+    //             'user_id'  => $user->id,
+    //             'shipment' => $shipmentId,
+    //             'terminal' => $isTerminal,
+    //         ]);
+    //     }
+
+    //     if ($pendingItems->isEmpty()) {
+    //         return;
+    //     }
+
+    //     $this->notifyAdmins($user, $pendingItems);
+    // }
     public function handleVoyageModeActivated(User $user): void
     {
-        $items = OrdersItem::where('vendor_id', $user->id)
+        $items = OrdersItem::where(function ($query) use ($user) {
+                $query->where('vendor_id', $user->id)
+                    ->orWhereHas('order', function ($q) use ($user) {
+                        $q->where('buyer_id', $user->id);
+                    });
+            })
             ->whereNotNull('pickup_guid')
+            ->with('latestShipmentHistory', 'order')
             ->get();
 
         if ($items->isEmpty()) {
@@ -39,26 +91,23 @@ class VoyageModeAlertService
 
         foreach ($items as $item) {
             $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
+            $role = $item->vendor_id === $user->id ? 'vendeur' : 'acheteur';
 
-            $latestHistory = ShipmentStatusHistory::where('order_item_id', $item->id)
-                ->orderByDesc('id')
-                ->first();
-
-            $latestCode = $latestHistory?->update_code;
+            $latestCode = $item->latestShipmentHistory?->update_code;
             $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
 
             if ($isTerminal) {
-                // Already picked up by Aramex — nothing for admin to act on.
                 continue;
             }
 
-            $item->info_auto = "[{$now}] Vendeur en mode voyage – Expédition {$shipmentId} – Pickup en attente, à surveiller";
+            $item->info_auto = "[{$now}] " . ucfirst($role) . " en mode voyage – Expédition {$shipmentId} – Pickup en attente, à surveiller";
             $item->save();
 
             $pendingItems->push($item);
 
             \Log::info("VoyageModeAlertService: flagged item #{$item->id} for admin review", [
                 'user_id'  => $user->id,
+                'role'     => $role,
                 'shipment' => $shipmentId,
                 'terminal' => $isTerminal,
             ]);
