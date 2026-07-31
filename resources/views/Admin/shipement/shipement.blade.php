@@ -337,13 +337,31 @@
                                                 @endif
 
                                             </td>
-                                            <td class="text-wrap" style="max-width:200px;">
+                                            <td class="text-wrap" style="max-width:220px;">
                                                 @if($item->info_auto)
-                                                    <ul class="mb-0 ps-3" style="font-size:10px;line-height:1.4;">
-                                                        @foreach(explode("\n", $item->info_auto) as $line)
-                                                            <li>{{ $line }}</li>
-                                                        @endforeach
-                                                    </ul>
+                                                    @php
+                                                        $lines = explode("\n", $item->info_auto);
+                                                        // First line looks like: "[2026-07-25 18:16] Pickup annulé automatiquement."
+                                                        preg_match('/^\[(.*?)\]\s*(.*)$/', $lines[0] ?? '', $matches);
+                                                        $date = $matches[1] ?? null;
+                                                        $firstLine = $matches[2] ?? ($lines[0] ?? '');
+                                                        $restLines = array_slice($lines, 1);
+                                                    @endphp
+                                                    <div style="font-size:12px;line-height:1.5;">
+                                                        <div class="d-flex align-items-start gap-2">
+                                                            <span class="d-inline-block rounded-circle mt-1"
+                                                                style="width:8px;height:8px;background-color:#f0a500;flex-shrink:0;"></span>
+                                                            <div>
+                                                                @if($date)
+                                                                    <div class="fw-semibold">{{ $date }}</div>
+                                                                @endif
+                                                                <div>{{ $firstLine }}</div>
+                                                                @foreach($restLines as $line)
+                                                                    <div>{{ $line }}</div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @else
                                                     <span class="text-muted">—</span>
                                                 @endif
