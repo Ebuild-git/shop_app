@@ -339,12 +339,11 @@
                                             </td>
                                             <td class="text-wrap" style="max-width:200px;">
                                                 @if($item->info_auto)
-                                                    <span class="badge bg-warning text-dark d-inline-flex align-items-center gap-1"
-                                                        style="white-space:normal;font-size:10px;line-height:1.3;"
-                                                        title="{{ $item->info_auto }}">
-                                                        <i class="bi bi-robot"></i>
-                                                        {{ $item->info_auto }}
-                                                    </span>
+                                                    <ul class="mb-0 ps-3" style="font-size:10px;line-height:1.4;">
+                                                        @foreach(explode("\n", $item->info_auto) as $line)
+                                                            <li>{{ $line }}</li>
+                                                        @endforeach
+                                                    </ul>
                                                 @else
                                                     <span class="text-muted">—</span>
                                                 @endif
