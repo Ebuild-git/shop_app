@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\AdminEvent;
+use App\Models\notifications;
 use App\Models\OrdersItem;
 use App\Models\ShipmentStatusHistory;
 use App\Models\User;
@@ -19,7 +21,8 @@ class UserDeletionService
      * Cancel any active Aramex pickups for order items linked to a deleted user
      * and write an audit note in `info_auto`. Notifies the other party
      * (buyer or seller) when a pickup they're involved in gets cancelled —
-     * but never notifies the user being deleted.
+     * but never notifies the user being deleted. Admin is notified of both
+     * successful auto-cancellations and any that need manual follow-up.
      *
      * @param User $user The user being deleted
      */
@@ -43,6 +46,8 @@ class UserDeletionService
         $aramex = app(AramexService::class);
         $now = Carbon::now()->format('Y-m-d H:i');
         $userCode = 'U' . (1000 + $user->id);
+        $cancelledItems = collect();
+        $keptItems = collect();
 
         foreach ($items->groupBy('pickup_guid') as $pickupGuid => $groupedItems) {
             $latestHistory = ShipmentStatusHistory::where('order_item_id', $groupedItems->first()->id)
@@ -76,6 +81,8 @@ class UserDeletionService
 
                 foreach ($groupedItems as $item) {
                     $itemShipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
+                    $formattedShipmentId = preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1-$2-$3-$4', $itemShipmentId);
+                    $role = $item->vendor_id === $user->id ? 'Vendeur' : 'Acheteur';
 
                     $item->cancelled_pickup_id   = $item->pickup_id;
                     $item->cancelled_pickup_guid = $item->pickup_guid;
@@ -86,7 +93,7 @@ class UserDeletionService
                     $item->pickup_guid = null;
                     $item->shipment_id = null;
                     $item->status      = 'pending';
-                    $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Utilisateur supprimé ({$userCode} - {$user->username}).\nID expédition : {$itemShipmentId}.";
+                    $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : {$role} « {$user->username} » supprimé.\nID expédition : {$formattedShipmentId}.";
                     $item->save();
 
                     if ($item->post) {
@@ -95,6 +102,8 @@ class UserDeletionService
                         $item->post->id_user_buy = null;
                         $item->post->save();
                     }
+
+                    $cancelledItems->push($item);
                 }
 
                 // Notify once per pickup group — and never notify the user being deleted
@@ -109,8 +118,12 @@ class UserDeletionService
             } else {
                 foreach ($groupedItems as $item) {
                     $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
-                    $item->info_auto = "[{$now}] Ramassage conservé, non annulé.\nRaison : Utilisateur supprimé ({$userCode} - {$user->username}), expédition déjà en transit (code : {$latestCode}).\nID expédition : {$shipmentId} – à traiter manuellement.";
+                    $formattedShipmentId = preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1-$2-$3-$4', $shipmentId);
+                    $role = $item->vendor_id === $user->id ? 'Vendeur' : 'Acheteur';
+
+                    $item->info_auto = "[{$now}] Ramassage conservé, non annulé.\nRaison : {$role} « {$user->username} » supprimé, expédition déjà en transit (code : {$latestCode}).\nID expédition : {$formattedShipmentId}.";
                     $item->save();
+                    $keptItems->push($item);
                 }
             }
 
@@ -120,5 +133,76 @@ class UserDeletionService
                 'items'    => $groupedItems->pluck('id')->all(),
             ]);
         }
+
+        if ($cancelledItems->isNotEmpty()) {
+            $this->notifyAdminsUserDeletedCancelled($user, $cancelledItems);
+        }
+
+        if ($keptItems->isNotEmpty()) {
+            $this->notifyAdminsUserDeletedKept($user, $keptItems);
+        }
+    }
+
+    /**
+     * Notify admin that pickups were successfully auto-cancelled following account deletion.
+     */
+    private function notifyAdminsUserDeletedCancelled(User $user, $cancelledItems): void
+    {
+        $userCode = 'U' . (1000 + $user->id);
+
+        $itemsList = $cancelledItems
+            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / P' . $item->post_id)
+            ->implode(', ');
+
+        $count = $cancelledItems->count();
+
+        $notification = new notifications();
+        $notification->titre = $user->username . ' supprimé – ' . $count . ' pickup(s) annulé(s) automatiquement';
+        $notification->id_user = $user->id;
+        $notification->type = 'user_deleted_pickup_auto_cancelled';
+        $notification->destination = 'admin';
+        $notification->url = '/admin/client/' . $user->id . '/view';
+        $notification->message = "L'utilisateur {$userCode} ({$user->username}) a été supprimé. "
+            . $count . ' pickup(s) Aramex ont été annulés automatiquement : ' . $itemsList . '.';
+        $notification->save();
+
+        event(new AdminEvent($user->username . ' supprimé – pickups annulés automatiquement.'));
+
+        \Log::info("UserDeletionService: admin notified of auto-cancellations", [
+            'user_id' => $user->id,
+            'items_count' => $count,
+        ]);
+    }
+
+    /**
+     * Notify admin that some pickups could NOT be cancelled (already in transit)
+     * following account deletion, and need manual follow-up.
+     */
+    private function notifyAdminsUserDeletedKept(User $user, $keptItems): void
+    {
+        $userCode = 'U' . (1000 + $user->id);
+
+        $itemsList = $keptItems
+            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / P' . $item->post_id)
+            ->implode(', ');
+
+        $count = $keptItems->count();
+
+        $notification = new notifications();
+        $notification->titre = $user->username . ' supprimé – ' . $count . ' ramassage(s) conservé(s), à traiter manuellement';
+        $notification->id_user = $user->id;
+        $notification->type = 'user_deleted_pickup_kept';
+        $notification->destination = 'admin';
+        $notification->url = '/admin/client/' . $user->id . '/view';
+        $notification->message = "L'utilisateur {$userCode} ({$user->username}) a été supprimé, mais "
+            . $count . ' ramassage(s) étaient déjà en transit et n\'ont pas pu être annulés : ' . $itemsList . '.';
+        $notification->save();
+
+        event(new AdminEvent($user->username . ' supprimé – ramassages conservés à traiter manuellement.'));
+
+        \Log::info("UserDeletionService: admin notified of kept pickups", [
+            'user_id' => $user->id,
+            'items_count' => $count,
+        ]);
     }
 }
