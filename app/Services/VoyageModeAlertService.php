@@ -68,7 +68,7 @@ class VoyageModeAlertService
 
             if ($hasErrors && !$alreadyCancelled) {
                 foreach ($groupedItems as $item) {
-                    $item->info_auto = "[{$now}] Utilisateur #{$user->id} en mode voyage – Échec annulation auto pickup {$pickupGuid} ({$msg}) – à traiter manuellement";
+                    $item->info_auto = "[{$now}] Utilisateur #{$user->id} en mode voyage – Ramassage déjà en cours {$pickupGuid} ({$msg}) – à traiter manuellement";
                     $item->save();
                     $pendingItems->push($item);
                 }

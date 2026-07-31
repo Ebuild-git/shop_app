@@ -86,7 +86,6 @@ class UserDeletionService
                     $item->pickup_guid = null;
                     $item->shipment_id = null;
                     $item->status      = 'pending';
-
                     $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$itemShipmentId} – Pickup annulé automatiquement";
                     $item->save();
 
@@ -110,7 +109,7 @@ class UserDeletionService
             } else {
                 foreach ($groupedItems as $item) {
                     $shipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
-                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$shipmentId} – Ramassage conservé (code: {$latestCode})";
+                    $item->info_auto = "[{$now}] {$userLabel} supprimé – Expédition {$shipmentId} – Ramassage conservé (code: {$latestCode}) – à traiter manuellement";
                     $item->save();
                 }
             }
