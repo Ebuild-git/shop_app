@@ -90,6 +90,7 @@ class VoyageModeAlertService
                 $item->pickup_guid = null;
                 $item->shipment_id = null;
                 $item->status      = 'pending';
+                $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Mode voyage activé (utilisateur #{$user->id}).\nID expédition : {$itemShipmentId}.";
                 $item->save();
 
                 if ($item->post) {
