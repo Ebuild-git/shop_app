@@ -183,4 +183,25 @@ class VoyageModeAlertService
             'items_count' => $count,
         ]);
     }
+
+    private function notifyAdminsCancelled(User $user, $cancelledItems): void
+    {
+        $itemsList = $cancelledItems
+            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / Article #' . $item->id)
+            ->implode(', ');
+
+        $count = $cancelledItems->count();
+
+        $notification = new notifications();
+        $notification->titre = $user->username . ' a activé le mode voyage – ' . $count . ' pickup(s) annulé(s) automatiquement';
+        $notification->id_user = $user->id;
+        $notification->type = 'voyage_mode_pickup_auto_cancelled';
+        $notification->destination = 'admin';
+        $notification->url = '/admin/client/' . $user->id . '/view';
+        $notification->message = 'L\'utilisateur ' . $user->username . ' (ID ' . $user->id . ') a activé le mode voyage. '
+            . $count . ' pickup(s) Aramex ont été annulés automatiquement : ' . $itemsList . '.';
+        $notification->save();
+
+        event(new AdminEvent($user->username . ' a activé le mode voyage – pickups annulés automatiquement.'));
+    }
 }
