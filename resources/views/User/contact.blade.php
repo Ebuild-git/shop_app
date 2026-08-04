@@ -120,6 +120,7 @@
                     <form id="contactForm" class="row" action="{{ route('contact.send') }}" method="POST">
                         @csrf
 
+                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">{{ __('your_name') }}</label>
@@ -255,6 +256,105 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = !this.checked;
     });
 
+    // form.addEventListener('submit', function (e) {
+    //     e.preventDefault();
+
+    //     if (!consentCheckbox.checked) {
+    //         Swal.fire({
+    //             icon: 'warning',
+    //             title: window.translations.contact.warning,
+    //             text: window.translations.contact.privacy,
+    //             confirmButtonText: window.translations.contact.ok,
+    //             confirmButtonColor: '#008080',
+    //         });
+    //         return;
+    //     }
+
+    //     submitBtn.disabled = true;
+    //     const originalText = submitBtn.innerHTML;
+    //     submitBtn.innerHTML = `
+    //         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    //        ${window.translations.contact.sending}
+    //     `;
+
+    //     const formData = new FormData(form);
+
+    //     fetch(form.action, {
+    //         method: 'POST',
+    //         body: formData,
+    //         headers: {
+    //             'X-Requested-With': 'XMLHttpRequest',
+    //             'Accept': 'application/json'
+    //         },
+    //     })
+    //     .then(response => {
+    //         return response.json().then(data => {
+    //             if (!response.ok) {
+    //                 throw {
+    //                     status: response.status,
+    //                     data: data
+    //                 };
+    //             }
+    //             return data;
+    //         });
+    //     })
+    //     .then(data => {
+    //         // Succès
+    //         form.classList.add('d-none');
+    //         successMsg.classList.remove('d-none');
+
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: window.translations.contact.success,
+    //             text: window.translations.contact.successMsg,
+    //             confirmButtonColor: '#008080',
+    //             confirmButtonText: window.translations.contact.ok
+    //         });
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+
+    //         let errorMessage = window.translations.contact.error;
+    //         let errorTitle = window.translations.contact.error;
+
+    //         if (error.data) {
+    //             if (error.data.errors) {
+    //                 const firstError = Object.values(error.data.errors)[0][0];
+    //                 errorMessage = firstError;
+    //             }
+    //             else if (error.data.message) {
+    //                 // Vérifier les erreurs SMTP spécifiques
+    //                 if (error.data.message.includes('Domain not found') ||
+    //                     error.data.message.includes('Recipient address rejected') ||
+    //                     error.data.message.includes('L\'adresse email de destination est invalide')) {
+    //                     errorTitle = window.translations.contact.emailError;
+    //                     errorMessage = window.translations.contact.invalidEmail;
+    //                 } else if (error.data.message.includes('450') ||
+    //                            error.data.message.includes('550') ||
+    //                            error.data.message.includes('SMTP')) {
+    //                     errorTitle = window.translations.contact.emailError;
+    //                     errorMessage = window.translations.contact.serverError;
+    //                 } else {
+    //                     errorMessage = error.data.message;
+    //                 }
+    //             }
+    //         }
+
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: errorTitle,
+    //             html: errorMessage.replace(/\n/g, '<br>'),
+    //             confirmButtonColor: '#d33',
+    //             confirmButtonText: 'OK'
+    //         });
+    //     })
+    //     .finally(() => {
+    //         if (!form.classList.contains('d-none')) {
+    //             submitBtn.disabled = !consentCheckbox.checked;
+    //             submitBtn.innerHTML = originalText;
+    //         }
+    //     });
+    // });
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -273,85 +373,87 @@ document.addEventListener("DOMContentLoaded", () => {
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = `
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-           ${window.translations.contact.sending}
+        ${window.translations.contact.sending}
         `;
 
-        const formData = new FormData(form);
+        // Get a fresh reCAPTCHA v3 token, then submit
+        grecaptcha.ready(function () {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'contact_form' })
+                .then(function (token) {
+                    document.getElementById('g-recaptcha-response').value = token;
 
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            },
-        })
-        .then(response => {
-            return response.json().then(data => {
-                if (!response.ok) {
-                    throw {
-                        status: response.status,
-                        data: data
-                    };
-                }
-                return data;
-            });
-        })
-        .then(data => {
-            // Succès
-            form.classList.add('d-none');
-            successMsg.classList.remove('d-none');
+                    const formData = new FormData(form);
 
-            Swal.fire({
-                icon: 'success',
-                title: window.translations.contact.success,
-                text: window.translations.contact.successMsg,
-                confirmButtonColor: '#008080',
-                confirmButtonText: window.translations.contact.ok
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        return response.json().then(data => {
+                            if (!response.ok) {
+                                throw { status: response.status, data: data };
+                            }
+                            return data;
+                        });
+                    })
+                    .then(data => {
+                        form.classList.add('d-none');
+                        successMsg.classList.remove('d-none');
 
-            let errorMessage = window.translations.contact.error;
-            let errorTitle = window.translations.contact.error;
+                        Swal.fire({
+                            icon: 'success',
+                            title: window.translations.contact.success,
+                            text: window.translations.contact.successMsg,
+                            confirmButtonColor: '#008080',
+                            confirmButtonText: window.translations.contact.ok
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
 
-            if (error.data) {
-                if (error.data.errors) {
-                    const firstError = Object.values(error.data.errors)[0][0];
-                    errorMessage = firstError;
-                }
-                else if (error.data.message) {
-                    // Vérifier les erreurs SMTP spécifiques
-                    if (error.data.message.includes('Domain not found') ||
-                        error.data.message.includes('Recipient address rejected') ||
-                        error.data.message.includes('L\'adresse email de destination est invalide')) {
-                        errorTitle = window.translations.contact.emailError;
-                        errorMessage = window.translations.contact.invalidEmail;
-                    } else if (error.data.message.includes('450') ||
-                               error.data.message.includes('550') ||
-                               error.data.message.includes('SMTP')) {
-                        errorTitle = window.translations.contact.emailError;
-                        errorMessage = window.translations.contact.serverError;
-                    } else {
-                        errorMessage = error.data.message;
-                    }
-                }
-            }
+                        let errorMessage = window.translations.contact.error;
+                        let errorTitle = window.translations.contact.error;
 
-            Swal.fire({
-                icon: 'error',
-                title: errorTitle,
-                html: errorMessage.replace(/\n/g, '<br>'),
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'OK'
-            });
-        })
-        .finally(() => {
-            if (!form.classList.contains('d-none')) {
-                submitBtn.disabled = !consentCheckbox.checked;
-                submitBtn.innerHTML = originalText;
-            }
+                        if (error.data) {
+                            if (error.data.errors) {
+                                const firstError = Object.values(error.data.errors)[0][0];
+                                errorMessage = firstError;
+                            } else if (error.data.message) {
+                                if (error.data.message.includes('Domain not found') ||
+                                    error.data.message.includes('Recipient address rejected') ||
+                                    error.data.message.includes('L\'adresse email de destination est invalide')) {
+                                    errorTitle = window.translations.contact.emailError;
+                                    errorMessage = window.translations.contact.invalidEmail;
+                                } else if (error.data.message.includes('450') ||
+                                        error.data.message.includes('550') ||
+                                        error.data.message.includes('SMTP')) {
+                                    errorTitle = window.translations.contact.emailError;
+                                    errorMessage = window.translations.contact.serverError;
+                                } else {
+                                    errorMessage = error.data.message;
+                                }
+                            }
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: errorTitle,
+                            html: errorMessage.replace(/\n/g, '<br>'),
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        });
+                    })
+                    .finally(() => {
+                        if (!form.classList.contains('d-none')) {
+                            submitBtn.disabled = !consentCheckbox.checked;
+                            submitBtn.innerHTML = originalText;
+                        }
+                    });
+                });
         });
     });
 });

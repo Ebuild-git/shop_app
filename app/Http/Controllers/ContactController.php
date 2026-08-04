@@ -10,6 +10,7 @@ use App\Models\NewsletterSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -22,7 +23,26 @@ class ContactController extends Controller
                 'subject' => 'required|string|max:255',
                 'message' => 'required|string|max:2000',
                 'consent_rgpd' => 'required|accepted',
+                'g-recaptcha-response' => 'required',
             ]);
+
+            $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => config('services.recaptcha.secret_key'),
+                'response' => $request->input('g-recaptcha-response'),
+                'remoteip' => $request->ip(),
+            ])->json();
+
+            if (!($recaptchaResponse['success'] ?? false) || ($recaptchaResponse['score'] ?? 0) < 0.5) {
+                Log::warning('reCAPTCHA verification failed', ['response' => $recaptchaResponse]);
+
+                $error = __('Verification failed. Please try again.');
+
+                if ($request->ajax()) {
+                    return response()->json(['message' => $error], 422);
+                }
+
+                return back()->with('error', $error);
+            }
 
             $contact = Contact::create([
                 'name' => $validated['name'],

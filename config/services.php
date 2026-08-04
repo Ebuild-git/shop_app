@@ -35,4 +35,9 @@ return [
         'credentials' => storage_path('app/firebase/shopin-6ba94-firebase-adminsdk-fbsvc-1de9c275f9.json'),
     ],
 
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+    ],
+
 ];

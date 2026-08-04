@@ -161,7 +161,7 @@ class ListeUtilisateurs extends Component
             $user = User::findOrFail($id);
 
             // Auto-cancel Aramex pickups for this user's order items
-            $deletionService = app(UserDeletionService::class);
+            // $deletionService = app(UserDeletionService::class);
             // $deletionService->handlePickupCancellations($user, 'vendeur');
             // $deletionService->handlePickupCancellations($user, 'acheteur');
             app(UserDeletionService::class)->handlePickupCancellations($user);
