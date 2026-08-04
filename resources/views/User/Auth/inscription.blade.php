@@ -28,6 +28,8 @@
                 <form method="post" action="{{ route('inscription') }}" enctype="multipart/form-data">
                     @csrf
 
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
                     @include('components.alert-livewire')
 
                     <div class="row">
@@ -344,6 +346,68 @@
             </div>
         </div>
     </div>
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form[action="{{ route('inscription') }}"]');
+            const submitBtn = document.getElementById('submit');
+
+            form.addEventListener('submit', function (e) {
+                // Already have a token from a previous attempt? let it go through
+                if (document.getElementById('g-recaptcha-response').value) {
+                    return;
+                }
+
+                e.preventDefault();
+                submitBtn.disabled = true;
+
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'inscription' })
+                        .then(function (token) {
+                            document.getElementById('g-recaptcha-response').value = token;
+                            form.submit();
+                        })
+                        .catch(function () {
+                            submitBtn.disabled = !document.getElementById('acceptConditions').checked;
+                            alert("{{ __('Verification failed. Please try again.') }}");
+                        });
+                });
+            });
+        });
+    </script> --}}
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('inscription') }}"]');
+    const submitBtn = document.getElementById('submit');
+
+    form.addEventListener('submit', function (e) {
+        if (document.getElementById('g-recaptcha-response').value) {
+            return;
+        }
+
+        e.preventDefault();
+        submitBtn.disabled = true;
+
+        grecaptcha.ready(function () {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'inscription' })
+                .then(function (token) {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    form.submit();
+                })
+                .catch(function () {
+                    submitBtn.disabled = !document.getElementById('acceptConditions').checked;
+                    Swal.fire({
+                        icon: 'error',
+                        title: window.translations.inscription.errorTitle,
+                        text: window.translations.inscription.recaptchaFailed,
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: window.translations.inscription.ok
+                    });
+                });
+        });
+    });
+});
+</script>
 
     <script>
 

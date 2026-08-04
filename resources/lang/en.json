@@ -1402,8 +1402,7 @@
 "email2.pickup_cancelled_seller.footer_trust": "Visit Shopin.ma",
 "email2.pickup_cancelled_seller.footer_note": "This email is automated, please do not reply.",
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. All rights reserved.",
-"Verification failed. Please try again.": "Verification failed. Please try again."
-
-
+"Verification failed. Please try again.": "Verification failed. Please try again.",
+"error.recaptcha_failed": "Verification failed. Please try again."
 }
 

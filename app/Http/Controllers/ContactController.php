@@ -44,6 +44,7 @@ class ContactController extends Controller
                 return back()->with('error', $error);
             }
 
+            // --- STEP 1: Save the contact. This is the part that must never be lost. ---
             $contact = Contact::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -73,6 +74,7 @@ class ContactController extends Controller
                 );
             }
 
+            // --- STEP 2: Try to send emails, but never let a mail failure fail the request ---
             $configEmail = optional(configurations::first())->email ?? config('mail.from.address');
             $configName = config('mail.from.name', 'Shopin');
 
@@ -83,11 +85,31 @@ class ContactController extends Controller
                 'userMessage' => $validated['message'],
             ];
 
-            Mail::to($configEmail)->send(new ContactAdminMail($data));
-            Log::info('Admin email sent', ['to' => $configEmail]);
+            $mailFailed = false;
 
-            Mail::to($validated['email'])->send(new ContactAutoReplyMail($data));
-            Log::info('Auto-reply sent', ['to' => $validated['email']]);
+            try {
+                Mail::to($configEmail)->send(new ContactAdminMail($data));
+                Log::info('Admin email sent', ['to' => $configEmail]);
+            } catch (\Throwable $e) {
+                $mailFailed = true;
+                Log::error('Failed to send admin notification email', [
+                    'contact_id' => $contact->id,
+                    'to' => $configEmail,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            try {
+                Mail::to($validated['email'])->send(new ContactAutoReplyMail($data));
+                Log::info('Auto-reply sent', ['to' => $validated['email']]);
+            } catch (\Throwable $e) {
+                $mailFailed = true;
+                Log::error('Failed to send auto-reply email', [
+                    'contact_id' => $contact->id,
+                    'to' => $validated['email'],
+                    'error' => $e->getMessage(),
+                ]);
+            }
 
             Log::info('Contact form submitted', [
                 'id' => $contact->id,
@@ -95,8 +117,10 @@ class ContactController extends Controller
                 'consent_rgpd' => true,
                 'consent_newsletter' => $request->has('consent_newsletter'),
                 'ip' => $request->ip(),
+                'mail_failed' => $mailFailed,
             ]);
 
+            // --- STEP 3: Always tell the user it worked — their submission is safely stored ---
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -114,28 +138,14 @@ class ContactController extends Controller
                 ], 422);
             }
             throw $e;
-        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-            // Capturer spécifiquement les erreurs SMTP
-            $message = $e->getMessage();
-
-            if (str_contains($message, 'Domain not found') ||
-                str_contains($message, 'Recipient address rejected')) {
-                $error = 'L\'adresse email de destination est invalide ou le domaine n\'existe pas. Veuillez vérifier l\'email et réessayer.';
-            } elseif (str_contains($message, '450') || str_contains($message, '550')) {
-                $error = 'Erreur serveur SMTP. Veuillez réessayer plus tard.';
-            } else {
-                $error = 'Erreur d\'envoi d\'email: '.$message;
-            }
-
-            if ($request->ajax()) {
-                return response()->json([
-                    'message' => $error,
-                ], 500);
-            }
-
-            return back()->with('error', $error);
 
         } catch (\Exception $e) {
+            // At this point, something failed BEFORE Contact::create() — e.g. DB error.
+            // This is the only case where the user should legitimately see an error.
+            Log::error('Contact form submission failed before saving', [
+                'error' => $e->getMessage(),
+            ]);
+
             if ($request->ajax()) {
                 return response()->json([
                     'message' => 'Une erreur est survenue: '.$e->getMessage(),

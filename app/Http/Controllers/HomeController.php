@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Models\City;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -675,6 +677,20 @@ class HomeController extends Controller
                     'field' => $fieldLabels[$field] ?? $field,
                 ]))->withInput();
             }
+        }
+
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ])->json();
+
+        if (!($recaptchaResponse['success'] ?? false) || ($recaptchaResponse['score'] ?? 0) < 0.5) {
+            Log::warning('reCAPTCHA verification failed on inscription', ['response' => $recaptchaResponse]);
+
+            return redirect()->back()
+                ->with('error', __('error.recaptcha_failed'))
+                ->withInput();
         }
 
         $validator = Validator::make($request->all(), [

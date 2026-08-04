@@ -1394,7 +1394,10 @@
 "email2.pickup_cancelled_seller.footer_trust": "زيارة Shopin.ma",
 "email2.pickup_cancelled_seller.footer_note": "هذه رسالة آلية، يرجى عدم الرد عليها.",
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. جميع الحقوق محفوظة.",
-"Verification failed. Please try again.": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى."
+"Verification failed. Please try again.": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى.",
+"error.recaptcha_failed": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى."
+
+
 
 
 }
