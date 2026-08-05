@@ -151,6 +151,7 @@
             @endif
         </h1>
 
+
         <form method="get" action="{{ route('mes-publication') }}" class="filter-bar">
             <input type="hidden" name="type" value="{{ $type }}">
 
@@ -235,6 +236,20 @@
             </div>
         </div>
     </div>
+
+    @if($type != 'vente')
+        <div class="publish-bar">
+            <a href="/publication" class="btn-publish">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                {{ __('publish_article') }}
+            </a>
+        </div>
+    @endif
+
 
     <!-- ── Table Component ── -->
     @include('components.Liste-mes-posts', ['posts' => $posts, 'showRemainingTimeColumn' => $type == 'vente'])
