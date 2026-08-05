@@ -12,8 +12,17 @@
 
 .table-wrap table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     font-family: 'DM Sans', sans-serif;
+}
+
+.table-wrap thead th,
+.table-wrap tbody td,
+.table-wrap tbody th {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .table-wrap thead tr {
@@ -29,7 +38,7 @@
     font-weight: 600;
     padding: 10px 8px;
     text-align: left;
-    white-space: nowrap;
+    line-height: 1.4;
     border: none;
 }
 
@@ -150,19 +159,6 @@
 }
 
 /* Status badges */
-/* .s-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 18px;
-    font-size: 10px;
-    font-weight: 600;
-    margin-bottom: 2px;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-} */
-
 .s-badge {
     display: inline-block;
     padding: 3px 8px;
@@ -174,84 +170,20 @@
     word-break: break-word;
 }
 
-.s-validation {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.s-vente {
-    background: #dbeeff;
-    color: #2980b9;
-}
-
-.s-vendu {
-    background: #f5ded5;
-    color: #c0392b;
-}
-
-.s-livraison {
-    background: #e8f4fd;
-    color: #1565c0;
-}
-
-.s-livre {
-    background: #d5f5e3;
-    color: #27ae60;
-}
-
-.s-refuse {
-    background: #fde8e8;
-    color: #c0392b;
-}
-
-.s-preparation {
-    background: #dbeeff;
-    color: #2980b9;
-}
-
-.s-en-voyage {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.s-en-cours {
-    background: #e8f4fd;
-    color: #1565c0;
-}
-
-.s-ramassee {
-    background: #e8e8ff;
-    color: #5c35cc;
-}
-
-.s-retourne {
-    background: #ede8ff;
-    color: #7c3aed;
-}
-
-.s-deleted {
-    background: #fde8e8;
-    color: #c0392b;
-}
-
-.s-annule {
-    background: #fde8e8;
-    color: #c0392b;
-}
-
-.s-paid {
-    background: #d5d5f5;
-    color: #0f12ca;
-}
-
-/* .status-sub {
-    font-size: 10px;
-    color: #aaa;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-} */
+.s-validation { background: #fff3cd; color: #856404; }
+.s-vente { background: #dbeeff; color: #2980b9; }
+.s-vendu { background: #f5ded5; color: #c0392b; }
+.s-livraison { background: #e8f4fd; color: #1565c0; }
+.s-livre { background: #d5f5e3; color: #27ae60; }
+.s-refuse { background: #fde8e8; color: #c0392b; }
+.s-preparation { background: #dbeeff; color: #2980b9; }
+.s-en-voyage { background: #fff3cd; color: #856404; }
+.s-en-cours { background: #e8f4fd; color: #1565c0; }
+.s-ramassee { background: #e8e8ff; color: #5c35cc; }
+.s-retourne { background: #ede8ff; color: #7c3aed; }
+.s-deleted { background: #fde8e8; color: #c0392b; }
+.s-annule { background: #fde8e8; color: #c0392b; }
+.s-paid { background: #d5d5f5; color: #0f12ca; }
 
 .status-sub {
     font-size: 10px;
@@ -259,16 +191,6 @@
     white-space: normal;
     word-break: break-word;
 }
-
-/* .reason-text {
-    font-size: 11px;
-    color: #555;
-    font-weight: 500;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-} */
 
 .reason-text {
     font-size: 11px;
@@ -433,27 +355,52 @@
 }
 </style>
 
+@php
+    // Breaks header text onto a new line after every 2 words
+    function wrapHeaderWords($text, $wordsPerLine = 2) {
+        $words = preg_split('/\s+/', trim($text));
+        if (count($words) <= $wordsPerLine) {
+            return e($text);
+        }
+        $chunks = array_chunk($words, $wordsPerLine);
+        return implode('<br>', array_map(fn($chunk) => e(implode(' ', $chunk)), $chunks));
+    }
+@endphp
+
 <div class="table-wrap" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
     <table>
+        <colgroup>
+            <col style="width:55px">              {{-- image --}}
+            <col style="width:150px">             {{-- article --}}
+            <col style="width:110px">             {{-- price col 1 --}}
+            <col style="width:110px">             {{-- price col 2 --}}
+            <col style="width:90px">              {{-- last update --}}
+            <col style="width:120px">             {{-- expedition number --}}
+            <col style="width:80px">              {{-- etiquette --}}
+            <col style="width:110px">             {{-- status --}}
+            @if(!$showRemainingTimeColumn)
+                <col style="width:110px">         {{-- deletion reason --}}
+                <col style="width:80px">          {{-- actions --}}
+            @endif
+        </colgroup>
         <thead>
             <tr>
                 <th></th>
-                <th>{{ __('article') }}</th>
+                <th>{!! wrapHeaderWords(__('article')) !!}</th>
                 @if($showRemainingTimeColumn)
-
-                    <th>{{ __('Prix de vente') }} <small>({{ __('you_earn') }})</small></th>
-                    <th>{{ __('Votre gain') }} <small>({{ __('buyer_pays') }})</small></th>
-                    <th>{{ __('last_update1') }}</th>
+                    <th>{!! wrapHeaderWords(__('Prix de vente')) !!} <small>({{ __('you_earn') }})</small></th>
+                    <th>{!! wrapHeaderWords(__('Votre gain')) !!} <small>({{ __('buyer_pays') }})</small></th>
+                    <th>{!! wrapHeaderWords(__('last_update1')) !!}</th>
                 @else
-                    <th>{{ __('Prix public après réduction') }}</th>
-                    <th>{{ __('Prix public initial') }}</th>
-                    <th>{{ __('last_price_update') }}</th>
+                    <th>{!! wrapHeaderWords(__('Prix public après réduction')) !!}</th>
+                    <th>{!! wrapHeaderWords(__('Prix public initial')) !!}</th>
+                    <th>{!! wrapHeaderWords(__('last_price_update')) !!}</th>
                 @endif
-                <th>{{ __('expedition_number') }}</th>
-                <th>{{ __('etiquette_expedition') }}</th>
-                <th>{{ __('ad_status') }}</th>
+                <th>{!! wrapHeaderWords(__('expedition_number')) !!}</th>
+                <th>{!! wrapHeaderWords(__('etiquette_expedition')) !!}</th>
+                <th>{!! wrapHeaderWords(__('ad_status')) !!}</th>
                 @if(!$showRemainingTimeColumn)
-                    <th>{{ __('deletion_reason') }}</th>
+                    <th>{!! wrapHeaderWords(__('deletion_reason')) !!}</th>
                 @endif
                 @if(!$showRemainingTimeColumn)
                     <th></th>
@@ -474,11 +421,6 @@
 
                     <td>
                         <div class="item-meta">
-                            {{-- <div class="item-name" title="{{ $item->titre }}">
-                                <a href="/post/{{ $item->id }}" class="link">
-                                    {{ Str::limit($item->titre, 25, '...') }}
-                                </a>
-                            </div> --}}
                             <div class="item-name" title="{{ $item->titre }}">
                                 @if($item->deleted_at || $item->motif_suppression)
                                     <a href="{{ route('post.deleted', $item->id) }}" class="link">
@@ -499,18 +441,10 @@
                         </div>
                     </td>
 
-
-
                     @if($showRemainingTimeColumn)
                         <td>
                             {{ $item->old_prix ?? $item->prix }} <sup>{{ __('currency') }}</sup>
                         </td>
-                        {{-- <td>
-                            @php
-                                $basePx = ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix()) ? $item->getOldPrix() : $item->getPrix();
-                            @endphp
-                            <span class="price-new">{{ $basePx }} <sup>{{ __('currency') }}</sup></span>
-                        </td> --}}
                         <td>
                             @if ($item->getOldPrix() && $item->getOldPrix() > $item->getPrix())
                                 <span class="price-new">{{ $item->getPrix() }} <sup>{{ __('currency') }}</sup></span>
@@ -578,9 +512,7 @@
                                 <span class="dash" style="text-decoration: line-through;" title="{{ __('ancien_numero_expedition') }}">
                                     {{ $item->latestOrderItem->cancelled_shipment_id }}
                                 </span>
-
                             @endif
-
                         @else
                             <span class="dash">—</span>
                         @endif
@@ -606,7 +538,6 @@
                         @php
                             $isUserDeleted = $item->user_info && $item->user_info->deleted_at;
                             $hasDeletedOrder = $item->hasDeletedOrders();
-                            // $isPickupCancelled = $item->latestOrderItem?->pickup_cancelled_at && !$item->latestOrderItem?->shipment_id;
                         @endphp
 
                         @if ($item->deleted_at && !$item->motif_suppression)
@@ -620,7 +551,6 @@
                                 </span>
 
                             @elseif ($isPickupCancelled)
-                                {{-- Pickup was cancelled by Aramex: ignore stale shipment history, show real statut --}}
                                 @php
                                     $s = $item->statut;
                                     $vm = optional($item->user_info)->voyage_mode;
@@ -644,39 +574,11 @@
                                 @endphp
 
                                 <span class="s-badge {{ $badge['class'] }}" title="{{ $badge['label'] }}">{{ $badge['label'] }}</span>
-                                {{-- <div class="status-sub">
-                                    <span class="s-badge s-annule" style="font-size:9px; padding:2px 6px;">
-                                        {{ __('pickup_annule') }}
-                                    </span>
-                                </div> --}}
 
                             @else
-                                {{-- @php
-                                    $s = $item->statut;
-                                    $vm = optional($item->user_info)->voyage_mode;
-                                    if ($vm && $item->verified_at && !$item->sell_at) {
-                                        $s = 'en voyage';
-                                    }
-                                    $badgeMap = [
-                                        'validation'            => ['class' => 's-validation',  'label' => __('validation')],
-                                        'vente'                 => ['class' => 's-vente',        'label' => __('vente')],
-                                        'vendu'                 => ['class' => 's-vendu',        'label' => __('vendu')],
-                                        'livraison'             => ['class' => 's-livraison',    'label' => __('livraison')],
-                                        'livré'                 => ['class' => 's-livre',        'label' => __('livré')],
-                                        'refusé'                => ['class' => 's-refuse',       'label' => __('refusé')],
-                                        'préparation'           => ['class' => 's-preparation',  'label' => __('préparation')],
-                                        'en voyage'             => ['class' => 's-en-voyage',    'label' => __('en voyage')],
-                                        'en cours de livraison' => ['class' => 's-en-cours',     'label' => __('en cours de livraison')],
-                                        'ramassée'              => ['class' => 's-ramassee',     'label' => __('ramassée')],
-                                        'retourné'              => ['class' => 's-retourne',     'label' => __('retourné')],
-                                    ];
-                                    $badge = $badgeMap[$s] ?? ['class' => 's-vente', 'label' => $s];
-                                @endphp --}}
-
                                 @php
                                     $vm = optional($item->user_info)->voyage_mode;
 
-                                    // Check if this order has been paid via Aramex (SH239 update code)
                                     $isPaid = $item->latestShipmentHistory?->shipment_id
                                         && $item->latestShipmentHistory?->update_code === 'SH239';
 
@@ -688,7 +590,6 @@
                                         $s = $item->statut;
                                     }
 
-                                    // Voyage mode override (only applies if not yet sold)
                                     if ($vm && $item->verified_at && !$item->sell_at) {
                                         $s = 'en voyage';
                                     }
@@ -730,7 +631,6 @@
                         @endif
                     </td>
 
-
                     @if(!$showRemainingTimeColumn)
                         <td>
                             @if ($item->motif_suppression)
@@ -745,7 +645,7 @@
 
                     @if(!$showRemainingTimeColumn)
                         <td style="text-align:right; white-space:nowrap; padding: 10px 6px;">
-                            @if (!$item->deleted_at)  {{-- hide all buttons if soft deleted --}}
+                            @if (!$item->deleted_at)
                                 @if (!$item->id_user_buy && $item->statut !== 'validation')
                                     <button class="btn-reduce" onclick="Update_post_price({{ $item->id }})" title="{{ __('Réduire le prix') }}">
                                         <i class="bi bi-graph-down-arrow"></i>
@@ -760,22 +660,6 @@
                             @endif
                         </td>
                     @endif
-
-                    {{-- @if(!$showRemainingTimeColumn)
-                        <td style="text-align:right; white-space:nowrap; padding: 10px 6px;">
-                            @if (!$item->id_user_buy && $item->statut !== 'validation')
-                                <button class="btn-reduce" onclick="Update_post_price({{ $item->id }})" title="{{ __('Réduire le prix') }}">
-                                    <i class="bi bi-graph-down-arrow"></i>
-                                </button>
-                            @endif
-                            @if ($item->statut == 'validation' || $item->statut == 'vente')
-                                &nbsp;
-                                <button class="btn-del" type="button" onclick="delete_my_post({{ $item->id }})" title="{{ __('Supprimer') }}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            @endif
-                        </td>
-                    @endif --}}
                 </tr>
             @empty
                 <tr>
