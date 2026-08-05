@@ -1397,7 +1397,11 @@
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. Tous droits réservés.",
 "Verification failed. Please try again.": "La vérification a échoué. Veuillez réessayer.",
 "error.recaptcha_failed": "La vérification a échoué. Veuillez réessayer.",
-"Montant actuel": "Montant actuel"
+"Montant actuel": "Montant actuel",
+"Prix de vente": "Prix de vente",
+"Votre gain": "Votre gain",
+"Prix public après réduction": "Prix public après réduction",
+  "Prix public initial": "Prix public initial"
 
 
 

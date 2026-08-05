@@ -1397,7 +1397,11 @@
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. جميع الحقوق محفوظة.",
 "Verification failed. Please try again.": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى.",
 "error.recaptcha_failed": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى.",
-"Montant actuel": "المبلغ الحالي"
+"Montant actuel": "المبلغ الحالي",
+"Prix de vente": "سعر البيع",
+"Votre gain": "أرباحك",
+"Prix public après réduction": "السعر العمومي بعد التخفيض",
+"Prix public initial": "السعر العمومي الأصلي"
 
 
 

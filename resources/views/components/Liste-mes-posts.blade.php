@@ -441,12 +441,12 @@
                 <th>{{ __('article') }}</th>
                 @if($showRemainingTimeColumn)
 
-                    <th>{{ __('current_price') }} <small>({{ __('you_earn') }})</small></th>
-                    <th>{{ __('base_price') }} <small>({{ __('buyer_pays') }})</small></th>
+                    <th>{{ __('Prix de vente') }} <small>({{ __('you_earn') }})</small></th>
+                    <th>{{ __('Votre gain') }} <small>({{ __('buyer_pays') }})</small></th>
                     <th>{{ __('last_update1') }}</th>
                 @else
-                    <th>{{ __('discount_price') }}</th>
-                    <th>{{ __('base_price') }}</th>
+                    <th>{{ __('Prix public après réduction') }}</th>
+                    <th>{{ __('Prix public initial') }}</th>
                     <th>{{ __('last_price_update') }}</th>
                 @endif
                 <th>{{ __('expedition_number') }}</th>
