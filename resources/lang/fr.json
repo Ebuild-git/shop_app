@@ -258,9 +258,10 @@
     "no_items_found": "Aucun article trouvé pour ces critères de recherche.",
     "reduce_price": "Réduire le prix",
     "current_price": "Prix de base",
-    "shopin_percentage": "Pourcentage de <b class=\"color\">Shopin</b>",
+    "shopin_percentage": "La commission <b class=\"color\">Shopin</b> sera ajoutée automatiquement",
     "ad": "Annonce :",
     "new_reduced_price": "Nouveau prix réduis :",
+    "Nouveau montant": "Nouveau montant",
     "less_than_price": "Moins que",
     "save_changes": "Enregistrer le changement",
     "modification_blocked_title": "Vous ne pouvez pas modifier cette annonce",
@@ -1395,7 +1396,8 @@
 "email2.pickup_cancelled_seller.footer_note": "Cet email est automatique, merci de ne pas y répondre.",
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. Tous droits réservés.",
 "Verification failed. Please try again.": "La vérification a échoué. Veuillez réessayer.",
-"error.recaptcha_failed": "La vérification a échoué. Veuillez réessayer."
+"error.recaptcha_failed": "La vérification a échoué. Veuillez réessayer.",
+"Montant actuel": "Montant actuel"
 
 
 

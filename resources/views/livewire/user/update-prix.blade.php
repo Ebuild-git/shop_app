@@ -12,7 +12,7 @@
                     </div>
                     <form wire:submit='form_update_prix'>
                         <div class="mb-2">
-                            <b>{{ __('current_price') }} :</b>
+                            <b>{{ __('Montant actuel') }} :</b>
                             {{ $old_price }} <sup>{{ __('currency') }}</sup>
                             (
                             + {!! __('shopin_percentage') !!}
@@ -24,7 +24,7 @@
                         </label>
                         {{ $titre }} <br>
                         <label for="" class="strong color">
-                            {{ __('new_reduced_price') }}
+                            {{ __('Nouveau montant') }}
                         </label>
                         <input type="number"
                         class="form-control border-r @error('prix') is-invalid @endif"

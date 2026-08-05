@@ -258,9 +258,10 @@
     "no_items_found": "لم يتم العثور على أي منتج وفقًا لمعايير البحث هذه.",
     "reduce_price": "خفض السعر",
     "current_price": "السعر الأساسي",
-    "shopin_percentage": "نسبة شوب<span class=\"color\">ين</span>",
+    "shopin_percentage": "سيتم إضافة عمولة <b class=\"color\">Shopin</b> تلقائيًا",
     "ad": "الإعلان:",
     "new_reduced_price": "السعر الجديد بعد التخفيض:",
+     "Nouveau montant": "المبلغ الجديد",
     "less_than_price": "أقل من",
     "save_changes": "حفظ التغييرات",
     "modification_blocked_title": "لا يمكنك تعديل هذا الإعلان",
@@ -1395,7 +1396,8 @@
 "email2.pickup_cancelled_seller.footer_note": "هذه رسالة آلية، يرجى عدم الرد عليها.",
 "email2.pickup_cancelled_seller.copyright": "© :year Shopin. جميع الحقوق محفوظة.",
 "Verification failed. Please try again.": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى.",
-"error.recaptcha_failed": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى."
+"error.recaptcha_failed": "فشلت عملية التحقق. يرجى المحاولة مرة أخرى.",
+"Montant actuel": "المبلغ الحالي"
 
 
 
