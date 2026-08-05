@@ -65,4 +65,9 @@ class OrdersItem extends Model
         return $this->hasOne(ShipmentStatusHistory::class, 'order_item_id')
             ->latestOfMany('id');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(OrderItemNote::class, 'order_item_id');
+    }
 }

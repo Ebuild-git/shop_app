@@ -249,8 +249,12 @@ Route::group(['middleware' => ['auth', 'role']], function () {
     Route::post('/admin/users/{id}/approve-cin', [AdminController::class, 'approveCIN'])->name('admin.cin.approve');
     Route::get('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/admin/update-status/{id}', [OrdersController::class, 'updateStatus'])->name('update.status');
-    Route::post('/admin/orders/{order}/note', [OrdersController::class, 'updateNote'])->name('orders.updateNote');
+    // Route::post('/admin/orders/{order}/note', [OrdersController::class, 'updateNote'])->name('orders.updateNote');
 
+    Route::get('/admin/order-items/{id}/notes', [OrdersController::class, 'getNotes'])->name('order-items.notes.index');
+    Route::post('/admin/order-items/{id}/notes', [OrdersController::class, 'storeNote'])->name('order-items.notes.store');
+    Route::put('/admin/order-item-notes/{noteId}', [OrdersController::class, 'updateNoteEntry'])->name('order-item-notes.update');
+    Route::delete('/admin/order-item-notes/{noteId}', [OrdersController::class, 'destroyNoteEntry'])->name('order-item-notes.destroy');
 
     Route::get('/admin/shipment/{shipmentId}/history', [OrdersController::class, 'shipmentHistory'])
         ->name('admin.shipment.history');

@@ -61,8 +61,7 @@
                                     <th>Statut livraison</th>
                                     <th>Statut Client</th>
                                     <th>Date</th>
-                                    <th>Note</th>
-                                    <th>Informations automatique</th>
+
                                     <th></th>
                                 </tr>
                             </thead>
@@ -329,7 +328,7 @@
                                                 {{ $order->created_at ? $order->created_at->format('d/m/Y H:i') : '—' }}
                                             </td>
 
-                                            <td class="text-wrap" style="max-width:250px;">
+                                            {{-- <td class="text-wrap" style="max-width:250px;">
                                                 @if($item->note)
                                                     {{ Str::limit($item->note, 120) }}
                                                 @else
@@ -365,7 +364,7 @@
                                                 @else
                                                     <span class="text-muted">—</span>
                                                 @endif
-                                            </td>
+                                            </td> --}}
 
                                             <td>
                                                 @if(!$aramexAlreadyShown)
@@ -409,10 +408,14 @@
                                                     @php $shownAramexVendors[] = $vendorId; @endphp
                                                 @endif
 
-                                                <button class="btn btn-sm btn-outline-secondary mt-1" onclick="openNoteModal(
+                                                {{-- <button class="btn btn-sm btn-outline-secondary mt-1" onclick="openNoteModal(
                                                                 {{ $item->id }},
                                                                 '{{ addslashes($item->note ?? '') }}'
                                                             )">
+                                                    <i class="bi bi-journal-text"></i>
+                                                    Note
+                                                </button> --}}
+                                                <button class="btn btn-sm btn-outline-secondary mt-1" onclick="openNoteModal({{ $item->id }})">
                                                     <i class="bi bi-journal-text"></i>
                                                     Note
                                                 </button>
@@ -448,6 +451,47 @@
                     </div>
 
                     <div class="p-3">{{ $orders->links('pagination::bootstrap-4') }}</div>
+
+                    <!-- note modal -->
+                    <!-- Note Modal -->
+                    <div class="modal fade" id="noteModal" tabindex="-1">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="modal-header border-0 pb-0">
+                                    <h5 class="modal-title fw-bold">
+                                        <i class="bi bi-journal-text me-2 text-primary"></i>
+                                        Notes
+                                    </h5>
+                                    <button type="button" class="btn-close" onclick="noteModalInstance && noteModalInstance.hide()"></button>
+                                </div>
+                                <div class="modal-body pt-3">
+                                    <div id="note-loading" class="text-center py-5">
+                                        <div class="spinner-border text-primary" role="status"></div>
+                                        <p class="mt-2 text-muted">Chargement...</p>
+                                    </div>
+
+                                    <div id="note-content" class="d-none">
+                                        <h6 class="fw-semibold">Notes automatiques</h6>
+                                        <div id="note-auto-timeline" class="mb-2"></div>
+                                        <div id="note-auto-empty" class="text-muted small mb-2 d-none">Aucune note automatique.</div>
+
+                                        <hr>
+
+                                        <h6 class="fw-semibold">Notes manuelles</h6>
+                                        <div id="note-manual-list" class="mb-2"></div>
+                                        <div id="note-manual-empty" class="text-muted small mb-2 d-none">Aucune note manuelle.</div>
+
+                                        <div class="d-flex gap-2 mt-3">
+                                            <textarea id="new-note-content" class="form-control form-control-sm" rows="2" placeholder="Ajouter une note..."></textarea>
+                                            <button class="btn btn-sm btn-primary" onclick="addNote()" style="white-space:nowrap;">
+                                                <i class="bi bi-plus-lg"></i> Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- History Modal -->
                     <div class="modal fade" id="historyModal" tabindex="-1">
@@ -698,45 +742,227 @@
             });
         }
 
-        function openNoteModal(orderId, currentNote) {
+        // function openNoteModal(orderId, currentNote) {
+        //     Swal.fire({
+        //         title: "Ajouter / Modifier la note",
+        //         input: "textarea",
+        //         inputLabel: "Note pour la commande",
+        //         inputValue: currentNote,
+        //         showCancelButton: true,
+        //         confirmButtonText: "Enregistrer",
+        //         cancelButtonText: "Annuler",
+        //         inputPlaceholder: "Saisissez ici votre note...",
+        //         inputAttributes: {
+        //             rows: 6
+        //         }
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             fetch(`/admin/orders/${orderId}/note`, {
+        //                 method: "POST",
+        //                 headers: {
+        //                     "Content-Type": "application/json",
+        //                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        //                 },
+        //                 body: JSON.stringify({ note: result.value })
+        //             })
+        //                 .then(res => res.json())
+        //                 .then(data => {
+        //                     if (data.success) {
+        //                         Swal.fire({
+        //                             icon: "success",
+        //                             title: "Note enregistrée",
+        //                             timer: 1500,
+        //                             showConfirmButton: false
+        //                         }).then(() => location.reload());
+        //                     } else {
+        //                         Swal.fire("Erreur", data.message || "Impossible d’enregistrer la note", "error");
+        //                     }
+        //                 })
+        //                 .catch(err => {
+        //                     console.error(err);
+        //                     Swal.fire("Erreur", "Une erreur est survenue", "error");
+        //                 });
+        //         }
+        //     });
+        // }
+
+
+
+        let noteModalInstance = null;
+        let currentNoteItemId = null;
+
+        function openNoteModal(itemId) {
+            currentNoteItemId = itemId;
+            document.getElementById('note-loading').classList.remove('d-none');
+            document.getElementById('note-content').classList.add('d-none');
+
+            const modalEl = document.getElementById('noteModal');
+            if (!noteModalInstance) {
+                noteModalInstance = new bootstrap.Modal(modalEl);
+            }
+            noteModalInstance.show();
+
+            loadNotes(itemId);
+        }
+
+        function loadNotes(itemId) {
+            fetch(`/admin/order-items/${itemId}/notes`, { headers: { 'Accept': 'application/json' } })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('note-loading').classList.add('d-none');
+                    document.getElementById('note-content').classList.remove('d-none');
+                    renderAutoNotes(data.info_auto);
+                    renderManualNotes(data.notes);
+                })
+                .catch(() => {
+                    document.getElementById('note-loading').classList.add('d-none');
+                    Swal.fire('Erreur', 'Impossible de charger les notes.', 'error');
+                });
+        }
+
+        function renderAutoNotes(infoAuto) {
+            const container = document.getElementById('note-auto-timeline');
+            const emptyEl = document.getElementById('note-auto-empty');
+            container.innerHTML = '';
+
+            if (!infoAuto) {
+                emptyEl.classList.remove('d-none');
+                return;
+            }
+            emptyEl.classList.add('d-none');
+
+            const lines = infoAuto.split('\n');
+            const match = (lines[0] || '').match(/^\[(.*?)\]\s*(.*)$/);
+            const date = match ? match[1] : null;
+            const firstLine = match ? match[2] : (lines[0] || '');
+            const restLines = lines.slice(1);
+
+            container.innerHTML = `
+                <div class="d-flex align-items-start gap-2">
+                    <span class="d-inline-block rounded-circle mt-1" style="width:8px;height:8px;background-color:#f0a500;flex-shrink:0;"></span>
+                    <div style="font-size:13px;line-height:1.5;">
+                        ${date ? `<div class="fw-semibold">${date}</div>` : ''}
+                        <div>${escapeHtml(firstLine)}</div>
+                        ${restLines.map(l => `<div>${escapeHtml(l)}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderManualNotes(notes) {
+            const container = document.getElementById('note-manual-list');
+            const emptyEl = document.getElementById('note-manual-empty');
+            container.innerHTML = '';
+
+            if (!notes.length) {
+                emptyEl.classList.remove('d-none');
+                return;
+            }
+            emptyEl.classList.add('d-none');
+
+            container.innerHTML = notes.map(n => `
+                <div class="d-flex align-items-start gap-2 border-bottom pb-2 mb-2" id="note-row-${n.id}">
+                    <span class="d-inline-block rounded-circle mt-1" style="width:8px;height:8px;background-color:#0d6efd;flex-shrink:0;"></span>
+                    <div style="font-size:13px;line-height:1.5;flex:1;">
+                        <div class="fw-semibold">${n.created_at}</div>
+                        <div class="note-text">${escapeHtml(n.content)}</div>
+                    </div>
+
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str ?? '';
+            return div.innerHTML;
+        }
+
+        function addNote() {
+            const textarea = document.getElementById('new-note-content');
+            const content = textarea.value.trim();
+            if (!content) return;
+
+            fetch(`/admin/order-items/${currentNoteItemId}/notes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ content })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        textarea.value = '';
+                        loadNotes(currentNoteItemId);
+                    } else {
+                        Swal.fire('Erreur', "Impossible d'ajouter la note.", 'error');
+                    }
+                });
+        }
+
+        function editNote(noteId) {
+            const row = document.getElementById(`note-row-${noteId}`);
+            const currentText = row.querySelector('.note-text').textContent;
+
             Swal.fire({
-                title: "Ajouter / Modifier la note",
-                input: "textarea",
-                inputLabel: "Note pour la commande",
-                inputValue: currentNote,
+                title: 'Modifier la note',
+                input: 'textarea',
+                inputValue: currentText,
                 showCancelButton: true,
-                confirmButtonText: "Enregistrer",
-                cancelButtonText: "Annuler",
-                inputPlaceholder: "Saisissez ici votre note...",
-                inputAttributes: {
-                    rows: 6
-                }
+                confirmButtonText: 'Enregistrer',
+                cancelButtonText: 'Annuler',
+                inputAttributes: { rows: 4 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`/admin/orders/${orderId}/note`, {
-                        method: "POST",
+                if (result.isConfirmed && result.value.trim()) {
+                    fetch(`/admin/order-item-notes/${noteId}`, {
+                        method: 'PUT',
                         headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
                         },
-                        body: JSON.stringify({ note: result.value })
+                        body: JSON.stringify({ content: result.value.trim() })
                     })
                         .then(res => res.json())
                         .then(data => {
                             if (data.success) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Note enregistrée",
-                                    timer: 1500,
-                                    showConfirmButton: false
-                                }).then(() => location.reload());
+                                loadNotes(currentNoteItemId);
                             } else {
-                                Swal.fire("Erreur", data.message || "Impossible d’enregistrer la note", "error");
+                                Swal.fire('Erreur', 'Impossible de modifier la note.', 'error');
                             }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            Swal.fire("Erreur", "Une erreur est survenue", "error");
+                        });
+                }
+            });
+        }
+
+        function deleteNote(noteId) {
+            Swal.fire({
+                title: 'Supprimer cette note ?',
+                text: 'Cette action est irréversible.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, supprimer',
+                cancelButtonText: 'Annuler',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/order-item-notes/${noteId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                loadNotes(currentNoteItemId);
+                            } else {
+                                Swal.fire('Erreur', 'Impossible de supprimer la note.', 'error');
+                            }
                         });
                 }
             });

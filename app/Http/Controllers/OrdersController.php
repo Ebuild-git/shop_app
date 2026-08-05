@@ -13,6 +13,7 @@ use App\Events\UserEvent;
 use App\Models\notifications;
 use App\Mail\PickupCancelled;
 use App\Traits\ShipmentStatusTrait;
+use App\Models\OrderItemNote;
 
 class OrdersController extends Controller
 {
@@ -199,17 +200,6 @@ class OrdersController extends Controller
     }
 
 
-    // public function updateNote(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'note' => 'nullable|string',
-    //     ]);
-    //     $order = Order::findOrFail($id);
-    //     $order->note = $request->note;
-    //     $order->save();
-
-    //     return response()->json(['success' => true]);
-    // }
     public function updateNote(Request $request, $id)
     {
         $request->validate([
@@ -827,5 +817,47 @@ class OrdersController extends Controller
         }
 
         return $aramexDate; // fallback, unparsed
+    }
+
+    public function getNotes($id)
+    {
+        $item = OrdersItem::findOrFail($id);
+
+        return response()->json([
+            'info_auto' => $item->info_auto,
+            'notes' => $item->notes()->get()->map(fn ($n) => [
+                'id'         => $n->id,
+                'content'    => $n->content,
+                'created_at' => $n->created_at->format('d/m/Y H:i'),
+                'updated_at' => $n->updated_at->format('d/m/Y H:i'),
+            ]),
+        ]);
+    }
+
+    public function storeNote(Request $request, $id)
+    {
+        $request->validate(['content' => 'required|string']);
+
+        $item = OrdersItem::findOrFail($id);
+        $note = $item->notes()->create(['content' => $request->content]);
+
+        return response()->json(['success' => true, 'note' => $note]);
+    }
+
+    public function updateNoteEntry(Request $request, $noteId)
+    {
+        $request->validate(['content' => 'required|string']);
+
+        $note = OrderItemNote::findOrFail($noteId);
+        $note->update(['content' => $request->content]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function destroyNoteEntry($noteId)
+    {
+        OrderItemNote::findOrFail($noteId)->delete();
+
+        return response()->json(['success' => true]);
     }
 }
