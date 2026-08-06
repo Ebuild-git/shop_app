@@ -463,140 +463,156 @@ class ShopController extends Controller
     {
         $user = $request->user();
 
-        $cartItemIds = UserCart::where('user_id', $user->id)->pluck('post_id');
-        if ($cartItemIds->isEmpty()) {
-            return response()->json(['success' => false, 'message' => 'Cart is empty'], 422);
-        }
-
-        $id_region = $user->region ?? null;
-
-        $articles_panier = [];
-        foreach ($cartItemIds as $id) {
-            $post = posts::with('user_info')->find($id);
-            if (!$post)
-                continue;
-
-            $id_categorie = $post->id_sous_categorie
-                ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
-                : null;
-
-            $frais = 0;
-            if ($id_categorie && $id_region) {
-                $regionCategory = regions_categories::where('id_region', $id_region)
-                    ->where('id_categorie', $id_categorie)
-                    ->first();
-                $frais = $regionCategory ? (float) $regionCategory->prix : 0;
-            }
-
-            $articles_panier[] = [
-                'id' => $post->id,
-                'titre' => $post->titre,
-                'prix' => $post->getPrix(),
-                "photo" => config('app.url') . Storage::url($post->photos[0]),
-                'vendeur' => $post->user_info->username,
-                'old_prix' => $post->old_prix,
-                'delivery_fee' => $frais,
-            ];
-        }
-
-        $order = Order::create([
-            'buyer_id' => $user->id,
-            'total' => 0,
-            'total_delivery_fees' => 0,
-            'status' => 'pending',
-            'state' => 'created',
-        ]);
-
-        $total = 0;
-        $totalDeliveryFees = 0;
-        $vendorsCounted = [];
-
-        foreach ($articles_panier as $article) {
-            $post = posts::find($article['id']);
-            if (!$post)
-                continue;
-
-            $post->update([
-                'statut' => 'préparation',
-                'sell_at' => now(),
-                'id_user_buy' => $user->id
+        try {
+            \DB::table('order_locks')->insert([
+                'user_id' => $user->id,
+                'created_at' => now(),
             ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Your order is already being processed'
+            ], 409);
+        }
 
-            // Reuse the fee we already computed above instead of re-querying
-            $frais = $article['delivery_fee'];
-
-            if (!isset($vendorsCounted[$post->id_user])) {
-                $totalDeliveryFees += $frais;
-                $vendorsCounted[$post->id_user] = true;
+        try {
+            $cartItemIds = UserCart::where('user_id', $user->id)->pluck('post_id');
+            if ($cartItemIds->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'Cart is empty'], 422);
             }
 
-            OrdersItem::create([
-                'order_id' => $order->id,
-                'post_id' => $post->id,
-                'vendor_id' => $post->id_user,
-                'price' => $post->getPrix(),
-                'delivery_fee' => $frais,
+            $id_region = $user->region ?? null;
+
+            $articles_panier = [];
+            foreach ($cartItemIds as $id) {
+                $post = posts::with('user_info')->find($id);
+                if (!$post)
+                    continue;
+
+                $id_categorie = $post->id_sous_categorie
+                    ? sous_categories::where('id', $post->id_sous_categorie)->value('id_categorie')
+                    : null;
+
+                $frais = 0;
+                if ($id_categorie && $id_region) {
+                    $regionCategory = regions_categories::where('id_region', $id_region)
+                        ->where('id_categorie', $id_categorie)
+                        ->first();
+                    $frais = $regionCategory ? (float) $regionCategory->prix : 0;
+                }
+
+                $articles_panier[] = [
+                    'id' => $post->id,
+                    'titre' => $post->titre,
+                    'prix' => $post->getPrix(),
+                    "photo" => config('app.url') . Storage::url($post->photos[0]),
+                    'vendeur' => $post->user_info->username,
+                    'old_prix' => $post->old_prix,
+                    'delivery_fee' => $frais,
+                ];
+            }
+
+            $order = Order::create([
+                'buyer_id' => $user->id,
+                'total' => 0,
+                'total_delivery_fees' => 0,
                 'status' => 'pending',
+                'state' => 'created',
             ]);
 
-            $total += $post->getPrix();
-        }
+            $total = 0;
+            $totalDeliveryFees = 0;
+            $vendorsCounted = [];
 
-        $order->update([
-            'total' => $total,
-            'total_delivery_fees' => $totalDeliveryFees,
-        ]);
+            foreach ($articles_panier as $article) {
+                $post = posts::find($article['id']);
+                if (!$post)
+                    continue;
 
-        // $this->sendBuyerNotification($user, $order);
-        try {
-            $this->sendBuyerNotification($user, $order);
-        } catch (\Throwable $e) {
-            \Log::error('sendBuyerNotification failed', [
-                'order_id' => $order->id,
-                'user_id' => $user->id,
-                'error' => $e->getMessage(),
+                $post->update([
+                    'statut' => 'préparation',
+                    'sell_at' => now(),
+                    'id_user_buy' => $user->id
+                ]);
+
+                // Reuse the fee we already computed above instead of re-querying
+                $frais = $article['delivery_fee'];
+
+                if (!isset($vendorsCounted[$post->id_user])) {
+                    $totalDeliveryFees += $frais;
+                    $vendorsCounted[$post->id_user] = true;
+                }
+
+                OrdersItem::create([
+                    'order_id' => $order->id,
+                    'post_id' => $post->id,
+                    'vendor_id' => $post->id_user,
+                    'price' => $post->getPrix(),
+                    'delivery_fee' => $frais,
+                    'status' => 'pending',
+                ]);
+
+                $total += $post->getPrix();
+            }
+
+            $order->update([
+                'total' => $total,
+                'total_delivery_fees' => $totalDeliveryFees,
             ]);
-        }
 
-        try {
-            $this->notifySellers($user, $articles_panier, $order);
-        } catch (\Throwable $e) {
-            \Log::error('notifySellers failed', [
-                'order_id' => $order->id,
-                'error' => $e->getMessage(),
+            // $this->sendBuyerNotification($user, $order);
+            try {
+                $this->sendBuyerNotification($user, $order);
+            } catch (\Throwable $e) {
+                \Log::error('sendBuyerNotification failed', [
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            try {
+                $this->notifySellers($user, $articles_panier, $order);
+            } catch (\Throwable $e) {
+                \Log::error('notifySellers failed', [
+                    'order_id' => $order->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            // $this->notifySellers($user, $articles_panier, $order);
+
+            // $this->notifyAdminAboutPurchase($user, count($articles_panier));
+            try {
+                $this->notifyAdminAboutPurchase($user, count($articles_panier));
+            } catch (\Throwable $e) {
+                \Log::error('notifyAdminAboutPurchase failed', [
+                    'order_id' => $order->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            // $this->sendConfirmationEmail($user, $articles_panier, $order);
+            try {
+                $this->sendConfirmationEmail($user, $articles_panier, $order);
+            } catch (\Throwable $e) {
+                \Log::error('sendConfirmationEmail failed', [
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+
+            UserCart::where('user_id', $user->id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order confirmed',
+                'order_id' => $order->id
             ]);
+        } finally {
+            \DB::table('order_locks')->where('user_id', $user->id)->delete();
         }
-
-        // $this->notifySellers($user, $articles_panier, $order);
-
-        // $this->notifyAdminAboutPurchase($user, count($articles_panier));
-        try {
-            $this->notifyAdminAboutPurchase($user, count($articles_panier));
-        } catch (\Throwable $e) {
-            \Log::error('notifyAdminAboutPurchase failed', [
-                'order_id' => $order->id,
-                'error' => $e->getMessage(),
-            ]);
-        }
-
-        // $this->sendConfirmationEmail($user, $articles_panier, $order);
-        try {
-            $this->sendConfirmationEmail($user, $articles_panier, $order);
-        } catch (\Throwable $e) {
-            \Log::error('sendConfirmationEmail failed', [
-                'order_id' => $order->id,
-                'user_id' => $user->id,
-                'error' => $e->getMessage(),
-            ]);
-        }
-
-        UserCart::where('user_id', $user->id)->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Order confirmed',
-            'order_id' => $order->id
-        ]);
     }
 
     private function sendBuyerNotification($buyer, $order)
