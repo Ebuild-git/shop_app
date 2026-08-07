@@ -268,9 +268,16 @@ class OrdersController extends Controller
                 'app_url'     => config('app.url'),
             ]);
 
-            \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
-                $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody, 'buyer'
-            ));
+            // \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+            //     $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody, 'buyer'
+            // ));
+            if ($post) {
+                \Mail::to($buyer->email)->send(new \App\Mail\OrderItemStatusMail(
+                    $buyer, $order, $post, $postImage, 'cancelled', $emailSubject, $emailBody, 'buyer'
+                ));
+            } else {
+                \Log::warning('destroyItem: skipped buyer email, post is null', ['item_id' => $item->id, 'order_id' => $order->id]);
+            }
 
             App::setLocale(config('app.locale'));
 
@@ -334,9 +341,13 @@ class OrdersController extends Controller
                 'app_url'     => config('app.url'),
             ]);
 
-            \Mail::to($seller->email)->send(new \App\Mail\OrderItemStatusMail(
-                $seller, $order, $post, $postImage, 'cancelled', $sellerEmailSubject, $sellerEmailBody, 'seller'
-            ));
+            if ($post) {
+                \Mail::to($seller->email)->send(new \App\Mail\OrderItemStatusMail(
+                    $seller, $order, $post, $postImage, 'cancelled', $sellerEmailSubject, $sellerEmailBody, 'seller'
+                ));
+            } else {
+                \Log::warning('destroyItem: skipped seller email, post is null', ['item_id' => $item->id, 'order_id' => $order->id]);
+            }
 
             App::setLocale(config('app.locale'));
 
