@@ -56,7 +56,15 @@ class VoyageModeAlertService
             $latestCode = $groupedItems->first()->latestShipmentHistory?->update_code;
             $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
 
+            // if ($isTerminal) {
+            //     continue;
+            // }
             if ($isTerminal) {
+                foreach ($groupedItems as $item) {
+                    $item->info_auto = "[{$now}] Utilisateur #{$userCode} en mode voyage – Ramassage déjà pris en charge par Aramex (statut {$latestCode}) – à traiter manuellement si besoin";
+                    $item->save();
+                    $pendingItems->push($item);
+                }
                 continue;
             }
 
