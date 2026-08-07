@@ -388,8 +388,8 @@
                 <th></th>
                 <th>{!! wrapHeaderWords(__('article')) !!}</th>
                 @if($showRemainingTimeColumn)
-                    <th>{!! wrapHeaderWords(__('Prix de vente')) !!} <small>({{ __('you_earn') }})</small></th>
-                    <th>{!! wrapHeaderWords(__('Votre gain')) !!} <small>({{ __('buyer_pays') }})</small></th>
+                    <th>{!! wrapHeaderWords(__('Votre gain')) !!} <small>({{ __('you_earn') }})</small></th>
+                    <th>{!! wrapHeaderWords(__('Prix de vente')) !!} <small>({{ __('buyer_pays') }})</small></th>
                     <th>{!! wrapHeaderWords(__('last_update1')) !!}</th>
                 @else
                     <th>{!! wrapHeaderWords(__('Prix public après réduction')) !!}</th>

@@ -253,12 +253,10 @@
                         </td>
                         @if($showTrashed !== 'yes')
                         <td>
-                            @if (empty($user->rib_number) && empty($user->bank_name) && empty($user->titulaire_name))
+                            @if (empty($user->rib_number))
                                 <span class="badge bg-danger">Non fournies</span>
-                            @elseif (!empty($user->rib_number) && !empty($user->bank_name) && !empty($user->titulaire_name))
+                            @elseif (!empty($user->rib_number))
                                 <span class="badge bg-success">Fournies</span>
-                            @elseif (empty($user->rib_number) || empty($user->bank_name) || empty($user->titulaire_name))
-                                <span class="badge bg-warning text-dark">Incompletes</span>
                             @elseif ($user->rib_status === 'rejected')
                                 <span class="badge bg-dark">Rejetées</span>
                             @endif
