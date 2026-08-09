@@ -1392,7 +1392,25 @@
 "Prix de vente": "سعر البيع",
 "Votre gain": "أرباحك",
 "Prix public après réduction": "السعر العمومي بعد التخفيض",
-"Prix public initial": "السعر العمومي الأصلي"
+"Prix public initial": "السعر العمومي الأصلي",
+"voyage_mode.admin.activated.title": "🚨 قام المشتري أو البائع بتفعيل وضع السفر بعد الاستلام",
+  "voyage_mode.admin.activated.order": "الطلب",
+  "voyage_mode.admin.activated.buyer_label": "المشتري",
+  "voyage_mode.admin.activated.seller_label": "البائع",
+  "voyage_mode.admin.activated.pickup_status": "حالة الاستلام",
+  "voyage_mode.admin.activated.pickup_status_completed": "تم الاستلام",
+  "voyage_mode.admin.activated.pickup_status_in_progress": "الاستلام قيد التنفيذ",
+  "voyage_mode.admin.activated.event_time": "وقت الحدث",
+  "voyage_mode.admin.activated.action_required": "الإجراء المطلوب",
+  "voyage_mode.admin.activated.action_contact_aramex": "التواصل مع Aramex لتعليق التوصيل أو إعادة جدولته.",
+  "voyage_mode.admin.activated.action_review_order": "مراجعة الطلب",
+  "voyage_mode.admin.deactivated.title": "قام المشتري أو البائع \":username\" بإلغاء تفعيل وضع السفر.",
+  "voyage_mode.admin.deactivated.order": "الطلب",
+  "voyage_mode.admin.deactivated.status_label": "حالة وضع السفر",
+  "voyage_mode.admin.deactivated.status_value": "معطّل",
+  "voyage_mode.admin.deactivated.event_time": "وقت الحدث",
+  "voyage_mode.admin.deactivated.action_required": "الإجراء المطلوب",
+  "voyage_mode.admin.deactivated.action_review_order": "مراجعة الطلب"
 
 
 

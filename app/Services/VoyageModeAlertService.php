@@ -48,7 +48,6 @@ class VoyageModeAlertService
         $aramex = new AramexService();
         $now = Carbon::now()->format('Y-m-d H:i');
         $userCode = 'U' . (1000 + $user->id);
-        $pendingItems = collect();
         $cancelledItems = collect();
 
         // Group by pickup_guid since cancelling is per-pickup, not per-item
@@ -56,15 +55,14 @@ class VoyageModeAlertService
             $latestCode = $groupedItems->first()->latestShipmentHistory?->update_code;
             $isTerminal = in_array($latestCode, self::TERMINAL_CODES, true);
 
-            // if ($isTerminal) {
-            //     continue;
-            // }
             if ($isTerminal) {
                 foreach ($groupedItems as $item) {
-                    $item->info_auto = "[{$now}] Utilisateur #{$userCode} en mode voyage – Ramassage déjà pris en charge par Aramex (statut {$latestCode}) – à traiter manuellement si besoin";
+                    $item->info_auto = "[{$now}] Utilisateur {$user->username} (#{$userCode}) en mode voyage – Ramassage déjà pris en charge par Aramex (statut {$latestCode}) – à traiter manuellement si besoin";
                     $item->save();
-                    $pendingItems->push($item);
                 }
+
+                // 🚨 activation after pickup was already completed -> admin must contact Aramex
+                $this->notifyAdminActivatedAfterPickup($user, $groupedItems->first(), true);
                 continue;
             }
 
@@ -77,10 +75,12 @@ class VoyageModeAlertService
 
             if ($hasErrors && !$alreadyCancelled) {
                 foreach ($groupedItems as $item) {
-                    $item->info_auto = "[{$now}] Utilisateur #{$userCode} en mode voyage – Ramassage déjà en cours – à traiter manuellement";
+                    $item->info_auto = "[{$now}] Utilisateur {$user->username} (#{$userCode}) en mode voyage – Ramassage déjà en cours – à traiter manuellement";
                     $item->save();
-                    $pendingItems->push($item);
                 }
+
+                // activation while pickup is still in progress (not yet completed) -> admin should review
+                $this->notifyAdminActivatedAfterPickup($user, $groupedItems->first(), false);
                 continue;
             }
 
@@ -93,7 +93,6 @@ class VoyageModeAlertService
                 $itemShipmentId = $item->shipment_id ?? $item->cancelled_shipment_id;
                 $formattedShipmentId = preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1-$2-$3-$4', $itemShipmentId);
                 $role = $item->vendor_id === $user->id ? 'Vendeur' : 'Acheteur';
-                $vendorCode = 'U' . (1000 + $item->vendor_id);
 
                 $item->cancelled_pickup_id   = $item->pickup_id;
                 $item->cancelled_pickup_guid = $item->pickup_guid;
@@ -104,8 +103,7 @@ class VoyageModeAlertService
                 $item->pickup_guid = null;
                 $item->shipment_id = null;
                 $item->status      = 'pending';
-                // $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : Mode voyage activé (vendeur {$vendorCode}).\nID expédition : {$itemShipmentId}.";
-                $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : {$role} « {$user->username} » en voyage.\nID expédition : {$formattedShipmentId}.";
+                $item->info_auto   = "[{$now}] Pickup annulé automatiquement.\nRaison : {$role} « {$user->username} » (#{$userCode}) en voyage.\nID expédition : {$formattedShipmentId}.";
                 $item->save();
 
                 if ($item->post) {
@@ -131,43 +129,138 @@ class VoyageModeAlertService
             ]);
         }
 
-        if ($pendingItems->isNotEmpty()) {
-            $this->notifyAdmins($user, $pendingItems); // manual follow-up needed
-        }
-
         if ($cancelledItems->isNotEmpty()) {
             $this->notifyAdminsCancelled($user, $cancelledItems); // FYI, auto-handled
         }
     }
 
     /**
-     * Create an admin-facing notification + broadcast event listing the affected order items.
+     * Entry point for when a user turns Travel Mode OFF.
+     *
+     * NOTE: there was no deactivation flow in the code you shared, so this is
+     * a new method — wire it up from wherever the toggle-off actually happens
+     * (settings controller / observer / etc).
+     *
+     * Preferred usage: pass the specific order item the deactivation relates
+     * to, so exactly one admin notification is sent for that order:
+     *
+     *     $service->handleVoyageModeDeactivated($user, $orderItem);
+     *
+     * If you call it with just $user (no $orderItem), it falls back to
+     * notifying once per order currently tied to the user — this is broad,
+     * so only rely on it if you don't have a specific order in context.
      */
-    private function notifyAdmins(User $user, $pendingItems): void
+    public function handleVoyageModeDeactivated(User $user, ?OrdersItem $orderItem = null): void
     {
-        $userCode = 'U' . (1000 + $user->id);
+        if ($orderItem) {
+            $this->notifyAdminDeactivated($user, $orderItem->order, $orderItem->vendor_id);
+            return;
+        }
 
-        $itemsList = $pendingItems
-            ->map(fn($item) => 'CMD-' . ($item->order_id ?? '?') . ' / P' . $item->post_id)
-            ->implode(', ');
+        $items = OrdersItem::where(function ($query) use ($user) {
+                $query->where('vendor_id', $user->id)
+                      ->orWhereHas('order', function ($q) use ($user) {
+                          $q->where('buyer_id', $user->id);
+                      });
+            })
+            ->with('order')
+            ->get()
+            ->groupBy('order_id');
 
-        $count = $pendingItems->count();
+        foreach ($items as $groupedItems) {
+            $first = $groupedItems->first();
+            $this->notifyAdminDeactivated($user, $first->order, $first->vendor_id);
+        }
+    }
+
+    /**
+     * 🚨 Admin notification: Travel Mode activated after (or during) a pickup.
+     *
+     * Pickup Status / Action Required depend on whether the pickup has
+     * already completed:
+     *  - Pickup Completed  -> "Contact Aramex to hold or reschedule the delivery."
+     *  - Anything earlier  -> "Review the order"
+     */
+    private function notifyAdminActivatedAfterPickup(User $user, OrdersItem $item, bool $isTerminal): void
+    {
+        $order = $item->order;
+
+        if (!$order) {
+            return;
+        }
+
+        $roleLabel = $item->vendor_id === $user->id
+            ? trans('voyage_mode.admin.activated.seller_label')
+            : trans('voyage_mode.admin.activated.buyer_label');
+
+        $pickupStatus = $isTerminal
+            ? trans('voyage_mode.admin.activated.pickup_status_completed')
+            : trans('voyage_mode.admin.activated.pickup_status_in_progress');
+
+        $actionRequired = $isTerminal
+            ? trans('voyage_mode.admin.activated.action_contact_aramex')
+            : trans('voyage_mode.admin.activated.action_review_order');
+
+        $title = trans('voyage_mode.admin.activated.title');
+        $eventTime = Carbon::now()->format('d/m/Y – H:i');
+
+        $message = $title . "\n"
+            . trans('voyage_mode.admin.activated.order') . ': CMD-' . ($order->id ?? '?') . "\n"
+            . $roleLabel . ': ' . $user->username . "\n"
+            . trans('voyage_mode.admin.activated.pickup_status') . ': ' . $pickupStatus . "\n"
+            . trans('voyage_mode.admin.activated.event_time') . ': ' . $eventTime . "\n"
+            . trans('voyage_mode.admin.activated.action_required') . ': ' . $actionRequired;
 
         $notification = new notifications();
-        $notification->titre = $user->username . ' a activé le mode voyage avec ' . $count . ' ramassage(s) en attente';
+        $notification->titre = $title;
         $notification->id_user = $user->id;
         $notification->type = 'voyage_mode_pending_pickup';
         $notification->destination = 'admin';
         $notification->url = '/admin/client/' . $user->id . '/view';
-        $notification->message = "L'utilisateur {$userCode} ({$user->username}) a activé le mode voyage "
-            . 'alors que ' . $count . ' article(s) attendent toujours un ramassage Aramex : ' . $itemsList . '.';
+        $notification->message = $message;
         $notification->save();
 
-        event(new AdminEvent($user->username . ' a activé le mode voyage avec des ramassages en attente.'));
+        event(new AdminEvent($title . ' – CMD-' . ($order->id ?? '?')));
 
-        \Log::info("VoyageModeAlertService: admin notified", [
-            'user_id' => $user->id,
-            'items_count' => $count,
+        \Log::info('VoyageModeAlertService: admin notified (activated after pickup)', [
+            'user_id'  => $user->id,
+            'order_id' => $order->id ?? null,
+            'terminal' => $isTerminal,
+        ]);
+    }
+
+    /**
+     * Admin notification: Travel Mode deactivated.
+     */
+    private function notifyAdminDeactivated(User $user, $order, $vendorId): void
+    {
+        if (!$order) {
+            return;
+        }
+
+        $title = trans('voyage_mode.admin.deactivated.title', ['username' => $user->username]);
+        $eventTime = Carbon::now()->format('d/m/Y – H:i');
+
+        $message = $title . "\n"
+            . trans('voyage_mode.admin.deactivated.order') . ': CMD-' . ($order->id ?? '?') . "\n"
+            . trans('voyage_mode.admin.deactivated.status_label') . ': ' . trans('voyage_mode.admin.deactivated.status_value') . "\n"
+            . trans('voyage_mode.admin.deactivated.event_time') . ': ' . $eventTime . "\n"
+            . trans('voyage_mode.admin.deactivated.action_required') . ': ' . trans('voyage_mode.admin.deactivated.action_review_order');
+
+        $notification = new notifications();
+        $notification->titre = $title;
+        $notification->id_user = $user->id;
+        $notification->type = 'voyage_mode_deactivated';
+        $notification->destination = 'admin';
+        $notification->url = '/admin/client/' . $user->id . '/view';
+        $notification->message = $message;
+        $notification->save();
+
+        event(new AdminEvent($title . ' – CMD-' . ($order->id ?? '?')));
+
+        \Log::info('VoyageModeAlertService: admin notified (deactivated)', [
+            'user_id'  => $user->id,
+            'order_id' => $order->id ?? null,
         ]);
     }
 

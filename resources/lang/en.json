@@ -1401,6 +1401,24 @@
 "Prix de vente": "Selling price",
   "Votre gain": "Your earnings",
    "Prix public après réduction": "Public price after discount",
-  "Prix public initial": "Initial public price"
+  "Prix public initial": "Initial public price",
+  "voyage_mode.admin.activated.title": "🚨 Buyer or seller activated Travel Mode after pickup",
+  "voyage_mode.admin.activated.order": "Order",
+  "voyage_mode.admin.activated.buyer_label": "Buyer",
+  "voyage_mode.admin.activated.seller_label": "Seller",
+  "voyage_mode.admin.activated.pickup_status": "Pickup Status",
+  "voyage_mode.admin.activated.pickup_status_completed": "Pickup Completed",
+  "voyage_mode.admin.activated.pickup_status_in_progress": "Pickup In Progress",
+  "voyage_mode.admin.activated.event_time": "Event Time",
+  "voyage_mode.admin.activated.action_required": "Action Required",
+  "voyage_mode.admin.activated.action_contact_aramex": "Contact Aramex to hold or reschedule the delivery.",
+  "voyage_mode.admin.activated.action_review_order": "Review the order",
+  "voyage_mode.admin.deactivated.title": "Buyer or seller \":username\" deactivated Travel Mode.",
+  "voyage_mode.admin.deactivated.order": "Order",
+  "voyage_mode.admin.deactivated.status_label": "Travel Mode Status",
+  "voyage_mode.admin.deactivated.status_value": "Deactivated",
+  "voyage_mode.admin.deactivated.event_time": "Event Time",
+  "voyage_mode.admin.deactivated.action_required": "Action Required",
+  "voyage_mode.admin.deactivated.action_review_order": "Review the order"
 }
 
