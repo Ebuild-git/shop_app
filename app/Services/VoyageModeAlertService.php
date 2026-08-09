@@ -148,10 +148,20 @@ class VoyageModeAlertService
      * Aramex pickup tied to the user (mirrors the activation query) —
      * orders with no open pickup are skipped since there's nothing for
      * admin to review there.
+     *
+     * Every affected item also gets its info_auto stamped, same as on
+     * activation, so the deactivation shows up in the order's history.
      */
     public function handleVoyageModeDeactivated(User $user, ?OrdersItem $orderItem = null): void
     {
+        $now = Carbon::now()->format('Y-m-d H:i');
+        $userCode = 'U' . (1000 + $user->id);
+        $infoAuto = "[{$now}] Utilisateur {$user->username} (#{$userCode}) a désactivé le mode voyage.";
+
         if ($orderItem) {
+            $orderItem->info_auto = $infoAuto;
+            $orderItem->save();
+
             $this->notifyAdminDeactivated($user, $orderItem->order, $orderItem->vendor_id);
             return;
         }
@@ -168,6 +178,11 @@ class VoyageModeAlertService
             ->groupBy('order_id');
 
         foreach ($items as $groupedItems) {
+            foreach ($groupedItems as $item) {
+                $item->info_auto = $infoAuto;
+                $item->save();
+            }
+
             $first = $groupedItems->first();
             $this->notifyAdminDeactivated($user, $first->order, $first->vendor_id);
         }
