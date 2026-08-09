@@ -484,6 +484,13 @@
                                             </a>
                                         </li>
 
+                                        <li class="menu-item">
+                                            <a href="{{ route('admin.orders.alerts') }}" class="menu-link ">
+                                                <i class="menu-icon tf-icons ti ti-alert-triangle"></i>
+                                                <div data-i18n="Alertes">Alertes</div>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </li>
                                 <li class="menu-item">

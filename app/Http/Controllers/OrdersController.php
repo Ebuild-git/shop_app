@@ -27,44 +27,6 @@ class OrdersController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function deletedOrders(Request $request)
-    // {
-    //     $query = Order::onlyTrashed()->with(['items.post', 'items.vendor', 'buyer'])->orderBy('deleted_at', 'desc');
-
-    //     // Filter by region
-    //     if ($request->filled('region_id')) {
-    //         $regionId = $request->region_id;
-    //         $query->where(function ($q) use ($regionId) {
-    //             $q->whereHas('items.vendor', fn($q2) => $q2->where('region', $regionId))
-    //             ->orWhereHas('buyer', fn($q2) => $q2->where('region', $regionId));
-    //         });
-    //     }
-
-    //     // Filter by date
-    //     if ($request->filled('date')) {
-    //         $query->whereDate('created_at', $request->date);
-    //     }
-
-    //     // Filter by search
-    //     if ($request->filled('search')) {
-    //         $search = $request->search;
-
-    //         $query->where(function($q) use ($search) {
-    //             if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
-    //                 $id = $matches[1];
-    //                 $q->where('id', $id);
-    //             } else {
-    //                 $q->whereHas('items.vendor', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
-    //                 ->orWhereHas('buyer', fn($q2) => $q2->where('username', 'like', "%{$search}%"))
-    //                 ->orWhere('shipment_id', 'like', "%{$search}%");
-    //             }
-    //         });
-    //     }
-
-    //     $orders = $query->paginate(10)->appends($request->all());
-    //     $regions = regions::all();
-    //     return view('Admin.shipement.deleted', compact('orders', 'regions'));
-    // }
     public function deletedOrders(Request $request)
     {
         $query = OrdersItem::onlyTrashed()

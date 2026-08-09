@@ -263,47 +263,6 @@ class AdminController extends Controller
         return redirect($notification->url);
     }
 
-    // public function orders(Request $request)
-    // {
-    //     $query = Order::with([
-    //         'items.post',
-    //         'items.vendor',
-    //         'buyer'
-    //     ])->orderBy('created_at', 'desc');
-
-    //     if ($request->filled('region_id')) {
-    //         $regionId = $request->region_id;
-    //         $query->whereHas('items.vendor', fn($q) => $q->where('region', $regionId))
-    //             ->orWhereHas('buyer', fn($q) => $q->where('region', $regionId));
-    //     }
-
-    //     if ($request->filled('date')) {
-    //         $query->whereDate('created_at', $request->date);
-    //     }
-
-    //     if ($request->filled('search')) {
-    //         $search = $request->search;
-
-    //         $query->where(function ($q) use ($search) {
-
-    //             if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
-    //                 $id = $matches[1];
-    //                 $q->where('id', $id);
-    //             } else {
-    //                 $q->whereHas('items.vendor', function ($q2) use ($search) {
-    //                     $q2->where('username', 'like', "%{$search}%");
-    //                 })->orWhereHas('buyer', function ($q2) use ($search) {
-    //                     $q2->where('username', 'like', "%{$search}%");
-    //                 })->orWhere('shipment_id', 'like', "%{$search}%");
-    //             }
-    //         });
-    //     }
-
-    //     $orders = $query->paginate(10)->appends($request->all());
-    //     $regions = regions::all();
-
-    //     return view('Admin.shipement.shipement', compact('orders', 'regions'));
-    // }
     public function orders(Request $request)
     {
         $query = Order::with([
@@ -311,7 +270,7 @@ class AdminController extends Controller
                 'items.vendor',
                 'buyer'
             ])
-            ->whereHas('items') // don't waste a page slot on orders with zero items
+            ->whereHas('items')
             ->orderBy('created_at', 'desc');
 
         if ($request->filled('region_id')) {
@@ -348,6 +307,67 @@ class AdminController extends Controller
         $regions = regions::all();
 
         return view('Admin.shipement.shipement', compact('orders', 'regions'));
+    }
+
+    public function alerts(Request $request)
+    {
+        $query = Order::with([
+                'items.post.latestShipmentHistory',
+                'items.vendor',
+                'buyer'
+            ])
+            ->whereHas('items')
+            // Only orders where the buyer OR a vendor on the order is either
+            // soft-deleted or currently has Travel Mode (voyage_mode) active.
+            ->where(function ($q) {
+                $q->whereHas('items.vendor', function ($q2) {
+                    $q2->where(function ($q3) {
+                        $q3->whereNotNull('deleted_at')
+                        ->orWhere('voyage_mode', 1);
+                    });
+                })->orWhereHas('buyer', function ($q2) {
+                    $q2->where(function ($q3) {
+                        $q3->whereNotNull('deleted_at')
+                        ->orWhere('voyage_mode', 1);
+                    });
+                });
+            })
+            ->orderBy('created_at', 'desc');
+
+        if ($request->filled('region_id')) {
+            $regionId = $request->region_id;
+            $query->where(function ($q) use ($regionId) {
+                $q->whereHas('items.vendor', fn($q2) => $q2->where('region', $regionId))
+                ->orWhereHas('buyer', fn($q2) => $q2->where('region', $regionId));
+            });
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+
+                if (preg_match('/^CMD-(\d+)$/i', $search, $matches)) {
+                    $id = $matches[1];
+                    $q->where('id', $id);
+                } else {
+                    $q->whereHas('items.vendor', function ($q2) use ($search) {
+                        $q2->where('username', 'like', "%{$search}%");
+                    })->orWhereHas('buyer', function ($q2) use ($search) {
+                        $q2->where('username', 'like', "%{$search}%");
+                    })->orWhere('shipment_id', 'like', "%{$search}%");
+                }
+            });
+        }
+
+        $orders = $query->paginate(10)->appends($request->all());
+        $regions = regions::all();
+
+        return view('Admin.shipement.alertes', compact('orders', 'regions'));
     }
 
     public function syncWithAramex(Request $request, $id)
