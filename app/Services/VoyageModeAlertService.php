@@ -137,18 +137,17 @@ class VoyageModeAlertService
     /**
      * Entry point for when a user turns Travel Mode OFF.
      *
-     * NOTE: there was no deactivation flow in the code you shared, so this is
-     * a new method — wire it up from wherever the toggle-off actually happens
-     * (settings controller / observer / etc).
+     * Called from:
+     *  - Livewire\User\ModeToggle::toggleVoyageMode() (no specific order in context)
+     *  - Api\...\ProfileController::update() when voyage_mode flips true -> false
+     *    (also no specific order in context there)
      *
-     * Preferred usage: pass the specific order item the deactivation relates
-     * to, so exactly one admin notification is sent for that order:
-     *
-     *     $service->handleVoyageModeDeactivated($user, $orderItem);
-     *
-     * If you call it with just $user (no $orderItem), it falls back to
-     * notifying once per order currently tied to the user — this is broad,
-     * so only rely on it if you don't have a specific order in context.
+     * If you ever have a specific order/item in context, pass it as
+     * $orderItem so exactly one notification is sent for that order.
+     * Otherwise this notifies once per order that still has an active
+     * Aramex pickup tied to the user (mirrors the activation query) —
+     * orders with no open pickup are skipped since there's nothing for
+     * admin to review there.
      */
     public function handleVoyageModeDeactivated(User $user, ?OrdersItem $orderItem = null): void
     {
@@ -163,6 +162,7 @@ class VoyageModeAlertService
                           $q->where('buyer_id', $user->id);
                       });
             })
+            ->whereNotNull('pickup_guid')
             ->with('order')
             ->get()
             ->groupBy('order_id');
@@ -201,7 +201,7 @@ class VoyageModeAlertService
             ? trans('voyage_mode.admin.activated.action_contact_aramex')
             : trans('voyage_mode.admin.activated.action_review_order');
 
-        $title = trans('voyage_mode.admin.activated.title');
+        $title = trans('voyage_mode.admin.activated.title', ['role' => $roleLabel]);
         $eventTime = Carbon::now()->format('d/m/Y – H:i');
 
         $message = $title . "\n"
@@ -238,7 +238,14 @@ class VoyageModeAlertService
             return;
         }
 
-        $title = trans('voyage_mode.admin.deactivated.title', ['username' => $user->username]);
+        $roleLabel = $vendorId === $user->id
+            ? trans('voyage_mode.admin.deactivated.seller_label')
+            : trans('voyage_mode.admin.deactivated.buyer_label');
+
+        $title = trans('voyage_mode.admin.deactivated.title', [
+            'role'     => $roleLabel,
+            'username' => $user->username,
+        ]);
         $eventTime = Carbon::now()->format('d/m/Y – H:i');
 
         $message = $title . "\n"

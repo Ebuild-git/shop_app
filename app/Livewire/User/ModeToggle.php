@@ -20,19 +20,6 @@ class ModeToggle extends Component
         }
     }
 
-    // public function toggleVoyageMode()
-    // {
-    //     $this->isVoyageMode = !$this->isVoyageMode;
-    //     $user = Auth::user();
-    //     $user->voyage_mode = $this->isVoyageMode;
-    //     $user->save();
-
-    //     if ($this->isVoyageMode) {
-    //         $this->dispatch('voyage-mode-activated');
-    //     } else {
-    //         $this->dispatch('voyage-mode-deactivated');
-    //     }
-    // }
     public function toggleVoyageMode(VoyageModeAlertService $voyageModeAlertService)
     {
         $this->isVoyageMode = !$this->isVoyageMode;
@@ -44,6 +31,7 @@ class ModeToggle extends Component
             $voyageModeAlertService->handleVoyageModeActivated($user);
             $this->dispatch('voyage-mode-activated');
         } else {
+            $voyageModeAlertService->handleVoyageModeDeactivated($user);
             $this->dispatch('voyage-mode-deactivated');
         }
     }

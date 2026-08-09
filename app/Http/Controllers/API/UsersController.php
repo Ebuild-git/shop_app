@@ -279,17 +279,17 @@ class UsersController extends Controller
         // $voyageModeJustActivated = false;
 
         // if ($request->has('voyage_mode')) {
-        //     $wasVoyageMode = (bool) $user->voyage_mode;
-        //     $isVoyageMode  = (bool) $request->voyage_mode;
+        //     $isVoyageMode = (bool) $request->voyage_mode;
 
         //     $user->voyage_mode = $request->voyage_mode;
         //     $changes = true;
 
-        //     if (!$wasVoyageMode && $isVoyageMode) {
+        //     if (!$originalVoyageMode && $isVoyageMode) {
         //         $voyageModeJustActivated = true;
         //     }
         // }
-        $voyageModeJustActivated = false;
+        $voyageModeJustActivated   = false;
+        $voyageModeJustDeactivated = false;
 
         if ($request->has('voyage_mode')) {
             $isVoyageMode = (bool) $request->voyage_mode;
@@ -299,6 +299,8 @@ class UsersController extends Controller
 
             if (!$originalVoyageMode && $isVoyageMode) {
                 $voyageModeJustActivated = true;
+            } elseif ($originalVoyageMode && !$isVoyageMode) {
+                $voyageModeJustDeactivated = true;
             }
         }
 
@@ -390,9 +392,17 @@ class UsersController extends Controller
         if ($changes) {
             $user->save();
 
+            // if ($voyageModeJustActivated) {
+            //     app(\App\Services\VoyageModeAlertService::class)
+            //         ->handleVoyageModeActivated($user);
+            // }
+
+            $voyageModeAlertService = app(\App\Services\VoyageModeAlertService::class);
+
             if ($voyageModeJustActivated) {
-                app(\App\Services\VoyageModeAlertService::class)
-                    ->handleVoyageModeActivated($user);
+                $voyageModeAlertService->handleVoyageModeActivated($user);
+            } elseif ($voyageModeJustDeactivated) {
+                $voyageModeAlertService->handleVoyageModeDeactivated($user);
             }
 
             $decryptedRib = null;
