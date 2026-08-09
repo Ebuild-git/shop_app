@@ -1412,7 +1412,16 @@
   "voyage_mode.admin.deactivated.status_value": "Désactivé",
   "voyage_mode.admin.deactivated.event_time": "Date de l'événement",
   "voyage_mode.admin.deactivated.action_required": "Action requise",
-  "voyage_mode.admin.deactivated.action_review_order": "Vérifier la commande"
+  "voyage_mode.admin.deactivated.action_review_order": "Vérifier la commande",
+  "user_deleted.admin.title": "🚨 :role « :username » (#:usercode) a supprimé son compte alors qu'une commande active existe.",
+  "user_deleted.admin.buyer_label": "Acheteur",
+  "user_deleted.admin.seller_label": "Vendeur",
+  "user_deleted.admin.order": "Commande",
+  "user_deleted.admin.order_status": "Statut de la commande",
+  "user_deleted.admin.order_status_completed": "Ramassage effectué",
+  "user_deleted.admin.event_time": "Date de l'événement",
+  "user_deleted.admin.action_required": "Action requise",
+  "user_deleted.admin.action_review_order": "Vérifier la commande"
 
 
 

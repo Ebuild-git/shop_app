@@ -1421,6 +1421,15 @@
   "voyage_mode.admin.deactivated.status_value": "Deactivated",
   "voyage_mode.admin.deactivated.event_time": "Event Time",
   "voyage_mode.admin.deactivated.action_required": "Action Required",
-  "voyage_mode.admin.deactivated.action_review_order": "Review the order"
+  "voyage_mode.admin.deactivated.action_review_order": "Review the order",
+   "user_deleted.admin.title": "🚨 :role “:username” (#:usercode) deleted their account while an active order exists.",
+  "user_deleted.admin.buyer_label": "Buyer",
+  "user_deleted.admin.seller_label": "Seller",
+  "user_deleted.admin.order": "Order",
+  "user_deleted.admin.order_status": "Order Status",
+  "user_deleted.admin.order_status_completed": "Pickup Completed",
+  "user_deleted.admin.event_time": "Event Time",
+  "user_deleted.admin.action_required": "Action Required",
+  "user_deleted.admin.action_review_order": "Review the order"
 }
 

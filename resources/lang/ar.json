@@ -1412,7 +1412,16 @@
 "voyage_mode.admin.deactivated.status_value": "معطّل",
 "voyage_mode.admin.deactivated.event_time": "وقت الحدث",
 "voyage_mode.admin.deactivated.action_required": "الإجراء المطلوب",
-"voyage_mode.admin.deactivated.action_review_order": "مراجعة الطلب"
+"voyage_mode.admin.deactivated.action_review_order": "مراجعة الطلب",
+"user_deleted.admin.title": "🚨 قام :role \":username\" (#:usercode) بحذف حسابه بينما لا يزال هناك طلب نشط.",
+"user_deleted.admin.buyer_label": "المشتري",
+"user_deleted.admin.seller_label": "البائع",
+"user_deleted.admin.order": "الطلب",
+"user_deleted.admin.order_status": "حالة الطلب",
+"user_deleted.admin.order_status_completed": "تم الاستلام",
+"user_deleted.admin.event_time": "وقت الحدث",
+"user_deleted.admin.action_required": "الإجراء المطلوب",
+"user_deleted.admin.action_review_order": "مراجعة الطلب"
 
 
 
