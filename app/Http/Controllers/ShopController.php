@@ -50,7 +50,7 @@ class ShopController extends Controller
 
         $usersWithVoyageMode = User::where('voyage_mode', true)->pluck('id');
 
-        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'id_user')
+        $query = posts::whereNotNull('verified_at')->select('titre', 'description', 'id_sous_categorie', 'prix', 'proprietes', 'photos', 'id', 'statut', 'id_user', 'views', 'old_prix')
             // ->whereIn('statut', ['vente', 'vendu'])
             // ->whereNotIn('statut', ['livraison', 'livré', 'refusé'])
             ->whereNotIn('statut', ['validation'])
