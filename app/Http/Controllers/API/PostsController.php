@@ -545,6 +545,81 @@ class PostsController extends Controller
      *     )
      * )
      */
+    // public function MesAchats(Request $request)
+    // {
+    //     $userId = $request->user()->id;
+
+    //     $month = $request->input('month');
+    //     $year  = $request->input('year');
+
+    //     $query = posts::with([
+    //         "sous_categorie_info.categorie",
+    //         "user_info" => fn($q) => $q->select('id', 'username'),
+    //         "latestShipmentHistory",
+    //         "latestOrderItem" // <-- added
+    //         ])->where("id_user_buy", $userId)
+    //         ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
+    //                 "statut", "prix", "sell_at")
+    //         ->orderBy('sell_at', 'desc');
+
+    //     if ($month && $year) {
+    //         $query->whereYear('sell_at', $year)
+    //             ->whereMonth('sell_at', $month);
+    //     }
+
+    //     $achats = $query->get();
+
+    //     $shipmentHistories = $this->getShipmentHistoriesForPosts($achats->pluck('id')->all());
+
+    //     $achats = $achats->map(function ($post) use ($shipmentHistories) {
+    //         $post->prix = $post->getPrix();
+    //         $postData = $post->toArray();
+
+    //         // shipment id
+    //         $postData['shipment_id'] = optional($post->latestShipmentHistory)->shipment_id;
+    //         $postData['order_id'] = optional($post->latestOrderItem)->order_id;
+
+    //         if (!empty($postData['photos'])) {
+    //             $photos = $postData['photos'];
+    //             if (is_array($photos)) {
+    //                 $postData['photos'] = array_map(function($photo) {
+    //                     $cleanPath = ltrim($photo, '/');
+    //                     return asset('storage/' . $cleanPath);
+    //                 }, $photos);
+    //             }
+    //         }
+
+    //         if (!empty($postData['sous_categorie_info']['categorie'])) {
+    //             if (!empty($postData['sous_categorie_info']['categorie']['icon'])) {
+    //                 $iconPath = $postData['sous_categorie_info']['categorie']['icon'];
+    //                 $cleanIconPath = ltrim($iconPath, '/');
+    //                 $postData['sous_categorie_info']['categorie']['icon'] = asset('storage/' . $cleanIconPath);
+    //             }
+    //             if (!empty($postData['sous_categorie_info']['categorie']['small_icon'])) {
+    //                 $smallIconPath = $postData['sous_categorie_info']['categorie']['small_icon'];
+    //                 $cleanSmallIconPath = ltrim($smallIconPath, '/');
+    //                 $postData['sous_categorie_info']['categorie']['small_icon'] = asset('storage/' . $cleanSmallIconPath);
+    //             }
+    //         }
+
+    //         unset($postData['latest_shipment_history'], $postData['latest_order_item']);
+
+    //         $postData['shipment_history'] = $shipmentHistories[$post->id] ?? [
+    //             'current_shipment_id'    => null,
+    //             'cancelled_shipment_ids' => [],
+    //             'current_history'        => [],
+    //             'cancelled_history'      => [],
+    //         ];
+
+
+    //         return $postData;
+    //     });
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $achats
+    //     ]);
+    // }
     public function MesAchats(Request $request)
     {
         $userId = $request->user()->id;
@@ -552,7 +627,8 @@ class PostsController extends Controller
         $month = $request->input('month');
         $year  = $request->input('year');
 
-        $query = posts::with([
+        $query = posts::withTrashed()
+            ->with([
             "sous_categorie_info.categorie",
             "user_info" => fn($q) => $q->select('id', 'username'),
             "latestShipmentHistory",
