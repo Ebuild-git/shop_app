@@ -633,7 +633,16 @@ class PostsController extends Controller
             "user_info" => fn($q) => $q->select('id', 'username'),
             "latestShipmentHistory",
             "latestOrderItem" // <-- added
-            ])->where("id_user_buy", $userId)
+            ])
+            ->where(function ($q) use ($userId) {
+                $q->where('id_user_buy', $userId)
+                  ->orWhere(function ($q2) use ($userId) {
+                      $q2->whereNull('id_user_buy')
+                         ->whereHas('ordersItems.order', function ($q3) use ($userId) {
+                             $q3->where('buyer_id', $userId);
+                         });
+                  });
+            })
             ->select("id", "titre", "photos", "id_sous_categorie", "id_user",
                     "statut", "prix", "sell_at")
             ->orderBy('sell_at', 'desc');
