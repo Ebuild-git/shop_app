@@ -186,6 +186,40 @@ class VoyageModeAlertService
             $first = $groupedItems->first();
             $this->notifyAdminDeactivated($user, $first->order, $first->vendor_id);
         }
+
+        // Items previously auto-cancelled by voyage mode -> restore the post
+        $cancelledItems = OrdersItem::where(function ($query) use ($user) {
+                $query->where('vendor_id', $user->id)
+                    ->orWhereHas('order', fn($q) => $q->where('buyer_id', $user->id));
+            })
+            ->whereNotNull('cancelled_pickup_guid')
+            ->whereNull('pickup_guid')
+            ->with('order', 'post')
+            ->get();
+
+        foreach ($cancelledItems as $item) {
+            $this->restorePostAfterDeactivation($item);
+            $item->info_auto = $infoAuto;
+            $item->save();
+        }
+    }
+
+    private function restorePostAfterDeactivation(OrdersItem $item): void
+    {
+        if (!$item->post || !$item->cancelled_pickup_guid || $item->pickup_guid) {
+            return;
+        }
+
+        $order = $item->order;
+
+        if (!$order) {
+            return;
+        }
+
+        $item->post->statut      = 'vendu';
+        $item->post->sell_at     = $order->created_at;
+        $item->post->id_user_buy = $order->buyer_id;
+        $item->post->save();
     }
 
     /**
