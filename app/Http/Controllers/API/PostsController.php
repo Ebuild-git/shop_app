@@ -638,7 +638,7 @@ class PostsController extends Controller
                 $q->where('id_user_buy', $userId)
                   ->orWhere(function ($q2) use ($userId) {
                       $q2->whereNull('id_user_buy')
-                         ->whereHas('ordersItems.order', function ($q3) use ($userId) {
+                         ->whereHas('orderItems.order', function ($q3) use ($userId) {
                              $q3->where('buyer_id', $userId);
                          });
                   });
