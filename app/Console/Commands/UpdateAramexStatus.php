@@ -8,6 +8,10 @@ use App\Models\OrdersItem;
 use App\Services\AramexService;
 use App\Models\ShipmentStatusHistory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
+use App\Models\notifications;
+use App\Events\UserEvent;
+use App\Services\FcmService;
 
 class UpdateAramexStatus extends Command
 {
@@ -93,6 +97,10 @@ class UpdateAramexStatus extends Command
                         if ($item->post) {
                             $item->post->update(['statut' => $newPostStatut]);
                             $this->info("Updated Post ID {$item->post->id} statut to: {$newPostStatut}");
+
+                            if ($newPostStatut === 'livré') {
+                                $this->sendRateSellerNotification($item->post);
+                            }
                         }
 
                         // Update Order status
@@ -119,6 +127,71 @@ class UpdateAramexStatus extends Command
         $this->info("Aramex status update completed. {$updatedCount} items updated, {$errorCount} errors.");
     }
 
+    private function sendRateSellerNotification($post)
+    {
+        if (!$post->id_user_buy) {
+            return;
+        }
+
+        $buyer = $post->acheteur;
+        if (!$buyer) {
+            return;
+        }
+
+        $buyerLocale = $buyer->locale ?? config('app.locale');
+        App::setLocale($buyerLocale);
+
+        $notification = new notifications();
+        $notification->titre               = __('rate_seller_notification_title');
+        $notification->id_user_destination = $post->id_user_buy;
+        $notification->type                = "status_commande_updated";
+        $notification->url                 = "/post/" . $post->id;
+        $notification->id_post             = $post->id;
+        $notification->destination         = "user";
+        $notification->message = __('rate_seller_notification_message', [
+            'url'      => route('details_post2', [
+                'id'    => $post->id,
+                'titre' => $post->titre,
+            ]),
+            'title'    => $post->titre,
+            'user_url' => url('user/' . $post->id_user),
+            'shopiner' => $post->user_info?->username ?? '',
+        ]);
+
+        $notification->save();
+
+        App::setLocale(config('app.locale'));
+
+        event(new UserEvent($post->id_user_buy));
+
+        $fcmService = app(FcmService::class);
+        $sent = $fcmService->sendToUser(
+            $post->id_user_buy,
+            __('rate_seller_fcm_title'),
+            __('rate_seller_fcm_body', ['title' => $post->titre]),
+            [
+                'type'            => 'alerte',
+                'notification_id' => $notification->id,
+                'destination'     => 'user',
+                'action'          => 'rate_seller',
+                'post_id'         => $post->id,
+            ]
+        );
+
+        if ($sent) {
+            \Log::info("FCM notification sent successfully", [
+                'user_id'         => $post->id_user_buy,
+                'notification_id' => $notification->id,
+                'type'            => 'rate_seller'
+            ]);
+        } else {
+            \Log::warning("FCM notification failed to send", [
+                'user_id'         => $post->id_user_buy,
+                'notification_id' => $notification->id,
+                'reason'          => 'User has no FCM token or token invalid'
+            ]);
+        }
+    }
     private function updateOrderStatusIfComplete($order)
     {
         $order->refresh();
