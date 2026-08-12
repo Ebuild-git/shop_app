@@ -224,7 +224,7 @@
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div> --}}
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <label for="city_id">{{ __('ville') }}</label>
                                     <span class="text-danger">*</span>
                                     <select class="form-control" name="city_id" id="city_id" required>
@@ -238,7 +238,22 @@
                                     @error('city_id')
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
-                                </div>
+                                </div> --}}
+                                <div class="col-sm-6">
+    <label for="city_id">{{ __('ville') }}</label>
+    <span class="text-danger">*</span>
+    <select class="form-control" id="city_id" name="city_id" required>
+        <option value="">{{ __('Sélectionner') }}</option>
+        @foreach ($cities as $city)
+            <option value="{{ $city->id }}" @selected(old('city_id') == $city->id)>
+                {{ $city->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('city_id')
+        <small class="form-text text-danger">{{ $message }}</small>
+    @enderror
+</div>
 
                                 <div class="col-sm-6">
                                     <label for="rue">{{ __('rue') }}</label>
@@ -347,13 +362,12 @@
         </div>
     </div>
 
-    {{-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('form[action="{{ route('inscription') }}"]');
             const submitBtn = document.getElementById('submit');
 
             form.addEventListener('submit', function (e) {
-                // Already have a token from a previous attempt? let it go through
                 if (document.getElementById('g-recaptcha-response').value) {
                     return;
                 }
@@ -369,45 +383,18 @@
                         })
                         .catch(function () {
                             submitBtn.disabled = !document.getElementById('acceptConditions').checked;
-                            alert("{{ __('Verification failed. Please try again.') }}");
+                            Swal.fire({
+                                icon: 'error',
+                                title: window.translations.inscription.errorTitle,
+                                text: window.translations.inscription.recaptchaFailed,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: window.translations.inscription.ok
+                            });
                         });
                 });
             });
         });
-    </script> --}}
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form[action="{{ route('inscription') }}"]');
-    const submitBtn = document.getElementById('submit');
-
-    form.addEventListener('submit', function (e) {
-        if (document.getElementById('g-recaptcha-response').value) {
-            return;
-        }
-
-        e.preventDefault();
-        submitBtn.disabled = true;
-
-        grecaptcha.ready(function () {
-            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'inscription' })
-                .then(function (token) {
-                    document.getElementById('g-recaptcha-response').value = token;
-                    form.submit();
-                })
-                .catch(function () {
-                    submitBtn.disabled = !document.getElementById('acceptConditions').checked;
-                    Swal.fire({
-                        icon: 'error',
-                        title: window.translations.inscription.errorTitle,
-                        text: window.translations.inscription.recaptchaFailed,
-                        confirmButtonColor: '#d33',
-                        confirmButtonText: window.translations.inscription.ok
-                    });
-                });
-        });
-    });
-});
-</script>
+    </script>
 
     <script>
 
@@ -550,5 +537,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 reader.readAsDataURL(input.files[0]);
             }
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cityEl = document.getElementById('city_id');
+            if (cityEl && !cityEl.closest('.choices')) {
+                new Choices(cityEl, {
+                    searchEnabled: true,
+                    searchPlaceholderValue: "{{ __('Sélectionner') }}",
+                    itemSelectText: '',
+                    shouldSort: false,
+                    placeholder: true,
+                    allowHTML: false,
+                });
+            }
+        });
     </script>
 @endsection
