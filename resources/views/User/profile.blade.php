@@ -56,7 +56,7 @@
                                             <div>
                                                 {{ trans_choice('messages.avis', $avis, ['count' => $avis]) }}
                                             </div>
-                                            <div data-toggle="modal" data-target="#Noter">
+                                            <div id="rating-stars" data-toggle="modal" data-target="#Noter" class="{{ request('rate') == 1 ? 'pulse-highlight' : '' }}">
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <button type="button" class="btn-rating-modal"
                                                         style="{{ $ma_note >= $i ? 'color: #fab005;' : 'color: #ccc;' }}"
@@ -88,6 +88,17 @@
                         </tr>
                     </table>
                 </div>
+                @if (request('rate') == 1 && auth()->check() && auth()->id() !== $user->id)
+                    <div class="rate-hint-card mt-3">
+                        <div class="rate-hint-icon">
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <div class="rate-hint-text">
+                            <b>{!! __('Comment s\'est passée votre expérience avec') !!} {{ $user->username }} ?</b>
+                            <p>{{ __('Cliquez sur les étoiles ci-dessous pour lui laisser une note.') }}</p>
+                        </div>
+                    </div>
+                @endif
                 <br>
                 <div>
                     <p>

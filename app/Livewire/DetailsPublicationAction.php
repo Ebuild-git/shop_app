@@ -190,7 +190,7 @@ class DetailsPublicationAction extends Component
                     $notification->id_post             = $post->id;
                     $notification->destination         = "user";
                     $notification->message             = __('rate_seller_notification_message', [
-                        'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre]),
+                        'url'   => route('details_post2', ['id' => $post->id, 'titre' => $post->titre, 'rate'  => 1]),
                         'title' => $post->titre,
                     ]);
                     $notification->save();

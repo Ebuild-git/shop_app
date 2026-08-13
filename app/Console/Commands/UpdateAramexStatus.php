@@ -152,6 +152,7 @@ class UpdateAramexStatus extends Command
             'url'      => route('details_post2', [
                 'id'    => $post->id,
                 'titre' => $post->titre,
+                'rate'  => 1,
             ]),
             'title'    => $post->titre,
             'user_url' => url('user/' . $post->id_user),
