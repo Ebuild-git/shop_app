@@ -15,6 +15,8 @@ class Rating extends Component
     public $can_rate = true;
     public $ratingSubmitted = false;
 
+    const RATING_WINDOW_DAYS = 14;
+
     public function mount($id_user)
     {
         $this->id_user = $id_user;
@@ -35,6 +37,8 @@ class Rating extends Component
 
     public function render()
     {
+        $this->can_rate = true;
+
         if ($this->rate) {
             $this->can_rate = false;
         }
@@ -42,7 +46,22 @@ class Rating extends Component
         if (!$this->last_buy) {
             $this->can_rate = false;
         }
+
+        // Enforce the 14-day rating window on render too, not just on submit
+        if ($this->last_buy && !$this->isWithinRatingWindow($this->last_buy->sell_at)) {
+            $this->can_rate = false;
+        }
+
         return view('livewire.user.rating');
+    }
+
+    private function isWithinRatingWindow($sellAt): bool
+    {
+        if (!$sellAt) {
+            return false;
+        }
+        $deadline = Carbon::now()->subDays(self::RATING_WINDOW_DAYS);
+        return Carbon::parse($sellAt) >= $deadline;
     }
 
     public function rate_action($value)
@@ -60,12 +79,10 @@ class Rating extends Component
             return;
         }
 
-
         if (!$this->last_buy) {
             session()->flash("error", __("error.no_purchase"));
             return;
         }
-
 
         $allowedStatuts = ['livré'];
         if (!in_array($this->last_buy->statut, $allowedStatuts)) {
@@ -78,10 +95,9 @@ class Rating extends Component
             return;
         }
 
-        $date = Carbon::now();
-        $date = $date->subDays(14);
-        if ($this->last_buy->sell_at < $date) {
+        if (!$this->isWithinRatingWindow($this->last_buy->sell_at)) {
             session()->flash("error", __("error.too_late"));
+            $this->can_rate = false;
             return;
         }
 
@@ -91,8 +107,13 @@ class Rating extends Component
         $rate->id_post = $this->last_buy->id;
         $rate->etoiles = $value;
         $rate->save();
+
         $this->ratingSubmitted = true;
         $this->mount($this->id_user);
+
+        // Strip ?rate=1 from the URL now that rating is submitted
+        $this->dispatch('rating-submitted');
+
         $this->dispatch('alert', ['message' => __("success.rating_saved"), 'type' => 'success']);
     }
 }

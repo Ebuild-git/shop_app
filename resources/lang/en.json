@@ -1430,6 +1430,8 @@
   "user_deleted.admin.order_status_completed": "Pickup Completed",
   "user_deleted.admin.event_time": "Event Time",
   "user_deleted.admin.action_required": "Action Required",
-  "user_deleted.admin.action_review_order": "Review the order"
+  "user_deleted.admin.action_review_order": "Review the order",
+  "rate_experience_with": "How was your experience with :username",
+    "rate_experience_hint": "Click the stars below to leave a rating."
 }
 

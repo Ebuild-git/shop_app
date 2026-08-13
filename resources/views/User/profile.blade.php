@@ -94,8 +94,8 @@
                             <i class="bi bi-star-fill"></i>
                         </div>
                         <div class="rate-hint-text">
-                            <b>{!! __('Comment s\'est passée votre expérience avec') !!} {{ $user->username }} ?</b>
-                            <p>{{ __('Cliquez sur les étoiles ci-dessous pour lui laisser une note.') }}</p>
+                            <b>{!! __('rate_experience_with', ['username' => $user->username]) !!} ?</b>
+                            <p>{{ __('rate_experience_hint') }}</p>
                         </div>
                     </div>
                 @endif
@@ -265,6 +265,22 @@
                 });
             });
         }
+    </script>
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('rating-submitted', () => {
+                const url = new URL(window.location.href);
+                url.searchParams.delete('rate');
+                window.history.replaceState({}, document.title, url.toString());
+
+                // also remove the pulse/hint UI immediately without a full reload
+                const hint = document.querySelector('.rate-hint-card');
+                if (hint) hint.remove();
+                const stars = document.getElementById('rating-stars');
+                if (stars) stars.classList.remove('pulse-highlight');
+            });
+        });
     </script>
 
 @endsection

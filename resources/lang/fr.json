@@ -1421,7 +1421,9 @@
   "user_deleted.admin.order_status_completed": "Ramassage effectué",
   "user_deleted.admin.event_time": "Date de l'événement",
   "user_deleted.admin.action_required": "Action requise",
-  "user_deleted.admin.action_review_order": "Vérifier la commande"
+  "user_deleted.admin.action_review_order": "Vérifier la commande",
+  "rate_experience_with": "Comment s'est passée votre expérience avec :username",
+    "rate_experience_hint": "Cliquez sur les étoiles ci-dessous pour lui laisser une note."
 
 
 
