@@ -5228,3 +5228,16 @@ input[type=number] {
         0%, 100% { transform: scale(1); }
         50%      { transform: scale(1.25); }
     }
+
+
+.choices {
+    position: relative;
+    z-index: 1;
+}
+.choices.is-open {
+    z-index: 9999 !important;
+}
+.choices__list--dropdown {
+    z-index: 9999 !important;
+    position: absolute !important;
+}
