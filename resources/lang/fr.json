@@ -1423,7 +1423,10 @@
   "user_deleted.admin.action_required": "Action requise",
   "user_deleted.admin.action_review_order": "Vérifier la commande",
   "rate_experience_with": "Comment s'est passée votre expérience avec :username",
-    "rate_experience_hint": "Cliquez sur les étoiles ci-dessous pour lui laisser une note."
+    "rate_experience_hint": "Cliquez sur les étoiles ci-dessous pour lui laisser une note.",
+    "type_to_search_city": "Tapez pour rechercher une ville...",
+    "select_region_first": "Sélectionnez d'abord une région",
+    "no_matching_city": "Aucune ville trouvée"
 
 
 

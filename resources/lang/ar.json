@@ -1423,7 +1423,10 @@
 "user_deleted.admin.action_required": "الإجراء المطلوب",
 "user_deleted.admin.action_review_order": "مراجعة الطلب",
 "rate_experience_with": "كيف كانت تجربتك مع :username",
-"rate_experience_hint": "اضغط على النجوم أدناه لتقييمه."
+"rate_experience_hint": "اضغط على النجوم أدناه لتقييمه.",
+"type_to_search_city": "اكتب للبحث عن مدينة...",
+"select_region_first": "يرجى اختيار المنطقة أولاً",
+"no_matching_city": "لم يتم العثور على مدينة مطابقة"
 
 
 

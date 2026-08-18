@@ -1432,6 +1432,9 @@
   "user_deleted.admin.action_required": "Action Required",
   "user_deleted.admin.action_review_order": "Review the order",
   "rate_experience_with": "How was your experience with :username",
-    "rate_experience_hint": "Click the stars below to leave a rating."
+    "rate_experience_hint": "Click the stars below to leave a rating.",
+    "type_to_search_city": "Type to search a city...",
+    "select_region_first": "Select a region first",
+    "no_matching_city": "No matching city"
 }
 

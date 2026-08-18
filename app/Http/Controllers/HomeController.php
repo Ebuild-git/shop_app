@@ -1068,7 +1068,10 @@ class HomeController extends Controller
         }
 
         $regions = regions::all();
-        $cities = City::orderBy('name')->get();
+        // $cities = City::orderBy('name')->get();
+        $cities = City::whereNotNull('region_id')
+        ->orderBy('name')
+        ->get(['id', 'name', 'region_id']);
 
         return view('User.Auth.inscription')
             ->with('regions', $regions)

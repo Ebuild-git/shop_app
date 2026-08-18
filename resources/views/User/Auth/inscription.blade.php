@@ -202,7 +202,7 @@
                             <div class="form-group">
                                 <span for="small">{{ __('Région') }}</span>
                                 <span class="text-danger">*</span>
-                                <select class="form-control" name="region" required>
+                                <select class="form-control" name="region" id="region_id" required>
                                     <option value="">{{ __('Sélectionner') }}</option>
                                     @foreach ($regions as $item)
                                         <option value="{{ $item->id }}" @selected(old('region') == $item->id)>{{ $item->nom }}</option>
@@ -216,18 +216,11 @@
 
                         <div class="col-sm-12">
                             <div class="form-group row">
-                                {{-- <div class="col-sm-6">
-                                    <label for="adress">{{ __('ville') }}</label>
-                                    <span class="text-danger">*</span>
-                                    <input type="text" class="form-control" name="adresse" value="{{ old('adresse') }}">
-                                    @error('adress')
-                                        <small class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div> --}}
+
                                 {{-- <div class="col-sm-6">
                                     <label for="city_id">{{ __('ville') }}</label>
                                     <span class="text-danger">*</span>
-                                    <select class="form-control" name="city_id" id="city_id" required>
+                                    <select class="form-control" id="city_id" name="city_id" required>
                                         <option value="">{{ __('Sélectionner') }}</option>
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}" @selected(old('city_id') == $city->id)>
@@ -239,21 +232,17 @@
                                         <small class="form-text text-danger">{{ $message }}</small>
                                     @enderror
                                 </div> --}}
+
                                 <div class="col-sm-6">
-    <label for="city_id">{{ __('ville') }}</label>
-    <span class="text-danger">*</span>
-    <select class="form-control" id="city_id" name="city_id" required>
-        <option value="">{{ __('Sélectionner') }}</option>
-        @foreach ($cities as $city)
-            <option value="{{ $city->id }}" @selected(old('city_id') == $city->id)>
-                {{ $city->name }}
-            </option>
-        @endforeach
-    </select>
-    @error('city_id')
-        <small class="form-text text-danger">{{ $message }}</small>
-    @enderror
-</div>
+                                    <label for="city_id">{{ __('ville') }}</label>
+                                    <span class="text-danger">*</span>
+                                    <select class="form-control" id="city_id" name="city_id" required>
+                                        {{-- populated by JS once a region is chosen --}}
+                                    </select>
+                                    @error('city_id')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
 
                                 <div class="col-sm-6">
                                     <label for="rue">{{ __('rue') }}</label>
@@ -538,7 +527,7 @@
             }
         }
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const cityEl = document.getElementById('city_id');
             if (cityEl && !cityEl.closest('.choices')) {
@@ -552,5 +541,73 @@
                 });
             }
         });
-    </script>
+    </script> --}}
+    <script>
+    // All region-assigned cities, sent once, filtered client-side -- no extra requests needed.
+    window.allCities = @json($cities->map(fn ($c) => [
+        'value' => (string) $c->id,
+        'label' => $c->name,
+        'region_id' => (string) $c->region_id,
+    ]));
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const cityEl = document.getElementById('city_id');
+        const regionEl = document.getElementById('region_id');
+        if (!cityEl || !regionEl) return;
+
+        const cityChoices = new Choices(cityEl, {
+            searchEnabled: true,
+            searchPlaceholderValue: "{{ __('type_to_search_city') }}",
+            noResultsText: "{{ __('no_matching_city') }}",
+            noChoicesText: "{{ __('select_region_first') }}",
+            itemSelectText: '',
+            shouldSort: false,
+            placeholder: true,
+            allowHTML: false,
+        });
+
+        function setCityPlaceholder(text) {
+            cityChoices.clearStore();
+            cityChoices.setChoices(
+                [{ value: '', label: text, disabled: true, selected: true }],
+                'value', 'label', true
+            );
+        }
+
+        function loadCitiesForRegion(regionId) {
+            const filtered = window.allCities.filter(c => c.region_id === String(regionId));
+
+            cityChoices.clearStore();
+            cityChoices.setChoices(
+                [
+                    { value: '', label: "{{ __('Sélectionner') }}", disabled: true, selected: true },
+                    ...filtered,
+                ],
+                'value', 'label', true
+            );
+            cityEl.disabled = filtered.length === 0;
+        }
+
+        // Initial state: nothing selectable until a region is picked.
+        cityEl.disabled = true;
+        setCityPlaceholder("{{ __('select_region_first') }}");
+
+        regionEl.addEventListener('change', function () {
+            if (this.value) {
+                loadCitiesForRegion(this.value);
+            } else {
+                cityEl.disabled = true;
+                setCityPlaceholder("{{ __('select_region_first') }}");
+            }
+        });
+
+        // Re-hydrate on validation-failure redisplay (old() values).
+        @if (old('region'))
+            loadCitiesForRegion(@json((string) old('region')));
+            @if (old('city_id'))
+                cityChoices.setChoiceByValue(@json((string) old('city_id')));
+            @endif
+        @endif
+    });
+</script>
 @endsection
