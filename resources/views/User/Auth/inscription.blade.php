@@ -564,9 +564,9 @@
 
         const cityChoices = new Choices(cityEl, {
             searchEnabled: true,
-            searchPlaceholderValue: "{{ __('type_to_search_city') }}",
-            noResultsText: "{{ __('no_matching_city') }}",
-            noChoicesText: "{{ __('select_region_first') }}",
+            searchPlaceholderValue: @json(__('type_to_search_city')),
+            noResultsText: @json(__('no_matching_city')),
+            noChoicesText: @json(__('select_region_first')),
             itemSelectText: '',
             shouldSort: false,
             placeholder: true,
@@ -587,7 +587,7 @@
             cityChoices.clearStore();
             cityChoices.setChoices(
                 [
-                    { value: '', label: "{{ __('Sélectionner') }}", disabled: true, selected: true },
+                    { value: '', label: @json(__('Sélectionner')), disabled: true, selected: true },
                     ...filtered,
                 ],
                 'value', 'label', true
@@ -596,14 +596,14 @@
         }
 
         cityEl.disabled = true;
-        setCityPlaceholder("{{ __('select_region_first') }}");
+        setCityPlaceholder(@json(__('select_region_first')));
 
         regionEl.addEventListener('change', function () {
             if (this.value) {
                 loadCitiesForRegion(this.value);
             } else {
                 cityEl.disabled = true;
-                setCityPlaceholder("{{ __('select_region_first') }}");
+                setCityPlaceholder(@json(__('select_region_first')));
             }
         });
 
