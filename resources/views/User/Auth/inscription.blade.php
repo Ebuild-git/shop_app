@@ -542,13 +542,20 @@
             }
         });
     </script> --}}
-    <script>
-    // All region-assigned cities, sent once, filtered client-side -- no extra requests needed.
-    window.allCities = @json($cities->map(fn ($c) => [
-        'value' => (string) $c->id,
-        'label' => $c->name,
-        'region_id' => (string) $c->region_id,
-    ]));
+    @php
+    // Build once here instead of inline inside @json(), which avoids a Blade
+    // directive-parsing edge case with multi-line arrow functions + arrays.
+    $citiesForJs = $cities->map(function ($c) {
+        return [
+            'value' => (string) $c->id,
+            'label' => $c->name,
+            'region_id' => (string) $c->region_id,
+        ];
+    });
+@endphp
+
+<script>
+    window.allCities = @json($citiesForJs);
 
     document.addEventListener('DOMContentLoaded', function () {
         const cityEl = document.getElementById('city_id');
@@ -588,7 +595,6 @@
             cityEl.disabled = filtered.length === 0;
         }
 
-        // Initial state: nothing selectable until a region is picked.
         cityEl.disabled = true;
         setCityPlaceholder("{{ __('select_region_first') }}");
 
@@ -601,7 +607,6 @@
             }
         });
 
-        // Re-hydrate on validation-failure redisplay (old() values).
         @if (old('region'))
             loadCitiesForRegion(@json((string) old('region')));
             @if (old('city_id'))
