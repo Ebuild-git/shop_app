@@ -49,7 +49,12 @@ class UpdateInformations extends Component
     public function render()
     {
         $regions = regions::all(["id", "nom"]);
-        return view('livewire.user.update-informations', compact('regions'));
+
+        $cities = \App\Models\City::whereNotNull('region_id')
+            ->orderBy('name')
+            ->get(['id', 'name', 'region_id']);
+
+        return view('livewire.user.update-informations', compact('regions', 'cities'));
     }
 
     public function update()

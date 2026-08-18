@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
+        {{-- <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('Région') }}</label>
                 <span class="text-danger">*</span>
@@ -129,48 +129,53 @@
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div>
-        {{-- <div class="col-sm-4">
+        </div> --}}
+
+        <div class="col-sm-4">
             <div class="form-group">
-                <label>{{ __('address') }}</label>
+                <label>{{ __('Région') }}</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control border-r shadow-none"
-                    wire:model="address">
-                @error('address')
+                <select class="form-control border-r shadow-none" id="region-select" wire:model="region">
+                    <option value="">{{ __('Sélectionner') }}</option>
+                    @foreach ($regions as $item)
+                        <option value="{{ $item->id }}" @selected($item->id == $region)>{{ $item->nom }}</option>
+                    @endforeach
+                </select>
+                @error('region')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
-        </div> --}}
+        </div>
+
         {{-- <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('ville') }}</label>
-                <select class="form-control border-r shadow-none" wire:model="city_id">
-                    <option value="">{{ __('select_city') }}</option>
-                    @foreach(\App\Models\City::all() as $city)
-                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                    @endforeach
-                </select>
+                <div wire:ignore>
+                    <select class="form-control border-r shadow-none" id="city-select">
+                        <option value="">{{ __('select_city') }}</option>
+                        @foreach(\App\Models\City::all() as $city)
+                            <option value="{{ $city->id }}" @selected($city->id == $city_id)>{{ $city->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 @error('city_id')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
             </div>
         </div> --}}
         <div class="col-sm-4">
-    <div class="form-group">
-        <label>{{ __('ville') }}</label>
-        <div wire:ignore>
-            <select class="form-control border-r shadow-none" id="city-select">
-                <option value="">{{ __('select_city') }}</option>
-                @foreach(\App\Models\City::all() as $city)
-                    <option value="{{ $city->id }}" @selected($city->id == $city_id)>{{ $city->name }}</option>
-                @endforeach
-            </select>
+            <div class="form-group">
+                <label>{{ __('ville') }}</label>
+                <div wire:ignore>
+                    <select class="form-control border-r shadow-none" id="city-select">
+                        {{-- populated by JS, filtered by selected region --}}
+                    </select>
+                </div>
+                @error('city_id')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
         </div>
-        @error('city_id')
-            <small class="form-text text-danger">{{ $message }}</small>
-        @enderror
-    </div>
-</div>
         <div class="col-sm-4">
             <div class="form-group">
                 <label>{{ __('rue') }}</label>
@@ -273,7 +278,7 @@
         });
     });
 </script>
-<script>
+{{-- <script>
     let citySelectChoices = null;
 
     function initCitySelect() {
@@ -292,6 +297,104 @@
             @this.set('city_id', el.value);
         });
     }
+
+    document.addEventListener('livewire:initialized', () => {
+        initCitySelect();
+    });
+
+    document.addEventListener('livewire:navigated', () => {
+        initCitySelect();
+    });
+</script> --}}
+@php
+    // Built here rather than inline inside @json() to avoid a Blade
+    // directive-parsing issue with multi-line arrow functions + arrays.
+    $citiesForJs = $cities->map(function ($c) {
+        return [
+            'value' => (string) $c->id,
+            'label' => $c->name,
+            'region_id' => (string) $c->region_id,
+        ];
+    });
+@endphp
+
+<script>
+    window.allCities = @json($citiesForJs);
+
+    let citySelectChoices = null;
+
+    function setCityPlaceholder(text) {
+        if (!citySelectChoices) return;
+        citySelectChoices.clearStore();
+        citySelectChoices.setChoices(
+            [{ value: '', label: text, disabled: true, selected: true }],
+            'value', 'label', true
+        );
+    }
+
+    function loadCitiesForRegion(regionId, selectedCityId) {
+        const cityEl = document.getElementById('city-select');
+        if (!citySelectChoices || !cityEl) return;
+
+        const filtered = window.allCities.filter(c => c.region_id === String(regionId));
+
+        citySelectChoices.clearStore();
+        citySelectChoices.setChoices(
+            [
+                { value: '', label: @json(__('select_city')), disabled: true, selected: !selectedCityId },
+                ...filtered,
+            ],
+            'value', 'label', true
+        );
+        cityEl.disabled = filtered.length === 0;
+
+        if (selectedCityId) {
+            citySelectChoices.setChoiceByValue(String(selectedCityId));
+        }
+    }
+
+    function initCitySelect() {
+        const el = document.getElementById('city-select');
+        if (!el || el.closest('.choices')) return; // already initialized
+
+        citySelectChoices = new Choices(el, {
+            searchEnabled: true,
+            searchPlaceholderValue: @json(__('type_to_search_city')),
+            noResultsText: @json(__('no_matching_city')),
+            noChoicesText: @json(__('select_region_first')),
+            itemSelectText: '',
+            shouldSort: false,
+            placeholder: true,
+            allowHTML: false,
+        });
+
+        el.addEventListener('change', function () {
+            @this.set('city_id', el.value);
+        });
+
+        const regionEl = document.getElementById('region-select');
+        const initialRegion = (regionEl && regionEl.value) ? regionEl.value : @json((string) $region);
+
+        if (initialRegion) {
+            loadCitiesForRegion(initialRegion, @json((string) $city_id));
+        } else {
+            el.disabled = true;
+            setCityPlaceholder(@json(__('select_region_first')));
+        }
+    }
+
+    // Delegated listener: keeps working even if Livewire replaces the
+    // region select on a re-render triggered by something else (e.g. avatar upload).
+    document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'region-select') {
+            if (e.target.value) {
+                loadCitiesForRegion(e.target.value, null);
+            } else if (citySelectChoices) {
+                document.getElementById('city-select').disabled = true;
+                setCityPlaceholder(@json(__('select_region_first')));
+            }
+        }
+    });
 
     document.addEventListener('livewire:initialized', () => {
         initCitySelect();

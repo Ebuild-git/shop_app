@@ -527,92 +527,77 @@
             }
         }
     </script>
-    {{-- <script>
+    @php
+        // Build once here instead of inline inside @json(), which avoids a Blade
+        // directive-parsing edge case with multi-line arrow functions + arrays.
+        $citiesForJs = $cities->map(function ($c) {
+            return [
+                'value' => (string) $c->id,
+                'label' => $c->name,
+                'region_id' => (string) $c->region_id,
+            ];
+        });
+    @endphp
+
+    <script>
+        window.allCities = @json($citiesForJs);
+
         document.addEventListener('DOMContentLoaded', function () {
             const cityEl = document.getElementById('city_id');
-            if (cityEl && !cityEl.closest('.choices')) {
-                new Choices(cityEl, {
-                    searchEnabled: true,
-                    searchPlaceholderValue: "{{ __('Sélectionner') }}",
-                    itemSelectText: '',
-                    shouldSort: false,
-                    placeholder: true,
-                    allowHTML: false,
-                });
+            const regionEl = document.getElementById('region_id');
+            if (!cityEl || !regionEl) return;
+
+            const cityChoices = new Choices(cityEl, {
+                searchEnabled: true,
+                searchPlaceholderValue: @json(__('type_to_search_city')),
+                noResultsText: @json(__('no_matching_city')),
+                noChoicesText: @json(__('select_region_first')),
+                itemSelectText: '',
+                shouldSort: false,
+                placeholder: true,
+                allowHTML: false,
+            });
+
+            function setCityPlaceholder(text) {
+                cityChoices.clearStore();
+                cityChoices.setChoices(
+                    [{ value: '', label: text, disabled: true, selected: true }],
+                    'value', 'label', true
+                );
             }
-        });
-    </script> --}}
-    @php
-    // Build once here instead of inline inside @json(), which avoids a Blade
-    // directive-parsing edge case with multi-line arrow functions + arrays.
-    $citiesForJs = $cities->map(function ($c) {
-        return [
-            'value' => (string) $c->id,
-            'label' => $c->name,
-            'region_id' => (string) $c->region_id,
-        ];
-    });
-@endphp
 
-<script>
-    window.allCities = @json($citiesForJs);
+            function loadCitiesForRegion(regionId) {
+                const filtered = window.allCities.filter(c => c.region_id === String(regionId));
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const cityEl = document.getElementById('city_id');
-        const regionEl = document.getElementById('region_id');
-        if (!cityEl || !regionEl) return;
-
-        const cityChoices = new Choices(cityEl, {
-            searchEnabled: true,
-            searchPlaceholderValue: @json(__('type_to_search_city')),
-            noResultsText: @json(__('no_matching_city')),
-            noChoicesText: @json(__('select_region_first')),
-            itemSelectText: '',
-            shouldSort: false,
-            placeholder: true,
-            allowHTML: false,
-        });
-
-        function setCityPlaceholder(text) {
-            cityChoices.clearStore();
-            cityChoices.setChoices(
-                [{ value: '', label: text, disabled: true, selected: true }],
-                'value', 'label', true
-            );
-        }
-
-        function loadCitiesForRegion(regionId) {
-            const filtered = window.allCities.filter(c => c.region_id === String(regionId));
-
-            cityChoices.clearStore();
-            cityChoices.setChoices(
-                [
-                    { value: '', label: @json(__('Sélectionner')), disabled: true, selected: true },
-                    ...filtered,
-                ],
-                'value', 'label', true
-            );
-            cityEl.disabled = filtered.length === 0;
-        }
-
-        cityEl.disabled = true;
-        setCityPlaceholder(@json(__('select_region_first')));
-
-        regionEl.addEventListener('change', function () {
-            if (this.value) {
-                loadCitiesForRegion(this.value);
-            } else {
-                cityEl.disabled = true;
-                setCityPlaceholder(@json(__('select_region_first')));
+                cityChoices.clearStore();
+                cityChoices.setChoices(
+                    [
+                        { value: '', label: @json(__('Sélectionner')), disabled: true, selected: true },
+                        ...filtered,
+                    ],
+                    'value', 'label', true
+                );
+                cityEl.disabled = filtered.length === 0;
             }
-        });
 
-        @if (old('region'))
-            loadCitiesForRegion(@json((string) old('region')));
-            @if (old('city_id'))
-                cityChoices.setChoiceByValue(@json((string) old('city_id')));
+            cityEl.disabled = true;
+            setCityPlaceholder(@json(__('select_region_first')));
+
+            regionEl.addEventListener('change', function () {
+                if (this.value) {
+                    loadCitiesForRegion(this.value);
+                } else {
+                    cityEl.disabled = true;
+                    setCityPlaceholder(@json(__('select_region_first')));
+                }
+            });
+
+            @if (old('region'))
+                loadCitiesForRegion(@json((string) old('region')));
+                @if (old('city_id'))
+                    cityChoices.setChoiceByValue(@json((string) old('city_id')));
+                @endif
             @endif
-        @endif
-    });
-</script>
+        });
+    </script>
 @endsection
