@@ -376,7 +376,7 @@
             <col style="width:110px">             {{-- price col 2 --}}
             <col style="width:90px">              {{-- last update --}}
             <col style="width:120px">             {{-- expedition number --}}
-            <col style="width:80px">              {{-- etiquette --}}
+            {{-- <col style="width:80px">               --}}
             <col style="width:110px">             {{-- status --}}
             @if(!$showRemainingTimeColumn)
                 <col style="width:110px">         {{-- deletion reason --}}
