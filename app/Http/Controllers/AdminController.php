@@ -880,21 +880,21 @@ class AdminController extends Controller
         $notification->id_user_destination = $vendor->id;
         $notification->type = "shipment_created";
         $notification->url = "/informations?section=commandes";
-        // $notification->message = __('notifications.shipment_created_message', [
-        //     'shipment_id' => $shipmentId,
-        //     'order_id'    => 'CMD-' . $order->id,
-        // ]);
         $notification->message = __('notifications.shipment_created_message', [
             'shipment_id' => $shipmentId,
             'order_id'    => 'CMD-' . $order->id,
-        ]) . '<br><br>' .
-        '<div class="notif-action-box">' .
-            '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
-            __('notifications.shipment_action_text') . '<br><br>' .
-            '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
-                '<i class="bi bi-printer"></i> ' . __('notifications.shipment_label_button') .
-            '</a>' .
-        '</div>';
+        ]);
+        // $notification->message = __('notifications.shipment_created_message', [
+        //     'shipment_id' => $shipmentId,
+        //     'order_id'    => 'CMD-' . $order->id,
+        // ]) . '<br><br>' .
+        // '<div class="notif-action-box">' .
+        //     '<strong>' . __('notifications.shipment_action_required') . '</strong><br>' .
+        //     __('notifications.shipment_action_text') . '<br><br>' .
+        //     '<a href="' . $labelUrl . '" target="_blank" class="btn-label-notification">' .
+        //         '<i class="bi bi-printer"></i> ' . __('notifications.shipment_label_button') .
+        //     '</a>' .
+        // '</div>';
         $notification->save();
 
         event(new UserEvent($vendor->id));

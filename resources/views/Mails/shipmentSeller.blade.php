@@ -65,7 +65,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      {{-- <tr>
         <td style="border-top:1px solid #eee;padding:16px 18px 0;">
           <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
@@ -83,8 +83,8 @@
             </tr>
           </table>
         </td>
-      </tr>
-      <tr>
+      </tr> --}}
+      {{-- <tr>
         <td style="padding:18px;">
           <a href="{{ $labelUrl }}" target="_blank"
              style="display:block;background:#1a4a47;color:#fff !important;text-decoration:none;text-align:center;padding:14px 0;border-radius:8px;font-size:14px;font-weight:700;letter-spacing:0.3px;">
@@ -94,7 +94,7 @@
             {{ __('email2.shipment.label_required_note') }}
           </div>
         </td>
-      </tr>
+      </tr> --}}
     </table>
       <tr>
         <td style="padding:16px 18px;border-bottom:1px solid #eee;">

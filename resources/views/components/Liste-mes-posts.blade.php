@@ -397,7 +397,7 @@
                     <th>{!! wrapHeaderWords(__('last_price_update')) !!}</th>
                 @endif
                 <th>{!! wrapHeaderWords(__('expedition_number')) !!}</th>
-                <th>{!! wrapHeaderWords(__('etiquette_expedition')) !!}</th>
+                {{-- <th>{!! wrapHeaderWords(__('etiquette_expedition')) !!}</th> --}}
                 <th>{!! wrapHeaderWords(__('ad_status')) !!}</th>
                 @if(!$showRemainingTimeColumn)
                     <th>{!! wrapHeaderWords(__('deletion_reason')) !!}</th>
@@ -519,7 +519,7 @@
                     </td>
 
                     {{-- Étiquette expedition --}}
-                    <td>
+                    {{-- <td>
                         @if($isPickupCancelled)
                             <span class="dash">—</span>
                         @elseif($item->latestShipmentHistory?->shipment_id)
@@ -532,7 +532,7 @@
                         @else
                             <span class="dash">—</span>
                         @endif
-                    </td>
+                    </td> --}}
 
                     <td>
                         @php

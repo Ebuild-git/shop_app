@@ -278,34 +278,6 @@
         });
     });
 </script>
-{{-- <script>
-    let citySelectChoices = null;
-
-    function initCitySelect() {
-        const el = document.getElementById('city-select');
-        if (!el || el.closest('.choices')) return; // already initialized
-
-        citySelectChoices = new Choices(el, {
-            searchEnabled: true,
-            searchPlaceholderValue: "{{ __('select_city') }}",
-            itemSelectText: '',
-            shouldSort: false,
-            placeholder: true,
-        });
-
-        el.addEventListener('change', function () {
-            @this.set('city_id', el.value);
-        });
-    }
-
-    document.addEventListener('livewire:initialized', () => {
-        initCitySelect();
-    });
-
-    document.addEventListener('livewire:navigated', () => {
-        initCitySelect();
-    });
-</script> --}}
 @php
     // Built here rather than inline inside @json() to avoid a Blade
     // directive-parsing issue with multi-line arrow functions + arrays.

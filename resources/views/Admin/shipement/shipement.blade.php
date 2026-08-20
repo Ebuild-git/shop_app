@@ -424,13 +424,13 @@
                                                     <i class="bi bi-clock-history"></i>
                                                     Historique
                                                 </button>
-                                                @if($item->shipment_id)
+                                                {{-- @if($item->shipment_id)
                                                     <a href="{{ route('aramex.label.download', $item->shipment_id) }}" target="_blank"
                                                         class="btn btn-sm btn-outline-success mt-1">
                                                         <i class="bi bi-printer"></i>
                                                         Label
                                                     </a>
-                                                @endif
+                                                @endif --}}
                                                 <button class="btn btn-sm btn-outline-danger mt-1"
                                                     onclick="confirmDeleteItem({{ $item->id }})">
                                                     <i class="bi bi-trash"></i>
@@ -741,52 +741,6 @@
                 }
             });
         }
-
-        // function openNoteModal(orderId, currentNote) {
-        //     Swal.fire({
-        //         title: "Ajouter / Modifier la note",
-        //         input: "textarea",
-        //         inputLabel: "Note pour la commande",
-        //         inputValue: currentNote,
-        //         showCancelButton: true,
-        //         confirmButtonText: "Enregistrer",
-        //         cancelButtonText: "Annuler",
-        //         inputPlaceholder: "Saisissez ici votre note...",
-        //         inputAttributes: {
-        //             rows: 6
-        //         }
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             fetch(`/admin/orders/${orderId}/note`, {
-        //                 method: "POST",
-        //                 headers: {
-        //                     "Content-Type": "application/json",
-        //                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        //                 },
-        //                 body: JSON.stringify({ note: result.value })
-        //             })
-        //                 .then(res => res.json())
-        //                 .then(data => {
-        //                     if (data.success) {
-        //                         Swal.fire({
-        //                             icon: "success",
-        //                             title: "Note enregistrée",
-        //                             timer: 1500,
-        //                             showConfirmButton: false
-        //                         }).then(() => location.reload());
-        //                     } else {
-        //                         Swal.fire("Erreur", data.message || "Impossible d’enregistrer la note", "error");
-        //                     }
-        //                 })
-        //                 .catch(err => {
-        //                     console.error(err);
-        //                     Swal.fire("Erreur", "Une erreur est survenue", "error");
-        //                 });
-        //         }
-        //     });
-        // }
-
-
 
         let noteModalInstance = null;
         let currentNoteItemId = null;
