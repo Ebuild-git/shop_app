@@ -155,7 +155,7 @@ class UpdateAramexStatus extends Command
                 'rate'  => 1,
             ]),
             'title'    => $post->titre,
-            'user_url' => url('user/' . $post->id_user),
+            'user_url' => url('user/' . $post->id_user . '?rate=1'),
             'shopiner' => $post->user_info?->username ?? '',
         ]);
 
