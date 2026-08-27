@@ -508,13 +508,38 @@ class CategoriesController extends Controller
      *     )
      * )
      */
-    public function details_proprietes($id)
+    // public function details_proprietes($id)
+    // {
+    //     try {
+    //         $proprietes = proprietes::findOrFail($id);
+    //         return response()->json([
+    //             'success' => true,
+    //             'data' => $proprietes
+    //         ]);
+
+    //     } catch (\Exception $exception) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => "propriete not found"
+    //         ], 404);
+    //     }
+    // }
+    public function details_proprietes(Request $request, $id)
     {
         try {
-            $proprietes = proprietes::findOrFail($id);
+            $propriete = proprietes::findOrFail($id);
+
+            $locale = $request->query('locale', app()->getLocale());
+
+            $data = $propriete->toArray();
+
+            if ($propriete->type === 'option') {
+                $data['options'] = $propriete->orderedOptions($locale);
+            }
+
             return response()->json([
                 'success' => true,
-                'data' => $proprietes
+                'data' => $data
             ]);
 
         } catch (\Exception $exception) {
