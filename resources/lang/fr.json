@@ -616,7 +616,7 @@
     "error.gender_required": "Veuillez choisir votre sexe.",
     "error.age_limit": "L'âge minimal est de 18 ans.",
     "error.email_send": "Une erreur s'est produite lors de l'envoi du mail de validation, mais le compte a été créé !",
-    "success.account_created": "Votre compte a été créé avec succès !<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail. Merci et bienvenue parmi nous !",
+    "success.account_created": "Votre compte a été créé avec succès !<br>Pour finaliser votre inscription, cliquez sur le lien de validation que nous vous avons envoyé par e-mail (ou vérifiez votre boîte spam). Merci et bienvenue parmi nous !",
     "validation.required": "Ce champ est requis.",
     "validation.city_required": "Veuillez renseigner la ville.",
     "validation.street_required": "Veuillez renseigner la rue.",
