@@ -422,10 +422,31 @@ class CategoriesController extends Controller
      *     )
      * )
      */
-    public function list_proprietes()
+    // public function list_proprietes()
+    // {
+    //     $proprietes = proprietes::orderBy('order')
+    //         ->get();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $proprietes
+    //     ]);
+    // }
+    public function list_proprietes(Request $request)
     {
+        $locale = $request->query('locale', app()->getLocale());
+
         $proprietes = proprietes::orderBy('order')
-            ->get();
+            ->get()
+            ->map(function ($propriete) use ($locale) {
+                $data = $propriete->toArray();
+
+                if ($propriete->type === 'option') {
+                    $data['options'] = $propriete->orderedOptions($locale);
+                }
+
+                return $data;
+            });
 
         return response()->json([
             'success' => true,
