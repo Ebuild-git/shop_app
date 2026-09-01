@@ -35,6 +35,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+// routes/web.php
+Route::get('/playstore', function () {
+    return redirect('https://play.google.com/store/apps/details?id=com.ebuild.shopin');
+});
+
 //lang
 Route::get('/change-lang/{lang}', [LanguageController::class, 'changeLanguage'])->name('change.lang');
 
